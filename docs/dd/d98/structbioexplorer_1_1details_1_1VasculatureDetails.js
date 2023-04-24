@@ -3,6 +3,7 @@ var structbioexplorer_1_1details_1_1VasculatureDetails =
     [ "animationParams", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a377a05c368507455beaff27c68d7e57f", null ],
     [ "assemblyName", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#abf4b6e1f7454277f6c620ac3e61ad655", null ],
     [ "colorScheme", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a4e85c0aa741815d5786dbd0a76412996", null ],
+    [ "displacementParams", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a276f8105c7bbdb3c1455142021783920", null ],
     [ "gids", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a1d81290bc0ca948425747e81cdeec49b", null ],
     [ "populationName", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a5f0823da6124d100df264e71c7a58743", null ],
     [ "radiusMultiplier", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a3b653e8d4aa042a73bcefa2ae367eacc", null ],

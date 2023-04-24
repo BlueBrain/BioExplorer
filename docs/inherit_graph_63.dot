@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::fields\l::Octree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d5a/classbioexplorer_1_1fields_1_1Octree.html",tooltip="The Octree class implements the Octree acceleration structure used by the FieldsRenderer class to ren..."];
+  Node0 [label="bioexplorer::details\l::VasculatureReportDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html",tooltip=" "];
 }

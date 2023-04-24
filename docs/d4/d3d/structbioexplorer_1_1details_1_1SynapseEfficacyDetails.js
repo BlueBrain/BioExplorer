@@ -1,5 +1,6 @@
 var structbioexplorer_1_1details_1_1SynapseEfficacyDetails =
 [
+    [ "alignToGrid", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html#a389b598a9e146639c76b43307fbf5886", null ],
     [ "assemblyName", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html#a48ead097cd93a99b2155cce875a13e91", null ],
     [ "populationName", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html#ab5951daab2040f93aa6ae28cd76b872a", null ],
     [ "radius", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html#a36a359ea218a64e12f1d175d8f1cc6f1", null ],

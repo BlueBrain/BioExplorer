@@ -131,26 +131,28 @@ $(document).ready(function(){initNavTree('d1/d66/Membrane_8h_source.html','../..
 <div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="../../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html#a89f2ef365e2ff681cb452d0808a898c0">   62</a></span>&#160;    <span class="keyword">const</span> ProteinMap &amp;<a class="code" href="../../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html#a89f2ef365e2ff681cb452d0808a898c0">getLipids</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _lipids; }</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> _processInstances();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    std::string _getElementNameFromId(<span class="keyword">const</span> <span class="keywordtype">size_t</span> <span class="keywordtype">id</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    Scene &amp;_scene;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="../../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html">MembraneDetails</a> _details;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    uint64_t _nbOccurrences;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">const</span> ProteinMap &amp;_transmembraneProteins;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">const</span> Vector3d _assemblyPosition;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">const</span> Quaterniond _assemblyRotation;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    ProteinMap _lipids;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    ShapePtr _shape{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;} <span class="comment">// namespace molecularsystems</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">double</span> _getDisplacementValue(<span class="keyword">const</span> DisplacementElement &amp;element) <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> _processInstances();</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    std::string _getElementNameFromId(<span class="keyword">const</span> <span class="keywordtype">size_t</span> <span class="keywordtype">id</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    Scene &amp;_scene;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="../../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html">MembraneDetails</a> _details;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    uint64_t _nbOccurrences;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">const</span> ProteinMap &amp;_transmembraneProteins;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">const</span> Vector3d _assemblyPosition;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">const</span> Quaterniond _assemblyRotation;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    ProteinMap _lipids;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    ShapePtr _shape{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;};</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;} <span class="comment">// namespace molecularsystems</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassbioexplorer_1_1molecularsystems_1_1Membrane_html_a89f2ef365e2ff681cb452d0808a898c0"><div class="ttname"><a href="../../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html#a89f2ef365e2ff681cb452d0808a898c0">bioexplorer::molecularsystems::Membrane::getLipids</a></div><div class="ttdeci">const ProteinMap &amp; getLipids() const</div><div class="ttdoc">Get the list of proteins defining the membrane.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d66/Membrane_8h_source.html#l00062">Membrane.h:62</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1molecularsystems_1_1Membrane_html"><div class="ttname"><a href="../../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html">bioexplorer::molecularsystems::Membrane</a></div><div class="ttdoc">A Membrane object implements a 3D structure of a given shape, but with a surface composed of instance...</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d66/Membrane_8h_source.html#l00038">Membrane.h:38</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1MembraneDetails_html"><div class="ttname"><a href="../../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html">bioexplorer::details::MembraneDetails</a></div><div class="ttdoc">A membrane is a shaped assembly of phospholipids.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00296">Types.h:296</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1SDFGeometries_html"><div class="ttname"><a href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">bioexplorer::common::SDFGeometries</a></div><div class="ttdoc">The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si...</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d75/SDFGeometries_8h_source.html#l00044">SDFGeometries.h:44</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1MembraneDetails_html"><div class="ttname"><a href="../../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html">bioexplorer::details::MembraneDetails</a></div><div class="ttdoc">A membrane is a shaped assembly of phospholipids.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00299">Types.h:299</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1SDFGeometries_html"><div class="ttname"><a href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">bioexplorer::common::SDFGeometries</a></div><div class="ttdoc">The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si...</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d75/SDFGeometries_8h_source.html#l00045">SDFGeometries.h:45</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

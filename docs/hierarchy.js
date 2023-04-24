@@ -13,7 +13,7 @@ var hierarchy =
     [ "bioexplorer::details::AddBoxDetails", "d8/d5c/structbioexplorer_1_1details_1_1AddBoxDetails.html", null ],
     [ "bioexplorer::details::AddConeDetails", "db/db6/structbioexplorer_1_1details_1_1AddConeDetails.html", null ],
     [ "bioexplorer::details::AddGridDetails", "db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html", null ],
-    [ "bioexplorer::details::AddSphereDetails", "db/d48/structbioexplorer_1_1details_1_1AddSphereDetails.html", null ],
+    [ "bioexplorer::details::AddSpheresDetails", "de/d74/structbioexplorer_1_1details_1_1AddSpheresDetails.html", null ],
     [ "bioexplorer::details::AddStreamlinesDetails", "dd/d91/structbioexplorer_1_1details_1_1AddStreamlinesDetails.html", null ],
     [ "bioexplorer::molecularsystems::AminoAcid", "d4/d03/structbioexplorer_1_1molecularsystems_1_1AminoAcid.html", null ],
     [ "bioexplorer::details::AminoAcidDetails", "d3/dd3/structbioexplorer_1_1details_1_1AminoAcidDetails.html", null ],
@@ -88,7 +88,8 @@ var hierarchy =
         ] ],
         [ "bioexplorer::morphology::Morphologies", "dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html", [
           [ "bioexplorer::morphology::Astrocytes", "d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html", null ],
-          [ "bioexplorer::morphology::Neurons", "d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html", null ]
+          [ "bioexplorer::morphology::Neurons", "d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html", null ],
+          [ "bioexplorer::morphology::Synapses", "da/d10/classbioexplorer_1_1morphology_1_1Synapses.html", null ]
         ] ],
         [ "bioexplorer::vasculature::Vasculature", "d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html", null ]
       ] ],
@@ -123,8 +124,8 @@ var hierarchy =
       [ "metabolism::rendering::MetabolismRenderer", "d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html", null ]
     ] ],
     [ "bioexplorer::molecularsystems::ResidueSequence", "d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence.html", null ],
-    [ "bioexplorer::mediamaker::Response", "db/df4/structbioexplorer_1_1mediamaker_1_1Response.html", null ],
     [ "bioexplorer::details::Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", null ],
+    [ "bioexplorer::mediamaker::Response", "db/df4/structbioexplorer_1_1mediamaker_1_1Response.html", null ],
     [ "bioexplorer::details::RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", null ],
     [ "bioexplorer::details::RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", null ],
     [ "bioexplorer::details::SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", null ],
@@ -143,11 +144,12 @@ var hierarchy =
       [ "bioexplorer::common::SphereShape", "d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html", null ],
       [ "bioexplorer::common::SphericalCellDiffusionShape", "d6/d08/classbioexplorer_1_1common_1_1SphericalCellDiffusionShape.html", null ]
     ] ],
-    [ "bioexplorer::io::db::SimulationReport", "da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html", null ],
+    [ "bioexplorer::common::SimulationReport", "da/d89/structbioexplorer_1_1common_1_1SimulationReport.html", null ],
     [ "bioexplorer::details::SugarDetails", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html", null ],
     [ "bioexplorer::meshing::SurfaceMesher", "d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html", null ],
     [ "bioexplorer::morphology::Synapse", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html", null ],
     [ "bioexplorer::details::SynapseEfficacyDetails", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html", null ],
+    [ "bioexplorer::details::SynapsesDetails", "d5/ddf/structbioexplorer_1_1details_1_1SynapsesDetails.html", null ],
     [ "bioexplorer::common::ThreadSafeContainer", "d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html", null ],
     [ "bioexplorer::common::UniqueId", "d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html", null ],
     [ "bioexplorer::details::VasculatureDetails", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html", null ],

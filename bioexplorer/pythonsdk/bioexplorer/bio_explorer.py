@@ -227,12 +227,12 @@ class CellAnimationParams:
 class NeuronDisplacementParams:
     """Parameters used for the sinusoidal SDF displacement function for neuron morphologies"""
 
-    def __init__(self, soma=Vector2(0.1, 3.0), section=Vector2(0.15, 2.0),
-                 nucleus=Vector2(0.01, 2.0), mitochondrion=Vector2(0.2, 100.0),
-                 myelin_steath=Vector2(0.1, 2.5), spine=Vector2(0.01, 25.0)):
+    def __init__(
+            self, soma=Vector2(0.1, 3.0), section=Vector2(0.15, 2.0),
+            nucleus=Vector2(0.01, 2.0), mitochondrion=Vector2(0.2, 100.0),
+            myelin_steath=Vector2(0.1, 2.5), spine=Vector2(0.01, 25.0)):
         """
-        Displacement parameters are used to define how cells should be represented using the SDF 
-        technique
+        Parameters used to define how cells should be represented using the SDF technique
 
         :soma: (Vector2, optional): amplitude and frequency for the soma. Defaults are [0.1, 3.0]
         :section: (Vector2, optional): amplitude and frequency for the section. Defaults are
@@ -246,7 +246,6 @@ class NeuronDisplacementParams:
         :spine: (Vector2, optional): amplitude and frequency for the spine. Defaults are
         [0.01, 25.0]
         """
-
         assert isinstance(soma, Vector2)
         assert isinstance(section, Vector2)
         assert isinstance(nucleus, Vector2)
@@ -291,8 +290,7 @@ class AstrocyteDisplacementParams:
                  nucleus=Vector2(0.01, 2.0), mitochondrion=Vector2(0.2, 100.0),
                  end_foot=Vector2(0.3, 0.5)):
         """
-        Displacement parameters are used to define how cells should be represented using the SDF 
-        technique
+        Parameters used to define how cells should be represented using the SDF technique
 
         :soma: (Vector2, optional): amplitude and frequency for the soma. Defaults are [0.1, 3.0]
         :section: (Vector2, optional): amplitude and frequency for the section. Defaults are
@@ -304,7 +302,6 @@ class AstrocyteDisplacementParams:
         :end_foot: (Vector2, optional): amplitude and frequency for the end foot. Defaults
         are [0.3, 0.5]
         """
-
         assert isinstance(soma, Vector2)
         assert isinstance(section, Vector2)
         assert isinstance(nucleus, Vector2)
@@ -344,13 +341,11 @@ class VasculatureDisplacementParams:
 
     def __init__(self, segment=Vector2(0.3, 0.5)):
         """
-        Displacement parameters are used to define how cells should be represented using the SDF 
-        technique
+        Parameters used to define how cells should be represented using the SDF technique
 
         :segment: (Vector2, optional): amplitude and frequency for the segment. Defaults are
         [0.3, 5.0]
         """
-
         assert isinstance(segment, Vector2)
 
         self.segment = segment
@@ -378,13 +373,11 @@ class SynapseDisplacementParams:
 
     def __init__(self, spine=Vector2(0.01, 25.0)):
         """
-        Displacement parameters are used to define how cells should be represented using the SDF 
-        technique
+        Parameters used to define how cells should be represented using the SDF technique
 
         :spine: (Vector2, optional): amplitude and frequency for the spine. Defaults are
         [0.01, 25.0]
         """
-
         assert isinstance(spine, Vector2)
 
         self.spine = spine
@@ -3335,7 +3328,6 @@ class BioExplorer:
 
         :return: Result of the request submission
         """
-
         assert isinstance(displacement_params, list)
 
         params = dict()

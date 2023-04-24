@@ -126,6 +126,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a10e9bd89468a7fe9e810c20e7327eb1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a3613b4c2fa6524c1b73c6f2e309a16"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a8a3613b4c2fa6524c1b73c6f2e309a16">simulationReportId</a> {-1}</td></tr>
 <tr class="separator:a8a3613b4c2fa6524c1b73c6f2e309a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad21b706ba132de705804ec178c39f319"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#ad21b706ba132de705804ec178c39f319">loadNonSimulatedNodes</a> {false}</td></tr>
+<tr class="separator:ad21b706ba132de705804ec178c39f319"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c3be80d039cdcb970af79b2a0b7b5ef"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a9c3be80d039cdcb970af79b2a0b7b5ef">sqlNodeFilter</a></td></tr>
 <tr class="separator:a9c3be80d039cdcb970af79b2a0b7b5ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9ce2ee034c092bcba9734d55fb1ef12"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#ab9ce2ee034c092bcba9734d55fb1ef12">sqlSectionFilter</a></td></tr>
@@ -134,11 +136,34 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a9cf4924dd60b7da38cba95fec7e17c57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0635219679ebd5ad88cafdfc6a94b778"><td class="memItemLeft" align="right" valign="top">doubles&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a0635219679ebd5ad88cafdfc6a94b778">animationParams</a></td></tr>
 <tr class="separator:a0635219679ebd5ad88cafdfc6a94b778"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9ee7d7442cea1dc2f5687e06b1ff7e0"><td class="memItemLeft" align="right" valign="top">doubles&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#af9ee7d7442cea1dc2f5687e06b1ff7e0">displacementParams</a></td></tr>
+<tr class="separator:af9ee7d7442cea1dc2f5687e06b1ff7e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d6abc68c65cd5147c844021157310ae"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a9d6abc68c65cd5147c844021157310ae">maxDistanceToSoma</a> {0.0}</td></tr>
+<tr class="separator:a9d6abc68c65cd5147c844021157310ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeea4587a8fe9f38d5fd23959f9ffd3b9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#aeea4587a8fe9f38d5fd23959f9ffd3b9">alignToGrid</a> {0.0}</td></tr>
+<tr class="separator:aeea4587a8fe9f38d5fd23959f9ffd3b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01149">1149</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01157">1157</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="aeea4587a8fe9f38d5fd23959f9ffd3b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeea4587a8fe9f38d5fd23959f9ffd3b9">&#9670;&nbsp;</a></span>alignToGrid</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double bioexplorer::details::NeuronsDetails::alignToGrid {0.0}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Align 3D positions to grid if different from 0.0 </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01211">1211</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
 <a id="a0635219679ebd5ad88cafdfc6a94b778"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0635219679ebd5ad88cafdfc6a94b778">&#9670;&nbsp;</a></span>animationParams</h2>
 
@@ -152,7 +177,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Extra optional parameters for neuron animation </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01194">1194</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01204">1204</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -169,7 +194,24 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Name of the assembly containing the astrocytes </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01152">1152</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01160">1160</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a id="af9ee7d7442cea1dc2f5687e06b1ff7e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9ee7d7442cea1dc2f5687e06b1ff7e0">&#9670;&nbsp;</a></span>displacementParams</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">doubles bioexplorer::details::NeuronsDetails::displacementParams</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Extra optional parameters for geometry displacement </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01206">1206</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -186,7 +228,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Generate external components (myelin steath) </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01168">1168</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01176">1176</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -203,7 +245,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Generate internal components (nucleus and mitochondria) </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01166">1166</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01174">1174</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -220,7 +262,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Generates random varicosities along the axon </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01173">1173</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01181">1181</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -237,7 +279,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Load apical dendrites if set to true </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01162">1162</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01170">1170</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -254,7 +296,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Load axons if set to true </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01158">1158</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01166">1166</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -271,7 +313,25 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Load bascal dendrites if set to true </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01160">1160</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01168">1168</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a id="ad21b706ba132de705804ec178c39f319"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad21b706ba132de705804ec178c39f319">&#9670;&nbsp;</a></span>loadNonSimulatedNodes</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool bioexplorer::details::NeuronsDetails::loadNonSimulatedNodes {false}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Load non-simulated nodes <br  />
+ </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01196">1196</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -288,7 +348,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Load somas if set to true </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01156">1156</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01164">1164</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -305,7 +365,24 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Load synapses if set to true </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01164">1164</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01172">1172</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a id="a9d6abc68c65cd5147c844021157310ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d6abc68c65cd5147c844021157310ae">&#9670;&nbsp;</a></span>maxDistanceToSoma</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double bioexplorer::details::NeuronsDetails::maxDistanceToSoma {0.0}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Only load segments that with distance to soma smaller than specified value. Ignored if set to 0 </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01209">1209</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -322,7 +399,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Geometry color scheme </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01180">1180</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01188">1188</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -341,7 +418,7 @@ Public Attributes</h2></td></tr>
 <div class="line">        MorphologyRepresentation::segment}</div>
 </div><!-- fragment --><p>Morphology representation </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01177">1177</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01185">1185</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -358,7 +435,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Population color scheme </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01182">1182</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01190">1190</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -375,7 +452,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Name of the population of astrocytes </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01154">1154</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01162">1162</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -392,7 +469,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Multiplies the astrocyte section radii by the specified value </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01184">1184</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01192">1192</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -409,7 +486,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Use Signed Distance Fields for geometry realism </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01175">1175</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01183">1183</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -426,7 +503,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Scale of the neuron in the scene </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01192">1192</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01202">1202</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -443,7 +520,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Show membrane (Typically used to isolate internal and external components </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01171">1171</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01179">1179</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -460,7 +537,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Simulation report identifier </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01186">1186</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01194">1194</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -477,7 +554,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>SQL filter for nodes (WHERE condition) </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01188">1188</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01198">1198</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -494,7 +571,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>SQL filter dor sections (WHERE condition) </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01190">1190</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01200">1200</a> of file <a class="el" href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
