@@ -42,7 +42,7 @@ const std::string VARIABLE_DENOISE_BLEND = "blend";
 
 OptiXFrameBuffer::OptiXFrameBuffer(const std::string& name, const Vector2ui& frameSize,
                                    FrameBufferFormat frameBufferFormat, const RenderingParameters& renderingParameters)
-    : FrameBuffer(name, frameSize, frameBufferFormat, AccumulationType::ai_denoised)
+    : FrameBuffer(name, frameSize, frameBufferFormat, AccumulationType::linear)
     , _renderingParameters(renderingParameters)
 {
     resize(frameSize);
@@ -108,7 +108,8 @@ void OptiXFrameBuffer::resize(const Vector2ui& frameSize)
     _accumBuffer = context->createBuffer(RT_BUFFER_INPUT_OUTPUT, RT_FORMAT_FLOAT4, _frameSize.x, _frameSize.y);
     context[CUDA_ACCUMULATION_BUFFER]->set(_accumBuffer);
 
-    if (_accumulationType == AccumulationType::ai_denoised)
+    // if (_accumulationType == AccumulationType::ai_denoised) // Should be done when accumulation type is modified and
+    // ai_denoised set for the first time
     {
         _tonemappedBuffer = context->createBuffer(RT_BUFFER_OUTPUT, RT_FORMAT_FLOAT4, _frameSize.x, _frameSize.y);
         context[CUDA_TONEMAPPED_BUFFER]->set(_tonemappedBuffer);
