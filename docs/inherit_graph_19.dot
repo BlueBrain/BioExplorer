@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::details\l::AminoAcidSequenceAsString\lDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d02/structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails.html",tooltip="Structure defining a selection of amino acids on a protein of an assembly. The selection is defined a..."];
+  Node0 [label="bioexplorer::details\l::AminoAcidSequenceAsRanges\lDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails.html",tooltip="Structure defining a selection of amino acids on a protein of an assembly. The selection is defined a..."];
 }

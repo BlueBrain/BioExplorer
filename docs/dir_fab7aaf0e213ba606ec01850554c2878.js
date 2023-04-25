@@ -11,5 +11,7 @@ var dir_fab7aaf0e213ba606ec01850554c2878 =
     [ "SomaSimulationHandler.cpp", "d9/d4b/SomaSimulationHandler_8cpp_source.html", null ],
     [ "SomaSimulationHandler.h", "d3/d6b/SomaSimulationHandler_8h_source.html", null ],
     [ "SpikeSimulationHandler.cpp", "d2/d13/SpikeSimulationHandler_8cpp_source.html", null ],
-    [ "SpikeSimulationHandler.h", "d5/d4f/SpikeSimulationHandler_8h_source.html", null ]
+    [ "SpikeSimulationHandler.h", "d5/d4f/SpikeSimulationHandler_8h_source.html", null ],
+    [ "Synapses.cpp", "df/db9/Synapses_8cpp_source.html", null ],
+    [ "Synapses.h", "d0/d0e/Synapses_8h_source.html", null ]
 ];

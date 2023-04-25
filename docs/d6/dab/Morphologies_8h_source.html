@@ -117,41 +117,52 @@ $(document).ready(function(){initNavTree('d6/dab/Morphologies_8h_source.html','.
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using namespace </span>common;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> NB_MATERIALS_PER_MORPHOLOGY = 10;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_VARICOSITY = 0;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_SOMA = 1;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_AXON = 2;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_DENDRITE = 3;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_APICAL_DENDRITE = 4;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_SYNPASE = 5;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_MITOCHONDRION = 7;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_NUCLEUS = 8;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_MYELIN_SHEATH = 9;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">const</span> int64_t SOMA_AS_PARENT = -1;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html">   48</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html">Morphologies</a> : <span class="keyword">public</span> <a class="code" href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">SDFGeometries</a></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="../../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html">Morphologies</a>(<span class="keyword">const</span> <span class="keywordtype">double</span> radiusMultiplier = 1.0,</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                 <span class="keyword">const</span> Vector3f&amp; scale = Vector3d(1.0, 1.0, 1.0));</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">size_t</span> _getNbMitochondrionSegments() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> DEFAULT_SPINE_RADIUS = 0.25;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> NB_MATERIALS_PER_MORPHOLOGY = 10;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_VARICOSITY = 0;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_SOMA = 1;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_AXON = 2;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_DENDRITE = 3;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_APICAL_DENDRITE = 4;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_SYNAPSE = 5;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_MITOCHONDRION = 7;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_NUCLEUS = 8;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_MYELIN_SHEATH = 9;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_END_FOOT = 4;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">const</span> <span class="keywordtype">size_t</span> MATERIAL_OFFSET_MICRO_DOMAIN = 5;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">const</span> int64_t SOMA_AS_PARENT = -1;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="../../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html">   52</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html">Morphologies</a> : <span class="keyword">public</span> <a class="code" href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">SDFGeometries</a></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="../../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html">Morphologies</a>(<span class="keyword">const</span> Vector3f&amp; scale = Vector3d(1.0, 1.0, 1.0));</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> _addSomaInternals(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                           <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId,</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                           <span class="keyword">const</span> Vector3d&amp; somaPosition,</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                           <span class="keyword">const</span> <span class="keywordtype">double</span> somaRadius,</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                           <span class="keyword">const</span> <span class="keywordtype">double</span> mitochondriaDensity, <span class="keyword">const</span> <span class="keywordtype">bool</span> useSdf);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;};</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;} <span class="comment">// namespace morphology</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">size_t</span> _getNbMitochondrionSegments() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> _addSomaInternals(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                           <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId,</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                           <span class="keyword">const</span> Vector3d&amp; somaPosition,</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                           <span class="keyword">const</span> <span class="keywordtype">double</span> somaRadius,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                           <span class="keyword">const</span> <span class="keywordtype">double</span> mitochondriaDensity, <span class="keyword">const</span> <span class="keywordtype">bool</span> useSdf,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                           <span class="keyword">const</span> <span class="keywordtype">double</span> radiusMultiplier);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">double</span> _getDistanceToSoma(<span class="keyword">const</span> SectionMap&amp; sections,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                              <span class="keyword">const</span> <a class="code" href="../../d4/d08/structbioexplorer_1_1morphology_1_1Section.html">Section</a>&amp; section);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">size_t</span> _getMaterialFromDistanceToSoma(<span class="keyword">const</span> <span class="keywordtype">double</span> maxDistanceToSoma,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                          <span class="keyword">const</span> <span class="keywordtype">double</span> distanceToSoma) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;} <span class="comment">// namespace morphology</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1ThreadSafeContainer_html"><div class="ttname"><a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">bioexplorer::common::ThreadSafeContainer</a></div><div class="ttdoc">The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is...</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00042">ThreadSafeContainer.h:42</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Morphologies_html"><div class="ttname"><a href="../../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html">bioexplorer::morphology::Morphologies</a></div><div class="ttdoc">The Morphologies class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dab/Morphologies_8h_source.html#l00048">Morphologies.h:48</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1SDFGeometries_html"><div class="ttname"><a href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">bioexplorer::common::SDFGeometries</a></div><div class="ttdoc">The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si...</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d75/SDFGeometries_8h_source.html#l00044">SDFGeometries.h:44</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1ThreadSafeContainer_html"><div class="ttname"><a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">bioexplorer::common::ThreadSafeContainer</a></div><div class="ttdoc">The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is...</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00040">ThreadSafeContainer.h:40</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1morphology_1_1Section_html"><div class="ttname"><a href="../../d4/d08/structbioexplorer_1_1morphology_1_1Section.html">bioexplorer::morphology::Section</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01625">Types.h:1625</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Morphologies_html"><div class="ttname"><a href="../../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html">bioexplorer::morphology::Morphologies</a></div><div class="ttdoc">The Morphologies class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dab/Morphologies_8h_source.html#l00052">Morphologies.h:52</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1SDFGeometries_html"><div class="ttname"><a href="../../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html">bioexplorer::common::SDFGeometries</a></div><div class="ttdoc">The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si...</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d75/SDFGeometries_8h_source.html#l00045">SDFGeometries.h:45</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

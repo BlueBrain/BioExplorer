@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::common\l::ThreadSafeContainer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html",tooltip="The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is..."];
+  Node0 [label="bioexplorer::common\l::SimulationReport",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d89/structbioexplorer_1_1common_1_1SimulationReport.html",tooltip=" "];
 }

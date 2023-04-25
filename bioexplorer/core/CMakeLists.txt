@@ -69,7 +69,6 @@ set(${NAME}_SOURCES
     module/ispc/render/PathTracingRenderer.cpp
     module/ispc/render/VoxelRenderer.cpp
     module/ispc/render/artistic/GolgiStyleRenderer.cpp
-    module/ispc/camera/PerspectiveStereoCamera.cpp
     plugin/common/GeneralSettings.cpp
     plugin/common/Utils.cpp
     plugin/common/UniqueId.cpp
@@ -127,7 +126,6 @@ set(${NAME}_PUBLIC_HEADERS
     module/ispc/render/PathTracingRenderer.h
     module/ispc/render/VoxelRenderer.h
     module/ispc/render/artistic/GolgiStyleRenderer.h
-    module/ispc/camera/PerspectiveStereoCamera.h
     plugin/io/OOCManager.h
     plugin/io/CacheLoader.h
     plugin/io/db/DBConnector.h
@@ -200,7 +198,6 @@ set(${NAME}_ISPC_SOURCES
     module/ispc/render/PathTracingRenderer.ispc
     module/ispc/render/VoxelRenderer.ispc
     module/ispc/render/artistic/GolgiStyleRenderer.ispc
-    module/ispc/camera/PerspectiveStereoCamera.ispc
 )
 
 # ==============================================================================

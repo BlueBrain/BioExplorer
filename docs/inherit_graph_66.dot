@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::io::db\l::DBConnector",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html",tooltip="The DBConnector class allows the BioExplorer to communicate with a PostgreSQL database...."];
+  Node0 [label="bioexplorer::fields\l::OctreeNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html",tooltip="The OctreeNode class implement a spherical node of the Octree acceleration structure used by the Fiel..."];
 }

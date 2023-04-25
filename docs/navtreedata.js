@@ -148,11 +148,11 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"d2/d82/classbioexplorer_1_1common_1_1Assembly.html#aae66a505d51b5f0099fd69373e2e091c",
-"d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html#a910b38a7fc0eea71a70e40d038510e81",
-"da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html#af165ae3c57756c4afc7a64f4cd93640f",
-"dc/de3/md__home_favreau_code_favreau_BioExplorer_ARCHITECTURE.html#autotoc_md70",
-"dir_91c4c16afb8b38e754803932f784f673.html"
+"d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a7ff3cba176519c6bcc917bebd5256884",
+"d6/d48/PlaneShape_8cpp_source.html",
+"d9/d98/classbioexplorer_1_1rendering_1_1AdvancedRenderer.html#ace9aeb88b90c18429a3f12698cdf1986",
+"dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html#a2896d8c076caedb070863c2c341c63e7",
+"df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html#a95a5613b585602635cfe969fa54bef59"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

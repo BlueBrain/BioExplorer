@@ -63,6 +63,20 @@ On the third anniversary of the first lock-down, we look back at how #MachineLea
       </a>
 </div>
 
+## BioExplorer goes RTX!
+
+Thanks to its [NVIDIA OptiX](https://developer.nvidia.com/rtx/ray-tracing/optix) 6.5 backend compatibility, the BioExplorer can now take full advantage of the NVIDIA RTX acceleration hardware capabilities to deliver extremely fast and high-quality rendering of scientific datasets.
+
+Simply add the OptiX engine command line argument when starting the BioExplorer.
+```bash
+braynsService --engine optix6 --plugin BioExplorer
+```
+
+Note that, in order to offer the best experience on local desktops, the BioExplorer now also has a native viewer.
+```bash
+braynsViewer --engine optix6 --plugin BioExplorer
+```
+
 ## At the museum
 
 July 2022: The EPFL Blue Brain Project is featuring in the exciting [Brain(s) exhibition](https://www.cccb.org/en/exhibitions/file/brains/237851) at the Barcelona Centre of Contemporary Culture at the Fundación Telefónica Madrid.

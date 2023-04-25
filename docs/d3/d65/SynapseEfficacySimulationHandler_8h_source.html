@@ -117,34 +117,33 @@ $(document).ready(function(){initNavTree('d3/d65/SynapseEfficacySimulationHandle
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>connectomics</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using namespace </span>io;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">using namespace </span>db;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">using namespace </span>details;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html">SynapseEfficacySimulationHandler</a> : <span class="keyword">public</span> AbstractSimulationHandler</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html">SynapseEfficacySimulationHandler</a>(<span class="keyword">const</span> <a class="code" href="../../d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html">SynapseEfficacyDetails</a>&amp; details);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html">SynapseEfficacySimulationHandler</a>(</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">const</span> <a class="code" href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html">SynapseEfficacySimulationHandler</a>&amp; rhs);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span>* getFrameData(<span class="keyword">const</span> uint32_t frame) <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    brayns::AbstractSimulationHandlerPtr clone() <span class="keyword">const</span> <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> _logSimulationInformation();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="../../d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html">SynapseEfficacyDetails</a> _details;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="../../da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html">io::db::SimulationReport</a> _simulationReport;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;};</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;} <span class="comment">// namespace connectomics</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using namespace </span>common;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">using namespace </span>details;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html">   42</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html">SynapseEfficacySimulationHandler</a> : <span class="keyword">public</span> AbstractSimulationHandler</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html">SynapseEfficacySimulationHandler</a>(<span class="keyword">const</span> <a class="code" href="../../d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html">SynapseEfficacyDetails</a>&amp; details);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html">SynapseEfficacySimulationHandler</a>(</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">const</span> <a class="code" href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html">SynapseEfficacySimulationHandler</a>&amp; rhs);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span>* getFrameData(<span class="keyword">const</span> uint32_t frame) <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    brayns::AbstractSimulationHandlerPtr clone() <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">void</span> _logSimulationInformation();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="../../d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html">SynapseEfficacyDetails</a> _details;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="../../da/d89/structbioexplorer_1_1common_1_1SimulationReport.html">SimulationReport</a> _simulationReport;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;};</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;} <span class="comment">// namespace connectomics</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1io_1_1db_1_1SimulationReport_html"><div class="ttname"><a href="../../da/dc8/structbioexplorer_1_1io_1_1db_1_1SimulationReport.html">bioexplorer::io::db::SimulationReport</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01615">Types.h:1615</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1SynapseEfficacyDetails_html"><div class="ttname"><a href="../../d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html">bioexplorer::details::SynapseEfficacyDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01246">Types.h:1246</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler_html"><div class="ttname"><a href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html">bioexplorer::connectomics::SynapseEfficacySimulationHandler</a></div><div class="ttdoc">The SynapseEfficacySimulationHandler handles the reading of simulation information from the database ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d65/SynapseEfficacySimulationHandler_8h_source.html#l00043">SynapseEfficacySimulationHandler.h:43</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1common_1_1SimulationReport_html"><div class="ttname"><a href="../../da/d89/structbioexplorer_1_1common_1_1SimulationReport.html">bioexplorer::common::SimulationReport</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01365">Types.h:1365</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1SynapseEfficacyDetails_html"><div class="ttname"><a href="../../d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html">bioexplorer::details::SynapseEfficacyDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01287">Types.h:1287</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler_html"><div class="ttname"><a href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html">bioexplorer::connectomics::SynapseEfficacySimulationHandler</a></div><div class="ttdoc">The SynapseEfficacySimulationHandler handles the reading of simulation information from the database ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d65/SynapseEfficacySimulationHandler_8h_source.html#l00042">SynapseEfficacySimulationHandler.h:42</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

@@ -4,6 +4,7 @@ var classbioexplorer_1_1molecularsystems_1_1Molecule =
     [ "_buildAtomicStruture", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#a1e6a107c8fb4461618d56835c1cea27b", null ],
     [ "_buildModel", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#ac9449bec581a6852fc12980863fffdba", null ],
     [ "_computeReqSetOffset", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#a42d5feb6e02d2b6634c80157d2db56cc", null ],
+    [ "_getDisplacementValue", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#a738cf22977cdf9eadb8a6fe704b0cd96", null ],
     [ "_loadChain", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#a2a2e3f9ccab59694d5da544b217ddb16", null ],
     [ "_readAtom", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#a56fc089f2786fba8738039e6db390741", null ],
     [ "_readConnect", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#a2d9eef7d567b9e41375b306d326f8ac9", null ],

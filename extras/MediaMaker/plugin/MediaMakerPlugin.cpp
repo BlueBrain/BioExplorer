@@ -99,6 +99,10 @@ void MediaMakerPlugin::init()
 {
     auto actionInterface = _api->getActionInterface();
     auto &engine = _api->getEngine();
+    auto &params = engine.getParametersManager().getApplicationParameters();
+    const auto &engineName = params.getEngine();
+    if (engineName != ENGINE_OSPRAY)
+        PLUGIN_THROW("OSPRay engine is the only one supported by this plugin")
 
     if (actionInterface)
     {
