@@ -54,7 +54,7 @@ void _addMetabolismRenderer(Engine &engine)
 {
     PLUGIN_INFO("Registering 'metabolism' renderer");
     PropertyMap properties;
-    properties.setProperty({"exposure", 1., 1., 10., {"Exposure"}});
+    properties.setProperty({"mainExposure", 1., 1., 10., {"Exposure"}});
     properties.setProperty({"rayStep", 0.1, 0.01, 10., {"Ray marching step"}});
     properties.setProperty({"nearPlane", 10., 0.01, 1e6, {"Near plane"}});
     properties.setProperty({"farPlane", 50., 0.01, 1e6, {"Far plane"}});

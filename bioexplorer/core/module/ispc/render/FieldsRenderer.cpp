@@ -50,7 +50,7 @@ void FieldsRenderer::commit()
 
     _useHardwareRandomizer = getParam("useHardwareRandomizer", 0);
 
-    _exposure = getParam1f("exposure", 1.f);
+    _exposure = getParam1f("mainExposure", 1.f);
     _randomNumber = getParam1i("randomNumber", 0);
     _timestamp = getParam1f("timestamp", 0.f);
 
