@@ -31,6 +31,7 @@ const std::string PARAM_RENDERER = "renderer";
 const std::string PARAM_SPP = "samples-per-pixel";
 const std::string PARAM_SUBSAMPLING = "subsampling";
 const std::string PARAM_VARIANCE_THRESHOLD = "variance-threshold";
+const std::string ACCUMULATION_TYPES[3] = {"none", "linear", "ai-denoised"};
 } // namespace
 
 namespace brayns
@@ -38,23 +39,23 @@ namespace brayns
 RenderingParameters::RenderingParameters()
     : AbstractParameters("Rendering")
 {
-    _parameters.add_options() //
+    _parameters.add_options()                               //
         (PARAM_RENDERER.c_str(), po::value<std::string>(),
-         "The renderer to use") //
+         "The renderer to use")                             //
         (PARAM_SPP.c_str(), po::value<uint32_t>(&_spp),
-         "Number of samples per pixel [uint]") //
+         "Number of samples per pixel [uint]")              //
         (PARAM_SUBSAMPLING.c_str(), po::value<uint32_t>(&_subsampling),
-         "Subsampling factor [uint]") //
+         "Subsampling factor [uint]")                       //
         (PARAM_ACCUMULATION.c_str(), po::bool_switch()->default_value(false),
-         "Disable accumulation") //
+         "Disable accumulation")                            //
         (PARAM_BACKGROUND_COLOR.c_str(), po::fixed_tokens_value<floats>(3, 3),
-         "Background color [float float float]") //
+         "Background color [float float float]")            //
         (PARAM_CAMERA.c_str(), po::value<std::string>(),
-         "The camera to use") //
+         "The camera to use")                               //
         (PARAM_HEAD_LIGHT.c_str(), po::bool_switch()->default_value(false),
          "Disable light source attached to camera origin.") //
         (PARAM_VARIANCE_THRESHOLD.c_str(), po::value<double>(&_varianceThreshold),
-         "Threshold for adaptive accumulation [float]") //
+         "Threshold for adaptive accumulation [float]")     //
         (PARAM_MAX_ACCUMULATION_FRAMES.c_str(), po::value<size_t>(&_maxAccumFrames),
          "Maximum number of accumulation frames");
 }
@@ -84,6 +85,11 @@ void RenderingParameters::parse(const po::variables_map& vm)
     markModified();
 }
 
+const std::string RenderingParameters::getAccumulationTypeAsString(const AccumulationType value)
+{
+    return ACCUMULATION_TYPES[static_cast<size_t>(value)];
+}
+
 void RenderingParameters::print()
 {
     AbstractParameters::print();
@@ -96,5 +102,6 @@ void RenderingParameters::print()
     BRAYNS_INFO("Camera                            : " << _camera);
     BRAYNS_INFO("Accumulation                      : " << asString(_accumulation));
     BRAYNS_INFO("Max. accumulation frames          : " << _maxAccumFrames);
+    BRAYNS_INFO("Accumulation type                 : " << getAccumulationTypeAsString(_accumulationType));
 }
 } // namespace brayns

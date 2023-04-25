@@ -190,6 +190,14 @@ enum class FrameBufferFormat
     none
 };
 
+/** Accumulation types */
+enum class AccumulationType
+{
+    none,
+    linear,
+    ai_denoised,
+};
+
 /** Define the color scheme to be applied to the geometry */
 enum class ProteinColorScheme
 {
@@ -279,7 +287,7 @@ struct RenderOutput
 {
     Vector2i frameSize;
     uint8_ts colorBuffer;
-    floats depthBuffer;
+    floats floatBuffer;
     FrameBufferFormat colorBufferFormat;
 };
 

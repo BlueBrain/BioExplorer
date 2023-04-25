@@ -35,7 +35,8 @@ namespace brayns
 class OptiXFrameBuffer : public FrameBuffer
 {
 public:
-    OptiXFrameBuffer(const std::string& name, const Vector2ui& size, FrameBufferFormat frameBufferFormat);
+    OptiXFrameBuffer(const std::string& name, const Vector2ui& size, FrameBufferFormat frameBufferFormat,
+                     const AccumulationType accumulationType);
     ~OptiXFrameBuffer();
 
     void resize(const Vector2ui& size) final;
@@ -45,19 +46,41 @@ public:
 
     std::unique_lock<std::mutex> getScopeLock() { return std::unique_lock<std::mutex>(_mapMutex); }
     const uint8_t* getColorBuffer() const final { return _colorBuffer; }
-    const float* getDepthBuffer() const final { return 0; }
+    const float* getFloatBuffer() const final { return _floatBuffer; }
 
 private:
-    void destroy();
+    void _cleanup();
     void _recreate();
     void _mapUnsafe();
     void _unmapUnsafe();
 
-    optix::Buffer _frameBuffer{nullptr};
+    optix::Buffer _outputBuffer{nullptr};
     optix::Buffer _accumBuffer{nullptr};
+    optix::Buffer _tonemappedBuffer{nullptr};
+    optix::Buffer _denoisedBuffer{nullptr};
+
     uint8_t* _colorBuffer{nullptr};
-    float* _depthBuffer{nullptr};
+    float* _floatBuffer{nullptr};
     void* _imageData{nullptr};
+    void* _colorData{nullptr};
+    void* _floatData{nullptr};
+
+    // Post processing
+    void _initializePostProcessingStages();
+    optix::CommandList _commandListWithDenoiser{nullptr};
+    optix::CommandList _commandListWithoutDenoiser{nullptr};
+    optix::PostprocessingStage _tonemapStage{nullptr};
+    optix::PostprocessingStage _denoiserStage{nullptr};
+
+    uint64_t _accumulationFrameNumber{1u};
+
+    size_t _numNonDenoisedFrames{2}; // number of frames that show the original
+                                     // image before switching on denoising
+    float _denoiseBlend{0.1f};       // Defines the amount of the original image that is
+                                     // blended with the denoised result ranging from
+                                     // 0.0 to 1.0
+
+    bool _postprocessingStagesInitialized{false};
 
     // protect map/unmap
     std::mutex _mapMutex;

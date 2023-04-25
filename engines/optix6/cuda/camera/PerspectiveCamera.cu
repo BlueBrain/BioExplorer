@@ -34,8 +34,10 @@ rtDeclareVariable(float3, V, , );
 rtDeclareVariable(float3, W, , );
 rtDeclareVariable(float3, bad_color, , );
 rtDeclareVariable(float, scene_epsilon, , );
+
 rtBuffer<uchar4, 2> output_buffer;
 rtBuffer<float4, 2> accum_buffer;
+
 rtDeclareVariable(rtObject, top_object, , );
 rtDeclareVariable(unsigned int, radiance_ray_type, , );
 rtDeclareVariable(unsigned int, frame, , );

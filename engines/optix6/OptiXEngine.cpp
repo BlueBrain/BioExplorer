@@ -204,7 +204,7 @@ ScenePtr OptiXEngine::createScene(AnimationParameters& animationParameters, Geom
 FrameBufferPtr OptiXEngine::createFrameBuffer(const std::string& name, const Vector2ui& frameSize,
                                               FrameBufferFormat frameBufferFormat) const
 {
-    return std::make_shared<OptiXFrameBuffer>(name, frameSize, frameBufferFormat);
+    return std::make_shared<OptiXFrameBuffer>(name, frameSize, frameBufferFormat, AccumulationType::ai_denoised);
 }
 
 RendererPtr OptiXEngine::createRenderer(const AnimationParameters& animationParameters,

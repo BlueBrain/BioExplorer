@@ -48,7 +48,7 @@ public:
 
     std::unique_lock<std::mutex> getScopeLock() { return std::unique_lock<std::mutex>(_mapMutex); }
     const uint8_t* getColorBuffer() const final { return _colorBuffer; }
-    const float* getDepthBuffer() const final { return 0; }
+    const float* getFloatBuffer() const final { return 0; }
 
 private:
     void _recreate();
@@ -57,7 +57,7 @@ private:
 
     sutil::CUDAOutputBuffer<uchar4>* _frameBuffer{nullptr};
     uint8_t* _colorBuffer{nullptr};
-    float* _depthBuffer{nullptr};
+    float* _floatBuffer{nullptr};
     void* _imageData{nullptr};
 
     // protect map/unmap

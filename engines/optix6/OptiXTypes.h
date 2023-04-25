@@ -31,4 +31,10 @@ constexpr size_t OPTIX_ENTRY_POINT_COUNT = 1;
 
 constexpr float EPSILON = 1e-2f;
 
+const std::string CUDA_OUTPUT_BUFFER = "output_buffer";
+const std::string CUDA_ACCUMULATION_BUFFER = "accum_buffer";
+const std::string CUDA_DENOISED_BUFFER = "denoised_buffer";
+const std::string CUDA_TONEMAPPED_BUFFER = "tonemapped_buffer";
+const std::string CUDA_FRAME_NUMBER = "frame_number";
+
 } // namespace brayns

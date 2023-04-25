@@ -230,11 +230,11 @@ struct Brayns::Impl : public PluginAPI
             renderOutput.colorBufferFormat = frameBuffer.getFrameBufferFormat();
         }
 
-        const auto depthBuffer = frameBuffer.getDepthBuffer();
-        if (depthBuffer)
+        const auto floatBuffer = frameBuffer.getFloatBuffer();
+        if (floatBuffer)
         {
-            const size_t size = frameSize.x * frameSize.y;
-            renderOutput.depthBuffer.assign(depthBuffer, depthBuffer + size);
+            const size_t size = frameSize.x * frameSize.y * sizeof(float);
+            renderOutput.floatBuffer.assign(floatBuffer, floatBuffer + size);
         }
 
         renderOutput.frameSize = frameSize;
