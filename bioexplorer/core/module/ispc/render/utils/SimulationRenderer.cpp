@@ -72,7 +72,7 @@ void SimulationRenderer::commit()
     _fogThickness = getParam1f("fogThickness", 1e6f);
     _fogStart = getParam1f("fogStart", 0.f);
 
-    _exposure = getParam1f("exposure", 1.f);
+    _exposure = getParam1f("mainExposure", 1.f);
     _timestamp = getParam1f("timestamp", 0.f);
     _epsilonFactor = getParam1f("epsilonFactor", 1.f);
 

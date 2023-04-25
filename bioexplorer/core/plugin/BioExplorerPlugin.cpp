@@ -134,7 +134,7 @@ void _addBioExplorerRenderer(Engine &engine)
     properties.setProperty({"softShadows", 0.0, 0.0, 1.0, {"Shadow softness"}});
     properties.setProperty(
         {"softShadowsSamples", 1, 1, 64, {"Soft shadow samples"}});
-    properties.setProperty({"exposure", 1.0, 0.01, 10.0, {"Exposure"}});
+    properties.setProperty({"mainExposure", 1.0, 0.01, 10.0, {"Exposure"}});
     properties.setProperty(
         {"epsilonFactor", 1.0, 1.0, 1000.0, {"Epsilon factor"}});
     properties.setProperty({"fogStart", 0.0, 0.0, 1e6, {"Fog start"}});
@@ -157,7 +157,7 @@ void _addBioExplorerVoxelRenderer(Engine &engine)
         {"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
     properties.setProperty(
         {"simulationThreshold", 0., 0., 1., {"Simulation threshold"}});
-    properties.setProperty({"exposure", 1.0, 0.01, 10.0, {"Exposure"}});
+    properties.setProperty({"mainExposure", 1.0, 0.01, 10.0, {"Exposure"}});
     properties.setProperty(
         {"epsilonFactor", 1.0, 1.0, 1000.0, {"Epsilon factor"}});
     properties.setProperty(
@@ -171,7 +171,7 @@ void _addBioExplorerFieldsRenderer(Engine &engine)
 {
     PLUGIN_INFO(2, "Registering 'bio_explorer_fields' renderer");
     PropertyMap properties;
-    properties.setProperty({"exposure", 1., 1., 10., {"Exposure"}});
+    properties.setProperty({"mainExposure", 1., 1., 10., {"Exposure"}});
     properties.setProperty({"useHardwareRandomizer",
                             false,
                             {"Use hardware accelerated randomizer"}});
@@ -194,7 +194,7 @@ void _addBioExplorerDensityRenderer(Engine &engine)
 {
     PLUGIN_INFO(2, "Registering 'bio_explorer_density' renderer");
     PropertyMap properties;
-    properties.setProperty({"exposure", 1.5, 1., 10., {"Exposure"}});
+    properties.setProperty({"mainExposure", 1.5, 1., 10., {"Exposure"}});
     properties.setProperty({"rayStep", 2.0, 1.0, 1024.0, {"Ray marchingstep"}});
     properties.setProperty(
         {"sampleCount", 4, 1, 2048, {"Number of ray marching samples"}});
@@ -210,7 +210,7 @@ void _addBioExplorerPathTracingRenderer(Engine &engine)
 {
     PLUGIN_INFO(2, "Registering 'bio_explorer_path_tracing' renderer");
     PropertyMap properties;
-    properties.setProperty({"exposure", 1., 0.1, 10., {"Exposure"}});
+    properties.setProperty({"mainExposure", 1., 0.1, 10., {"Exposure"}});
     properties.setProperty({"useHardwareRandomizer",
                             false,
                             {"Use hardware accelerated randomizer"}});

@@ -47,7 +47,7 @@ void MetabolismRenderer::commit()
 
     _bgMaterial = (Material*)getParamObject("bgMaterial", nullptr);
 
-    _exposure = getParam1f("exposure", 1.f);
+    _exposure = getParam1f("mainExposure", 1.f);
 
     // Sampling
     _nearPlane = getParam1f("nearPlane", 0.f);

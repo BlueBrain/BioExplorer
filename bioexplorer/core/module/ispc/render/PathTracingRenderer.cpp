@@ -48,7 +48,7 @@ void PathTracingRenderer::commit()
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
     _bgMaterial = (AdvancedMaterial*)getParamObject("bgMaterial", nullptr);
-    _exposure = getParam1f("exposure", 1.f);
+    _exposure = getParam1f("mainExposure", 1.f);
     _useHardwareRandomizer = getParam("useHardwareRandomizer", 0);
     _showBackground = getParam("showBackground", 0);
     _aoStrength = getParam1f("aoStrength", 1.f);
