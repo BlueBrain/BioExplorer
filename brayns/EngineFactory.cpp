@@ -30,6 +30,11 @@
 
 namespace brayns
 {
+/** Supported engines */
+std::map<std::string, std::string> SUPPORTED_ENGINES = {{ENGINE_OSPRAY, "braynsOSPRayEngine"},
+                                                        {ENGINE_OPTIX_6, "braynsOptix6Engine"},
+                                                        {ENGINE_OPTIX_7, "braynsOptix7Engine"}};
+
 typedef Engine* (*CreateFuncType)(int, const char**, ParametersManager&);
 
 EngineFactory::EngineFactory(const int argc, const char** argv, ParametersManager& parametersManager)
@@ -41,9 +46,15 @@ EngineFactory::EngineFactory(const int argc, const char** argv, ParametersManage
 
 Engine* EngineFactory::create(const std::string& name)
 {
-    if (_engines.count(name) == 0)
-        return _loadEngine(name.c_str(), _argc, _argv);
-    return _engines[name].get();
+    const auto it = SUPPORTED_ENGINES.find(name);
+
+    if (it == SUPPORTED_ENGINES.end())
+        BRAYNS_THROW("Unsupported engine: " + name);
+
+    const auto libraryName = (*it).second;
+    if (_engines.count(libraryName) == 0)
+        return _loadEngine(libraryName.c_str(), _argc, _argv);
+    return _engines[libraryName].get();
 }
 
 Engine* EngineFactory::_loadEngine(const std::string& name, int argc, const char* argv[])
