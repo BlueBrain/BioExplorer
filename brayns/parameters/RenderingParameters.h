@@ -44,6 +44,7 @@ public:
 
     const std::string& getCurrentRenderer() const { return _renderer; }
     void setCurrentRenderer(const std::string& renderer) { _updateValue(_renderer, renderer); }
+
     /** All registered renderers */
     const auto& getRenderers() const { return _renderers; }
     void addRenderer(const std::string& renderer)
@@ -52,14 +53,20 @@ public:
             _renderers.push_front(renderer);
     }
     const std::string& getCurrentCamera() const { return _camera; }
+
     /** All registered cameras */
     const auto& getCameras() const { return _cameras; }
     void addCamera(const std::string& camera) { _cameras.push_front(camera); }
+
     /** Number of samples per pixel */
     uint32_t getSamplesPerPixel() const { return _spp; }
     void setSamplesPerPixel(const uint32_t value) { _updateValue(_spp, std::max(1u, value)); }
+
+    /** Sub-sampling */
     uint32_t getSubsampling() const { return _subsampling; }
     void setSubsampling(const uint32_t subsampling) { _updateValue(_subsampling, std::max(1u, subsampling)); }
+
+    /** Background color */
     const Vector3d& getBackgroundColor() const { return _backgroundColor; }
     void setBackgroundColor(const Vector3d& value) { _updateValue(_backgroundColor, value); }
 
@@ -93,6 +100,25 @@ public:
     AccumulationType getAccumulationType() const { return _accumulationType; }
     const std::string getAccumulationTypeAsString(const AccumulationType value);
 
+    /**
+     *  Denoising parameters: Used by the Optix 6 engine only
+     */
+    /** Number of frames that show the original image before switching on denoising */
+    void setNumNonDenoisedFrames(const uint32_t value) { _updateValue(_numNonDenoisedFrames, value); }
+    uint32_t getNumNonDenoisedFrames() const { return _numNonDenoisedFrames; }
+
+    /* Amount of the original image that is blended with the denoised result ranging from 0.0 to 1.0 */
+    void setDenoiseBlend(const float value) { _updateValue(_denoiseBlend, value); }
+    float getDenoiseBlend() const { return _denoiseBlend; }
+
+    /* Tone mapper exposure */
+    void setToneMapperExposure(const float value) { _updateValue(_toneMapperExposure, value); }
+    float getToneMapperExposure() const { return _toneMapperExposure; }
+
+    /* Tone mapper gamma */
+    void setToneMapperGamma(const float value) { _updateValue(_toneMapperGamma, value); }
+    float getToneMapperGamma() const { return _toneMapperGamma; }
+
 protected:
     void parse(const po::variables_map& vm) final;
 
@@ -107,6 +133,10 @@ protected:
     bool _headLight{true};
     double _varianceThreshold{-1.};
     size_t _maxAccumFrames{100};
+    uint32_t _numNonDenoisedFrames{2};
+    float _denoiseBlend{0.1f};
+    float _toneMapperExposure{1.5f};
+    float _toneMapperGamma{1.f};
     AccumulationType _accumulationType{AccumulationType::linear};
 
     SERIALIZATION_FRIEND(RenderingParameters)

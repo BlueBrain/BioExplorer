@@ -70,15 +70,9 @@ struct VideoStreamParam
     bool enabled{false};
     uint32_t kbps{5000};
 
-    bool operator==(const VideoStreamParam& rhs) const
-    {
-        return enabled == rhs.enabled && kbps == rhs.kbps;
-    }
+    bool operator==(const VideoStreamParam& rhs) const { return enabled == rhs.enabled && kbps == rhs.kbps; }
 
-    bool operator!=(const VideoStreamParam& rhs) const
-    {
-        return !(*this == rhs);
-    }
+    bool operator!=(const VideoStreamParam& rhs) const { return !(*this == rhs); }
 };
 
 struct ObjectID
@@ -163,32 +157,23 @@ struct ExitLaterSchedule
 
 } // namespace brayns
 
-STATICJSON_DECLARE_ENUM(brayns::GeometryQuality,
-                        {"low", brayns::GeometryQuality::low},
-                        {"medium", brayns::GeometryQuality::medium},
-                        {"high", brayns::GeometryQuality::high});
+STATICJSON_DECLARE_ENUM(brayns::GeometryQuality, {"low", brayns::GeometryQuality::low},
+                        {"medium", brayns::GeometryQuality::medium}, {"high", brayns::GeometryQuality::high});
 
-STATICJSON_DECLARE_ENUM(
-    brayns::ProteinColorScheme, {"none", brayns::ProteinColorScheme::none},
-    {"by_id", brayns::ProteinColorScheme::by_id},
-    {"protein_atoms", brayns::ProteinColorScheme::protein_atoms},
-    {"protein_chains", brayns::ProteinColorScheme::protein_chains},
-    {"protein_residues", brayns::ProteinColorScheme::protein_residues});
+STATICJSON_DECLARE_ENUM(brayns::ProteinColorScheme, {"none", brayns::ProteinColorScheme::none},
+                        {"by_id", brayns::ProteinColorScheme::by_id},
+                        {"protein_atoms", brayns::ProteinColorScheme::protein_atoms},
+                        {"protein_chains", brayns::ProteinColorScheme::protein_chains},
+                        {"protein_residues", brayns::ProteinColorScheme::protein_residues});
 
-STATICJSON_DECLARE_ENUM(brayns::MemoryMode,
-                        {"shared", brayns::MemoryMode::shared},
+STATICJSON_DECLARE_ENUM(brayns::MemoryMode, {"shared", brayns::MemoryMode::shared},
                         {"replicated", brayns::MemoryMode::replicated});
 
-STATICJSON_DECLARE_ENUM(brayns::TextureType,
-                        {"diffuse", brayns::TextureType::diffuse},
-                        {"normals", brayns::TextureType::normals},
-                        {"bump", brayns::TextureType::bump},
-                        {"specular", brayns::TextureType::specular},
-                        {"emissive", brayns::TextureType::emissive},
-                        {"opacity", brayns::TextureType::opacity},
-                        {"reflection", brayns::TextureType::reflection},
-                        {"refraction", brayns::TextureType::refraction},
-                        {"occlusion", brayns::TextureType::occlusion});
+STATICJSON_DECLARE_ENUM(brayns::TextureType, {"diffuse", brayns::TextureType::diffuse},
+                        {"normals", brayns::TextureType::normals}, {"bump", brayns::TextureType::bump},
+                        {"specular", brayns::TextureType::specular}, {"emissive", brayns::TextureType::emissive},
+                        {"opacity", brayns::TextureType::opacity}, {"reflection", brayns::TextureType::reflection},
+                        {"refraction", brayns::TextureType::refraction}, {"occlusion", brayns::TextureType::occlusion});
 
 // c-array to std.array: https://stackoverflow.com/questions/11205186
 template <size_t M, typename T>
@@ -243,8 +228,7 @@ inline void init(brayns::ModelTransferFunction* s, ObjectHandler* h)
 inline void init(brayns::GetInstances* g, ObjectHandler* h)
 {
     h->add_property("id", &g->modelID);
-    h->add_property("result_range", toArray<2, uint32_t>(g->resultRange),
-                    Flags::Optional);
+    h->add_property("result_range", toArray<2, uint32_t>(g->resultRange), Flags::Optional);
     h->set_flags(Flags::DisallowUnknownKey);
 }
 
@@ -284,8 +268,7 @@ inline void init(brayns::BinaryParam* s, ObjectHandler* h)
     h->add_property("type", &s->type);
     h->add_property("visible", &s->_visible, Flags::Optional);
     h->add_property("loader_name", &s->_loaderName, Flags::Optional);
-    h->add_property("loader_properties", &s->_loaderProperties,
-                    Flags::Optional);
+    h->add_property("loader_properties", &s->_loaderProperties, Flags::Optional);
     h->set_flags(Flags::DisallowUnknownKey);
 }
 
@@ -320,8 +303,7 @@ inline void init(brayns::Renderer::PickResult* p, ObjectHandler* h)
 inline void init(brayns::Camera* c, ObjectHandler* h)
 {
     h->add_property("orientation", toArray(c->_orientation), Flags::Optional);
-    h->add_property("position", toArray<3, double>(c->_position),
-                    Flags::Optional);
+    h->add_property("position", toArray<3, double>(c->_position), Flags::Optional);
     h->add_property("target", toArray<3, double>(c->_target), Flags::Optional);
     h->add_property("current", &c->_currentType, Flags::Optional);
     static auto types = c->getTypes();
@@ -343,10 +325,8 @@ inline void init(brayns::ColorMap* t, ObjectHandler* h)
 
 inline void init(brayns::TransferFunction* t, ObjectHandler* h)
 {
-    h->add_property("range", toArray<2, double>(t->_valuesRange),
-                    Flags::Optional);
-    h->add_property("opacity_curve", toArray<2, double>(t->_controlPoints),
-                    Flags::Optional);
+    h->add_property("range", toArray<2, double>(t->_valuesRange), Flags::Optional);
+    h->add_property("opacity_curve", toArray<2, double>(t->_controlPoints), Flags::Optional);
     h->add_property("colormap", &t->_colorMap, Flags::Optional);
     h->set_flags(Flags::DisallowUnknownKey);
 }
@@ -361,12 +341,9 @@ inline void init(brayns::Boxd* b, ObjectHandler* h)
 inline void init(brayns::Material* m, ObjectHandler* h)
 {
     h->add_property("name", &m->_name, Flags::Optional);
-    h->add_property("diffuse_color", toArray<3, double>(m->_diffuseColor),
-                    Flags::Optional);
-    h->add_property("specular_color", toArray<3, double>(m->_specularColor),
-                    Flags::Optional);
-    h->add_property("specular_exponent", &m->_specularExponent,
-                    Flags::Optional);
+    h->add_property("diffuse_color", toArray<3, double>(m->_diffuseColor), Flags::Optional);
+    h->add_property("specular_color", toArray<3, double>(m->_specularColor), Flags::Optional);
+    h->add_property("specular_exponent", &m->_specularExponent, Flags::Optional);
     h->add_property("reflection_index", &m->_reflectionIndex, Flags::Optional);
     h->add_property("opacity", &m->_opacity, Flags::Optional);
     h->add_property("refraction_index", &m->_refractionIndex, Flags::Optional);
@@ -380,8 +357,7 @@ inline void init(brayns::Transformation* g, ObjectHandler* h)
     h->add_property("translation", toArray<3, double>(g->_translation));
     h->add_property("scale", toArray<3, double>(g->_scale));
     h->add_property("rotation", toArray(g->_rotation));
-    h->add_property("rotation_center", toArray<3, double>(g->_rotationCenter),
-                    Flags::Optional);
+    h->add_property("rotation_center", toArray<3, double>(g->_rotationCenter), Flags::Optional);
     h->set_flags(Flags::DisallowUnknownKey);
 }
 
@@ -403,8 +379,7 @@ inline void init(brayns::ModelParams* g, ObjectHandler* h)
     h->add_property("transformation", &g->_transformation, Flags::Optional);
     h->add_property("visible", &g->_visible, Flags::Optional);
     h->add_property("loader_name", &g->_loaderName, Flags::Optional);
-    h->add_property("loader_properties", &g->_loaderProperties,
-                    Flags::Optional);
+    h->add_property("loader_properties", &g->_loaderProperties, Flags::Optional);
 
     h->set_flags(Flags::DisallowUnknownKey);
 }
@@ -432,8 +407,7 @@ inline void init(brayns::ClipPlane* g, ObjectHandler* h)
 inline void init(brayns::Scene* s, ObjectHandler* h)
 {
     h->add_property("bounds", &s->_bounds, Flags::IgnoreRead | Flags::Optional);
-    h->add_property("models", &s->_modelDescriptors,
-                    Flags::Optional | Flags::IgnoreRead);
+    h->add_property("models", &s->_modelDescriptors, Flags::Optional | Flags::IgnoreRead);
     h->set_flags(Flags::DisallowUnknownKey);
 }
 
@@ -442,47 +416,41 @@ inline void init(brayns::ApplicationParameters* a, ObjectHandler* h)
     h->add_property("engine", &a->_engine, Flags::IgnoreRead | Flags::Optional);
     h->add_property("jpeg_compression", &a->_jpegCompression, Flags::Optional);
     h->add_property("image_stream_fps", &a->_imageStreamFPS, Flags::Optional);
-    h->add_property("viewport", toArray<2, double>(a->_windowSize),
-                    Flags::Optional);
+    h->add_property("viewport", toArray<2, double>(a->_windowSize), Flags::Optional);
     h->set_flags(Flags::DisallowUnknownKey);
 }
 
 inline void init(brayns::RenderingParameters* r, ObjectHandler* h)
 {
     h->add_property("accumulation", &r->_accumulation, Flags::Optional);
-    h->add_property("background_color", toArray<3, double>(r->_backgroundColor),
-                    Flags::Optional);
+    h->add_property("background_color", toArray<3, double>(r->_backgroundColor), Flags::Optional);
     h->add_property("current", &r->_renderer, Flags::Optional);
     h->add_property("head_light", &r->_headLight, Flags::Optional);
     h->add_property("max_accum_frames", &r->_maxAccumFrames, Flags::Optional);
     h->add_property("samples_per_pixel", &r->_spp, Flags::Optional);
     h->add_property("subsampling", &r->_subsampling, Flags::Optional);
-    h->add_property("types", &r->_renderers,
-                    Flags::IgnoreRead | Flags::Optional);
-    h->add_property("variance_threshold", &r->_varianceThreshold,
-                    Flags::Optional);
+    h->add_property("types", &r->_renderers, Flags::IgnoreRead | Flags::Optional);
+    h->add_property("variance_threshold", &r->_varianceThreshold, Flags::Optional);
+    h->add_property("num_non_denoised_frames", &r->_numNonDenoisedFrames, Flags::Optional);
+    h->add_property("denoise_blend", &r->_denoiseBlend, Flags::Optional);
+    h->add_property("tone_mapper_exposure", &r->_toneMapperExposure, Flags::Optional);
+    h->add_property("tone_mapper_gamma", &r->_toneMapperGamma, Flags::Optional);
     h->set_flags(Flags::DisallowUnknownKey);
 }
 
 inline void init(brayns::VolumeParameters* v, ObjectHandler* h)
 {
-    h->add_property("volume_dimensions", toArray<3, uint32_t>(v->_dimensions),
-                    Flags::Optional);
-    h->add_property("volume_element_spacing",
-                    toArray<3, double>(v->_elementSpacing), Flags::Optional);
-    h->add_property("volume_offset", toArray<3, double>(v->_offset),
-                    Flags::Optional);
+    h->add_property("volume_dimensions", toArray<3, uint32_t>(v->_dimensions), Flags::Optional);
+    h->add_property("volume_element_spacing", toArray<3, double>(v->_elementSpacing), Flags::Optional);
+    h->add_property("volume_offset", toArray<3, double>(v->_offset), Flags::Optional);
 
     h->add_property("gradient_shading", &v->_gradientShading, Flags::Optional);
     h->add_property("single_shade", &v->_singleShade, Flags::Optional);
     h->add_property("pre_integration", &v->_preIntegration, Flags::Optional);
-    h->add_property("adaptive_max_sampling_rate", &v->_adaptiveMaxSamplingRate,
-                    Flags::Optional);
-    h->add_property("adaptive_sampling", &v->_adaptiveSampling,
-                    Flags::Optional);
+    h->add_property("adaptive_max_sampling_rate", &v->_adaptiveMaxSamplingRate, Flags::Optional);
+    h->add_property("adaptive_sampling", &v->_adaptiveSampling, Flags::Optional);
     h->add_property("sampling_rate", &v->_samplingRate, Flags::Optional);
-    h->add_property("specular", toArray<3, double>(v->_specular),
-                    Flags::Optional);
+    h->add_property("specular", toArray<3, double>(v->_specular), Flags::Optional);
     h->add_property("clip_box", &v->_clipBox, Flags::Optional);
     h->set_flags(Flags::DisallowUnknownKey);
 }
@@ -645,18 +613,15 @@ inline std::string to_json(const brayns::Scene& scene)
 }
 
 template <typename T>
-inline std::string toJSONReplacePropertyMap(
-    const T& params, const std::string& propertyMapName,
-    const brayns::PropertyMap& properties)
+inline std::string toJSONReplacePropertyMap(const T& params, const std::string& propertyMapName,
+                                            const brayns::PropertyMap& properties)
 {
     const auto jsonOriginal = staticjson::to_json_string(params);
 
     const std::string key = "\"" + propertyMapName + "\"";
     const std::string propertiesJson = key + ":" + to_json(properties);
 
-    const auto result =
-        brayns::string_utils::replaceFirstOccurrence(jsonOriginal, key + ":{}",
-                                                     propertiesJson);
+    const auto result = brayns::string_utils::replaceFirstOccurrence(jsonOriginal, key + ":{}", propertiesJson);
     return result;
 }
 
@@ -669,15 +634,13 @@ inline std::string to_json(const brayns::ModelProperties& props)
 template <>
 inline std::string to_json(const brayns::ModelParams& params)
 {
-    return toJSONReplacePropertyMap(params, "loader_properties",
-                                    params.getLoaderProperties());
+    return toJSONReplacePropertyMap(params, "loader_properties", params.getLoaderProperties());
 }
 
 template <>
 inline std::string to_json(const brayns::BinaryParam& params)
 {
-    return toJSONReplacePropertyMap(params, "loader_properties",
-                                    params.getLoaderProperties());
+    return toJSONReplacePropertyMap(params, "loader_properties", params.getLoaderProperties());
 }
 
 template <>
@@ -694,15 +657,14 @@ inline bool from_json(T& obj, const std::string& json)
 template <>
 inline bool from_json(brayns::Vector2d& obj, const std::string& json)
 {
-    return staticjson::from_json_string(json.c_str(), toArray<2, double>(obj),
-                                        nullptr);
+    return staticjson::from_json_string(json.c_str(), toArray<2, double>(obj), nullptr);
 }
 
 brayns::PropertyMap jsonToPropertyMap(const std::string& json);
 
 template <typename T>
-inline std::pair<bool, brayns::PropertyMap> fromJSONWithPropertyMap(
-    T& params, const std::string& json, const std::string& propertyMapName)
+inline std::pair<bool, brayns::PropertyMap> fromJSONWithPropertyMap(T& params, const std::string& json,
+                                                                    const std::string& propertyMapName)
 {
     using namespace rapidjson;
     Document document;
@@ -760,8 +722,7 @@ inline bool from_json(brayns::RPCLight& light, const std::string& json)
 {
     bool success;
     brayns::PropertyMap propertyMap;
-    std::tie<bool, brayns::PropertyMap>(success, propertyMap) =
-        fromJSONWithPropertyMap(light, json, "properties");
+    std::tie<bool, brayns::PropertyMap>(success, propertyMap) = fromJSONWithPropertyMap(light, json, "properties");
     light.properties = propertyMap;
     return success;
 }

@@ -445,6 +445,11 @@ void BaseWindow::_toggleFrameBuffer()
 {
     size_t mode = static_cast<size_t>(_frameBufferMode);
     mode = (mode + 1) % 3;
+    const auto& engine = _brayns.getEngine();
+    const auto& params = engine.getParametersManager().getApplicationParameters();
+    const auto& engineName = params.getEngine();
+    if (engineName == ENGINE_OSPRAY && mode == static_cast<size_t>(AccumulationType::ai_denoised))
+        mode = (mode + 1) % 3;
     _frameBufferMode = static_cast<FrameBufferMode>(mode);
 }
 } // namespace brayns
