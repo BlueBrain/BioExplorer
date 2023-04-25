@@ -44,11 +44,3 @@ enum MaterialClippingMode
     plane = 1,
     sphere = 2
 };
-
-enum CameraStereoMode
-{
-    mono = 0,
-    left = 1,
-    right = 2,
-    side_by_side = 3
-};

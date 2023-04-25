@@ -231,23 +231,6 @@ void _addBioExplorerGolgiStyleRenderer(Engine &engine)
     engine.addRendererType("bio_explorer_golgi_style", properties);
 }
 
-void _addBioExplorerPerspectiveCamera(Engine &engine)
-{
-    PLUGIN_INFO(2, "Registering 'bio_explorer_perspective' camera");
-
-    PropertyMap properties;
-    properties.setProperty({"fovy", 45., .1, 360., {"Field of view"}});
-    properties.setProperty({"aspect", 1., {"Aspect ratio"}});
-    properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
-    properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
-    properties.setProperty({"nearClip", 0., 0., 1e6, {"Near clip"}});
-    properties.setProperty({"enableClippingPlanes", true, {"Clipping"}});
-    properties.setProperty({"stereo", false, {"Stereo"}});
-    properties.setProperty(
-        {"interpupillaryDistance", 0.0635, 0.0, 10.0, {"Eye separation"}});
-    engine.addCameraType("bio_explorer_perspective", properties);
-}
-
 BioExplorerPlugin::BioExplorerPlugin(int argc, char **argv)
     : ExtensionPlugin()
 {
@@ -646,7 +629,6 @@ void BioExplorerPlugin::init()
     }
 
     // Module components
-    _addBioExplorerPerspectiveCamera(engine);
     _addBioExplorerRenderer(engine);
     _addBioExplorerVoxelRenderer(engine);
     _addBioExplorerFieldsRenderer(engine);
