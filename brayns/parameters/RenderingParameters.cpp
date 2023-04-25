@@ -31,6 +31,11 @@ const std::string PARAM_RENDERER = "renderer";
 const std::string PARAM_SPP = "samples-per-pixel";
 const std::string PARAM_SUBSAMPLING = "subsampling";
 const std::string PARAM_VARIANCE_THRESHOLD = "variance-threshold";
+const std::string PARAM_NUM_NON_DENOISED_FRAMES = "num-non-denoised-frames";
+const std::string PARAM_DENOISE_BLEND = "denoise-blend";
+const std::string PARAM_TONE_MAPPER_EXPOSURE = "tone-mapper-exposure";
+const std::string PARAM_TONE_MAPPER_GAMMA = "tone-mapper-gamma";
+
 const std::string ACCUMULATION_TYPES[3] = {"none", "linear", "ai-denoised"};
 } // namespace
 
@@ -39,25 +44,33 @@ namespace brayns
 RenderingParameters::RenderingParameters()
     : AbstractParameters("Rendering")
 {
-    _parameters.add_options()                               //
+    _parameters.add_options()                                                                //
         (PARAM_RENDERER.c_str(), po::value<std::string>(),
-         "The renderer to use")                             //
+         "The renderer to use")                                                              //
         (PARAM_SPP.c_str(), po::value<uint32_t>(&_spp),
-         "Number of samples per pixel [uint]")              //
+         "Number of samples per pixel [uint]")                                               //
         (PARAM_SUBSAMPLING.c_str(), po::value<uint32_t>(&_subsampling),
-         "Subsampling factor [uint]")                       //
+         "Subsampling factor [uint]")                                                        //
         (PARAM_ACCUMULATION.c_str(), po::bool_switch()->default_value(false),
-         "Disable accumulation")                            //
+         "Disable accumulation")                                                             //
         (PARAM_BACKGROUND_COLOR.c_str(), po::fixed_tokens_value<floats>(3, 3),
-         "Background color [float float float]")            //
+         "Background color [float float float]")                                             //
         (PARAM_CAMERA.c_str(), po::value<std::string>(),
-         "The camera to use")                               //
+         "The camera to use")                                                                //
         (PARAM_HEAD_LIGHT.c_str(), po::bool_switch()->default_value(false),
-         "Disable light source attached to camera origin.") //
+         "Disable light source attached to camera origin.")                                  //
         (PARAM_VARIANCE_THRESHOLD.c_str(), po::value<double>(&_varianceThreshold),
-         "Threshold for adaptive accumulation [float]")     //
+         "Threshold for adaptive accumulation [float]")                                      //
         (PARAM_MAX_ACCUMULATION_FRAMES.c_str(), po::value<size_t>(&_maxAccumFrames),
-         "Maximum number of accumulation frames");
+         "Maximum number of accumulation frames"),                                           //
+        (PARAM_NUM_NON_DENOISED_FRAMES.c_str(), po::value<uint32_t>(&_numNonDenoisedFrames), //
+         "Optix 6 only: Number of frames that show the original image before switching on denoising"),
+        (PARAM_DENOISE_BLEND.c_str(), po::value<float>(&_denoiseBlend),                      //
+         "Optix 6 only: Amount of the original image that is blended with the denoised result ranging from 0.0 to 1.0"),
+        (PARAM_TONE_MAPPER_EXPOSURE.c_str(), po::value<float>(&_toneMapperExposure),         //
+         "Optix 6 only: Tone mapper exposure"),
+        (PARAM_TONE_MAPPER_GAMMA.c_str(), po::value<float>(&_toneMapperGamma),               //
+         "Optix 6 only: Tone mapper gamma");
 }
 
 void RenderingParameters::parse(const po::variables_map& vm)
@@ -103,5 +116,9 @@ void RenderingParameters::print()
     BRAYNS_INFO("Accumulation                      : " << asString(_accumulation));
     BRAYNS_INFO("Max. accumulation frames          : " << _maxAccumFrames);
     BRAYNS_INFO("Accumulation type                 : " << getAccumulationTypeAsString(_accumulationType));
+    BRAYNS_INFO("Number of non-denoised frames     : " << _numNonDenoisedFrames);
+    BRAYNS_INFO("Denoise blend                     : " << _denoiseBlend);
+    BRAYNS_INFO("Tone mapper exposure              : " << _toneMapperExposure);
+    BRAYNS_INFO("Tone mapper gamma                 : " << _toneMapperGamma);
 }
 } // namespace brayns

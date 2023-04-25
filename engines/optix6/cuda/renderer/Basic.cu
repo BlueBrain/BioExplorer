@@ -50,7 +50,7 @@ rtDeclareVariable(float2, texcoord, attribute texcoord, );
 // rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
 
 // Rendering
-rtDeclareVariable(float, exposure, , );
+rtDeclareVariable(float, mainExposure, , );
 
 static __device__ inline void shade(bool textured)
 {
@@ -69,7 +69,7 @@ static __device__ inline void shade(bool textured)
     else
         p_Kd = Kd;
 
-    prd.result = exposure * p_Kd * max(0.f, optix::dot(-ray.direction, p_normal));
+    prd.result = mainExposure * p_Kd * max(0.f, optix::dot(-ray.direction, p_normal));
 }
 
 RT_PROGRAM void any_hit_shadow()

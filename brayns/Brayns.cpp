@@ -233,7 +233,9 @@ struct Brayns::Impl : public PluginAPI
         const auto floatBuffer = frameBuffer.getFloatBuffer();
         if (floatBuffer)
         {
-            const size_t size = frameSize.x * frameSize.y * sizeof(float);
+            size_t size = frameSize.x * frameSize.y;
+            if (frameBuffer.getAccumulationType() == AccumulationType::ai_denoised)
+                size *= sizeof(float);
             renderOutput.floatBuffer.assign(floatBuffer, floatBuffer + size);
         }
 

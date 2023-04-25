@@ -36,7 +36,7 @@ class OptiXFrameBuffer : public FrameBuffer
 {
 public:
     OptiXFrameBuffer(const std::string& name, const Vector2ui& size, FrameBufferFormat frameBufferFormat,
-                     const AccumulationType accumulationType);
+                     const RenderingParameters& renderingParameters);
     ~OptiXFrameBuffer();
 
     void resize(const Vector2ui& size) final;
@@ -74,13 +74,9 @@ private:
 
     uint64_t _accumulationFrameNumber{1u};
 
-    size_t _numNonDenoisedFrames{2}; // number of frames that show the original
-                                     // image before switching on denoising
-    float _denoiseBlend{0.1f};       // Defines the amount of the original image that is
-                                     // blended with the denoised result ranging from
-                                     // 0.0 to 1.0
-
     bool _postprocessingStagesInitialized{false};
+
+    const RenderingParameters& _renderingParameters;
 
     // protect map/unmap
     std::mutex _mapMutex;

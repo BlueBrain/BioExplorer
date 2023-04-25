@@ -129,7 +129,7 @@ void OptiXFrameBuffer::_mapUnsafe()
         _colorBuffer = (uint8_t*)(_imageData);
         break;
     case FrameBufferFormat::rgb_f32:
-        _depthBuffer = (float*)_imageData;
+        _floatBuffer = (float*)_imageData;
         break;
     default:
         BRAYNS_THROW(std::runtime_error("Unsupported frame buffer format"));
@@ -149,7 +149,7 @@ void OptiXFrameBuffer::_unmapUnsafe()
 
     _frameBuffer->unmap();
     _colorBuffer = nullptr;
-    _depthBuffer = nullptr;
+    _floatBuffer = nullptr;
 }
 
 void OptiXFrameBuffer::setAccumulation(const bool accumulation)

@@ -84,7 +84,7 @@ rtDeclareVariable(int, maxBounces, , );
 rtDeclareVariable(float, shadows, , );
 rtDeclareVariable(float, softShadows, , );
 rtDeclareVariable(int, softShadowsSamples, , );
-rtDeclareVariable(float, exposure, , );
+rtDeclareVariable(float, mainExposure, , );
 rtDeclareVariable(float, giDistance, , );
 rtDeclareVariable(float, giWeight, , );
 rtDeclareVariable(int, giSamples, , );
@@ -234,7 +234,7 @@ static __device__ float getVolumeShadowContribution(const optix::Ray& volumeRay,
             default:
             {
                 unsigned char voxelValue = volumeData[index];
-                const float normalizedValue = ((float)voxelValue - colorMapMinValue) / colorMapRange;
+                normalizedValue = ((float)voxelValue - colorMapMinValue) / colorMapRange;
                 break;
             }
             }
@@ -291,7 +291,7 @@ static __device__ float4 getVolumeContribution(const optix::Ray& volumeRay, cons
             default:
             {
                 unsigned char voxelValue = volumeData[index];
-                const float normalizedValue = ((float)voxelValue - colorMapMinValue) / colorMapRange;
+                normalizedValue = ((float)voxelValue - colorMapMinValue) / colorMapRange;
                 break;
             }
             }
@@ -610,7 +610,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
     // Fog attenuation
     const float z = optix::length(eye - hit_point);
     const float fogAttenuation = z > fogStart ? optix::clamp((z - fogStart) / fogThickness, 0.f, 1.f) : 0.f;
-    color = exposure * (color * (1.f - fogAttenuation) + fogAttenuation * bgColor);
+    color = mainExposure * (color * (1.f - fogAttenuation) + fogAttenuation * bgColor);
 
     prd_radiance.result = color;
 }

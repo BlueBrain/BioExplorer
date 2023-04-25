@@ -257,14 +257,14 @@ void BaseWindow::display()
     _renderInput.orientation = camera.getOrientation();
     _renderInput.target = camera.getTarget();
 
-    // const auto& fb = _brayns.getEngine().getFrameBuffer();
-    // const auto& rp = _brayns.getParametersManager().getRenderingParameters();
-    // const auto maxAccumFrames = rp.getMaxAccumFrames();
+    const auto& fb = _brayns.getEngine().getFrameBuffer();
+    const auto& rp = _brayns.getParametersManager().getRenderingParameters();
+    const auto maxAccumFrames = rp.getMaxAccumFrames();
 
-    // if (fb.numAccumFrames() < maxAccumFrames)
-    _brayns.commitAndRender(_renderInput, _renderOutput);
-    // else
-    //     _brayns.commit();
+    if (fb.numAccumFrames() < maxAccumFrames)
+        _brayns.commitAndRender(_renderInput, _renderOutput);
+    else
+        _brayns.commit();
 
     GLenum format = GL_RGBA;
     switch (_renderOutput.colorBufferFormat)
@@ -445,6 +445,18 @@ void BaseWindow::_toggleFrameBuffer()
 {
     size_t mode = static_cast<size_t>(_frameBufferMode);
     mode = (mode + 1) % 3;
+    auto& engine = _brayns.getEngine();
+    const auto& params = engine.getParametersManager().getApplicationParameters();
+    const auto& engineName = params.getEngine();
+    if (engineName == ENGINE_OSPRAY && mode == static_cast<size_t>(AccumulationType::ai_denoised))
+        mode = (mode + 1) % 3;
     _frameBufferMode = static_cast<FrameBufferMode>(mode);
+
+    // Accumulation type
+    auto& frameBuffer = engine.getFrameBuffer();
+    if (_frameBufferMode == FrameBufferMode::COLOR_F32)
+        frameBuffer.setAccumulationType(AccumulationType::ai_denoised);
+    else
+        frameBuffer.setAccumulationType(AccumulationType::linear);
 }
 } // namespace brayns

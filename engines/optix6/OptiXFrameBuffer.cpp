@@ -24,6 +24,7 @@
 #include "OptiXUtils.h"
 
 #include <brayns/common/log.h>
+#include <brayns/parameters/RenderingParameters.h>
 
 #include <optixu/optixu_math_namespace.h>
 
@@ -35,16 +36,14 @@ const std::string VARIABLE_INPUT_BUFFER = "input_buffer";
 const std::string VARIABLE_OUTPUT_BUFFER = "output_buffer";
 const std::string VARIABLE_INPUT_ALBEDO_BUFFER = "input_albedo_buffer";
 const std::string VARIABLE_INPUT_NORMAL_BUFFER = "input_normal_buffer";
-const std::string VARIABLE_EXPOSURE = "exposure";
-const std::string VARIABLE_GAMMA = "gamma";
-const std::string VARIABLE_BLEND = "blend";
-
-const float DEFAULT_EXPOSURE = 1.5f;
-const float DEFAULT_GAMMA = 1.0f;
+const std::string VARIABLE_TONE_MAPPER_EXPOSURE = "exposure";
+const std::string VARIABLE_TONE_MAPPER_GAMMA = "gamma";
+const std::string VARIABLE_DENOISE_BLEND = "blend";
 
 OptiXFrameBuffer::OptiXFrameBuffer(const std::string& name, const Vector2ui& frameSize,
-                                   FrameBufferFormat frameBufferFormat, const AccumulationType accumulationType)
-    : FrameBuffer(name, frameSize, frameBufferFormat, accumulationType)
+                                   FrameBufferFormat frameBufferFormat, const RenderingParameters& renderingParameters)
+    : FrameBuffer(name, frameSize, frameBufferFormat, AccumulationType::linear)
+    , _renderingParameters(renderingParameters)
 {
     resize(frameSize);
 }
@@ -109,7 +108,8 @@ void OptiXFrameBuffer::resize(const Vector2ui& frameSize)
     _accumBuffer = context->createBuffer(RT_BUFFER_INPUT_OUTPUT, RT_FORMAT_FLOAT4, _frameSize.x, _frameSize.y);
     context[CUDA_ACCUMULATION_BUFFER]->set(_accumBuffer);
 
-    if (_accumulationType == AccumulationType::ai_denoised)
+    // if (_accumulationType == AccumulationType::ai_denoised) // Should be done when accumulation type is modified and
+    // ai_denoised set for the first time
     {
         _tonemappedBuffer = context->createBuffer(RT_BUFFER_OUTPUT, RT_FORMAT_FLOAT4, _frameSize.x, _frameSize.y);
         context[CUDA_TONEMAPPED_BUFFER]->set(_tonemappedBuffer);
@@ -139,17 +139,14 @@ void OptiXFrameBuffer::_mapUnsafe()
     rtBufferMap(_outputBuffer->get(), &_colorData);
 
     auto context = OptiXContext::get().getOptixContext();
-    if (_accumulationType == AccumulationType::none)
-        context[CUDA_FRAME_NUMBER]->setUint(0u);
-    else
-        context[CUDA_FRAME_NUMBER]->setUint(_accumulationFrameNumber);
+    context[CUDA_FRAME_NUMBER]->setUint(_accumulationFrameNumber);
 
     _colorBuffer = (uint8_t*)(_colorData);
 
     // Post processing
     if (_accumulationType == AccumulationType::ai_denoised)
     {
-        const bool useDenoiser = (_accumulationFrameNumber >= _numNonDenoisedFrames);
+        const bool useDenoiser = (_accumulationFrameNumber >= _renderingParameters.getNumNonDenoisedFrames());
 
         if (useDenoiser)
             rtBufferMap(_denoisedBuffer->get(), &_floatData);
@@ -170,11 +167,12 @@ void OptiXFrameBuffer::unmap()
 void OptiXFrameBuffer::_unmapUnsafe()
 {
     // Post processing stages
-    const bool useDenoiser = (_accumulationFrameNumber >= _numNonDenoisedFrames);
+    const bool useDenoiser = (_accumulationFrameNumber >= _renderingParameters.getNumNonDenoisedFrames());
     if (_accumulationType == AccumulationType::ai_denoised)
         if (_commandListWithDenoiser && _commandListWithoutDenoiser)
         {
-            optix::Variable(_denoiserStage->queryVariable(VARIABLE_BLEND))->setFloat(_denoiseBlend);
+            optix::Variable(_denoiserStage->queryVariable(VARIABLE_DENOISE_BLEND))
+                ->setFloat(_renderingParameters.getDenoiseBlend());
             try
             {
                 if (useDenoiser)
@@ -202,6 +200,14 @@ void OptiXFrameBuffer::_unmapUnsafe()
         rtBufferUnmap(_tonemappedBuffer->get());
     }
     _floatBuffer = nullptr;
+
+    if (_postprocessingStagesInitialized)
+    {
+        auto context = OptiXContext::get().getOptixContext();
+        context[VARIABLE_TONE_MAPPER_EXPOSURE]->setFloat(_renderingParameters.getToneMapperExposure());
+        context[VARIABLE_TONE_MAPPER_GAMMA]->setFloat(_renderingParameters.getToneMapperGamma());
+        context[VARIABLE_DENOISE_BLEND]->setFloat(_renderingParameters.getDenoiseBlend());
+    }
 }
 
 void OptiXFrameBuffer::setAccumulation(const bool accumulation)
@@ -217,16 +223,18 @@ void OptiXFrameBuffer::_initializePostProcessingStages()
 {
     auto context = OptiXContext::get().getOptixContext();
 
+#if 1
     _tonemapStage = context->createBuiltinPostProcessingStage(STAGE_TONE_MAPPER);
     _tonemapStage->declareVariable(VARIABLE_INPUT_BUFFER)->set(_accumBuffer);
     _tonemapStage->declareVariable(VARIABLE_OUTPUT_BUFFER)->set(_tonemappedBuffer);
-    _tonemapStage->declareVariable(VARIABLE_EXPOSURE)->setFloat(DEFAULT_EXPOSURE);
-    _tonemapStage->declareVariable(VARIABLE_GAMMA)->setFloat(DEFAULT_GAMMA);
+    _tonemapStage->declareVariable(VARIABLE_TONE_MAPPER_EXPOSURE)
+        ->setFloat(_renderingParameters.getToneMapperExposure());
+    _tonemapStage->declareVariable(VARIABLE_TONE_MAPPER_GAMMA)->setFloat(_renderingParameters.getToneMapperGamma());
 
     _denoiserStage = context->createBuiltinPostProcessingStage(STAGE_DENOISER);
     _denoiserStage->declareVariable(VARIABLE_INPUT_BUFFER)->set(_tonemappedBuffer);
     _denoiserStage->declareVariable(VARIABLE_OUTPUT_BUFFER)->set(_denoisedBuffer);
-    _denoiserStage->declareVariable(VARIABLE_BLEND)->setFloat(_denoiseBlend);
+    _denoiserStage->declareVariable(VARIABLE_DENOISE_BLEND)->setFloat(_renderingParameters.getDenoiseBlend());
     _denoiserStage->declareVariable(VARIABLE_INPUT_ALBEDO_BUFFER);
     _denoiserStage->declareVariable(VARIABLE_INPUT_NORMAL_BUFFER);
 
@@ -242,6 +250,25 @@ void OptiXFrameBuffer::_initializePostProcessingStages()
     _commandListWithoutDenoiser->appendLaunch(0, _frameSize.x, _frameSize.y);
     _commandListWithoutDenoiser->appendPostprocessingStage(_tonemapStage, _frameSize.x, _frameSize.y);
     _commandListWithoutDenoiser->finalize();
+#else
+    _denoiserStage = context->createBuiltinPostProcessingStage(STAGE_DENOISER);
+    _denoiserStage->declareVariable(VARIABLE_INPUT_BUFFER)->set(_accumBuffer);
+    _denoiserStage->declareVariable(VARIABLE_OUTPUT_BUFFER)->set(_denoisedBuffer);
+    _denoiserStage->declareVariable(VARIABLE_DENOISE_BLEND)->setFloat(_renderingParameters.getDenoiseBlend());
+    _denoiserStage->declareVariable(VARIABLE_INPUT_ALBEDO_BUFFER);
+    _denoiserStage->declareVariable(VARIABLE_INPUT_NORMAL_BUFFER);
+
+    // With denoiser
+    _commandListWithDenoiser = context->createCommandList();
+    _commandListWithDenoiser->appendLaunch(0, _frameSize.x, _frameSize.y);
+    _commandListWithDenoiser->appendPostprocessingStage(_denoiserStage, _frameSize.x, _frameSize.y);
+    _commandListWithDenoiser->finalize();
+
+    // Without denoiser
+    _commandListWithoutDenoiser = context->createCommandList();
+    _commandListWithoutDenoiser->appendLaunch(0, _frameSize.x, _frameSize.y);
+    _commandListWithoutDenoiser->finalize();
+#endif
 
     _postprocessingStagesInitialized = true;
 }

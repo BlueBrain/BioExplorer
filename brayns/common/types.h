@@ -193,9 +193,8 @@ enum class FrameBufferFormat
 /** Accumulation types */
 enum class AccumulationType
 {
-    none,
-    linear,
-    ai_denoised,
+    linear = 0,
+    ai_denoised = 1,
 };
 
 /** Define the color scheme to be applied to the geometry */

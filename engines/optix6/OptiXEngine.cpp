@@ -167,7 +167,7 @@ void OptiXEngine::_createRenderers()
         properties.setProperty({"giWeight", 0.0, 1.0, 1.0, {"Global illumination weight"}});
         properties.setProperty({"giSamples", 0, 0, 64, {"Global illumination samples"}});
         properties.setProperty({"maxBounces", 3, 1, 20, {"Max ray recursion depth"}});
-        properties.setProperty({"exposure", 1.0, 0.01, 10.0, {"Exposure"}});
+        properties.setProperty({"mainExposure", 1.0, 0.01, 10.0, {"Exposure"}});
         properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
         properties.setProperty({"showBackground", false, {"Show background"}});
 
@@ -190,7 +190,7 @@ void OptiXEngine::_createRenderers()
         context.addRenderer("basic", osp);
 
         PropertyMap properties;
-        properties.setProperty({"exposure", 1.0, 0.01, 10.0, {"Exposure"}});
+        properties.setProperty({"mainExposure", 1.0, 0.01, 10.0, {"Exposure"}});
         addRendererType("basic", properties);
     }
 }
@@ -204,7 +204,8 @@ ScenePtr OptiXEngine::createScene(AnimationParameters& animationParameters, Geom
 FrameBufferPtr OptiXEngine::createFrameBuffer(const std::string& name, const Vector2ui& frameSize,
                                               FrameBufferFormat frameBufferFormat) const
 {
-    return std::make_shared<OptiXFrameBuffer>(name, frameSize, frameBufferFormat, AccumulationType::ai_denoised);
+    return std::make_shared<OptiXFrameBuffer>(name, frameSize, frameBufferFormat,
+                                              _parametersManager.getRenderingParameters());
 }
 
 RendererPtr OptiXEngine::createRenderer(const AnimationParameters& animationParameters,
