@@ -43,14 +43,15 @@ void runGLUT();
  */
 enum class FrameBufferMode
 {
-    COLOR,
-    DEPTH
+    COLOR_I8,
+    COLOR_F32,
+    DEPTH_F32,
 };
 
 class BaseWindow
 {
 public:
-    BaseWindow(Brayns& brayns, FrameBufferMode frameBufferMode = FrameBufferMode::COLOR);
+    BaseWindow(Brayns& brayns, FrameBufferMode frameBufferMode = FrameBufferMode::COLOR_I8);
     virtual ~BaseWindow();
 
     /*! size we'll create a window at */

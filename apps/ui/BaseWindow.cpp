@@ -136,6 +136,10 @@ BaseWindow::BaseWindow(Brayns& brayns, const FrameBufferMode frameBufferMode)
     const auto motionSpeed = _brayns.getCameraManipulator().getMotionSpeed();
     BRAYNS_INFO("Camera       :" << _brayns.getEngine().getCamera());
     BRAYNS_INFO("Motion speed :" << motionSpeed);
+
+    const auto& rp = _brayns.getParametersManager().getRenderingParameters();
+    if (rp.getAccumulationType() == AccumulationType::ai_denoised)
+        _frameBufferMode = FrameBufferMode::COLOR_F32;
 }
 
 BaseWindow::~BaseWindow() {}
@@ -253,14 +257,14 @@ void BaseWindow::display()
     _renderInput.orientation = camera.getOrientation();
     _renderInput.target = camera.getTarget();
 
-    const auto& fb = _brayns.getEngine().getFrameBuffer();
-    const auto& rp = _brayns.getParametersManager().getRenderingParameters();
-    const auto maxAccumFrames = rp.getMaxAccumFrames();
+    // const auto& fb = _brayns.getEngine().getFrameBuffer();
+    // const auto& rp = _brayns.getParametersManager().getRenderingParameters();
+    // const auto maxAccumFrames = rp.getMaxAccumFrames();
 
-    if (fb.numAccumFrames() < maxAccumFrames)
-        _brayns.commitAndRender(_renderInput, _renderOutput);
-    else
-        _brayns.commit();
+    // if (fb.numAccumFrames() < maxAccumFrames)
+    _brayns.commitAndRender(_renderInput, _renderOutput);
+    // else
+    //     _brayns.commit();
 
     GLenum format = GL_RGBA;
     switch (_renderOutput.colorBufferFormat)
@@ -276,16 +280,24 @@ void BaseWindow::display()
     }
 
     GLenum type = GL_FLOAT;
-    GLvoid* buffer = 0;
+    GLvoid* buffer = nullptr;
     switch (_frameBufferMode)
     {
-    case FrameBufferMode::COLOR:
+    case FrameBufferMode::COLOR_I8:
         type = GL_UNSIGNED_BYTE;
         buffer = _renderOutput.colorBuffer.data();
         break;
-    case FrameBufferMode::DEPTH:
+    case FrameBufferMode::COLOR_F32:
+    {
+        type = GL_FLOAT;
+        // format = GL_BGRA;
+        format = GL_RGBA;
+        buffer = _renderOutput.floatBuffer.data();
+        break;
+    }
+    case FrameBufferMode::DEPTH_F32:
         format = GL_LUMINANCE;
-        buffer = _renderOutput.depthBuffer.data();
+        buffer = _renderOutput.floatBuffer.data();
         break;
     default:
         glClearColor(0.f, 0.f, 0.f, 1.f);
@@ -293,7 +305,7 @@ void BaseWindow::display()
     }
 
     if (buffer)
-        glDrawPixels(_renderOutput.frameSize.x, _renderOutput.frameSize.y, format, type, buffer);
+        glDrawPixels(_windowSize.x, _windowSize.y, format, type, buffer);
 
     if (_displayHelp)
     {
@@ -431,9 +443,8 @@ void BaseWindow::_renderBitmapString(const float x, const float y, const std::st
 
 void BaseWindow::_toggleFrameBuffer()
 {
-    if (_frameBufferMode == FrameBufferMode::DEPTH)
-        _frameBufferMode = FrameBufferMode::COLOR;
-    else
-        _frameBufferMode = FrameBufferMode::DEPTH;
+    size_t mode = static_cast<size_t>(_frameBufferMode);
+    mode = (mode + 1) % 3;
+    _frameBufferMode = static_cast<FrameBufferMode>(mode);
 }
 } // namespace brayns

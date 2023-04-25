@@ -31,9 +31,6 @@ OptiXFrameBuffer::OptiXFrameBuffer(const std::string& name, const Vector2ui& fra
                                    FrameBufferFormat frameBufferFormat)
     : FrameBuffer(name, frameSize, frameBufferFormat)
 {
-    auto& state = OptiXContext::getInstance().getState();
-    state.params.accum_buffer = nullptr;
-    state.params.frame_buffer = nullptr;
     resize(frameSize);
 }
 
@@ -128,6 +125,7 @@ void OptiXFrameBuffer::_mapUnsafe()
     switch (_frameBufferFormat)
     {
     case FrameBufferFormat::rgba_i8:
+    case FrameBufferFormat::bgra_i8:
         _colorBuffer = (uint8_t*)(_imageData);
         break;
     case FrameBufferFormat::rgb_f32:

@@ -22,6 +22,7 @@
 #include "OptiXContext.h"
 #include "OptiXMaterial.h"
 #include "OptiXModel.h"
+#include "OptiXVolume.h"
 
 #include <brayns/common/light/Light.h>
 #include <brayns/common/log.h>
@@ -236,6 +237,10 @@ void OptiXScene::commit()
             xform->setChild(boundingBoxGroup);
             _rootGroup->addChild(xform);
         }
+
+        const auto& volumes = modelDescriptor->getModel().getVolumes();
+        for (const auto& volume : volumes)
+            volume->commit();
     }
     _computeBounds();
 

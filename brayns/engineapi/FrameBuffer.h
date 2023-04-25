@@ -39,7 +39,7 @@ public:
     /** @return the color buffer, valid only after map(). */
     virtual const uint8_t* getColorBuffer() const = 0;
     /** @return the depth buffer, valid only after map(). */
-    virtual const float* getDepthBuffer() const = 0;
+    virtual const float* getFloatBuffer() const = 0;
     /** Resize the framebuffer to the new size. */
     virtual void resize(const Vector2ui& frameSize) = 0;
     /** Clear the framebuffer. */
@@ -59,7 +59,8 @@ public:
     virtual void updatePixelOp(const PropertyMap& /*properties*/){};
     //@}
 
-    BRAYNS_API FrameBuffer(const std::string& name, const Vector2ui& frameSize, FrameBufferFormat frameBufferFormat);
+    BRAYNS_API FrameBuffer(const std::string& name, const Vector2ui& frameSize, FrameBufferFormat frameBufferFormat,
+                           const AccumulationType accumulationType);
 
     size_t getColorDepth() const;
     const Vector2ui& getFrameSize() const { return _frameSize; }
@@ -69,12 +70,15 @@ public:
     void incrementAccumFrames() { ++_accumFrames; }
     size_t numAccumFrames() const { return _accumFrames; }
     freeimage::ImagePtr getImage();
+    void setAccumulationType(const AccumulationType accumulationType) { _accumulationType = accumulationType; }
+    AccumulationType getAccumulationType() const { return _accumulationType; }
 
 protected:
     const std::string _name;
     Vector2ui _frameSize;
     FrameBufferFormat _frameBufferFormat;
     bool _accumulation{true};
+    AccumulationType _accumulationType;
     std::atomic_size_t _accumFrames{0};
 };
 } // namespace brayns

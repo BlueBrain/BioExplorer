@@ -44,7 +44,7 @@ public:
     Vector2ui getSize() const final { return _useSubsampling() ? _subsamplingSize() : _frameSize; }
     std::unique_lock<std::mutex> getScopeLock() { return std::unique_lock<std::mutex>(_mapMutex); }
     const uint8_t* getColorBuffer() const final { return _colorBuffer; }
-    const float* getDepthBuffer() const final { return _depthBuffer; }
+    const float* getFloatBuffer() const final { return _floatBuffer; }
     OSPFrameBuffer impl() { return _currentFB(); }
     void createPixelOp(const std::string& name) final;
     void updatePixelOp(const PropertyMap& properties) final;
@@ -61,7 +61,7 @@ private:
     OSPFrameBuffer _frameBuffer{nullptr};
     OSPFrameBuffer _subsamplingFrameBuffer{nullptr};
     uint8_t* _colorBuffer{nullptr};
-    float* _depthBuffer{nullptr};
+    float* _floatBuffer{nullptr};
     OSPPixelOp _pixelOp{nullptr};
     size_t _subsamplingFactor{1};
 

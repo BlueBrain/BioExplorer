@@ -231,7 +231,7 @@ public:
      * where the voxels are set via setVoxels() from any memory location.
      */
     BRAYNS_API virtual SharedDataVolumePtr createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                                                                  const DataType type) const = 0;
+                                                                  const DataType type) = 0;
 
     /**
      * Create a volume with the given dimensions, voxel spacing and data type
@@ -239,7 +239,7 @@ public:
      * storage.
      */
     BRAYNS_API virtual BrickedVolumePtr createBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                                                            const DataType type) const = 0;
+                                                            const DataType type) = 0;
 
     BRAYNS_API virtual void buildBoundingBox() = 0;
     //@}

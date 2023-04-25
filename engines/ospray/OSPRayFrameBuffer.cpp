@@ -43,7 +43,7 @@ OSPFrameBufferFormat toOSPFrameBufferFormat(const FrameBufferFormat frameBufferF
 } // namespace
 OSPRayFrameBuffer::OSPRayFrameBuffer(const std::string& name, const Vector2ui& frameSize,
                                      const FrameBufferFormat frameBufferFormat)
-    : FrameBuffer(name, frameSize, frameBufferFormat)
+    : FrameBuffer(name, frameSize, frameBufferFormat, AccumulationType::linear)
 {
     resize(frameSize);
 }
@@ -134,7 +134,7 @@ void OSPRayFrameBuffer::_mapUnsafe()
         return;
 
     _colorBuffer = (uint8_t*)ospMapFrameBuffer(_currentFB(), OSP_FB_COLOR);
-    _depthBuffer = (float*)ospMapFrameBuffer(_currentFB(), OSP_FB_DEPTH);
+    _floatBuffer = (float*)ospMapFrameBuffer(_currentFB(), OSP_FB_DEPTH);
 }
 
 void OSPRayFrameBuffer::unmap()
@@ -154,10 +154,10 @@ void OSPRayFrameBuffer::_unmapUnsafe()
         _colorBuffer = nullptr;
     }
 
-    if (_depthBuffer)
+    if (_floatBuffer)
     {
-        ospUnmapFrameBuffer(_depthBuffer, _currentFB());
-        _depthBuffer = nullptr;
+        ospUnmapFrameBuffer(_floatBuffer, _currentFB());
+        _floatBuffer = nullptr;
     }
 }
 

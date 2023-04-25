@@ -61,25 +61,24 @@ RT_PROGRAM void any_hit_shadow()
 
 static __device__ inline void shade(bool textured)
 {
-    float3 world_shading_normal =
-        normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
-    float3 world_geometric_normal =
-        normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
+    float3 world_shading_normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
+    float3 world_geometric_normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
 
-    float3 ffnormal = faceforward(world_shading_normal, -ray.direction,
-                                  world_geometric_normal);
+    float3 ffnormal = faceforward(world_shading_normal, -ray.direction, world_geometric_normal);
 
     float3 p_Kd = Kd;
+#if 0
     if (simulation_data.size() > 0)
         p_Kd = calcTransferFunctionColor(value_range.x, value_range.y,
                                          simulation_data[simulation_idx],
                                          colors, opacities);
-    else if (textured)
-        p_Kd = make_float3(
-            optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
+#endif
+    // else
+    if (textured)
+        p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
 
-    phongShade(p_Kd, Ka, Ks, Kr, Ko, reflection_index, refraction_index, phong_exp, glossiness,
-               shading_mode, user_parameter, ffnormal);
+    phongShade(p_Kd, Ka, Ks, Kr, Ko, reflection_index, refraction_index, phong_exp, glossiness, shading_mode,
+               user_parameter, ffnormal);
 }
 
 RT_PROGRAM void closest_hit_radiance()

@@ -60,6 +60,7 @@ set(BRAYNSOPTIX6ENGINE_SOURCES
   OptiXEngine.cpp
   OptiXMaterial.cpp
   OptiXModel.cpp
+  OptiXVolume.cpp
 )
 
 set_source_files_properties(
@@ -74,6 +75,7 @@ set_source_files_properties(
   OptiXEngine.cpp
   OptiXMaterial.cpp
   OptiXModel.cpp
+  OptiXVolume.cpp
   PROPERTIES COMPILE_FLAGS -Wno-shadow
 )
 
@@ -89,6 +91,7 @@ set(BRAYNSOPTIX6ENGINE_HEADERS
   OptiXPerspectiveCamera.h
   OptiXRenderer.h
   OptiXEngine.h
+  OptiXVolume.h
 )
 
 set(BRAYNSOPTIX6ENGINE_LINK_LIBRARIES

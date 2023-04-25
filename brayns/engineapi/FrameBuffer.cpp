@@ -22,10 +22,12 @@
 
 namespace brayns
 {
-FrameBuffer::FrameBuffer(const std::string& name, const Vector2ui& frameSize, const FrameBufferFormat frameBufferFormat)
+FrameBuffer::FrameBuffer(const std::string& name, const Vector2ui& frameSize, const FrameBufferFormat frameBufferFormat,
+                         const AccumulationType accumulationType)
     : _name(name)
     , _frameSize(frameSize)
     , _frameBufferFormat(frameBufferFormat)
+    , _accumulationType(accumulationType)
 {
 }
 

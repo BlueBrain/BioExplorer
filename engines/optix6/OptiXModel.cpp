@@ -21,6 +21,7 @@
 #include "OptiXModel.h"
 #include "OptiXContext.h"
 #include "OptiXMaterial.h"
+#include "OptiXVolume.h"
 
 #include <brayns/common/log.h>
 #include <brayns/common/simulation/AbstractSimulationHandler.h>
@@ -314,16 +315,15 @@ MaterialPtr OptiXModel::createMaterialImpl(const PropertyMap& properties BRAYNS_
 }
 
 /** @copydoc Model::createSharedDataVolume */
-SharedDataVolumePtr OptiXModel::createSharedDataVolume(const Vector3ui& /*dimensions*/, const Vector3f& /*spacing*/,
-                                                       const DataType /*type*/) const
+SharedDataVolumePtr OptiXModel::createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
+                                                       const DataType type)
 {
-    throw std::runtime_error("Not implemented");
-    return nullptr;
+    return std::make_shared<OptiXVolume>(this, dimensions, spacing, type, _volumeParameters);
 }
 
 /** @copydoc Model::createBrickedVolume */
 BrickedVolumePtr OptiXModel::createBrickedVolume(const Vector3ui& /*dimensions*/, const Vector3f& /*spacing*/,
-                                                 const DataType /*type*/) const
+                                                 const DataType /*type*/)
 {
     throw std::runtime_error("Not implemented");
     return nullptr;
@@ -332,15 +332,27 @@ BrickedVolumePtr OptiXModel::createBrickedVolume(const Vector3ui& /*dimensions*/
 void OptiXModel::_commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities,
                                              const Vector2d valueRange)
 {
+    if (_colorMapBuffer)
+        _colorMapBuffer->destroy();
+
+    const auto nbColors = colors.size();
+    Vector4fs data(nbColors);
+    for (uint64_t i = 0; i < colors.size(); ++i)
+    {
+        const auto& color = colors[i];
+        const auto& opacity = opacities[i * 256 / nbColors];
+        data[i] = Vector4f(color.z, color.y, color.x, opacity);
+    }
+
     auto context = OptiXContext::get().getOptixContext();
+    _colorMapBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, nbColors);
+    memcpy(_colorMapBuffer->map(), data.data(), nbColors * sizeof(Vector4f));
+    _colorMapBuffer->unmap();
 
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3, _optixTransferFunction.colors, context["colors"], colors,
-              colors.size());
-
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _optixTransferFunction.opacities, context["opacities"], opacities,
-              opacities.size());
-
-    context["value_range"]->setFloat(valueRange.x, valueRange.y);
+    context["colorMap"]->setBuffer(_colorMapBuffer);
+    context["colorMapSize"]->setUint(nbColors);
+    context["colorMapMinValue"]->setFloat(valueRange.x);
+    context["colorMapRange"]->setFloat(valueRange.y - valueRange.x);
 }
 
 void OptiXModel::_commitSimulationDataImpl(const float* frameData, const size_t frameSize)

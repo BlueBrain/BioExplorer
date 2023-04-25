@@ -27,6 +27,7 @@
 
 namespace brayns
 {
+
 /**
  * Abstract implementation of the ray-tracing engine. What we call the
  * ray-tracing engine is a 3rd party acceleration library, typically OSPRay,

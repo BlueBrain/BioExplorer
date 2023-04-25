@@ -21,6 +21,14 @@
 #ifndef COMMONTYPES_H
 #define COMMONTYPES_H
 
+enum CameraStereoMode
+{
+    mono = 0,
+    left = 1,
+    right = 2,
+    side_by_side = 3
+};
+
 enum MaterialShadingMode
 {
     undefined_shading_mode = 0,

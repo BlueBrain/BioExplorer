@@ -175,6 +175,11 @@ class MeshLoader;
 
 class Statistics;
 
+/** Supported engines */
+const std::string ENGINE_OSPRAY = "ospray";
+const std::string ENGINE_OPTIX_6 = "optix6";
+const std::string ENGINE_OPTIX_7 = "optix7";
+
 /** Define the frame buffer format */
 enum class FrameBufferFormat
 {
@@ -183,6 +188,14 @@ enum class FrameBufferFormat
     rgb_i8,
     rgb_f32,
     none
+};
+
+/** Accumulation types */
+enum class AccumulationType
+{
+    none,
+    linear,
+    ai_denoised,
 };
 
 /** Define the color scheme to be applied to the geometry */
@@ -274,7 +287,7 @@ struct RenderOutput
 {
     Vector2i frameSize;
     uint8_ts colorBuffer;
-    floats depthBuffer;
+    floats floatBuffer;
     FrameBufferFormat colorBufferFormat;
 };
 

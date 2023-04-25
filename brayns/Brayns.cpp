@@ -230,11 +230,11 @@ struct Brayns::Impl : public PluginAPI
             renderOutput.colorBufferFormat = frameBuffer.getFrameBufferFormat();
         }
 
-        const auto depthBuffer = frameBuffer.getDepthBuffer();
-        if (depthBuffer)
+        const auto floatBuffer = frameBuffer.getFloatBuffer();
+        if (floatBuffer)
         {
-            const size_t size = frameSize.x * frameSize.y;
-            renderOutput.depthBuffer.assign(depthBuffer, depthBuffer + size);
+            const size_t size = frameSize.x * frameSize.y * sizeof(float);
+            renderOutput.floatBuffer.assign(floatBuffer, floatBuffer + size);
         }
 
         renderOutput.frameSize = frameSize;
@@ -258,16 +258,7 @@ private:
     {
         auto engineName = _parametersManager.getApplicationParameters().getEngine();
 
-        if (string_utils::toLowercase(engineName) == "optix6")
-            engineName = "braynsOptix6Engine";
-        else if (string_utils::toLowercase(engineName) == "optix7")
-            engineName = "braynsOptix7Engine";
-        else if (string_utils::toLowercase(engineName) == "ospray")
-            engineName = "braynsOSPRayEngine";
-
         _engine = _engineFactory.create(engineName);
-        if (!_engine)
-            throw std::runtime_error("Unsupported engine: " + engineName);
 
         // Default sun light
         _sunLight = std::make_shared<DirectionalLight>(DEFAULT_SUN_DIRECTION, DEFAULT_SUN_ANGULAR_DIAMETER,
@@ -344,7 +335,8 @@ private:
 
                 BRAYNS_INFO("Loading '" << path << "'");
 
-                auto progress = [&](const std::string& msg, float t) {
+                auto progress = [&](const std::string& msg, float t)
+                {
                     constexpr auto MIN_SECS = 5;
                     constexpr auto MIN_PERCENTAGE = 10;
 
@@ -401,12 +393,12 @@ private:
                                                   std::bind(&Brayns::Impl::_decreaseAnimationFrame, this));
         _keyboardHandler.registerKeyboardShortcut(']', "Increase animation frame by 1",
                                                   std::bind(&Brayns::Impl::_increaseAnimationFrame, this));
-        _keyboardHandler.registerKeyboardShortcut('f', "Enable fly mode", [this]() {
-            Brayns::Impl::_setupCameraManipulator(CameraMode::flying);
-        });
-        _keyboardHandler.registerKeyboardShortcut('i', "Enable inspect mode", [this]() {
-            Brayns::Impl::_setupCameraManipulator(CameraMode::inspect);
-        });
+        _keyboardHandler.registerKeyboardShortcut('f', "Enable fly mode",
+                                                  [this]()
+                                                  { Brayns::Impl::_setupCameraManipulator(CameraMode::flying); });
+        _keyboardHandler.registerKeyboardShortcut('i', "Enable inspect mode",
+                                                  [this]()
+                                                  { Brayns::Impl::_setupCameraManipulator(CameraMode::inspect); });
         _keyboardHandler.registerKeyboardShortcut('r', "Set animation frame to 0",
                                                   std::bind(&Brayns::Impl::_resetAnimationFrame, this));
         _keyboardHandler.registerKeyboardShortcut('p', "Enable/Disable animation playback",
@@ -419,10 +411,12 @@ private:
                                                   std::bind(&Brayns::Impl::_decreaseMotionSpeed, this));
         _keyboardHandler.registerKeyboardShortcut('c', "Log current camera information",
                                                   std::bind(&Brayns::Impl::_displayCameraInformation, this));
-        _keyboardHandler.registerKeyboardShortcut('b', "Toggle benchmarking", [this]() {
-            auto& ap = _parametersManager.getApplicationParameters();
-            ap.setBenchmarking(!ap.isBenchmarking());
-        });
+        _keyboardHandler.registerKeyboardShortcut('b', "Toggle benchmarking",
+                                                  [this]()
+                                                  {
+                                                      auto& ap = _parametersManager.getApplicationParameters();
+                                                      ap.setBenchmarking(!ap.isBenchmarking());
+                                                  });
     }
 
     void _increaseAnimationFrame() { _parametersManager.getAnimationParameters().jumpFrames(1); }

@@ -89,6 +89,10 @@ public:
     void setMaxAccumFrames(const size_t value) { _updateValue(_maxAccumFrames, value); }
     size_t getMaxAccumFrames() const { return _maxAccumFrames; }
 
+    /** If the rendering should be refined by accumulating multiple passes */
+    AccumulationType getAccumulationType() const { return _accumulationType; }
+    const std::string getAccumulationTypeAsString(const AccumulationType value);
+
 protected:
     void parse(const po::variables_map& vm) final;
 
@@ -103,6 +107,7 @@ protected:
     bool _headLight{true};
     double _varianceThreshold{-1.};
     size_t _maxAccumFrames{100};
+    AccumulationType _accumulationType{AccumulationType::linear};
 
     SERIALIZATION_FRIEND(RenderingParameters)
 };
