@@ -351,6 +351,14 @@ void OptiXContext::_initialize()
         _optixContext->createProgramFromPTXString(CUDA_TRIANGLES_MESH, CUDA_FUNC_BOUNDS);
     _intersects[OptixGeometryType::triangleMesh] =
         _optixContext->createProgramFromPTXString(CUDA_TRIANGLES_MESH, CUDA_FUNC_INTERSECTION);
+
+    // Volumes
+    ::optix::Buffer buffer = _optixContext->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_BYTE, 0);
+    _optixContext["volumeData"]->setBuffer(buffer);
+    _optixContext["volumeDimensions"]->setUint(0, 0, 0);
+    _optixContext["volumeOffset"]->setFloat(0.f, 0.f, 0.f);
+    _optixContext["volumeElementSpacing"]->setFloat(0.f, 0.f, 0.f);
+
     PLUGIN_DEBUG("Context created");
 }
 

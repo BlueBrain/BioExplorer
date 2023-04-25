@@ -81,11 +81,11 @@ void OptiXEngine::_createCameras()
 
     const bool isStereo = _parametersManager.getApplicationParameters().isStereo();
     Property stereoProperty{"stereo", isStereo, {"Stereo"}};
-    stereoProperty.markReadOnly();
     Property fovy{"fovy", 45., .1, 360., {"Field of view"}};
     Property aspect{"aspect", 1., {"Aspect ratio"}};
     aspect.markReadOnly();
     Property eyeSeparation{"interpupillaryDistance", 0.0635, {"Eye separation"}};
+    Property enableClippingPlanes{"enableClippingPlanes", true, {"Clipping"}};
 
     OptiXContext& context = OptiXContext::get();
 
@@ -95,13 +95,10 @@ void OptiXEngine::_createCameras()
         properties.setProperty(aspect);
         properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
         properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
-        if (isStereo)
-        {
-            properties.setProperty(stereoProperty);
-            properties.setProperty(eyeSeparation);
-            properties.setProperty({"zeroParallaxPlane", 1., {"Zero parallax plane"}});
-        }
-
+        properties.setProperty({"nearClip", 0., 0., 1e6, {"Near clip"}});
+        properties.setProperty(enableClippingPlanes);
+        properties.setProperty(stereoProperty);
+        properties.setProperty(eyeSeparation);
         auto camera = std::make_shared<OptiXPerspectiveCamera>();
         context.addCamera("perspective", camera);
         addCameraType("perspective", properties);

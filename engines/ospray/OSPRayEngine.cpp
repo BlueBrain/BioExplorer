@@ -191,7 +191,6 @@ void OSPRayEngine::_createCameras()
 
     const bool isStereo = _parametersManager.getApplicationParameters().isStereo();
     Property stereoProperty{"stereo", isStereo, {"Stereo"}};
-    stereoProperty.markReadOnly();
     Property fovy{"fovy", 45., .1, 360., {"Field of view"}};
     Property aspect{"aspect", 1., {"Aspect ratio"}};
     aspect.markReadOnly();
@@ -204,12 +203,10 @@ void OSPRayEngine::_createCameras()
         properties.setProperty(aspect);
         properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
         properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
-        if (isStereo)
-        {
-            properties.setProperty(stereoProperty);
-            properties.setProperty(eyeSeparation);
-        }
+        properties.setProperty({"nearClip", 0., 0., 1e6, {"Near clip"}});
         properties.setProperty(enableClippingPlanes);
+        properties.setProperty(stereoProperty);
+        properties.setProperty(eyeSeparation);
         addCameraType("perspective", properties);
     }
     {
