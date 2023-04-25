@@ -314,7 +314,7 @@ void MediaMakerPlugin::_exportDepthBuffer() const
 {
     auto &frameBuffer = _api->getEngine().getFrameBuffer();
     frameBuffer.map();
-    const auto depthBuffer = frameBuffer.getDepthBuffer();
+    const auto depthBuffer = frameBuffer.getFloatBuffer();
     const auto &size = frameBuffer.getSize();
 
     const auto filename = _getFileName("tiff");
