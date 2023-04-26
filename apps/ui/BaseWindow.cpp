@@ -307,17 +307,20 @@ void BaseWindow::display()
     if (buffer)
         glDrawPixels(_windowSize.x, _windowSize.y, format, type, buffer);
 
+    const auto time = std::chrono::steady_clock::now();
+    const uint64_t millisecondsElapsed = std::chrono::duration_cast<std::chrono::milliseconds>(time - _chrono).count();
+    if (millisecondsElapsed < _hintDelay)
+        _renderBitmapString(0.f, -0.9f, _hintMessage);
+    else
+        _hintMessage = "";
+
     if (_displayHelp)
     {
         auto& keyHandler = _brayns.getKeyboardHandler();
         std::string help;
         for (const auto& value : keyHandler.help())
             help += value + "\n";
-
-        glLogicOp(GL_XOR);
-        glEnable(GL_COLOR_LOGIC_OP);
-        _renderBitmapString(-0.98f, 0.95f, help);
-        glDisable(GL_COLOR_LOGIC_OP);
+        _renderBitmapString(0.f, 0.8f, help);
     }
 
     _timer.stop();
@@ -347,7 +350,7 @@ void BaseWindow::drawPixels(const Vector3f* framebuffer)
     glutSwapBuffers();
 }
 
-void BaseWindow::setTitle(const char* title)
+void BaseWindow::_setTitle(const char* title)
 {
     assert(_windowID >= 0);
     glutSetWindow(_windowID);
@@ -378,6 +381,12 @@ void BaseWindow::keypress(const char key, const Vector2f&)
     case 'h':
         _displayHelp = !_displayHelp;
         break;
+    case '$':
+        _setHint("My mind won't fit on a server somewhere I could never afford");
+        break;
+    case '*':
+        _setHint("You can't download the sun. You'll never download me");
+        break;
     case 27:
     case 'Q':
 #ifdef __APPLE__
@@ -387,7 +396,10 @@ void BaseWindow::keypress(const char key, const Vector2f&)
 #endif
         break;
     default:
-        _brayns.getKeyboardHandler().handleKeyboardShortcut(key);
+        auto& kh = _brayns.getKeyboardHandler();
+        kh.handleKeyboardShortcut(key);
+        if (_hintMessage.empty())
+            _setHint(kh.getKeyboardShortcutDescription(key));
     }
 
     _brayns.getEngine().commit();
@@ -435,9 +447,14 @@ void BaseWindow::_renderBitmapString(const float, const float, const std::string
 #else
 void BaseWindow::_renderBitmapString(const float x, const float y, const std::string& text)
 {
-    glRasterPos3f(x, y, 0.f);
-    glutBitmapString(GLUT_BITMAP_8_BY_13, reinterpret_cast<const unsigned char*>(text.c_str()));
-    glRasterPos3f(-1.f, -1.f, 0.f);
+    const unsigned char* msg = reinterpret_cast<const unsigned char*>(text.c_str());
+    const auto font = GLUT_BITMAP_HELVETICA_18;
+    const float normalizeTextLength =
+        static_cast<float>(glutBitmapLength(font, msg)) / static_cast<float>(_windowSize.x);
+    const float normalizeTextHeight = static_cast<float>(glutBitmapHeight(font)) / static_cast<float>(_windowSize.y);
+    glRasterPos2f(x - normalizeTextLength, y - normalizeTextHeight);
+    glutBitmapString(font, msg);
+    glRasterPos2f(-1.f, -1.f);
 }
 #endif
 
@@ -446,8 +463,8 @@ void BaseWindow::_toggleFrameBuffer()
     size_t mode = static_cast<size_t>(_frameBufferMode);
     mode = (mode + 1) % 2;
     auto& engine = _brayns.getEngine();
-    const auto& params = engine.getParametersManager().getApplicationParameters();
-    const auto& engineName = params.getEngine();
+    const auto& ap = engine.getParametersManager().getApplicationParameters();
+    const auto& engineName = ap.getEngine();
     if (engineName == ENGINE_OSPRAY && mode == static_cast<size_t>(AccumulationType::ai_denoised))
         mode = (mode + 1) % 2;
     _frameBufferMode = static_cast<FrameBufferMode>(mode);
@@ -455,8 +472,26 @@ void BaseWindow::_toggleFrameBuffer()
     // Accumulation type
     auto& frameBuffer = engine.getFrameBuffer();
     if (_frameBufferMode == FrameBufferMode::COLOR_F32)
+    {
+        const auto& rp = engine.getParametersManager().getRenderingParameters();
+        if (rp.getToneMapperExposure() > 0.f)
+            _setHint("Post processing: AI Denoiser + Tone mapper");
+        else
+            _setHint("Post processing: AI Denoiser");
         frameBuffer.setAccumulationType(AccumulationType::ai_denoised);
+    }
     else
+    {
+        _setHint("Post processing: None");
         frameBuffer.setAccumulationType(AccumulationType::linear);
+    }
 }
+
+void BaseWindow::_setHint(const std::string& message, const uint64_t milliseconds)
+{
+    _hintMessage = message;
+    _hintDelay = milliseconds;
+    _chrono = std::chrono::steady_clock::now();
+}
+
 } // namespace brayns

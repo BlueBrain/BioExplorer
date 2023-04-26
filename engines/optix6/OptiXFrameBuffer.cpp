@@ -127,10 +127,6 @@ void OptiXFrameBuffer::_mapUnsafe()
     if (!_postprocessingStagesInitialized)
         _initializePostProcessingStages();
 
-    // Mapping
-    if (!_outputBuffer)
-        return;
-
     rtBufferMap(_outputBuffer->get(), &_colorData);
 
     auto context = OptiXContext::get().getOptixContext();
@@ -164,6 +160,7 @@ void OptiXFrameBuffer::_unmapUnsafe()
     // Post processing stages
     const bool useDenoiser = (_accumulationFrameNumber >= _renderingParameters.getNumNonDenoisedFrames());
     if (_accumulationType == AccumulationType::ai_denoised)
+    {
         if (_commandListWithDenoiser && _commandListWithDenoiserAndToneMapper)
         {
             optix::Variable(_denoiserStage->queryVariable(VARIABLE_DENOISE_BLEND))
@@ -177,20 +174,12 @@ void OptiXFrameBuffer::_unmapUnsafe()
             }
         }
 
-    // Unmap
-    if (!_outputBuffer)
-        return;
-
-    rtBufferUnmap(_outputBuffer->get());
-    _colorBuffer = nullptr;
-
-    if (_accumulationType == AccumulationType::ai_denoised)
-    {
         if (useDenoiser)
             rtBufferUnmap(_denoisedBuffer->get());
         rtBufferUnmap(_tonemappedBuffer->get());
     }
-    _floatBuffer = nullptr;
+
+    rtBufferUnmap(_outputBuffer->get());
 
     if (_postprocessingStagesInitialized)
     {
