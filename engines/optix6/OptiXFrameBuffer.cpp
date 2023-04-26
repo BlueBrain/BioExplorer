@@ -42,7 +42,7 @@ const std::string VARIABLE_DENOISE_BLEND = "blend";
 
 OptiXFrameBuffer::OptiXFrameBuffer(const std::string& name, const Vector2ui& frameSize,
                                    FrameBufferFormat frameBufferFormat, const RenderingParameters& renderingParameters)
-    : FrameBuffer(name, frameSize, frameBufferFormat, AccumulationType::linear)
+    : FrameBuffer(name, frameSize, frameBufferFormat)
     , _renderingParameters(renderingParameters)
 {
     resize(frameSize);
@@ -57,20 +57,19 @@ OptiXFrameBuffer::~OptiXFrameBuffer()
 
 void OptiXFrameBuffer::_cleanup()
 {
+    // Buffers
     RT_DESTROY(_outputBuffer);
     RT_DESTROY(_accumBuffer);
+    RT_DESTROY(_tonemappedBuffer);
+    RT_DESTROY(_denoisedBuffer);
 
-    if (_accumulationType == AccumulationType::ai_denoised)
-    {
-        // Post processing
-        RT_DESTROY(_denoiserStage);
-        RT_DESTROY(_tonemapStage);
-        RT_DESTROY(_tonemappedBuffer);
-        RT_DESTROY(_denoisedBuffer);
-        RT_DESTROY(_commandListWithDenoiser);
-        RT_DESTROY(_commandListWithoutDenoiser);
-        _postprocessingStagesInitialized = false;
-    }
+    // Post processing
+    RT_DESTROY(_denoiserStage);
+    RT_DESTROY(_tonemapStage);
+    RT_DESTROY(_denoiserWithMappingStage);
+    RT_DESTROY(_commandListWithDenoiser);
+    RT_DESTROY(_commandListWithDenoiserAndToneMapper);
+    _postprocessingStagesInitialized = false;
 }
 
 void OptiXFrameBuffer::resize(const Vector2ui& frameSize)
@@ -108,15 +107,11 @@ void OptiXFrameBuffer::resize(const Vector2ui& frameSize)
     _accumBuffer = context->createBuffer(RT_BUFFER_INPUT_OUTPUT, RT_FORMAT_FLOAT4, _frameSize.x, _frameSize.y);
     context[CUDA_ACCUMULATION_BUFFER]->set(_accumBuffer);
 
-    // if (_accumulationType == AccumulationType::ai_denoised) // Should be done when accumulation type is modified and
-    // ai_denoised set for the first time
-    {
-        _tonemappedBuffer = context->createBuffer(RT_BUFFER_OUTPUT, RT_FORMAT_FLOAT4, _frameSize.x, _frameSize.y);
-        context[CUDA_TONEMAPPED_BUFFER]->set(_tonemappedBuffer);
+    _tonemappedBuffer = context->createBuffer(RT_BUFFER_OUTPUT, RT_FORMAT_FLOAT4, _frameSize.x, _frameSize.y);
+    context[CUDA_TONEMAPPED_BUFFER]->set(_tonemappedBuffer);
 
-        _denoisedBuffer = context->createBuffer(RT_BUFFER_OUTPUT, RT_FORMAT_FLOAT4, _frameSize.x, _frameSize.y);
-        context[CUDA_DENOISED_BUFFER]->set(_denoisedBuffer);
-    }
+    _denoisedBuffer = context->createBuffer(RT_BUFFER_OUTPUT, RT_FORMAT_FLOAT4, _frameSize.x, _frameSize.y);
+    context[CUDA_DENOISED_BUFFER]->set(_denoisedBuffer);
     clear();
 }
 
@@ -129,13 +124,13 @@ void OptiXFrameBuffer::map()
 void OptiXFrameBuffer::_mapUnsafe()
 {
     // Initialization
-    if (_accumulationType == AccumulationType::ai_denoised)
-        if (!_postprocessingStagesInitialized)
-            _initializePostProcessingStages();
+    if (!_postprocessingStagesInitialized)
+        _initializePostProcessingStages();
 
     // Mapping
     if (!_outputBuffer)
         return;
+
     rtBufferMap(_outputBuffer->get(), &_colorData);
 
     auto context = OptiXContext::get().getOptixContext();
@@ -169,20 +164,16 @@ void OptiXFrameBuffer::_unmapUnsafe()
     // Post processing stages
     const bool useDenoiser = (_accumulationFrameNumber >= _renderingParameters.getNumNonDenoisedFrames());
     if (_accumulationType == AccumulationType::ai_denoised)
-        if (_commandListWithDenoiser && _commandListWithoutDenoiser)
+        if (_commandListWithDenoiser && _commandListWithDenoiserAndToneMapper)
         {
             optix::Variable(_denoiserStage->queryVariable(VARIABLE_DENOISE_BLEND))
                 ->setFloat(_renderingParameters.getDenoiseBlend());
-            try
+            if (useDenoiser)
             {
-                if (useDenoiser)
-                    _commandListWithDenoiser->execute();
+                if (_renderingParameters.getToneMapperExposure() > 0.f)
+                    _commandListWithDenoiserAndToneMapper->execute();
                 else
-                    _commandListWithoutDenoiser->execute();
-            }
-            catch (...)
-            {
-                BRAYNS_ERROR("Hum... something went wrong!");
+                    _commandListWithDenoiser->execute();
             }
         }
 
@@ -223,7 +214,6 @@ void OptiXFrameBuffer::_initializePostProcessingStages()
 {
     auto context = OptiXContext::get().getOptixContext();
 
-#if 1
     _tonemapStage = context->createBuiltinPostProcessingStage(STAGE_TONE_MAPPER);
     _tonemapStage->declareVariable(VARIABLE_INPUT_BUFFER)->set(_accumBuffer);
     _tonemapStage->declareVariable(VARIABLE_OUTPUT_BUFFER)->set(_tonemappedBuffer);
@@ -232,43 +222,33 @@ void OptiXFrameBuffer::_initializePostProcessingStages()
     _tonemapStage->declareVariable(VARIABLE_TONE_MAPPER_GAMMA)->setFloat(_renderingParameters.getToneMapperGamma());
 
     _denoiserStage = context->createBuiltinPostProcessingStage(STAGE_DENOISER);
-    _denoiserStage->declareVariable(VARIABLE_INPUT_BUFFER)->set(_tonemappedBuffer);
-    _denoiserStage->declareVariable(VARIABLE_OUTPUT_BUFFER)->set(_denoisedBuffer);
-    _denoiserStage->declareVariable(VARIABLE_DENOISE_BLEND)->setFloat(_renderingParameters.getDenoiseBlend());
-    _denoiserStage->declareVariable(VARIABLE_INPUT_ALBEDO_BUFFER);
-    _denoiserStage->declareVariable(VARIABLE_INPUT_NORMAL_BUFFER);
-
-    // With denoiser
-    _commandListWithDenoiser = context->createCommandList();
-    _commandListWithDenoiser->appendLaunch(0, _frameSize.x, _frameSize.y);
-    _commandListWithDenoiser->appendPostprocessingStage(_tonemapStage, _frameSize.x, _frameSize.y);
-    _commandListWithDenoiser->appendPostprocessingStage(_denoiserStage, _frameSize.x, _frameSize.y);
-    _commandListWithDenoiser->finalize();
-
-    // Without denoiser
-    _commandListWithoutDenoiser = context->createCommandList();
-    _commandListWithoutDenoiser->appendLaunch(0, _frameSize.x, _frameSize.y);
-    _commandListWithoutDenoiser->appendPostprocessingStage(_tonemapStage, _frameSize.x, _frameSize.y);
-    _commandListWithoutDenoiser->finalize();
-#else
-    _denoiserStage = context->createBuiltinPostProcessingStage(STAGE_DENOISER);
     _denoiserStage->declareVariable(VARIABLE_INPUT_BUFFER)->set(_accumBuffer);
     _denoiserStage->declareVariable(VARIABLE_OUTPUT_BUFFER)->set(_denoisedBuffer);
     _denoiserStage->declareVariable(VARIABLE_DENOISE_BLEND)->setFloat(_renderingParameters.getDenoiseBlend());
     _denoiserStage->declareVariable(VARIABLE_INPUT_ALBEDO_BUFFER);
     _denoiserStage->declareVariable(VARIABLE_INPUT_NORMAL_BUFFER);
 
+    _denoiserWithMappingStage = context->createBuiltinPostProcessingStage(STAGE_DENOISER);
+    _denoiserWithMappingStage->declareVariable(VARIABLE_INPUT_BUFFER)->set(_tonemappedBuffer);
+    _denoiserWithMappingStage->declareVariable(VARIABLE_OUTPUT_BUFFER)->set(_denoisedBuffer);
+    _denoiserWithMappingStage->declareVariable(VARIABLE_DENOISE_BLEND)
+        ->setFloat(_renderingParameters.getDenoiseBlend());
+    _denoiserWithMappingStage->declareVariable(VARIABLE_INPUT_ALBEDO_BUFFER);
+    _denoiserWithMappingStage->declareVariable(VARIABLE_INPUT_NORMAL_BUFFER);
+
     // With denoiser
     _commandListWithDenoiser = context->createCommandList();
     _commandListWithDenoiser->appendLaunch(0, _frameSize.x, _frameSize.y);
     _commandListWithDenoiser->appendPostprocessingStage(_denoiserStage, _frameSize.x, _frameSize.y);
     _commandListWithDenoiser->finalize();
 
-    // Without denoiser
-    _commandListWithoutDenoiser = context->createCommandList();
-    _commandListWithoutDenoiser->appendLaunch(0, _frameSize.x, _frameSize.y);
-    _commandListWithoutDenoiser->finalize();
-#endif
+    // With denoiser and tone mapper
+    _commandListWithDenoiserAndToneMapper = context->createCommandList();
+    _commandListWithDenoiserAndToneMapper->appendLaunch(0, _frameSize.x, _frameSize.y);
+    _commandListWithDenoiserAndToneMapper->appendPostprocessingStage(_tonemapStage, _frameSize.x, _frameSize.y);
+    _commandListWithDenoiserAndToneMapper->appendPostprocessingStage(_denoiserWithMappingStage, _frameSize.x,
+                                                                     _frameSize.y);
+    _commandListWithDenoiserAndToneMapper->finalize();
 
     _postprocessingStagesInitialized = true;
 }

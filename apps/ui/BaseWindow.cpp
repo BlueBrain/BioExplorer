@@ -444,12 +444,12 @@ void BaseWindow::_renderBitmapString(const float x, const float y, const std::st
 void BaseWindow::_toggleFrameBuffer()
 {
     size_t mode = static_cast<size_t>(_frameBufferMode);
-    mode = (mode + 1) % 3;
+    mode = (mode + 1) % 2;
     auto& engine = _brayns.getEngine();
     const auto& params = engine.getParametersManager().getApplicationParameters();
     const auto& engineName = params.getEngine();
     if (engineName == ENGINE_OSPRAY && mode == static_cast<size_t>(AccumulationType::ai_denoised))
-        mode = (mode + 1) % 3;
+        mode = (mode + 1) % 2;
     _frameBufferMode = static_cast<FrameBufferMode>(mode);
 
     // Accumulation type
