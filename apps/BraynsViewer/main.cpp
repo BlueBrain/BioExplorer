@@ -26,26 +26,18 @@
 #include <brayns/engineapi/Engine.h>
 #include <brayns/parameters/ParametersManager.h>
 
-brayns::Brayns* braynsInstance;
-
-void cleanup()
-{
-    delete braynsInstance;
-}
-
 int main(int argc, const char** argv)
 {
     try
     {
-        braynsInstance = new brayns::Brayns(argc, argv);
+        brayns::Brayns braynsInstance(argc, argv);
         brayns::initGLUT(&argc, argv);
-        brayns::BraynsViewer braynsViewer(*braynsInstance);
+        brayns::BraynsViewer braynsViewer(braynsInstance);
         BRAYNS_INFO("Initializing Application...");
         const brayns::Vector2ui& size =
-            braynsInstance->getParametersManager().getApplicationParameters().getWindowSize();
+            braynsInstance.getParametersManager().getApplicationParameters().getWindowSize();
 
         braynsViewer.create("Brayns Viewer", size.x, size.y);
-        atexit(cleanup);
         brayns::runGLUT();
     }
     catch (const std::runtime_error& e)

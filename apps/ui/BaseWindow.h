@@ -61,10 +61,8 @@ public:
     virtual void forceRedraw();
 
     /*! set window title */
-    void setTitle(const char* title);
+    void setTitle(const std::string& title) { _setTitle(title.c_str()); }
 
-    /*! set window title */
-    void setTitle(const std::string& title) { setTitle(title.c_str()); }
     // ------------------------------------------------------------------
     // event handling - override this to change this widgets behavior
     // to input events
@@ -107,20 +105,10 @@ public:
     virtual void keypress(char key, const Vector2f& where);
     virtual void specialkey(int key, const Vector2f& where);
 
-    /** Saves current frame to disk. The filename is defined by a prefix and a
-     * frame index (\<prefix\>_\<frame\>_%08d.ppm). The file uses the ppm
-     * encoding
-     * and is written to the working folder of the application.
-     *
-     * @param frameIndex index of the current frame
-     * @param prefix prefix used for the filename
-     */
-    void saveFrameToDisk(size_t frameIndex, const std::string& prefix);
-
-    void saveSceneToBinaryFile(const std::string& fn);
-    void loadSceneFromBinaryFile(const std::string& fn);
-
 protected:
+    void _setTitle(const char* title);
+    void _setHint(const std::string& message, const uint64_t milliseconds = 3000);
+
     virtual void _registerKeyboardShortcuts();
     void _renderBitmapString(float x, float y, const std::string& text);
 
@@ -149,6 +137,10 @@ protected:
 
     RenderInput _renderInput;
     RenderOutput _renderOutput;
+
+    std::string _hintMessage;
+    uint64_t _hintDelay{0};
+    std::chrono::time_point<std::chrono::steady_clock> _chrono;
 
 private:
     void _exitApplication();

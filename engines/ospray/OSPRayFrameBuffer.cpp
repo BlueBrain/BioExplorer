@@ -43,7 +43,7 @@ OSPFrameBufferFormat toOSPFrameBufferFormat(const FrameBufferFormat frameBufferF
 } // namespace
 OSPRayFrameBuffer::OSPRayFrameBuffer(const std::string& name, const Vector2ui& frameSize,
                                      const FrameBufferFormat frameBufferFormat)
-    : FrameBuffer(name, frameSize, frameBufferFormat, AccumulationType::linear)
+    : FrameBuffer(name, frameSize, frameBufferFormat)
 {
     resize(frameSize);
 }

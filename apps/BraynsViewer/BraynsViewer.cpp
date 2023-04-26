@@ -34,15 +34,16 @@ BraynsViewer::BraynsViewer(Brayns& brayns)
 
 void BraynsViewer::display()
 {
+    const auto& pm = _brayns.getParametersManager();
     std::stringstream ss;
-    ss << "Brayns Viewer";
-    auto animationFrame = _brayns.getParametersManager().getAnimationParameters().getFrame();
+    ss << "BioExplorer Viewer";
+    const auto animationFrame = pm.getAnimationParameters().getFrame();
+    const auto engineName = pm.getApplicationParameters().getEngine();
+    ss << " [" << engineName << "]";
     if (animationFrame != std::numeric_limits<uint32_t>::max())
         ss << " (frame " << animationFrame << ")";
     if (_brayns.getParametersManager().getApplicationParameters().isBenchmarking())
-    {
         ss << " @ " << _timer.perSecondSmoothed() << " FPS";
-    }
     setTitle(ss.str());
 
     BaseWindow::display();

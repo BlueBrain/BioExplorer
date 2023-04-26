@@ -102,7 +102,8 @@ void KeyboardHandler::_buildHelp()
 {
     _helpStrings.clear();
 
-    const auto specialKeyToString = [](const SpecialKey key) {
+    const auto specialKeyToString = [](const SpecialKey key)
+    {
         switch (key)
         {
         case SpecialKey::RIGHT:
@@ -137,4 +138,14 @@ const std::vector<std::string>& KeyboardHandler::help() const
 {
     return _helpStrings;
 }
+
+const std::string KeyboardHandler::getKeyboardShortcutDescription(const unsigned char key)
+{
+    auto it = _registeredShortcuts.find(key);
+    if (it != _registeredShortcuts.end())
+        return (*it).second.description;
+
+    return "";
+}
+
 } // namespace brayns

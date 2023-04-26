@@ -59,8 +59,7 @@ public:
     virtual void updatePixelOp(const PropertyMap& /*properties*/){};
     //@}
 
-    BRAYNS_API FrameBuffer(const std::string& name, const Vector2ui& frameSize, FrameBufferFormat frameBufferFormat,
-                           const AccumulationType accumulationType);
+    BRAYNS_API FrameBuffer(const std::string& name, const Vector2ui& frameSize, FrameBufferFormat frameBufferFormat);
 
     size_t getColorDepth() const;
     const Vector2ui& getFrameSize() const { return _frameSize; }
@@ -78,7 +77,7 @@ protected:
     Vector2ui _frameSize;
     FrameBufferFormat _frameBufferFormat;
     bool _accumulation{true};
-    AccumulationType _accumulationType;
+    AccumulationType _accumulationType{AccumulationType::linear};
     std::atomic_size_t _accumFrames{0};
 };
 } // namespace brayns

@@ -59,6 +59,8 @@ public:
 
     const std::vector<std::string>& help() const;
 
+    const std::string getKeyboardShortcutDescription(const unsigned char key);
+
 private:
     void _buildHelp();
 

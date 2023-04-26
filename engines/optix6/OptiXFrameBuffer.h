@@ -68,9 +68,11 @@ private:
     // Post processing
     void _initializePostProcessingStages();
     optix::CommandList _commandListWithDenoiser{nullptr};
-    optix::CommandList _commandListWithoutDenoiser{nullptr};
+    optix::CommandList _commandListWithDenoiserAndToneMapper{nullptr};
+
     optix::PostprocessingStage _tonemapStage{nullptr};
     optix::PostprocessingStage _denoiserStage{nullptr};
+    optix::PostprocessingStage _denoiserWithMappingStage{nullptr};
 
     uint64_t _accumulationFrameNumber{1u};
 

@@ -27,9 +27,15 @@
 
 #define BRAYNS_OPTIX_SAMPLE_NAME "braynsOptix7Engine"
 
-#define RT_DESTROY(__object) \
-    if (__object)            \
-        __object->destroy(); \
+#define RT_DESTROY(__object)     \
+    try                          \
+    {                            \
+        if (__object)            \
+            __object->destroy(); \
+    }                            \
+    catch (...)                  \
+    {                            \
+    }                            \
     __object = nullptr;
 
 static void context_log_cb(unsigned int level, const char* tag, const char* message, void* /*cbdata */)

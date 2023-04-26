@@ -21,6 +21,7 @@
 #include "OptiXContext.h"
 #include "Logs.h"
 #include "OptiXTypes.h"
+#include "OptiXUtils.h"
 
 #include <engines/optix6/braynsOptix6Engine_generated_Cones.cu.ptx.h>
 #include <engines/optix6/braynsOptix6Engine_generated_Cylinders.cu.ptx.h>
@@ -123,8 +124,7 @@ OptiXContext::OptiXContext()
 
 OptiXContext::~OptiXContext()
 {
-    if (_optixContext)
-        _optixContext->destroy();
+    RT_DESTROY(_optixContext);
 }
 
 OptiXContext& OptiXContext::get()
