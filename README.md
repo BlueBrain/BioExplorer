@@ -65,7 +65,7 @@ On the third anniversary of the first lock-down, we look back at how #MachineLea
 
 ## BioExplorer goes RTX!
 
-Thanks to its [NVIDIA OptiX](https://developer.nvidia.com/rtx/ray-tracing/optix) 6.5 backend compatibility, the BioExplorer can now take full advantage of the NVIDIA RTX acceleration hardware capabilities to deliver extremely fast and high-quality rendering of scientific datasets.
+BioExplorer now benefits from [NVIDIA OptiX](https://developer.nvidia.com/rtx/ray-tracing/optix) backend compatibility, allowing it to fully utilize the NVIDIA RTX acceleration hardware capabilities for fast and high-quality rendering of scientific datasets. This advanced feature, along with the new stereo perspective camera, enables virtual reality use-cases with pure ray-tracing. Additionally, an AI-powered denoiser has been incorporated to enhance the real-time rendering quality.
 
 Simply add the OptiX engine command line argument when starting the BioExplorer.
 ```bash
