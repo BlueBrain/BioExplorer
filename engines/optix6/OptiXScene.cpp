@@ -128,14 +128,33 @@ ModelPtr OptiXScene::createModel() const
     return std::make_unique<OptiXModel>(_animationParameters, _volumeParameters);
 }
 
+void OptiXScene::_commitVolumeParameters()
+{
+    auto context = OptiXContext::get().getOptixContext();
+    context["volumeGradientShadingEnabled"]->setUint(_volumeParameters.getGradientShading());
+    context["volumeAdaptiveMaxSamplingRate"]->setFloat(_volumeParameters.getAdaptiveMaxSamplingRate());
+    context["volumeAdaptiveSampling"]->setUint(_volumeParameters.getAdaptiveSampling());
+    context["volumeSingleShade"]->setUint(_volumeParameters.getSingleShade());
+    context["volumePreIntegration"]->setUint(_volumeParameters.getPreIntegration());
+    context["volumeSamplingRate"]->setFloat(_volumeParameters.getSamplingRate());
+    const Vector3f specular = _volumeParameters.getSpecular();
+    context["volumeSpecular"]->setFloat(specular.x, specular.y, specular.z);
+
+    // context["volumeClippingBoxLower"]->setFloat(_parameters.getClipBox().getMin());
+    // context["volumeClippingBoxUpper"]->setFloat(_parameters.getClipBox().getMax());
+}
+
 void OptiXScene::commit()
 {
     // Always upload transfer function and simulation data if changed
     for (size_t i = 0; i < _modelDescriptors.size(); ++i)
     {
         auto& model = _modelDescriptors[i]->getModel();
-        model.commitTransferFunction();
         model.commitSimulationData();
+
+        _commitVolumeParameters();
+        if (model.commitTransferFunction())
+            markModified();
     }
 
     commitLights();
@@ -237,10 +256,6 @@ void OptiXScene::commit()
             xform->setChild(boundingBoxGroup);
             _rootGroup->addChild(xform);
         }
-
-        const auto& volumes = modelDescriptor->getModel().getVolumes();
-        for (const auto& volume : volumes)
-            volume->commit();
     }
     _computeBounds();
 

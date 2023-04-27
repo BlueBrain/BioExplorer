@@ -21,6 +21,7 @@
 #include "OptiXModel.h"
 #include "OptiXContext.h"
 #include "OptiXMaterial.h"
+#include "OptiXUtils.h"
 #include "OptiXVolume.h"
 
 #include <brayns/common/log.h>
@@ -332,27 +333,32 @@ BrickedVolumePtr OptiXModel::createBrickedVolume(const Vector3ui& /*dimensions*/
 void OptiXModel::_commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities,
                                              const Vector2d valueRange)
 {
-    if (_colorMapBuffer)
-        _colorMapBuffer->destroy();
+    RT_DESTROY(_tfColorsBuffer);
+    RT_DESTROY(_tfOpacitiesBuffer);
 
     const auto nbColors = colors.size();
-    Vector4fs data(nbColors);
+    floats normalizedOpacities(nbColors);
+    Vector3fs gbrColors(nbColors);
     for (uint64_t i = 0; i < colors.size(); ++i)
     {
-        const auto& color = colors[i];
-        const auto& opacity = opacities[i * 256 / nbColors];
-        data[i] = Vector4f(color.z, color.y, color.x, opacity);
+        gbrColors[i] = {colors[i].z, colors[i].y, colors[i].x};
+        normalizedOpacities[i] = opacities[i * 256 / nbColors];
     }
 
     auto context = OptiXContext::get().getOptixContext();
-    _colorMapBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, nbColors);
-    memcpy(_colorMapBuffer->map(), data.data(), nbColors * sizeof(Vector4f));
-    _colorMapBuffer->unmap();
+    _tfColorsBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3, nbColors);
+    memcpy(_tfColorsBuffer->map(), colors.data(), nbColors * sizeof(Vector3f));
+    _tfColorsBuffer->unmap();
+    context["tfColors"]->setBuffer(_tfColorsBuffer);
 
-    context["colorMap"]->setBuffer(_colorMapBuffer);
-    context["colorMapSize"]->setUint(nbColors);
-    context["colorMapMinValue"]->setFloat(valueRange.x);
-    context["colorMapRange"]->setFloat(valueRange.y - valueRange.x);
+    _tfOpacitiesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, nbColors);
+    memcpy(_tfOpacitiesBuffer->map(), normalizedOpacities.data(), nbColors * sizeof(float));
+    _tfOpacitiesBuffer->unmap();
+    context["tfOpacities"]->setBuffer(_tfOpacitiesBuffer);
+
+    context["tfMapSize"]->setUint(nbColors);
+    context["tfMinValue"]->setFloat(valueRange.x);
+    context["tfRange"]->setFloat(valueRange.y - valueRange.x);
 }
 
 void OptiXModel::_commitSimulationDataImpl(const float* frameData, const size_t frameSize)

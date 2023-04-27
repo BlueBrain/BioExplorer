@@ -56,6 +56,8 @@ public:
     bool supportsConcurrentSceneUpdates() const final { return false; }
 
 private:
+    void _commitVolumeParameters();
+
     optix::Buffer _lightBuffer{nullptr};
     std::vector<BasicLight> _optixLights;
     ::optix::Group _rootGroup{nullptr};

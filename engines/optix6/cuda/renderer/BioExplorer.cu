@@ -17,7 +17,6 @@
  */
 
 #include "BioExplorer.h"
-#include "TransferFunction.h"
 
 #include <optix.h>
 #include <optixu/optixu_math_namespace.h>
@@ -47,13 +46,6 @@ rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
 rtDeclareVariable(int, albedoMetallic_map, , );
 rtDeclareVariable(float2, texcoord, attribute texcoord, );
 
-// Simulation data
-rtBuffer<float3> colors;
-rtBuffer<float> opacities;
-rtDeclareVariable(float2, value_range, , );
-rtBuffer<float> simulation_data;
-rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
-
 RT_PROGRAM void any_hit_shadow()
 {
     phongShadowed(Ko);
@@ -67,13 +59,6 @@ static __device__ inline void shade(bool textured)
     float3 ffnormal = faceforward(world_shading_normal, -ray.direction, world_geometric_normal);
 
     float3 p_Kd = Kd;
-#if 0
-    if (simulation_data.size() > 0)
-        p_Kd = calcTransferFunctionColor(value_range.x, value_range.y,
-                                         simulation_data[simulation_idx],
-                                         colors, opacities);
-#endif
-    // else
     if (textured)
         p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
 
