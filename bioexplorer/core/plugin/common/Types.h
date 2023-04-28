@@ -34,9 +34,6 @@ namespace bioexplorer
 {
 using namespace brayns;
 
-// Consts
-const Vector3d UP_VECTOR = {0.0, 1.0, 0.0};
-
 const std::string CONTENTS_DELIMITER = "||||";
 
 // Metadata

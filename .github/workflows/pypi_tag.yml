@@ -20,8 +20,6 @@ jobs:
     - name: Build Python package
       run: |
         cd bioexplorer/pythonsdk
-        python -m pip install pip==9.0.2
-        python -m pip install brayns==1.0.0
         python -m pip install --upgrade pip
         pip install -r requirements_dev.txt    
         python setup.py sdist

@@ -174,14 +174,6 @@ std::vector<std::string> split(
 Transformation combineTransformations(const Transformations& transformations);
 
 /**
- * @brief Safely converts an orientation vector into a quaternion
- *
- * @param v Orientation vector
- * @return Quaterniond Resulting quaternion
- */
-Quaterniond safeQuatlookAt(const Vector3d& v);
-
-/**
  * @brief Intersection between a ray and a box
  *
  * @param origin Origin of the ray

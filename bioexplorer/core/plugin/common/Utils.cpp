@@ -68,16 +68,6 @@ const std::vector<double> randoms = {
     0.870761691473,   0.368350833275, 0.228505271004,  0.3741636072,
     0.347291149036,   0.753449262487, 0.890757112194,  0.167150644248};
 
-Quaterniond safeQuatlookAt(const Vector3d& v)
-{
-    const Vector3d vector = normalize(v);
-    auto upVector = UP_VECTOR;
-    if (abs(dot(vector, upVector)) > 0.999)
-        // Gimble lock
-        upVector = Vector3d(0.0, 0.0, 1.0);
-    return quatLookAtRH(vector, upVector);
-}
-
 std::string& ltrim(std::string& s)
 {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(),
