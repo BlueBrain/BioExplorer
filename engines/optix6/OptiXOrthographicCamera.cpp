@@ -25,12 +25,8 @@
 #include <engines/optix6/braynsOptix6Engine_generated_Constantbg.cu.ptx.h>
 #include <engines/optix6/braynsOptix6Engine_generated_OrthographicCamera.cu.ptx.h>
 
-const std::string CUDA_ORTHOGRAPHIC_CAMERA = braynsOptix6Engine_generated_OrthographicCamera_cu_ptx;
-const std::string CUDA_MISS = braynsOptix6Engine_generated_Constantbg_cu_ptx;
-
-const std::string CUDA_FUNC_ORTHOGRAPHIC_CAMERA = "orthographicCamera";
-const std::string CUDA_ATTR_CAMERA_DIR = "dir";
-const std::string CUDA_ATTR_CAMERA_HEIGHT = "height";
+const std::string PTX_ORTHOGRAPHIC_CAMERA = braynsOptix6Engine_generated_OrthographicCamera_cu_ptx;
+const std::string PTX_MISS = braynsOptix6Engine_generated_Constantbg_cu_ptx;
 
 namespace brayns
 {
@@ -38,10 +34,9 @@ OptiXOrthographicCamera::OptiXOrthographicCamera()
     : OptiXCameraProgram()
 {
     auto context = OptiXContext::get().getOptixContext();
-    _rayGenerationProgram =
-        context->createProgramFromPTXString(CUDA_ORTHOGRAPHIC_CAMERA, CUDA_FUNC_ORTHOGRAPHIC_CAMERA);
-    _missProgram = context->createProgramFromPTXString(CUDA_MISS, CUDA_FUNC_CAMERA_ENVMAP_MISS);
-    _exceptionProgram = context->createProgramFromPTXString(CUDA_ORTHOGRAPHIC_CAMERA, CUDA_FUNC_CAMERA_EXCEPTION);
+    _rayGenerationProgram = context->createProgramFromPTXString(PTX_ORTHOGRAPHIC_CAMERA, CUDA_FUNC_ORTHOGRAPHIC_CAMERA);
+    _missProgram = context->createProgramFromPTXString(PTX_MISS, CUDA_FUNC_CAMERA_ENVMAP_MISS);
+    _exceptionProgram = context->createProgramFromPTXString(PTX_ORTHOGRAPHIC_CAMERA, CUDA_FUNC_CAMERA_EXCEPTION);
 }
 
 void OptiXOrthographicCamera::commit(const OptiXCamera& camera, ::optix::Context context)
@@ -49,8 +44,8 @@ void OptiXOrthographicCamera::commit(const OptiXCamera& camera, ::optix::Context
     const auto pos = camera.getPosition();
     const auto up = glm::rotate(camera.getOrientation(), Vector3d(0, 1, 0));
 
-    const auto height = camera.getPropertyOrValue<double>(CUDA_ATTR_CAMERA_HEIGHT, 1.0);
-    const auto aspect = camera.getPropertyOrValue<double>(CUDA_ATTR_CAMERA_ASPECT, 1.0);
+    const auto height = camera.getPropertyOrValue<double>(CONTEXT_CAMERA_HEIGHT, 1.0);
+    const auto aspect = camera.getPropertyOrValue<double>(CONTEXT_CAMERA_ASPECT, 1.0);
 
     Vector3d dir = normalize(camera.getTarget() - pos);
     Vector3d pos_du = normalize(cross(dir, up));
@@ -61,14 +56,14 @@ void OptiXOrthographicCamera::commit(const OptiXCamera& camera, ::optix::Context
 
     const Vector3d pos_00 = pos - 0.5 * pos_du - 0.5 * pos_dv;
 
-    context[CUDA_ATTR_CAMERA_W]->setFloat(pos_00.x, pos_00.y, pos_00.z);
-    context[CUDA_ATTR_CAMERA_U]->setFloat(pos_du.x, pos_du.y, pos_du.z);
-    context[CUDA_ATTR_CAMERA_V]->setFloat(pos_dv.x, pos_dv.y, pos_dv.z);
+    context[CONTEXT_CAMERA_W]->setFloat(pos_00.x, pos_00.y, pos_00.z);
+    context[CONTEXT_CAMERA_U]->setFloat(pos_du.x, pos_du.y, pos_du.z);
+    context[CONTEXT_CAMERA_V]->setFloat(pos_dv.x, pos_dv.y, pos_dv.z);
 
-    context[CUDA_ATTR_CAMERA_EYE]->setFloat(pos.x, pos.y, pos.z);
-    context[CUDA_ATTR_CAMERA_DIR]->setFloat(dir.x, dir.y, dir.z);
-    context[CUDA_ATTR_CAMERA_HEIGHT]->setFloat(height);
-    context[CUDA_ATTR_CAMERA_BAD_COLOR]->setFloat(1.f, 0.f, 1.f);
-    context[CUDA_ATTR_CAMERA_OFFSET]->setFloat(0, 0);
+    context[CONTEXT_CAMERA_EYE]->setFloat(pos.x, pos.y, pos.z);
+    context[CONTEXT_CAMERA_DIR]->setFloat(dir.x, dir.y, dir.z);
+    context[CONTEXT_CAMERA_HEIGHT]->setFloat(height);
+    context[CONTEXT_CAMERA_BAD_COLOR]->setFloat(1.f, 0.f, 1.f);
+    context[CONTEXT_CAMERA_OFFSET]->setFloat(0, 0);
 }
 } // namespace brayns

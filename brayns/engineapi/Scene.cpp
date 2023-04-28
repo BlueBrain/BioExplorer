@@ -82,7 +82,7 @@ void Scene::copyFrom(const Scene& rhs)
         for (const auto& modelDesc : rhs._modelDescriptors)
             _modelDescriptors.push_back(modelDesc->clone(createModel()));
     }
-    _computeBounds();
+    computeBounds();
 
     *_backgroundMaterial = *rhs._backgroundMaterial;
     _backgroundMaterial->markModified();
@@ -135,7 +135,7 @@ size_t Scene::addModel(ModelDescriptorPtr modelDescriptor)
             modelDescriptor->addInstance({true, true, modelDescriptor->getTransformation()});
     }
 
-    _computeBounds();
+    computeBounds();
     markModified();
 
     return modelDescriptor->getModelID();
@@ -359,20 +359,23 @@ void Scene::buildDefault()
     for (size_t materialId = 0; materialId < 10; ++materialId)
     {
         auto material = model->createMaterial(materialId, "Material");
-        // material->setOpacity(0.5f);
         material->setOpacity(0.75f);
         material->setRefractionIndex(1.5f);
         material->setReflectionIndex(0.5f);
+        // material->setOpacity(1.f);
         // material->setDiffuseColor(
         //     {rand() % 100 / 100.f, rand() % 100 / 100.f, rand() % 100 /
         //     100.f});
         material->setDiffuseColor({materialId * 0.1f, 0.f, 1.f - materialId * 0.1f});
         material->setSpecularColor({1.f, 1.f, 1.f});
         material->setSpecularExponent(100.f);
+        material->setShadingMode(MaterialShadingMode::basic);
 
-        model->addSphere(materialId, {{-5.f + materialId, 0.f, 0.f}, 0.5f});
-        model->addCylinder(materialId, {{-5.f + materialId, 0.f, 0.f}, {-5.f + materialId, 2.f, 0.f}, 0.25f});
-        model->addCone(materialId, {{-5.f + materialId, 0.f, 0.f}, {-5.f + materialId, -2.f, 0.f}, 0.25f, 0.f});
+        model->addSphere(materialId, {{-50.f + materialId * 10.f, 0.f, 0.f}, 5.f});
+        model->addCylinder(materialId,
+                           {{-50.f + materialId * 10.f, 0.f, 0.f}, {-50.f + materialId * 10.f, 20.f, 0.f}, 2.5f});
+        model->addCone(materialId,
+                       {{-50.f + materialId * 10.f, 0.f, 0.f}, {-50.f + materialId * 10.f, -20.f, 0.f}, 2.5f, 0.f});
     }
 #endif
 
@@ -424,14 +427,27 @@ bool Scene::hasEnvironmentMap() const
     return !_environmentMap.empty();
 }
 
-void Scene::_computeBounds()
+void Scene::computeBounds()
 {
     std::unique_lock<std::shared_timed_mutex> lock(_modelMutex);
     _bounds.reset();
-    for (auto modelDescriptor : _modelDescriptors)
+    for (const auto modelDescriptor : _modelDescriptors)
     {
-        modelDescriptor->computeBounds();
-        _bounds.merge(modelDescriptor->getBounds());
+        const auto& modelBounds = modelDescriptor->getModel().getBounds();
+        Transformation modelTransformation;
+        modelTransformation.setTranslation(modelBounds.getCenter());
+
+        const auto modelHalfSize = modelBounds.getSize() / 2.0;
+
+        Transformation finalTransformation = modelTransformation * modelDescriptor->getTransformation();
+        _bounds.merge(finalTransformation.getTranslation() - modelHalfSize);
+        _bounds.merge(finalTransformation.getTranslation() + modelHalfSize);
+        for (const auto& instance : modelDescriptor->getInstances())
+        {
+            finalTransformation = modelTransformation * instance.getTransformation();
+            _bounds.merge(finalTransformation.getTranslation() - modelHalfSize);
+            _bounds.merge(finalTransformation.getTranslation() + modelHalfSize);
+        }
     }
 
     if (_bounds.isEmpty())

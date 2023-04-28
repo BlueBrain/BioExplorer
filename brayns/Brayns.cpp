@@ -337,8 +337,7 @@ private:
 
                 BRAYNS_INFO("Loading '" << path << "'");
 
-                auto progress = [&](const std::string& msg, float t)
-                {
+                auto progress = [&](const std::string& msg, float t) {
                     constexpr auto MIN_SECS = 5;
                     constexpr auto MIN_PERCENTAGE = 10;
 
@@ -395,12 +394,12 @@ private:
                                                   std::bind(&Brayns::Impl::_decreaseAnimationFrame, this));
         _keyboardHandler.registerKeyboardShortcut(']', "Increase animation frame by 1",
                                                   std::bind(&Brayns::Impl::_increaseAnimationFrame, this));
-        _keyboardHandler.registerKeyboardShortcut('f', "Enable fly mode",
-                                                  [this]()
-                                                  { Brayns::Impl::_setupCameraManipulator(CameraMode::flying); });
-        _keyboardHandler.registerKeyboardShortcut('i', "Enable inspect mode",
-                                                  [this]()
-                                                  { Brayns::Impl::_setupCameraManipulator(CameraMode::inspect); });
+        _keyboardHandler.registerKeyboardShortcut('f', "Enable fly mode", [this]() {
+            Brayns::Impl::_setupCameraManipulator(CameraMode::flying);
+        });
+        _keyboardHandler.registerKeyboardShortcut('i', "Enable inspect mode", [this]() {
+            Brayns::Impl::_setupCameraManipulator(CameraMode::inspect);
+        });
         _keyboardHandler.registerKeyboardShortcut('r', "Set animation frame to 0",
                                                   std::bind(&Brayns::Impl::_resetAnimationFrame, this));
         _keyboardHandler.registerKeyboardShortcut('p', "Enable/Disable animation playback",
@@ -413,12 +412,10 @@ private:
                                                   std::bind(&Brayns::Impl::_decreaseMotionSpeed, this));
         _keyboardHandler.registerKeyboardShortcut('c', "Log current camera information",
                                                   std::bind(&Brayns::Impl::_displayCameraInformation, this));
-        _keyboardHandler.registerKeyboardShortcut('b', "Toggle benchmarking",
-                                                  [this]()
-                                                  {
-                                                      auto& ap = _parametersManager.getApplicationParameters();
-                                                      ap.setBenchmarking(!ap.isBenchmarking());
-                                                  });
+        _keyboardHandler.registerKeyboardShortcut('b', "Toggle benchmarking", [this]() {
+            auto& ap = _parametersManager.getApplicationParameters();
+            ap.setBenchmarking(!ap.isBenchmarking());
+        });
     }
 
     void _increaseAnimationFrame() { _parametersManager.getAnimationParameters().jumpFrames(1); }
@@ -435,8 +432,15 @@ private:
 
     void _resetCamera()
     {
+        auto& scene = _engine->getScene();
+        scene.computeBounds();
+        const auto& bounds = scene.getBounds();
         auto& camera = _engine->getCamera();
-        camera.reset();
+        const auto size = bounds.getSize();
+        const double diag = 1.6 * std::max(std::max(size.x, size.y), size.z);
+        camera.setPosition(bounds.getCenter() + Vector3d(0.0, 0.0, diag));
+        camera.setTarget(bounds.getCenter());
+        camera.setOrientation(safeQuatlookAt(Vector3d(0.0, 0.0, -1.0)));
     }
 
     void _increaseMotionSpeed() { _cameraManipulator->updateMotionSpeed(DEFAULT_MOTION_ACCELERATION); }

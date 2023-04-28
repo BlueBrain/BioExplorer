@@ -63,7 +63,7 @@ OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const V
     }
 
     auto context = OptiXContext::get().getOptixContext();
-    context["volumeDataTypeSize"]->setUint(_dataTypeSize);
+    context[CONTEXT_VOLUME_DATA_TYPE_SIZE]->setUint(_dataTypeSize);
 
     _createBox(model);
 }
@@ -107,7 +107,7 @@ void OptiXVolume::_createBox(OptiXModel* model)
         auto material = model->createMaterial(materialId, "box" + std::to_string(materialId));
         material->setDiffuseColor(BLACK);
         material->setSpecularColor(BLACK);
-        material->setOpacity(0.0f);
+        material->setOpacity(0.f);
 
         auto& triangleMesh = model->getTriangleMeshes()[materialId];
         for (size_t j = 0; j < 6; ++j)
@@ -123,13 +123,6 @@ void OptiXVolume::_createBox(OptiXModel* model)
     model->mergeBounds(bounds);
 }
 
-void OptiXVolume::setDataRange(const Vector2f& range)
-{
-    auto context = OptiXContext::get().getOptixContext();
-    context["colorMapMinValue"]->setFloat(range.x);
-    context["colorMapRange"]->setFloat(range.y - range.x);
-}
-
 void OptiXVolume::setVoxels(const void* voxels)
 {
     RT_DESTROY(_buffer);
@@ -139,10 +132,10 @@ void OptiXVolume::setVoxels(const void* voxels)
     _buffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_BYTE, bufferSize);
     memcpy(_buffer->map(), voxels, bufferSize);
     _buffer->unmap();
-    context["volumeData"]->setBuffer(_buffer);
-    context["volumeDimensions"]->setUint(_dimensions.x, _dimensions.y, _dimensions.z);
-    context["volumeOffset"]->setFloat(_offset.x, _offset.y, _offset.z);
-    context["volumeElementSpacing"]->setFloat(_spacing.x, _spacing.y, _spacing.z);
+    context[CONTEXT_VOLUME_DATA]->setBuffer(_buffer);
+    context[CONTEXT_VOLUME_DIMENSIONS]->setUint(_dimensions.x, _dimensions.y, _dimensions.z);
+    context[CONTEXT_VOLUME_OFFSET]->setFloat(_offset.x, _offset.y, _offset.z);
+    context[CONTEXT_VOLUME_ELEMENT_SPACING]->setFloat(_spacing.x, _spacing.y, _spacing.z);
 }
 
 } // namespace brayns

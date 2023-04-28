@@ -169,7 +169,7 @@ void OptiXEngine::_createRenderers()
         properties.setProperty({"maxBounces", 3, 1, 20, {"Max ray recursion depth"}});
         properties.setProperty({"mainExposure", 1.0, 0.01, 10.0, {"Exposure"}});
         properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
-        properties.setProperty({"showBackground", false, {"Show background"}});
+        properties.setProperty({"showBackground", true, {"Show background"}});
 
         addRendererType("bio_explorer", properties);
     }
@@ -191,6 +191,7 @@ void OptiXEngine::_createRenderers()
 
         PropertyMap properties;
         properties.setProperty({"mainExposure", 1.0, 0.01, 10.0, {"Exposure"}});
+        properties.setProperty({"showBackground", true, {"Show background"}});
         addRendererType("basic", properties);
     }
 }

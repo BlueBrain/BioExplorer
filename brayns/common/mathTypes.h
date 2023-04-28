@@ -143,10 +143,24 @@ using Vector3d = glm::vec<3, double>;
 using Vector4d = glm::vec<4, double>;
 typedef std::vector<Vector2d> Vector2ds;
 
+// Consts
+const Vector3d UP_VECTOR = {0.0, 1.0, 0.0};
+
 /**
  * Quaternion definitions
  */
 using Quaterniond = glm::tquat<double, glm::highp>; //!< Double quaternion.
+
+inline Quaterniond safeQuatlookAt(const Vector3d& v)
+{
+    const Vector3d vector = normalize(v);
+    auto upVector = UP_VECTOR;
+    if (abs(dot(vector, upVector)) > 0.999)
+        // Gimble lock
+        upVector = Vector3d(0.0, 0.0, 1.0);
+    return quatLookAtRH(vector, upVector);
+}
+
 } // namespace brayns
 
 #endif // _mathTypes_h_

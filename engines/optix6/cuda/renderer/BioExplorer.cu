@@ -33,11 +33,10 @@ rtDeclareVariable(float3, Ks, , );
 rtDeclareVariable(float3, Kr, , );
 rtDeclareVariable(float3, Ko, , );
 rtDeclareVariable(float, glossiness, , );
+rtDeclareVariable(float, refraction_index, , );
+rtDeclareVariable(float, phong_exp, , );
 rtDeclareVariable(uint, shading_mode, , );
 rtDeclareVariable(float, user_parameter, , );
-rtDeclareVariable(float, refraction_index, , );
-rtDeclareVariable(float, reflection_index, , );
-rtDeclareVariable(float, phong_exp, , );
 
 rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
 rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
@@ -62,8 +61,7 @@ static __device__ inline void shade(bool textured)
     if (textured)
         p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
 
-    phongShade(p_Kd, Ka, Ks, Kr, Ko, reflection_index, refraction_index, phong_exp, glossiness, shading_mode,
-               user_parameter, ffnormal);
+    phongShade(p_Kd, Ka, Ks, Kr, Ko, refraction_index, phong_exp, glossiness, shading_mode, user_parameter, ffnormal);
 }
 
 RT_PROGRAM void closest_hit_radiance()

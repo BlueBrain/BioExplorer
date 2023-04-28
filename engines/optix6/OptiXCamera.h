@@ -27,18 +27,6 @@
 
 namespace brayns
 {
-
-const std::string CUDA_FUNC_CAMERA_EXCEPTION = "exception";
-const std::string CUDA_FUNC_CAMERA_ENVMAP_MISS = "envmap_miss";
-
-const std::string CUDA_ATTR_CAMERA_BAD_COLOR = "bad_color";
-const std::string CUDA_ATTR_CAMERA_OFFSET = "offset";
-const std::string CUDA_ATTR_CAMERA_EYE = "eye";
-const std::string CUDA_ATTR_CAMERA_U = "U";
-const std::string CUDA_ATTR_CAMERA_V = "V";
-const std::string CUDA_ATTR_CAMERA_W = "W";
-const std::string CUDA_ATTR_CAMERA_ASPECT = "aspect";
-
 /**
    OptiX specific camera
 

@@ -160,7 +160,7 @@ void OSPRayScene::commit()
 
     ospCommit(_rootModel);
 
-    _computeBounds();
+    computeBounds();
 }
 
 bool OSPRayScene::commitLights()

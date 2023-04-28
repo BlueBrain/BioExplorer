@@ -38,7 +38,7 @@ public:
                 const VolumeParameters& params);
     ~OptiXVolume();
 
-    void setDataRange(const Vector2f& range) final;
+    void setDataRange(const Vector2f&) final{};
     void commit() final{};
 
     void setVoxels(const void* voxels) final;

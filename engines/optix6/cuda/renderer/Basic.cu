@@ -43,11 +43,15 @@ rtDeclareVariable(int, albedoMetallic_map, , );
 rtDeclareVariable(float2, texcoord, attribute texcoord, );
 
 // Simulation data
-// rtBuffer<float3> colors;
-// rtBuffer<float> opacities;
-// rtDeclareVariable(float2, value_range, , );
-// rtBuffer<float> simulation_data;
-// rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
+rtBuffer<float> simulation_data;
+rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
+
+// Transfer function
+rtBuffer<float3> tfColors;
+rtBuffer<float> tfOpacities;
+rtDeclareVariable(float, tfMinValue, , );
+rtDeclareVariable(float, tfRange, , );
+rtDeclareVariable(uint, tfSize, , );
 
 // Rendering
 rtDeclareVariable(float, mainExposure, , );
@@ -60,14 +64,17 @@ static __device__ inline void shade(bool textured)
     float3 p_normal = optix::faceforward(world_shading_normal, -ray.direction, world_geometric_normal);
 
     float3 p_Kd;
-    // if (simulation_data.size() > 0)
-    //     p_Kd =
-    //         calcTransferFunctionColor(value_range.x, value_range.y, simulation_data[simulation_idx], colors,
-    //         opacities);
     if (textured)
         p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
     else
         p_Kd = Kd;
+
+    if (simulation_data.size() > 0)
+    {
+        const float4 userDataColor = calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange,
+                                                               simulation_data[simulation_idx], tfColors, tfOpacities);
+        p_Kd = p_Kd * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;
+    }
 
     prd.result = mainExposure * p_Kd * max(0.f, optix::dot(-ray.direction, p_normal));
 }

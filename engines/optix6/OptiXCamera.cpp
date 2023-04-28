@@ -22,12 +22,6 @@
 
 #include <brayns/common/log.h>
 
-namespace
-{
-const std::string CUDA_CLIP_PLANES = "clip_planes";
-const std::string CUDA_NB_CLIP_PLANES = "nb_clip_planes";
-} // namespace
-
 namespace brayns
 {
 void OptiXCamera::commit()
@@ -66,8 +60,8 @@ void OptiXCamera::commit()
         _clipPlanesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 1);
     }
 
-    context[CUDA_CLIP_PLANES]->setBuffer(_clipPlanesBuffer);
-    context[CUDA_NB_CLIP_PLANES]->setUint(numClipPlanes);
+    context[CONTEXT_CLIP_PLANES]->setBuffer(_clipPlanesBuffer);
+    context[CONTEXT_NB_CLIP_PLANES]->setUint(numClipPlanes);
 }
 
 } // namespace brayns

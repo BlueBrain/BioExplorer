@@ -129,7 +129,7 @@ void OptiXModel::_commitSpheres(const size_t materialId)
 
     auto context = OptiXContext::get().getOptixContext();
     const auto& spheres = _geometries->_spheres[materialId];
-    context["sphere_size"]->setUint(sizeof(Sphere) / sizeof(float));
+    context[CONTEXT_SPHERE_SIZE]->setUint(sizeof(Sphere) / sizeof(float));
 
     // Geometry
     _optixSpheres[materialId] = OptiXContext::get().createGeometry(OptixGeometryType::sphere);
@@ -162,7 +162,7 @@ void OptiXModel::_commitCylinders(const size_t materialId)
 
     auto context = OptiXContext::get().getOptixContext();
     const auto& cylinders = _geometries->_cylinders[materialId];
-    context["cylinder_size"]->setUint(sizeof(Cylinder) / sizeof(float));
+    context[CONTEXT_CYLINDER_SIZE]->setUint(sizeof(Cylinder) / sizeof(float));
     _optixCylinders[materialId] = OptiXContext::get().createGeometry(OptixGeometryType::cylinder);
 
     auto& optixCylinders = _optixCylinders[materialId];
@@ -193,7 +193,7 @@ void OptiXModel::_commitCones(const size_t materialId)
 
     auto context = OptiXContext::get().getOptixContext();
     const auto& cones = _geometries->_cones[materialId];
-    context["cone_size"]->setUint(sizeof(Cone) / sizeof(float));
+    context[CONTEXT_CONE_SIZE]->setUint(sizeof(Cone) / sizeof(float));
     _optixCones[materialId] = OptiXContext::get().createGeometry(OptixGeometryType::cone);
 
     auto& optixCones = _optixCones[materialId];
@@ -333,9 +333,6 @@ BrickedVolumePtr OptiXModel::createBrickedVolume(const Vector3ui& /*dimensions*/
 void OptiXModel::_commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities,
                                              const Vector2d valueRange)
 {
-    RT_DESTROY(_tfColorsBuffer);
-    RT_DESTROY(_tfOpacitiesBuffer);
-
     const auto nbColors = colors.size();
     floats normalizedOpacities(nbColors);
     Vector3fs gbrColors(nbColors);
@@ -345,26 +342,28 @@ void OptiXModel::_commitTransferFunctionImpl(const Vector3fs& colors, const floa
         normalizedOpacities[i] = opacities[i * 256 / nbColors];
     }
 
+    RT_DESTROY(_tfColorsBuffer);
+    RT_DESTROY(_tfOpacitiesBuffer);
     auto context = OptiXContext::get().getOptixContext();
     _tfColorsBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3, nbColors);
     memcpy(_tfColorsBuffer->map(), colors.data(), nbColors * sizeof(Vector3f));
     _tfColorsBuffer->unmap();
-    context["tfColors"]->setBuffer(_tfColorsBuffer);
+    context[CONTEXT_TRANSFER_FUNCTION_COLORS]->setBuffer(_tfColorsBuffer);
 
     _tfOpacitiesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, nbColors);
     memcpy(_tfOpacitiesBuffer->map(), normalizedOpacities.data(), nbColors * sizeof(float));
     _tfOpacitiesBuffer->unmap();
-    context["tfOpacities"]->setBuffer(_tfOpacitiesBuffer);
+    context[CONTEXT_TRANSFER_FUNCTION_OPACITIES]->setBuffer(_tfOpacitiesBuffer);
 
-    context["tfMapSize"]->setUint(nbColors);
-    context["tfMinValue"]->setFloat(valueRange.x);
-    context["tfRange"]->setFloat(valueRange.y - valueRange.x);
+    context[CONTEXT_TRANSFER_FUNCTION_SIZE]->setUint(nbColors);
+    context[CONTEXT_TRANSFER_FUNCTION_MINIMUM_VALUE]->setFloat(valueRange.x);
+    context[CONTEXT_TRANSFER_FUNCTION_RANGE]->setFloat(valueRange.y - valueRange.x);
 }
 
 void OptiXModel::_commitSimulationDataImpl(const float* frameData, const size_t frameSize)
 {
     auto context = OptiXContext::get().getOptixContext();
-    setBufferRaw(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _simulationData, context["simulation_data"], frameData, frameSize,
+    setBufferRaw(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _simulationData, context[CONTEXT_USER_DATA], frameData, frameSize,
                  frameSize * sizeof(float));
 }
 } // namespace brayns
