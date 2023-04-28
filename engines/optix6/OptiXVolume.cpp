@@ -21,6 +21,7 @@
 #include "OptiXVolume.h"
 #include "OptiXContext.h"
 #include "OptiXMaterial.h"
+#include "OptiXUtils.h"
 
 #include <brayns/parameters/VolumeParameters.h>
 #include <engines/ospray/utils.h>
@@ -39,53 +40,53 @@ OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const V
     {
     case DataType::INT8:
         _dataType = RT_FORMAT_BYTE;
-        _dataSize = 1;
+        _dataTypeSize = 1;
         BRAYNS_INFO("Volume data type: RT_FORMAT_BYTE");
         break;
     case DataType::UINT8:
         _dataType = RT_FORMAT_UNSIGNED_BYTE;
-        _dataSize = 1;
+        _dataTypeSize = 1;
         BRAYNS_INFO("Volume data type: RT_FORMAT_UNSIGNED_BYTE");
         break;
     case DataType::INT16:
         _dataType = RT_FORMAT_INT;
-        _dataSize = 2;
+        _dataTypeSize = 2;
         BRAYNS_INFO("Volume data type: RT_FORMAT_INT");
         break;
     case DataType::UINT16:
         _dataType = RT_FORMAT_UNSIGNED_INT;
-        _dataSize = 2;
+        _dataTypeSize = 2;
         BRAYNS_INFO("Volume data type: RT_FORMAT_UNSIGNED_INT");
         break;
     default:
         throw std::runtime_error("Unsupported voxel type " + std::to_string(int(type)));
     }
 
-    _bufferSize = dimensions.x * dimensions.y * dimensions.z * _dataSize;
     auto context = OptiXContext::get().getOptixContext();
-    context["volumeDataSize"]->setUint(_dataSize);
+    context[CONTEXT_VOLUME_DATA_TYPE_SIZE]->setUint(_dataTypeSize);
 
     _createBox(model);
 }
 
 OptiXVolume::~OptiXVolume()
 {
-    if (_buffer)
-        _buffer->destroy();
-    if (_colorMapBuffer)
-        _colorMapBuffer->destroy();
+    auto context = OptiXContext::get().getOptixContext();
+    _buffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_BYTE, 0);
+
+    RT_DESTROY(_buffer);
 }
 
 void OptiXVolume::_createBox(OptiXModel* model)
 {
     const Vector3f positions[8] = {
-        {0.f, 0.f, 0.f}, {1.f, 0.f, 0.f}, //    6--------7
-        {0.f, 1.f, 0.f},                  //   /|       /|
-        {1.f, 1.f, 0.f},                  //  2--------3 |
-        {0.f, 0.f, 1.f},                  //  | |      | |
-        {1.f, 0.f, 1.f},                  //  | 4------|-5
-        {0.f, 1.f, 1.f},                  //  |/       |/
-        {1.f, 1.f, 1.f}                   //  0--------1
+        {0.f, 0.f, 0.f}, //
+        {1.f, 0.f, 0.f}, //    6--------7
+        {0.f, 1.f, 0.f}, //   /|       /|
+        {1.f, 1.f, 0.f}, //  2--------3 |
+        {0.f, 0.f, 1.f}, //  | |      | |
+        {1.f, 0.f, 1.f}, //  | 4------|-5
+        {0.f, 1.f, 1.f}, //  |/       |/
+        {1.f, 1.f, 1.f}  //  0--------1
     };
 
     const uint16_t indices[6][6] = {
@@ -106,7 +107,7 @@ void OptiXVolume::_createBox(OptiXModel* model)
         auto material = model->createMaterial(materialId, "box" + std::to_string(materialId));
         material->setDiffuseColor(BLACK);
         material->setSpecularColor(BLACK);
-        material->setOpacity(0.0f);
+        material->setOpacity(0.f);
 
         auto& triangleMesh = model->getTriangleMeshes()[materialId];
         for (size_t j = 0; j < 6; ++j)
@@ -122,51 +123,19 @@ void OptiXVolume::_createBox(OptiXModel* model)
     model->mergeBounds(bounds);
 }
 
-void OptiXVolume::setDataRange(const Vector2f& range)
-{
-    auto context = OptiXContext::get().getOptixContext();
-    context["colorMapMinValue"]->setFloat(range.x);
-    context["colorMapRange"]->setFloat(range.y - range.x);
-}
-
 void OptiXVolume::setVoxels(const void* voxels)
 {
-    if (_buffer)
-        _buffer->destroy();
+    RT_DESTROY(_buffer);
 
     auto context = OptiXContext::get().getOptixContext();
-
-    _buffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_BYTE, _bufferSize);
-    memcpy(_buffer->map(), voxels, _bufferSize);
+    const auto bufferSize = _dimensions.x * _dimensions.y * _dimensions.z * _dataTypeSize;
+    _buffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_BYTE, bufferSize);
+    memcpy(_buffer->map(), voxels, bufferSize);
     _buffer->unmap();
-    context["volumeData"]->setBuffer(_buffer);
-    context["volumeDimensions"]->setUint(_dimensions.x, _dimensions.y, _dimensions.z);
-    context["volumeOffset"]->setFloat(_offset.x, _offset.y, _offset.z);
-    context["volumeElementSpacing"]->setFloat(_spacing.x, _spacing.y, _spacing.z);
+    context[CONTEXT_VOLUME_DATA]->setBuffer(_buffer);
+    context[CONTEXT_VOLUME_DIMENSIONS]->setUint(_dimensions.x, _dimensions.y, _dimensions.z);
+    context[CONTEXT_VOLUME_OFFSET]->setFloat(_offset.x, _offset.y, _offset.z);
+    context[CONTEXT_VOLUME_ELEMENT_SPACING]->setFloat(_spacing.x, _spacing.y, _spacing.z);
 }
 
-void OptiXVolume::commit()
-{
-    auto context = OptiXContext::get().getOptixContext();
-    if (_parameters.isModified())
-    {
-        context["volumeGradientShadingEnabled"]->setUint(_parameters.getGradientShading());
-        context["volumeAdaptiveMaxSamplingRate"]->setFloat(_parameters.getAdaptiveMaxSamplingRate());
-        context["volumeAdaptiveSampling"]->setUint(_parameters.getAdaptiveSampling());
-        context["volumeSingleShade"]->setUint(_parameters.getSingleShade());
-        context["volumePreIntegration"]->setUint(_parameters.getPreIntegration());
-        context["volumeSamplingRate"]->setFloat(_parameters.getSamplingRate());
-        const Vector3f specular = _parameters.getSpecular();
-        context["volumeSpecular"]->setFloat(specular.x, specular.y, specular.z);
-
-        // context["volumeClippingBoxLower"]->setFloat(_parameters.getClipBox().getMin());
-        // context["volumeClippingBoxUpper"]->setFloat(_parameters.getClipBox().getMax());
-    }
-
-    if (isModified() || _parameters.isModified())
-    {
-        // _commitTransferFunction();
-    }
-    resetModified();
-}
 } // namespace brayns

@@ -118,7 +118,7 @@ bool OptiXScene::commitLights()
     _lightBuffer->setElementSize(sizeof(BasicLight));
     memcpy(_lightBuffer->map(), _optixLights.data(), _optixLights.size() * sizeof(_optixLights[0]));
     _lightBuffer->unmap();
-    context["lights"]->set(_lightBuffer);
+    context[CONTEXT_LIGHTS]->set(_lightBuffer);
 
     return true;
 }
@@ -128,14 +128,34 @@ ModelPtr OptiXScene::createModel() const
     return std::make_unique<OptiXModel>(_animationParameters, _volumeParameters);
 }
 
+void OptiXScene::_commitVolumeParameters()
+{
+    auto context = OptiXContext::get().getOptixContext();
+    context[CONTEXT_VOLUME_GRADIENT_SHADING_ENABLED]->setUint(_volumeParameters.getGradientShading());
+    context[CONTEXT_VOLUME_ADAPTIVE_MAX_SAMPLING_RATE]->setFloat(_volumeParameters.getAdaptiveMaxSamplingRate());
+    context[CONTEXT_VOLUME_ADAPTIVE_SAMPLING]->setUint(_volumeParameters.getAdaptiveSampling());
+    context[CONTEXT_VOLUME_SINGLE_SHADE]->setUint(_volumeParameters.getSingleShade());
+    context[CONTEXT_VOLUME_PRE_INTEGRATION]->setUint(_volumeParameters.getPreIntegration());
+    context[CONTEXT_VOLUME_SAMPLING_RATE]->setFloat(_volumeParameters.getSamplingRate());
+    const Vector3f specular = _volumeParameters.getSpecular();
+    context[CONTEXT_VOLUME_SPECULAR_COLOR]->setFloat(specular.x, specular.y, specular.z);
+    const auto boxLower = _volumeParameters.getClipBox().getMin();
+    context[CONTEXT_VOLUME_CLIPPING_BOX_LOWER]->setFloat(boxLower.x, boxLower.y, boxLower.z);
+    const auto boxUpper = _volumeParameters.getClipBox().getMin();
+    context[CONTEXT_VOLUME_CLIPPING_BOX_UPPER]->setFloat(boxUpper.x, boxUpper.y, boxUpper.z);
+}
+
 void OptiXScene::commit()
 {
     // Always upload transfer function and simulation data if changed
     for (size_t i = 0; i < _modelDescriptors.size(); ++i)
     {
         auto& model = _modelDescriptors[i]->getModel();
-        model.commitTransferFunction();
         model.commitSimulationData();
+
+        _commitVolumeParameters();
+        if (model.commitTransferFunction())
+            markModified();
     }
 
     commitLights();
@@ -171,11 +191,11 @@ void OptiXScene::commit()
         if (i.first == TextureType::radiance && _backgroundMaterial->hasTexture(TextureType::radiance))
         {
             const auto& radianceTex = _backgroundMaterial->getTexture(TextureType::radiance);
-            context["radianceLODs"]->setUint(radianceTex->getMipLevels() - 1);
+            context[CONTEXT_MATERIAL_RADIANCE_LODS]->setUint(radianceTex->getMipLevels() - 1);
         }
     }
 
-    context["use_envmap"]->setUint(hasEnvironmentMap() ? 1 : 0);
+    context[CONTEXT_USE_ENVIRONMENT_MAP]->setUint(hasEnvironmentMap() ? 1 : 0);
 
     // Geometry
     if (_rootGroup)
@@ -237,17 +257,13 @@ void OptiXScene::commit()
             xform->setChild(boundingBoxGroup);
             _rootGroup->addChild(xform);
         }
-
-        const auto& volumes = modelDescriptor->getModel().getVolumes();
-        for (const auto& volume : volumes)
-            volume->commit();
     }
-    _computeBounds();
+    computeBounds();
 
     BRAYNS_DEBUG("Root has " << _rootGroup->getChildCount() << " children");
 
-    context["top_object"]->set(_rootGroup);
-    context["top_shadower"]->set(_rootGroup);
+    context[CONTEXT_SCENE_TOP_OBJECT]->set(_rootGroup);
+    context[CONTEXT_SCENE_TOP_SHADOWER]->set(_rootGroup);
 
     // TODO: triggers the change callback to re-broadcast the scene if the clip
     // planes have changed. Provide an RPC to update/set clip planes.

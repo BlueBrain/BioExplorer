@@ -26,7 +26,11 @@
 
 struct BasicLight
 {
-    ::optix::float3 pos;
+    union
+    {
+        ::optix::float3 pos;
+        ::optix::float3 dir;
+    };
     ::optix::float3 color;
     int casts_shadow;
     int type;

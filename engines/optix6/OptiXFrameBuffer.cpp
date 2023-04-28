@@ -30,16 +30,6 @@
 
 namespace brayns
 {
-const std::string STAGE_TONE_MAPPER = "TonemapperSimple";
-const std::string STAGE_DENOISER = "DLDenoiser";
-const std::string VARIABLE_INPUT_BUFFER = "input_buffer";
-const std::string VARIABLE_OUTPUT_BUFFER = "output_buffer";
-const std::string VARIABLE_INPUT_ALBEDO_BUFFER = "input_albedo_buffer";
-const std::string VARIABLE_INPUT_NORMAL_BUFFER = "input_normal_buffer";
-const std::string VARIABLE_TONE_MAPPER_EXPOSURE = "exposure";
-const std::string VARIABLE_TONE_MAPPER_GAMMA = "gamma";
-const std::string VARIABLE_DENOISE_BLEND = "blend";
-
 OptiXFrameBuffer::OptiXFrameBuffer(const std::string& name, const Vector2ui& frameSize,
                                    FrameBufferFormat frameBufferFormat, const RenderingParameters& renderingParameters)
     : FrameBuffer(name, frameSize, frameBufferFormat)
@@ -102,16 +92,16 @@ void OptiXFrameBuffer::resize(const Vector2ui& frameSize)
 
     auto context = OptiXContext::get().getOptixContext();
     _outputBuffer = context->createBuffer(RT_BUFFER_OUTPUT, format, _frameSize.x, _frameSize.y);
-    context[CUDA_OUTPUT_BUFFER]->set(_outputBuffer);
+    context[CONTEXT_OUTPUT_BUFFER]->set(_outputBuffer);
 
     _accumBuffer = context->createBuffer(RT_BUFFER_INPUT_OUTPUT, RT_FORMAT_FLOAT4, _frameSize.x, _frameSize.y);
-    context[CUDA_ACCUMULATION_BUFFER]->set(_accumBuffer);
+    context[CONTEXT_ACCUMULATION_BUFFER]->set(_accumBuffer);
 
     _tonemappedBuffer = context->createBuffer(RT_BUFFER_OUTPUT, RT_FORMAT_FLOAT4, _frameSize.x, _frameSize.y);
-    context[CUDA_TONEMAPPED_BUFFER]->set(_tonemappedBuffer);
+    context[CONTEXT_TONEMAPPED_BUFFER]->set(_tonemappedBuffer);
 
     _denoisedBuffer = context->createBuffer(RT_BUFFER_OUTPUT, RT_FORMAT_FLOAT4, _frameSize.x, _frameSize.y);
-    context[CUDA_DENOISED_BUFFER]->set(_denoisedBuffer);
+    context[CONTEXT_DENOISED_BUFFER]->set(_denoisedBuffer);
     clear();
 }
 
@@ -130,7 +120,7 @@ void OptiXFrameBuffer::_mapUnsafe()
     rtBufferMap(_outputBuffer->get(), &_colorData);
 
     auto context = OptiXContext::get().getOptixContext();
-    context[CUDA_FRAME_NUMBER]->setUint(_accumulationFrameNumber);
+    context[CONTEXT_FRAME_NUMBER]->setUint(_accumulationFrameNumber);
 
     _colorBuffer = (uint8_t*)(_colorData);
 
@@ -163,7 +153,7 @@ void OptiXFrameBuffer::_unmapUnsafe()
     {
         if (_commandListWithDenoiser && _commandListWithDenoiserAndToneMapper)
         {
-            optix::Variable(_denoiserStage->queryVariable(VARIABLE_DENOISE_BLEND))
+            optix::Variable(_denoiserStage->queryVariable(CONTEXT_DENOISE_BLEND))
                 ->setFloat(_renderingParameters.getDenoiseBlend());
             if (useDenoiser)
             {
@@ -184,9 +174,9 @@ void OptiXFrameBuffer::_unmapUnsafe()
     if (_postprocessingStagesInitialized)
     {
         auto context = OptiXContext::get().getOptixContext();
-        context[VARIABLE_TONE_MAPPER_EXPOSURE]->setFloat(_renderingParameters.getToneMapperExposure());
-        context[VARIABLE_TONE_MAPPER_GAMMA]->setFloat(_renderingParameters.getToneMapperGamma());
-        context[VARIABLE_DENOISE_BLEND]->setFloat(_renderingParameters.getDenoiseBlend());
+        context[CONTEXT_TONE_MAPPER_EXPOSURE]->setFloat(_renderingParameters.getToneMapperExposure());
+        context[CONTEXT_TONE_MAPPER_GAMMA]->setFloat(_renderingParameters.getToneMapperGamma());
+        context[CONTEXT_DENOISE_BLEND]->setFloat(_renderingParameters.getDenoiseBlend());
     }
 }
 
@@ -203,27 +193,26 @@ void OptiXFrameBuffer::_initializePostProcessingStages()
 {
     auto context = OptiXContext::get().getOptixContext();
 
-    _tonemapStage = context->createBuiltinPostProcessingStage(STAGE_TONE_MAPPER);
-    _tonemapStage->declareVariable(VARIABLE_INPUT_BUFFER)->set(_accumBuffer);
-    _tonemapStage->declareVariable(VARIABLE_OUTPUT_BUFFER)->set(_tonemappedBuffer);
-    _tonemapStage->declareVariable(VARIABLE_TONE_MAPPER_EXPOSURE)
+    _tonemapStage = context->createBuiltinPostProcessingStage(CONTEXT_STAGE_TONE_MAPPER);
+    _tonemapStage->declareVariable(CONTEXT_INPUT_BUFFER)->set(_accumBuffer);
+    _tonemapStage->declareVariable(CONTEXT_OUTPUT_BUFFER)->set(_tonemappedBuffer);
+    _tonemapStage->declareVariable(CONTEXT_TONE_MAPPER_EXPOSURE)
         ->setFloat(_renderingParameters.getToneMapperExposure());
-    _tonemapStage->declareVariable(VARIABLE_TONE_MAPPER_GAMMA)->setFloat(_renderingParameters.getToneMapperGamma());
+    _tonemapStage->declareVariable(CONTEXT_TONE_MAPPER_GAMMA)->setFloat(_renderingParameters.getToneMapperGamma());
 
-    _denoiserStage = context->createBuiltinPostProcessingStage(STAGE_DENOISER);
-    _denoiserStage->declareVariable(VARIABLE_INPUT_BUFFER)->set(_accumBuffer);
-    _denoiserStage->declareVariable(VARIABLE_OUTPUT_BUFFER)->set(_denoisedBuffer);
-    _denoiserStage->declareVariable(VARIABLE_DENOISE_BLEND)->setFloat(_renderingParameters.getDenoiseBlend());
-    _denoiserStage->declareVariable(VARIABLE_INPUT_ALBEDO_BUFFER);
-    _denoiserStage->declareVariable(VARIABLE_INPUT_NORMAL_BUFFER);
+    _denoiserStage = context->createBuiltinPostProcessingStage(CONTEXT_STAGE_DENOISER);
+    _denoiserStage->declareVariable(CONTEXT_INPUT_BUFFER)->set(_accumBuffer);
+    _denoiserStage->declareVariable(CONTEXT_OUTPUT_BUFFER)->set(_denoisedBuffer);
+    _denoiserStage->declareVariable(CONTEXT_DENOISE_BLEND)->setFloat(_renderingParameters.getDenoiseBlend());
+    _denoiserStage->declareVariable(CONTEXT_INPUT_ALBEDO_BUFFER);
+    _denoiserStage->declareVariable(CONTEXT_INPUT_NORMAL_BUFFER);
 
-    _denoiserWithMappingStage = context->createBuiltinPostProcessingStage(STAGE_DENOISER);
-    _denoiserWithMappingStage->declareVariable(VARIABLE_INPUT_BUFFER)->set(_tonemappedBuffer);
-    _denoiserWithMappingStage->declareVariable(VARIABLE_OUTPUT_BUFFER)->set(_denoisedBuffer);
-    _denoiserWithMappingStage->declareVariable(VARIABLE_DENOISE_BLEND)
-        ->setFloat(_renderingParameters.getDenoiseBlend());
-    _denoiserWithMappingStage->declareVariable(VARIABLE_INPUT_ALBEDO_BUFFER);
-    _denoiserWithMappingStage->declareVariable(VARIABLE_INPUT_NORMAL_BUFFER);
+    _denoiserWithMappingStage = context->createBuiltinPostProcessingStage(CONTEXT_STAGE_DENOISER);
+    _denoiserWithMappingStage->declareVariable(CONTEXT_INPUT_BUFFER)->set(_tonemappedBuffer);
+    _denoiserWithMappingStage->declareVariable(CONTEXT_OUTPUT_BUFFER)->set(_denoisedBuffer);
+    _denoiserWithMappingStage->declareVariable(CONTEXT_DENOISE_BLEND)->setFloat(_renderingParameters.getDenoiseBlend());
+    _denoiserWithMappingStage->declareVariable(CONTEXT_INPUT_ALBEDO_BUFFER);
+    _denoiserWithMappingStage->declareVariable(CONTEXT_INPUT_NORMAL_BUFFER);
 
     // With denoiser
     _commandListWithDenoiser = context->createCommandList();

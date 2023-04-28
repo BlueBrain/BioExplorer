@@ -38,11 +38,6 @@ const std::string CUDA_CYLINDERS = braynsOptix6Engine_generated_Cylinders_cu_ptx
 const std::string CUDA_CONES = braynsOptix6Engine_generated_Cones_cu_ptx;
 const std::string CUDA_TRIANGLES_MESH = braynsOptix6Engine_generated_TriangleMesh_cu_ptx;
 
-const std::string CUDA_FUNC_BOUNDS = "bounds";
-const std::string CUDA_FUNC_INTERSECTION = "intersect";
-const std::string CUDA_FUNC_ROBUST_INTERSECTION = "robust_intersect";
-const std::string CUDA_FUNC_EXCEPTION = "exception";
-
 template <typename T>
 T white();
 

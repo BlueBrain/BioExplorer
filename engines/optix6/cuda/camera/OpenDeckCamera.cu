@@ -29,8 +29,7 @@ static const float OPENDECK_HEIGHT = 2.3f;
 static const float OPENDECK_METALSTRIPE_HEIGHT = 0.045f;
 static const float PI = 3.141592f;
 static const float OPENDECK_BEZEL_ANGLE = PI / 180.0f * 7.98995f;
-static const float ANGLE_PER_BORDER_SEGMENT =
-    (PI - 8.0f * OPENDECK_BEZEL_ANGLE) / 7.0f + OPENDECK_BEZEL_ANGLE;
+static const float ANGLE_PER_BORDER_SEGMENT = (PI - 8.0f * OPENDECK_BEZEL_ANGLE) / 7.0f + OPENDECK_BEZEL_ANGLE;
 static const float FULL_ANGLE = ANGLE_PER_BORDER_SEGMENT + OPENDECK_BEZEL_ANGLE;
 
 using namespace optix;
@@ -41,7 +40,7 @@ rtDeclareVariable(unsigned int, segmentID, , ); // even segmentsID are right eye
 rtDeclareVariable(float3, headPos, , );
 rtDeclareVariable(float3, headUVec, , );
 
-rtDeclareVariable(float, HALF_IPD, , );
+rtDeclareVariable(float, half_ipd, , );
 rtDeclareVariable(float3, eye, , );
 rtDeclareVariable(float3, U, , );
 rtDeclareVariable(float3, V, , );
@@ -63,9 +62,7 @@ rtDeclareVariable(unsigned int, samples_per_pixel, , );
 rtBuffer<float4, 1> clip_planes;
 rtDeclareVariable(unsigned int, nb_clip_planes, , );
 
-__device__ void getClippingValues(const float3& ray_origin,
-                                  const float3& ray_direction, float& near,
-                                  float& far)
+__device__ void getClippingValues(const float3& ray_origin, const float3& ray_direction, float& near, float& far)
 {
     for (int i = 0; i < nb_clip_planes; ++i)
     {
@@ -84,8 +81,7 @@ __device__ void getClippingValues(const float3& ray_origin,
 }
 
 // Pass 'seed' by reference to keep randomness state
-__device__ float3 launch(unsigned int& seed, const float2 screen,
-                         const bool use_randomness)
+__device__ float3 launch(unsigned int& seed, const float2 screen, const bool use_randomness)
 {
     float eyeDelta = 0.0f;
     float alpha = 0.0f;
@@ -95,7 +91,7 @@ __device__ float3 launch(unsigned int& seed, const float2 screen,
 
     if (segmentID <= 13 && segmentID % 2 == 0)
     {
-        eyeDelta = HALF_IPD;
+        eyeDelta = half_ipd;
         unsigned int angularOffset = segmentID / 2;
 
         if (segmentID == 0)
@@ -103,28 +99,26 @@ __device__ float3 launch(unsigned int& seed, const float2 screen,
         else if (segmentID == 12)
             alpha = PI - FULL_ANGLE + sample.x * FULL_ANGLE;
         else
-            alpha = angularOffset * (FULL_ANGLE - OPENDECK_BEZEL_ANGLE) +
-                    sample.x * FULL_ANGLE;
+            alpha = angularOffset * (FULL_ANGLE - OPENDECK_BEZEL_ANGLE) + sample.x * FULL_ANGLE;
     }
     else if (segmentID <= 13 && segmentID % 2 == 1)
     {
-        eyeDelta = -HALF_IPD;
+        eyeDelta = -half_ipd;
         unsigned int angularOffset = segmentID / 2;
         if (segmentID == 1)
             alpha = sample.x * FULL_ANGLE;
         else if (segmentID == 13)
             alpha = PI - FULL_ANGLE + sample.x * FULL_ANGLE;
         else
-            alpha = angularOffset * (FULL_ANGLE - OPENDECK_BEZEL_ANGLE) +
-                    sample.x * FULL_ANGLE;
+            alpha = angularOffset * (FULL_ANGLE - OPENDECK_BEZEL_ANGLE) + sample.x * FULL_ANGLE;
     }
     else if (segmentID == 14)
     {
-        eyeDelta = HALF_IPD;
+        eyeDelta = half_ipd;
     }
     else if (segmentID == 15)
     {
-        eyeDelta = -HALF_IPD;
+        eyeDelta = -half_ipd;
     }
 
     float3 pixelPos;
@@ -134,8 +128,8 @@ __device__ float3 launch(unsigned int& seed, const float2 screen,
         pixelPos.y = OPENDECK_METALSTRIPE_HEIGHT + OPENDECK_HEIGHT * sample.y;
         pixelPos.z = OPENDECK_RADIUS * -sinf(alpha);
 
-        dPx = make_float3(FULL_ANGLE * OPENDECK_RADIUS * sinf(alpha), 0.0f,
-                          FULL_ANGLE * OPENDECK_RADIUS * -cosf(alpha));
+        dPx =
+            make_float3(FULL_ANGLE * OPENDECK_RADIUS * sinf(alpha), 0.0f, FULL_ANGLE * OPENDECK_RADIUS * -cosf(alpha));
         dPy = make_float3(0.0f, OPENDECK_HEIGHT, 0.0f);
     }
     else if (segmentID > 13)
@@ -189,8 +183,7 @@ RT_PROGRAM void openDeckCamera()
     const size_t2 screen = output_buffer.size();
     const float2 screen_f = make_float2(screen);
 
-    unsigned int seed =
-        tea<16>(screen.x * launch_index.y + launch_index.x, frame);
+    unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
 
     const int num_samples = max(1, samples_per_pixel);
     // We enable randomness if we are using subpixel sampling or accumulation
@@ -205,8 +198,7 @@ RT_PROGRAM void openDeckCamera()
     if (frame > 0)
     {
         acc_val = accum_buffer[launch_index];
-        acc_val = lerp(acc_val, make_float4(result, 0.f),
-                       1.0f / static_cast<float>(frame + 1));
+        acc_val = lerp(acc_val, make_float4(result, 0.f), 1.0f / static_cast<float>(frame + 1));
     }
     else
         acc_val = make_float4(result, 1.f);

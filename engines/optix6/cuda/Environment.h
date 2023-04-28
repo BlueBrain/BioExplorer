@@ -1,6 +1,5 @@
-/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
+/* Copyright (c) 2019, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
  * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
  *
@@ -20,15 +19,26 @@
 
 #pragma once
 
-namespace brayns
+#include <optix_world.h>
+
+#include "Helpers.h"
+
+rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
+rtDeclareVariable(float3, bgColor, , );
+rtDeclareVariable(int, envmap, , );
+rtDeclareVariable(uint, use_envmap, , );
+rtDeclareVariable(uint, showBackground, , );
+
+static __device__ inline float3 getEnvironmentColor()
 {
-class OptiXCamera;
-using OptiXCameraPtr = std::shared_ptr<OptiXCamera>;
-
-constexpr size_t OPTIX_STACK_SIZE = 16384;
-constexpr size_t OPTIX_RAY_TYPE_COUNT = 2;
-constexpr size_t OPTIX_ENTRY_POINT_COUNT = 1;
-
-constexpr float EPSILON = 1e-2f;
-
-} // namespace brayns
+    if (showBackground)
+    {
+        if (use_envmap)
+        {
+            const float2 uv = getEquirectangularUV(ray.direction);
+            return linearToSRGB(tonemap(make_float3(optix::rtTex2D<float4>(envmap, uv.x, uv.y))));
+        }
+        return bgColor;
+    }
+    return make_float3(0.f);
+}

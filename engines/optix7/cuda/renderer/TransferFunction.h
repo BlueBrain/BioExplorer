@@ -20,9 +20,7 @@
 #include <optix_types.h>
 
 template <typename T>
-static __device__ inline T interpolateValues(const float v_min,
-                                             const float v_max,
-                                             const float value,
+static __device__ inline T interpolateValues(const float v_min, const float v_max, const float value,
                                              buffer<T, 1>& values)
 {
     const int num_values = values.size();
@@ -42,17 +40,13 @@ static __device__ inline T interpolateValues(const float v_min,
     return values[index] * (1.0f - t) + values[index + 1] * t;
 }
 
-static __device__ inline float3 calcTransferFunctionColor(
-    const float range_min, const float range_max, const float value,
-    buffer<float3, 1>& colors, buffer<float, 1>& opacities)
+static __device__ inline float3 calcTransferFunctionColor(const float range_min, const float range_max,
+                                                          const float value, buffer<float3, 1>& colors,
+                                                          buffer<float, 1>& opacities)
 {
-    const float3 WHITE = make_float3(1.f, 1.f, 1.f);
+    const float3 color_opaque = interpolateValues<float3>(range_min, range_max, value, colors);
 
-    const float3 color_opaque =
-        interpolateValues<float3>(range_min, range_max, value, colors);
+    const float opacity = interpolateValues<float>(range_min, range_max, value, opacities);
 
-    const float opacity =
-        interpolateValues<float>(range_min, range_max, value, opacities);
-
-    return opacity * color_opaque + (1.0f - opacity) * WHITE;
+    return make_float4(color_opaque, opacity);
 }

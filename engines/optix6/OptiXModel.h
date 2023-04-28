@@ -69,10 +69,6 @@ private:
     ::optix::GeometryGroup _geometryGroup{nullptr};
     ::optix::GeometryGroup _boundingBoxGroup{nullptr};
 
-    // Material Lookup tables
-    ::optix::Buffer _colorMapBuffer{nullptr};
-    ::optix::Buffer _emissionIntensityMapBuffer{nullptr};
-
     // Spheres
     std::map<size_t, ::optix::Buffer> _spheresBuffers;
     std::map<size_t, ::optix::Geometry> _optixSpheres;
@@ -105,11 +101,8 @@ private:
     std::map<std::string, optix::TextureSampler> _optixTextureSamplers;
 
     // Transfer function
-    struct
-    {
-        optix::Buffer colors{nullptr};
-        optix::Buffer opacities{nullptr};
-    } _optixTransferFunction;
+    optix::Buffer _tfColorsBuffer{nullptr};
+    optix::Buffer _tfOpacitiesBuffer{nullptr};
 
     optix::Buffer _simulationData{nullptr};
 

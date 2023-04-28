@@ -26,14 +26,17 @@
 #include "OptiXScene.h"
 #include "OptiXTypes.h"
 
-#include <chrono>
-
-using std::chrono::duration_cast;
-using std::chrono::high_resolution_clock;
-using std::chrono::milliseconds;
-
 namespace
 {
+const std::string CONTEXT_RENDERER_JITTER = "jitter4";
+const std::string CONTEXT_RENDERER_FRAME = "frame";
+const std::string CONTEXT_RENDERER_RADIANCE_RAY_TYPE = "radianceRayType";
+const std::string CONTEXT_RENDERER_SHADOW_RAY_TYPE = "shadowRayType";
+const std::string CONTEXT_RENDERER_SCENE_EPSILON = "sceneEpsilon";
+const std::string CONTEXT_RENDERER_AMBIENT_LIGHT_COLOR = "ambientLightColor";
+const std::string CONTEXT_RENDERER_BACKGROUND_COLOR = "bgColor";
+const std::string CONTEXT_RENDERER_SAMPLES_PER_PIXEL = "samples_per_pixel";
+
 void toOptiXProperties(const brayns::PropertyMap& object)
 {
     try
@@ -116,8 +119,8 @@ void OptiXRenderer::render(FrameBufferPtr frameBuffer)
     optix::float4 jitter = {(float)rand() / (float)RAND_MAX, (float)rand() / (float)RAND_MAX,
                             (float)rand() / (float)RAND_MAX, (float)rand() / (float)RAND_MAX};
     auto context = OptiXContext::get().getOptixContext();
-    context["jitter4"]->setFloat(jitter);
-    context["frame"]->setUint(frameBuffer->numAccumFrames());
+    context[CONTEXT_RENDERER_JITTER]->setFloat(jitter);
+    context[CONTEXT_RENDERER_FRAME]->setUint(frameBuffer->numAccumFrames());
 
     // Render
     frameBuffer->map();
@@ -131,9 +134,7 @@ void OptiXRenderer::render(FrameBufferPtr frameBuffer)
 void OptiXRenderer::commit()
 {
     if (!_renderingParameters.isModified() && !_scene->isModified() && !isModified())
-    {
         return;
-    }
 
     const bool rendererChanged = _renderingParameters.getCurrentRenderer() != _currentRenderer;
 
@@ -145,20 +146,18 @@ void OptiXRenderer::commit()
     {
         const auto renderProgram = OptiXContext::get().getRenderer(_renderingParameters.getCurrentRenderer());
 
-        _scene->visitModels(
-            [&](Model& model)
+        _scene->visitModels([&](Model& model) {
+            for (const auto& kv : model.getMaterials())
             {
-                for (const auto& kv : model.getMaterials())
-                {
-                    auto optixMaterial = dynamic_cast<OptiXMaterial*>(kv.second.get());
-                    const bool textured = optixMaterial->isTextured();
+                auto optixMaterial = dynamic_cast<OptiXMaterial*>(kv.second.get());
+                const bool textured = optixMaterial->isTextured();
 
-                    optixMaterial->getOptixMaterial()->setClosestHitProgram(0, textured
-                                                                                   ? renderProgram->closest_hit_textured
-                                                                                   : renderProgram->closest_hit);
-                    optixMaterial->getOptixMaterial()->setAnyHitProgram(1, renderProgram->any_hit);
-                }
-            });
+                optixMaterial->getOptixMaterial()->setClosestHitProgram(0, textured
+                                                                               ? renderProgram->closest_hit_textured
+                                                                               : renderProgram->closest_hit);
+                optixMaterial->getOptixMaterial()->setAnyHitProgram(1, renderProgram->any_hit);
+            }
+        });
     }
 
     // Upload common properties
@@ -166,13 +165,12 @@ void OptiXRenderer::commit()
     auto bgColor = _renderingParameters.getBackgroundColor();
     const auto samples_per_pixel = _renderingParameters.getSamplesPerPixel();
 
-    context["radianceRayType"]->setUint(0);
-    context["shadowRayType"]->setUint(1);
-    context["sceneEpsilon"]->setFloat(EPSILON);
-    context["ambientLightColor"]->setFloat(bgColor.x, bgColor.y, bgColor.z);
-    context["bgColor"]->setFloat(bgColor.x, bgColor.y, bgColor.z);
-    context["samples_per_pixel"]->setUint(samples_per_pixel);
-    context["currentTime"]->setFloat(_timer.elapsed());
+    context[CONTEXT_RENDERER_RADIANCE_RAY_TYPE]->setUint(0);
+    context[CONTEXT_RENDERER_SHADOW_RAY_TYPE]->setUint(1);
+    context[CONTEXT_RENDERER_SCENE_EPSILON]->setFloat(EPSILON);
+    context[CONTEXT_RENDERER_AMBIENT_LIGHT_COLOR]->setFloat(bgColor.x, bgColor.y, bgColor.z);
+    context[CONTEXT_RENDERER_BACKGROUND_COLOR]->setFloat(bgColor.x, bgColor.y, bgColor.z);
+    context[CONTEXT_RENDERER_SAMPLES_PER_PIXEL]->setUint(samples_per_pixel);
 
     toOptiXProperties(getPropertyMap());
     _currentRenderer = _renderingParameters.getCurrentRenderer();

@@ -19,6 +19,7 @@
 
 #include <optix_world.h>
 
+#include "Environment.h"
 #include "Helpers.h"
 
 struct PerRayData_radiance
@@ -28,26 +29,9 @@ struct PerRayData_radiance
     int depth;
 };
 
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
-rtDeclareVariable(float3, bgColor, , );
-rtDeclareVariable(int, envmap, , );
 rtDeclareVariable(PerRayData_radiance, prd_radiance, rtPayload, );
-rtDeclareVariable(uint, use_envmap, , );
-rtDeclareVariable(uint, showBackground, , );
 
 RT_PROGRAM void envmap_miss()
 {
-    if(showBackground)
-    {
-        if (use_envmap)
-        {
-            const float2 uv = getEquirectangularUV(ray.direction);
-            prd_radiance.result = linearToSRGB(
-                tonemap(make_float3(optix::rtTex2D<float4>(envmap, uv.x, uv.y))));
-            return;
-        }
-        prd_radiance.result = bgColor;
-    }
-    else
-        prd_radiance.result = make_float3(0.f);
+    prd_radiance.result = getEnvironmentColor();
 }

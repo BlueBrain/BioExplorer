@@ -38,8 +38,8 @@ public:
                 const VolumeParameters& params);
     ~OptiXVolume();
 
-    void setDataRange(const Vector2f& range) final;
-    void commit() final;
+    void setDataRange(const Vector2f&) final{};
+    void commit() final{};
 
     void setVoxels(const void* voxels) final;
 
@@ -49,12 +49,9 @@ protected:
     const VolumeParameters& _parameters;
     const Vector3f _offset{0.f, 0.f, 0.f};
 
-    uint64_t _dataSize{1};
     RTformat _dataType{RT_FORMAT_UNSIGNED_BYTE};
-
-    uint64_t _bufferSize{0};
+    uint64_t _dataTypeSize{1};
     ::optix::Buffer _buffer{nullptr};
-    ::optix::Buffer _colorMapBuffer{nullptr};
 };
 
 } // namespace brayns

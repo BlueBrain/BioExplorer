@@ -50,17 +50,16 @@ void OptiXMaterial::commit()
     if (!_optixMaterial)
         _optixMaterial = OptiXContext::get().createMaterial();
 
-    _optixMaterial["Ka"]->setFloat(_emission, _emission, _emission);
-    _optixMaterial["Kd"]->setFloat(_diffuseColor.x, _diffuseColor.y, _diffuseColor.z);
-    _optixMaterial["Ks"]->setFloat(_specularColor.x, _specularColor.y, _specularColor.z);
-    _optixMaterial["Kr"]->setFloat(_reflectionIndex, _reflectionIndex, _reflectionIndex);
-    _optixMaterial["Ko"]->setFloat(_opacity, _opacity, _opacity);
-    _optixMaterial["glossiness"]->setFloat(_glossiness);
-    _optixMaterial["refraction_index"]->setFloat(_refractionIndex);
-    _optixMaterial["reflection_index"]->setFloat(_reflectionIndex);
-    _optixMaterial["phong_exp"]->setFloat(_specularExponent);
-    _optixMaterial["shading_mode"]->setUint(_shadingMode);
-    _optixMaterial["user_parameter"]->setFloat(_userParameter);
+    _optixMaterial[CONTEXT_MATERIAL_KA]->setFloat(_emission, _emission, _emission);
+    _optixMaterial[CONTEXT_MATERIAL_KD]->setFloat(_diffuseColor.x, _diffuseColor.y, _diffuseColor.z);
+    _optixMaterial[CONTEXT_MATERIAL_KS]->setFloat(_specularColor.x, _specularColor.y, _specularColor.z);
+    _optixMaterial[CONTEXT_MATERIAL_KR]->setFloat(_reflectionIndex, _reflectionIndex, _reflectionIndex);
+    _optixMaterial[CONTEXT_MATERIAL_KO]->setFloat(_opacity, _opacity, _opacity);
+    _optixMaterial[CONTEXT_MATERIAL_GLOSSINESS]->setFloat(_glossiness);
+    _optixMaterial[CONTEXT_MATERIAL_REFRACTION_INDEX]->setFloat(_refractionIndex);
+    _optixMaterial[CONTEXT_MATERIAL_SPECULAR_EXPONENT]->setFloat(_specularExponent);
+    _optixMaterial[CONTEXT_MATERIAL_SHADING_MODE]->setUint(_shadingMode);
+    _optixMaterial[CONTEXT_MATERIAL_USER_PARAMETER]->setFloat(_userParameter);
 
     for (const auto& i : getTextureDescriptors())
     {
