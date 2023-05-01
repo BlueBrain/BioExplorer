@@ -25,7 +25,7 @@
 #include <brayns/pluginapi/Plugin.h>
 
 #include "BasicRenderer_ispc.h"
-#include <engines/ospray/ispc/render/DefaultMaterial.h>
+#include <engines/ospray/ispc/render/AdvancedMaterial.h>
 #include <engines/ospray/ispc/render/utils/AbstractRenderer.h>
 
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
@@ -132,7 +132,7 @@ public:
 };
 
 OSP_REGISTER_RENDERER(MyRenderer, myrenderer);
-OSP_REGISTER_MATERIAL(myrenderer, brayns::DefaultMaterial, default);
+OSP_REGISTER_MATERIAL(myrenderer, brayns::AdvancedMaterial, default);
 
 extern "C" brayns::ExtensionPlugin* brayns_plugin_create(int argc, const char** argv)
 {

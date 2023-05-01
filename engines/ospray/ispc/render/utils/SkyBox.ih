@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "../DefaultMaterial.ih"
+#include "../AdvancedMaterial.ih"
 #include <ospray/SDK/math/vec.ih>
 
 /**
@@ -32,4 +32,4 @@
     @return The RGBA color of the skybox
 */
 vec4f skyboxMapping(const uniform Renderer* uniform renderer, const varying Ray& ray,
-                    const uniform DefaultMaterial* uniform bgMaterial);
+                    const uniform AdvancedMaterial* uniform bgMaterial);

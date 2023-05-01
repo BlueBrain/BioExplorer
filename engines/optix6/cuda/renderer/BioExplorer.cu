@@ -16,10 +16,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// #include <optix.h>
-// #include <optix_world.h>
-// #include <optixu/optixu_math_namespace.h>
-
 #include "../../CommonStructs.h"
 #include "../Environment.h"
 #include "../Helpers.h"
@@ -51,6 +47,8 @@ rtDeclareVariable(float, refraction_index, , );
 rtDeclareVariable(float, phong_exp, , );
 rtDeclareVariable(uint, shading_mode, , );
 rtDeclareVariable(float, user_parameter, , );
+rtDeclareVariable(uint, cast_user_data, , );
+rtDeclareVariable(uint, clipping_mode, , );
 
 rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
 rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
@@ -392,7 +390,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
     if (fmaxf(opacity) > 0.f)
     {
         // User data
-        if (simulation_data.size() > 0)
+        if (cast_user_data && simulation_data.size() > 0)
         {
             const float4 userDataColor =
                 calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, simulation_data[simulation_idx], tfColors,

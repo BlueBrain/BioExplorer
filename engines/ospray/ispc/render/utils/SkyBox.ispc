@@ -21,11 +21,11 @@
 #include <ospray/SDK/render/Renderer.ih>
 #include <ospray/SDK/render/util.ih>
 
-#include "../DefaultMaterial.ih"
+#include "../AdvancedMaterial.ih"
 #include "Consts.ih"
 
 vec4f skyboxMapping(const uniform Renderer* uniform renderer, const varying Ray& ray,
-                    const uniform DefaultMaterial* uniform bgMaterial)
+                    const uniform AdvancedMaterial* uniform bgMaterial)
 {
     varying vec4f result = make_vec4f(bgMaterial->Kd);
 

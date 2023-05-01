@@ -33,7 +33,7 @@ set(BRAYNSOSPRAYENGINE_ISPC_SOURCES
   ispc/geometry/SDFGeometries.ispc
   ispc/geometry/RayMarching.isph
   ispc/render/BasicRenderer.ispc
-  ispc/render/DefaultMaterial.ispc
+  ispc/render/AdvancedMaterial.ispc
   ispc/render/utils/RandomGenerator.ispc
   ispc/render/utils/SkyBox.ispc
 )
@@ -57,7 +57,7 @@ set(BRAYNSOSPRAYENGINE_SOURCES
   ispc/geometry/SDFBeziers.cpp
   ispc/geometry/SDFGeometries.cpp
   ispc/render/BasicRenderer.cpp
-  ispc/render/DefaultMaterial.cpp
+  ispc/render/AdvancedMaterial.cpp
   ispc/render/utils/AbstractRenderer.cpp
 )
 list(APPEND BRAYNSOSPRAYENGINE_SOURCES ${BRAYNSOSPRAYENGINE_ISPC_SOURCES})
@@ -78,7 +78,7 @@ set(BRAYNSOSPRAYENGINE_HEADERS
   ispc/camera/FishEyeCamera.h
   ispc/camera/PerspectiveParallaxCamera.h
   ispc/render/BasicRenderer.h
-  ispc/render/DefaultMaterial.h
+  ispc/render/AdvancedMaterial.h
   ispc/render/utils/AbstractRenderer.h
 )
 
@@ -86,6 +86,8 @@ set(BRAYNSOSPRAYENGINE_PUBLIC_HEADERS
   ispc/geometry/Cones.h
   ispc/geometry/SDFBeziers.h
   ispc/geometry/SDFGeometries.h
+  ispc/render/AdvancedMaterial.h
+  ispc/render/AdvancedMaterial.ih
 )
 
 set_source_files_properties(

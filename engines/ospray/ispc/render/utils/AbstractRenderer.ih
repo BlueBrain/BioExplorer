@@ -29,7 +29,7 @@
 #include <ospray/SDK/texture/Texture2D.ih>
 
 // Brayns
-#include "../DefaultMaterial.ih"
+#include "../AdvancedMaterial.ih"
 #include "RandomGenerator.ih"
 #include "SkyBox.ih"
 
@@ -40,7 +40,7 @@ struct AbstractRenderer
     // Rendering attributes
     const uniform Light* uniform* uniform lights;
     uint32 numLights;
-    DefaultMaterial* bgMaterial;
+    AdvancedMaterial* bgMaterial;
     float timestamp;
 };
 

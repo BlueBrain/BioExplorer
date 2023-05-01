@@ -68,6 +68,10 @@ void OSPRayMaterial::commit()
     osphelper::set(_ospMaterial, "reflection", static_cast<float>(_reflectionIndex));
     osphelper::set(_ospMaterial, "a", static_cast<float>(_emission));
     osphelper::set(_ospMaterial, "glossiness", static_cast<float>(_glossiness));
+    osphelper::set(_ospMaterial, "shadingMode", static_cast<MaterialShadingMode>(_shadingMode));
+    osphelper::set(_ospMaterial, "userParameter", static_cast<float>(_userParameter));
+    osphelper::set(_ospMaterial, "castUserData", static_cast<bool>(_castUserData));
+    osphelper::set(_ospMaterial, "clippingMode", static_cast<MaterialClippingMode>(_clippingMode));
     osphelper::set(_ospMaterial, "skybox", _isBackGroundMaterial);
 
     // Properties

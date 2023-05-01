@@ -56,7 +56,7 @@ inline vec3f BasicRenderer_shadeRay(const uniform BasicRenderer* uniform self, v
     postIntersect(self->abstract.super.model, dg, ray,
                   DG_NS | DG_NG | DG_NORMALIZE | DG_FACEFORWARD | DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
 
-    uniform DefaultMaterial* material = (uniform DefaultMaterial*)dg.material;
+    uniform AdvancedMaterial* material = (uniform AdvancedMaterial*)dg.material;
 
     vec3f Kd = make_vec3f(0.f);
     if (!material)
@@ -105,7 +105,7 @@ export void BasicRenderer_set(void* uniform _self, void* uniform bgMaterial, con
 {
     uniform BasicRenderer* uniform self = (uniform BasicRenderer * uniform) _self;
 
-    self->abstract.bgMaterial = (uniform DefaultMaterial * uniform) bgMaterial;
+    self->abstract.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
     self->abstract.timestamp = timestamp;
     self->abstract.super.spp = spp;
 

@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include <brayns/common/CommonTypes.h>
+
 #include <ospray/SDK/common/Material.h>
 #include <ospray/SDK/texture/Texture2D.h>
 
@@ -29,7 +31,7 @@ namespace brayns
 {
 typedef ospray::vec3f Color;
 
-struct DefaultMaterial : public ospray::Material
+struct AdvancedMaterial : public ospray::Material
 {
     /*! opacity: 0 (transparent), 1 (opaque) */
     ospray::Texture2D* map_d;
@@ -65,7 +67,19 @@ struct DefaultMaterial : public ospray::Material
     /*! bump map */
     ospray::Texture2D* map_Bump;
 
-    std::string toString() const override { return "brayns::DefaultMaterial"; }
+    /*! User defined parameter */
+    float userParameter;
+
+    /*! Shading mode */
+    MaterialShadingMode shadingMode{MaterialShadingMode::undefined_shading_mode};
+
+    /*! Cast user data on geometry */
+    bool castUserData{false};
+
+    /*! Clipping mode applied to geometry */
+    MaterialClippingMode clippingMode{MaterialClippingMode::no_clipping};
+
+    std::string toString() const override { return "brayns::AdvancedMaterial"; }
 
     void commit() override;
 };
