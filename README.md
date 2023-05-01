@@ -63,6 +63,15 @@ On the third anniversary of the first lock-down, we look back at how #MachineLea
       </a>
 </div>
 
+## Social Media
+
+* [Blue Brain BioExplorer 1.6 goes RTX!](https://www.linkedin.com/feed/update/urn:li:activity:7057015980253696000/)
+* [On the third anniversary of the first lockdown, we look back at how Machine Learning helped reveal the role of blood glucose levels in the severity of COVID-19.](https://www.linkedin.com/posts/blue-brain-project_machine-learning-and-understanding-the-role-activity-7044953592570535937-s6IB?utm_source=share&utm_medium=member_desktop)
+* [If you’re traveling to Spain over the holiday break, don’t miss the amazing exhibition Brain(s) opening soon in Madrid featuring images from the EPFL Blue Brain Project. Join the more than 86'000 visitors who already enjoyed it while on its Barcelona stop!](https://www.linkedin.com/posts/blue-brain-project_if-youre-traveling-to-spain-over-the-holiday-activity-7009472054114533376-Serk?utm_source=share&utm_medium=member_desktop)
+* [The BlueBrainBioExplorer 1.4 is now out and ready to explore additional bio assemblies from neurons and astrocytes to vasculatures and more!](https://www.linkedin.com/posts/blue-brain-project_openscience-neuroscience-scientificvisualization-activity-6980420229633867776-ViVr?utm_source=share&utm_medium=member_desktop)
+* [The EPFL Blue Brain Project will be featuring in the exciting Brain(s) exhibition at the Barcelona Centre of Contemporary Culture starting tomorrow!](https://www.linkedin.com/posts/blue-brain-project_cervellscccb-cerebroscccb-brainscccb-activity-6957702754731450369-gsLV?utm_source=share&utm_medium=member_desktop)
+  
+
 ## BioExplorer goes RTX!
 
 BioExplorer now benefits from [NVIDIA OptiX](https://developer.nvidia.com/rtx/ray-tracing/optix) backend compatibility, allowing it to fully utilize the NVIDIA RTX acceleration hardware capabilities for fast and high-quality rendering of scientific datasets. This advanced feature, along with the new stereo perspective camera, enables virtual reality use-cases with pure ray-tracing. Additionally, an AI-powered denoiser has been incorporated to enhance the real-time rendering quality.
