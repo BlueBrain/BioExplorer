@@ -1,0 +1,96 @@
+/*
+ * The Blue Brain BioExplorer is a tool for scientists to extract and analyse
+ * scientific data from visualization
+ *
+ * Copyright 2020-2023 Blue Brain Project / EPFL
+ *
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+// Brayns
+#include "SonataExplorerAbstractRenderer.ih"
+
+struct SonataExplorerSimulationRenderer
+{
+    SonataExplorerAbstractRenderer super;
+
+    // Transfer function attributes
+    const uniform TransferFunction* uniform transferFunction;
+
+    // Simulation data
+    uniform float* uniform simulationData;
+    uint64 simulationDataSize;
+
+    // Secondary model
+    Model* secondaryModel;
+    float maxDistanceToSecondaryModel;
+
+    // Fog
+    float fogThickness;
+    float fogStart;
+};
+
+extern "C" unmasked uniform int
+    SonataExplorerSimulationRenderer_getBytesPerPrimitive(
+        const void* uniform geometry);
+
+static inline int getBytesPerPrimitive(const void* geometry)
+{
+    int bytesPerPrimitive;
+    foreach_unique(g in geometry)
+    {
+        bytesPerPrimitive =
+            SonataExplorerSimulationRenderer_getBytesPerPrimitive(g);
+    }
+    return bytesPerPrimitive;
+}
+
+static inline uint64 getOffset(const uniform Geometry* geometry,
+                               const varying int primID)
+{
+    if (!geometry)
+        return 0;
+
+    // The data pointer in all "derived" geometries is just after data members
+    // of the base Geometry struct. That's why array index starts at 1
+    const uniform uint8* data = *((const uniform uint8**)&geometry[1]);
+
+    const int bytesPerPrimitive = getBytesPerPrimitive(geometry->cppEquivalent);
+    const uint64 bytesPerPrimitive64 = (uint64)bytesPerPrimitive;
+    if (primID * bytesPerPrimitive64 > 0x7FFFFFFF)
+        data =
+            (const uniform uint8*)((uint64)data + bytesPerPrimitive64 * primID);
+    else
+        data += bytesPerPrimitive * primID;
+
+    return *((const uniform uint64*)data);
+}
+
+inline vec4f getSimulationValue(
+    const uniform SonataExplorerSimulationRenderer* uniform self,
+    varying DifferentialGeometry* dg, const varying int primID)
+{
+    if (self->simulationDataSize == 0)
+        return make_vec4f(1.f, 0.f, 0.f, 1.f);
+
+    const uint64 offset = getOffset(dg->geometry, primID);
+    if (offset < self->simulationDataSize)
+    {
+        const varying float value = self->simulationData[offset];
+        const uniform TransferFunction* uniform tf = self->transferFunction;
+        return make_vec4f(tf->getColorForValue(tf, value),
+                          tf->getOpacityForValue(tf, value));
+    }
+    return make_vec4f(1.f, 0.f, 0.f, 1.f);
+}

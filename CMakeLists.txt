@@ -47,3 +47,10 @@ if(BIOEXPLORER_METABOLISM_ENABLED)
     message(STATUS "Building Metabolism plugin")
     add_subdirectory(extras/Metabolism)
 endif()
+
+option(BIOEXPLORER_SONATA_ENABLED "Enable SONATA plugin" OFF)
+
+if(BIOEXPLORER_SONATA_ENABLED)
+    message(STATUS "Building SONATA plugin")
+    add_subdirectory(extras/Sonata)
+endif()
