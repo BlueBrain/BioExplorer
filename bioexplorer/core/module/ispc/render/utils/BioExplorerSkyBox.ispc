@@ -18,10 +18,12 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+// Brayns
+#include <brayns/ispc/render/AdvancedMaterial.ih>
+
+// OSPRay
 #include <ospray/SDK/render/Renderer.ih>
 #include <ospray/SDK/render/util.ih>
-
-#include <render/utils/AdvancedMaterial.ih>
 
 vec4f skyboxMapping(const uniform Renderer* uniform renderer,
                     const varying Ray& ray,

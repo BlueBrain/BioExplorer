@@ -2,7 +2,7 @@
  * The Blue Brain BioExplorer is a tool for scientists to extract and analyse
  * scientific data from visualization
  *
- * Copyright 2020-2023 Blue Brain Project / EPFL
+ * Copyright 2020-2023 Blue BrainProject / EPFL
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -20,76 +20,87 @@
 
 #pragma once
 
-#include <common/CommonTypes.h>
+#include <plugin/common/CommonTypes.h>
 
 #include <brayns/common/CommonTypes.h>
 
 #include <ospray/SDK/common/Material.h>
 #include <ospray/SDK/texture/Texture2D.h>
 
-namespace sonataexplorer
+namespace bioexplorer
 {
-typedef ospray::vec3f Color;
+namespace rendering
+{
+using namespace ospray;
 
-struct SonataExplorerMaterial : public ospray::Material
+typedef vec3f Color;
+
+struct BioExplorerMaterial : public Material
 {
     /*! opacity: 0 (transparent), 1 (opaque) */
-    ospray::Texture2D* map_d;
-    ospray::affine2f xform_d;
-    float d;
+    Texture2D* map_d;
+    affine2f xform_d;
+    double d{1.0};
 
     /*! refraction index */
-    ospray::Texture2D* map_Refraction;
-    ospray::affine2f xform_Refraction;
-    float refraction;
+    Texture2D* map_Refraction;
+    affine2f xform_Refraction;
+    double refraction{1.0};
 
     /*! reflection index */
-    ospray::Texture2D* map_Reflection;
-    ospray::affine2f xform_Reflection;
-    float reflection;
+    Texture2D* map_Reflection;
+    affine2f xform_Reflection;
+    double reflection{0.0};
 
     /*! radiance: 0 (none), 1 (full) */
-    ospray::Texture2D* map_a;
-    ospray::affine2f xform_a;
-    float a;
+    Texture2D* map_a;
+    affine2f xform_a;
+    double a{0.0};
 
     /*! diffuse  reflectance: 0 (none), 1 (full) */
-    ospray::Texture2D* map_Kd;
-    ospray::affine2f xform_Kd;
+    Texture2D* map_Kd;
+    affine2f xform_Kd;
     Color Kd;
 
     /*! specular reflectance: 0 (none), 1 (full) */
-    ospray::Texture2D* map_Ks;
-    ospray::affine2f xform_Ks;
+    Texture2D* map_Ks;
+    affine2f xform_Ks;
     Color Ks;
 
     /*! specular exponent: 0 (diffuse), infinity (specular) */
-    ospray::Texture2D* map_Ns;
-    ospray::affine2f xform_Ns;
-    float Ns;
+    Texture2D* map_Ns;
+    affine2f xform_Ns;
+    double Ns;
 
     /*! Glossiness: 0 (none), 1 (full) */
-    float glossiness;
+    double glossiness{1.0};
 
     /*! bump map */
-    ospray::Texture2D* map_Bump;
-    ospray::affine2f xform_Bump;
-    ospray::linear2f rot_Bump;
+    Texture2D* map_Bump;
+    affine2f xform_Bump;
+    linear2f rot_Bump;
 
-    /*! Casts user data */
-    bool castUserData;
-
-    /*! Shading mode (none, diffuse, electron, etc) */
+    /*! Shading mode */
     MaterialShadingMode shadingMode;
 
-    /*! If enabled, geometry intersection is discarded if outside of scene
-     * clipping planes */
-    MaterialClippingMode clippingMode;
-
     /*! User parameter */
-    float userParameter;
+    double userParameter{1.0};
+
+    /*! Model ID */
+    uint32 nodeId;
+
+    /*! Takes the color from surrounding invisible geometry */
+    MaterialChameleonMode chameleonMode;
+
+    /*! Determines if shading should include user data */
+    bool castUserData{false};
+
+    /*! defines the type of clipping for the geometry attached to the material
+     */
+    MaterialClippingMode clippingMode;
 
     std::string toString() const final { return "default_material"; }
     void commit() final;
 };
-} // namespace sonataexplorer
+} // namespace rendering
+} // namespace bioexplorer

@@ -29,7 +29,7 @@
 #include <ospray/SDK/texture/Texture2D.ih>
 #include <ospray/SDK/texture/TextureParam.ih>
 
-struct AdvancedMaterial
+struct BioExplorerMaterial
 {
     uniform Material super;
 

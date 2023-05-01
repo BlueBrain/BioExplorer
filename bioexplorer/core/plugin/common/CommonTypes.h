@@ -25,22 +25,10 @@
 /** Additional material attributes */
 #define MATERIAL_PROPERTY_CHAMELEON_MODE "chameleon_mode"
 #define MATERIAL_PROPERTY_NODE_ID "node_id"
-#define MATERIAL_PROPERTY_CAST_USER_DATA "cast_user_data"
-#define MATERIAL_PROPERTY_CLIPPING_MODE "clipping_mode"
-
-/** User data */
-#define NO_USER_DATA -1
 
 enum MaterialChameleonMode
 {
     undefined_chameleon_mode = 0,
     emitter = 1,
     receiver = 2
-};
-
-enum MaterialClippingMode
-{
-    no_clipping = 0,
-    plane = 1,
-    sphere = 2
 };

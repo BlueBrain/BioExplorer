@@ -18,6 +18,8 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include "SonataExplorerRandomGenerator.ih"
+
 // ospray
 #include <ospray/SDK/camera/PerspectiveCamera.ih>
 #include <ospray/SDK/common/Model.ih>
@@ -25,12 +27,6 @@
 #include <ospray/SDK/lights/Light.ih>
 #include <ospray/SDK/render/Renderer.ih>
 #include <ospray/SDK/texture/Texture2D.ih>
-
-// obj renderer
-#include "SonataExplorerMaterial.ih"
-
-// Brayns
-#include "SonataExplorerRandomGenerator.ih"
 
 #include <module/ispc/render/utils/Consts.ih>
 #include <module/ispc/render/utils/SkyBox.ih>
@@ -45,7 +41,7 @@ struct SonataExplorerAbstractRenderer
     // Rendering attributes
     const uniform Light* uniform* uniform lights;
     uint32 numLights;
-    SonataExplorerMaterial* bgMaterial;
+    AdvancedMaterial* bgMaterial;
     float timestamp;
     uint32 maxBounces;
     float exposure;

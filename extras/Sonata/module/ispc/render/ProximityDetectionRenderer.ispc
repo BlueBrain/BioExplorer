@@ -20,6 +20,10 @@
 
 #include "utils/SonataExplorerAbstractRenderer.ih"
 
+#include <brayns/ispc/render/AdvancedMaterial.ih>
+
+#include <brayns/common/CommonTypes.h>
+
 uniform const float nearFarThreshold = 0.2f;
 
 struct ProximityDetectionRenderer
@@ -42,9 +46,6 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
     const uniform ProximityDetectionRenderer* uniform self,
     varying ScreenSample& sample)
 {
-    if (!self->super.super.model->embreeSceneHandle)
-        return make_vec3f(1.f, 1.f, 0.f);
-
     varying Ray ray = sample.ray;
     vec4f color = make_vec4f(0.f);
     sample.alpha = 0.f;
@@ -58,7 +59,7 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
         {
             vec4f bgColor =
                 skyboxMapping((Renderer*)self, ray,
-                              (SonataExplorerMaterial*)self->super.bgMaterial);
+                              (AdvancedMaterial*)self->super.bgMaterial);
             bgColor.w = 1.f;
             composite(bgColor, color, self->alphaCorrection);
             return make_vec3f(color) * self->super.exposure;
@@ -74,8 +75,8 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
                           DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
 
         uniform Material* material = dg.material;
-        uniform SonataExplorerMaterial* objMaterial =
-            (uniform SonataExplorerMaterial*)material;
+        uniform AdvancedMaterial* advancedMaterial =
+            (uniform AdvancedMaterial*)material;
 
         vec3f normal = dg.Ns;
         const vec3f P = dg.P + dg.epsilon * dg.Ng;
@@ -128,13 +129,13 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
             vec3f Kd;
             float Ns = 1.f;
             float opacity = 1.f;
-            if (!objMaterial)
+            if (!advancedMaterial)
             {
                 Kd = make_vec3f(dg.color);
                 opacity = dg.color.w;
             }
             else
-                foreach_unique(mat in objMaterial)
+                foreach_unique(mat in advancedMaterial)
                 {
                     Kd = mat->Kd * make_vec3f(dg.color);
                     shadingMode = mat->shadingMode;
@@ -246,8 +247,7 @@ export void ProximityDetectionRenderer_set(
     self->super.super.spp = spp;
 
     // Abstract
-    self->super.bgMaterial =
-        (uniform SonataExplorerMaterial * uniform) bgMaterial;
+    self->super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
     self->super.lights = (const uniform Light* uniform* uniform)lights;
     self->super.numLights = numLights;
     self->super.maxBounces = maxBounces;

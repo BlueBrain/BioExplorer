@@ -62,7 +62,7 @@ include_directories(
 # ==============================================================================
 set(${NAME}_SOURCES
     module/ispc/render/utils/SimulationRenderer.cpp
-    module/ispc/render/utils/AdvancedMaterial.cpp
+    module/ispc/render/utils/BioExplorerMaterial.cpp
     module/ispc/render/AdvancedRenderer.cpp
     module/ispc/render/FieldsRenderer.cpp
     module/ispc/render/DensityRenderer.cpp
@@ -119,7 +119,7 @@ set(${NAME}_SOURCES
 
 set(${NAME}_PUBLIC_HEADERS
     module/ispc/render/utils/SimulationRenderer.h
-    module/ispc/render/utils/AdvancedMaterial.h
+    module/ispc/render/utils/BioExplorerMaterial.h
     module/ispc/render/AdvancedRenderer.h
     module/ispc/render/FieldsRenderer.h
     module/ispc/render/DensityRenderer.h
@@ -190,7 +190,7 @@ endif()
 set(${NAME}_ISPC_SOURCES
     module/ispc/render/utils/BioExplorerSkyBox.ispc
     module/ispc/render/utils/BioExplorerRandomGenerator.ispc
-    module/ispc/render/utils/AdvancedMaterial.ispc
+    module/ispc/render/utils/BioExplorerMaterial.ispc
     module/ispc/render/utils/SimulationRenderer.ispc
     module/ispc/render/FieldsRenderer.ispc
     module/ispc/render/DensityRenderer.ispc

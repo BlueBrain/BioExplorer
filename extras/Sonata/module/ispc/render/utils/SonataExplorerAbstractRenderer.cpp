@@ -20,12 +20,17 @@
 
 #include "SonataExplorerAbstractRenderer.h"
 
+// Brayns
+#include <brayns/ispc/render/AdvancedMaterial.h>
+
 // ospray
 #include <ospray/SDK/common/Data.h>
 #include <ospray/SDK/lights/Light.h>
 
 namespace sonataexplorer
 {
+using namespace brayns;
+
 void SonataExplorerAbstractRenderer::commit()
 {
     Renderer::commit();
@@ -41,8 +46,7 @@ void SonataExplorerAbstractRenderer::commit()
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
     _timestamp = getParam1f("timestamp", 0.f);
-    _bgMaterial =
-        (SonataExplorerMaterial*)getParamObject("bgMaterial", nullptr);
+    _bgMaterial = (AdvancedMaterial*)getParamObject("bgMaterial", nullptr);
     _maxBounces = getParam1i("maxBounces", 10);
     _exposure = getParam1f("exposure", 1.f);
 

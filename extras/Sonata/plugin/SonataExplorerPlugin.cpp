@@ -19,7 +19,6 @@
  */
 
 #include "SonataExplorerPlugin.h"
-#include <common/CommonTypes.h>
 #include <common/Logs.h>
 
 #include <plugin/io/BrickLoader.h>

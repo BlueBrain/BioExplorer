@@ -22,6 +22,7 @@
 
 #include <ospray/SDK/math/random.ih>
 #include <ospray/SDK/math/vec.ih>
+#include <ospray/SDK/render/Renderer.ih>
 
 float getRandomValue(const bool useHardware, const varying ScreenSample& sample,
                      const int randomNumber);

@@ -27,6 +27,8 @@
 
 #include <plugin/io/db/DBConnector.h>
 
+// Brayns
+#include <brayns/common/CommonTypes.h>
 #include <brayns/engineapi/Model.h>
 #include <brayns/engineapi/Scene.h>
 

@@ -18,17 +18,17 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "AdvancedMaterial.ih"
+#include "BioExplorerMaterial.ih"
 
-export void* uniform AdvancedMaterial_create(void* uniform cppE)
+export void* uniform BioExplorerMaterial_create(void* uniform cppE)
 {
-    uniform AdvancedMaterial* uniform mat =
-        uniform new uniform AdvancedMaterial;
+    uniform BioExplorerMaterial* uniform mat =
+        uniform new uniform BioExplorerMaterial;
     mat->super.cppEquivalent = cppE;
     return mat;
 }
 
-export void AdvancedMaterial_set(
+export void BioExplorerMaterial_set(
     void* uniform _mat, const void* uniform map_d,
     const uniform affine2f& xform_d, const uniform float& d,
     const void* uniform map_refraction,
@@ -49,8 +49,8 @@ export void AdvancedMaterial_set(
     const uniform uint32& nodeId, const uniform bool castUserData,
     const uniform MaterialClippingMode& clippingMode)
 {
-    uniform AdvancedMaterial* uniform self =
-        (uniform AdvancedMaterial * uniform) _mat;
+    uniform BioExplorerMaterial* uniform self =
+        (uniform BioExplorerMaterial * uniform) _mat;
 
     self->map_d = make_TextureParam((Texture2D*)map_d, xform_d);
     self->d = d;

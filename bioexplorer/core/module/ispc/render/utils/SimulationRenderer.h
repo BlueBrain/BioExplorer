@@ -18,8 +18,12 @@
 
 #pragma once
 
-#include "AdvancedMaterial.h"
+#include "BioExplorerMaterial.h"
 
+// Brayns
+#include <brayns/ispc/render/AdvancedMaterial.h>
+
+// OSPRay
 #include <ospray/SDK/common/Material.h>
 #include <ospray/SDK/render/Renderer.h>
 
@@ -28,6 +32,7 @@ namespace bioexplorer
 namespace rendering
 {
 using namespace ospray;
+using namespace brayns;
 
 /**
  * The SimulationRenderer class implements a parent renderer for

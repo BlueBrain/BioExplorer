@@ -20,6 +20,8 @@
 
 #include "utils/SonataExplorerSimulationRenderer.ih"
 
+#include <brayns/common/CommonTypes.h>
+
 struct CellGrowthRenderer
 {
     SonataExplorerSimulationRenderer super;
@@ -132,9 +134,9 @@ inline vec3f CellGrowthRenderer_shadeRay(
         if (ray.geomID < 0)
         {
             // No intersection
-            vec4f colorContribution = skyboxMapping(
-                (Renderer*)self, ray,
-                (SonataExplorerMaterial*)self->super.super.bgMaterial);
+            vec4f colorContribution =
+                skyboxMapping((Renderer*)self, ray,
+                              (AdvancedMaterial*)self->super.super.bgMaterial);
             colorContribution.w = 1.f;
             pathColor = make_vec3f(colorContribution);
             break;
@@ -150,14 +152,15 @@ inline vec3f CellGrowthRenderer_shadeRay(
 
         // Material management
         const uniform Material* material = dg.material;
-        const uniform SonataExplorerMaterial* objMaterial =
-            (const uniform SonataExplorerMaterial*)material;
+        const uniform AdvancedMaterial* advancedMaterial =
+            (const uniform AdvancedMaterial*)material;
+
         MaterialShadingMode shadingMode = diffuse;
 
-        if (!objMaterial)
+        if (!advancedMaterial)
             Kd = make_vec3f(dg.color);
         else
-            foreach_unique(mat in objMaterial)
+            foreach_unique(mat in advancedMaterial)
             {
                 shadingMode = mat->shadingMode;
                 Kd = make_vec3f(dg.color) * mat->Kd;
@@ -268,7 +271,7 @@ export void CellGrowthRenderer_set(
 
     // Abstract
     self->super.super.bgMaterial =
-        (uniform SonataExplorerMaterial * uniform) bgMaterial;
+        (uniform AdvancedMaterial * uniform) bgMaterial;
     self->super.super.lights = (const uniform Light* uniform* uniform)lights;
     self->super.super.numLights = numLights;
     self->super.super.useHardwareRandomizer = useHardwareRandomizer;

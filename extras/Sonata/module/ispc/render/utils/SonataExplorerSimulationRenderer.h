@@ -22,10 +22,8 @@
 
 // obj
 #include "SonataExplorerAbstractRenderer.h"
-#include "SonataExplorerMaterial.h"
 
 // ospray
-#include <ospray/SDK/common/Material.h>
 #include <ospray/SDK/render/Renderer.h>
 
 // system

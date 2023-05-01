@@ -20,7 +20,10 @@
 
 #pragma once
 
-#include "SonataExplorerMaterial.ih"
+// Brayns
+#include <brayns/ispc/render/AdvancedMaterial.ih>
+
+// OSPRay
 #include <ospray/SDK/math/vec.ih>
 
 /**
@@ -33,4 +36,4 @@
 */
 vec4f skyboxMapping(const uniform Renderer* uniform renderer,
                     const varying Ray& ray,
-                    const uniform SonataExplorerMaterial* uniform bgMaterial);
+                    const uniform AdvancedMaterial* uniform bgMaterial);

@@ -18,9 +18,11 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <ospray/SDK/render/Renderer.ih>
+// Brayns
+#include <brayns/ispc/render/AdvancedMaterial.ih>
 
-#include <module/ispc/render/utils/AdvancedMaterial.ih>
+// OSPRay
+#include <ospray/SDK/render/Renderer.ih>
 
 struct GolgiStyleRenderer
 {

@@ -18,16 +18,15 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 #include "AstrocyteLoader.h"
 
 #include <plugin/neuroscience/common/MorphologyLoader.h>
 #include <plugin/neuroscience/common/ParallelModelContainer.h>
 #include <plugin/neuroscience/common/Types.h>
 
-#include <common/CommonTypes.h>
 #include <common/Logs.h>
 
+#include <brayns/common/CommonTypes.h>
 #include <brayns/common/Timer.h>
 #include <brayns/engineapi/Model.h>
 #include <brayns/engineapi/Scene.h>

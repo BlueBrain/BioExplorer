@@ -26,8 +26,10 @@
 #include <ospray/SDK/render/Renderer.ih>
 #include <ospray/SDK/texture/Texture2D.ih>
 
+// Brayns
+#include <brayns/ispc/render/AdvancedMaterial.ih>
+
 // BioExplorer
-#include <bioexplorer/core/module/ispc/render/utils/AdvancedMaterial.ih>
 #include <bioexplorer/core/module/ispc/render/utils/BioExplorerRandomGenerator.ih>
 
 struct MetabolismRenderer

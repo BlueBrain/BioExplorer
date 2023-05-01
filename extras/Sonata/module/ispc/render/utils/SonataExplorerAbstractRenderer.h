@@ -20,11 +20,10 @@
 
 #pragma once
 
-// obj
-#include "SonataExplorerMaterial.h"
+// Brayns
+#include <brayns/ispc/render/AdvancedMaterial.h>
 
 // ospray
-#include <ospray/SDK/common/Material.h>
 #include <ospray/SDK/render/Renderer.h>
 
 // system
@@ -32,6 +31,9 @@
 
 namespace sonataexplorer
 {
+
+using namespace brayns;
+
 /**
  * The SonataExplorerAbstractRenderer class implements a base renderer for all
  * Brayns custom implementations
@@ -48,7 +50,7 @@ protected:
     void** _lightPtr;
     ospray::Data* _lightData;
 
-    SonataExplorerMaterial* _bgMaterial;
+    AdvancedMaterial* _bgMaterial;
 
     float _timestamp{0.f};
     ospray::uint32 _maxBounces{10};

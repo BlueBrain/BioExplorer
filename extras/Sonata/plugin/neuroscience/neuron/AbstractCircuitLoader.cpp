@@ -27,7 +27,6 @@
 #include <plugin/neuroscience/common/ParallelModelContainer.h>
 #include <plugin/neuroscience/common/Types.h>
 
-#include <common/CommonTypes.h>
 #include <common/Logs.h>
 #include <common/Utils.h>
 

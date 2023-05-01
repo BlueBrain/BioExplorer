@@ -26,7 +26,6 @@
 #include <plugin/neuroscience/neuron/SpikeSimulationHandler.h>
 #include <plugin/neuroscience/neuron/VoltageSimulationHandler.h>
 
-#include <common/CommonTypes.h>
 #include <common/Logs.h>
 
 #include <brayns/engineapi/Material.h>

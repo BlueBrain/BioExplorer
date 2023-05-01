@@ -20,8 +20,10 @@
 
 #pragma once
 
-#include "AdvancedMaterial.ih"
+// Brayns
+#include <brayns/ispc/render/AdvancedMaterial.ih>
 
+// OSPRay
 #include <ospray/SDK/math/vec.ih>
 
 /**

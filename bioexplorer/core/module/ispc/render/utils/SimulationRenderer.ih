@@ -16,14 +16,15 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+// Brayns
+#include <brayns/ispc/render/AdvancedMaterial.ih>
+
 // ospray
 #include <ospray/SDK/common/Model.ih>
 #include <ospray/SDK/fb/FrameBuffer.ih>
 #include <ospray/SDK/lights/Light.ih>
 #include <ospray/SDK/render/Renderer.ih>
 #include <ospray/SDK/texture/Texture2D.ih>
-
-#include "AdvancedMaterial.ih"
 
 struct SimulationRenderer
 {

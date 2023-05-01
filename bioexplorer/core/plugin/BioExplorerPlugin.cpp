@@ -1717,17 +1717,16 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
                                 material->setUserParameter(
                                     payload.userParameters[id]);
                             if (!payload.castUserData.empty())
-                                material->updateProperty(
-                                    MATERIAL_PROPERTY_CAST_USER_DATA,
+                                material->setCastUserData(
                                     payload.castUserData[id]);
+                            if (!payload.clippingModes.empty())
+                                material->setClippingMode(
+                                    static_cast<MaterialClippingMode>(
+                                        payload.clippingModes[id]));
                             if (!payload.chameleonModes.empty())
                                 material->updateProperty(
                                     MATERIAL_PROPERTY_CHAMELEON_MODE,
                                     payload.chameleonModes[id]);
-                            if (!payload.clippingModes.empty())
-                                material->updateProperty(
-                                    MATERIAL_PROPERTY_CLIPPING_MODE,
-                                    payload.clippingModes[id]);
 
                             // This is needed to apply modifications.
                             // Changes to the material will be committed

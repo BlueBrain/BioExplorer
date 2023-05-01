@@ -21,6 +21,7 @@
 #include <plugin/common/CommonTypes.h>
 
 #include "AdvancedRenderer.ih"
+#include "utils/BioExplorerMaterial.ih"
 #include "utils/BioExplorerRandomGenerator.ih"
 #include "utils/BioExplorerSkyBox.ih"
 
@@ -184,8 +185,8 @@ inline void setGeometryShadingAttributes(
 
     // Process material attributes
     const uniform Material* material = dg.material;
-    const uniform AdvancedMaterial* objMaterial =
-        (const uniform AdvancedMaterial*)material;
+    const uniform BioExplorerMaterial* objMaterial =
+        (const uniform BioExplorerMaterial*)material;
     if (!objMaterial)
     {
         // Diffuse color
@@ -339,8 +340,8 @@ inline bool launchRandomRay(
                           DG_FACEFORWARD | DG_MATERIALID | DG_COLOR |
                           DG_TEXCOORD);
 
-        uniform AdvancedMaterial* objMaterial =
-            (uniform AdvancedMaterial*)dg.material;
+        uniform BioExplorerMaterial* objMaterial =
+            (uniform BioExplorerMaterial*)dg.material;
         if (objMaterial)
             foreach_unique(mat in objMaterial)
             {
@@ -483,8 +484,8 @@ inline float shadedLightIntensity(varying ScreenSample& sample,
             if (!isClipped(attributes.self, shadowingGeometry.P,
                            attributes.clippingMode))
             {
-                uniform AdvancedMaterial* objMaterial =
-                    (uniform AdvancedMaterial*)shadowingGeometry.material;
+                uniform BioExplorerMaterial* objMaterial =
+                    (uniform BioExplorerMaterial*)shadowingGeometry.material;
 
                 float opacity = 1.f;
 
@@ -616,8 +617,8 @@ inline vec3f getChameleonColor(const uniform AdvancedRenderer* uniform self,
                               DG_TEXCOORD);
 
             const uniform Material* material = geometry.material;
-            const uniform AdvancedMaterial* objMaterial =
-                (const uniform AdvancedMaterial*)material;
+            const uniform BioExplorerMaterial* objMaterial =
+                (const uniform BioExplorerMaterial*)material;
             if (objMaterial)
             {
                 foreach_unique(mat in objMaterial)

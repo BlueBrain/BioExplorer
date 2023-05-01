@@ -18,16 +18,19 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// ospray
+// Brayns
+#include <brayns/ispc/render/AdvancedMaterial.ih>
+
+// BioExplorer
+#include <bioexplorer/core/module/ispc/render/utils/BioExplorerRandomGenerator.ih>
+
+// OSPRay
 #include <ospray/SDK/camera/PerspectiveCamera.ih>
 #include <ospray/SDK/common/Model.ih>
 #include <ospray/SDK/fb/FrameBuffer.ih>
 #include <ospray/SDK/lights/Light.ih>
 #include <ospray/SDK/render/Renderer.ih>
 #include <ospray/SDK/texture/Texture2D.ih>
-
-#include <bioexplorer/core/module/ispc/render/utils/AdvancedMaterial.ih>
-#include <bioexplorer/core/module/ispc/render/utils/BioExplorerRandomGenerator.ih>
 
 struct DensityRenderer
 {

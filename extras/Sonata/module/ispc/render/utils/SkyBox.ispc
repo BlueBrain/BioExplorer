@@ -18,15 +18,16 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <brayns/ispc/render/AdvancedMaterial.ih>
+
 #include <ospray/SDK/render/Renderer.ih>
 #include <ospray/SDK/render/util.ih>
 
 #include "Consts.ih"
-#include "SonataExplorerMaterial.ih"
 
 vec4f skyboxMapping(const uniform Renderer* uniform renderer,
                     const varying Ray& ray,
-                    const uniform SonataExplorerMaterial* uniform bgMaterial)
+                    const uniform AdvancedMaterial* uniform bgMaterial)
 {
     varying vec4f result = make_vec4f(bgMaterial->Kd);
 
