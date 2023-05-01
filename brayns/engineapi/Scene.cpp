@@ -431,7 +431,7 @@ void Scene::computeBounds()
 {
     std::unique_lock<std::shared_timed_mutex> lock(_modelMutex);
     _bounds.reset();
-    for (const auto modelDescriptor : _modelDescriptors)
+    for (const auto& modelDescriptor : _modelDescriptors)
     {
         const auto& modelBounds = modelDescriptor->getModel().getBounds();
         Transformation modelTransformation;
