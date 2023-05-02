@@ -30,6 +30,7 @@ namespace brayns
 void BasicRenderer::commit()
 {
     AbstractRenderer::commit();
+
     ispc::BasicRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _lightPtr,
                             _lightArray.size());
 }
@@ -39,6 +40,5 @@ BasicRenderer::BasicRenderer()
     ispcEquivalent = ispc::BasicRenderer_create(this);
 }
 
-OSP_REGISTER_RENDERER(BasicRenderer, BASIC);
 OSP_REGISTER_RENDERER(BasicRenderer, basic);
 } // namespace brayns

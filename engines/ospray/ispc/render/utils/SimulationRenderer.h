@@ -1,10 +1,6 @@
-/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
+/* Copyright (c) 2018, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
- *
- * Based on OSPRay implementation
- *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -20,42 +16,46 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef ABSTRACTRENDERER_H
-#define ABSTRACTRENDERER_H
+#pragma once
 
-// obj
-#include "AdvancedMaterial.h"
+#include "AbstractRenderer.h"
 
-// ospray
+// OSPRay
 #include <ospray/SDK/common/Material.h>
 #include <ospray/SDK/render/Renderer.h>
 
-// system
-#include <vector>
-
 namespace brayns
 {
+using namespace ospray;
+
 /**
- * The AbstractRenderer class implements a base renderer for all Brayns custom
- * implementations
+ * The SimulationRenderer class implements a parent renderer for
+ * all BioExplorer renderers that need to render simulation data
  */
-class AbstractRenderer : public ospray::Renderer
+class SimulationRenderer : public AbstractRenderer
 {
 public:
     void commit() override;
 
 protected:
-    std::vector<void*> _lightArray;
-    void** _lightPtr;
+    ospray::Model* _secondaryModel{nullptr};
+    float _maxDistanceToSecondaryModel{30.f};
 
-    ospray::Data* _lightData;
+    ospray::Ref<ospray::Data> _simulationData;
+    ospray::uint64 _simulationDataSize;
 
-    brayns::AdvancedMaterial* _bgMaterial;
-    float _timestamp;
+    bool _useHardwareRandomizer{false};
+    bool _showBackground{false};
 
-    bool _useHardwareRandomizer;
-    ospray::uint32 _randomNumber;
+    double _exposure{1.0};
+    double _epsilonFactor{1.0};
+
+    double _fogThickness{1e6};
+    double _fogStart{0.0};
+
+    ospray::uint32 _maxBounces{3};
+    ospray::uint32 _randomNumber{0};
+
+    float _alphaCorrection{0.5f};
 };
 } // namespace brayns
-
-#endif // ABSTRACTRENDERER_H

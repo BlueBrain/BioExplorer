@@ -153,9 +153,9 @@ using Quaterniond = glm::tquat<double, glm::highp>; //!< Double quaternion.
 
 inline Quaterniond safeQuatlookAt(const Vector3d& v)
 {
-    const Vector3d vector = normalize(v);
-    auto upVector = UP_VECTOR;
-    if (abs(dot(vector, upVector)) > 0.999)
+    const Vector3d vector = glm::normalize(v);
+    Vector3d upVector = UP_VECTOR;
+    if (glm::abs(glm::dot(vector, upVector)) > 0.999)
         // Gimble lock
         upVector = Vector3d(0.0, 0.0, 1.0);
     return quatLookAtRH(vector, upVector);

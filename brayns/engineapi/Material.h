@@ -75,6 +75,8 @@ public:
     BRAYNS_API double getCastUserData() const { return _castUserData; }
     BRAYNS_API void setClippingMode(const MaterialClippingMode value) { _updateValue(_clippingMode, value); }
     BRAYNS_API MaterialClippingMode getClippingMode() const { return _clippingMode; }
+    BRAYNS_API void setChameleonMode(const MaterialChameleonMode value) { _updateValue(_chameleonMode, value); }
+    BRAYNS_API MaterialChameleonMode getChameleonMode() const { return _chameleonMode; }
 
     BRAYNS_API Texture2DPtr getTexture(const TextureType type) const;
     bool hasTexture(const TextureType type) const { return _textureDescriptors.count(type) > 0; }
@@ -98,6 +100,7 @@ protected:
     MaterialShadingMode _shadingMode{MaterialShadingMode::undefined_shading_mode};
     bool _castUserData{false};
     MaterialClippingMode _clippingMode{MaterialClippingMode::no_clipping};
+    MaterialChameleonMode _chameleonMode{MaterialChameleonMode::undefined_chameleon_mode};
 
     SERIALIZATION_FRIEND(Material)
 };

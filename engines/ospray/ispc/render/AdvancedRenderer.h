@@ -20,48 +20,50 @@
 
 #pragma once
 
-#include "camera/Camera.h"
-
-#include <brayns/common/CommonTypes.h>
+#include "utils/SimulationRenderer.h"
 
 namespace brayns
 {
-using namespace ospray;
-
-struct OSPRAY_SDK_INTERFACE PerspectiveStereoCamera : public Camera
+/**
+ * @brief The AdvancedRenderer class is a renderer that can
+ * perform global illumination (light shading, shadows, ambient occlusion, color
+ * bleeding, light emission)
+ */
+class AdvancedRenderer : public SimulationRenderer
 {
+public:
     /**
-     * @brief Construct a new Perspective Stereo Camera object
+     * @brief Construct a new Bio Explorer Renderer object
      *
      */
-    PerspectiveStereoCamera();
+    AdvancedRenderer();
 
     /**
-     * @brief Returns the name of the camera
+     * @brief Returns the class name as a string
      *
-     * @return std::string The name of the camera
+     * @return A string containing the full name of the class
      */
-    virtual std::string toString() const { return "Perspective"; }
+    std::string toString() const final { return "advanced_renderer"; }
 
     /**
      * @brief Commit the changes to the OSPRay engine
      *
      */
-    virtual void commit();
+    void commit() final;
 
-public:
-    double fovy;
-    double aspect;
-    double apertureRadius;
-    double focusDistance;
-    bool architectural;
+private:
+    // Shading
+    double _shadows{0.f};
+    double _softShadows{0.f};
+    ospray::uint32 _softShadowsSamples{1};
+
+    double _giStrength{0.f};
+    double _giDistance{1e6};
+    ospray::uint32 _giSamples{1};
+
+    bool _matrixFilter{false};
 
     // Clip planes
-    bool enableClippingPlanes{false};
-    Ref<Data> clipPlanes;
-
-    // Stereo
-    CameraStereoMode stereoMode;
-    double interpupillaryDistance;
+    ospray::Ref<ospray::Data> clipPlanes;
 };
 } // namespace brayns

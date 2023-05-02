@@ -18,11 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <ospray/SDK/render/Renderer.ih>
-#include <ospray/SDK/render/util.ih>
-
-#include "../AdvancedMaterial.ih"
-#include "Consts.ih"
+#include "SkyBox.ih"
 
 vec4f skyboxMapping(const uniform Renderer* uniform renderer, const varying Ray& ray,
                     const uniform AdvancedMaterial* uniform bgMaterial)

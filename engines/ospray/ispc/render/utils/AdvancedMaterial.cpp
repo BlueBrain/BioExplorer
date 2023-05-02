@@ -82,11 +82,18 @@ void AdvancedMaterial::commit()
         getParam1i(MATERIAL_PROPERTY_SHADING_MODE, MaterialShadingMode::undefined_shading_mode));
 
     // Cast user data
-    castUserData = getParam(MATERIAL_PROPERTY_CAST_USER_DATA, false);
+    castUserData = getParam(MATERIAL_PROPERTY_CAST_USER_DATA, 0);
 
     // Clipping mode
     clippingMode = static_cast<MaterialClippingMode>(
         getParam1i(MATERIAL_PROPERTY_CLIPPING_MODE, MaterialClippingMode::no_clipping));
+
+    // Node Id
+    nodeId = getParam1i(MATERIAL_PROPERTY_NODE_ID, 0);
+
+    // Chameleon mode
+    chameleonMode = static_cast<MaterialChameleonMode>(
+        getParam1i(MATERIAL_PROPERTY_CHAMELEON_MODE, MaterialChameleonMode::undefined_chameleon_mode));
 
     ispc::AdvancedMaterial_set(
         getIE(), map_d ? map_d->getIE() : nullptr, (const ispc::AffineSpace2f&)xform_d, d,
@@ -98,11 +105,11 @@ void AdvancedMaterial::commit()
         map_Ns ? map_Ns->getIE() : nullptr, (const ispc::AffineSpace2f&)xform_Ns, Ns,
         map_Bump ? map_Bump->getIE() : nullptr, (const ispc::AffineSpace2f&)xform_Bump,
         (const ispc::LinearSpace2f&)rot_Bump, userParameter, (const ispc::MaterialShadingMode&)shadingMode,
-        castUserData, (const ispc::MaterialClippingMode&)clippingMode);
+        castUserData, (const ispc::MaterialClippingMode&)clippingMode, nodeId,
+        (const ispc::MaterialChameleonMode&)chameleonMode);
 }
 
 OSP_REGISTER_MATERIAL(basic, AdvancedMaterial, default);
-OSP_REGISTER_MATERIAL(BASIC, AdvancedMaterial, default);
-OSP_REGISTER_MATERIAL(proximity, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(advanced, AdvancedMaterial, default);
 
 } // namespace brayns

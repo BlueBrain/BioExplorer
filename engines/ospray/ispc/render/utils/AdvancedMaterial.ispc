@@ -39,7 +39,8 @@ export void AdvancedMaterial_set(
     const uniform affine2f& xform_Ns, const uniform float& Ns, const void* uniform map_Bump,
     const uniform affine2f& xform_Bump, const uniform linear2f& rot_Bump, const uniform float& userParameter,
     const uniform MaterialShadingMode& shadingMode, const uniform bool& castUserData,
-    const uniform MaterialClippingMode& clippingMode)
+    const uniform MaterialClippingMode& clippingMode, const uniform uint32& nodeId,
+    const uniform MaterialChameleonMode& chameleonMode)
 {
     uniform AdvancedMaterial* uniform self = (uniform AdvancedMaterial * uniform) _mat;
 
@@ -65,4 +66,6 @@ export void AdvancedMaterial_set(
     self->shadingMode = shadingMode;
     self->castUserData = castUserData;
     self->clippingMode = clippingMode;
+    self->nodeId = nodeId;
+    self->chameleonMode = chameleonMode;
 }

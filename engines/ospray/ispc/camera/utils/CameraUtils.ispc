@@ -18,7 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "utils.ih"
+#include "CameraUtils.ih"
 
 void clipRay(const uniform vec4f* clipPlanes, const unsigned int numClipPlanes, const varying vec3f& position,
              const varying vec3f& direction, varying float& near, varying float& far)

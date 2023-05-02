@@ -22,6 +22,7 @@
 
 #include <ospray/SDK/math/random.ih>
 #include <ospray/SDK/math/vec.ih>
+#include <ospray/SDK/render/Renderer.ih>
 
 float getRandomValue(const varying ScreenSample& sample, const int randomNumber);
 
@@ -29,6 +30,7 @@ float getRandomValue(const varying ScreenSample& sample, const int randomNumber)
     Returns a random direction based on location in the frame buffer, the normal
    to the surface and rotation parameters for the precomputed hard-coded random
    distribution.
+    @param useHardware Use hardware acceleration
     @param frameBufferWidth Width of the frame buffer
     @param sample Frame buffer sample being rendered
     @param normal Normal vector to the surface
@@ -37,8 +39,8 @@ float getRandomValue(const varying ScreenSample& sample, const int randomNumber)
     @return A random direction based on specified parameters
 */
 
-vec3f getRandomVector(const unsigned int frameBufferWidth, const varying ScreenSample& sample, const vec3f& normal,
-                      const int randomNumber);
+vec3f getRandomVector(const bool useHardware, const unsigned int frameBufferWidth, const varying ScreenSample& sample,
+                      const vec3f& normal, const int randomNumber);
 
 /**
     Returns tangent vectors for a given normal.
@@ -74,3 +76,22 @@ vec3f getConeSample(const vec3f& direction, varying RandomTEA* uniform rng, cons
 */
 varying RandomTEA* uniform createRandomNumberGenerator(const uniform Renderer* uniform self,
                                                        const varying ScreenSample& sample);
+
+/**
+    @return An orthogonal vector (and combining coconuts)
+    http://lolengine.net/blog/2013/09/21/picking-orthogonal-vector-combing-coconuts
+*/
+vec3f ortho(const vec3f& v);
+
+inline float mix(const float x, const float y, const float a);
+
+inline float hash(float n);
+
+inline vec3f mod(const vec3f& v, const int m);
+
+// hash based 3d value noise
+float noise(const vec3f& x);
+
+float cells(const vec3f& p, float cellCount);
+
+float worleyNoise(const vec3f& p, float cellCount);

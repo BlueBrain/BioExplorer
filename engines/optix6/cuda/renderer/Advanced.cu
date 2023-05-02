@@ -438,7 +438,6 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
                     lightDirection += softShadows * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
                 lightDirection = optix::normalize(lightDirection);
             }
-
             float nDl = optix::dot(normal, lightDirection);
 
             // Shadows

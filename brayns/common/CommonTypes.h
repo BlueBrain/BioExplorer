@@ -44,6 +44,10 @@
 #define MATERIAL_PROPERTY_GLOSSINESS "glossiness"
 #define MATERIAL_PROPERTY_CAST_USER_DATA "cast_user_data"
 #define MATERIAL_PROPERTY_CLIPPING_MODE "clipping_mode"
+#define MATERIAL_PROPERTY_CHAMELEON_MODE "chameleon_mode"
+#define MATERIAL_PROPERTY_NODE_ID "node_id"
+#define MATERIAL_PROPERTY_SKYBOX "skybox"
+#define MATERIAL_PROPERTY_APPLY_SIMULATION "apply_simulation"
 
 enum CameraStereoMode
 {
@@ -72,6 +76,13 @@ enum MaterialShadingMode
     diffuse_transparency = 7,
     checker = 8,
     goodsell = 9
+};
+
+enum MaterialChameleonMode
+{
+    undefined_chameleon_mode = 0,
+    emitter = 1,
+    receiver = 2
 };
 
 #endif

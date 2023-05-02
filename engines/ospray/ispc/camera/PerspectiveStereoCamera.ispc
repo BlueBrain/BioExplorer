@@ -18,10 +18,10 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "utils.ih"
-
 #include "math/sampling.ih"
-#include "ospray/SDK/camera/Camera.ih"
+#include "utils/CameraUtils.ih"
+
+#include <ospray/SDK/camera/Camera.ih>
 
 inline float getRandomValue()
 {

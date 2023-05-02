@@ -20,8 +20,9 @@
 
 #pragma once
 
-#include "../AdvancedMaterial.ih"
-#include <ospray/SDK/math/vec.ih>
+#include "AdvancedMaterial.ih"
+
+#include <ospray/SDK/render/Renderer.ih>
 
 /**
     Returns the color of the skybox for a given ray. If no material is defined

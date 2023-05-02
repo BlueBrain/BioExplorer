@@ -14,10 +14,10 @@
 // limitations under the License.                                           //
 // ======================================================================== //
 
-#include "utils.ih"
-
 #include "math/sampling.ih"
-#include "ospray/SDK/camera/Camera.ih"
+#include "utils/CameraUtils.ih"
+
+#include <ospray/SDK/camera/Camera.ih>
 
 /*! \brief A plain orthographic camera; no depth of field  */
 struct OrthographicCamera
@@ -35,24 +35,20 @@ struct OrthographicCamera
     unsigned int numClipPlanes;
 };
 
-void OrthographicCamera_initRay(uniform Camera* uniform _self, varying Ray& ray,
-                                const varying CameraSample& sample)
+void OrthographicCamera_initRay(uniform Camera* uniform _self, varying Ray& ray, const varying CameraSample& sample)
 {
-    uniform OrthographicCamera* uniform self =
-        (uniform OrthographicCamera * uniform) _self;
+    uniform OrthographicCamera* uniform self = (uniform OrthographicCamera * uniform) _self;
 
     const vec2f screen = Camera_subRegion(_self, sample.screen);
 
     const vec3f dir = self->dir;
-    const vec3f org =
-        self->pos_00 + screen.x * self->pos_du + screen.y * self->pos_dv;
+    const vec3f org = self->pos_00 + screen.x * self->pos_du + screen.y * self->pos_dv;
 
     float nearClip = self->super.nearClip;
     float farClip = inf;
     const varying vec3f direction = normalize(dir);
 
-    clipRay(self->clipPlanes, self->numClipPlanes, org, direction, nearClip,
-            farClip);
+    clipRay(self->clipPlanes, self->numClipPlanes, org, direction, nearClip, farClip);
 
     const float time = Camera_shutterTime(_self, sample.time);
     setRay(ray, org, dir, nearClip, farClip, time);
@@ -64,8 +60,7 @@ void OrthographicCamera_initRay(uniform Camera* uniform _self, varying Ray& ray,
     parameters */
 export void* uniform OrthographicCamera_create(void* uniform cppE)
 {
-    uniform OrthographicCamera* uniform cam =
-        uniform new uniform OrthographicCamera;
+    uniform OrthographicCamera* uniform cam = uniform new uniform OrthographicCamera;
     cam->super.cppEquivalent = cppE;
     cam->super.initRay = OrthographicCamera_initRay;
     cam->super.doesDOF = false;
@@ -73,13 +68,11 @@ export void* uniform OrthographicCamera_create(void* uniform cppE)
     return cam;
 }
 
-export void OrthographicCamera_set(
-    void* uniform _self, const uniform vec3f& dir, const uniform vec3f& pos_00,
-    const uniform vec3f& pos_du, const uniform vec3f& pos_dv,
-    const uniform vec4f clipPlanes[], const uniform unsigned int numClipPlanes)
+export void OrthographicCamera_set(void* uniform _self, const uniform vec3f& dir, const uniform vec3f& pos_00,
+                                   const uniform vec3f& pos_du, const uniform vec3f& pos_dv,
+                                   const uniform vec4f clipPlanes[], const uniform unsigned int numClipPlanes)
 {
-    uniform OrthographicCamera* uniform self =
-        (uniform OrthographicCamera * uniform) _self;
+    uniform OrthographicCamera* uniform self = (uniform OrthographicCamera * uniform) _self;
     self->dir = dir;
     self->pos_00 = pos_00;
     self->pos_du = pos_du;

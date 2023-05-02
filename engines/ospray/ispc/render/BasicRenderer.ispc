@@ -21,12 +21,7 @@
  */
 
 // Brayns
-#include "utils/AbstractRenderer.ih"
-
-struct BasicRenderer
-{
-    AbstractRenderer abstract;
-};
+#include "BasicRenderer.ih"
 
 /**
     Renderer a pixel color according to a given location in the screen space.

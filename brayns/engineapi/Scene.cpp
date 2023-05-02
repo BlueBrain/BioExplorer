@@ -370,6 +370,7 @@ void Scene::buildDefault()
         material->setSpecularColor({1.f, 1.f, 1.f});
         material->setSpecularExponent(100.f);
         material->setShadingMode(MaterialShadingMode::basic);
+        material->setCastUserData(true);
 
         model->addSphere(materialId, {{-50.f + materialId * 10.f, 0.f, 0.f}, 5.f});
         model->addCylinder(materialId,

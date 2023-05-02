@@ -79,6 +79,12 @@ struct AdvancedMaterial : public ospray::Material
     /*! Clipping mode applied to geometry */
     MaterialClippingMode clippingMode{MaterialClippingMode::no_clipping};
 
+    /*! Id of the node associated to the material */
+    uint32_t nodeId{0};
+
+    /*! Clipping mode applied to geometry */
+    MaterialChameleonMode chameleonMode{MaterialChameleonMode::undefined_chameleon_mode};
+
     std::string toString() const override { return "brayns::AdvancedMaterial"; }
 
     void commit() override;
