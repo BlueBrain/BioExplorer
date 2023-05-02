@@ -66,8 +66,6 @@ set(${NAME}_SOURCES
     plugin/api/SonataExplorerParams.cpp
     plugin/io/BrickLoader.cpp
     module/ispc/camera/SphereClippingPerspectiveCamera.cpp
-    module/ispc/render/utils/SonataExplorerAbstractRenderer.cpp
-    module/ispc/render/utils/SonataExplorerSimulationRenderer.cpp
 )
 
 set(${NAME}_PUBLIC_HEADERS
@@ -119,9 +117,6 @@ endif()
 set(${NAME}_ISPC_SOURCES
     module/ispc/camera/utils.ispc
     module/ispc/camera/SphereClippingPerspectiveCamera.ispc
-    module/ispc/render/utils/SonataExplorerSimulationRenderer.ispc
-    module/ispc/render/utils/SonataExplorerRandomGenerator.ispc
-    module/ispc/render/utils/SkyBox.ispc
 )
 
 list(APPEND ${NAME}_ISPC_SOURCES

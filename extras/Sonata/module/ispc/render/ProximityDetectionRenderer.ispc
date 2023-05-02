@@ -18,9 +18,9 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "utils/SonataExplorerAbstractRenderer.ih"
-
 #include <brayns/ispc/render/utils/AdvancedMaterial.ih>
+#include <brayns/ispc/render/utils/RendererUtils.ih>
+#include <brayns/ispc/render/utils/SimulationRenderer.ih>
 
 #include <brayns/common/CommonTypes.h>
 
@@ -28,9 +28,7 @@ uniform const float nearFarThreshold = 0.2f;
 
 struct ProximityDetectionRenderer
 {
-    SonataExplorerAbstractRenderer super;
-
-    int randomNumber;
+    SimulationRenderer super;
 
     bool surfaceShadingEnabled;
 
@@ -53,13 +51,13 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
     int depth = 0;
     while (color.w < 1.f && depth < self->super.maxBounces)
     {
-        traceRay(self->super.super.model, ray);
+        traceRay(self->super.super.super.model, ray);
 
         if (ray.geomID < 0)
         {
             vec4f bgColor =
                 skyboxMapping((Renderer*)self, ray,
-                              (AdvancedMaterial*)self->super.bgMaterial);
+                              (AdvancedMaterial*)self->super.super.bgMaterial);
             bgColor.w = 1.f;
             composite(bgColor, color, self->alphaCorrection);
             return make_vec3f(color) * self->super.exposure;
@@ -70,7 +68,7 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
             sample.z = ray.t;
 
         DifferentialGeometry dg;
-        postIntersect(self->super.super.model, dg, ray,
+        postIntersect(self->super.super.super.model, dg, ray,
                       DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD |
                           DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
 
@@ -84,8 +82,8 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
         bool processSurfaceShading = true;
         varying vec3f ao_dir =
             getRandomVector(self->super.useHardwareRandomizer,
-                            self->super.super.fb->size.x, sample, normal,
-                            self->randomNumber);
+                            self->super.super.super.fb->size.x, sample, normal,
+                            self->super.randomNumber);
 
         Ray ao_ray;
         ao_ray.org = P;
@@ -96,14 +94,14 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
         ao_ray.geomID = -1;
         ao_ray.instID = -1;
 
-        traceRay(self->super.super.model, ao_ray);
+        traceRay(self->super.super.super.model, ao_ray);
         if (ao_ray.geomID != -1)
         {
             // If AO ray hits a geometry, no surface is shading required
             processSurfaceShading = false;
 
             DifferentialGeometry ao_dg;
-            postIntersect(self->super.super.model, ao_dg, ao_ray,
+            postIntersect(self->super.super.super.model, ao_dg, ao_ray,
                           DG_MATERIALID);
 
             const bool doDetectionTest = self->detectionOnDifferentMaterial
@@ -144,9 +142,11 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
                 }
 
             for (uniform int i = 0;
-                 self->super.lights && i < self->super.numLights; i++)
+                 self->super.super.lights && i < self->super.super.numLights;
+                 i++)
             {
-                const uniform Light* uniform light = self->super.lights[i];
+                const uniform Light* uniform light =
+                    self->super.super.lights[i];
 
                 const vec2f samplingLocation = make_vec2f(0.f);
                 const Light_SampleRes lightSample =
@@ -214,7 +214,7 @@ void ProximityDetectionRenderer_renderSample(uniform Renderer* uniform _self,
 {
     uniform ProximityDetectionRenderer* uniform self =
         (uniform ProximityDetectionRenderer * uniform) _self;
-    sample.ray.time = self->super.timestamp;
+    sample.ray.time = self->super.super.timestamp;
     sample.rgb = ProximityDetectionRenderer_shadeRay(self, sample);
 }
 
@@ -224,8 +224,9 @@ export void* uniform ProximityDetectionRenderer_create(void* uniform cppE)
     uniform ProximityDetectionRenderer* uniform self =
         uniform new uniform ProximityDetectionRenderer;
 
-    Renderer_Constructor(&self->super.super, cppE);
-    self->super.super.renderSample = ProximityDetectionRenderer_renderSample;
+    Renderer_Constructor(&self->super.super.super, cppE);
+    self->super.super.super.renderSample =
+        ProximityDetectionRenderer_renderSample;
     return self;
 }
 
@@ -244,19 +245,22 @@ export void ProximityDetectionRenderer_set(
         (uniform ProximityDetectionRenderer * uniform) _self;
 
     // OSPRay
-    self->super.super.spp = spp;
+    self->super.super.super.spp = spp;
 
-    // Abstract
-    self->super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
-    self->super.lights = (const uniform Light* uniform* uniform)lights;
-    self->super.numLights = numLights;
+    // Abstract Renderer
+    self->super.super.bgMaterial =
+        (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.super.lights = (const uniform Light* uniform* uniform)lights;
+    self->super.super.numLights = numLights;
+    self->super.super.timestamp = timestamp;
+
+    // Simulation renderer
     self->super.maxBounces = maxBounces;
     self->super.exposure = exposure;
-    self->super.timestamp = timestamp;
     self->super.useHardwareRandomizer = useHardwareRandomizer;
+    self->super.randomNumber = randomNumber;
 
     // Proximity detection
-    self->randomNumber = randomNumber;
     self->surfaceShadingEnabled = surfaceShadingEnabled;
     self->nearColor = nearColor;
     self->farColor = farColor;

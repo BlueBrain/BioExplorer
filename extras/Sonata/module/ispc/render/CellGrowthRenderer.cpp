@@ -32,7 +32,7 @@ namespace sonataexplorer
 {
 void CellGrowthRenderer::commit()
 {
-    SonataExplorerSimulationRenderer::commit();
+    SimulationRenderer::commit();
 
     _simulationThreshold = getParam1f("simulationThreshold", 0.f);
 
@@ -57,5 +57,6 @@ CellGrowthRenderer::CellGrowthRenderer()
     ispcEquivalent = ispc::CellGrowthRenderer_create(this);
 }
 
-OSP_REGISTER_RENDERER(CellGrowthRenderer, circuit_explorer_cell_growth);
+OSP_REGISTER_RENDERER(CellGrowthRenderer, cell_growth);
+OSP_REGISTER_MATERIAL(cell_growth, AdvancedMaterial, default);
 } // namespace sonataexplorer

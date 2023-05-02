@@ -20,6 +20,8 @@
 
 #include "ProximityDetectionRenderer.h"
 
+#include <brayns/ispc/render/utils/AdvancedMaterial.h>
+
 // ispc exports
 #include "ProximityDetectionRenderer_ispc.h"
 
@@ -27,7 +29,7 @@ namespace sonataexplorer
 {
 void ProximityDetectionRenderer::commit()
 {
-    SonataExplorerAbstractRenderer::commit();
+    SimulationRenderer::commit();
 
     _nearColor = getParam3f("detectionNearColor", ospray::vec3f(0.f, 1.f, 0.f));
     _farColor = getParam3f("detectionFarColor", ospray::vec3f(1.f, 0.f, 0.f));
@@ -51,6 +53,6 @@ ProximityDetectionRenderer::ProximityDetectionRenderer()
     ispcEquivalent = ispc::ProximityDetectionRenderer_create(this);
 }
 
-OSP_REGISTER_RENDERER(ProximityDetectionRenderer,
-                      circuit_explorer_proximity_detection);
+OSP_REGISTER_RENDERER(ProximityDetectionRenderer, proximity_detection);
+OSP_REGISTER_MATERIAL(proximity_detection, AdvancedMaterial, default);
 } // namespace sonataexplorer

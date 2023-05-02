@@ -18,25 +18,22 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "utils/SonataExplorerSimulationRenderer.ih"
+#include <brayns/ispc/render/utils/SimulationRenderer.ih>
 
 #include <brayns/common/CommonTypes.h>
 
 struct CellGrowthRenderer
 {
-    SonataExplorerSimulationRenderer super;
+    SimulationRenderer super;
 
     // Shading attributes
     float alphaCorrection;
     float simulationThreshold;
 
     // Shading attributes
-    int randomNumber;
     float shadows;
     float softShadows;
     float shadowDistance;
-
-    // Shadow attributes
 
     // Use transfer function color for shading
     bool useTransferFunctionColor;
@@ -66,11 +63,11 @@ inline float processShadows(const uniform CellGrowthRenderer* uniform self,
         vec3f ld = lightDirection;
         if (self->softShadows > 0.f)
             ld = normalize(
-                ld +
-                self->softShadows *
-                    getRandomVector(self->super.super.useHardwareRandomizer,
-                                    self->super.super.super.fb->size.x, sample,
-                                    dg.Ns, self->randomNumber));
+                ld + self->softShadows *
+                         getRandomVector(self->super.useHardwareRandomizer,
+                                         self->super.super.super.fb->size.x,
+                                         sample, dg.Ns,
+                                         self->super.randomNumber));
 
         Ray shadowRay;
         setRay(shadowRay, dg.P, ld);
@@ -79,7 +76,7 @@ inline float processShadows(const uniform CellGrowthRenderer* uniform self,
         shadowRay.time = sample.ray.time;
 
         unsigned int iteration = 0;
-        while (shadowIntensity < 1.f && iteration < NB_MAX_REBOUNDS)
+        while (shadowIntensity < 1.f && iteration < self->super.maxBounces)
         {
             ++iteration;
 
@@ -90,7 +87,7 @@ inline float processShadows(const uniform CellGrowthRenderer* uniform self,
             traceRay(self->super.super.super.model, shadowRay);
 
             if (shadowRay.geomID < 0)
-                iteration = NB_MAX_REBOUNDS;
+                iteration = self->super.maxBounces;
             else
             {
                 DifferentialGeometry shadowDg;
@@ -229,7 +226,7 @@ inline vec3f CellGrowthRenderer_shadeRay(
         ray.instID = -1;
     }
 
-    return make_vec3f(pathColor) * self->super.super.exposure;
+    return make_vec3f(pathColor) * self->super.exposure;
 }
 
 void CellGrowthRenderer_renderSample(uniform Renderer* uniform _self,
@@ -274,13 +271,13 @@ export void CellGrowthRenderer_set(
         (uniform AdvancedMaterial * uniform) bgMaterial;
     self->super.super.lights = (const uniform Light* uniform* uniform)lights;
     self->super.super.numLights = numLights;
-    self->super.super.useHardwareRandomizer = useHardwareRandomizer;
 
     // Simulation
+    self->super.useHardwareRandomizer = useHardwareRandomizer;
     self->super.secondaryModel = (uniform Model * uniform) secondaryModel;
     self->super.simulationData = (uniform float* uniform)simulationData;
     self->super.simulationDataSize = simulationDataSize;
-    self->super.super.exposure = exposure;
+    self->super.exposure = exposure;
 
     self->super.fogThickness = fogThickness;
     self->super.fogStart = fogStart;

@@ -124,7 +124,7 @@ void _addGrowthRenderer(Engine& engine)
     properties.setProperty({"useHardwareRandomizer",
                             false,
                             {"Use hardware accelerated randomizer"}});
-    engine.addRendererType("circuit_explorer_cell_growth", properties);
+    engine.addRendererType("cell_growth", properties);
 }
 
 void _addProximityRenderer(Engine& engine)
@@ -152,7 +152,7 @@ void _addProximityRenderer(Engine& engine)
     properties.setProperty({"useHardwareRandomizer",
                             false,
                             {"Use hardware accelerated randomizer"}});
-    engine.addRendererType("circuit_explorer_proximity_detection", properties);
+    engine.addRendererType("proximity_detection", properties);
 }
 
 void _addSphereClippingPerspectiveCamera(Engine& engine)

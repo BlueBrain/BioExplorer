@@ -20,15 +20,17 @@
 
 #pragma once
 
-#include "utils/SonataExplorerSimulationRenderer.h"
+#include <brayns/ispc/render/utils/SimulationRenderer.h>
 
 namespace sonataexplorer
 {
+using namespace brayns;
+
 /**
  * @brief The CellGrowthRenderer class can perform fast transparency
  * and mapping of simulation data on the geometry
  */
-class CellGrowthRenderer : public SonataExplorerSimulationRenderer
+class CellGrowthRenderer : public SimulationRenderer
 {
 public:
     CellGrowthRenderer();

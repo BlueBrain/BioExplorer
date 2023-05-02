@@ -20,29 +20,32 @@
 
 #pragma once
 
-#include "utils/SonataExplorerAbstractRenderer.h"
+#include <brayns/ispc/render/utils/SimulationRenderer.h>
 
 namespace sonataexplorer
 {
+using namespace brayns;
+
 /**
     The ProximityDetectionRenderer uses an algorithm similar to ambient
-   occlusion to identify touches between geometries. A color gradient, defined
-   by nearColor and farColor, is computed according to the distance between the
-   intersection that is being rendered and the surrounding geometry. nearColor
-   is used when the distance to the surrounding geometry is less than 20% of the
-   detection distance. farColor is used otherwise. The dection distance defines
-   the maximum distance between the intersection and the surrounding geometry.
+   occlusion to identify touches between geometries. A color gradient,
+   defined by nearColor and farColor, is computed according to the distance
+   between the intersection that is being rendered and the surrounding
+   geometry. nearColor is used when the distance to the surrounding geometry
+   is less than 20% of the detection distance. farColor is used otherwise.
+   The dection distance defines the maximum distance between the
+   intersection and the surrounding geometry.
 
     Surrounding geometry is detected by sending random rays from the
     intersection point of the surface.
 
     This renderer can be configured using the following entries:
     - detectionDistance: Maximum distance for surrounding geometry detection
-    - materialTestEnabled: If true, detection will be disabled for geometry that
-    has the same material as the hit surface.
+    - materialTestEnabled: If true, detection will be disabled for geometry
+   that has the same material as the hit surface.
     - spp: Unsigned integer defining the number of samples per pixel
 */
-class ProximityDetectionRenderer : public SonataExplorerAbstractRenderer
+class ProximityDetectionRenderer : public SimulationRenderer
 {
 public:
     ProximityDetectionRenderer();
