@@ -20,7 +20,6 @@
 
 #include "Glycans.h"
 
-#include <plugin/common/CommonTypes.h>
 #include <plugin/common/Utils.h>
 
 #include <brayns/engineapi/Material.h>

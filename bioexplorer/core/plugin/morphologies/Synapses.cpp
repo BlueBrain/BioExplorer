@@ -20,13 +20,14 @@
 
 #include "Synapses.h"
 
-#include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/ThreadSafeContainer.h>
 #include <plugin/common/Utils.h>
 
 #include <plugin/io/db/DBConnector.h>
 
+// Brayns
+#include <brayns/common/CommonTypes.h>
 #include <brayns/engineapi/Model.h>
 #include <brayns/engineapi/Scene.h>
 

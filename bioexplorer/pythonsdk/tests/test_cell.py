@@ -71,7 +71,7 @@ def test_cell():
 
     # Set rendering settings
     bio_explorer.core_api().set_renderer(
-        background_color=[96 / 255, 125 / 255, 139 / 255], current='bio_explorer',
+        background_color=[96 / 255, 125 / 255, 139 / 255], current='advanced',
         samples_per_pixel=1, subsampling=4, max_accum_frames=64)
     params = bio_explorer.core_api().BioExplorerRendererParams()
     params.shadows = 0.75

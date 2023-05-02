@@ -45,5 +45,6 @@ GolgiStyleRenderer::GolgiStyleRenderer()
 }
 
 OSP_REGISTER_RENDERER(GolgiStyleRenderer, bio_explorer_golgi_style);
+OSP_REGISTER_MATERIAL(bio_explorer_golgi_style, AdvancedMaterial, default);
 } // namespace rendering
 } // namespace bioexplorer

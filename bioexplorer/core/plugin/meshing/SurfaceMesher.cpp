@@ -20,7 +20,6 @@
 
 #include "SurfaceMesher.h"
 
-#include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 

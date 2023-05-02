@@ -20,7 +20,6 @@
 
 #include "Morphologies.h"
 
-#include <plugin/common/CommonTypes.h>
 #include <plugin/common/UniqueId.h>
 #include <plugin/common/Utils.h>
 

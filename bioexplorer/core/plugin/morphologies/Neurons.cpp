@@ -23,7 +23,6 @@
 #include "SomaSimulationHandler.h"
 #include "SpikeSimulationHandler.h"
 
-#include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 #include <plugin/common/shapes/Shape.h>

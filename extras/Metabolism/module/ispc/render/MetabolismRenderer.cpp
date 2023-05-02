@@ -20,6 +20,9 @@
 
 #include "MetabolismRenderer.h"
 
+// Brayns
+#include <brayns/ispc/render/utils/AdvancedMaterial.h>
+
 // ospray
 #include <ospray/SDK/common/Data.h>
 #include <ospray/SDK/lights/Light.h>
@@ -32,6 +35,8 @@ namespace metabolism
 {
 namespace rendering
 {
+using namespace brayns;
+
 void MetabolismRenderer::commit()
 {
     Renderer::commit();
@@ -84,5 +89,7 @@ MetabolismRenderer::MetabolismRenderer()
 }
 
 OSP_REGISTER_RENDERER(MetabolismRenderer, metabolism);
+OSP_REGISTER_MATERIAL(metabolism, AdvancedMaterial, default);
+
 } // namespace rendering
 } // namespace metabolism

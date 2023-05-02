@@ -580,7 +580,7 @@ class LowGlucoseScenario(MovieScenario):
                 background_color=[96 / 255, 125 / 255, 139 / 255],
                 current=renderer, head_light=False,
                 samples_per_pixel=1, subsampling=1, max_accum_frames=1)
-            params = self._core.BioExplorerRendererParams()
+            params = self._core.AdvancedRendererParams()
             params.exposure = 1.0
             params.gi_samples = 1
             params.gi_weight = 0.3

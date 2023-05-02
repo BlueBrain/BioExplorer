@@ -20,7 +20,6 @@
 
 #include "Node.h"
 
-#include <plugin/common/CommonTypes.h>
 #include <plugin/common/UniqueId.h>
 
 #include <brayns/engineapi/Material.h>

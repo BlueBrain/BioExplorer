@@ -20,8 +20,10 @@
 
 #pragma once
 
-#include <render/utils/AdvancedMaterial.h>
+// Brayns
+#include <brayns/ispc/render/utils/AdvancedMaterial.h>
 
+// OSPRay
 #include <ospray/SDK/render/Renderer.h>
 
 namespace bioexplorer
@@ -29,6 +31,7 @@ namespace bioexplorer
 namespace rendering
 {
 using namespace ospray;
+using namespace brayns;
 
 /**
  * @brief The DensityRenderer class allows visualization of atom density in the

@@ -24,7 +24,6 @@
 
 #include <plugin/api/Params.h>
 #include <plugin/common/Assembly.h>
-#include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Utils.h>
 #include <plugin/molecularsystems/Protein.h>

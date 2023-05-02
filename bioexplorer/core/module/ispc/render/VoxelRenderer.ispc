@@ -20,7 +20,8 @@
 
 #include "VoxelRenderer.ih"
 
-#include <render/utils/BioExplorerSkyBox.ih>
+#include <brayns/ispc/render/utils/RendererUtils.ih>
+#include <brayns/ispc/render/utils/SkyBox.ih>
 
 void linearCompose(const varying vec4f& src, varying vec4f& dst,
                    const varying float alphaRatio)
@@ -45,14 +46,14 @@ inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self,
 
     while (pathColor.w < 1.f)
     {
-        traceRay(self->super.super.model, ray);
+        traceRay(self->super.super.super.model, ray);
 
         if (ray.geomID < 0)
         {
             // No intersection
             vec4f colorContribution =
                 skyboxMapping((Renderer*)self, ray,
-                              (AdvancedMaterial*)self->super.bgMaterial);
+                              (AdvancedMaterial*)self->super.super.bgMaterial);
             colorContribution.w = 1.f;
             if (self->adaptiveComposition)
                 adaptiveCompose(colorContribution, pathColor,
@@ -64,7 +65,7 @@ inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self,
         }
 
         DifferentialGeometry dg;
-        postIntersect(self->super.super.model, dg, ray,
+        postIntersect(self->super.super.super.model, dg, ray,
                       DG_FACEFORWARD | DG_MATERIALID);
 
         uniform Material* material = dg.material;
@@ -123,8 +124,8 @@ void VoxelRenderer_renderSample(uniform Renderer* uniform _self,
 export void* uniform VoxelRenderer_create(void* uniform cppE)
 {
     uniform VoxelRenderer* uniform self = uniform new uniform VoxelRenderer;
-    Renderer_Constructor(&self->super.super, cppE);
-    self->super.super.renderSample = VoxelRenderer_renderSample;
+    Renderer_Constructor(&self->super.super.super, cppE);
+    self->super.super.super.renderSample = VoxelRenderer_renderSample;
     return self;
 }
 
@@ -141,10 +142,11 @@ export void VoxelRenderer_set(void* uniform _self, void* uniform bgMaterial,
         (uniform VoxelRenderer * uniform) _self;
 
     // OSPRay
-    self->super.super.spp = spp;
+    self->super.super.super.spp = spp;
 
     // User data renderer
-    self->super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.super.bgMaterial =
+        (uniform AdvancedMaterial * uniform) bgMaterial;
     self->super.simulationData = (uniform float* uniform)simulationData;
     self->super.simulationDataSize = simulationDataSize;
     self->super.exposure = exposure;

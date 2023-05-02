@@ -20,13 +20,15 @@
 
 #pragma once
 
-#include <bioexplorer/core/module/ispc/render/utils/SimulationRenderer.h>
+// Brayns
+#include <brayns/ispc/render/utils/SimulationRenderer.h>
 
 namespace bioexplorer
 {
 namespace rendering
 {
 using namespace ospray;
+using namespace brayns;
 
 /**
  * @brief The VoxelRenderer class can perform fast transparency
@@ -42,6 +44,7 @@ public:
        @return string containing the full name of the class
     */
     std::string toString() const final { return "VoxelRenderer"; }
+
     void commit() final;
 
 private:

@@ -347,7 +347,7 @@ class NeuromodulationScenario(MovieScenario):
             self._core.set_renderer(
                 background_color=[0.18, 0.43, 0.41],
                 current=renderer,subsampling=4, max_accum_frames=64)
-            params = self._core.BioExplorerRendererParams()
+            params = self._core.AdvancedRendererParams()
             params.fog_start = scale.x
             params.fog_thickness = 300.0 * scale.x
             params.gi_samples = 0

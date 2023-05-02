@@ -679,7 +679,7 @@ class GlucoseMetabolismScenario(MovieScenario):
     def set_rendering_settings(self, renderer):
         if renderer == 'bio_explorer':
             self._be.set_rendering_quality(self._be.RENDERING_QUALITY_HIGH)
-            params = self._core.BioExplorerRendererParams()
+            params = self._core.AdvancedRendererParams()
             params.shadows = 1.0
             params.soft_shadows = 0.1
             params.use_hardware_randomizer = True

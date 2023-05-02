@@ -26,12 +26,13 @@ from .bio_explorer import (
     BioExplorer, Volume, Membrane, AssemblyProtein, Protein, Sugar, RNASequence, Cell, Surfactant,
     Virus, EnzymeReaction, MolecularSystemAnimationParams, CellAnimationParams,
     NeuronDisplacementParams, AstrocyteDisplacementParams, VasculatureDisplacementParams,
-    SynapseDisplacementParams, Vector2, Vector3, Quaternion,
+    SynapseDisplacementParams, Vector2, Vector3, Quaternion
 )
 
 from .movie_maker import MovieMaker
 from .movie_scenario import MovieScenario
 from .metabolism import Metabolism
+from .sonata_explorer import SonataExplorer
 from .notebook_widgets import Widgets
 from .transfer_function import TransferFunction
 
@@ -41,5 +42,5 @@ __all__ = [
     "CellAnimationParams", "Quaternion", "Virus", "MovieMaker", "TransferFunction",
     "MovieScenario", "Metabolism", "EnzymeReaction", "NeuronDisplacementParams",
     "AstrocyteDisplacementParams", "VasculatureDisplacementParams", "SynapseDisplacementParams",
-    "__version__"
+    "SonataExplorer", "__version__"
 ]

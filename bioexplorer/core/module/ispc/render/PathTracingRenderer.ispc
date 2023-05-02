@@ -20,8 +20,9 @@
 
 #include "PathTracingRenderer.ih"
 
-#include <bioexplorer/core/module/ispc/render/utils/BioExplorerRandomGenerator.ih>
-#include <bioexplorer/core/module/ispc/render/utils/BioExplorerSkyBox.ih>
+// Brayns
+#include <brayns/ispc/render/utils/RandomGenerator.ih>
+#include <brayns/ispc/render/utils/SkyBox.ih>
 
 uniform const uint16 NB_MAX_REBOUNDS = 20;
 uniform const float skypower = 3.0f;
@@ -62,7 +63,7 @@ inline vec3f pathTracingContribution(
     // path tracing loop
     for (int bounces = 0; bounces < 3; bounces++)
     {
-        traceRay(self->super.super.model, localray);
+        traceRay(self->super.super.super.model, localray);
 
         // if ray misses scene (no hit occurs), return background colour
         if (localray.geomID < 0)
@@ -70,13 +71,13 @@ inline vec3f pathTracingContribution(
             localray.t = inf;
             const vec3f bgcol =
                 make_vec3f(skyboxMapping((Renderer*)self, localray,
-                                         self->super.bgMaterial)) *
+                                         self->super.super.bgMaterial)) *
                 skypower;
             accucolor = accucolor + mask * bgcol;
             break;
         }
         DifferentialGeometry dg;
-        postIntersect(self->super.super.model, dg, localray,
+        postIntersect(self->super.super.super.model, dg, localray,
                       DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD |
                           DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
 
@@ -107,7 +108,7 @@ inline vec3f pathTracingContribution(
         // compute ray direction of uniformly random diffuse ray
         const vec3f raydir =
             getRandomVector(self->super.useHardwareRandomizer,
-                            self->super.super.fb->size.x, sample, N,
+                            self->super.super.super.fb->size.x, sample, N,
                             self->super.randomNumber);
 
         // origin of new ray in path is hitpoint of previous ray in path
@@ -171,17 +172,18 @@ inline vec3f PathTracingRenderer_shadeRay(
         float reflection = 0.f;
         float refraction = 1.f;
 
-        traceRay(self->super.super.model, ray);
+        traceRay(self->super.super.super.model, ray);
 
         if (ray.geomID < 0)
         {
             // No intersection. Return skybox color
             ray.t = inf;
-            color = self->super.showBackground
-                        ? make_vec3f(skyboxMapping((Renderer*)self, ray,
-                                                   self->super.bgMaterial)) *
-                              skypower_zerobounce
-                        : make_vec3f(0.f);
+            color =
+                self->super.showBackground
+                    ? make_vec3f(skyboxMapping((Renderer*)self, ray,
+                                               self->super.super.bgMaterial)) *
+                          skypower_zerobounce
+                    : make_vec3f(0.f);
 
             // No Geometry intersection. No need to iterate more
             moreRebounds = false;
@@ -190,7 +192,7 @@ inline vec3f PathTracingRenderer_shadeRay(
         {
             // else, we've got a hit!
             DifferentialGeometry dg;
-            postIntersect(self->super.super.model, dg, ray,
+            postIntersect(self->super.super.super.model, dg, ray,
                           DG_NS | DG_NG | DG_NORMALIZE | DG_FACEFORWARD |
                               DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
             const vec3f intersection = dg.P;
@@ -352,7 +354,7 @@ void PathTracingRenderer_renderSample(uniform Renderer* uniform _self,
 {
     uniform PathTracingRenderer* uniform self =
         (uniform PathTracingRenderer * uniform) _self;
-    sample.ray.time = self->super.timestamp;
+    sample.ray.time = self->super.super.timestamp;
     sample.rgb = PathTracingRenderer_shadeRay(self, sample);
 }
 
@@ -361,8 +363,8 @@ export void* uniform PathTracingRenderer_create(void* uniform cppE)
 {
     uniform PathTracingRenderer* uniform self =
         uniform new uniform PathTracingRenderer;
-    Renderer_Constructor(&self->super.super, cppE);
-    self->super.super.renderSample = PathTracingRenderer_renderSample;
+    Renderer_Constructor(&self->super.super.super, cppE);
+    self->super.super.super.renderSample = PathTracingRenderer_renderSample;
     return self;
 }
 
@@ -378,10 +380,11 @@ export void PathTracingRenderer_set(
     uniform PathTracingRenderer* uniform self =
         (uniform PathTracingRenderer * uniform) _self;
 
-    self->super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.super.bgMaterial =
+        (uniform AdvancedMaterial * uniform) bgMaterial;
     self->super.simulationData = (uniform float* uniform)simulationData;
     self->super.simulationDataSize = simulationDataSize;
-    self->super.timestamp = timestamp;
+    self->super.super.timestamp = timestamp;
     self->super.exposure = exposure;
     self->super.randomNumber = randomNumber;
     self->super.useHardwareRandomizer = useHardwareRandomizer;

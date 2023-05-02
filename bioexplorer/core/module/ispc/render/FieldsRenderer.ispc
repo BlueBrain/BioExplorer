@@ -20,7 +20,7 @@
 
 #include "FieldsRenderer.ih"
 
-#include <render/utils/BioExplorerRandomGenerator.ih>
+#include <brayns/ispc/render/utils/RandomGenerator.ih>
 
 const float EPSILON = 1e-6f;
 

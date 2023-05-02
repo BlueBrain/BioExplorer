@@ -69,5 +69,6 @@ DensityRenderer::DensityRenderer()
 }
 
 OSP_REGISTER_RENDERER(DensityRenderer, bio_explorer_density);
+OSP_REGISTER_MATERIAL(bio_explorer_density, AdvancedMaterial, default);
 } // namespace rendering
 } // namespace bioexplorer
