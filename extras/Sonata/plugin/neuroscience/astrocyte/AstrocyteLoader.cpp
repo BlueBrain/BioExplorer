@@ -228,12 +228,7 @@ void AstrocyteLoader::_importMorphologiesFromURIs(
     }
     PLUGIN_INFO("");
 
-    PropertyMap materialProps;
-    materialProps.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-    materialProps.setProperty(
-        {MATERIAL_PROPERTY_CLIPPING_MODE,
-         static_cast<int>(MaterialClippingMode::no_clipping)});
-    MorphologyLoader::createMissingMaterials(model, materialProps);
+    MorphologyLoader::createMissingMaterials(model);
 
     PLUGIN_TIMER(chrono.elapsed(), "- " << uris.size() << " astrocytes loaded");
 }

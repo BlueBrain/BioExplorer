@@ -18,7 +18,7 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <brayns/ispc/render/AdvancedMaterial.ih>
+#include <brayns/ispc/render/utils/AdvancedMaterial.ih>
 
 #include <ospray/SDK/render/Renderer.ih>
 #include <ospray/SDK/render/util.ih>

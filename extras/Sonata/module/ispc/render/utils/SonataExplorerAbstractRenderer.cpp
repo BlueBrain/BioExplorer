@@ -21,7 +21,7 @@
 #include "SonataExplorerAbstractRenderer.h"
 
 // Brayns
-#include <brayns/ispc/render/AdvancedMaterial.h>
+#include <brayns/ispc/render/utils/AdvancedMaterial.h>
 
 // ospray
 #include <ospray/SDK/common/Data.h>

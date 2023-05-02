@@ -20,8 +20,6 @@
 
 #pragma once
 
-#include <common/Types.h>
-
 #include <brayns/common/PropertyMap.h>
 #include <brayns/common/geometry/SDFGeometry.h>
 #include <brayns/engineapi/Model.h>

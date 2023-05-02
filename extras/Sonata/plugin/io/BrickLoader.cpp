@@ -162,14 +162,8 @@ ModelDescriptorPtr BrickLoader::importFromFile(
                                 0.1f * float(i) / float(nbMaterials));
         file.read((char*)&materialId, sizeof(size_t));
 
-        PropertyMap materialProps;
         auto name = _readString(file);
-        materialProps.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-        materialProps.setProperty(
-            {MATERIAL_PROPERTY_CLIPPING_MODE,
-             static_cast<int32_t>(MaterialClippingMode::no_clipping)});
-
-        auto material = model->createMaterial(materialId, name, materialProps);
+        auto material = model->createMaterial(materialId, name);
 
         Vector3f value3f;
         file.read((char*)&value3f, sizeof(Vector3f));
@@ -194,8 +188,7 @@ ModelDescriptorPtr BrickLoader::importFromFile(
         {
             bool userData;
             file.read((char*)&userData, sizeof(bool));
-            material->updateProperty(MATERIAL_PROPERTY_CAST_USER_DATA,
-                                     static_cast<int32_t>(userData));
+            material->setCastUserData(userData);
 
             size_t shadingMode;
             file.read((char*)&shadingMode, sizeof(size_t));
@@ -207,8 +200,7 @@ ModelDescriptorPtr BrickLoader::importFromFile(
         {
             int32_t userData;
             file.read((char*)&userData, sizeof(int32_t));
-            material->updateProperty(MATERIAL_PROPERTY_CAST_USER_DATA,
-                                     static_cast<bool>(userData));
+            material->setCastUserData(userData);
 
             int32_t shadingMode;
             file.read((char*)&shadingMode, sizeof(int32_t));
@@ -220,15 +212,17 @@ ModelDescriptorPtr BrickLoader::importFromFile(
         {
             bool clipped;
             file.read((char*)&clipped, sizeof(bool));
-            material->updateProperty(MATERIAL_PROPERTY_CLIPPING_MODE, clipped);
+            material->setClippingMode(clipped
+                                          ? MaterialClippingMode::plane
+                                          : MaterialClippingMode::no_clipping);
         }
 
         if (version >= CACHE_VERSION_4)
         {
             int32_t clippingMode;
             file.read((char*)&clippingMode, sizeof(int32_t));
-            material->updateProperty(MATERIAL_PROPERTY_CLIPPING_MODE,
-                                     clippingMode);
+            material->setClippingMode(
+                static_cast<MaterialClippingMode>(clippingMode));
         }
     }
 
@@ -724,43 +718,40 @@ void BrickLoader::exportToFile(const ModelDescriptorPtr modelDescriptor,
     // Save materials
     for (const auto& material : materials)
     {
-        file.write((char*)&material.first, sizeof(size_t));
-
-        auto name = material.second->getName();
-        size_t size = name.length();
-        file.write((char*)&size, sizeof(size_t));
-        file.write((char*)name.c_str(), size);
-
-        Vector3f value3f;
-        value3f = material.second->getDiffuseColor();
-        file.write((char*)&value3f, sizeof(Vector3f));
-        value3f = material.second->getSpecularColor();
-        file.write((char*)&value3f, sizeof(Vector3f));
-        float value = material.second->getSpecularExponent();
-        file.write((char*)&value, sizeof(float));
-        value = material.second->getReflectionIndex();
-        file.write((char*)&value, sizeof(float));
-        value = material.second->getOpacity();
-        file.write((char*)&value, sizeof(float));
-        value = material.second->getRefractionIndex();
-        file.write((char*)&value, sizeof(float));
-        value = material.second->getEmission();
-        file.write((char*)&value, sizeof(float));
-        value = material.second->getGlossiness();
-        file.write((char*)&value, sizeof(float));
-        int32_t simulation = 0;
         try
         {
-            simulation = material.second->getProperty<int32_t>(
-                MATERIAL_PROPERTY_CAST_USER_DATA);
+            file.write((char*)&material.first, sizeof(size_t));
+
+            auto name = material.second->getName();
+            size_t size = name.length();
+            file.write((char*)&size, sizeof(size_t));
+            file.write((char*)name.c_str(), size);
+
+            Vector3f value3f;
+            value3f = material.second->getDiffuseColor();
+            file.write((char*)&value3f, sizeof(Vector3f));
+            value3f = material.second->getSpecularColor();
+            file.write((char*)&value3f, sizeof(Vector3f));
+            float value = material.second->getSpecularExponent();
+            file.write((char*)&value, sizeof(float));
+            value = material.second->getReflectionIndex();
+            file.write((char*)&value, sizeof(float));
+            value = material.second->getOpacity();
+            file.write((char*)&value, sizeof(float));
+            value = material.second->getRefractionIndex();
+            file.write((char*)&value, sizeof(float));
+            value = material.second->getEmission();
+            file.write((char*)&value, sizeof(float));
+            value = material.second->getGlossiness();
+            file.write((char*)&value, sizeof(float));
+            int32_t castUserData = material.second->getCastUserData();
+            file.write((char*)&castUserData, sizeof(int32_t));
+            int32_t shadingMode = material.second->getShadingMode();
+            file.write((char*)&shadingMode, sizeof(int32_t));
         }
         catch (const std::runtime_error&)
         {
         }
-        file.write((char*)&simulation, sizeof(int32_t));
-
-        int32_t shadingMode = material.second->getShadingMode();
-        file.write((char*)&shadingMode, sizeof(int32_t));
 
         // TODO: Change bool to int32_t for Version 4
         bool clipped = false;

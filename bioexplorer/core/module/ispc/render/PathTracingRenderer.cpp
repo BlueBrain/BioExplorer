@@ -69,5 +69,6 @@ PathTracingRenderer::PathTracingRenderer()
 }
 
 OSP_REGISTER_RENDERER(PathTracingRenderer, bio_explorer_path_tracing);
+OSP_REGISTER_MATERIAL(bio_explorer_path_tracing, AdvancedMaterial, default);
 } // namespace rendering
 } // namespace bioexplorer

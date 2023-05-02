@@ -19,10 +19,8 @@
  */
 
 // Brayns
-#include <brayns/ispc/render/AdvancedMaterial.ih>
-
-// BioExplorer
-#include <bioexplorer/core/module/ispc/render/utils/BioExplorerRandomGenerator.ih>
+#include <brayns/ispc/render/utils/AdvancedMaterial.ih>
+#include <brayns/ispc/render/utils/RandomGenerator.ih>
 
 // OSPRay
 #include <ospray/SDK/camera/PerspectiveCamera.ih>

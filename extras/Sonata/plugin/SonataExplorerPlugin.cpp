@@ -18,6 +18,8 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include "Defines.h"
+
 #include "SonataExplorerPlugin.h"
 #include <common/Logs.h>
 
@@ -274,12 +276,6 @@ void SonataExplorerPlugin::init()
             endPoint,
             [&](const MaterialDescriptor& param) { _setMaterial(param); });
 
-        endPoint = PLUGIN_API_PREFIX + "set-materials";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerNotification<MaterialsDescriptor>(
-            endPoint,
-            [&](const MaterialsDescriptor& param) { _setMaterials(param); });
-
         endPoint = PLUGIN_API_PREFIX + "set-material-range";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
         actionInterface->registerNotification<MaterialRangeDescriptor>(
@@ -292,12 +288,6 @@ void SonataExplorerPlugin::init()
             endPoint,
             [&](const ModelId& modelId) -> MaterialIds
             { return _getMaterialIds(modelId); });
-
-        endPoint = PLUGIN_API_PREFIX + "set-material-extra-attributes";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
-        actionInterface->registerNotification<MaterialExtraAttributes>(
-            endPoint, [&](const MaterialExtraAttributes& param)
-            { _setMaterialExtraAttributes(param); });
 
         endPoint = PLUGIN_API_PREFIX + "save-model-to-cache";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
@@ -380,36 +370,6 @@ Response SonataExplorerPlugin::_getVersion() const
     return response;
 }
 
-Response SonataExplorerPlugin::_setMaterialExtraAttributes(
-    const MaterialExtraAttributes& details)
-{
-    Response response;
-    try
-    {
-        auto& scene = _api->getScene();
-        auto modelDescriptor = scene.getModel(details.modelId);
-        if (modelDescriptor)
-        {
-            auto materials = modelDescriptor->getModel().getMaterials();
-            for (auto& material : materials)
-            {
-                PropertyMap props;
-                props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-                props.setProperty(
-                    {MATERIAL_PROPERTY_CLIPPING_MODE,
-                     static_cast<int>(MaterialClippingMode::no_clipping)});
-                material.second->updateProperties(props);
-            }
-            _markModified();
-        }
-        else
-            PLUGIN_THROW("Model " + std::to_string(details.modelId) +
-                         " is not registered");
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
-}
-
 Response SonataExplorerPlugin::_setMaterial(const MaterialDescriptor& md)
 {
     Response response;
@@ -439,10 +399,9 @@ Response SonataExplorerPlugin::_setMaterial(const MaterialDescriptor& md)
                 material->setShadingMode(
                     static_cast<MaterialShadingMode>(md.shadingMode));
                 material->setUserParameter(md.userParameter);
-                material->updateProperty(MATERIAL_PROPERTY_CAST_USER_DATA,
-                                         md.simulationDataCast);
-                material->updateProperty(MATERIAL_PROPERTY_CLIPPING_MODE,
-                                         md.clippingMode);
+                material->setCastUserData(md.simulationDataCast);
+                material->setClippingMode(
+                    static_cast<MaterialClippingMode>(md.clippingMode));
                 material->markModified(); // This is needed to properly apply
                                           // modifications
                 material->commit();
@@ -456,103 +415,6 @@ Response SonataExplorerPlugin::_setMaterial(const MaterialDescriptor& md)
         else
             PLUGIN_THROW("Model " + std::to_string(md.modelId) +
                          " is not registered");
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
-}
-
-Response SonataExplorerPlugin::_setMaterials(const MaterialsDescriptor& md)
-{
-    Response response;
-    try
-    {
-        for (const auto modelId : md.modelIds)
-        {
-            auto& scene = _api->getScene();
-            auto modelDescriptor = scene.getModel(modelId);
-            if (modelDescriptor)
-            {
-                size_t id = 0;
-                std::string materialIdsAsString;
-                for (const auto materialId : md.materialIds)
-                {
-                    if (!materialIdsAsString.empty())
-                        materialIdsAsString += ",";
-                    materialIdsAsString += std::to_string(materialId);
-                }
-                PLUGIN_INFO("Setting materials [" << materialIdsAsString
-                                                  << "]");
-
-                for (const auto materialId : md.materialIds)
-                {
-                    try
-                    {
-                        auto material =
-                            modelDescriptor->getModel().getMaterial(materialId);
-                        if (material)
-                        {
-                            if (!md.diffuseColors.empty())
-                            {
-                                const size_t index = id * 3;
-                                material->setDiffuseColor(
-                                    {md.diffuseColors[index],
-                                     md.diffuseColors[index + 1],
-                                     md.diffuseColors[index + 2]});
-                                material->setSpecularColor(
-                                    {md.specularColors[index],
-                                     md.specularColors[index + 1],
-                                     md.specularColors[index + 2]});
-                            }
-
-                            if (!md.specularExponents.empty())
-                                material->setSpecularExponent(
-                                    md.specularExponents[id]);
-                            if (!md.reflectionIndices.empty())
-                                material->setReflectionIndex(
-                                    md.reflectionIndices[id]);
-                            if (!md.opacities.empty())
-                                material->setOpacity(md.opacities[id]);
-                            if (!md.refractionIndices.empty())
-                                material->setRefractionIndex(
-                                    md.refractionIndices[id]);
-                            if (!md.emissions.empty())
-                                material->setEmission(md.emissions[id]);
-                            if (!md.glossinesses.empty())
-                                material->setGlossiness(md.glossinesses[id]);
-                            if (!md.shadingModes.empty())
-                                material->setShadingMode(
-                                    static_cast<MaterialShadingMode>(
-                                        md.shadingModes[id]));
-                            if (!md.userParameters.empty())
-                                material->setUserParameter(
-                                    md.userParameters[id]);
-
-                            if (!md.simulationDataCasts.empty())
-                            {
-                                const bool value = md.simulationDataCasts[id];
-                                material->updateProperty(
-                                    MATERIAL_PROPERTY_CAST_USER_DATA, value);
-                            }
-                            if (!md.clippingModes.empty())
-                                material->updateProperty(
-                                    MATERIAL_PROPERTY_CLIPPING_MODE,
-                                    md.clippingModes[id]);
-                            material->markModified(); // This is needed to apply
-                                                      // propery modifications
-                            material->commit();
-                        }
-                    }
-                    catch (const std::runtime_error& e)
-                    {
-                        PLUGIN_INFO(e.what());
-                    }
-                    ++id;
-                }
-                _markModified();
-            }
-            else
-                PLUGIN_INFO("Model " << modelId << " is not registered");
-        }
     }
     CATCH_STD_EXCEPTION()
     return response;
@@ -615,10 +477,9 @@ Response SonataExplorerPlugin::_setMaterialRange(
                     material->setShadingMode(
                         static_cast<MaterialShadingMode>(mrd.shadingMode));
                     material->setUserParameter(mrd.userParameter);
-                    material->updateProperty(MATERIAL_PROPERTY_CAST_USER_DATA,
-                                             mrd.simulationDataCast);
-                    material->updateProperty(MATERIAL_PROPERTY_CLIPPING_MODE,
-                                             mrd.clippingMode);
+                    material->setCastUserData(mrd.simulationDataCast);
+                    material->setClippingMode(
+                        static_cast<MaterialClippingMode>(mrd.clippingMode));
                     material->markModified(); // This is needed to apply
                                               // propery modifications
                     material->commit();
@@ -845,14 +706,6 @@ void SonataExplorerPlugin::_createShapeMaterial(ModelPtr& model,
     material->setOpacity(opacity);
     material->setSpecularExponent(0.0);
     material->setShadingMode(MaterialShadingMode::diffuse_transparency);
-
-    PropertyMap props;
-    props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-    props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE,
-                       static_cast<int>(MaterialClippingMode::no_clipping)});
-
-    material->updateProperties(props);
-
     material->markModified();
     material->commit();
 }
@@ -1072,15 +925,8 @@ Response SonataExplorerPlugin::_addColumn(const AddColumn& details)
 
         const Vector3f white = {1.f, 1.f, 1.F};
 
-        PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-        props.setProperty(
-            {MATERIAL_PROPERTY_CLIPPING_MODE,
-             static_cast<int>(MaterialClippingMode::no_clipping)});
-
         auto material = model->createMaterial(0, "column");
         material->setDiffuseColor(white);
-        material->setProperties(props);
 
         const Vector3fs verticesBottom = {
             {-0.25f, -1.0f, -0.5f}, {0.25f, -1.0f, -0.5f},

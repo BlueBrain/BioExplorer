@@ -21,7 +21,6 @@
 #include "BioExplorerPlugin.h"
 
 #include <plugin/common/Assembly.h>
-#include <plugin/common/CommonTypes.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
@@ -111,42 +110,6 @@ Boxd vector_to_bounds(const doubles &lowBounds, const doubles &highBounds)
     if (!highBounds.empty())
         bounds.merge({highBounds[0], highBounds[1], highBounds[2]});
     return bounds;
-}
-
-void _addBioExplorerRenderer(Engine &engine)
-{
-    PLUGIN_INFO(2, "Registering 'bio_explorer' renderer");
-    PropertyMap properties;
-    properties.setProperty(
-        {"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
-    properties.setProperty({"maxDistanceToSecondaryModel",
-                            30.,
-                            0.1,
-                            100.,
-                            {"Maximum distance to secondary model"}});
-    properties.setProperty(
-        {"giDistance", 10000.0, {"Global illumination distance"}});
-    properties.setProperty(
-        {"giWeight", 0.0, 1.0, 1.0, {"Global illumination weight"}});
-    properties.setProperty(
-        {"giSamples", 0, 0, 64, {"Global illumination samples"}});
-    properties.setProperty({"shadows", 0.0, 0.0, 1.0, {"Shadow intensity"}});
-    properties.setProperty({"softShadows", 0.0, 0.0, 1.0, {"Shadow softness"}});
-    properties.setProperty(
-        {"softShadowsSamples", 1, 1, 64, {"Soft shadow samples"}});
-    properties.setProperty({"mainExposure", 1.0, 0.01, 10.0, {"Exposure"}});
-    properties.setProperty(
-        {"epsilonFactor", 1.0, 1.0, 1000.0, {"Epsilon factor"}});
-    properties.setProperty({"fogStart", 0.0, 0.0, 1e6, {"Fog start"}});
-    properties.setProperty({"fogThickness", 1e6, 1e6, 1e6, {"Fog thickness"}});
-    properties.setProperty(
-        {"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
-    properties.setProperty({"useHardwareRandomizer",
-                            false,
-                            {"Use hardware accelerated randomizer"}});
-    properties.setProperty({"showBackground", false, {"Show background"}});
-    properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
-    engine.addRendererType("bio_explorer", properties);
 }
 
 void _addBioExplorerVoxelRenderer(Engine &engine)
@@ -468,12 +431,6 @@ void BioExplorerPlugin::init()
             endPoint, [&](const MaterialsDetails &payload)
             { return _setMaterials(payload); });
 
-        endPoint = PLUGIN_API_PREFIX + "set-material-extra-attributes";
-        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
-        actionInterface->registerRequest<ModelIdDetails, Response>(
-            endPoint, [&](const ModelIdDetails &payload)
-            { return _setMaterialExtraAttributes(payload); });
-
         endPoint = PLUGIN_API_PREFIX + "get-material-ids";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<ModelIdDetails, IdsDetails>(
@@ -628,13 +585,17 @@ void BioExplorerPlugin::init()
                 [&](const LookAtDetails &payload) { return _lookAt(payload); });
     }
 
-    // Module components
-    _addBioExplorerRenderer(engine);
-    _addBioExplorerVoxelRenderer(engine);
-    _addBioExplorerFieldsRenderer(engine);
-    _addBioExplorerDensityRenderer(engine);
-    _addBioExplorerPathTracingRenderer(engine);
-    _addBioExplorerGolgiStyleRenderer(engine);
+    // Renderers
+    auto &params = engine.getParametersManager().getApplicationParameters();
+    const auto &engineName = params.getEngine();
+    if (engineName == ENGINE_OSPRAY)
+    {
+        _addBioExplorerVoxelRenderer(engine);
+        _addBioExplorerFieldsRenderer(engine);
+        _addBioExplorerDensityRenderer(engine);
+        _addBioExplorerPathTracingRenderer(engine);
+        _addBioExplorerGolgiStyleRenderer(engine);
+    }
 
     // Database
     try
@@ -1168,11 +1129,6 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
         const Vector3d grey = {0.5, 0.5, 0.5};
 
         PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
-        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
-
         auto material = model->createMaterial(0, "x");
         material->setDiffuseColor(grey);
         material->setProperties(props);
@@ -1250,12 +1206,6 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             const double l1 = l * 0.89;
             const double l2 = l * 0.90;
 
-            PropertyMap props;
-            props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
-            props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-            props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
-            props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
-
             // X
             material = model->createMaterial(4, "x_axis");
             material->setDiffuseColor(red);
@@ -1272,7 +1222,6 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             // Y
             material = model->createMaterial(5, "y_axis");
             material->setDiffuseColor(green);
-            material->setProperties(props);
 
             model->addCylinder(5, {position, position + Vector3d(0, l1, 0),
                                    smallRadius});
@@ -1285,7 +1234,6 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             // Z
             material = model->createMaterial(6, "z_axis");
             material->setDiffuseColor(blue);
-            material->setProperties(props);
 
             model->addCylinder(6, {position, position + Vector3d(0, 0, l1),
                                    smallRadius});
@@ -1321,19 +1269,12 @@ Response BioExplorerPlugin::_addSpheres(const AddSpheresDetails &payload)
         auto &scene = _api->getScene();
         auto model = scene.createModel();
 
-        PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
-        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
-
         const auto color = doublesToVector3d(payload.color);
 
         const size_t materialId = 0;
         auto material = model->createMaterial(materialId, "Spheres");
         material->setDiffuseColor(color);
         material->setOpacity(payload.opacity);
-        material->setProperties(props);
 
         PLUGIN_INFO(3, "Adding spheres " + payload.name + " to the scene");
 
@@ -1368,12 +1309,6 @@ Response BioExplorerPlugin::_addCone(const AddConeDetails &payload)
         auto &scene = _api->getScene();
         auto model = scene.createModel();
 
-        PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
-        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
-
         const auto color = doublesToVector3d(payload.color);
         const auto origin = doublesToVector3d(payload.origin);
         const auto target = doublesToVector3d(payload.target);
@@ -1381,7 +1316,6 @@ Response BioExplorerPlugin::_addCone(const AddConeDetails &payload)
         auto material = model->createMaterial(0, "Cone");
         material->setDiffuseColor(color);
         material->setOpacity(payload.opacity);
-        material->setProperties(props);
 
         PLUGIN_INFO(3, "Adding cone " + payload.name + " to the scene");
 
@@ -1415,16 +1349,9 @@ Response BioExplorerPlugin::_addBoundingBox(
         auto &scene = _api->getScene();
         auto model = scene.createModel();
 
-        PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
-        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
-
         const auto color = doublesToVector3d(payload.color);
         auto material = model->createMaterial(0, "BoundingBox");
         material->setDiffuseColor(color);
-        material->setProperties(props);
 
         PLUGIN_INFO(3, "Adding bounding box " + payload.name + " to the scene");
 
@@ -1489,16 +1416,9 @@ Response BioExplorerPlugin::_addBox(const AddBoxDetails &details)
         auto model = scene.createModel();
 
         const size_t materialId = 0;
-        PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
-        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
-
         const auto color = doublesToVector3d(details.color);
         auto material = model->createMaterial(0, "Box");
         material->setDiffuseColor(color);
-        material->setProperties(props);
 
         const Vector3f minCorner = doublesToVector3d(details.bottomLeft);
         const Vector3f maxCorner = doublesToVector3d(details.topRight);
@@ -1536,15 +1456,8 @@ Response BioExplorerPlugin::_addStreamlines(
 
         // Create material
         const auto materialId = 0;
-        PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
-        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
-
         auto material = model->createMaterial(0, "Streamlines");
         material->setDiffuseColor({1, 1, 1});
-        material->setProperties(props);
 
         for (uint64_t index = 0; index < nbIndices; ++index)
         {
@@ -1724,9 +1637,9 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
                                     static_cast<MaterialClippingMode>(
                                         payload.clippingModes[id]));
                             if (!payload.chameleonModes.empty())
-                                material->updateProperty(
-                                    MATERIAL_PROPERTY_CHAMELEON_MODE,
-                                    payload.chameleonModes[id]);
+                                material->setChameleonMode(
+                                    static_cast<MaterialChameleonMode>(
+                                        payload.chameleonModes[id]));
 
                             // This is needed to apply modifications.
                             // Changes to the material will be committed
@@ -1748,41 +1661,6 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
                 PLUGIN_INFO(3, "Model " << modelId << " is not registered");
         }
         scene.markModified(false);
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
-}
-
-Response BioExplorerPlugin::_setMaterialExtraAttributes(
-    const ModelIdDetails &details)
-{
-    Response response;
-    try
-    {
-        auto &scene = _api->getScene();
-        auto modelDescriptor = scene.getModel(details.modelId);
-        if (modelDescriptor)
-        {
-            auto materials = modelDescriptor->getModel().getMaterials();
-            for (auto &material : materials)
-            {
-                PropertyMap props;
-                props.setProperty(
-                    {MATERIAL_PROPERTY_CHAMELEON_MODE,
-                     static_cast<int>(
-                         MaterialChameleonMode::undefined_chameleon_mode)});
-                props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
-                props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-                props.setProperty(
-                    {MATERIAL_PROPERTY_CLIPPING_MODE,
-                     static_cast<int>(MaterialClippingMode::no_clipping)});
-                material.second->updateProperties(props);
-            }
-            scene.markModified(false);
-        }
-        else
-            PLUGIN_THROW("Model " + std::to_string(details.modelId) +
-                         " is not registered");
     }
     CATCH_STD_EXCEPTION()
     return response;
@@ -1908,15 +1786,7 @@ Response BioExplorerPlugin::_buildPointCloud(
         // Material
         const size_t materialId = 0;
         auto material = model->createMaterial(materialId, "Point cloud");
-
-        PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, 0});
-        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, false});
-        props.setProperty({MATERIAL_PROPERTY_NODE_ID, 0});
-        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, 0});
-
         material->setDiffuseColor({1.0, 1.0, 1.0});
-        material->updateProperties(props);
 
         const auto &modelDescriptors = scene.getModelDescriptors();
         for (const auto modelDescriptor : modelDescriptors)

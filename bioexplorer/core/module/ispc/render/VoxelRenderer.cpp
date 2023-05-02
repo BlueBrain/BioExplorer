@@ -52,5 +52,7 @@ VoxelRenderer::VoxelRenderer()
 }
 
 OSP_REGISTER_RENDERER(VoxelRenderer, bio_explorer_voxel);
+OSP_REGISTER_MATERIAL(bio_explorer_voxel, AdvancedMaterial, default);
+
 } // namespace rendering
 } // namespace bioexplorer

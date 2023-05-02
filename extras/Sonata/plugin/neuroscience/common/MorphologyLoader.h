@@ -108,7 +108,7 @@ public:
      * default parameters
      */
     static void createMissingMaterials(Model& model,
-                                       const PropertyMap& properties = {});
+                                       const bool castUserData = false);
 
     static const brain::neuron::SectionTypes getSectionTypesFromProperties(
         const PropertyMap& properties);

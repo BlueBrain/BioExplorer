@@ -20,8 +20,10 @@
 
 #include "DensityRenderer.ih"
 
-#include <bioexplorer/core/module/ispc/render/utils/BioExplorerRandomGenerator.ih>
+// Brayns
+#include <brayns/ispc/render/utils/RandomGenerator.ih>
 
+// OSPRay
 #include <ospray/SDK/math/sampling.ih>
 
 /**

@@ -18,8 +18,6 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "Types.h"
-
 #include <brayns/common/mathTypes.h>
 #include <brayns/common/types.h>
 

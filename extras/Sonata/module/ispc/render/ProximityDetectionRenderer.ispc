@@ -20,7 +20,7 @@
 
 #include "utils/SonataExplorerAbstractRenderer.ih"
 
-#include <brayns/ispc/render/AdvancedMaterial.ih>
+#include <brayns/ispc/render/utils/AdvancedMaterial.ih>
 
 #include <brayns/common/CommonTypes.h>
 

@@ -90,5 +90,6 @@ FieldsRenderer::FieldsRenderer()
 }
 
 OSP_REGISTER_RENDERER(FieldsRenderer, bio_explorer_fields);
+OSP_REGISTER_MATERIAL(bio_explorer_fields, AdvancedMaterial, default);
 } // namespace rendering
 } // namespace bioexplorer

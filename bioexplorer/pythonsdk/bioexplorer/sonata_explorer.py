@@ -464,63 +464,6 @@ class SonataExplorer:
         return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'set-material', params=params,
                                     response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
-    # pylint: disable=W0102
-    def set_materials(self, model_ids, material_ids, diffuse_colors, specular_colors,
-                      specular_exponents=list(), opacities=list(), reflection_indices=list(),
-                      refraction_indices=list(), simulation_data_casts=list(), glossinesses=list(),
-                      shading_modes=list(), emissions=list(), clipping_modes=list(), user_parameters=list()):
-        """
-        Set a list of material on a specified list of models
-
-        :param int model_ids: IDs of the models
-        :param int material_ids: IDs of the materials
-        :param list diffuse_colors: List of diffuse colors (3 values between 0 and 1)
-        :param list specular_colors: List of specular colors (3 values between 0 and 1)
-        :param list specular_exponents: List of diffuse exponents
-        :param list opacities: List of opacities
-        :param list reflection_indices: List of reflection indices (value between 0 and 1)
-        :param list refraction_indices: List of refraction indices
-        :param list simulation_data_casts: List of cast simulation information
-        :param list glossinesses: List of glossinesses (value between 0 and 1)
-        :param list shading_modes: List of shading modes (SHADING_MODE_NONE, SHADING_MODE_DIFFUSE,
-        SHADING_MODE_ELECTRON, SHADING_MODE_CARTOON, SHADING_MODE_ELECTRON_TRANSPARENCY,
-        SHADING_MODE_PERLIN or SHADING_MODE_DIFFUSE_TRANSPARENCY)
-        :param list emissions: List of light emission intensities
-        :param list clipping mode: List of clipping modes defining if materials should be clipped
-        against clipping planes, spheres, etc, defined at the scene level
-        :param list user_parameter: List of convenience parameter used by some of the shaders
-        :return: Result of the request submission
-        :rtype: str
-        """
-        params = dict()
-        params['modelIds'] = model_ids
-        params['materialIds'] = material_ids
-
-        dc = list()
-        for diffuse in diffuse_colors:
-            for k in range(3):
-                dc.append(diffuse[k])
-        params['diffuseColors'] = dc
-
-        sc = list()
-        for specular in specular_colors:
-            for k in range(3):
-                sc.append(specular[k])
-        params['specularColors'] = sc
-
-        params['specularExponents'] = specular_exponents
-        params['reflectionIndices'] = reflection_indices
-        params['opacities'] = opacities
-        params['refractionIndices'] = refraction_indices
-        params['emissions'] = emissions
-        params['glossinesses'] = glossinesses
-        params['simulationDataCasts'] = simulation_data_casts
-        params['shadingModes'] = shading_modes
-        params['clippingModes'] = clipping_modes
-        params['userParameters'] = user_parameters
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'set-materials', params=params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
-
     # pylint: disable=R0913, R0914
     def set_material_range(self, model_id, material_ids, diffuse_color=(1.0, 1.0, 1.0),
                            specular_color=(1.0, 1.0, 1.0), specular_exponent=20.0, opacity=1.0,
@@ -600,19 +543,6 @@ class SonataExplorer:
         params['shrinkFactor'] = shrink_factor
         params['skin'] = skin
         return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'save-model-to-mesh', params=params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
-
-    def set_material_extra_attributes(self, model_id):
-        """
-        Add extra attributes to all materials in the model (shading mode, clipped, etc)
-
-        :param int model_id: Id of the model
-        :return: Result of the request submission
-        :rtype: str
-        """
-        params = dict()
-        params['modelId'] = model_id
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'set-material-extra-attributes', params=params,
                                     response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
     def set_camera(self, origin, direction, up):

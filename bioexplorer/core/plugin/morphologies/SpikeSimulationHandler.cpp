@@ -20,7 +20,6 @@
 
 #include "SpikeSimulationHandler.h"
 
-#include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
 
 #include <plugin/io/db/DBConnector.h>

@@ -64,9 +64,7 @@ private:
 
     // Rendering
     Response _setMaterial(const MaterialDescriptor&);
-    Response _setMaterials(const MaterialsDescriptor&);
     Response _setMaterialRange(const MaterialRangeDescriptor&);
-    Response _setMaterialExtraAttributes(const MaterialExtraAttributes&);
     MaterialIds _getMaterialIds(const ModelId& modelId);
 
     // Experimental

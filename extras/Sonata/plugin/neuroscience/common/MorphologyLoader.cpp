@@ -1378,7 +1378,7 @@ const brain::neuron::SectionTypes
 }
 
 void MorphologyLoader::createMissingMaterials(Model& model,
-                                              const PropertyMap& properties)
+                                              const bool castUserData)
 {
     std::set<size_t> materialIds;
     for (auto& spheres : model.getSpheres())
@@ -1397,8 +1397,11 @@ void MorphologyLoader::createMissingMaterials(Model& model,
     {
         const auto it = materials.find(materialId);
         if (it == materials.end())
-            model.createMaterial(materialId, std::to_string(materialId),
-                                 properties);
+        {
+            auto material =
+                model.createMaterial(materialId, std::to_string(materialId));
+            material->setCastUserData(castUserData);
+        }
     }
 
     auto simulationHandler = model.getSimulationHandler();

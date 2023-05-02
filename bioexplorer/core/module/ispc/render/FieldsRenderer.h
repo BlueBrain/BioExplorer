@@ -21,7 +21,7 @@
 #pragma once
 
 // Brayns
-#include <brayns/ispc/render/AdvancedMaterial.h>
+#include <brayns/ispc/render/utils/AdvancedMaterial.h>
 
 // OSPRay
 #include <ospray/SDK/render/Renderer.h>

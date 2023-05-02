@@ -2227,21 +2227,6 @@ class BioExplorer:
         params["clippingModes"] = clipping_modes
         return self._invoke_and_check("set-materials", params)
 
-    def set_material_extra_attributes(self, model_id):
-        """
-        Set extra BioExplorer specific attributes to materials
-
-        :model_id: ID of the model
-        :return: Result of the request submission
-        """
-        if self._client is None:
-            return
-
-        params = dict()
-        params["modelId"] = model_id
-        params["maxNbInstances"] = 1
-        return self._invoke_and_check("set-material-extra-attributes", params)
-
     def set_materials_from_palette(
         self,
         model_ids,

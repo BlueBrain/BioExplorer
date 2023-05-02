@@ -20,7 +20,6 @@
 
 #pragma once
 
-#include <common/Types.h>
 #include <plugin/api/SonataExplorerParams.h>
 
 #include <brayns/common/loader/Loader.h>

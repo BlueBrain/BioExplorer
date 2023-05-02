@@ -20,7 +20,6 @@
 
 #include "Atlas.h"
 
-#include <plugin/common/CommonTypes.h>
 #include <plugin/common/Logs.h>
 #include <plugin/common/ThreadSafeContainer.h>
 #include <plugin/common/Utils.h>

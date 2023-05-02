@@ -20,12 +20,15 @@
 
 #pragma once
 
-#include <render/utils/SimulationRenderer.h>
+// Brayns
+#include <brayns/ispc/render/utils/SimulationRenderer.h>
 
 namespace bioexplorer
 {
 namespace rendering
 {
+using namespace brayns;
+
 /**
  * @brief The PathTracingRenderer class is a renderer that processes the
  * rendering of the 3D scene using the path tracing algorythm
@@ -40,6 +43,7 @@ public:
        @return string containing the full name of the class
     */
     std::string toString() const final { return "bio_explorer_path_tracing"; }
+
     void commit() final;
 
 private:

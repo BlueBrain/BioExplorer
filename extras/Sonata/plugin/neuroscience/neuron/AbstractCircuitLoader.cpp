@@ -457,15 +457,10 @@ ModelDescriptorPtr AbstractCircuitLoader::importCircuit(
     }
 
     PLUGIN_INFO("- Creating custom materials");
-    PropertyMap materialProps;
-    materialProps.setProperty(
-        {MATERIAL_PROPERTY_CAST_USER_DATA,
-         (compartmentReport || userDataType == UserDataType::distance_to_soma ||
-          reportType == ReportType::spikes)});
-    materialProps.setProperty(
-        {MATERIAL_PROPERTY_CLIPPING_MODE,
-         static_cast<int>(MaterialClippingMode::no_clipping)});
-    MorphologyLoader::createMissingMaterials(*model, materialProps);
+    const bool castUserData =
+        (compartmentReport || userDataType == UserDataType::distance_to_soma ||
+         reportType == ReportType::spikes);
+    MorphologyLoader::createMissingMaterials(*model, castUserData);
 
     PLUGIN_INFO("- Applying default colormap");
     _setDefaultCircuitColorMap(*model);

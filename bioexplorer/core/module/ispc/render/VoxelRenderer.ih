@@ -18,8 +18,7 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// obj renderer
-#include <bioexplorer/core/module/ispc/render/utils/SimulationRenderer.ih>
+#include <brayns/ispc/render/utils/SimulationRenderer.ih>
 
 struct VoxelRenderer
 {
