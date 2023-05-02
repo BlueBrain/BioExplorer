@@ -18,10 +18,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "utils.ih"
-
 #include "math/sampling.ih"
-#include "ospray/SDK/camera/Camera.ih"
+#include "utils/CameraUtils.ih"
+
+#include <ospray/SDK/camera/Camera.ih>
 
 struct PanoramicCamera
 {

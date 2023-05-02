@@ -37,7 +37,7 @@ set(BRAYNSOPTIX6ENGINE_CU
   cuda/geometry/Spheres.cu
   cuda/geometry/TriangleMesh.cu
   cuda/renderer/Basic.cu
-  cuda/renderer/BioExplorer.cu
+  cuda/renderer/Advanced.cu
 )
 
 CUDA_WRAP_SRCS(braynsOptix6Engine PTX ptx_generated_files ${BRAYNSOPTIX6ENGINE_CU})

@@ -18,8 +18,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <engines/optix6/braynsOptix6Engine_generated_Advanced.cu.ptx.h>
 #include <engines/optix6/braynsOptix6Engine_generated_Basic.cu.ptx.h>
-#include <engines/optix6/braynsOptix6Engine_generated_BioExplorer.cu.ptx.h>
 
 #include <brayns/common/input/KeyboardHandler.h>
 #include <brayns/parameters/ParametersManager.h>
@@ -138,40 +138,46 @@ void OptiXEngine::_createRenderers()
     _renderer->setScene(_scene);
 
     { // Advanced renderer
-        const std::string CUDA_ADVANCED_SIMULATION = braynsOptix6Engine_generated_BioExplorer_cu_ptx;
+        const std::string CUDA_ADVANCED_SIMULATION_RENDERER = braynsOptix6Engine_generated_Advanced_cu_ptx;
 
         OptiXContext& context = OptiXContext::get();
 
         auto osp = std::make_shared<OptixShaderProgram>();
-        osp->closest_hit =
-            context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION, "closest_hit_radiance");
+        osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER,
+                                                                                 "closest_hit_radiance");
         osp->closest_hit_textured =
-            context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION,
+            context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER,
                                                                   "closest_hit_radiance_textured");
         osp->any_hit =
-            context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION, "any_hit_shadow");
+            context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER, "any_hit_shadow");
         // Exception program
         osp->exception_program =
-            context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION, "exception");
+            context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER, "exception");
         context.getOptixContext()->setExceptionProgram(0, osp->exception_program);
         context.getOptixContext()["bad_color"]->setFloat(1.0f, 0.0f, 0.0f);
 
-        context.addRenderer("bio_explorer", osp);
+        context.addRenderer("advanced", osp);
 
         PropertyMap properties;
-        properties.setProperty({"epsilonFactor", 1.0, 1.0, 1000.0, {"Epsilon factor"}});
-        properties.setProperty({"shadows", 0., 0., 1., {"Shadow strength"}});
-        properties.setProperty({"softShadows", 0., 0., 1., {"Soft shadow strength"}});
-        properties.setProperty({"softShadowsSamples", 1, 1, 64, {"Soft shadow samples"}});
+        properties.setProperty({"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
+        properties.setProperty(
+            {"maxDistanceToSecondaryModel", 30., 0.1, 100., {"Maximum distance to secondary model"}});
         properties.setProperty({"giDistance", 10000.0, {"Global illumination distance"}});
         properties.setProperty({"giWeight", 0.0, 1.0, 1.0, {"Global illumination weight"}});
         properties.setProperty({"giSamples", 0, 0, 64, {"Global illumination samples"}});
-        properties.setProperty({"maxBounces", 3, 1, 20, {"Max ray recursion depth"}});
+        properties.setProperty({"shadows", 0.0, 0.0, 1.0, {"Shadow intensity"}});
+        properties.setProperty({"softShadows", 0.0, 0.0, 1.0, {"Shadow softness"}});
+        properties.setProperty({"softShadowsSamples", 1, 1, 64, {"Soft shadow samples"}});
         properties.setProperty({"mainExposure", 1.0, 0.01, 10.0, {"Exposure"}});
-        properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
+        properties.setProperty({"epsilonFactor", 1.0, 1.0, 1000.0, {"Epsilon factor"}});
+        properties.setProperty({"fogStart", 0.0, 0.0, 1e6, {"Fog start"}});
+        properties.setProperty({"fogThickness", 1e6, 1e6, 1e6, {"Fog thickness"}});
+        properties.setProperty({"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
+        properties.setProperty({"useHardwareRandomizer", false, {"Use hardware accelerated randomizer"}});
         properties.setProperty({"showBackground", true, {"Show background"}});
+        properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
 
-        addRendererType("bio_explorer", properties);
+        addRendererType("advanced", properties);
     }
 
     { // Basic simulation / Basic renderer

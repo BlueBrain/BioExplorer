@@ -22,7 +22,7 @@ endif()
 
 
 set(BRAYNSOSPRAYENGINE_ISPC_SOURCES
-  ispc/camera/utils.ispc
+  ispc/camera/utils/CameraUtils.ispc
   ispc/camera/OrthographicCamera.ispc
   ispc/camera/PanoramicCamera.ispc
   ispc/camera/PerspectiveStereoCamera.ispc
@@ -33,9 +33,12 @@ set(BRAYNSOSPRAYENGINE_ISPC_SOURCES
   ispc/geometry/SDFGeometries.ispc
   ispc/geometry/RayMarching.isph
   ispc/render/BasicRenderer.ispc
-  ispc/render/DefaultMaterial.ispc
+  ispc/render/AdvancedRenderer.ispc
+  ispc/render/utils/AdvancedMaterial.ispc
   ispc/render/utils/RandomGenerator.ispc
   ispc/render/utils/SkyBox.ispc
+  ispc/render/utils/RendererUtils.ispc
+  ispc/render/utils/SimulationRenderer.ispc
 )
 
 set(BRAYNSOSPRAYENGINE_SOURCES
@@ -57,8 +60,10 @@ set(BRAYNSOSPRAYENGINE_SOURCES
   ispc/geometry/SDFBeziers.cpp
   ispc/geometry/SDFGeometries.cpp
   ispc/render/BasicRenderer.cpp
-  ispc/render/DefaultMaterial.cpp
+  ispc/render/AdvancedRenderer.cpp
+  ispc/render/utils/AdvancedMaterial.cpp
   ispc/render/utils/AbstractRenderer.cpp
+  ispc/render/utils/SimulationRenderer.cpp
 )
 list(APPEND BRAYNSOSPRAYENGINE_SOURCES ${BRAYNSOSPRAYENGINE_ISPC_SOURCES})
 
@@ -78,14 +83,28 @@ set(BRAYNSOSPRAYENGINE_HEADERS
   ispc/camera/FishEyeCamera.h
   ispc/camera/PerspectiveParallaxCamera.h
   ispc/render/BasicRenderer.h
-  ispc/render/DefaultMaterial.h
+  ispc/render/AdvancedRenderer.h
+  ispc/render/utils/AdvancedMaterial.h
   ispc/render/utils/AbstractRenderer.h
+  ispc/render/utils/SimulationRenderer.h
 )
 
 set(BRAYNSOSPRAYENGINE_PUBLIC_HEADERS
+  ispc/camera/utils/CameraUtils.ih
   ispc/geometry/Cones.h
   ispc/geometry/SDFBeziers.h
   ispc/geometry/SDFGeometries.h
+  ispc/render/BasicRenderer.ih
+  ispc/render/AdvancedRenderer.ih
+  ispc/render/utils/SkyBox.ih
+  ispc/render/utils/RendererUtils.ih
+  ispc/render/utils/RandomGenerator.ih
+  ispc/render/utils/AdvancedMaterial.h
+  ispc/render/utils/AdvancedMaterial.ih
+  ispc/render/utils/AbstractRenderer.h
+  ispc/render/utils/AbstractRenderer.ih
+  ispc/render/utils/SimulationRenderer.h
+  ispc/render/utils/SimulationRenderer.ih
 )
 
 set_source_files_properties(

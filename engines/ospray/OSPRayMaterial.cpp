@@ -56,19 +56,23 @@ void OSPRayMaterial::commit()
         return;
 
     if (getCurrentType() == "simulation")
-        osphelper::set(_ospMaterial, "apply_simulation", true);
+        osphelper::set(_ospMaterial, MATERIAL_PROPERTY_APPLY_SIMULATION, true);
     else
-        ospRemoveParam(_ospMaterial, "apply_simulation");
+        ospRemoveParam(_ospMaterial, MATERIAL_PROPERTY_APPLY_SIMULATION);
 
-    osphelper::set(_ospMaterial, "kd", Vector3f(_diffuseColor));
-    osphelper::set(_ospMaterial, "ks", Vector3f(_specularColor));
-    osphelper::set(_ospMaterial, "ns", static_cast<float>(_specularExponent));
-    osphelper::set(_ospMaterial, "d", static_cast<float>(_opacity));
-    osphelper::set(_ospMaterial, "refraction", static_cast<float>(_refractionIndex));
-    osphelper::set(_ospMaterial, "reflection", static_cast<float>(_reflectionIndex));
-    osphelper::set(_ospMaterial, "a", static_cast<float>(_emission));
-    osphelper::set(_ospMaterial, "glossiness", static_cast<float>(_glossiness));
-    osphelper::set(_ospMaterial, "skybox", _isBackGroundMaterial);
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_DIFFUSE_COLOR, Vector3f(_diffuseColor));
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_SPECULAR_COLOR, Vector3f(_specularColor));
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_SPECULAR_INDEX, static_cast<float>(_specularExponent));
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_OPACITY, static_cast<float>(_opacity));
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_REFRACTION, static_cast<float>(_refractionIndex));
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_REFLECTION, static_cast<float>(_reflectionIndex));
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_EMISSION, static_cast<float>(_emission));
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_GLOSSINESS, static_cast<float>(_glossiness));
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_SHADING_MODE, static_cast<MaterialShadingMode>(_shadingMode));
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_USER_PARAMETER, static_cast<float>(_userParameter));
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_CAST_USER_DATA, static_cast<bool>(_castUserData));
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_CLIPPING_MODE, static_cast<MaterialClippingMode>(_clippingMode));
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_SKYBOX, _isBackGroundMaterial);
 
     // Properties
     toOSPRayProperties(*this, _ospMaterial);

@@ -52,25 +52,31 @@ public:
     BRAYNS_API const Vector3d& getDiffuseColor() const { return _diffuseColor; }
     BRAYNS_API void setSpecularColor(const Vector3d& value) { _updateValue(_specularColor, value); }
     BRAYNS_API const Vector3d& getSpecularColor() const { return _specularColor; }
-    BRAYNS_API void setSpecularExponent(double value) { _updateValue(_specularExponent, value); }
+    BRAYNS_API void setSpecularExponent(const double value) { _updateValue(_specularExponent, value); }
     BRAYNS_API double getSpecularExponent() const { return _specularExponent; }
-    BRAYNS_API void setReflectionIndex(double value) { _updateValue(_reflectionIndex, value); }
+    BRAYNS_API void setReflectionIndex(const double value) { _updateValue(_reflectionIndex, value); }
     BRAYNS_API double getReflectionIndex() const { return _reflectionIndex; }
-    BRAYNS_API void setOpacity(double value) { _updateValue(_opacity, value); }
+    BRAYNS_API void setOpacity(const double value) { _updateValue(_opacity, value); }
     BRAYNS_API double getOpacity() const { return _opacity; }
-    BRAYNS_API void setRefractionIndex(double value) { _updateValue(_refractionIndex, value); }
+    BRAYNS_API void setRefractionIndex(const double value) { _updateValue(_refractionIndex, value); }
     BRAYNS_API double getRefractionIndex() const { return _refractionIndex; }
     BRAYNS_API void setEmission(double value) { _updateValue(_emission, value); }
     BRAYNS_API double getEmission() const { return _emission; }
-    BRAYNS_API void setGlossiness(double value) { _updateValue(_glossiness, value); }
+    BRAYNS_API void setGlossiness(const double value) { _updateValue(_glossiness, value); }
     BRAYNS_API double getGlossiness() const { return _glossiness; }
     BRAYNS_API const TextureDescriptors& getTextureDescriptors() const { return _textureDescriptors; }
     BRAYNS_API void setTexture(const std::string& fileName, const TextureType type);
     BRAYNS_API void removeTexture(const TextureType type);
     BRAYNS_API void setShadingMode(const MaterialShadingMode value) { _updateValue(_shadingMode, value); }
     BRAYNS_API MaterialShadingMode getShadingMode() const { return _shadingMode; }
-    BRAYNS_API void setUserParameter(double value) { _updateValue(_userParameter, value); }
+    BRAYNS_API void setUserParameter(const double value) { _updateValue(_userParameter, value); }
     BRAYNS_API double getUserParameter() const { return _userParameter; }
+    BRAYNS_API void setCastUserData(const bool value) { _updateValue(_castUserData, value); }
+    BRAYNS_API double getCastUserData() const { return _castUserData; }
+    BRAYNS_API void setClippingMode(const MaterialClippingMode value) { _updateValue(_clippingMode, value); }
+    BRAYNS_API MaterialClippingMode getClippingMode() const { return _clippingMode; }
+    BRAYNS_API void setChameleonMode(const MaterialChameleonMode value) { _updateValue(_chameleonMode, value); }
+    BRAYNS_API MaterialChameleonMode getChameleonMode() const { return _chameleonMode; }
 
     BRAYNS_API Texture2DPtr getTexture(const TextureType type) const;
     bool hasTexture(const TextureType type) const { return _textureDescriptors.count(type) > 0; }
@@ -88,10 +94,13 @@ protected:
     double _refractionIndex{1.};
     double _emission{0.};
     double _glossiness{1.};
-    double _userParameter{1.};
     TexturesMap _textures;
     TextureDescriptors _textureDescriptors;
-    MaterialShadingMode _shadingMode;
+    double _userParameter{1.};
+    MaterialShadingMode _shadingMode{MaterialShadingMode::undefined_shading_mode};
+    bool _castUserData{false};
+    MaterialClippingMode _clippingMode{MaterialClippingMode::no_clipping};
+    MaterialChameleonMode _chameleonMode{MaterialChameleonMode::undefined_chameleon_mode};
 
     SERIALIZATION_FRIEND(Material)
 };

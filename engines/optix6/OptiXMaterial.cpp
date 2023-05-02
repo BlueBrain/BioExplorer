@@ -60,6 +60,8 @@ void OptiXMaterial::commit()
     _optixMaterial[CONTEXT_MATERIAL_SPECULAR_EXPONENT]->setFloat(_specularExponent);
     _optixMaterial[CONTEXT_MATERIAL_SHADING_MODE]->setUint(_shadingMode);
     _optixMaterial[CONTEXT_MATERIAL_USER_PARAMETER]->setFloat(_userParameter);
+    _optixMaterial[CONTEXT_MATERIAL_CAST_USER_DATA]->setUint(_castUserData);
+    _optixMaterial[CONTEXT_MATERIAL_CLIPPING_MODE]->setUint(_clippingMode);
 
     for (const auto& i : getTextureDescriptors())
     {

@@ -42,6 +42,6 @@ void AbstractRenderer::commit()
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
     _timestamp = getParam1f("timestamp", 0.f);
-    _bgMaterial = (brayns::DefaultMaterial*)getParamObject("bgMaterial", nullptr);
+    _bgMaterial = (brayns::AdvancedMaterial*)getParamObject("bgMaterial", nullptr);
 }
 } // namespace brayns

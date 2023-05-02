@@ -30,9 +30,7 @@
 #include <math.h> // M_PI
 #endif
 
-namespace bioexplorer
-{
-namespace rendering
+namespace brayns
 {
 PerspectiveStereoCamera::PerspectiveStereoCamera()
 {
@@ -102,5 +100,4 @@ void PerspectiveStereoCamera::commit()
 }
 
 OSP_REGISTER_CAMERA(PerspectiveStereoCamera, perspective);
-} // namespace rendering
-} // namespace bioexplorer
+} // namespace brayns

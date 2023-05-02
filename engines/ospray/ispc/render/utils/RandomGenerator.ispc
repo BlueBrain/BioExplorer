@@ -23,39 +23,41 @@
 
 #include "RandomGenerator.ih"
 
-#ifdef BRAYNS_ISPC_USE_HARDWARE_RANDOMIZER
+inline float rotate(float x, const float dx)
+{
+    x += dx;
+    if (x >= 1.f)
+        x -= 1.f;
+    return x;
+}
+
 uniform bool seedInitialized = false;
 struct RNGState rngState;
 
-inline float getRandomValue(const varying ScreenSample&, const int)
+inline float getHWRandomValue()
 {
     float r;
-#ifdef HIGH_QUALITY_RANDOM
     int nbMaxTries = 10;
     while (nbMaxTries >= 0 && rdrand(&r) == false)
         --nbMaxTries;
-#else
-    rdrand(&r);
-#endif
     return r;
 }
 
-inline vec3f getRandomVector(const varying ScreenSample& sample, const vec3f& normal, const int randomNumber)
+inline void initializeRandomizer()
 {
-    if (!seedInitialized)
+    if (!seedInitialized && programIndex == 0)
     {
-        seed_rng(&rngState, programIndex);
+        float seed;
+        rdrand(&seed);
+        seed_rng(&rngState, seed);
         seedInitialized = true;
     }
-
-    const float rx = getRandomValue(sample, randomNumber) - 0.5f;
-    const float ry = getRandomValue(sample, randomNumber) - 0.5f;
-    const float rz = getRandomValue(sample, randomNumber) - 0.5f;
-    return normalize(normal + make_vec3f(rx, ry, rz));
 }
 
 void getTangentVectors(const vec3f& normal, vec3f& tangent, vec3f& biTangent)
 {
+    initializeRandomizer();
+
     tangent = make_vec3f(1.f, 0.f, 0.f);
     if (abs(dot(tangent, normal)) > 0.95f)
         tangent = make_vec3f(0.f, 1.f, 0.f);
@@ -63,7 +65,20 @@ void getTangentVectors(const vec3f& normal, vec3f& tangent, vec3f& biTangent)
     tangent = normalize(cross(biTangent, normal));
 }
 
-#else
+inline vec3f getHWRandomVector(const vec3f& normal)
+{
+    initializeRandomizer();
+    vec3f tangent, biTangent;
+    getTangentVectors(normal, tangent, biTangent);
+    const float rx = getHWRandomValue();
+    const float ry = getHWRandomValue();
+    const float w = sqrt(1.f - ry);
+    const float cx = cos((2.f * M_PI) * rx) * w;
+    const float cy = sin((2.f * M_PI) * rx) * w;
+    const float cz = sqrt(ry);
+    return normalize(cx * tangent + cy * biTangent + cz * normal);
+}
+
 /**
 Random values were generated using the following python code:
     import random
@@ -764,23 +779,15 @@ uniform float randomDistribution[RANDOM_SET_SIZE][RANDOM_SET_SIZE] = {
      0.578310186153,   0.319038199211,  0.0945858634836, 0.995054874102,  0.565477371369, 0.526516256799,
      0.935170684975,   0.25889904757,   0.433976982045,  0.519519047234}};
 
-inline float rotate(float x, const float dx)
-{
-    x += dx;
-    if (x >= 1.f)
-        x -= 1.f;
-    return x;
-}
-
-float getRandomValue(const varying ScreenSample& sample, const int randomNumber)
+float getSWRandomValue(const varying ScreenSample& sample, const int randomNumber)
 {
     const int x = sample.sampleID.x % RANDOM_SET_SIZE;
     const int y = sample.sampleID.y % RANDOM_SET_SIZE;
     return rotate(randomDistribution[x][y], sample.sampleID.z % 8);
 }
 
-inline vec3f getRandomVector(const unsigned int frameBufferWidth, const varying ScreenSample& sample,
-                             const vec3f& normal, const int randomNumber)
+inline vec3f getSWRandomVector(const unsigned int frameBufferWidth, const varying ScreenSample& sample,
+                               const vec3f& normal, const int randomNumber)
 {
     RandomTEA rng_state;
     varying RandomTEA* const uniform rng = &rng_state;
@@ -803,15 +810,17 @@ inline vec3f getRandomVector(const unsigned int frameBufferWidth, const varying 
     const float cz = sqrt(ry);
     return normalize(cx * tangent + cy * biTangent + cz * normal);
 }
-#endif
 
-void getTangentVectors(const vec3f& normal, vec3f& tangent, vec3f& biTangent)
+float getRandomValue(const bool useHardware, const varying ScreenSample& sample, const int randomNumber)
 {
-    tangent = make_vec3f(1.f, 0.f, 0.f);
-    if (abs(dot(tangent, normal)) > 0.95f)
-        tangent = make_vec3f(0.f, 1.f, 0.f);
-    biTangent = normalize(cross(tangent, normal));
-    tangent = normalize(cross(biTangent, normal));
+    return (useHardware ? getHWRandomValue() : getSWRandomValue(sample, randomNumber));
+}
+
+vec3f getRandomVector(const bool useHardware, const unsigned int frameBufferWidth, const varying ScreenSample& sample,
+                      const vec3f& normal, const int randomNumber)
+{
+    return (useHardware ? getHWRandomVector(normal)
+                        : getSWRandomVector(frameBufferWidth, sample, normal, randomNumber));
 }
 
 vec3f getRandomDir(varying RandomTEA* uniform rng, const vec3f biNorm0, const vec3f biNorm1, const vec3f gNormal,
@@ -857,4 +866,60 @@ varying RandomTEA* uniform createRandomNumberGenerator(const uniform Renderer* u
     const int accumID = reduce_max(sample.sampleID.z) * self->spp;
     RandomTEA__Constructor(rng, (fb->size.x * sample.sampleID.y) + sample.sampleID.x, accumID);
     return rng;
+}
+
+inline float mix(const float x, const float y, const float a)
+{
+    return x * (1.f - a) + y * a;
+}
+
+inline float hash(float n)
+{
+    return frac(sin(n + 1.951f) * 43758.5453f);
+}
+
+float noise(const vec3f& x)
+{
+    // hash based 3d value noise
+    vec3f p = floor(x);
+    vec3f f = frac(x);
+
+    f = f * f * (make_vec3f(3.0f) - make_vec3f(2.0f) * f);
+    float n = p.x + p.y * 57.0f + 113.0f * p.z;
+    return mix(mix(mix(hash(n + 0.0f), hash(n + 1.0f), f.x), mix(hash(n + 57.0f), hash(n + 58.0f), f.x), f.y),
+               mix(mix(hash(n + 113.0f), hash(n + 114.0f), f.x), mix(hash(n + 170.0f), hash(n + 171.0f), f.x), f.y),
+               f.z);
+}
+
+inline vec3f mod(const vec3f& v, const int m)
+{
+    return make_vec3f(v.x - m * floor(v.x / m), v.y - m * floor(v.y / m), v.z - m * floor(v.z / m));
+}
+
+float cells(const vec3f& p, float cellCount)
+{
+    const vec3f pCell = p * cellCount;
+    float d = 1.0e10;
+    for (int xo = -1; xo <= 1; xo++)
+    {
+        for (int yo = -1; yo <= 1; yo++)
+        {
+            for (int zo = -1; zo <= 1; zo++)
+            {
+                vec3f tp = floor(pCell) + make_vec3f(xo, yo, zo);
+
+                tp = pCell - tp - noise(mod(tp, cellCount / 1));
+
+                d = min(d, dot(tp, tp));
+            }
+        }
+    }
+    d = min(d, 1.0f);
+    d = max(d, 0.0f);
+    return d;
+}
+
+float worleyNoise(const vec3f& p, float cellCount)
+{
+    return cells(p, cellCount);
 }

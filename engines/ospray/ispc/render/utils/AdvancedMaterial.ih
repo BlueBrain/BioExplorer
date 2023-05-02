@@ -22,13 +22,15 @@
 
 #pragma once
 
+#include <brayns/common/CommonTypes.h>
+
 #include <ospray/SDK/common/Material.ih>
 #include <ospray/SDK/math/vec.ih>
 #include <ospray/SDK/texture/Texture2D.ih>
 #include <ospray/SDK/texture/TextureParam.ih>
 #include <ospray/SDK/volume/Volume.ih>
 
-struct DefaultMaterial
+struct AdvancedMaterial
 {
     uniform Material super;
 
@@ -55,4 +57,11 @@ struct DefaultMaterial
     float refraction;
     TextureParam map_reflection;
     float reflection;
+
+    float userParameter;
+    MaterialShadingMode shadingMode;
+    bool castUserData;
+    MaterialClippingMode clippingMode;
+    uint32 nodeId;
+    MaterialChameleonMode chameleonMode;
 };

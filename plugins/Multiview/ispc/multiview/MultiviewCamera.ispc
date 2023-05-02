@@ -19,7 +19,8 @@
  */
 
 #include "MultiviewCamera.ih"
-#include "engines/ospray/ispc/camera/utils.ih"
+#include "engines/ospray/ispc/camera/utils/CameraUtils.ih"
+
 #include "math/LinearSpace.ih"
 #include "math/math.ih"
 #include "math/sampling.ih"
@@ -77,9 +78,7 @@ void MultiviewCamera_initRay(uniform Camera* uniform _self, varying Ray& ray, co
         if (self->super.doesDOF)
         {
             const vec3f llp = uniformSampleDisk(self->scaledAperture, sample.lens);
-            // transform local lens point to focal plane (dir_XX are prescaled
-            // in
-            // this case)
+            // transform local lens point to focal plane (dir_XX are prescaled in this case)
             const vec3f lp = (llp.x * self->dir_du) + ((llp.y * self->aspect) * self->dir_dv);
             org = org + lp;
             dir = dir - lp;

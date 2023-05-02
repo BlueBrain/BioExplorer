@@ -134,20 +134,30 @@ void OSPRayEngine::_createRenderers()
     _renderer = std::make_shared<OSPRayRenderer>(_parametersManager.getAnimationParameters(),
                                                  _parametersManager.getRenderingParameters());
 
-#if 0
-    addRendererType("raycast_Ng");
-    addRendererType("raycast_Ns");
-
     {
+        BRAYNS_INFO("Registering 'advanced' renderer");
         PropertyMap properties;
-        properties.setProperty({"rouletteDepth", 5, 0, 20, {"Roulette depth"}});
+        properties.setProperty({"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
         properties.setProperty(
-            {"maxContribution", 100000.0, 0.0, 100000.0, {"Max contribution"}});
-
-        addRendererType("pathtracer", properties);
+            {"maxDistanceToSecondaryModel", 30., 0.1, 100., {"Maximum distance to secondary model"}});
+        properties.setProperty({"giDistance", 10000.0, {"Global illumination distance"}});
+        properties.setProperty({"giWeight", 0.0, 1.0, 1.0, {"Global illumination weight"}});
+        properties.setProperty({"giSamples", 0, 0, 64, {"Global illumination samples"}});
+        properties.setProperty({"shadows", 0.0, 0.0, 1.0, {"Shadow intensity"}});
+        properties.setProperty({"softShadows", 0.0, 0.0, 1.0, {"Shadow softness"}});
+        properties.setProperty({"softShadowsSamples", 1, 1, 64, {"Soft shadow samples"}});
+        properties.setProperty({"mainExposure", 1.0, 0.01, 10.0, {"Exposure"}});
+        properties.setProperty({"epsilonFactor", 1.0, 1.0, 1000.0, {"Epsilon factor"}});
+        properties.setProperty({"fogStart", 0.0, 0.0, 1e6, {"Fog start"}});
+        properties.setProperty({"fogThickness", 1e6, 1e6, 1e6, {"Fog thickness"}});
+        properties.setProperty({"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
+        properties.setProperty({"useHardwareRandomizer", false, {"Use hardware accelerated randomizer"}});
+        properties.setProperty({"showBackground", true, {"Show background"}});
+        properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
+        addRendererType("advanced", properties);
     }
-#endif
     {
+        BRAYNS_INFO("Registering 'scivis' renderer");
         PropertyMap properties;
         properties.setProperty({"aoDistance", 10000., {"Ambient occlusion distance"}});
         properties.setProperty({"aoSamples", int32_t(1), int32_t(0), int32_t(128), {"Ambient occlusion samples"}});
@@ -158,7 +168,7 @@ void OSPRayEngine::_createRenderers()
 
         addRendererType("scivis", properties);
     }
-
+    BRAYNS_INFO("Registering 'basic' renderer");
     addRendererType("basic");
 }
 
