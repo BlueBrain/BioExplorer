@@ -1322,13 +1322,13 @@ Vector3ds DBConnector::getSynapseEfficacyPositions(
     return positions;
 }
 
-floats DBConnector::getSynapseEfficacyReportValues(
+std::map<uint64_t, floats> DBConnector::getSynapseEfficacyReportValues(
     const std::string& populationName, const uint64_t frame,
     const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION
-    floats reportValues;
-    const auto size = sizeof(float);
+    std::map<uint64_t, floats> reportValues;
+    const auto elementSize = sizeof(float);
     pqxx::nontransaction transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
@@ -1344,14 +1344,15 @@ floats DBConnector::getSynapseEfficacyReportValues(
 
         PLUGIN_DB_INFO(1, sql);
         const auto res = transaction.exec(sql);
-        reportValues.resize(res.size());
         uint64_t i = 0;
         for (auto c = res.begin(); c != res.end(); ++c)
         {
-            float value;
             const pqxx::binarystring buffer(c[0]);
-            memcpy(&value, buffer.data() + frame * size, size);
-            reportValues[i] = value;
+            const uint64_t bufferSize = buffer.size();
+            floats values;
+            values.resize(bufferSize / elementSize);
+            memcpy(&values[0], buffer.data(), bufferSize);
+            reportValues[i] = values;
             ++i;
         }
         PLUGIN_DB_TIMER(chrono.elapsed(),
