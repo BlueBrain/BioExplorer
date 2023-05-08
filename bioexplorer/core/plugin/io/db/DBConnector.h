@@ -417,7 +417,7 @@ public:
      * @param sqlCondition SQL condition
      * @return Values of synapses efficacy
      */
-    floats getSynapseEfficacyReportValues(
+    std::map<uint64_t, floats> getSynapseEfficacyReportValues(
         const std::string& populationName, const uint64_t frame,
         const std::string& sqlCondition = "") const;
 

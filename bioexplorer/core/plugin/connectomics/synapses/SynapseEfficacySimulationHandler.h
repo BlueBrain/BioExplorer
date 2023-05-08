@@ -59,6 +59,8 @@ private:
 
     SynapseEfficacyDetails _details;
     SimulationReport _simulationReport;
+
+    std::map<uint64_t, floats> _values;
 };
 } // namespace connectomics
 } // namespace bioexplorer

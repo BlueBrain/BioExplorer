@@ -41,11 +41,10 @@ SynapseEfficacySimulationHandler::SynapseEfficacySimulationHandler(
         connector.getSimulationReport(_details.populationName,
                                       _details.simulationReportId);
 
-    const auto values =
-        connector.getSynapseEfficacyReportValues(_details.populationName, 0,
-                                                 _details.sqlFilter);
+    _values = connector.getSynapseEfficacyReportValues(_details.populationName,
+                                                       0, _details.sqlFilter);
 
-    _frameSize = values.size();
+    _frameSize = _values.size();
     _frameData.resize(_frameSize);
     _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) /
                 _simulationReport.timeStep;
@@ -83,23 +82,12 @@ void* SynapseEfficacySimulationHandler::getFrameData(const uint32_t frame)
     if (_currentFrame != boundedFrame)
     {
         _currentFrame = boundedFrame;
-        const auto values =
-            connector.getSynapseEfficacyReportValues(_details.populationName,
-                                                     _currentFrame,
-                                                     _details.sqlFilter);
-
-        if (values.size() != _frameData.size())
-            _frameData.resize(values.size());
-
         uint64_t i = 0;
-        for (const auto& value : values)
+        for (const auto& value : _values)
         {
-            // _frameData[i] = (_frameData[i] != value) ? value : 0.0;
-            _frameData[i] = value;
+            _frameData[i] = value.second[_currentFrame];
             ++i;
         }
-
-        _frameSize = _frameData.size();
     }
 
     return _frameData.data();
