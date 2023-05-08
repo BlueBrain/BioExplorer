@@ -29,11 +29,6 @@ namespace neuroscience
 {
 namespace neuron
 {
-const float DEFAULT_REST_VALUE = -80.f;
-const float DEFAULT_SPIKING_VALUE = -1.f;
-const float DEFAULT_TIME_INTERVAL = 0.01f;
-const float DEFAULT_DECAY_SPEED = 1.f;
-
 SpikeSimulationHandler::SpikeSimulationHandler(const std::string& reportPath,
                                                const brion::GIDSet& gids)
     : AbstractSimulationHandler()
@@ -49,10 +44,10 @@ SpikeSimulationHandler::SpikeSimulationHandler(const std::string& reportPath,
     }
 
     // Load simulation information from compartment reports
-    _nbFrames = _spikeReport->getEndTime() / DEFAULT_TIME_INTERVAL;
-    _dt = DEFAULT_TIME_INTERVAL;
+    _nbFrames = _spikeReport->getEndTime() / _timeInterval;
+    _dt = _timeInterval;
     _frameSize = _gids.size();
-    _frameData.resize(_frameSize, DEFAULT_REST_VALUE);
+    _frameData.resize(_frameSize, _restVoltage);
 
     PLUGIN_INFO("-----------------------------------------------------------");
     PLUGIN_INFO("Spike simulation information");
@@ -60,9 +55,15 @@ SpikeSimulationHandler::SpikeSimulationHandler(const std::string& reportPath,
     PLUGIN_INFO("Report path           : " << _reportPath);
     PLUGIN_INFO("Frame size (# of GIDs): " << _frameSize);
     PLUGIN_INFO("End time              : " << _spikeReport->getEndTime());
-    PLUGIN_INFO("Time interval         : " << DEFAULT_TIME_INTERVAL);
-    PLUGIN_INFO("Decay speed           : " << DEFAULT_DECAY_SPEED);
+    PLUGIN_INFO("Time interval         : " << _timeInterval);
+    PLUGIN_INFO("Decay speed           : " << _decaySpeed);
     PLUGIN_INFO("Number of frames      : " << _nbFrames);
+    PLUGIN_INFO("----------------------");
+    PLUGIN_INFO("Report path           : " << _reportPath);
+    PLUGIN_INFO("Frame size (# of GIDs): " << _frameSize);
+    PLUGIN_INFO("Number of frames      : " << _nbFrames);
+    PLUGIN_INFO("End time              : " << _spikeReport->getEndTime());
+    _logVisualizationSettings();
     PLUGIN_INFO("-----------------------------------------------------------");
 }
 
@@ -83,10 +84,10 @@ void* SpikeSimulationHandler::getFrameData(const uint32_t frame)
     {
         for (size_t i = 0; i < _frameSize; ++i)
         {
-            if (_frameData[i] > DEFAULT_REST_VALUE)
-                _frameData[i] -= DEFAULT_DECAY_SPEED;
+            if (_frameData[i] > _restVoltage)
+                _frameData[i] -= _decaySpeed;
             else
-                _frameData[i] = DEFAULT_REST_VALUE;
+                _frameData[i] = _restVoltage;
         }
 
         const float ts = boundedFrame * _dt;
@@ -96,7 +97,7 @@ void* SpikeSimulationHandler::getFrameData(const uint32_t frame)
                                     std::min(ts + 1.f, endTime));
 
         for (const auto spike : spikes)
-            _frameData[_gidMap[spike.second]] = DEFAULT_SPIKING_VALUE;
+            _frameData[_gidMap[spike.second]] = _spikingVoltage;
 
         _currentFrame = boundedFrame;
     }
@@ -108,6 +109,28 @@ AbstractSimulationHandlerPtr SpikeSimulationHandler::clone() const
 {
     return std::make_shared<SpikeSimulationHandler>(*this);
 }
+
+void SpikeSimulationHandler::setVisualizationSettings(const double restVoltage,
+                                                      const double spikingVoltage,
+                                                      const double timeInterval,
+                                                      const double decaySpeed)
+{
+    _restVoltage = restVoltage;
+    _spikingVoltage = spikingVoltage;
+    _timeInterval = timeInterval;
+    _decaySpeed = decaySpeed;
+    _logVisualizationSettings();
+}
+
+void SpikeSimulationHandler::_logVisualizationSettings()
+{
+    PLUGIN_INFO("----------------------");
+    PLUGIN_INFO("Rest voltage          : " << _restVoltage);
+    PLUGIN_INFO("Spiking voltage       : " << _spikingVoltage);
+    PLUGIN_INFO("Time interval         : " << _timeInterval);
+    PLUGIN_INFO("Decay speed           : " << _decaySpeed);
+}
+
 } // namespace neuron
 } // namespace neuroscience
 } // namespace sonataexplorer

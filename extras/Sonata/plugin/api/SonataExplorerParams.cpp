@@ -476,5 +476,25 @@ bool from_json(ImportSynapses& param, const std::string& payload)
     }
     return true;
 }
+
+bool from_json(SpikeReportVisualizationSettings& param,
+               const std::string& payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, modelId);
+        FROM_JSON(param, js, restVoltage);
+        FROM_JSON(param, js, spikingVoltage);
+        FROM_JSON(param, js, timeInterval);
+        FROM_JSON(param, js, decaySpeed);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 } // namespace api
 } // namespace sonataexplorer

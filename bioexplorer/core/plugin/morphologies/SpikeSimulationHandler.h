@@ -55,10 +55,24 @@ public:
     /** @copydoc AbstractSimulationHandler::clone */
     brayns::AbstractSimulationHandlerPtr clone() const final;
 
+    /** Sets the visualization settings */
+    void setVisualizationSettings(const double restVoltage,
+                                  const double spikingVoltage,
+                                  const double timeInterval,
+                                  const double decaySpeed);
+
 private:
+    void _logVisualizationSettings();
+
     std::string _populationName;
     uint64_t _simulationReportId;
     SimulationReport _simulationReport;
+
+    double _restVoltage{-65.0};
+    double _spikingVoltage{-10.0};
+    double _timeInterval{0.01};
+    double _decaySpeed{1.0};
+
     std::map<uint64_t, uint64_t> _guidsMapping;
 };
 } // namespace morphology

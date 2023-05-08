@@ -119,7 +119,6 @@ private:
     Response _setProteinColorScheme(
         const ProteinColorSchemeDetails &payload) const;
     Response _setMaterials(const MaterialsDetails &payload);
-
     IdsDetails _getMaterialIds(const ModelIdDetails &payload);
 
     // Point clouds
@@ -173,6 +172,8 @@ private:
     Response _addWhiteMatter(const WhiteMatterDetails &payload);
     Response _addSynapses(const SynapsesDetails &payload);
     Response _addSynapseEfficacy(const SynapseEfficacyDetails &payload);
+    Response _setSpikeReportVisualizationSettings(
+        const SpikeReportVisualizationSettingsDetails &payload);
 
     // Utilities
     LookAtResponseDetails _lookAt(const LookAtDetails &payload);

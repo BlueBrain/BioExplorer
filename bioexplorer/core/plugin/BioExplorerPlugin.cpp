@@ -26,6 +26,7 @@
 #include <plugin/common/Utils.h>
 #include <plugin/io/CacheLoader.h>
 #include <plugin/io/OOCManager.h>
+#include <plugin/morphologies/SpikeSimulationHandler.h>
 
 #include <brayns/common/ActionInterface.h>
 #include <brayns/common/scene/ClipPlane.h>
@@ -556,6 +557,14 @@ void BioExplorerPlugin::init()
             ->registerRequest<NeuronIdDetails, NeuronPointsDetails>(
                 endPoint, [&](const NeuronIdDetails &payload)
                 { return _getNeuronVaricosities(payload); });
+
+        endPoint =
+            PLUGIN_API_PREFIX + "set-spike-report-visualization-settings";
+        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
+        _api->getActionInterface()
+            ->registerNotification<SpikeReportVisualizationSettingsDetails>(
+                endPoint, [&](const SpikeReportVisualizationSettingsDetails &s)
+                { _setSpikeReportVisualizationSettings(s); });
 
         endPoint = PLUGIN_API_PREFIX + "add-white-matter";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
@@ -2077,6 +2086,35 @@ NeuronPointsDetails BioExplorerPlugin::_getNeuronVaricosities(
         response.status = false;
         PLUGIN_ERROR(e.what());
     }
+    return response;
+}
+
+Response BioExplorerPlugin::_setSpikeReportVisualizationSettings(
+    const SpikeReportVisualizationSettingsDetails &payload)
+{
+    Response response;
+    try
+    {
+        PLUGIN_INFO(1, "Setting spike report visualization settings to model "
+                           << payload.modelId);
+        auto &scene = _api->getScene();
+        auto modelDescriptor = scene.getModel(payload.modelId);
+        if (!modelDescriptor)
+            PLUGIN_THROW("Invalid model id");
+        auto handler = modelDescriptor->getModel().getSimulationHandler();
+        if (!handler)
+            PLUGIN_THROW("Model has no simulation handler");
+        auto spikeHandler =
+            dynamic_cast<SpikeSimulationHandler *>(handler.get());
+        if (!spikeHandler)
+            PLUGIN_THROW(
+                "Model does not hold a spike report simulation handler");
+        spikeHandler->setVisualizationSettings(payload.restVoltage,
+                                               payload.spikingVoltage,
+                                               payload.timeInterval,
+                                               payload.decaySpeed);
+    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 

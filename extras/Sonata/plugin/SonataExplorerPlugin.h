@@ -59,6 +59,8 @@ private:
     Response _attachCircuitSimulationHandler(
         const AttachCircuitSimulationHandler& payload);
     Response _setConnectionsPerValue(const ConnectionsPerValue&);
+    Response _setSpikeReportVisualizationSettings(
+        const SpikeReportVisualizationSettings& payload);
 
     SynapseAttributes _synapseAttributes;
 

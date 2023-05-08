@@ -1296,6 +1296,16 @@ typedef struct
     /** Align 3D positions to grid if different from 0.0 */
     double alignToGrid{0.0};
 } SynapseEfficacyDetails;
+
+typedef struct
+{
+    uint64_t modelId;
+    float restVoltage;
+    float spikingVoltage;
+    float timeInterval;
+    float decaySpeed;
+} SpikeReportVisualizationSettingsDetails;
+
 } // namespace details
 
 namespace common

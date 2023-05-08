@@ -3262,6 +3262,26 @@ class BioExplorer:
             ps.append(p)
         return ps
 
+    def set_spike_report_visualization_settings(
+            self, model_id, rest_voltage=-65, spiking_voltage=-10, time_interval=0.01, decay_speed=5.0):
+        """Set visualization settings for spike report
+
+        :model_id: Id of the model holding the spike report
+        :rest_voltage: Rest voltage. Defaults to -65.
+        :spiking_voltage: Spiking voltage. Defaults to -10.
+        :time_interval: Time interval. Defaults to 0.01.
+        :decay_speed: Decay speed. Defaults to 5.0.
+
+        :return: Result of the request submission
+        """
+        params = dict()
+        params['modelId'] = model_id
+        params['restVoltage'] = rest_voltage
+        params['spikingVoltage'] = spiking_voltage
+        params['timeInterval'] = time_interval
+        params['decaySpeed'] = decay_speed
+        return self._invoke_and_check('set-spike-report-visualization-settings', params)
+
     def add_white_matter(
         self,
         assembly_name,
