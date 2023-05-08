@@ -2953,7 +2953,8 @@ class BioExplorer:
         sql_filter="",
         scale=Vector3(1.0, 1.0, 1.0),
         animation_params=CellAnimationParams(),
-        displacement_params=VasculatureDisplacementParams()
+        displacement_params=VasculatureDisplacementParams(),
+        align_to_grid=0.0
     ):
         """
         Add a vasculature to the 3D scene
@@ -2970,6 +2971,7 @@ class BioExplorer:
         :scale: Scale in the 3D scene
         :animation_params: Extra optional parameters for animation purposes
         :displacement_params: Extra optional parameters for geometry displacement
+        :align_to_grid: If different from zero, 3D position are aligned to the specified grid size
 
         :return: Result of the request submission
         """
@@ -2991,6 +2993,7 @@ class BioExplorer:
         params["scale"] = scale.to_list()
         params["animationParams"] = animation_params.to_list()
         params["displacementParams"] = displacement_params.to_list()
+        params["alignToGrid"] = align_to_grid
         return self._invoke_and_check("add-vasculature", params)
 
     def get_vasculature_info(self, assembly_name):
@@ -3070,7 +3073,8 @@ class BioExplorer:
         scale=Vector3(1.0, 1.0, 1.0),
         animation_params=CellAnimationParams(),
         displacement_params=AstrocyteDisplacementParams(),
-        max_distance_to_soma=0.0
+        max_distance_to_soma=0.0,
+        align_to_grid=0.0
     ):
         """
         Add a population of astrocytes to the 3D scene
@@ -3093,6 +3097,7 @@ class BioExplorer:
         :animation_params: Extra optional parameters for animation purposes
         :displacement_params: Extra optional parameters for geometry displacement
         :max_distance_to_soma: Maximum distance to soma for segment loading. Ignored if 0.
+        :align_to_grid: If different from zero, 3D position are aligned to the specified grid size
 
         :return: Result of the request submission
         """
@@ -3119,6 +3124,7 @@ class BioExplorer:
         params["animationParams"] = animation_params.to_list()
         params["displacementParams"] = displacement_params.to_list()
         params["maxDistanceToSoma"] = max_distance_to_soma
+        params["alignToGrid"] = align_to_grid
         return self._invoke_and_check("add-astrocytes", params)
 
     def add_neurons(

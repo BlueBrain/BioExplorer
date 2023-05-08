@@ -51,9 +51,10 @@ inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self,
         if (ray.geomID < 0)
         {
             // No intersection
-            vec4f colorContribution =
+            const vec4f backgroundColor =
                 skyboxMapping((Renderer*)self, ray,
                               (AdvancedMaterial*)self->super.super.bgMaterial);
+#if 0
             colorContribution.w = 1.f;
             if (self->adaptiveComposition)
                 adaptiveCompose(colorContribution, pathColor,
@@ -61,6 +62,12 @@ inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self,
             else
                 linearCompose(colorContribution, pathColor,
                               self->super.alphaCorrection);
+#else
+            pathColor =
+                make_vec4f(make_vec3f(backgroundColor) * (1.f - pathColor.w) +
+                               make_vec3f(pathColor) * pathColor.w,
+                           pathColor.w);
+#endif
             break;
         }
 

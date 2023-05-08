@@ -46,8 +46,11 @@ const double DEFAULT_MITOCHONDRIA_DENSITY = 0.0459;
 const double DEFAULT_ENDFOOT_RADIUS_RATIO = 1.1;
 const double DEFAULT_ENDFOOT_RADIUS_SHIFTING_RATIO = 0.35;
 
-Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details)
-    : Morphologies(doublesToVector3d(details.scale))
+Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details,
+                       const Vector3d& assemblyPosition,
+                       const Quaterniond& assemblyRotation)
+    : Morphologies(details.alignToGrid, assemblyPosition, assemblyRotation,
+                   doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {
@@ -155,7 +158,8 @@ void Astrocytes::_buildModel(const doubles& radii)
         const auto& soma = it->second;
         const auto somaId = it->first;
 
-        ThreadSafeContainer container(*model, _scale);
+        ThreadSafeContainer container(*model, _alignToGrid, _position,
+                                      _rotation, _scale);
 
         // Load data from DB
         double somaRadius = 0.0;

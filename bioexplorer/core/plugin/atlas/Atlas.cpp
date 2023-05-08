@@ -38,8 +38,10 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-Atlas::Atlas(Scene& scene, const AtlasDetails& details)
-    : Node(doublesToVector3d(details.scale))
+Atlas::Atlas(Scene& scene, const AtlasDetails& details,
+             const Vector3d& position, const Quaterniond& rotation)
+    : SDFGeometries(NO_GRID_ALIGNMENT, position, rotation,
+                    doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {
@@ -68,7 +70,8 @@ void Atlas::_load()
 #pragma omp parallel for num_threads(nbDBConnections)
     for (index = 0; index < regions.size(); ++index)
     {
-        ThreadSafeContainer container(*model);
+        ThreadSafeContainer container(*model, _alignToGrid, _position,
+                                      _rotation);
 
         const auto region = regions[index];
         if (_details.loadCells)

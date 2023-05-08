@@ -53,8 +53,11 @@ const Vector2d DEFAULT_SIMULATION_VALUE_RANGE = {-80.0, -10.0};
 const doubles MITOCHONDRIA_DENSITY = {0.0459, 0.0522, 0.064,
                                       0.0774, 0.0575, 0.0403};
 
-Neurons::Neurons(Scene& scene, const NeuronsDetails& details)
-    : Morphologies(doublesToVector3d(details.scale))
+Neurons::Neurons(Scene& scene, const NeuronsDetails& details,
+                 const Vector3d& assemblyPosition,
+                 const Quaterniond& assemblyRotation)
+    : Morphologies(details.alignToGrid, assemblyPosition, assemblyRotation,
+                   doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {
@@ -173,7 +176,8 @@ void Neurons::_buildNeurons()
     if (somasOnly || _details.morphologyRepresentation ==
                          MorphologyRepresentation::orientation)
     {
-        ThreadSafeContainer container(*model, _scale);
+        ThreadSafeContainer container(*model, _alignToGrid, _position,
+                                      _rotation, _scale);
         if (_details.morphologyRepresentation ==
             MorphologyRepresentation::orientation)
             _buildOrientations(container, somas, baseMaterialId);
@@ -197,7 +201,8 @@ void Neurons::_buildNeurons()
             auto it = somas.begin();
             std::advance(it, neuronIndex);
             const auto& soma = it->second;
-            ThreadSafeContainer container(*model, _scale);
+            ThreadSafeContainer container(*model, _alignToGrid, _position,
+                                          _rotation, _scale);
             _buildMorphology(container, it->first, soma, neuronIndex);
 
 #pragma omp critical
@@ -272,8 +277,7 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
             }
             }
 
-            const Vector3d position =
-                getAlignmentToGrid(_details.alignToGrid, soma.second.position);
+            const Vector3d position = soma.second.position;
             container.addSphere(
                 position, _details.radiusMultiplier, somaMaterialId, useSdf,
                 somaUserData, {},
@@ -353,9 +357,8 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
                 _getCorrectedRadius(somaRadius, _details.radiusMultiplier) /
                 count;
     }
-    const auto somaPosition = getAlignmentToGrid(
-        _details.alignToGrid,
-        _animatedPosition(Vector4d(soma.position, somaRadius), neuronId));
+    const auto somaPosition =
+        _animatedPosition(Vector4d(soma.position, somaRadius), neuronId);
 
     size_t baseMaterialId;
     switch (_details.populationColorScheme)
@@ -516,12 +519,11 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container,
             if (!loadSection)
                 continue;
 
-            const auto dst = getAlignmentToGrid(
-                _details.alignToGrid,
+            const auto dst =
                 _animatedPosition(Vector4d(somaPosition +
                                                somaRotation * Vector3d(point),
                                            dstRadius),
-                                  neuronId));
+                                  neuronId);
             const Vector3f displacement = {
                 Vector3f(_getDisplacementValue(
                              DisplacementElement::morphology_soma_strength),
@@ -750,22 +752,20 @@ void Neurons::_addSection(
         const auto& srcPoint = localPoints[i];
         const float srcRadius =
             _getCorrectedRadius(srcPoint.w * 0.5f, _details.radiusMultiplier);
-        const auto src = getAlignmentToGrid(
-            _details.alignToGrid,
+        const auto src =
             _animatedPosition(Vector4d(somaPosition +
                                            somaRotation * Vector3d(srcPoint),
                                        srcRadius),
-                              neuronId));
+                              neuronId);
 
         const auto& dstPoint = localPoints[i + 1];
         const float dstRadius =
             _getCorrectedRadius(dstPoint.w * 0.5f, _details.radiusMultiplier);
-        const auto dst = getAlignmentToGrid(
-            _details.alignToGrid,
+        const auto dst =
             _animatedPosition(Vector4d(somaPosition +
                                            somaRotation * Vector3d(dstPoint),
                                        dstRadius),
-                              neuronId));
+                              neuronId);
         const double sampleLength = length(dstPoint - srcPoint);
         sectionLength += sampleLength;
 
@@ -918,13 +918,9 @@ void Neurons::_addSectionInternals(
             if (dstIndex < points.size())
             {
                 const auto srcSample =
-                    getAlignmentToGrid(_details.alignToGrid,
-                                       _animatedPosition(points[srcIndex],
-                                                         neuronId));
+                    _animatedPosition(points[srcIndex], neuronId);
                 const auto dstSample =
-                    getAlignmentToGrid(_details.alignToGrid,
-                                       _animatedPosition(points[dstIndex],
-                                                         neuronId));
+                    _animatedPosition(points[dstIndex], neuronId);
                 const double srcRadius =
                     _getCorrectedRadius(points[srcIndex].w * 0.5,
                                         _details.radiusMultiplier);
@@ -963,19 +959,15 @@ void Neurons::_addSectionInternals(
                     Neighbours neighbours = {};
                     if (mitochondrionSegment > 1)
                         neighbours = {geometryIndex};
-                    const auto srcPosition = getAlignmentToGrid(
-                        _details.alignToGrid,
+                    const auto srcPosition =
                         _animatedPosition(Vector4d(somaPosition +
                                                        somaRotation * position,
                                                    radius),
-                                          neuronId));
-                    const auto dstPosition = getAlignmentToGrid(
-                        _details.alignToGrid,
-                        _animatedPosition(Vector4d(somaPosition +
-                                                       somaRotation *
-                                                           previousPosition,
-                                                   previousRadius),
-                                          neuronId));
+                                          neuronId);
+                    const auto dstPosition = _animatedPosition(
+                        Vector4d(somaPosition + somaRotation * previousPosition,
+                                 previousRadius),
+                        neuronId);
                     geometryIndex = container.addCone(
                         srcPosition, radius, dstPosition, previousRadius,
                         mitochondrionMaterialId, useSdf, NO_USER_DATA,
@@ -1053,12 +1045,11 @@ void Neurons::_addAxonMyelinSheath(
     {
         // Start surrounding segments with myelin steaths
         const auto& srcPoint = points[i];
-        const auto srcPosition = getAlignmentToGrid(
-            _details.alignToGrid,
+        const auto srcPosition =
             _animatedPosition(Vector4d(somaPosition +
                                            somaRotation * Vector3d(srcPoint),
                                        srcRadius),
-                              neuronId));
+                              neuronId);
 
         if (!useSdf)
             container.addSphere(srcPosition, srcRadius, myelinSteathMaterialId,
@@ -1082,12 +1073,10 @@ void Neurons::_addAxonMyelinSheath(
             ++i;
             const auto& dstPoint = points[i];
             const auto dstRadius = srcRadius;
-            const auto dstPosition = getAlignmentToGrid(
-                _details.alignToGrid,
-                _animatedPosition(
-                    Vector4d(somaPosition + somaRotation * Vector3d(dstPoint),
-                             dstRadius),
-                    neuronId));
+            const auto dstPosition = _animatedPosition(
+                Vector4d(somaPosition + somaRotation * Vector3d(dstPoint),
+                         dstRadius),
+                neuronId);
 
             currentLength += length(dstPosition - previousPosition);
             if (!useSdf)

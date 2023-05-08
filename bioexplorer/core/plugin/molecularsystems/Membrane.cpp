@@ -38,13 +38,11 @@ Membrane::Membrane(const MembraneDetails& details, Scene& scene,
                    const Vector3d& assemblyPosition,
                    const Quaterniond& assemblyRotation, const ShapePtr shape,
                    const ProteinMap& transmembraneProteins)
-    : SDFGeometries()
+    : SDFGeometries(NO_GRID_ALIGNMENT, assemblyPosition, assemblyRotation)
     , _scene(scene)
     , _details(details)
     , _nbOccurrences{0}
     , _transmembraneProteins(transmembraneProteins)
-    , _assemblyPosition(assemblyPosition)
-    , _assemblyRotation(assemblyRotation)
     , _shape(shape)
 {
     // Lipid models
@@ -125,8 +123,8 @@ void Membrane::_processInstances()
             Transformations transformations;
 
             Transformation assemblyTransformation;
-            assemblyTransformation.setTranslation(_assemblyPosition);
-            assemblyTransformation.setRotation(_assemblyRotation);
+            assemblyTransformation.setTranslation(_position);
+            assemblyTransformation.setRotation(_rotation);
             transformations.push_back(assemblyTransformation);
 
             const auto shapeTransformation =

@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <plugin/common/Node.h>
+#include <plugin/common/SDFGeometries.h>
 
 namespace bioexplorer
 {
@@ -33,7 +33,7 @@ using namespace details;
 /**
  * Load whitematter from database
  */
-class WhiteMatter : public Node
+class WhiteMatter : public SDFGeometries
 {
 public:
     /**
@@ -43,9 +43,15 @@ public:
      * @param details Set of attributes defining how the whitematter should be
      * loaded
      */
-    WhiteMatter(Scene& scene, const WhiteMatterDetails& details);
+    WhiteMatter(Scene& scene, const WhiteMatterDetails& details,
+                const Vector3d& position, const Quaterniond& rotation);
 
 private:
+    double _getDisplacementValue(const DisplacementElement& element) final
+    {
+        return 0;
+    }
+
     void _buildModel();
 
     void _addStreamline(ThreadSafeContainer& container, const Vector3fs& points,

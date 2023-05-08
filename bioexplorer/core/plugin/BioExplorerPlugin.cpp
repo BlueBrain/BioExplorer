@@ -562,9 +562,10 @@ void BioExplorerPlugin::init()
             PLUGIN_API_PREFIX + "set-spike-report-visualization-settings";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         _api->getActionInterface()
-            ->registerNotification<SpikeReportVisualizationSettingsDetails>(
+            ->registerRequest<SpikeReportVisualizationSettingsDetails,
+                              Response>(
                 endPoint, [&](const SpikeReportVisualizationSettingsDetails &s)
-                { _setSpikeReportVisualizationSettings(s); });
+                { return _setSpikeReportVisualizationSettings(s); });
 
         endPoint = PLUGIN_API_PREFIX + "add-white-matter";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");

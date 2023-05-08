@@ -38,8 +38,10 @@ using namespace io;
 using namespace db;
 
 SynapseEfficacy::SynapseEfficacy(Scene& scene,
-                                 const SynapseEfficacyDetails& details)
-    : Node()
+                                 const SynapseEfficacyDetails& details,
+                                 const Vector3d& position,
+                                 const Quaterniond& rotation)
+    : SDFGeometries(details.alignToGrid, position, rotation)
     , _details(details)
     , _scene(scene)
 {
@@ -54,7 +56,7 @@ void SynapseEfficacy::_buildModel()
         _scene.removeModel(_modelDescriptor->getModelID());
 
     auto model = _scene.createModel();
-    ThreadSafeContainer container(*model);
+    ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation);
 
     const auto synapsePositions =
         DBConnector::getInstance().getSynapseEfficacyPositions(
@@ -67,8 +69,7 @@ void SynapseEfficacy::_buildModel()
     uint64_t i = 0;
     for (const auto& position : synapsePositions)
     {
-        const auto src = getAlignmentToGrid(_details.alignToGrid, position);
-        container.addSphere(src, _details.radius, materialId, useSdf, i);
+        container.addSphere(position, _details.radius, materialId, useSdf, i);
         if (i % progressStep == 0)
             PLUGIN_PROGRESS("Loading " << i << "/" << nbSynapses << " synapses",
                             i, nbSynapses);

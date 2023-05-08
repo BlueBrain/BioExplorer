@@ -71,8 +71,6 @@ private:
     MembraneDetails _details;
     uint64_t _nbOccurrences;
     const ProteinMap &_transmembraneProteins;
-    const Vector3d _assemblyPosition;
-    const Quaterniond _assemblyRotation;
     ProteinMap _lipids;
     ShapePtr _shape{nullptr};
 };

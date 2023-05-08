@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <plugin/common/Node.h>
+#include <plugin/common/SDFGeometries.h>
 
 namespace bioexplorer
 {
@@ -33,7 +33,7 @@ using namespace details;
 /**
  * Load synapse efficacy information from database
  */
-class SynapseEfficacy : public Node
+class SynapseEfficacy : public SDFGeometries
 {
 public:
     /**
@@ -43,9 +43,15 @@ public:
      * @param details Set of attributes defining how the synapse efficacy should
      * be loaded
      */
-    SynapseEfficacy(Scene& scene, const SynapseEfficacyDetails& details);
+    SynapseEfficacy(Scene& scene, const SynapseEfficacyDetails& details,
+                    const Vector3d& position, const Quaterniond& rotation);
 
 private:
+    double _getDisplacementValue(const DisplacementElement& element) final
+    {
+        return 0;
+    }
+
     void _buildModel();
 
     const SynapseEfficacyDetails _details;

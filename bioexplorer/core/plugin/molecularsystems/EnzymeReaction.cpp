@@ -48,6 +48,43 @@ EnzymeReaction::EnzymeReaction(Scene& scene,
 {
 }
 
+/**
+ * @brief This code belongs to a function which is a part of an EnzymeReaction
+class. The function is responsible for updating the animation state of the
+enzyme reaction given the current progress. The progress is a value between 0
+and 1 which indicates how far the reaction has progressed.
+
+
+The code first retrieves the model descriptor for the enzyme object, and the
+list of enzyme instances. It then checks if the instance ID supplied is within
+the range of instances and retrieves the transformation of the enzyme instance
+ideal for reaction progress animation.
+
+
+Then, for each substrate and product molecule in the reaction, the code
+retrieves the instance for the corresponding molecule. It also calculates the
+average direction of all substrate and product molecules relative to the enzyme
+molecule.
+
+
+The code then propagates the transformation to the substrate and product
+molecules by appropriately setting the transformations and visibility of the
+instance based on animation progress. Along the way, it checks if the supplied
+ID is within the valid range of molecule instances.
+
+
+After this, it retrieves the animation details for the enzyme molecule and uses
+this to synchronize random numbers used in the initial position of the enzyme
+object. It then calculates the rotation of the enzyme using the slerp function
+and sets the new transformation of the encrypted scene accordingly.
+
+
+Finally, it marks the scene as modified to indicate that a new animation has
+been rendered.
+ *
+ * @param instanceId
+ * @param progress
+ */
 void EnzymeReaction::setProgress(const uint64_t instanceId,
                                  const double progress)
 {
@@ -205,6 +242,22 @@ void EnzymeReaction::setProgress(const uint64_t instanceId,
     _scene.markModified(false);
 }
 
+/**
+ * @brief This is a method called _getMoleculeRotation that belongs to a class
+named EnzymeReaction. This method returns a quaternion representation of a
+molecule's rotation based on the progress of a reaction and a given rotation
+speed.
+
+
+First, the method calculates an angle by multiplying the progress and the
+rotation speed with π. Then, it calculates the cosine and sine of this angle for
+the roll, yaw, and pitch axes of the molecule's rotation. Finally, it returns a
+Quaterniond object with the calculated roll, pitch, and yaw values.
+ *
+ * @param progress
+ * @param rotationSpeed
+ * @return Quaterniond
+ */
 Quaterniond EnzymeReaction::_getMoleculeRotation(
     const double progress, const double rotationSpeed) const
 {

@@ -35,8 +35,14 @@ using namespace brayns;
 
 const float equalityEpsilon = 0.001f;
 
-ThreadSafeContainer::ThreadSafeContainer(Model& model, const Vector3d& scale)
+ThreadSafeContainer::ThreadSafeContainer(Model& model, const double alignToGrid,
+                                         const Vector3d& position,
+                                         const Quaterniond& rotation,
+                                         const Vector3d& scale)
     : _model(model)
+    , _alignToGrid(alignToGrid)
+    , _position(position)
+    , _rotation(rotation)
     , _scale(scale)
 {
 }
@@ -49,7 +55,9 @@ uint64_t ThreadSafeContainer::addSphere(
     const Vector3f scale = _scale;
     const Vector3f scaledDisplacement{displacement.x * scale.x,
                                       displacement.y / scale.x, displacement.z};
-    const auto scaledPosition = position * scale;
+    const Vector3f scaledPosition = getAlignmentToGrid(
+        _alignToGrid,
+        Vector3f(_position + _rotation * Vector3d(position)) * scale);
     if (useSdf)
     {
         const auto scaledRadius = (radius - displacement.x) * scale.x;
@@ -77,8 +85,12 @@ uint64_t ThreadSafeContainer::addCone(
     const Vector3f scale = _scale;
     const Vector3f scaledDisplacement{displacement.x * scale.x,
                                       displacement.y / scale.x, displacement.z};
-    const auto scaledSrcPosition = sourcePosition * scale;
-    const auto scaledDstPosition = targetPosition * scale;
+    const Vector3f scaledSrcPosition = getAlignmentToGrid(
+        _alignToGrid,
+        Vector3f(_position + _rotation * Vector3d(sourcePosition)) * scale);
+    const Vector3f scaledDstPosition = getAlignmentToGrid(
+        _alignToGrid,
+        Vector3f(_position + _rotation * Vector3d(targetPosition)) * scale);
     if (useSdf)
     {
         const auto scaledSrcRadius = (sourceRadius - displacement.x) * scale.x;

@@ -49,7 +49,9 @@ public:
      * @param details Set of attributes defining how the vasculature should be
      * loaded
      */
-    Vasculature(Scene& scene, const VasculatureDetails& details);
+    Vasculature(Scene& scene, const VasculatureDetails& details,
+                const Vector3d& assemblyPosition,
+                const Quaterniond& assemblyRotation);
 
     /**
      * @brief Apply a radius report to the astrocyte. This modifies vasculature

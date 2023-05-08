@@ -37,8 +37,10 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-WhiteMatter::WhiteMatter(Scene& scene, const WhiteMatterDetails& details)
-    : Node(doublesToVector3d(details.scale))
+WhiteMatter::WhiteMatter(Scene& scene, const WhiteMatterDetails& details,
+                         const Vector3d& position, const Quaterniond& rotation)
+    : SDFGeometries(NO_GRID_ALIGNMENT, position, rotation,
+                    doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {
@@ -77,7 +79,7 @@ void WhiteMatter::_buildModel()
         _scene.removeModel(_modelDescriptor->getModelID());
 
     auto model = _scene.createModel();
-    ThreadSafeContainer container(*model);
+    ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation);
 
     const auto ompThreads = omp_get_max_threads();
 

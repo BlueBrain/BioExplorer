@@ -48,7 +48,9 @@ public:
      * @param scene 3D scene into which neurons should be loaded
      * @param details Set of attributes defining how neurons should be loaded
      */
-    Neurons(Scene& scene, const NeuronsDetails& details);
+    Neurons(Scene& scene, const NeuronsDetails& details,
+            const Vector3d& assemblyPosition,
+            const Quaterniond& assemblyRotation);
 
     /**
      * @brief Get the neuron section 3D points for a given section Id

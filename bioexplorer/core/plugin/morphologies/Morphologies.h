@@ -56,7 +56,9 @@ public:
      * @brief Construct a new Morphologies object
      *
      */
-    Morphologies(const Vector3f& scale = Vector3d(1.0, 1.0, 1.0));
+    Morphologies(const double alignToGrid, const Vector3d& position,
+                 const Quaterniond& rotation,
+                 const Vector3f& scale = Vector3d(1.0, 1.0, 1.0));
 
 protected:
     size_t _getNbMitochondrionSegments() const;
