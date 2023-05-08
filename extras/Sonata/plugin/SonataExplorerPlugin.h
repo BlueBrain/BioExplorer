@@ -62,11 +62,6 @@ private:
 
     SynapseAttributes _synapseAttributes;
 
-    // Rendering
-    Response _setMaterial(const MaterialDescriptor&);
-    Response _setMaterialRange(const MaterialRangeDescriptor&);
-    MaterialIds _getMaterialIds(const ModelId& modelId);
-
     // Experimental
     Response _exportModelToFile(const ExportModelToFile&);
     Response _exportModelToMesh(const ExportModelToMesh&);
