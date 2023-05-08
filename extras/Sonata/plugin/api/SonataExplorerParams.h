@@ -286,5 +286,16 @@ struct ImportSynapses
     std::string blueConfig;
 };
 bool from_json(ImportSynapses& param, const std::string& payload);
+
+struct SpikeReportVisualizationSettings
+{
+    uint64_t modelId;
+    float restVoltage;
+    float spikingVoltage;
+    float timeInterval;
+    float decaySpeed;
+};
+bool from_json(SpikeReportVisualizationSettings& param,
+               const std::string& payload);
 } // namespace api
 } // namespace sonataexplorer

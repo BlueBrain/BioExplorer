@@ -24,14 +24,6 @@
 
 #include <plugin/io/db/DBConnector.h>
 
-namespace
-{
-const float DEFAULT_REST_VALUE = -65.f;
-const float DEFAULT_SPIKING_VALUE = -10.f;
-const float DEFAULT_DECAY_SPEED = 5.0f;
-const float DEFAULT_TIME_INTERVAL = 0.01f;
-} // namespace
-
 namespace bioexplorer
 {
 namespace morphology
@@ -63,7 +55,7 @@ SpikeSimulationHandler::SpikeSimulationHandler(
         ++i;
     }
     _frameSize = spikes.size();
-    _frameData.resize(_frameSize, DEFAULT_REST_VALUE);
+    _frameData.resize(_frameSize, _restVoltage);
 
     PLUGIN_INFO(1, "---------------------------------------------------------");
     PLUGIN_INFO(1, "Spike simulation information");
@@ -73,9 +65,8 @@ SpikeSimulationHandler::SpikeSimulationHandler(
     PLUGIN_INFO(1,
                 "Start time               : " << _simulationReport.startTime);
     PLUGIN_INFO(1, "End time                 : " << _simulationReport.endTime);
-    PLUGIN_INFO(1, "Time interval            : " << _simulationReport.timeStep);
-    PLUGIN_INFO(1, "Decay speed              : " << DEFAULT_DECAY_SPEED);
     PLUGIN_INFO(1, "Number of frames         : " << _nbFrames);
+    _logVisualizationSettings();
     PLUGIN_INFO(1, "---------------------------------------------------------");
 }
 
@@ -96,10 +87,10 @@ void* SpikeSimulationHandler::getFrameData(const uint32_t frame)
     {
         for (size_t i = 0; i < _frameSize; ++i)
         {
-            if (_frameData[i] > DEFAULT_REST_VALUE)
-                _frameData[i] -= DEFAULT_DECAY_SPEED;
+            if (_frameData[i] > _restVoltage)
+                _frameData[i] -= _decaySpeed;
             else
-                _frameData[i] = DEFAULT_REST_VALUE;
+                _frameData[i] = _restVoltage;
         }
 
         const double ts = _simulationReport.startTime + boundedFrame * _dt;
@@ -111,7 +102,7 @@ void* SpikeSimulationHandler::getFrameData(const uint32_t frame)
                                                  std::min(ts + _dt, endTime));
 
         for (const auto spike : spikes)
-            _frameData[_guidsMapping[spike]] = DEFAULT_SPIKING_VALUE;
+            _frameData[_guidsMapping[spike]] = _spikingVoltage;
 
         _currentFrame = boundedFrame;
     }
@@ -123,5 +114,26 @@ brayns::AbstractSimulationHandlerPtr SpikeSimulationHandler::clone() const
 {
     return std::make_shared<SpikeSimulationHandler>(*this);
 }
+
+void SpikeSimulationHandler::setVisualizationSettings(
+    const double restVoltage, const double spikingVoltage,
+    const double timeInterval, const double decaySpeed)
+{
+    _restVoltage = restVoltage;
+    _spikingVoltage = spikingVoltage;
+    _timeInterval = timeInterval;
+    _decaySpeed = decaySpeed;
+    _logVisualizationSettings();
+}
+
+void SpikeSimulationHandler::_logVisualizationSettings()
+{
+    PLUGIN_INFO(1, "----------------------");
+    PLUGIN_INFO(1, "Rest voltage          : " << _restVoltage);
+    PLUGIN_INFO(1, "Spiking voltage       : " << _spikingVoltage);
+    PLUGIN_INFO(1, "Time interval         : " << _timeInterval);
+    PLUGIN_INFO(1, "Decay speed           : " << _decaySpeed);
+}
+
 } // namespace morphology
 } // namespace bioexplorer

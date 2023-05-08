@@ -122,6 +122,8 @@ std::string to_json(const NeuronPointsDetails &param);
 bool from_json(WhiteMatterDetails &param, const std::string &payload);
 bool from_json(SynapsesDetails &param, const std::string &payload);
 bool from_json(SynapseEfficacyDetails &param, const std::string &payload);
+bool from_json(SpikeReportVisualizationSettingsDetails &param,
+               const std::string &payload);
 
 // Utilities
 bool from_json(LookAtDetails &param, const std::string &payload);

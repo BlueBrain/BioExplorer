@@ -31,6 +31,7 @@
 #include <plugin/neuroscience/neuron/MeshCircuitLoader.h>
 #include <plugin/neuroscience/neuron/MorphologyCollageLoader.h>
 #include <plugin/neuroscience/neuron/PairSynapsesLoader.h>
+#include <plugin/neuroscience/neuron/SpikeSimulationHandler.h>
 #include <plugin/neuroscience/neuron/SynapseCircuitLoader.h>
 #include <plugin/neuroscience/neuron/VoltageSimulationHandler.h>
 
@@ -60,7 +61,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#if 1
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Polygon_mesh_processing/compute_normal.h>
 #include <CGAL/Polygon_mesh_processing/triangulate_faces.h>
@@ -79,7 +79,6 @@ typedef CGAL::Polyhedron_3<K> Polyhedron;
 typedef CGAL::Skin_surface_traits_3<K> Traits;
 typedef CGAL::Skin_surface_3<Traits> Skin_surface_3;
 typedef CGAL::Union_of_balls_3<Traits> Union_of_balls_3;
-#endif
 
 #define CATCH_STD_EXCEPTION()           \
     catch (const std::runtime_error& e) \
@@ -301,6 +300,14 @@ void SonataExplorerPlugin::init()
             ->registerNotification<AttachCircuitSimulationHandler>(
                 endPoint, [&](const AttachCircuitSimulationHandler& s)
                 { _attachCircuitSimulationHandler(s); });
+
+        endPoint =
+            PLUGIN_API_PREFIX + "set-spike-report-visualization-settings";
+        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        _api->getActionInterface()
+            ->registerNotification<SpikeReportVisualizationSettings>(
+                endPoint, [&](const SpikeReportVisualizationSettings& s)
+                { _setSpikeReportVisualizationSettings(s); });
 
         endPoint = PLUGIN_API_PREFIX + "add-column";
         PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
@@ -531,6 +538,35 @@ Response SonataExplorerPlugin::_attachCircuitSimulationHandler(
         else
             PLUGIN_THROW("Model " + std::to_string(details.modelId) +
                          " does not exist");
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response SonataExplorerPlugin::_setSpikeReportVisualizationSettings(
+    const SpikeReportVisualizationSettings& payload)
+{
+    Response response;
+    try
+    {
+        PLUGIN_INFO("Setting spike report visualization settings to model "
+                    << payload.modelId);
+        auto& scene = _api->getScene();
+        auto modelDescriptor = scene.getModel(payload.modelId);
+        if (!modelDescriptor)
+            PLUGIN_THROW("Invalid model id");
+        auto handler = modelDescriptor->getModel().getSimulationHandler();
+        if (!handler)
+            PLUGIN_THROW("Model has no simulation handler");
+        auto spikeHandler =
+            dynamic_cast<SpikeSimulationHandler*>(handler.get());
+        if (!spikeHandler)
+            PLUGIN_THROW(
+                "Model does not hold a spike report simulation handler");
+        spikeHandler->setVisualizationSettings(payload.restVoltage,
+                                               payload.spikingVoltage,
+                                               payload.timeInterval,
+                                               payload.decaySpeed);
     }
     CATCH_STD_EXCEPTION()
     return response;

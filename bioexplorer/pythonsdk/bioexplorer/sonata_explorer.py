@@ -417,99 +417,6 @@ class SonataExplorer:
 
         return self._core.add_model(name=name, path=path, loader_properties=props)
 
-    # pylint: disable=R0913, R0914
-    def set_material(self, model_id, material_id, diffuse_color=(1.0, 1.0, 1.0),
-                     specular_color=(1.0, 1.0, 1.0), specular_exponent=20.0, opacity=1.0,
-                     reflection_index=0.0, refraction_index=1.0, simulation_data_cast=True,
-                     glossiness=1.0, shading_mode=SHADING_MODE_NONE, emission=0.0,
-                     clipping_mode=CLIPPING_MODE_NONE, user_parameter=0.0):
-        """
-        Set a material on a specified model
-
-        :param int model_id: ID of the model
-        :param int material_id: ID of the material
-        :param list diffuse_color: Diffuse color (3 values between 0 and 1)
-        :param list specular_color: Specular color (3 values between 0 and 1)
-        :param list specular_exponent: Diffuse exponent
-        :param float opacity: Opacity
-        :param float reflection_index: Reflection index (value between 0 and 1)
-        :param float refraction_index: Refraction index
-        :param bool simulation_data_cast: Casts simulation information
-        :param float glossiness: Glossiness (value between 0 and 1)
-        :param int shading_mode: Shading mode (SHADING_MODE_NONE, SHADING_MODE_DIFFUSE,
-        SHADING_MODE_ELECTRON, SHADING_MODE_CARTOON, SHADING_MODE_ELECTRON_TRANSPARENCY,
-        SHADING_MODE_PERLIN or SHADING_MODE_DIFFUSE_TRANSPARENCY)
-        :param float emission: Light emission intensity
-        :param bool clipping_mode: Clipped against clipping planes/spheres defined at the scene
-        level
-        :param float user_parameter: Convenience parameter used by some of the shaders
-        :return: Result of the request submission
-        :rtype: str
-        """
-        params = dict()
-        params['modelId'] = model_id
-        params['materialId'] = material_id
-        params['diffuseColor'] = diffuse_color
-        params['specularColor'] = specular_color
-        params['specularExponent'] = specular_exponent
-        params['reflectionIndex'] = reflection_index
-        params['opacity'] = opacity
-        params['refractionIndex'] = refraction_index
-        params['emission'] = emission
-        params['glossiness'] = glossiness
-        params['simulationDataCast'] = simulation_data_cast
-        params['shadingMode'] = shading_mode
-        params['clippingMode'] = clipping_mode
-        params['userParameter'] = user_parameter
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'set-material', params=params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
-
-    # pylint: disable=R0913, R0914
-    def set_material_range(self, model_id, material_ids, diffuse_color=(1.0, 1.0, 1.0),
-                           specular_color=(1.0, 1.0, 1.0), specular_exponent=20.0, opacity=1.0,
-                           reflection_index=0.0, refraction_index=1.0, simulation_data_cast=True,
-                           glossiness=1.0, shading_mode=SHADING_MODE_NONE, emission=0.0,
-                           clipping_mode=CLIPPING_MODE_NONE, user_parameter=0.0):
-        """
-        Set a range of materials on a specified model
-
-        :param int model_id: ID of the model
-        :param list material_ids: IDs of the material to change
-        :param list diffuse_color: Diffuse color (3 values between 0 and 1)
-        :param list specular_color: Specular color (3 values between 0 and 1)
-        :param list specular_exponent: Diffuse exponent
-        :param float opacity: Opacity
-        :param float reflection_index: Reflection index (value between 0 and 1)
-        :param float refraction_index: Refraction index
-        :param bool simulation_data_cast: Casts simulation information
-        :param float glossiness: Glossiness (value between 0 and 1)
-        :param int shading_mode: Shading mode (SHADING_MODE_NONE, SHADING_MODE_DIFFUSE,
-        SHADING_MODE_ELECTRON, SHADING_MODE_CARTOON, SHADING_MODE_ELECTRON_TRANSPARENCY,
-        SHADING_MODE_PERLIN or SHADING_MODE_DIFFUSE_TRANSPARENCY)
-        :param float emission: Light emission intensity
-        :param bool clipping_mode: Clipped against clipping planes/spheres defined at the scene
-        level
-        :param float user_parameter: Convenience parameter used by some of the shaders
-        :return: Result of the request submission
-        :rtype: str
-        """
-        params = dict()
-        params['modelId'] = model_id
-        params['materialIds'] = material_ids
-        params['diffuseColor'] = diffuse_color
-        params['specularColor'] = specular_color
-        params['specularExponent'] = specular_exponent
-        params['reflectionIndex'] = reflection_index
-        params['opacity'] = opacity
-        params['refractionIndex'] = refraction_index
-        params['emission'] = emission
-        params['glossiness'] = glossiness
-        params['simulationDataCast'] = simulation_data_cast
-        params['shadingMode'] = shading_mode
-        params['clippingMode'] = clipping_mode
-        params['userParameter'] = user_parameter
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'set-material-range', params=params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
     def save_model_to_cache(self, model_id, path):
         """
@@ -545,58 +452,6 @@ class SonataExplorer:
         return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'save-model-to-mesh', params=params,
                                     response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
-    def set_camera(self, origin, direction, up):
-        """
-        Sets the camera using origin, direction and up vectors
-
-        :param list origin: Origin of the camera
-        :param list direction: Direction in which the camera is looking
-        :param list up: Up vector
-        :return: Result of the request submission
-        :rtype: str
-        """
-        params = dict()
-        params['origin'] = origin
-        params['direction'] = direction
-        params['up'] = up
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'set-odu-camera', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
-
-    def get_camera(self):
-        """
-        Gets the origin, direction and up vector of the camera
-
-        :return: A JSon representation of the origin, direction and up vectors
-        :rtype: str
-        """
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'get-odu-camera', response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
-
-    def add_grid(self, min_value, max_value, interval, radius=1.0, opacity=0.5, show_axis=True,
-                 colored=True):
-        """
-        Adds a reference grid to the scene
-
-        :param float min_value: Minimum value for all axis
-        :param float max_value: Maximum value for all axis
-        :param float interval: Interval at which lines should appear on the grid
-        :param float radius: Radius of grid lines
-        :param float opacity: Opacity of the grid
-        :param bool show_axis: Shows axis if True
-        :param bool colored: Colors the grid it True. X in red, Y in green, Z in blue
-        :return: Result of the request submission
-        :rtype: str
-        """
-        params = dict()
-        params['minValue'] = min_value
-        params['maxValue'] = max_value
-        params['steps'] = interval
-        params['radius'] = radius
-        params['planeOpacity'] = opacity
-        params['showAxis'] = show_axis
-        params['useColors'] = colored
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'add-grid', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
-
     def add_column(self, radius=0.01):
         """
         Adds a reference column to the scene
@@ -610,103 +465,6 @@ class SonataExplorer:
         return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'add-column', params,
                                     response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
-    def export_frames_to_disk(self, path, animation_frames, camera_definitions, image_format='png',
-                              quality=100, samples_per_pixel=1, start_frame=0):
-        """
-        Exports frames to disk. Frames are named using a 6 digit representation of the frame number
-
-        :param str path: Folder into which frames are exported
-        :param list animation_frames: List of animation frames
-        :param list camera_definitions: List of camera definitions (origin, direction and up)
-        :param str image_format: Image format (the ones supported par Brayns: PNG, JPEG, etc)
-        :param float quality: Quality of the exported image (Between 0 and 100)
-        :param int samples_per_pixel: Number of samples per pixels
-        :param int start_frame: Optional value if the rendering should start at a specific frame.
-        This is used to resume the rendering of a previously canceled sequence)
-        :return: Result of the request submission
-        :rtype: str
-        """
-        params = dict()
-        params['path'] = path
-        params['format'] = image_format
-        params['quality'] = quality
-        params['spp'] = samples_per_pixel
-        params['startFrame'] = start_frame
-        params['animationInformation'] = animation_frames
-        values = list()
-        for camera_definition in camera_definitions:
-            # Origin
-            for i in range(3):
-                values.append(camera_definition[0][i])
-            # Direction
-            for i in range(3):
-                values.append(camera_definition[1][i])
-            # Up
-            for i in range(3):
-                values.append(camera_definition[2][i])
-            # Aperture radius
-            values.append(camera_definition[3])
-            # Focus distance
-            values.append(camera_definition[4])
-        params['cameraInformation'] = values
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'export-frames-to-disk', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
-
-    def get_export_frames_progress(self):
-        """
-        Queries the progress of the last export of frames to disk request
-
-        :return: Dictionary with the result: "frameNumber" with the number of
-        the last written-to-disk frame, and "done", a boolean flag stating wether
-        the exporting is finished or is still in progress
-        :rtype: dict
-        """
-
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'get-export-frames-progress',
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
-
-    def make_movie(self, output_movie_path, fps_rate, frames_folder_path, frame_file_extension="png", dimensions=[1920, 1080], erase_frames=True):
-        """
-        Request to create a media video file from a set of frames
-
-        :param str output_movie_name: Full path to the media video to store the movie (it will be created if it does not exists).
-        It must include extension, as it will be used to determine the codec to be used (By default it should be .mp4)
-        :param int fps_rate: Desired frame rate in the video
-        :param str frames_folder_path: Path to the folder containing the frames to be used to create the video
-        :param str frame_name_format: Format expression of the name of the frames to be used (By default, if the images are
-        stored in png format, it should be %05d.png)
-        :param list dimensions: Desired width and height of the video to be created
-        : return: Result of the request submission
-        :rtype: str
-        """
-        params = dict()
-        params['dimensions'] = dimensions
-        params['framesFolderPath'] = frames_folder_path
-        params['framesFileExtension'] = frame_file_extension
-        params['fpsRate'] = fps_rate
-        params['outputMoviePath'] = output_movie_path
-        params['eraseFrames'] = erase_frames
-
-        return self._core.rockets_client.request('make-movie', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
-
-    def cancel_frames_export(self):
-        """
-        Cancel the exports of frames to disk
-
-        :return: Result of the request submission
-        :rtype: str
-        """
-        params = dict()
-        params['path'] = '/tmp'
-        params['format'] = 'png'
-        params['quality'] = 100
-        params['spp'] = 1
-        params['startFrame'] = 0
-        params['animationInformation'] = []
-        params['cameraInformation'] = []
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'export-frames-to-disk', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
     def trace_anterograde(self, model_id, source_cells_gid, target_cells_gid, source_cells_color=(5, 5, 0, 1), target_cells_color=(5, 0, 0, 1), non_connected_color=(0.5, 0.5, 0.5, 1.0)):
         """
@@ -865,8 +623,12 @@ class SonataExplorer:
         return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'add-box', params,
                                     response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
-    def get_material_ids(self, model_id):
+    def set_spike_report_visualization_settings(self, model_id, rest_voltage=-65, spiking_voltage=-10, time_interval=0.01, decay_speed=5.0):
         params = dict()
         params['modelId'] = model_id
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'get-material-ids', params,
+        params['restVoltage'] = rest_voltage
+        params['spikingVoltage'] = spiking_voltage
+        params['timeInterval'] = time_interval
+        params['decaySpeed'] = decay_speed
+        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'set-spike-report-visualization-settings', params,
                                     response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)

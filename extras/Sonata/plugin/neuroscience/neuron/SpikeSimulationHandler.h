@@ -48,12 +48,25 @@ public:
     const std::string& getReportPath() const { return _reportPath; }
     SpikeReportReaderPtr getReport() const { return _spikeReport; }
     const brain::GIDSet& getGIDs() const { return _gids; }
+
     AbstractSimulationHandlerPtr clone() const final;
 
+    void setVisualizationSettings(const double restVoltage,
+                                  const double spikingVoltage,
+                                  const double timeInterval,
+                                  const double decaySpeed);
+
 private:
+    void _logVisualizationSettings();
+
     std::string _reportPath;
     brain::GIDSet _gids;
     SpikeReportReaderPtr _spikeReport;
+
+    double _restVoltage{-80.0};
+    double _spikingVoltage{-10.0};
+    double _timeInterval{0.01};
+    double _decaySpeed{1.0};
 
     std::map<uint64_t, uint64_t> _gidMap;
 };
