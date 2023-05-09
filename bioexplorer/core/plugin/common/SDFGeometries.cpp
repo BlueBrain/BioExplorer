@@ -30,8 +30,12 @@ namespace bioexplorer
 {
 namespace common
 {
-SDFGeometries::SDFGeometries(const Vector3d& scale)
+SDFGeometries::SDFGeometries(const double alignToGrid, const Vector3d& position,
+                             const Quaterniond& rotation, const Vector3d& scale)
     : Node(scale)
+    , _alignToGrid(alignToGrid)
+    , _position(position)
+    , _rotation(rotation)
 {
 }
 
@@ -41,7 +45,8 @@ void SDFGeometries::addSDFDemo(Model& model)
     const bool useSdf = true;
     const Vector3f displacement{0.1f, 10.f, 0.f};
 
-    ThreadSafeContainer modelContainer(model);
+    ThreadSafeContainer modelContainer(model, _alignToGrid, _position,
+                                       _rotation);
     Neighbours neighbours;
     neighbours.insert(modelContainer.addCone(Vector3d(-1, 0, 0), 0.25,
                                              Vector3d(0, 0, 0), 0.1, materialId,

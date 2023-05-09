@@ -878,30 +878,29 @@ SectionSynapseMap DBConnector::getNeuronSynapses(
     return sectionSynapseMap;
 }
 
-uint64_ts DBConnector::getNeuronSpikeReportValues(
+SpikesMap DBConnector::getNeuronSpikeReportValues(
     const std::string& populationName, const uint64_t reportId,
     const double startTime, const double endTime) const
 {
     CHECK_DB_INITIALIZATION
-    uint64_ts spikes;
+    SpikesMap spikes;
     pqxx::nontransaction transaction(
         *_connections[omp_get_thread_num() % _dbNbConnections]);
     try
     {
         Timer chrono;
         std::string sql =
-            "SELECT DISTINCT(node_guid) FROM " + populationName +
+            "SELECT node_guid, max(timestamp) FROM " + populationName +
             ".spike_report WHERE report_guid=" + std::to_string(reportId) +
             " AND timestamp>=" + std::to_string(startTime) + " AND timestamp<" +
-            std::to_string(endTime) + " ORDER BY node_guid";
+            std::to_string(endTime) + " GROUP BY node_guid";
         PLUGIN_DB_INFO(1, sql);
         auto res = transaction.exec(sql);
         for (auto c = res.begin(); c != res.end(); ++c)
-            spikes.push_back(c[0].as<uint64_t>());
+            spikes[c[0].as<uint64_t>()] = c[1].as<float>();
         PLUGIN_DB_TIMER(chrono.elapsed(),
                         "getNeuronSpikeReportValues(populationName="
                             << populationName << ", reportId=" << reportId
-                            << ", startTime=" << startTime
                             << ", endTime=" << endTime << ")");
     }
     catch (pqxx::sql_error& e)

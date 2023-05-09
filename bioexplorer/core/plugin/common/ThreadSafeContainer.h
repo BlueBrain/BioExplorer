@@ -47,7 +47,8 @@ public:
      * for the geometry
      * @param scale Scale applied to individual elements
      */
-    ThreadSafeContainer(Model& model,
+    ThreadSafeContainer(Model& model, const double alignToGrid,
+                        const Vector3d& position, const Quaterniond& rotation,
                         const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
 
     /**
@@ -150,7 +151,10 @@ private:
     Boxd _bounds;
 
     Model& _model;
+    Vector3d _position;
+    Quaterniond _rotation;
     Vector3d _scale{1.0, 1.0, 1.0};
+    double _alignToGrid{0.0};
 };
 } // namespace common
 } // namespace bioexplorer

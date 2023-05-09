@@ -636,7 +636,8 @@ void Assembly::addVasculature(const VasculatureDetails &details)
             _scene.removeModel(modelId);
         }
     }
-    _vasculature.reset(std::move(new Vasculature(_scene, details)));
+    _vasculature.reset(
+        std::move(new Vasculature(_scene, details, _position, _rotation)));
     _scene.markModified(false);
 }
 
@@ -683,7 +684,8 @@ void Assembly::addAstrocytes(const AstrocytesDetails &details)
         PLUGIN_THROW("Astrocytes already exists in assembly " +
                      details.assemblyName);
 
-    _astrocytes = AstrocytesPtr(new Astrocytes(_scene, details));
+    _astrocytes =
+        AstrocytesPtr(new Astrocytes(_scene, details, _position, _rotation));
     _scene.markModified(false);
 }
 
@@ -693,7 +695,7 @@ void Assembly::addAtlas(const AtlasDetails &details)
         PLUGIN_THROW("Atlas already exists in assembly " +
                      details.assemblyName);
 
-    _atlas = AtlasPtr(new Atlas(_scene, details));
+    _atlas = AtlasPtr(new Atlas(_scene, details, _position, _rotation));
     _scene.markModified(false);
 }
 
@@ -703,7 +705,7 @@ void Assembly::addNeurons(const NeuronsDetails &details)
         PLUGIN_THROW("Neurons already exists in assembly " +
                      details.assemblyName);
 
-    _neurons = NeuronsPtr(new Neurons(_scene, details));
+    _neurons = NeuronsPtr(new Neurons(_scene, details, _position, _rotation));
     _scene.markModified(false);
 }
 
@@ -773,7 +775,8 @@ void Assembly::addWhiteMatter(const WhiteMatterDetails &details)
             _scene.removeModel(modelId);
         }
     }
-    _whiteMatter.reset(std::move(new WhiteMatter(_scene, details)));
+    _whiteMatter.reset(
+        std::move(new WhiteMatter(_scene, details, _position, _rotation)));
     _scene.markModified(false);
 }
 
@@ -788,7 +791,8 @@ void Assembly::addSynapses(const SynapsesDetails &details)
             _scene.removeModel(modelId);
         }
     }
-    _synapses.reset(std::move(new Synapses(_scene, details)));
+    _synapses.reset(
+        std::move(new Synapses(_scene, details, _position, _rotation)));
     _scene.markModified(false);
 }
 
@@ -803,7 +807,8 @@ void Assembly::addSynapseEfficacy(const SynapseEfficacyDetails &details)
             _scene.removeModel(modelId);
         }
     }
-    _synapseEfficacy.reset(std::move(new SynapseEfficacy(_scene, details)));
+    _synapseEfficacy.reset(
+        std::move(new SynapseEfficacy(_scene, details, _position, _rotation)));
 
     auto modelDescriptor = _synapseEfficacy->getModelDescriptor();
     auto handler = std::make_shared<SynapseEfficacySimulationHandler>(details);

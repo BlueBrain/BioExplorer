@@ -90,7 +90,7 @@ static AtomicRadii atomicRadii = {
     {{"TS"}, {25.0}},  {{"OG"}, {25.0}}};
 
 Molecule::Molecule(Scene& scene, const size_ts& chainIds)
-    : SDFGeometries()
+    : SDFGeometries(NO_GRID_ALIGNMENT, Vector3d(), Quaterniond())
     , _aminoAcidRange(std::numeric_limits<size_t>::max(),
                       std::numeric_limits<size_t>::min())
     , _scene(scene)
@@ -312,7 +312,8 @@ void Molecule::_buildModel(const std::string& assemblyName,
     case ProteinRepresentation::atoms_and_sticks:
     {
         auto model = _scene.createModel();
-        ThreadSafeContainer container(*model);
+        ThreadSafeContainer container(*model, _alignToGrid, _position,
+                                      _rotation);
 
         _buildAtomicStruture(representation, atomRadiusMultiplier, false,
                              loadBonds, container);
@@ -384,7 +385,8 @@ void Molecule::_buildModel(const std::string& assemblyName,
         _modelDescriptor->setMetadata(metadata);
 
         Model& model = _modelDescriptor->getModel();
-        ThreadSafeContainer container(model);
+        ThreadSafeContainer container(model, _alignToGrid, _position,
+                                      _rotation);
         _buildAtomicStruture(representation, atomRadiusMultiplier * 2.0, true,
                              loadBonds, container);
         container.commitToModel();
@@ -421,7 +423,8 @@ void Molecule::_buildModel(const std::string& assemblyName,
                  atom.second.radius * atomRadiusMultiplier});
 
         PointCloudMesher pcm;
-        ThreadSafeContainer container(*model);
+        ThreadSafeContainer container(*model, _alignToGrid, _position,
+                                      _rotation);
         pcm.toConvexHull(container, pointCloud);
         container.commitToModel();
         _modelDescriptor =

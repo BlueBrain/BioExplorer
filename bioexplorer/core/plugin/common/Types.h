@@ -73,6 +73,9 @@ const std::string ENV_ROCKETS_DISABLE_SCENE_BROADCASTING =
 // Bezier curves parameters
 const size_t DEFAULT_BEZIER_STEP = 4;
 
+// Grid geometry alignment
+const double NO_GRID_ALIGNMENT = 0.0;
+
 // Typedefs
 using StringMap = std::map<std::string, std::string>;
 using Color = Vector3d;
@@ -999,6 +1002,8 @@ typedef struct
     doubles animationParams;
     /** Extra optional parameters for geometry displacement */
     doubles displacementParams;
+    /** Align 3D positions to grid if different from 0.0 */
+    double alignToGrid{0.0};
 } VasculatureDetails;
 
 typedef struct
@@ -1140,6 +1145,8 @@ typedef struct
     /** Only load segments that with distance to soma smaller than specified
      * value. Ignored if set to 0 */
     double maxDistanceToSoma{0.0};
+    /** Align 3D positions to grid if different from 0.0 */
+    double alignToGrid{0.0};
 } AstrocytesDetails;
 
 enum class NeuronSectionType
@@ -1368,6 +1375,7 @@ enum class ReportType
     compartment = 3,
     synapse_efficacy = 4
 };
+using SpikesMap = std::map<uint64_t, float>;
 
 typedef struct
 {

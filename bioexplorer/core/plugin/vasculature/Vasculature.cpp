@@ -39,8 +39,11 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details)
-    : SDFGeometries(doublesToVector3d(details.scale))
+Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details,
+                         const Vector3d& assemblyPosition,
+                         const Quaterniond& assemblyRotation)
+    : SDFGeometries(details.alignToGrid, assemblyPosition, assemblyRotation,
+                    doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {
@@ -342,7 +345,8 @@ void Vasculature::_buildModel(const doubles& radii)
         if (nodes.empty())
             continue;
 
-        ThreadSafeContainer container(*model,
+        ThreadSafeContainer container(*model, _alignToGrid, _position,
+                                      _rotation,
                                       doublesToVector3d(_details.scale));
 
         auto iter = nodes.begin();

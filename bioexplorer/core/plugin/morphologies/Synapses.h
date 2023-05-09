@@ -43,7 +43,9 @@ public:
      * @param details Set of attributes defining how the synapse efficacy should
      * be loaded
      */
-    Synapses(Scene& scene, const SynapsesDetails& details);
+    Synapses(Scene& scene, const SynapsesDetails& details,
+             const Vector3d& assemblyPosition,
+             const Quaterniond& assemblyRotation);
 
 private:
     double _getDisplacementValue(const DisplacementElement& element) final;

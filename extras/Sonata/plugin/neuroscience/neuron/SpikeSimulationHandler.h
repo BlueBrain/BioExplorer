@@ -63,7 +63,7 @@ private:
     brain::GIDSet _gids;
     SpikeReportReaderPtr _spikeReport;
 
-    double _restVoltage{-80.0};
+    double _restVoltage{-65.0};
     double _spikingVoltage{-10.0};
     double _timeInterval{0.01};
     double _decaySpeed{1.0};

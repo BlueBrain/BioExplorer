@@ -39,8 +39,10 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-Synapses::Synapses(Scene& scene, const SynapsesDetails& details)
-    : Morphologies()
+Synapses::Synapses(Scene& scene, const SynapsesDetails& details,
+                   const Vector3d& assemblyPosition,
+                   const Quaterniond& assemblyRotation)
+    : Morphologies(0, assemblyPosition, assemblyRotation)
     , _details(details)
     , _scene(scene)
 {
@@ -69,7 +71,7 @@ void Synapses::_buildModel()
         _scene.removeModel(_modelDescriptor->getModelID());
 
     auto model = _scene.createModel();
-    ThreadSafeContainer container(*model);
+    ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation);
 
     const auto synapses =
         DBConnector::getInstance().getSynapses(_details.populationName,

@@ -30,8 +30,9 @@ namespace bioexplorer
 {
 namespace morphology
 {
-Morphologies::Morphologies(const Vector3f& scale)
-    : SDFGeometries(scale)
+Morphologies::Morphologies(const double alignToGrid, const Vector3d& position,
+                           const Quaterniond& rotation, const Vector3f& scale)
+    : SDFGeometries(alignToGrid, position, rotation, scale)
 {
 }
 

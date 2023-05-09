@@ -45,7 +45,9 @@ public:
      * @param scene 3D scene into which astrocytes should be loaded
      * @param details Set of attributes defining how astrocytes should be loaded
      */
-    Astrocytes(Scene& scene, const AstrocytesDetails& details);
+    Astrocytes(Scene& scene, const AstrocytesDetails& details,
+               const Vector3d& assemblyPosition,
+               const Quaterniond& assemblyRotation);
 
     /**
      * @brief Apply a vasculature radius report to the astrocyte. This modifies

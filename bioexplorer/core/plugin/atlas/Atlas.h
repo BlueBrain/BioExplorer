@@ -22,12 +22,7 @@
 
 #pragma once
 
-#include <plugin/api/Params.h>
 #include <plugin/common/SDFGeometries.h>
-#include <plugin/common/Types.h>
-
-#include <brayns/common/loader/Loader.h>
-#include <brayns/parameters/GeometryParameters.h>
 
 namespace bioexplorer
 {
@@ -39,7 +34,7 @@ using namespace common;
 /**
  * Load brain atlas from database
  */
-class Atlas : public common::Node
+class Atlas : public SDFGeometries
 {
 public:
     /**
@@ -49,9 +44,15 @@ public:
      * @param details Set of attributes defining how the vasculature should be
      * loaded
      */
-    Atlas(Scene& scene, const AtlasDetails& details);
+    Atlas(Scene& scene, const AtlasDetails& details, const Vector3d& position,
+          const Quaterniond& rotation);
 
 private:
+    double _getDisplacementValue(const DisplacementElement& element) final
+    {
+        return 0;
+    }
+
     void _load();
 
     const AtlasDetails _details;
