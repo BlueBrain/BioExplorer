@@ -181,16 +181,23 @@ void MediaMakerPlugin::postRender()
 
     if (_exportFramesToDiskDirty)
     {
-        if (_exportFramesToDiskPayload.exportIntermediateFrames)
-            _exportFrameToDisk();
-
-        if (_accumulationFrameNumber == _exportFramesToDiskPayload.spp)
+        try
         {
-            _exportFrameToDisk();
-            ++_frameNumber;
-            _accumulationFrameNumber = 0;
-            _exportFramesToDiskDirty =
-                (_frameNumber < _exportFramesToDiskPayload.endFrame);
+            if (_exportFramesToDiskPayload.exportIntermediateFrames)
+                _exportFrameToDisk();
+
+            if (_accumulationFrameNumber == _exportFramesToDiskPayload.spp)
+            {
+                ++_frameNumber;
+                _accumulationFrameNumber = 0;
+                _exportFramesToDiskDirty =
+                    (_frameNumber < _exportFramesToDiskPayload.endFrame);
+                _exportFrameToDisk();
+            }
+        }
+        catch (const std::runtime_error &e)
+        {
+            PLUGIN_ERROR(e.what());
         }
     }
 }
