@@ -2112,7 +2112,6 @@ Response BioExplorerPlugin::_setSpikeReportVisualizationSettings(
                 "Model does not hold a spike report simulation handler");
         spikeHandler->setVisualizationSettings(payload.restVoltage,
                                                payload.spikingVoltage,
-                                               payload.timeInterval,
                                                payload.decaySpeed);
     }
     CATCH_STD_EXCEPTION()

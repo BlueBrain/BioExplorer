@@ -58,7 +58,6 @@ public:
     /** Sets the visualization settings */
     void setVisualizationSettings(const double restVoltage,
                                   const double spikingVoltage,
-                                  const double timeInterval,
                                   const double decaySpeed);
 
 private:
@@ -68,10 +67,9 @@ private:
     uint64_t _simulationReportId;
     SimulationReport _simulationReport;
 
-    double _restVoltage{-65.0};
-    double _spikingVoltage{-10.0};
-    double _timeInterval{0.01};
-    double _decaySpeed{1.0};
+    float _restVoltage{-65.f};
+    float _spikingVoltage{-10.f};
+    float _decaySpeed{1.f};
 
     std::map<uint64_t, uint64_t> _guidsMapping;
 };

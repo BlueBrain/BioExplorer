@@ -1375,6 +1375,7 @@ enum class ReportType
     compartment = 3,
     synapse_efficacy = 4
 };
+using SpikesMap = std::map<uint64_t, float>;
 
 typedef struct
 {

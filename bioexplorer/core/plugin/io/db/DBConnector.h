@@ -291,11 +291,10 @@ public:
      *
      * @param populationName Name of the population
      * @param reportId Simulation report identifier
-     * @param startTime Start time of the selection
      * @param endTime End time of the selection
      * @return uint64_ts Spiking neuron ids for the specified time selection
      */
-    uint64_ts getNeuronSpikeReportValues(const std::string& populationName,
+    SpikesMap getNeuronSpikeReportValues(const std::string& populationName,
                                          const uint64_t reportId,
                                          const double startTime,
                                          const double endTime) const;

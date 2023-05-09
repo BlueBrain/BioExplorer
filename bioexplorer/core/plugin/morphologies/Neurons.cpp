@@ -46,6 +46,13 @@ const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
 const double DEFAULT_ARROW_RADIUS_RATIO = 10.0;
 const Vector2d DEFAULT_SIMULATION_VALUE_RANGE = {-80.0, -10.0};
 
+std::map<ReportType, std::string> reportTypeAsString = {
+    {ReportType::undefined, "undefined"},
+    {ReportType::spike, "spike"},
+    {ReportType::soma, "soma"},
+    {ReportType::compartment, "compartment"},
+    {ReportType::synapse_efficacy, "synapse efficacy"}};
+
 // Mitochondria density per layer
 // Source: A simplified morphological classification scheme for pyramidal cells
 // in six layers of primary somatosensory cortex of juvenile rats
@@ -217,12 +224,17 @@ void Neurons::_buildNeurons()
         container.commitToModel();
     }
 
-    const ModelMetadata metadata = {
-        {"Number of Neurons", std::to_string(somas.size())},
-        {"Number of Spines", std::to_string(_nbSpines)},
-        {"SQL node filter", _details.sqlNodeFilter},
-        {"SQL section filter", _details.sqlSectionFilter},
-        {"Max distance to soma", std::to_string(_maxDistanceToSoma)}};
+    ModelMetadata metadata = {{"Number of Neurons",
+                               std::to_string(somas.size())},
+                              {"Number of Spines", std::to_string(_nbSpines)},
+                              {"SQL node filter", _details.sqlNodeFilter},
+                              {"SQL section filter", _details.sqlSectionFilter},
+                              {"Max distance to soma",
+                               std::to_string(_maxDistanceToSoma)}};
+
+    if (!_simulationReport.description.empty())
+        metadata["Simulation " + reportTypeAsString[_simulationReport.type] +
+                 " report"] = _simulationReport.description;
 
     _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
                                                        _details.assemblyName,
@@ -264,14 +276,14 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container,
             case ReportType::soma:
             {
                 if (_simulationReport.guids.empty())
-                    somaUserData = neuronId + 1;
+                    somaUserData = neuronId;
                 else
                 {
                     const auto it = _simulationReport.guids.find(neuronId);
                     if (it == _simulationReport.guids.end() &&
                         !_details.loadNonSimulatedNodes)
                         continue; // Ignore non-simulated nodes
-                    somaUserData = (*it).second + 1;
+                    somaUserData = (*it).second;
                 }
                 break;
             }
