@@ -164,7 +164,7 @@ void _addSphereClippingPerspectiveCamera(Engine& engine)
     properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
     properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
     properties.setProperty({"enableClippingPlanes", true, {"Clipping"}});
-    engine.addCameraType("circuit_explorer_sphere_clipping", properties);
+    engine.addCameraType("sphere_clipping_perspective", properties);
 }
 
 std::string _sanitizeString(const std::string& input)
