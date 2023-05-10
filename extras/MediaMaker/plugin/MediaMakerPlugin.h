@@ -44,6 +44,10 @@ public:
 private:
     Response _version() const;
 
+#ifdef USE_OPTIX6
+    void _createOptiXRenderers();
+#endif
+
     // Movie and frames
     ExportFramesToDisk _exportFramesToDiskPayload;
     bool _exportFramesToDiskDirty{false};
