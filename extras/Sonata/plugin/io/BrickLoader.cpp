@@ -97,16 +97,14 @@ ModelDescriptorPtr BrickLoader::importFromBlob(
     throw std::runtime_error("Loading circuit from blob is not supported");
 }
 
-std::string BrickLoader::_readString(std::ifstream& f) const
+std::string BrickLoader::_readString(std::ifstream& buffer) const
 {
     size_t size;
-    f.read((char*)&size, sizeof(size_t));
-    char* str = new char[size + 1];
-    f.read(str, size);
-    str[size] = 0;
-    std::string s{str};
-    delete[] str;
-    return s;
+    buffer.read((char*)&size, sizeof(size_t));
+    std::vector<char> str;
+    str.resize(size + 1, 0);
+    buffer.read(&str[0], size);
+    return str.data();
 }
 
 ModelDescriptorPtr BrickLoader::importFromFile(
