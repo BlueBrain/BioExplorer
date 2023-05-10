@@ -233,7 +233,7 @@ class MovieScenario:
     def _prepare_movie(self, projection, image_k):
         if projection == "perspective":
             self._image_size = [image_k * 960, image_k * 540]
-            self._core.set_camera(current="bio_explorer_perspective")
+            self._core.set_camera(current="perspective")
         elif projection == "fisheye":
             self._image_size = [int(image_k * 1024), int(image_k * 1024)]
             self._core.set_camera(current="fisheye")
@@ -300,7 +300,7 @@ class MovieScenario:
             help="Camera projection",
             type=str,
             default="perspective",
-            choices=["perspective", "fisheye", "panoramic", "opendeck"],
+            choices=["perspective", "fisheye", "panoramic", "opendeck", "orthographic"],
         )
         parser.add_argument(
             "-r",
@@ -308,15 +308,16 @@ class MovieScenario:
             help="Camera projection",
             type=str,
             nargs="*",
-            default=["bio_explorer"],
+            default=["basic"],
             choices=[
+                "basic",
+                "advanced",
                 "albedo",
                 "ambient_occlusion",
-                "basic",
                 "depth",
+                "shadow",
                 "raycast_Ns",
-                "bio_explorer",
-                "circuit_explorer_advanced",
+                "raycast_Ng"
             ],
         )
         parser.add_argument(
