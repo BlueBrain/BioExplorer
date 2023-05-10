@@ -435,12 +435,10 @@ std::string CacheLoader::_readString(std::stringstream& buffer) const
 {
     size_t size;
     buffer.read((char*)&size, sizeof(size_t));
-    char* str = new char[size + 1];
-    buffer.read(str, size);
-    str[size] = 0;
-    std::string s{str};
-    delete[] str;
-    return s;
+    std::vector<char> str;
+    str.resize(size + 1, 0);
+    buffer.read(&str[0], size);
+    return str.data();
 }
 
 bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
