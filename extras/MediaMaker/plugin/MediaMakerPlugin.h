@@ -44,6 +44,7 @@ public:
 private:
     Response _version() const;
 
+    void _createRenderers();
 #ifdef USE_OPTIX6
     void _createOptiXRenderers();
 #endif
