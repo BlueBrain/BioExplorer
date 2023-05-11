@@ -27,29 +27,50 @@ set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_STANDARD 14)
 
 find_package(Brayns REQUIRED)
-find_package(ospray REQUIRED SYSTEM)
+find_package(ospray)
+find_package(OptiX6)
+find_package(CUDA)
 find_package(Boost REQUIRED COMPONENTS program_options filesystem)
 find_package(glm REQUIRED SYSTEM)
 find_package(FreeImage REQUIRED)
 
+# ==============================================================================
+# Options
+# ==============================================================================
+set(OSPRAY_FOUND 0)
+if(ospray_FOUND)
+    include(ispc)
+    option(BIOEXPLORER_OSPRAY_ENABLED "Enable OSPRay 1 module" ON)
+
+    if(BIOEXPLORER_OSPRAY_ENABLED)
+        set(OSPRAY_FOUND 1)
+        message("[BioExplorer] OSPRay module enabled")
+    endif()
+endif()
+
+set(OPTIX6_FOUND 0)
+if(OptiX6_FOUND AND CUDA_FOUND)
+    option(BIOEXPLORER_OPTIX6_ENABLED "Enable OptiX 6 module" ON)
+    if(BIOEXPLORER_OSPRAY_ENABLED)
+        set(OPTIX6_FOUND 1)
+        message("[BioExplorer] OptiX 6 module enabled")
+    endif()
+endif()
 add_subdirectory(bioexplorer/core)
 
 option(BIOEXPLORER_MEDIA_MAKER_ENABLED "Enable media maker plugin" ON)
-
 if(BIOEXPLORER_MEDIA_MAKER_ENABLED)
     message(STATUS "Building MediaMaker plugin")
     add_subdirectory(extras/MediaMaker)
 endif()
 
 option(BIOEXPLORER_METABOLISM_ENABLED "Enable metabolism plugin" ON)
-
 if(BIOEXPLORER_METABOLISM_ENABLED)
     message(STATUS "Building Metabolism plugin")
     add_subdirectory(extras/Metabolism)
 endif()
 
 option(BIOEXPLORER_SONATA_ENABLED "Enable SONATA plugin" OFF)
-
 if(BIOEXPLORER_SONATA_ENABLED)
     message(STATUS "Building SONATA plugin")
     add_subdirectory(extras/Sonata)

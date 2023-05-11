@@ -18,24 +18,38 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "AmbientOcclusionRenderer.h"
 
-// clang-format off
+// ospray
+#include <ospray/SDK/lights/Light.h>
 
-// CGAL
-#if @CGAL_FOUND@==1
-#define USE_CGAL
-#endif
+// ispc exports
+#include "AmbientOcclusionRenderer_ispc.h"
 
-// OSPRay
-#if @OSPRAY_FOUND@==1
-#define USE_OSPRAY
-#endif
+using namespace ospray;
 
-// OptiX 6
-#if @OPTIX6_FOUND@==1
-#define USE_OPTIX6
-#endif
+namespace bioexplorer
+{
+namespace mediamaker
+{
+namespace rendering
+{
+void AmbientOcclusionRenderer::commit()
+{
+    Renderer::commit();
+    _samplesPerFrame = getParam1i("samplesPerFrame", 16);
+    _aoRayLength = getParam1f("rayLength", 1e6f);
 
-#define PACKAGE_VERSION "@BIOEXPLORER_PACKAGE_VERSION@"
-// clang-format-on
+    ispc::AmbientOcclusionRenderer_set(getIE(), spp, _samplesPerFrame,
+                                       _aoRayLength);
+}
+
+AmbientOcclusionRenderer::AmbientOcclusionRenderer()
+{
+    ispcEquivalent = ispc::AmbientOcclusionRenderer_create(this);
+}
+
+OSP_REGISTER_RENDERER(AmbientOcclusionRenderer, ambient_occlusion);
+} // namespace rendering
+} // namespace mediamaker
+} // namespace bioexplorer

@@ -20,22 +20,36 @@
 
 #pragma once
 
-// clang-format off
+#include <ospray/SDK/common/Material.h>
+#include <ospray/SDK/render/Renderer.h>
 
-// CGAL
-#if @CGAL_FOUND@==1
-#define USE_CGAL
-#endif
+namespace bioexplorer
+{
+namespace mediamaker
+{
+namespace rendering
+{
+class ShadowRenderer : public ospray::Renderer
+{
+public:
+    ShadowRenderer();
 
-// OSPRay
-#if @OSPRAY_FOUND@==1
-#define USE_OSPRAY
-#endif
+    /**
+       Returns the class name as a string
+       @return string containing the full name of the class
+    */
+    std::string toString() const final { return "depth"; }
+    void commit() final;
 
-// OptiX 6
-#if @OPTIX6_FOUND@==1
-#define USE_OPTIX6
-#endif
+private:
+    std::vector<void*> _lightArray;
+    void** _lightPtr;
+    ospray::Data* _lightData;
 
-#define PACKAGE_VERSION "@BIOEXPLORER_PACKAGE_VERSION@"
-// clang-format-on
+    int _samplesPerFrame;
+    double _rayLength;
+    double _softness;
+};
+} // namespace rendering
+} // namespace mediamaker
+} // namespace bioexplorer

@@ -37,6 +37,15 @@
 #include <brayns/parameters/ParametersManager.h>
 #include <brayns/pluginapi/Plugin.h>
 
+#ifdef USE_OPTIX6
+#include <BioExplorer_generated_Density.cu.ptx.h>
+#include <BioExplorer_generated_Fields.cu.ptx.h>
+#include <BioExplorer_generated_Golgi.cu.ptx.h>
+#include <BioExplorer_generated_PathTracing.cu.ptx.h>
+#include <BioExplorer_generated_Voxel.cu.ptx.h>
+#include <brayns/OptiXContext.h>
+#endif
+
 namespace bioexplorer
 {
 using namespace common;
@@ -595,17 +604,17 @@ void BioExplorerPlugin::init()
                 [&](const LookAtDetails &payload) { return _lookAt(payload); });
     }
 
-    // Renderers
     auto &params = engine.getParametersManager().getApplicationParameters();
     const auto &engineName = params.getEngine();
-    if (engineName == ENGINE_OSPRAY)
+#ifdef USE_OPTIX6
+    if (engineName == ENGINE_OPTIX_6)
     {
-        _addBioExplorerVoxelRenderer(engine);
-        _addBioExplorerFieldsRenderer(engine);
-        _addBioExplorerDensityRenderer(engine);
-        _addBioExplorerPathTracingRenderer(engine);
-        _addBioExplorerGolgiStyleRenderer(engine);
+        _createOptiXRenderers();
+        _createRenderers();
     }
+#endif
+    if (engineName == ENGINE_OSPRAY)
+        _createRenderers();
 
     // Database
     try
@@ -643,6 +652,45 @@ void BioExplorerPlugin::init()
             _addGrid(grid);
         }
     }
+}
+
+#ifdef USE_OPTIX6
+void BioExplorerPlugin::_createOptiXRenderers()
+{
+    std::map<std::string, std::string> renderers = {
+        {"bio_explorer_golgi_style", BioExplorer_generated_Golgi_cu_ptx},
+        {"bio_explorer_density", BioExplorer_generated_Density_cu_ptx},
+        {"bio_explorer_fields", BioExplorer_generated_Fields_cu_ptx},
+        {"bio_explorer_path_tracing", BioExplorer_generated_PathTracing_cu_ptx},
+        {"bio_explorer_voxel", BioExplorer_generated_Voxel_cu_ptx},
+    };
+    OptiXContext &context = OptiXContext::get();
+    for (const auto &renderer : renderers)
+    {
+        PLUGIN_INFO(1, "Registering CUDA renderer " << renderer.first);
+        const std::string ptx = renderer.second;
+
+        auto osp = std::make_shared<OptixShaderProgram>();
+        osp->closest_hit =
+            context.getOptixContext()->createProgramFromPTXString(
+                ptx, "closest_hit_radiance");
+        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(
+            ptx, "any_hit_shadow");
+
+        context.addRenderer(renderer.first, osp);
+    }
+}
+#endif
+
+void BioExplorerPlugin::_createRenderers()
+{
+    // Renderers
+    auto &engine = _api->getEngine();
+    _addBioExplorerVoxelRenderer(engine);
+    _addBioExplorerFieldsRenderer(engine);
+    _addBioExplorerDensityRenderer(engine);
+    _addBioExplorerPathTracingRenderer(engine);
+    _addBioExplorerGolgiStyleRenderer(engine);
 }
 
 void BioExplorerPlugin::_parseCommandLineArguments(int argc, char **argv)

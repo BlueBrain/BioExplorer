@@ -26,16 +26,6 @@ set(LIBRARY_NAME MediaMaker)
 project(${NAME} VERSION ${BIOEXPLORER_PACKAGE_VERSION})
 set(${NAME}_VERSION_ABI 1)
 
-
-# ==============================================================================
-# Options
-# ==============================================================================
-option(BIOEXPLORER_MEDIA_MAKER_OSPRAY_ENABLED "Enable OSPRay module" ON)
-find_package(OptiX6)
-if(OPTIX_FOUND)
-    option(BIOEXPLORER_MEDIA_MAKER_OPTIX6_ENABLED "Enable OptiX 6 module" ON)
-endif()
-
 # ==============================================================================
 # Packages and settings
 # ==============================================================================
@@ -73,10 +63,8 @@ set(${NAME}_PRIVATE_MODULE_LIBRARIES)
 # ==============================================================================
 # OSPRay module
 # ==============================================================================
-set(OSPRAY_FOUND 0)
-if(BIOEXPLORER_MEDIA_MAKER_OSPRAY_ENABLED)
+if(BIOEXPLORER_OSPRAY_ENABLED)
     message(STATUS "[MediaMaker] Building OSPRay module")
-    set(OSPRAY_FOUND 1)
     include(ispc)
 
     list(APPEND ${NAME}_SOURCES
@@ -112,10 +100,8 @@ endif()
 # ==============================================================================
 # OptiX 6 module
 # ==============================================================================
-set(OPTIX6_FOUND 0)
-if(BIOEXPLORER_MEDIA_MAKER_OPTIX6_ENABLED)
+if(BIOEXPLORER_OPTIX6_ENABLED)
     message(STATUS "[MediaMaker] Building OptiX 6 module")
-    set(OPTIX6_FOUND 1)
     list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIR}/CMake)
 
     find_package(CUDA REQUIRED)

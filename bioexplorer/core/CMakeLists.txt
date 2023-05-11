@@ -40,18 +40,16 @@ add_compile_options("-fopenmp")
 
 # Optional packages (managed by Defines.h.in)
 set(CGAL_FOUND 0)
-
 if(${${NAME}_USE_CGAL})
     set(CGAL_DATA_DIR ".")
     find_package(CGAL REQUIRED)
 endif()
 
-include(ispc)
-
 configure_file(
     plugin/common/Defines.h.in
     ${CMAKE_BINARY_DIR}/generated/bioexplorer/Defines.h
 )
+
 include_directories(
     ${PROJECT_SOURCE_DIR}/bioexplorer/core
     ${CMAKE_BINARY_DIR}/generated/bioexplorer
@@ -61,11 +59,6 @@ include_directories(
 # Sources
 # ==============================================================================
 set(${NAME}_SOURCES
-    module/ispc/render/FieldsRenderer.cpp
-    module/ispc/render/DensityRenderer.cpp
-    module/ispc/render/PathTracingRenderer.cpp
-    module/ispc/render/VoxelRenderer.cpp
-    module/ispc/render/artistic/GolgiStyleRenderer.cpp
     plugin/common/GeneralSettings.cpp
     plugin/common/Utils.cpp
     plugin/common/UniqueId.cpp
@@ -115,11 +108,6 @@ set(${NAME}_SOURCES
 )
 
 set(${NAME}_PUBLIC_HEADERS
-    module/ispc/render/FieldsRenderer.h
-    module/ispc/render/DensityRenderer.h
-    module/ispc/render/PathTracingRenderer.h
-    module/ispc/render/VoxelRenderer.h
-    module/ispc/render/artistic/GolgiStyleRenderer.h
     plugin/io/OOCManager.h
     plugin/io/CacheLoader.h
     plugin/io/db/DBConnector.h
@@ -181,25 +169,84 @@ if(${CGAL_FOUND} AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options(-frounding-math)
 endif()
 
-set(${NAME}_ISPC_SOURCES
-    module/ispc/render/FieldsRenderer.ispc
-    module/ispc/render/DensityRenderer.ispc
-    module/ispc/render/PathTracingRenderer.ispc
-    module/ispc/render/VoxelRenderer.ispc
-    module/ispc/render/artistic/GolgiStyleRenderer.ispc
-)
+set(${NAME}_PUBLIC_MODULE_LIBRARIES)
+set(${NAME}_PRIVATE_MODULE_LIBRARIES)
+# ==============================================================================
+# OSPRay module
+# ==============================================================================
+if(BIOEXPLORER_OSPRAY_ENABLED)
+    list(APPEND ${NAME}_SOURCES
+        module/ispc/renderer/artistic/GolgiStyleRenderer.cpp
+        module/ispc/renderer/FieldsRenderer.cpp
+        module/ispc/renderer/DensityRenderer.cpp
+        module/ispc/renderer/PathTracingRenderer.cpp
+        module/ispc/renderer/VoxelRenderer.cpp
+    )
+
+    set(${NAME}_ISPC_SOURCES
+        module/ispc/renderer/artistic/GolgiStyleRenderer.ispc
+        module/ispc/renderer/FieldsRenderer.ispc
+        module/ispc/renderer/DensityRenderer.ispc
+        module/ispc/renderer/PathTracingRenderer.ispc
+        module/ispc/renderer/VoxelRenderer.ispc
+    )
+
+    # ==============================================================================
+    # Compile ispc code
+    # ==============================================================================
+    list(APPEND CMAKE_MODULE_PATH ${OSPRAY_CMAKE_ROOT})
+    list(APPEND ALL_ISPC_INCLUDES ${${NAME}_MODULES_DIR})
+    list(APPEND ALL_ISPC_INCLUDES ${OSPRAY_INCLUDE_DIRS})
+    list(APPEND ALL_ISPC_INCLUDES ${GLM_INCLUDE_DIRS})
+    include_directories_ispc(${ALL_ISPC_INCLUDES})
+    ospray_ispc_compile(${${NAME}_ISPC_SOURCES})
+    list(APPEND ${NAME}_SOURCES ${ISPC_OBJECTS})
+
+    list(APPEND ${NAME}_PUBLIC_MODULE_LIBRARIES ${OSPRAY_LIBRARIES})
+    list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES braynsOSPRayEngine)
+    include_directories(${OSPRAY_INCLUDE_DIRS})
+endif()
 
 # ==============================================================================
-# Compile ispc code
+# OptiX 6 module
 # ==============================================================================
-list(APPEND CMAKE_MODULE_PATH ${OSPRAY_CMAKE_ROOT})
-list(APPEND ALL_ISPC_INCLUDES ${${NAME}_MODULES_DIR})
-list(APPEND ALL_ISPC_INCLUDES ${OSPRAY_INCLUDE_DIRS})
-list(APPEND ALL_ISPC_INCLUDES ${GLM_INCLUDE_DIRS})
-list(APPEND ALL_ISPC_INCLUDES ${PROJECT_SOURCE_DIR}/bioexplorer/core/module/ispc)
-include_directories_ispc(${ALL_ISPC_INCLUDES})
-ospray_ispc_compile(${${NAME}_ISPC_SOURCES})
-list(APPEND ${NAME}_SOURCES ${ISPC_OBJECTS})
+if(BIOEXPLORER_OPTIX6_ENABLED)
+    list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIR}/CMake)
+
+    find_package(CUDA REQUIRED)
+    if(CUDA_FOUND)
+      # This doesn't get called from common_find_package_post unless we export some
+      # variables to the parent scope
+      find_cuda_compatible_host_compiler()
+    endif()
+    message(STATUS "Using CUDA version ${CUDA_VERSION}")
+    
+    set(CUDA_NVCC_FLAGS "--use_fast_math")
+    
+    set(${NAME}_CU
+        module/cuda/renderer/Golgi.cu
+        module/cuda/renderer/Density.cu
+        module/cuda/renderer/Fields.cu
+        module/cuda/renderer/PathTracing.cu
+        module/cuda/renderer/Voxel.cu
+    )
+    
+    CUDA_WRAP_SRCS(${LIBRARY_NAME} PTX ptx_generated_files ${${NAME}_CU})
+    
+    include(StringifyPtx)
+    stringify_ptx(${ptx_generated_files})
+
+    list(APPEND ${NAME}_SOURCES
+        ${${NAME}_CU}
+        ${ptx_generated_files}
+        ${PTX_SOURCES}
+    )
+
+    list(APPEND ${NAME}_HEADERS ${PTX_HEADERS})
+    include_directories(${OptiX6_INCLUDE_DIRS} ${CUDA_INCLUDE_DIRS})
+    list(APPEND ${NAME}_PUBLIC_MODULE_LIBRARIES ${OptiX6_LIBRARIES})
+    list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES braynsOptix6Engine)
+endif()
 
 # ==============================================================================
 # Compile c++ code
@@ -215,9 +262,9 @@ include_directories(
 )
 
 set(${NAME}_LINK_LIBRARIES
-    PUBLIC ${OSPRAY_LIBRARIES}
+    PUBLIC ${${NAME}_PUBLIC_MODULE_LIBRARIES}
     PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
-    braynsOSPRayEngine ${FreeImage_LIBRARIES} ${PQXX_LIBRARIES} ${OpenMP_CXX_LIBRARIES}
+    ${${NAME}_PRIVATE_MODULE_LIBRARIES} ${FreeImage_LIBRARIES} ${PQXX_LIBRARIES} ${OpenMP_CXX_LIBRARIES}
 )
 
 if(${CGAL_FOUND})

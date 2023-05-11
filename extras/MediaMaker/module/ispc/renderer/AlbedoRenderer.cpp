@@ -18,24 +18,35 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "AlbedoRenderer.h"
 
-// clang-format off
+// ospray
+#include <ospray/SDK/lights/Light.h>
 
-// CGAL
-#if @CGAL_FOUND@==1
-#define USE_CGAL
-#endif
+// ispc exports
+#include "AlbedoRenderer_ispc.h"
 
-// OSPRay
-#if @OSPRAY_FOUND@==1
-#define USE_OSPRAY
-#endif
+using namespace ospray;
 
-// OptiX 6
-#if @OPTIX6_FOUND@==1
-#define USE_OPTIX6
-#endif
+namespace bioexplorer
+{
+namespace mediamaker
+{
+namespace rendering
+{
+void AlbedoRenderer::commit()
+{
+    Renderer::commit();
 
-#define PACKAGE_VERSION "@BIOEXPLORER_PACKAGE_VERSION@"
-// clang-format-on
+    ispc::AlbedoRenderer_set(getIE(), spp);
+}
+
+AlbedoRenderer::AlbedoRenderer()
+{
+    ispcEquivalent = ispc::AlbedoRenderer_create(this);
+}
+
+OSP_REGISTER_RENDERER(AlbedoRenderer, albedo);
+} // namespace rendering
+} // namespace mediamaker
+} // namespace bioexplorer

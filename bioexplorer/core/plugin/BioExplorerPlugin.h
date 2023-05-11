@@ -58,6 +58,10 @@ public:
 private:
     // Command line arguments
     void _parseCommandLineArguments(int argc, char **argv);
+    void _createRenderers();
+#ifdef USE_OPTIX6
+    void _createOptiXRenderers();
+#endif
 
     // Info and settings
     Response _getVersion() const;

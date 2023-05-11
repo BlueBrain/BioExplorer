@@ -18,24 +18,37 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "DepthRenderer.h"
 
-// clang-format off
+// ospray
+#include <ospray/SDK/lights/Light.h>
 
-// CGAL
-#if @CGAL_FOUND@==1
-#define USE_CGAL
-#endif
+// ispc exports
+#include "DepthRenderer_ispc.h"
 
-// OSPRay
-#if @OSPRAY_FOUND@==1
-#define USE_OSPRAY
-#endif
+using namespace ospray;
 
-// OptiX 6
-#if @OPTIX6_FOUND@==1
-#define USE_OPTIX6
-#endif
+namespace bioexplorer
+{
+namespace mediamaker
+{
+namespace rendering
+{
+void DepthRenderer::commit()
+{
+    Renderer::commit();
 
-#define PACKAGE_VERSION "@BIOEXPLORER_PACKAGE_VERSION@"
-// clang-format-on
+    _infinity = getParam1f("infinity", 1e6f);
+
+    ispc::DepthRenderer_set(getIE(), spp, _infinity);
+}
+
+DepthRenderer::DepthRenderer()
+{
+    ispcEquivalent = ispc::DepthRenderer_create(this);
+}
+
+OSP_REGISTER_RENDERER(DepthRenderer, depth);
+} // namespace rendering
+} // namespace mediamaker
+} // namespace bioexplorer
