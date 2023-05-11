@@ -19,6 +19,8 @@
  */
 
 #include "MediaMakerPlugin.h"
+
+#include <Defines.h>
 #include <plugin/common/Logs.h>
 
 #include <brayns/common/ActionInterface.h>
@@ -28,6 +30,16 @@
 #include <brayns/engineapi/Scene.h>
 #include <brayns/parameters/ParametersManager.h>
 #include <brayns/pluginapi/Plugin.h>
+
+#ifdef USE_OPTIX6
+#include <MediaMaker_generated_Albedo.cu.ptx.h>
+#include <MediaMaker_generated_AmbientOcclusion.cu.ptx.h>
+#include <MediaMaker_generated_Depth.cu.ptx.h>
+#include <MediaMaker_generated_GeometryNormal.cu.ptx.h>
+#include <MediaMaker_generated_ShadingNormal.cu.ptx.h>
+#include <MediaMaker_generated_Shadow.cu.ptx.h>
+#include <brayns/OptiXContext.h>
+#endif
 
 #include <fstream>
 
@@ -130,19 +142,50 @@ void MediaMakerPlugin::init()
     }
 
     auto &engine = _api->getEngine();
+#ifdef USE_OPTIX6
     auto &params = engine.getParametersManager().getApplicationParameters();
     const auto &engineName = params.getEngine();
-    if (engineName == ENGINE_OSPRAY)
+    if (engineName == ENGINE_OPTIX_6)
     {
-        _addDepthRenderer(engine);
-        _addAlbedoRenderer(engine);
-        _addAmbientOcclusionRenderer(engine);
-        _addShadowRenderer(engine);
+        _createOptiXRenderers();
+    }
+#endif
+    _addAlbedoRenderer(engine);
+    _addDepthRenderer(engine);
+    _addAmbientOcclusionRenderer(engine);
+    _addShadowRenderer(engine);
+    engine.addRendererType("raycast_Ng");
+    engine.addRendererType("raycast_Ns");
+}
 
-        engine.addRendererType("raycast_Ng");
-        engine.addRendererType("raycast_Ns");
+#ifdef USE_OPTIX6
+void MediaMakerPlugin::_createOptiXRenderers()
+{
+    std::map<std::string, std::string> renderers = {
+        {"albedo", MediaMaker_generated_Albedo_cu_ptx},
+        {"raycast_Ns", MediaMaker_generated_ShadingNormal_cu_ptx},
+        {"raycast_Ng", MediaMaker_generated_GeometryNormal_cu_ptx},
+        {"ambient_occlusion", MediaMaker_generated_AmbientOcclusion_cu_ptx},
+        {"shadow", MediaMaker_generated_Shadow_cu_ptx},
+        {"depth", MediaMaker_generated_Depth_cu_ptx},
+    };
+    OptiXContext &context = OptiXContext::get();
+    for (const auto &renderer : renderers)
+    {
+        PLUGIN_INFO("Registering CUDA renderer " << renderer.first);
+        const std::string ptx = renderer.second;
+
+        auto osp = std::make_shared<OptixShaderProgram>();
+        osp->closest_hit =
+            context.getOptixContext()->createProgramFromPTXString(
+                ptx, "closest_hit_radiance");
+        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(
+            ptx, "any_hit_shadow");
+
+        context.addRenderer(renderer.first, osp);
     }
 }
+#endif
 
 Response MediaMakerPlugin::_version() const
 {

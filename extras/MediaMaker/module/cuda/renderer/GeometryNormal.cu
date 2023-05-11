@@ -18,39 +18,28 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include <optix_world.h>
 
-#include <ospray/SDK/common/Material.ih>
-#include <ospray/SDK/math/vec.ih>
-#include <ospray/SDK/texture/Texture2D.ih>
-#include <ospray/SDK/texture/TextureParam.ih>
-#include <ospray/SDK/volume/Volume.ih>
+#include <brayns/OptiXCommonStructs.h>
 
-struct DefaultMaterial
+// Scene
+rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
+rtDeclareVariable(PerRayData_radiance, prd, rtPayload, );
+
+rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
+
+static __device__ inline void shade()
 {
-    uniform Material super;
+    prd.result = optix::normalize(
+        rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
+}
 
-    TextureParam map_d;
-    float d;
-    TextureParam map_Kd;
-    vec3f Kd;
-    TextureParam map_Ks;
-    vec3f Ks;
-    TextureParam map_Ns;
-    float Ns;
+RT_PROGRAM void any_hit_shadow()
+{
+    rtTerminateRay();
+}
 
-    TextureParam map_Bump;
-    linear2f rot_Bump;
-
-    uniform Volume *uniform volume;
-
-    float glossiness;
-
-    TextureParam map_a;
-    float a;
-
-    TextureParam map_refraction;
-    float refraction;
-    TextureParam map_reflection;
-    float reflection;
-};
+RT_PROGRAM void closest_hit_radiance()
+{
+    shade();
+}
