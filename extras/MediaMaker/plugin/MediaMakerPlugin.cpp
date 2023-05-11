@@ -148,14 +148,12 @@ void MediaMakerPlugin::init()
     if (engineName == ENGINE_OPTIX_6)
     {
         _createOptiXRenderers();
+        _createRenderers();
     }
 #endif
-    _addAlbedoRenderer(engine);
-    _addDepthRenderer(engine);
-    _addAmbientOcclusionRenderer(engine);
-    _addShadowRenderer(engine);
-    engine.addRendererType("raycast_Ng");
-    engine.addRendererType("raycast_Ns");
+
+    if (engineName == ENGINE_OSPRAY)
+        _createRenderers();
 }
 
 #ifdef USE_OPTIX6
@@ -186,6 +184,17 @@ void MediaMakerPlugin::_createOptiXRenderers()
     }
 }
 #endif
+
+void MediaMakerPlugin::_createRenderers()
+{
+    auto &engine = _api->getEngine();
+    _addAlbedoRenderer(engine);
+    _addDepthRenderer(engine);
+    _addAmbientOcclusionRenderer(engine);
+    _addShadowRenderer(engine);
+    engine.addRendererType("raycast_Ng");
+    engine.addRendererType("raycast_Ns");
+}
 
 Response MediaMakerPlugin::_version() const
 {

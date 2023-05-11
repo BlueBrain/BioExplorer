@@ -80,17 +80,17 @@ if(BIOEXPLORER_MEDIA_MAKER_OSPRAY_ENABLED)
     include(ispc)
 
     list(APPEND ${NAME}_SOURCES
-        module/ispc/render/AmbientOcclusionRenderer.cpp
-        module/ispc/render/DepthRenderer.cpp
-        module/ispc/render/AlbedoRenderer.cpp
-        module/ispc/render/ShadowRenderer.cpp
+        module/ispc/renderer/AmbientOcclusionRenderer.cpp
+        module/ispc/renderer/DepthRenderer.cpp
+        module/ispc/renderer/AlbedoRenderer.cpp
+        module/ispc/renderer/ShadowRenderer.cpp
     )
 
     set(${NAME}_ISPC_SOURCES
-        module/ispc/render/AmbientOcclusionRenderer.ispc
-        module/ispc/render/AlbedoRenderer.ispc
-        module/ispc/render/DepthRenderer.ispc
-        module/ispc/render/ShadowRenderer.ispc
+        module/ispc/renderer/AmbientOcclusionRenderer.ispc
+        module/ispc/renderer/AlbedoRenderer.ispc
+        module/ispc/renderer/DepthRenderer.ispc
+        module/ispc/renderer/ShadowRenderer.ispc
     )
 
     # ==============================================================================
