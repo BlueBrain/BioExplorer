@@ -70,7 +70,7 @@ brayns::Vector3fs getPointsInSphere(const size_t nbPoints,
     return points;
 }
 
-brayns::Vector3f transformVector3f(const brayns::Vector3f& v,
+brayns::Vector3d transformVector3d(const brayns::Vector3f& v,
                                    const brayns::Matrix4f& transformation)
 {
     glm::vec3 scale;

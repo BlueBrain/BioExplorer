@@ -212,8 +212,6 @@ CompartmentReportPtr AbstractCircuitLoader::_attachSimulationHandler(
                            userDataType == UserDataType::undefined))
         return nullptr;
 
-    const auto dbConnectionString =
-        properties.getProperty<std::string>(PROP_DB_CONNECTION_STRING.name);
     const auto synchronousMode =
         !properties.getProperty<bool>(PROP_SYNCHRONOUS_MODE.name);
 
@@ -868,6 +866,15 @@ float AbstractCircuitLoader::_importMorphologies(
         properties.getProperty<bool>(PROP_LOAD_AFFERENT_SYNAPSES.name);
     const bool loadEfferentSynapses =
         properties.getProperty<bool>(PROP_LOAD_EFFERENT_SYNAPSES.name);
+    const auto position =
+        properties.getProperty<std::array<double, 3>>(PROP_POSITION.name);
+    const auto rotation =
+        properties.getProperty<std::array<double, 4>>(PROP_ROTATION.name);
+    Transformation transformation;
+    transformation.setTranslation(
+        Vector3d(position[0], position[1], position[2]));
+    transformation.setRotation(
+        Quaterniond(rotation[0], rotation[1], rotation[2], rotation[3]));
 
     Timer chrono;
     const auto sectionTypes =
@@ -901,7 +908,8 @@ float AbstractCircuitLoader::_importMorphologies(
             const auto baseMaterialId = _getMaterialFromCircuitAttributes(
                 properties, morphologyId, materialId, targetGIDOffsets,
                 layerIds, morphologyTypes, electrophysiologyTypes, false);
-            MorphologyLoader loader(_scene, std::move(morphologyProps));
+            MorphologyLoader loader(_scene, std::move(morphologyProps),
+                                    transformation);
             loader.setBaseMaterialId(baseMaterialId);
 
             SynapsesInfo synapsesInfo;

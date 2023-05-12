@@ -63,9 +63,11 @@ inline float _getLastSampleDiameter(const brain::neuron::Section& section)
     return section[-1][3];
 }
 
-MorphologyLoader::MorphologyLoader(Scene& scene, PropertyMap&& loaderParams)
+MorphologyLoader::MorphologyLoader(Scene& scene, PropertyMap&& loaderParams,
+                                   const Transformation& transformation)
     : Loader(scene)
     , _defaults(loaderParams)
+    , _transformation(transformation)
 {
 }
 
@@ -96,7 +98,7 @@ ParallelModelContainer MorphologyLoader::importMorphology(
     // Initialize randomizer for current neuron
     srand(gid);
 
-    ParallelModelContainer modelContainer;
+    ParallelModelContainer modelContainer(_transformation);
     _importMorphology(gid, properties, source, index, transformation,
                       modelContainer, compartmentReport, synapsesInfo,
                       mitochondriaDensity);
@@ -957,10 +959,10 @@ void MorphologyLoader::_addSynapse(
     }
 
     // Transformation
-    target = transformVector3f(target, transformation);
+    target = transformVector3d(target, transformation);
     if (length(target - somaPosition) <= somaRadius)
         return; // Do not process synapses on the soma
-    origin = transformVector3f(origin, transformation);
+    origin = transformVector3d(origin, transformation);
 
     if (processRadius && segmentId < segments.size())
     {

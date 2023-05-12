@@ -28,6 +28,13 @@ namespace neuroscience
 {
 namespace common
 {
+
+ParallelModelContainer::ParallelModelContainer(
+    const Transformation& transformation)
+    : _transformation(transformation)
+{
+}
+
 void ParallelModelContainer::addSphere(const size_t materialId,
                                        const Sphere& sphere)
 {
@@ -60,6 +67,7 @@ void ParallelModelContainer::moveGeometryToModel(Model& model)
     _moveCylindersToModel(model);
     _moveConesToModel(model);
     _moveSDFGeometriesToModel(model);
+    model.mergeBounds(_bounds);
     _sdfMaterials.clear();
 }
 
@@ -130,33 +138,58 @@ void ParallelModelContainer::_moveSDFGeometriesToModel(Model& model)
 void ParallelModelContainer::applyTransformation(const PropertyMap& properties,
                                                  const Matrix4f& transformation)
 {
+    const auto& translation = _transformation.getTranslation();
+    const auto& rotation = _transformation.getRotation();
     for (auto& s : _spheres)
         for (auto& sphere : s.second)
+        {
             sphere.center = _getAlignmentToGrid(
-                properties, transformVector3f(sphere.center, transformation));
+                properties,
+                translation + rotation * transformVector3d(sphere.center,
+                                                           transformation));
+            _bounds.merge(sphere.center + sphere.radius);
+            _bounds.merge(sphere.center - sphere.radius);
+        }
     for (auto& c : _cylinders)
         for (auto& cylinder : c.second)
         {
             cylinder.center = _getAlignmentToGrid(
-                properties, transformVector3f(cylinder.center, transformation));
+                properties,
+                translation + rotation * transformVector3d(cylinder.center,
+                                                           transformation));
             cylinder.up = _getAlignmentToGrid(
-                properties, transformVector3f(cylinder.up, transformation));
+                properties,
+                translation +
+                    rotation * transformVector3d(cylinder.up, transformation));
+            _bounds.merge(cylinder.center + cylinder.radius);
+            _bounds.merge(cylinder.center - cylinder.radius);
+            _bounds.merge(cylinder.up + cylinder.radius);
+            _bounds.merge(cylinder.up - cylinder.radius);
         }
     for (auto& c : _cones)
         for (auto& cone : c.second)
         {
             cone.center = _getAlignmentToGrid(
-                properties, transformVector3f(cone.center, transformation));
-            cone.up =
-                _getAlignmentToGrid(properties,
-                                    transformVector3f(cone.up, transformation));
+                properties,
+                translation +
+                    rotation * transformVector3d(cone.center, transformation));
+            cone.up = _getAlignmentToGrid(
+                properties,
+                translation +
+                    rotation * transformVector3d(cone.up, transformation));
+            _bounds.merge(cone.center + cone.centerRadius);
+            _bounds.merge(cone.center - cone.centerRadius);
+            _bounds.merge(cone.up + cone.upRadius);
+            _bounds.merge(cone.up - cone.upRadius);
         }
     for (auto& s : _sdfGeometries)
     {
-        s.p0 = _getAlignmentToGrid(properties,
-                                   transformVector3f(s.p0, transformation));
-        s.p1 = _getAlignmentToGrid(properties,
-                                   transformVector3f(s.p1, transformation));
+        s.p0 = _getAlignmentToGrid(
+            properties,
+            translation + rotation * transformVector3d(s.p0, transformation));
+        s.p1 = _getAlignmentToGrid(
+            properties,
+            translation + rotation * transformVector3d(s.p1, transformation));
     }
 }
 
