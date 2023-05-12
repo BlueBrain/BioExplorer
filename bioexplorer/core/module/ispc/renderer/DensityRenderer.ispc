@@ -77,10 +77,10 @@ inline vec3f DensityRenderer_shadeRay(
         const vec3f N = ray.dir;
         const linear3f localToWorld = frame(N);
 
-        for (uniform int i = 0; i < self->sampleCount; ++i)
+        for (uniform int i = 0; i < self->samplesPerFrame; ++i)
         {
-            const vec2f halton =
-                HaltonSequence_get2D(self->sampleCount * sample.sampleID.z + i);
+            const vec2f halton = HaltonSequence_get2D(
+                self->samplesPerFrame * sample.sampleID.z + i);
             const vec2f r = CranleyPattersonRotation(halton, rot);
             const vec3f local_ao_dir = cosineSampleHemisphere(r);
             const vec3f ao_dir = localToWorld * local_ao_dir;
@@ -93,10 +93,10 @@ inline vec3f DensityRenderer_shadeRay(
 
         if (hits > 0)
         {
-            const float a = (float)hits / (float)self->sampleCount;
+            const float a = (float)hits / (float)self->samplesPerFrame;
 
             const vec3f sampleColor = make_vec3f(a, a, 1.f - a);
-            const float alpha = 1.f / (float)self->sampleCount;
+            const float alpha = 1.f / (float)self->samplesPerFrame;
 
             composite(make_vec4f(sampleColor, alpha), finalColor, 1.0f);
 
@@ -137,7 +137,7 @@ export void DensityRenderer_set(
     void* uniform _self, void* uniform bgMaterial,
     const uniform float& timestamp, const uniform int& spp,
     const uniform float& farPlane, const uniform float& searchLength,
-    const uniform float& rayStep, const uniform int32& sampleCount,
+    const uniform float& rayStep, const uniform int32& samplesPerFrame,
     const uniform float& exposure, const uniform float& alphaCorrection)
 {
     uniform DensityRenderer* uniform self =
@@ -154,7 +154,7 @@ export void DensityRenderer_set(
 
     self->rayStep = rayStep;
     self->searchLength = searchLength;
-    self->sampleCount = sampleCount;
+    self->samplesPerFrame = samplesPerFrame;
     self->farPlane = farPlane;
     self->alphaCorrection = alphaCorrection;
 }

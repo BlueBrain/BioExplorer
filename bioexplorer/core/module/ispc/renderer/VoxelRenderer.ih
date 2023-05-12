@@ -25,6 +25,5 @@ struct VoxelRenderer
     SimulationRenderer super;
 
     // Shading attributes
-    bool adaptiveComposition;
     float simulationThreshold;
 };

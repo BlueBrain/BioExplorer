@@ -18,11 +18,10 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "Random.cuh"
-
 #include <optix_world.h>
 
 #include <brayns/OptiXCommonStructs.h>
+#include <brayns/cuda/Random.cuh>
 
 // Scene
 rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );

@@ -75,7 +75,7 @@ private:
     double _rayStep;
     double _searchLength;
     double _farPlane;
-    ospray::uint32 _sampleCount;
+    ospray::uint32 _samplesPerFrame;
 };
 } // namespace rendering
 } // namespace bioexplorer
