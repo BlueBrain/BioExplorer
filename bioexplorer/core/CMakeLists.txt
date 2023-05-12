@@ -219,7 +219,7 @@ if(BIOEXPLORER_OPTIX6_ENABLED)
       # variables to the parent scope
       find_cuda_compatible_host_compiler()
     endif()
-    message(STATUS "Using CUDA version ${CUDA_VERSION}")
+    message(STATUS "[BioExplorer] Using CUDA version ${CUDA_VERSION}")
     
     set(CUDA_NVCC_FLAGS "--use_fast_math")
     
