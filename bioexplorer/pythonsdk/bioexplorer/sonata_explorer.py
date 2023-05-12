@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-"""Provides a class that wraps the API exposed by the braynsSonataExplorer plug-in"""
+"""Provides a class that wraps the API exposed by the SonataExplorer plug-in"""
 
 
 import seaborn as sns
@@ -31,7 +31,7 @@ class SonataExplorer:
     """Circuit Explorer, a class that wraps the API exposed by the SonataExplorer plug-in"""
 
     # Plugin
-    PLUGIN_API_PREFIX = "ce-"
+    PLUGIN_API_PREFIX = "se-"
 
     # Network defaults
     DEFAULT_RESPONSE_TIMEOUT = 360

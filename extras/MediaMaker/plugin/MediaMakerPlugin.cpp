@@ -55,6 +55,13 @@ using namespace brayns;
 
 const std::string PLUGIN_API_PREFIX = "mm-";
 
+const std::string RENDERER_ALBEDO = "albedo";
+const std::string RENDERER_AMBIENT_OCCLUSION = "ambient_occlusion";
+const std::string RENDERER_DEPTH = "depth";
+const std::string RENDERER_SHADOW = "shadow";
+const std::string RENDERER_SHADING_NORMAL = "raycast_Ns";
+const std::string RENDERER_GEOMETRY_NORMAL = "raycast_Ng";
+
 // Number of floats used to define the camera
 const size_t CAMERA_DEFINITION_SIZE = 12;
 
@@ -68,38 +75,38 @@ const size_t CAMERA_DEFINITION_SIZE = 12;
 
 void _addDepthRenderer(brayns::Engine &engine)
 {
-    PLUGIN_INFO("Registering 'depth' renderer");
+    PLUGIN_REGISTER_RENDERER(RENDERER_DEPTH);
     brayns::PropertyMap properties;
     properties.setProperty({"infinity", 1e6, 0., 1e6, {"Infinity"}});
-    engine.addRendererType("depth", properties);
+    engine.addRendererType(RENDERER_DEPTH, properties);
 }
 
 void _addAlbedoRenderer(brayns::Engine &engine)
 {
-    PLUGIN_INFO("Registering 'albedo' renderer");
+    PLUGIN_REGISTER_RENDERER(RENDERER_ALBEDO);
     brayns::PropertyMap properties;
-    engine.addRendererType("albedo", properties);
+    engine.addRendererType(RENDERER_ALBEDO, properties);
 }
 
 void _addAmbientOcclusionRenderer(brayns::Engine &engine)
 {
-    PLUGIN_INFO("Registering 'ambient occlusion' renderer");
+    PLUGIN_REGISTER_RENDERER(RENDERER_AMBIENT_OCCLUSION);
     brayns::PropertyMap properties;
     properties.setProperty(
         {"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
     properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
-    engine.addRendererType("ambient_occlusion", properties);
+    engine.addRendererType(RENDERER_AMBIENT_OCCLUSION, properties);
 }
 
 void _addShadowRenderer(brayns::Engine &engine)
 {
-    PLUGIN_INFO("Registering 'shadow' renderer");
+    PLUGIN_REGISTER_RENDERER(RENDERER_SHADOW);
     brayns::PropertyMap properties;
     properties.setProperty(
         {"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
     properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
     properties.setProperty({"softness", 0.0, 0.0, 1.0, {"Shadow softness"}});
-    engine.addRendererType("shadow", properties);
+    engine.addRendererType(RENDERER_SHADOW, properties);
 }
 
 MediaMakerPlugin::MediaMakerPlugin()
@@ -113,28 +120,28 @@ void MediaMakerPlugin::init()
     if (actionInterface)
     {
         std::string entryPoint = PLUGIN_API_PREFIX + "version";
-        PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(entryPoint);
         actionInterface->registerRequest<Response>(entryPoint, [&]()
                                                    { return _version(); });
 
         entryPoint = PLUGIN_API_PREFIX + "set-odu-camera";
-        PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(entryPoint);
         actionInterface->registerNotification<CameraDefinition>(
             entryPoint, [&](const CameraDefinition &s) { _setCamera(s); });
 
         entryPoint = PLUGIN_API_PREFIX + "get-odu-camera";
-        PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(entryPoint);
         actionInterface->registerRequest<CameraDefinition>(
             entryPoint, [&]() -> CameraDefinition { return _getCamera(); });
 
         entryPoint = PLUGIN_API_PREFIX + "export-frames-to-disk";
-        PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(entryPoint);
         actionInterface->registerNotification<ExportFramesToDisk>(
             entryPoint,
             [&](const ExportFramesToDisk &s) { _exportFramesToDisk(s); });
 
         entryPoint = PLUGIN_API_PREFIX + "get-export-frames-progress";
-        PLUGIN_INFO("Registering '" + entryPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(entryPoint);
         actionInterface->registerRequest<FrameExportProgress>(
             entryPoint,
             [&](void) -> FrameExportProgress
@@ -159,17 +166,18 @@ void MediaMakerPlugin::init()
 void MediaMakerPlugin::_createOptiXRenderers()
 {
     std::map<std::string, std::string> renderers = {
-        {"albedo", MediaMaker_generated_Albedo_cu_ptx},
-        {"raycast_Ns", MediaMaker_generated_ShadingNormal_cu_ptx},
-        {"raycast_Ng", MediaMaker_generated_GeometryNormal_cu_ptx},
-        {"ambient_occlusion", MediaMaker_generated_AmbientOcclusion_cu_ptx},
-        {"shadow", MediaMaker_generated_Shadow_cu_ptx},
-        {"depth", MediaMaker_generated_Depth_cu_ptx},
+        {RENDERER_ALBEDO, MediaMaker_generated_Albedo_cu_ptx},
+        {RENDERER_SHADING_NORMAL, MediaMaker_generated_ShadingNormal_cu_ptx},
+        {RENDERER_GEOMETRY_NORMAL, MediaMaker_generated_GeometryNormal_cu_ptx},
+        {RENDERER_AMBIENT_OCCLUSION,
+         MediaMaker_generated_AmbientOcclusion_cu_ptx},
+        {RENDERER_SHADOW, MediaMaker_generated_Shadow_cu_ptx},
+        {RENDERER_DEPTH, MediaMaker_generated_Depth_cu_ptx},
     };
     OptiXContext &context = OptiXContext::get();
     for (const auto &renderer : renderers)
     {
-        PLUGIN_INFO("Registering CUDA renderer " << renderer.first);
+        PLUGIN_REGISTER_RENDERER(renderer.first);
         const std::string ptx = renderer.second;
 
         auto osp = std::make_shared<OptixShaderProgram>();
@@ -191,8 +199,8 @@ void MediaMakerPlugin::_createRenderers()
     _addDepthRenderer(engine);
     _addAmbientOcclusionRenderer(engine);
     _addShadowRenderer(engine);
-    engine.addRendererType("raycast_Ng");
-    engine.addRendererType("raycast_Ns");
+    engine.addRendererType(RENDERER_GEOMETRY_NORMAL);
+    engine.addRendererType(RENDERER_SHADING_NORMAL);
 }
 
 Response MediaMakerPlugin::_version() const

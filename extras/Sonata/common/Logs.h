@@ -37,6 +37,18 @@ namespace common
     std::cerr << "W [" << PLUGIN_PREFIX << "] " << __msg << std::endl;
 #define PLUGIN_INFO(__msg) \
     std::cout << "I [" << PLUGIN_PREFIX << "] " << __msg << std::endl;
+#define PLUGIN_REGISTER_ENDPOINT(__msg)         \
+    std::cerr << "I [" << PLUGIN_PREFIX << "] " \
+              << "Registering end-point '" << __msg << "'" << std::endl;
+#define PLUGIN_REGISTER_RENDERER(__msg)         \
+    std::cerr << "I [" << PLUGIN_PREFIX << "] " \
+              << "Registering renderer '" << __msg << "'" << std::endl;
+#define PLUGIN_REGISTER_LOADER(__msg)           \
+    std::cerr << "I [" << PLUGIN_PREFIX << "] " \
+              << "Registering loader '" << __msg << "'" << std::endl;
+#define PLUGIN_REGISTER_CAMERA(__msg)           \
+    std::cerr << "I [" << PLUGIN_PREFIX << "] " \
+              << "Registering camera '" << __msg << "'" << std::endl;
 #ifdef NDEBUG
 #define PLUGIN_DEBUG(__msg) ;
 #else

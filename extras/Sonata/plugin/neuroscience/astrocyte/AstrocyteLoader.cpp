@@ -54,7 +54,6 @@ AstrocyteLoader::AstrocyteLoader(
     , _applicationParameters(applicationParameters)
     , _defaults(loaderParams)
 {
-    PLUGIN_INFO("Registering " << LOADER_NAME);
     _fixedDefaults.setProperty(
         {PROP_DB_CONNECTION_STRING.name, std::string("")});
     _fixedDefaults.setProperty({PROP_DENSITY.name, 1.0});

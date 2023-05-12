@@ -36,7 +36,6 @@ AdvancedCircuitLoader::AdvancedCircuitLoader(
     : AbstractCircuitLoader(scene, applicationParameters,
                             std::move(loaderParams))
 {
-    PLUGIN_INFO("Registering " << LOADER_NAME);
     _fixedDefaults.setProperty(
         {PROP_PRESYNAPTIC_NEURON_GID.name, std::string("")});
     _fixedDefaults.setProperty(

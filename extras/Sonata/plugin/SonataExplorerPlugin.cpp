@@ -101,12 +101,24 @@ using namespace astrocyte;
 #define REGISTER_LOADER(LOADER, FUNC) \
     registry.registerLoader({std::bind(&LOADER::getSupportedDataTypes), FUNC});
 
-const std::string PLUGIN_API_PREFIX = "ce-";
+const std::string PLUGIN_API_PREFIX = "se-";
+
+const std::string RENDERER_CELL_GROWTH = "cell_growth";
+const std::string RENDERER_PROXIMITY = "proximity";
+const std::string CAMERA_SPHERE_CLIPPING_PERSPECTIVE =
+    "sphere_clipping_perspective";
+const std::string LOADER_BRICK = "brick";
+const std::string LOADER_SYNAPSE_CIRCUIT = "synapse_circuit";
+const std::string LOADER_MORPHOLOGY = "morphology";
+const std::string LOADER_ADVANCED_CIRCUIT = "advanced_circuit";
+const std::string LOADER_MORPHOLOGY_COLLAGE = "morphology_collage";
+const std::string LOADER_MESH_CIRCUIT = "mesh_circuit";
+const std::string LOADER_PAIR_SYNAPSE = "pair_synapse";
+const std::string LOADER_ASTROCYTES = "pair_synapse";
 
 void _addGrowthRenderer(Engine& engine)
 {
-    PLUGIN_INFO("Registering cell growth renderer");
-
+    PLUGIN_REGISTER_RENDERER(RENDERER_CELL_GROWTH);
     PropertyMap properties;
     properties.setProperty(
         {"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
@@ -123,13 +135,12 @@ void _addGrowthRenderer(Engine& engine)
     properties.setProperty({"useHardwareRandomizer",
                             false,
                             {"Use hardware accelerated randomizer"}});
-    engine.addRendererType("cell_growth", properties);
+    engine.addRendererType(RENDERER_CELL_GROWTH, properties);
 }
 
 void _addProximityRenderer(Engine& engine)
 {
-    PLUGIN_INFO("Registering proximity detection renderer");
-
+    PLUGIN_REGISTER_RENDERER(RENDERER_PROXIMITY);
     PropertyMap properties;
     properties.setProperty(
         {"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
@@ -151,20 +162,19 @@ void _addProximityRenderer(Engine& engine)
     properties.setProperty({"useHardwareRandomizer",
                             false,
                             {"Use hardware accelerated randomizer"}});
-    engine.addRendererType("proximity_detection", properties);
+    engine.addRendererType(RENDERER_PROXIMITY, properties);
 }
 
 void _addSphereClippingPerspectiveCamera(Engine& engine)
 {
-    PLUGIN_INFO("Registering sphere clipping perspective camera");
-
+    PLUGIN_REGISTER_CAMERA(CAMERA_SPHERE_CLIPPING_PERSPECTIVE);
     PropertyMap properties;
     properties.setProperty({"fovy", 45., .1, 360., {"Field of view"}});
     properties.setProperty({"aspect", 1., {"Aspect ratio"}});
     properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
     properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
     properties.setProperty({"enableClippingPlanes", true, {"Clipping"}});
-    engine.addCameraType("sphere_clipping_perspective", properties);
+    engine.addCameraType(CAMERA_SPHERE_CLIPPING_PERSPECTIVE, properties);
 }
 
 std::string _sanitizeString(const std::string& input)
@@ -219,32 +229,40 @@ void SonataExplorerPlugin::init()
     auto& pm = _api->getParametersManager();
 
     // Loaders
+    PLUGIN_REGISTER_LOADER(LOADER_BRICK);
     registry.registerLoader(
         std::make_unique<BrickLoader>(scene, BrickLoader::getCLIProperties()));
 
+    PLUGIN_REGISTER_LOADER(LOADER_SYNAPSE_CIRCUIT);
     registry.registerLoader(std::make_unique<SynapseCircuitLoader>(
         scene, pm.getApplicationParameters(),
         SynapseCircuitLoader::getCLIProperties()));
 
+    PLUGIN_REGISTER_LOADER(LOADER_MORPHOLOGY);
     registry.registerLoader(std::make_unique<MorphologyLoader>(
         scene, MorphologyLoader::getCLIProperties()));
 
+    PLUGIN_REGISTER_LOADER(LOADER_ADVANCED_CIRCUIT);
     registry.registerLoader(std::make_unique<AdvancedCircuitLoader>(
         scene, pm.getApplicationParameters(),
         AdvancedCircuitLoader::getCLIProperties()));
 
+    PLUGIN_REGISTER_LOADER(LOADER_MORPHOLOGY_COLLAGE);
     registry.registerLoader(std::make_unique<MorphologyCollageLoader>(
         scene, pm.getApplicationParameters(),
         MorphologyCollageLoader::getCLIProperties()));
 
+    PLUGIN_REGISTER_LOADER(LOADER_MESH_CIRCUIT);
     registry.registerLoader(std::make_unique<MeshCircuitLoader>(
         scene, pm.getApplicationParameters(),
         MeshCircuitLoader::getCLIProperties()));
 
+    PLUGIN_REGISTER_LOADER(LOADER_PAIR_SYNAPSE);
     registry.registerLoader(std::make_unique<PairSynapsesLoader>(
         scene, pm.getApplicationParameters(),
         PairSynapsesLoader::getCLIProperties()));
 
+    PLUGIN_REGISTER_LOADER(LOADER_ASTROCYTES);
     registry.registerLoader(
         std::make_unique<AstrocyteLoader>(scene, pm.getApplicationParameters(),
                                           AstrocyteLoader::getCLIProperties()));
@@ -265,37 +283,37 @@ void SonataExplorerPlugin::init()
     if (actionInterface)
     {
         std::string endPoint = PLUGIN_API_PREFIX + "get-version";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
         actionInterface->registerRequest<Response>(endPoint, [&]()
                                                    { return _getVersion(); });
 
         endPoint = PLUGIN_API_PREFIX + "save-model-to-cache";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
         actionInterface->registerNotification<ExportModelToFile>(
             endPoint,
             [&](const ExportModelToFile& param) { _exportModelToFile(param); });
 
         endPoint = PLUGIN_API_PREFIX + "save-model-to-mesh";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
         actionInterface->registerNotification<ExportModelToMesh>(
             endPoint,
             [&](const ExportModelToMesh& param) { _exportModelToMesh(param); });
 
         endPoint = PLUGIN_API_PREFIX + "set-connections-per-value";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
         actionInterface->registerNotification<ConnectionsPerValue>(
             endPoint, [&](const ConnectionsPerValue& param)
             { _setConnectionsPerValue(param); });
 
         endPoint = PLUGIN_API_PREFIX + "attach-cell-growth-handler";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
         _api->getActionInterface()
             ->registerNotification<AttachCellGrowthHandler>(
                 endPoint, [&](const AttachCellGrowthHandler& s)
                 { _attachCellGrowthHandler(s); });
 
         endPoint = PLUGIN_API_PREFIX + "attach-circuit-simulation-handler";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
         _api->getActionInterface()
             ->registerNotification<AttachCircuitSimulationHandler>(
                 endPoint, [&](const AttachCircuitSimulationHandler& s)
@@ -303,37 +321,37 @@ void SonataExplorerPlugin::init()
 
         endPoint =
             PLUGIN_API_PREFIX + "set-spike-report-visualization-settings";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
         _api->getActionInterface()
             ->registerNotification<SpikeReportVisualizationSettings>(
                 endPoint, [&](const SpikeReportVisualizationSettings& s)
                 { _setSpikeReportVisualizationSettings(s); });
 
         endPoint = PLUGIN_API_PREFIX + "add-column";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
         _api->getActionInterface()->registerNotification<AddColumn>(
             endPoint, [&](const AddColumn& details) { _addColumn(details); });
 
         endPoint = PLUGIN_API_PREFIX + "add-sphere";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
         _api->getActionInterface()->registerRequest<AddSphere, Response>(
             endPoint,
             [&](const AddSphere& details) { return _addSphere(details); });
 
         endPoint = PLUGIN_API_PREFIX + "add-pill";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
         _api->getActionInterface()->registerRequest<AddPill, Response>(
             endPoint,
             [&](const AddPill& details) { return _addPill(details); });
 
         endPoint = PLUGIN_API_PREFIX + "add-cylinder";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
         _api->getActionInterface()->registerRequest<AddCylinder, Response>(
             endPoint,
             [&](const AddCylinder& details) { return _addCylinder(details); });
 
         endPoint = PLUGIN_API_PREFIX + "add-box";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
         _api->getActionInterface()->registerRequest<AddBox, Response>(
             endPoint, [&](const AddBox& details) { return _addBox(details); });
     }
