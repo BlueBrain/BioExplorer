@@ -36,8 +36,6 @@ SynapseCircuitLoader::SynapseCircuitLoader(
     : AbstractCircuitLoader(scene, applicationParameters,
                             std::move(loaderParams))
 {
-    _fixedDefaults.setProperty(
-        {PROP_DB_CONNECTION_STRING.name, std::string("")});
     _fixedDefaults.setProperty({PROP_REPORT.name, std::string("")});
     _fixedDefaults.setProperty(
         {PROP_PRESYNAPTIC_NEURON_GID.name, std::string("")});
@@ -62,6 +60,8 @@ SynapseCircuitLoader::SynapseCircuitLoader(
     _fixedDefaults.setProperty({PROP_USE_SDF_MITOCHONDRIA.name, false});
     _fixedDefaults.setProperty({PROP_USE_SDF_SYNAPSES.name, false});
     _fixedDefaults.setProperty({PROP_USE_SDF_MYELIN_STEATH.name, false});
+    _fixedDefaults.setProperty(PROP_POSITION);
+    _fixedDefaults.setProperty(PROP_ROTATION);
 }
 
 ModelDescriptorPtr SynapseCircuitLoader::importFromFile(
@@ -102,6 +102,8 @@ PropertyMap SynapseCircuitLoader::getCLIProperties()
     pm.setProperty(PROP_LOAD_EFFERENT_SYNAPSES);
     pm.setProperty(PROP_INTERNALS);
     pm.setProperty(PROP_EXTERNALS);
+    pm.setProperty(PROP_POSITION);
+    pm.setProperty(PROP_ROTATION);
     return pm;
 }
 } // namespace neuron

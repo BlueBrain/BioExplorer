@@ -31,7 +31,7 @@ using namespace brayns;
 class ParallelModelContainer
 {
 public:
-    ParallelModelContainer() {}
+    ParallelModelContainer(const Transformation& transformation);
     ~ParallelModelContainer() {}
 
     void addSphere(const size_t materialId, const Sphere& sphere);
@@ -61,6 +61,8 @@ private:
     std::vector<SDFGeometry> _sdfGeometries;
     std::vector<std::vector<size_t>> _sdfNeighbours;
     std::vector<size_t> _sdfMaterials;
+    Transformation _transformation;
+    Boxd _bounds;
 };
 } // namespace common
 } // namespace neuroscience

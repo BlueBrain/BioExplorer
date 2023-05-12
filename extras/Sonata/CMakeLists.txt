@@ -167,10 +167,6 @@ if(${CGAL_FOUND})
     list(APPEND ${NAME}_LINK_LIBRARIES ${CGAL_LIBRARIES})
 endif()
 
-if(${PQXX_FOUND})
-    list(APPEND ${NAME}_LINK_LIBRARIES ${PQXX_LIBRARIES})
-endif()
-
 add_library(
     ${LIBRARY_NAME}
     SHARED ${${NAME}_SOURCES})

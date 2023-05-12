@@ -49,7 +49,8 @@ struct MorphologyTreeStructure
 class MorphologyLoader : public Loader
 {
 public:
-    MorphologyLoader(Scene& scene, PropertyMap&& loaderParams);
+    MorphologyLoader(Scene& scene, PropertyMap&& loaderParams,
+                     const Transformation& transformation = Transformation());
 
     /** @copydoc Loader::getName */
     std::string getName() const final;
@@ -298,6 +299,7 @@ private:
 
     size_t _baseMaterialId{NO_MATERIAL};
     PropertyMap _defaults;
+    Transformation _transformation;
 };
 typedef std::shared_ptr<MorphologyLoader> MorphologyLoaderPtr;
 

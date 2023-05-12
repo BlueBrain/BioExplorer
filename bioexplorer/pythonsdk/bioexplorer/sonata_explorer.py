@@ -25,6 +25,7 @@
 
 
 import seaborn as sns
+from .bio_explorer import Vector3, Quaternion
 
 
 class SonataExplorer:
@@ -138,13 +139,14 @@ class SonataExplorer:
                      mesh_filename_pattern='', mesh_transformation=False, radius_multiplier=1,
                      radius_correction=0, load_soma=True, load_axon=True, load_dendrite=True,
                      load_apical_dendrite=True, use_sdf_soma=False, use_sdf_branches=False,
-                     use_sdf_nucleus=False, use_sdf_mitochonria=False, use_sdf_synapses=False,
-                     use_sdf_myelin_steath=False, dampen_branch_thickness_changerate=True, 
+                     use_sdf_nucleus=False, use_sdf_mitochondria=False, use_sdf_synapses=False,
+                     use_sdf_myelin_steath=False, dampen_branch_thickness_change_rate=True, 
                      morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
                      morphology_quality=GEOMETRY_QUALITY_HIGH, max_distance_to_soma=1e6,
                      cell_clipping=False, load_afferent_synapses=False,
                      load_efferent_synapses=False, generate_internals=False, 
-                     generate_externals=False, align_to_grid=0.0):
+                     generate_externals=False, align_to_grid=0.0,
+                     position=Vector3(), rotation=Quaternion()):
         """
         Load a circuit from a give Blue/Circuit configuration file
 
@@ -167,7 +169,7 @@ class SonataExplorer:
         CIRCUIT_COLOR_SCHEME_NEURON_BY_ETYPE, CIRCUIT_COLOR_SCHEME_NEURON_BY_TARGET)
         :param str mesh_folder: Folder containing meshes (if applicable)
         :param str mesh_filename_pattern: Filename pattern used to load the meshes ({guid} is
-        replaced by the correponding GID during the loading of the circuit. e.g. mesh_{gid}.obj)
+        replaced by the corresponding GID during the loading of the circuit. e.g. mesh_{gid}.obj)
         :param bool mesh_transformation: Boolean defining is circuit transformation should be
         applied to the meshes
         :param float radius_multiplier: Multiplies morphology radius by the specified value
@@ -182,8 +184,8 @@ class SonataExplorer:
         :param bool use_sdf_morphology: Defines if signed distance field technique should be used for the mitochondria
         :param bool use_sdf_synapses: Defines if signed distance field technique should be used for the synapses
         :param bool use_sdf_myelin_steath: Defines if signed distance field technique should be used for the myelin steath
-        :param bool dampen_branch_thickness_changerate: Defines if the dampen branch
-        thicknesschangerate option should be used (Only application is use_sdf is True)
+        :param bool dampen_branch_thickness_change_rate: Defines if the dampen branch
+        thickness change rate option should be used (Only application is use_sdf is True)
         :param int morphology_color_scheme: Defines the color scheme to apply to the morphologies (
         MORPHOLOGY_COLOR_SCHEME_NONE, MORPHOLOGY_COLOR_SCHEME_BY_SECTION_TYPE)
         :param int morphology_quality: Defines the level of quality for each geometry (
@@ -197,11 +199,12 @@ class SonataExplorer:
         :param bool generate_internals: Generate cell internals (mitochondria and nucleus)
         :param bool generate_externals: Generate cell externals (myelin steath)
         :param float align_to_grid: Align cells to grid (ignored if 0)
+        :param Vector3 position: Position of the circuit
+        :param Quaternion rotation: Rotation applied to the circuit
         :return: Result of the request submission
         :rtype: str
         """
         props = dict()
-        props['000DbConnectionString'] = ''  # Currently not used
         props['001Density'] = density / 100.0
         props['002RandomSeed'] = random_seed
 
@@ -242,10 +245,13 @@ class SonataExplorer:
         props['060UseSdfSoma'] = use_sdf_soma
         props['061UseSdfBranches'] = use_sdf_branches
         props['062UseSdfNucleus'] = use_sdf_nucleus
-        props['063UseSdfMitochondria'] = use_sdf_mitochonria
+        props['063UseSdfMitochondria'] = use_sdf_mitochondria
         props['064UseSdfSynapses'] = use_sdf_synapses
         props['065UseSdfMyelinSteath'] = use_sdf_myelin_steath
-        props['066DampenBranchThicknessChangerate'] = dampen_branch_thickness_changerate
+        props['066DampenBranchThicknessChangerate'] = dampen_branch_thickness_change_rate
+
+        props['070Position'] = position.to_list()
+        props['071Rotation'] = list(rotation)
 
         props['080AssetColorScheme'] = morphology_color_scheme
 
@@ -294,7 +300,6 @@ class SonataExplorer:
         """
         gids = list()
         props = dict()
-        props['000DbConnectionString'] = ''  # Currently not used
         props['001Density'] = 100.0
         props['002RandomSeed'] = 0
         props['010Targets'] = ''
@@ -371,7 +376,6 @@ class SonataExplorer:
         """
         gids = list()
         props = dict()
-        props['000DbConnectionString'] = ''  # Currently not used
         props['001Density'] = 100.0
         props['002RandomSeed'] = 0
         props['010Targets'] = ''

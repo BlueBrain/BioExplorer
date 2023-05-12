@@ -227,7 +227,7 @@ inline std::vector<std::pair<std::string, bool>> enumerateMap()
 const brayns::Property PROP_DENSITY = {
     "001Density", 1.0, {"Density of cells in the circuit in percent"}};
 const brayns::Property PROP_RANDOM_SEED = {
-    "002RandomSeed", 0.0, {"Random seed for target subsetting"}};
+    "002RandomSeed", 0.0, {"Random seed for target sub-setting"}};
 const brayns::Property PROP_TARGETS = {
     "010Targets",
     std::string(""),
@@ -297,10 +297,6 @@ const brayns::Property PROP_EXTERNALS = {
 const brayns::Property PROP_ALIGN_TO_GRID = {
     "122AlignToGrid", 0.0, {"Size of the grid to align to (disabled if 0)"}};
 
-const brayns::Property PROP_DB_CONNECTION_STRING = {
-    "000DbConnectionString",
-    std::string(""),
-    {"Connection string to the database"}};
 const brayns::Property PROP_GIDS = {"011Gids",
                                     std::string(""),
                                     {"GIDs [comma separated list of GIDs]"}};
@@ -343,6 +339,12 @@ const brayns::Property PROP_ASSET_COLOR_SCHEME = {
     enumToString(AssetColorScheme::none),
     enumerateNames<AssetColorScheme>(),
     {"Color scheme to be applied to the asset"}};
+const brayns::Property PROP_POSITION = {"070Position",
+                                        std::array<double, 3>{0, 0, 0},
+                                        {"Model position"}};
+const brayns::Property PROP_ROTATION = {"071Rotation",
+                                        std::array<double, 4>{0, 0, 0, 1},
+                                        {"Model rotation"}};
 
 } // namespace common
 } // namespace neuroscience

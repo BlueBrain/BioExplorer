@@ -28,7 +28,7 @@ namespace sonataexplorer
 // Convertors
 brayns::Vector3f get_translation(const brayns::Matrix4f& matrix);
 
-brayns::Vector3f transformVector3f(const brayns::Vector3f& v,
+brayns::Vector3d transformVector3d(const brayns::Vector3f& v,
                                    const brayns::Matrix4f& transformation);
 
 std::vector<uint64_t> GIDsAsInts(const std::string& gids);

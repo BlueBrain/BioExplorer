@@ -40,6 +40,8 @@ AdvancedCircuitLoader::AdvancedCircuitLoader(
         {PROP_PRESYNAPTIC_NEURON_GID.name, std::string("")});
     _fixedDefaults.setProperty(
         {PROP_POSTSYNAPTIC_NEURON_GID.name, std::string("")});
+    _fixedDefaults.setProperty(PROP_POSITION);
+    _fixedDefaults.setProperty(PROP_ROTATION);
 }
 
 ModelDescriptorPtr AdvancedCircuitLoader::importFromFile(
@@ -62,7 +64,6 @@ std::string AdvancedCircuitLoader::getName() const
 PropertyMap AdvancedCircuitLoader::getCLIProperties()
 {
     PropertyMap pm(LOADER_NAME);
-    pm.setProperty(PROP_DB_CONNECTION_STRING);
     pm.setProperty(PROP_DENSITY);
     pm.setProperty(PROP_REPORT);
     pm.setProperty(PROP_REPORT_TYPE);
@@ -98,6 +99,8 @@ PropertyMap AdvancedCircuitLoader::getCLIProperties()
     pm.setProperty(PROP_INTERNALS);
     pm.setProperty(PROP_EXTERNALS);
     pm.setProperty(PROP_ALIGN_TO_GRID);
+    pm.setProperty(PROP_POSITION);
+    pm.setProperty(PROP_ROTATION);
     return pm;
 }
 } // namespace neuron

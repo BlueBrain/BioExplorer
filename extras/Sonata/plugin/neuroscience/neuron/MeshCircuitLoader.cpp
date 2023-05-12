@@ -38,8 +38,6 @@ MeshCircuitLoader::MeshCircuitLoader(
                             std::move(loaderParams))
 {
     _fixedDefaults.setProperty(
-        {PROP_DB_CONNECTION_STRING.name, std::string("")});
-    _fixedDefaults.setProperty(
         {PROP_PRESYNAPTIC_NEURON_GID.name, std::string("")});
     _fixedDefaults.setProperty(
         {PROP_POSTSYNAPTIC_NEURON_GID.name, std::string("")});

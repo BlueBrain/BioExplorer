@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include <brayns/common/Transformation.h>
 #include <brayns/common/loader/Loader.h>
 #include <brayns/common/types.h>
 
