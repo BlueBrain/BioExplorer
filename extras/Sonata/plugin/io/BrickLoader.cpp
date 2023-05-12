@@ -69,7 +69,6 @@ BrickLoader::BrickLoader(Scene& scene, PropertyMap&& loaderParams)
     : Loader(scene)
     , _defaults(loaderParams)
 {
-    PLUGIN_INFO("Registering " << LOADER_NAME);
 }
 
 std::string BrickLoader::getName() const

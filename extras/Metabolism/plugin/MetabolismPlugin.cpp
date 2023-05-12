@@ -42,6 +42,8 @@ using namespace details;
 const std::string PLUGIN_VERSION = "0.1.0";
 const std::string PLUGIN_API_PREFIX = "mb-";
 
+const std::string RENDERER_METABOLISM = "metabolism";
+
 #define CATCH_STD_EXCEPTION()                  \
     catch (const std::runtime_error &e)        \
     {                                          \
@@ -52,7 +54,7 @@ const std::string PLUGIN_API_PREFIX = "mb-";
 
 void _addMetabolismRenderer(Engine &engine)
 {
-    PLUGIN_INFO("Registering 'metabolism' renderer");
+    PLUGIN_REGISTER_RENDERER(RENDERER_METABOLISM);
     PropertyMap properties;
     properties.setProperty({"mainExposure", 1., 1., 10., {"Exposure"}});
     properties.setProperty({"rayStep", 0.1, 0.01, 10., {"Ray marching step"}});
@@ -68,7 +70,7 @@ void _addMetabolismRenderer(Engine &engine)
         {"noiseAmplitude", 1., 0.00001, 10., {"Noise amplitude"}});
     properties.setProperty(
         {"colorMapPerRegion", true, {"Color map per region"}});
-    engine.addRendererType("metabolism", properties);
+    engine.addRendererType(RENDERER_METABOLISM, properties);
 }
 
 MetabolismPlugin::MetabolismPlugin(int argc, char **argv)
@@ -85,7 +87,7 @@ void MetabolismPlugin::init()
     if (actionInterface)
     {
         std::string endPoint = PLUGIN_API_PREFIX + "attach-handler";
-        PLUGIN_INFO("Registering '" + endPoint + "' endpoint");
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
         actionInterface->registerRequest<AttachHandlerDetails, Response>(
             endPoint, [&](const AttachHandlerDetails &payload)
             { return _attachHandler(payload); });
