@@ -20,22 +20,27 @@
 
 #pragma once
 
-// clang-format off
+#include <ospray/SDK/common/Material.h>
+#include <ospray/SDK/render/Renderer.h>
 
-// CGAL
-#if @CGAL_FOUND@==1
-#define USE_CGAL
-#endif
+namespace bioexplorer
+{
+namespace mediamaker
+{
+namespace rendering
+{
+class AlbedoRenderer : public ospray::Renderer
+{
+public:
+    AlbedoRenderer();
 
-// OSPRay
-#if @OSPRAY_FOUND@==1
-#define USE_OSPRAY
-#endif
-
-// OptiX 6
-#if @OPTIX6_FOUND@==1
-#define USE_OPTIX6
-#endif
-
-#define PACKAGE_VERSION "@BIOEXPLORER_PACKAGE_VERSION@"
-// clang-format-on
+    /**
+       Returns the class name as a string
+       @return string containing the full name of the class
+    */
+    std::string toString() const final { return "albedo"; }
+    void commit() final;
+};
+} // namespace rendering
+} // namespace mediamaker
+} // namespace bioexplorer

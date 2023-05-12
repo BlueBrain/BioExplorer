@@ -18,24 +18,28 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include <optix_world.h>
 
-// clang-format off
+#include <brayns/OptiXCommonStructs.h>
 
-// CGAL
-#if @CGAL_FOUND@==1
-#define USE_CGAL
-#endif
+// Scene
+rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
+rtDeclareVariable(PerRayData_radiance, prd, rtPayload, );
 
-// OSPRay
-#if @OSPRAY_FOUND@==1
-#define USE_OSPRAY
-#endif
+// Material attributes
+rtDeclareVariable(float3, Kd, , );
 
-// OptiX 6
-#if @OPTIX6_FOUND@==1
-#define USE_OPTIX6
-#endif
+static __device__ inline void shade()
+{
+    prd.result = Kd;
+}
 
-#define PACKAGE_VERSION "@BIOEXPLORER_PACKAGE_VERSION@"
-// clang-format-on
+RT_PROGRAM void any_hit_shadow()
+{
+    rtTerminateRay();
+}
+
+RT_PROGRAM void closest_hit_radiance()
+{
+    shade();
+}

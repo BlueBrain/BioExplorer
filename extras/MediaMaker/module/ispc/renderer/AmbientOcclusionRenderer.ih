@@ -20,22 +20,14 @@
 
 #pragma once
 
-// clang-format off
+// ospray
+#include <ospray/SDK/common/Model.ih>
+#include <ospray/SDK/render/Renderer.ih>
 
-// CGAL
-#if @CGAL_FOUND@==1
-#define USE_CGAL
-#endif
+struct AmbientOcclusionRenderer
+{
+    Renderer super;
 
-// OSPRay
-#if @OSPRAY_FOUND@==1
-#define USE_OSPRAY
-#endif
-
-// OptiX 6
-#if @OPTIX6_FOUND@==1
-#define USE_OPTIX6
-#endif
-
-#define PACKAGE_VERSION "@BIOEXPLORER_PACKAGE_VERSION@"
-// clang-format-on
+    int samplesPerFrame;
+    float aoRayLength;
+};

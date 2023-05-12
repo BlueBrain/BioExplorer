@@ -142,16 +142,15 @@ void MediaMakerPlugin::init()
     }
 
     auto &engine = _api->getEngine();
-#ifdef USE_OPTIX6
     auto &params = engine.getParametersManager().getApplicationParameters();
     const auto &engineName = params.getEngine();
+#ifdef USE_OPTIX6
     if (engineName == ENGINE_OPTIX_6)
     {
         _createOptiXRenderers();
         _createRenderers();
     }
 #endif
-
     if (engineName == ENGINE_OSPRAY)
         _createRenderers();
 }
