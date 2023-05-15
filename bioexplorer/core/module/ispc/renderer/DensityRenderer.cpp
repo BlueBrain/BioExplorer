@@ -44,7 +44,7 @@ void DensityRenderer::commit()
     // Sampling
     _farPlane = getParam1f("farPlane", 1e6f);
     _rayStep = getParam1f("rayStep", 1.f);
-    _sampleCount = getParam1i("sampleCount", 8);
+    _samplesPerFrame = getParam1i("samplesPerFrame", 8);
     _searchLength = getParam1f("searchLength", 100.f);
     _alphaCorrection = getParam1f("alphaCorrection", 1.0f);
 
@@ -59,7 +59,7 @@ void DensityRenderer::commit()
     ispc::DensityRenderer_set(getIE(),
                               (_bgMaterial ? _bgMaterial->getIE() : nullptr),
                               _timestamp, spp, _farPlane, _searchLength,
-                              _rayStep, _sampleCount, _exposure,
+                              _rayStep, _samplesPerFrame, _exposure,
                               _alphaCorrection);
 }
 

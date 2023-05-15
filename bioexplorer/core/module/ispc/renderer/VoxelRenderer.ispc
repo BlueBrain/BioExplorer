@@ -80,13 +80,8 @@ inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self,
 
         if (colorContribution.w > self->simulationThreshold)
         {
-            if (self->adaptiveComposition)
-                adaptiveCompose(colorContribution, pathColor,
-                                self->super.alphaCorrection);
-            else
-                linearCompose(colorContribution, pathColor,
-                              self->super.alphaCorrection);
-
+            adaptiveCompose(colorContribution, pathColor,
+                            self->super.alphaCorrection);
             // Depth
             if (depth == 0)
                 sample.z = ray.t;
@@ -130,7 +125,6 @@ export void VoxelRenderer_set(void* uniform _self, void* uniform bgMaterial,
                               const uniform uint32 spp,
                               uniform float* uniform simulationData,
                               const uniform uint64 simulationDataSize,
-                              const uniform bool adaptiveComposition,
                               const uniform float alphaCorrection,
                               const uniform float simulationThreshold,
                               const uniform float exposure)
@@ -150,6 +144,5 @@ export void VoxelRenderer_set(void* uniform _self, void* uniform bgMaterial,
     self->super.alphaCorrection = alphaCorrection;
 
     // Renderer specific parameters
-    self->adaptiveComposition = adaptiveComposition;
     self->simulationThreshold = simulationThreshold;
 }

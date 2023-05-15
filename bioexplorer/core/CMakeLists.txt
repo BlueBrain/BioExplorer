@@ -224,7 +224,7 @@ if(BIOEXPLORER_OPTIX6_ENABLED)
     set(CUDA_NVCC_FLAGS "--use_fast_math")
     
     set(${NAME}_CU
-        module/cuda/renderer/Golgi.cu
+        module/cuda/renderer/artistic/Golgi.cu
         module/cuda/renderer/Density.cu
         module/cuda/renderer/Fields.cu
         module/cuda/renderer/PathTracing.cu

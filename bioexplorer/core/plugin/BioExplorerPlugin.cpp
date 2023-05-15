@@ -138,10 +138,6 @@ void _addBioExplorerVoxelRenderer(Engine &engine)
     properties.setProperty({"mainExposure", 1.0, 0.01, 10.0, {"Exposure"}});
     properties.setProperty(
         {"epsilonFactor", 1.0, 1.0, 1000.0, {"Epsilon factor"}});
-    properties.setProperty(
-        {"adaptiveComposition",
-         false,
-         {"Use adaptive composition to blend voxel colors"}});
     engine.addRendererType(RENDERER_VOXEL, properties);
 }
 
@@ -176,9 +172,8 @@ void _addBioExplorerDensityRenderer(Engine &engine)
     properties.setProperty(
         {"rayStep", 2.0, 1.0, 1024.0, {"Ray marching step"}});
     properties.setProperty(
-        {"sampleCount", 4, 1, 2048, {"Number of ray marching samples"}});
-    properties.setProperty(
-        {"searchLength", 1.0, 0.0001, 4096.0, {"Sample search length"}});
+        {"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
+    properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
     properties.setProperty({"farPlane", 1000.0, 1.0, 1e6, {"Far plane"}});
     properties.setProperty(
         {"alphaCorrection", 1.0, 0.001, 1.0, {"Alpha correction"}});

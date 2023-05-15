@@ -46,6 +46,6 @@ struct DensityRenderer
     float farPlane;
     float searchLength;
     float rayStep;
-    uint32 sampleCount;
+    uint32 samplesPerFrame;
     float alphaCorrection;
 };
