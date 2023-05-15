@@ -2077,13 +2077,13 @@ class BioExplorer:
             self._client.set_renderer(
                 head_light=False,
                 background_color=[96 / 255, 125 / 255, 139 / 255],
-                current="bio_explorer",
+                current="advanced",
                 samples_per_pixel=1,
                 subsampling=4,
                 max_accum_frames=128,
             )
-            params = self._client.BioExplorerRendererParams()
-            params.exposure = 1.0
+            params = self._client.AdvancedRendererParams()
+            params.main_exposure = 1.0
             params.gi_samples = 1
             params.gi_weight = 0.3
             params.gi_distance = 5000

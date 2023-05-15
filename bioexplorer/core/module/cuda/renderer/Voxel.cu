@@ -21,7 +21,7 @@
 #include <optix_world.h>
 
 #include <brayns/OptiXCommonStructs.h>
-#include <brayns/cuda/renderer/TransferFunction.ih>
+#include <brayns/cuda/renderer/TransferFunction.cuh>
 
 // Scene
 rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );

@@ -35,6 +35,8 @@ namespace fields
 {
 using namespace common;
 
+const float DEFAULT_EVENT_VALUE = 1.f;
+
 FieldsHandler::FieldsHandler(const Scene& scene, const double voxelSize,
                              const double density)
     : AbstractSimulationHandler()
@@ -64,13 +66,14 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize,
 
     if (density > 1.f || density <= 0.f)
         PLUGIN_THROW("Density should be higher > 0 and <= 1");
-    const size_t densityRatio = 1.f / density;
 
     const auto clipPlanes = getClippingPlanes(scene);
 
     floats events;
-    uint16_t count;
+    uint32_t count{0};
+    const uint32_t densityRatio = 1.f / density;
 
+    Boxd bounds;
     const auto& modelDescriptors = scene.getModelDescriptors();
     for (const auto modelDescriptor : modelDescriptors)
     {
@@ -84,22 +87,28 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize,
             {
                 for (const auto& sphere : spheres.second)
                 {
-                    const Vector3d center =
+                    const Vector3f center =
                         tf.getTranslation() +
                         tf.getRotation() *
                             (Vector3d(sphere.center) - tf.getRotationCenter());
 
                     const Vector3d c = center;
                     if (isClipped(c, clipPlanes))
+                    {
+                        ++count;
                         continue;
+                    }
 
                     if (count % densityRatio == 0)
                     {
-                        events.push_back(c.x);
-                        events.push_back(c.y);
-                        events.push_back(c.z);
+                        bounds.merge(center + sphere.radius);
+                        bounds.merge(center - sphere.radius);
+
+                        events.push_back(center.x);
+                        events.push_back(center.y);
+                        events.push_back(center.z);
                         events.push_back(sphere.radius);
-                        events.push_back(1.0);
+                        events.push_back(DEFAULT_EVENT_VALUE);
                     }
                     ++count;
                 }
@@ -107,62 +116,23 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize,
         }
     }
 
-    // Determine model bounding box
-    glm::vec3 minAABB(std::numeric_limits<double>::max(),
-                      std::numeric_limits<double>::max(),
-                      std::numeric_limits<double>::max());
-    glm::vec3 maxAABB(-std::numeric_limits<double>::max(),
-                      -std::numeric_limits<double>::max(),
-                      -std::numeric_limits<double>::max());
-    for (uint64_t i = 0; i < events.size(); i += 5)
-    {
-        if (events[i + 4] != 0.f)
-        {
-            minAABB = {std::min(minAABB.x, events[i]),
-                       std::min(minAABB.y, events[i + 1]),
-                       std::min(minAABB.z, events[i + 2])};
-            maxAABB = {std::max(maxAABB.x, events[i]),
-                       std::max(maxAABB.y, events[i + 1]),
-                       std::max(maxAABB.z, events[i + 2])};
-        }
-    }
-
     // Compute volume information
-    const glm::vec3 sceneSize = maxAABB - minAABB;
-
-    // Double AABB size
-    glm::vec3 center = (minAABB + maxAABB) / 2.f;
-    minAABB = center - sceneSize * 0.5f;
-    maxAABB = center + sceneSize * 0.5f;
+    const Vector3f sceneSize = bounds.getSize();
+    const Vector3f center = bounds.getCenter();
+    const Vector3f extendedHalfSize = sceneSize * 0.5f;
+    const Vector3f minAABB = center - extendedHalfSize;
+    const Vector3f maxAABB = center + extendedHalfSize;
     _offset = minAABB;
 
     // Build acceleration structure
-    Octree morphoOctree(events, voxelSize, minAABB, maxAABB);
-    uint64_t volumeSize = morphoOctree.getVolumeSize();
+    const Octree accelerator(events, voxelSize, minAABB, maxAABB);
+    const uint32_t volumeSize = accelerator.getVolumeSize();
     _offset = minAABB;
-    _dimensions = morphoOctree.getVolumeDim();
-    _spacing = sceneSize / glm::vec3(_dimensions);
+    _dimensions = accelerator.getVolumeDimensions();
+    _spacing = sceneSize / Vector3f(_dimensions);
 
-    PLUGIN_INFO(3, "--------------------------------------------");
-    PLUGIN_INFO(3, "Octree information");
-    PLUGIN_INFO(3, "--------------------------------------------");
-    PLUGIN_INFO(3, "Scene AABB        : ["
-                       << minAABB.x << "," << minAABB.y << "," << minAABB.z
-                       << "] [" << maxAABB.x << "," << maxAABB.y << ","
-                       << maxAABB.z << "]");
-    PLUGIN_INFO(3, "Scene dimension   : [" << sceneSize.x << "," << sceneSize.y
-                                           << "," << sceneSize.z << "]");
-    PLUGIN_INFO(3, "Element spacing   : [" << _spacing.x << ", " << _spacing.y
-                                           << ", " << _spacing.z << "] ");
-    PLUGIN_INFO(3, "Volume dimensions : ["
-                       << _dimensions.x << ", " << _dimensions.y << ", "
-                       << _dimensions.z << "] = " << volumeSize << " bytes");
-    PLUGIN_INFO(3, "Element offset    : [" << _offset.x << ", " << _offset.y
-                                           << ", " << _offset.z << "] ");
-
-    const auto& indices = morphoOctree.getFlatIndexes();
-    PLUGIN_INFO(3, "Indices size      : " << indices.size());
-    const auto& data = morphoOctree.getFlatData();
+    const auto& indices = accelerator.getFlatIndices();
+    const auto& data = accelerator.getFlatData();
     _frameData.push_back(_offset.x);
     _frameData.push_back(_offset.y);
     _frameData.push_back(_offset.z);
@@ -172,13 +142,25 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize,
     _frameData.push_back(_dimensions.x);
     _frameData.push_back(_dimensions.y);
     _frameData.push_back(_dimensions.z);
-    _frameData.push_back(morphoOctree.getOctreeSize());
+    _frameData.push_back(accelerator.getOctreeSize());
     _frameData.push_back(indices.size());
     _frameData.insert(_frameData.end(), indices.begin(), indices.end());
     _frameData.insert(_frameData.end(), data.begin(), data.end());
     _frameSize = _frameData.size();
-    PLUGIN_INFO(3, "Data size         : " << _frameSize);
-    PLUGIN_INFO(3, "--------------------------------------------");
+
+    PLUGIN_INFO(1, "--------------------------------------------");
+    PLUGIN_INFO(1, "Octree information");
+    PLUGIN_INFO(1, "--------------------------------------------");
+    PLUGIN_INFO(1, "Scene AABB        : " << bounds);
+    PLUGIN_INFO(1, "Scene dimension   : " << sceneSize);
+    PLUGIN_INFO(1, "Element spacing   : " << _spacing);
+    PLUGIN_INFO(1, "Volume dimensions : " << _dimensions);
+    PLUGIN_INFO(1, "Element offset    : " << _offset);
+    PLUGIN_INFO(1, "Volume size       : " << volumeSize << " bytes");
+    PLUGIN_INFO(1, "Indices size      : " << indices.size());
+    PLUGIN_INFO(1, "Data size         : " << _frameSize);
+    PLUGIN_INFO(1, "Octree depth      : " << accelerator.getOctreeDepth());
+    PLUGIN_INFO(1, "--------------------------------------------");
 }
 
 FieldsHandler::FieldsHandler(const FieldsHandler& rhs)
@@ -190,8 +172,6 @@ FieldsHandler::~FieldsHandler() {}
 
 void* FieldsHandler::getFrameData(const uint32_t frame)
 {
-    if (_currentFrame == frame)
-        return 0;
     _currentFrame = frame;
     return _frameData.data();
 }
@@ -203,7 +183,7 @@ void FieldsHandler::exportToFile(const std::string& filename) const
     if (!file.good())
         PLUGIN_THROW("Could not export octree to " + filename);
 
-    file.write((char*)&_frameSize, sizeof(uint64_t));
+    file.write((char*)&_frameSize, sizeof(uint32_t));
     file.write((char*)_frameData.data(), _frameData.size() * sizeof(double));
 
     file.close();
@@ -216,7 +196,7 @@ void FieldsHandler::importFromFile(const std::string& filename)
     if (!file.good())
         PLUGIN_THROW("Could not import octree from " + filename);
 
-    file.read((char*)&_frameSize, sizeof(uint64_t));
+    file.read((char*)&_frameSize, sizeof(uint32_t));
     _frameData.resize(_frameSize);
     file.read((char*)_frameData.data(), _frameData.size() * sizeof(double));
 
