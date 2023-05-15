@@ -99,7 +99,7 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize,
                         events.push_back(c.y);
                         events.push_back(c.z);
                         events.push_back(sphere.radius);
-                        events.push_back(sphere.radius);
+                        events.push_back(1.0);
                     }
                     ++count;
                 }
