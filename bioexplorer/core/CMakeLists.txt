@@ -103,6 +103,8 @@ set(${NAME}_SOURCES
     plugin/connectomics/whitematter/WhiteMatter.cpp
     plugin/connectomics/synapses/SynapseEfficacy.cpp
     plugin/connectomics/synapses/SynapseEfficacySimulationHandler.cpp
+    plugin/meshing/PointCloudMesher.cpp
+    plugin/meshing/SurfaceMesher.cpp
     plugin/api/Params.cpp
     plugin/BioExplorerPlugin.cpp
 )
@@ -149,21 +151,11 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/common/shapes/FanShape.h
     plugin/common/shapes/RNAShape.h
     plugin/common/shapes/PointShape.h
+    plugin/meshing/PointCloudMesher.h
+    plugin/meshing/SurfaceMesher.h
     plugin/api/Params.h
     plugin/BioExplorerPlugin.h
 )
-
-if(${CGAL_FOUND})
-    list(APPEND ${NAME}_SOURCES
-        plugin/meshing/PointCloudMesher.cpp
-        plugin/meshing/SurfaceMesher.cpp
-    )
-
-    list(APPEND ${NAME}_PUBLIC_HEADERS
-        plugin/meshing/PointCloudMesher.h
-        plugin/meshing/SurfaceMesher.h
-    )
-endif()
 
 if(${CGAL_FOUND} AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options(-frounding-math)
@@ -263,7 +255,7 @@ include_directories(
 
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${${NAME}_PUBLIC_MODULE_LIBRARIES}
-    PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
+    PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO mpfr
     ${${NAME}_PRIVATE_MODULE_LIBRARIES} ${FreeImage_LIBRARIES} ${PQXX_LIBRARIES} ${OpenMP_CXX_LIBRARIES}
 )
 
