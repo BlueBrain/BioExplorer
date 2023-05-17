@@ -30,6 +30,7 @@
 
 #include <fstream>
 
+#ifdef USE_CGAL
 #if !defined(DOXYGEN_SHOULD_SKIP_THIS)
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Polygon_mesh_processing/compute_normal.h>
@@ -50,6 +51,7 @@ typedef CGAL::Skin_surface_traits_3<K> Traits;
 typedef CGAL::Skin_surface_3<Traits> Skin_surface_3;
 typedef CGAL::Union_of_balls_3<Traits> Union_of_balls_3;
 #endif
+#endif
 
 namespace bioexplorer
 {
@@ -67,6 +69,7 @@ ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene,
                                                   const Vector4ds& atoms,
                                                   const double shrinkfactor)
 {
+#ifdef USE_CGAL
     ModelDescriptorPtr modelDescriptor{nullptr};
     MeshLoader meshLoader(scene);
     const std::string filename =
@@ -102,12 +105,16 @@ ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene,
     std::ofstream out(filename);
     out << polyhedron;
     return meshLoader.importFromFile(filename, LoaderProgress(), {});
+#else
+    PLUGIN_THROW("The BioExplorer was not compiled with the CGAL library")
+#endif
 }
 
 ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene,
                                                        const std::string& pdbId,
                                                        const Vector4ds& atoms)
 {
+#ifdef USE_CGAL
     std::list<Weighted_point> l;
     for (const auto& atom : atoms)
         l.push_front(Weighted_point(Point_3(atom.x, atom.y, atom.z), atom.w));
@@ -140,6 +147,9 @@ ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene,
     std::ofstream out(filename);
     out << polyhedron;
     return meshLoader.importFromFile(filename, LoaderProgress(), {});
+#else
+    PLUGIN_THROW("The BioExplorer was not compiled with the CGAL library")
+#endif
 }
 } // namespace meshing
 } // namespace bioexplorer

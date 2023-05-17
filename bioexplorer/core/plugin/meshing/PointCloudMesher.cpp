@@ -82,8 +82,7 @@ bool PointCloudMesher::toConvexHull(ThreadSafeContainer& container,
     }
     return addModel;
 #else
-    PLUGIN_ERROR("The BioExplorer was not compiled with the CGAL library")
-    return false;
+    PLUGIN_THROW("The BioExplorer was not compiled with the CGAL library")
 #endif
 }
 } // namespace meshing
