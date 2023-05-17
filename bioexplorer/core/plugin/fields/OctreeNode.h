@@ -26,6 +26,8 @@ namespace bioexplorer
 {
 namespace fields
 {
+using namespace brayns;
+
 /**
  * @brief The OctreeNode class implement a spherical node of the Octree
  * acceleration structure used by the Fields renderer
@@ -40,7 +42,7 @@ public:
      * @param The center of the node
      * @param The node size
      */
-    OctreeNode(const glm::vec3 center, const double size);
+    OctreeNode(const Vector3f& center, const double size);
 
     /**
      * @brief Add a value to the node
@@ -68,7 +70,7 @@ public:
      *
      * @return The center of the node
      */
-    const glm::vec3& getCenter() const;
+    const Vector3f& getCenter() const;
 
     /**
      * @brief Get the value of the node
@@ -80,8 +82,8 @@ public:
 private:
     double _value;
 
-    glm::vec3 _center;
-    glm::vec3 _size;
+    Vector3f _center;
+    Vector3f _size;
 
     std::vector<OctreeNode*> _children;
 };

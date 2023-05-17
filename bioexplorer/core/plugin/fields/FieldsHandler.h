@@ -104,31 +104,31 @@ public:
     /**
      * @brief Get the Dimensions of the octree
      *
-     * @return const glm::uvec3& Dimensions of the octree
+     * @return const Vector3ui& Dimensions of the octree
      */
-    const glm::uvec3& getDimensions() const { return _dimensions; }
+    const Vector3ui& getDimensions() const { return _dimensions; }
 
     /**
      * @brief Get the voxel spacing information
      *
-     * @return const glm::vec3& The voxel spacing information
+     * @return const Vector3f& The voxel spacing information
      */
-    const glm::vec3& getSpacing() const { return _spacing; }
+    const Vector3f& getSpacing() const { return _spacing; }
 
     /**
      * @brief Get the offset of the octree
      *
-     * @return const glm::vec3& Offset of the octree
+     * @return const Vector3f& Offset of the octree
      */
-    const glm::vec3& getOffset() const { return _offset; }
+    const Vector3f& getOffset() const { return _offset; }
 
 private:
     void _buildOctree(const Scene& scene, const double voxelSize,
                       const double density);
 
-    glm::uvec3 _dimensions;
-    glm::vec3 _spacing;
-    glm::vec3 _offset;
+    Vector3ui _dimensions;
+    Vector3f _spacing;
+    Vector3f _offset;
 };
 typedef std::shared_ptr<FieldsHandler> FieldsHandlerPtr;
 } // namespace fields

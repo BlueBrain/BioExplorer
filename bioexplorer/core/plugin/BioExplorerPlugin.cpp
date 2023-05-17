@@ -1346,6 +1346,7 @@ Response BioExplorerPlugin::_addSpheres(const AddSpheresDetails &payload)
             model->addSphere(materialId,
                              {position, static_cast<float>(payload.radii[i])});
         }
+        model->updateBounds();
         scene.addModel(
             std::make_shared<ModelDescriptor>(std::move(model), payload.name));
     }
@@ -1739,6 +1740,10 @@ size_t BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
 
     TriangleMesh box = createBox(offset, offset + size);
     model->getTriangleMeshes()[materialId] = box;
+    model->updateBounds();
+    model->setSimulationHandler(handler);
+    setDefaultTransferFunction(*model);
+
     ModelMetadata metadata;
     metadata["Center"] = std::to_string(center.x) + "," +
                          std::to_string(center.y) + "," +
@@ -1748,10 +1753,6 @@ size_t BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
     metadata["Spacing"] = std::to_string(spacing.x) + "," +
                           std::to_string(spacing.y) + "," +
                           std::to_string(spacing.z);
-
-    model->setSimulationHandler(handler);
-    setDefaultTransferFunction(*model);
-
     auto modelDescriptor =
         std::make_shared<ModelDescriptor>(std::move(model), "Fields", metadata);
     scene.addModel(modelDescriptor);

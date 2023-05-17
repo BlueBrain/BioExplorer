@@ -59,38 +59,45 @@ public:
      *
      * @return The dimensions of the volume
      */
-    const glm::uvec3 &getVolumeDim() const;
+    const Vector3ui &getVolumeDimensions() const { return _volumeDimensions; }
 
     /**
      * @brief Get the size of the volume
      *
      * @return The size of the volume
      */
-    uint64_t getVolumeSize() const;
+    uint32_t getVolumeSize() const { return _volumeSize; }
 
     /**
      * @brief Get the size of the Octree
      *
      * @return The size of the Octree
      */
-    uint32_t getOctreeSize() const;
+    uint32_t getOctreeSize() const { return _octreeSize; }
+
+    /**
+     * @brief Get the depth of the Octree
+     *
+     * @return The depth of the Octree
+     */
+    uint32_t getOctreeDepth() const { return _depth; }
 
     /**
      * @brief Get a flattened representation of the Octree indices
      *
      * @return A flattened representation of the Octree indices
      */
-    const uint32_ts &getFlatIndexes() const;
+    const uint32_ts &getFlatIndices() const { return _flatIndices; }
 
     /**
      * @brief Get a flattened representation of the Octree data (node values)
      *
      * @return A flattened representation of the Octree data (node values)
      */
-    const floats &getFlatData() const;
+    const floats &getFlatData() const { return _flatData; }
 
 private:
-    void _flattenChildren(const OctreeNode *node, uint32_t level);
+    void _flattenChildren(OctreeNode *node, uint32_t level);
 
     inline uint32_t _pow2roundup(uint32_t x)
     {
@@ -103,13 +110,14 @@ private:
         return x + 1;
     }
 
-    glm::uvec3 _volumeDim;
-    uint64_t _volumeSize;
+    Vector3ui _volumeDimensions;
+    uint32_t _volumeSize;
     uint32_t _octreeSize;
+    uint32_t _depth;
 
-    uint32_t *_offsetPerLevel;
+    uint32_ts _offsetPerLevel;
 
-    uint32_ts _flatIndexes;
+    uint32_ts _flatIndices;
     floats _flatData;
 };
 } // namespace fields

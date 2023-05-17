@@ -28,37 +28,35 @@ float treeWalker(const uniform FieldsRenderer* uniform self, const vec3f& point,
                  const varying float distance, const varying float cutoff,
                  const varying int32 index = 0)
 {
-    const uint32 begin = self->userData[self->startIndices + index * 2];
-    const uint32 end = self->userData[self->startIndices + index * 2 + 1];
-    const uint32 idxData = self->startData + index * 4;
+    const uint64 begin = self->userData[self->startIndices + index * 2];
+    const uint64 end = self->userData[self->startIndices + index * 2 + 1];
+    const uint64 idxData = self->startData + index * 4;
 
     if (idxData >= self->userDataSize)
         return 0.f;
 
     if (begin == 0 && end == 0)
+        // Leaf
         return self->userData[idxData + 3] / (distance * distance);
 
     float voxelValue = 0.f;
-    for (unsigned int32 childIndex = begin; childIndex <= end; ++childIndex)
+    for (unsigned int64 childIndex = begin; childIndex <= end; ++childIndex)
     {
-        const vec3f childCenter =
-            make_vec3f(self->userData[idxData], self->userData[idxData + 1],
-                       self->userData[idxData + 2]);
-        const vec3f delta = point - childCenter;
+        const uint64 idx = self->startData + childIndex * 4;
+        const vec3f childPosition =
+            make_vec3f(self->userData[idx], self->userData[idx + 1],
+                       self->userData[idx + 2]);
+        const vec3f delta = point - childPosition;
 
-        float d =
+        const float d =
             sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
-
-        // Minimum distance
-        if (d < self->spacing.x / 2.f)
-            d = self->spacing.x / 2.f;
 
         if (d >= cutoff)
         {
             // Child is further than the cutoff distance, no need to evaluate
             // events in the child node, we take the precomputed value of node
             // instead
-            voxelValue += self->userData[idxData + 3] / (d * d);
+            voxelValue += self->userData[idx + 3] / (d * d);
         }
         else
             // Dive into the child node and compute its contents
@@ -105,16 +103,14 @@ inline vec3f FieldsRenderer_shadeRay(const uniform FieldsRenderer* uniform self,
     t0 = max(self->minRayStep, t0);
 
     const vec3f s = self->size * self->spacing;
-    const float diag = max(max(s.x, s.y), s.z);
+    const float diag = min(min(s.x, s.y), s.z);
     const float step = max(self->minRayStep, diag / self->nbRaySteps);
+    const float sampleStep = sample.sampleID.z % self->nbRayRefinementSteps;
 
-    float t = t0 + (sample.sampleID.z % self->nbRayRefinementSteps) * step /
-                       self->nbRayRefinementSteps;
+    float t = t0 + sampleStep * step / self->nbRayRefinementSteps;
 
     vec4f finalColor = make_vec4f(0.f);
-    bool firstVisibleVoxel = true;
-
-    while (finalColor.w < 0.9f && t < t1)
+    while (finalColor.w < 0.95f && t < t1)
     {
         const vec3f p = ray.org + t * ray.dir;
         const vec3f point = (p - self->offset) / self->spacing;
@@ -132,12 +128,12 @@ inline vec3f FieldsRenderer_shadeRay(const uniform FieldsRenderer* uniform self,
             const vec3f sampleColor =
                 self->transferFunction->getColorForValue(self->transferFunction,
                                                          value);
-            const float alpha = (finalColor.w == 0.0 ? 1.f : finalColor.w) *
-                                self->alphaCorrection * sampleOpacity;
             finalColor =
-                finalColor + make_vec4f(make_vec3f(sampleColor) * alpha, alpha);
-
-            firstVisibleVoxel = false;
+                make_vec4f(make_vec3f(finalColor) * finalColor.w +
+                               make_vec3f(sampleColor) * sampleOpacity *
+                                   self->alphaCorrection * (1.f - finalColor.w),
+                           finalColor.w +
+                               sampleOpacity * self->alphaCorrection);
         }
 
         t += step;
