@@ -407,76 +407,6 @@ bool from_json(AddBox& param, const std::string& payload)
     return true;
 }
 
-bool from_json(ImportMorphology& param, const std::string& payload)
-{
-    try
-    {
-        auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, connectionString);
-        FROM_JSON(param, js, schema);
-        FROM_JSON(param, js, guid);
-        FROM_JSON(param, js, filename);
-    }
-    catch (...)
-    {
-        return false;
-    }
-    return true;
-}
-
-bool from_json(ImportVolume& param, const std::string& payload)
-{
-    try
-    {
-        auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, connectionString);
-        FROM_JSON(param, js, schema);
-        FROM_JSON(param, js, guid);
-        FROM_JSON(param, js, dimensions);
-        FROM_JSON(param, js, spacing);
-        FROM_JSON(param, js, rawFilename);
-    }
-    catch (...)
-    {
-        return false;
-    }
-    return true;
-}
-
-bool from_json(ImportCompartmentSimulation& param, const std::string& payload)
-{
-    try
-    {
-        auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, connectionString);
-        FROM_JSON(param, js, schema);
-        FROM_JSON(param, js, blueConfig);
-        FROM_JSON(param, js, reportName);
-        FROM_JSON(param, js, reportId);
-    }
-    catch (...)
-    {
-        return false;
-    }
-    return true;
-}
-
-bool from_json(ImportSynapses& param, const std::string& payload)
-{
-    try
-    {
-        auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, connectionString);
-        FROM_JSON(param, js, schema);
-        FROM_JSON(param, js, blueConfig);
-    }
-    catch (...)
-    {
-        return false;
-    }
-    return true;
-}
-
 bool from_json(SpikeReportVisualizationSettings& param,
                const std::string& payload)
 {
@@ -496,5 +426,23 @@ bool from_json(SpikeReportVisualizationSettings& param,
     return true;
 }
 
+bool from_json(LoadMEGSettings& param, const std::string& payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, path);
+        FROM_JSON(param, js, reportName);
+        FROM_JSON(param, js, density);
+        FROM_JSON(param, js, voxelSize);
+        FROM_JSON(param, js, synchronous);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
 } // namespace api
 } // namespace sonataexplorer

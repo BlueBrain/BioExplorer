@@ -53,7 +53,7 @@ if(${${NAME}_USE_CGAL})
     find_package(CGAL REQUIRED)
 endif()
 
-set(BIOEXPLORER_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../..)
+set(BIOEXPLORER_SOURCE_DIR ${PROJECT_SOURCE_DIR})
 configure_file(common/Defines.h.in ${CMAKE_BINARY_DIR}/generated/circuitexplorer/Defines.h)
 include_directories(${PROJECT_SOURCE_DIR}/core ${CMAKE_BINARY_DIR}/generated/circuitexplorer)
 
@@ -91,6 +91,7 @@ list(APPEND ${NAME}_SOURCES
     plugin/neuroscience/neuron/MorphologyCollageLoader.cpp
     plugin/neuroscience/neuron/AdvancedCircuitLoader.cpp
     plugin/neuroscience/neuron/SynapseCircuitLoader.cpp
+    plugin/neuroscience/neuron/MEGHandler.cpp
     plugin/meshing/MetaballsGenerator.cpp
 )
 list(APPEND ${NAME}_PUBLIC_HEADERS
@@ -106,6 +107,7 @@ list(APPEND ${NAME}_PUBLIC_HEADERS
     plugin/neuroscience/neuron/MorphologyCollageLoader.h
     plugin/neuroscience/neuron/AdvancedCircuitLoader.h
     plugin/neuroscience/neuron/SynapseCircuitLoader.h
+    plugin/neuroscience/neuron/MEGHandler.h
     plugin/meshing/MetaballsGenerator.h
 )
 

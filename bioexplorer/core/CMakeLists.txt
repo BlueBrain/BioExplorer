@@ -78,9 +78,9 @@ set(${NAME}_SOURCES
     plugin/common/shapes/PointShape.cpp
     plugin/common/Assembly.cpp
     plugin/common/ThreadSafeContainer.cpp
+    plugin/common/Octree.cpp
+    plugin/common/OctreeNode.cpp
     plugin/fields/FieldsHandler.cpp
-    plugin/fields/Octree.cpp
-    plugin/fields/OctreeNode.cpp
     plugin/io/CacheLoader.cpp
     plugin/io/OOCManager.cpp
     plugin/io/db/DBConnector.cpp
@@ -151,7 +151,10 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/common/shapes/FanShape.h
     plugin/common/shapes/RNAShape.h
     plugin/common/shapes/PointShape.h
+    plugin/common/Octree.h
+    plugin/common/OctreeNode.h
     plugin/meshing/PointCloudMesher.h
+    plugin/fields/FieldsHandler.h
     plugin/meshing/SurfaceMesher.h
     plugin/api/Params.h
     plugin/BioExplorerPlugin.h

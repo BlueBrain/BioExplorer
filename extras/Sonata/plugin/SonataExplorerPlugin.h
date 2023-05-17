@@ -79,6 +79,9 @@ private:
     // Predefined models
     Response _addColumn(const AddColumn& payload);
 
+    // MEG
+    Response _loadMEG(const LoadMEGSettings& payload);
+
     bool _dirty{false};
 };
 } // namespace sonataexplorer

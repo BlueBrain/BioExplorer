@@ -26,7 +26,7 @@
 
 namespace bioexplorer
 {
-namespace fields
+namespace common
 {
 /**
  * @brief The Octree class implements the Octree acceleration structure used by
@@ -120,5 +120,5 @@ private:
     uint32_ts _flatIndices;
     floats _flatData;
 };
-} // namespace fields
+} // namespace common
 } // namespace bioexplorer
