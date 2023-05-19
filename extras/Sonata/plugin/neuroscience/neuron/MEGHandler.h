@@ -162,13 +162,6 @@ private:
     void _triggerLoading(const uint32_t frame);
 
     /**
-    @brief Checks if a frame has been loaded.
-
-    @return 'true' if the frame has been loaded, 'false' otherwise.
-    */
-    bool _isFrameLoaded() const;
-
-    /**
      * @brief Makes a frame ready for processing.
      *
      * @param frame An integer specifying the frame number to be processed.
