@@ -199,6 +199,8 @@ void MEGHandler::_buildOctree()
 void* MEGHandler::getFrameData(const uint32_t frame)
 {
     const auto boundedFrame = _startFrame + _getBoundedFrame(frame);
+    if (boundedFrame == _currentFrame)
+        return nullptr;
 
     if (!_currentFrameFuture.valid() && _currentFrame != boundedFrame)
         _triggerLoading(boundedFrame);
