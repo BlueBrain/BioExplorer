@@ -249,44 +249,6 @@ struct AddBox
 };
 bool from_json(AddBox& param, const std::string& payload);
 
-struct ImportMorphology
-{
-    std::string connectionString;
-    std::string schema;
-    uint64_t guid;
-    std::string filename;
-};
-bool from_json(ImportMorphology& param, const std::string& payload);
-
-struct ImportVolume
-{
-    std::string connectionString;
-    std::string schema;
-    uint64_t guid;
-    std::vector<uint16_t> dimensions;
-    std::vector<float> spacing;
-    std::string rawFilename;
-};
-bool from_json(ImportVolume& param, const std::string& payload);
-
-struct ImportCompartmentSimulation
-{
-    std::string connectionString;
-    std::string schema;
-    std::string blueConfig;
-    std::string reportName;
-    uint64_t reportId;
-};
-bool from_json(ImportCompartmentSimulation& param, const std::string& payload);
-
-struct ImportSynapses
-{
-    std::string connectionString;
-    std::string schema;
-    std::string blueConfig;
-};
-bool from_json(ImportSynapses& param, const std::string& payload);
-
 struct SpikeReportVisualizationSettings
 {
     uint64_t modelId;
@@ -297,5 +259,17 @@ struct SpikeReportVisualizationSettings
 };
 bool from_json(SpikeReportVisualizationSettings& param,
                const std::string& payload);
+
+struct LoadMEGSettings
+{
+    std::string name;
+    std::string path;
+    std::string reportName;
+    float density;
+    float voxelSize;
+    bool synchronous;
+};
+bool from_json(LoadMEGSettings& param, const std::string& payload);
+
 } // namespace api
 } // namespace sonataexplorer

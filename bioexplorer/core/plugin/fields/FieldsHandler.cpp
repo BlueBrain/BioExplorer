@@ -19,9 +19,9 @@
  */
 
 #include "FieldsHandler.h"
-#include "Octree.h"
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Octree.h>
 #include <plugin/common/Utils.h>
 
 #include <brayns/common/scene/ClipPlane.h>

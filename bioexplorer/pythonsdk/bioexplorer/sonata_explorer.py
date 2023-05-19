@@ -636,3 +636,25 @@ class SonataExplorer:
         params['decaySpeed'] = decay_speed
         return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'set-spike-report-visualization-settings', params,
                                     response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+
+    def load_meg(self, name, path, report_name='soma', density=100.0, voxel_size=1.0, synchronous=False):
+        """
+        Loads a soma report from a circuit and renders the according magnetic encephalography
+
+        :param str name: Name of the model in the scene
+        :param str report_name: Name of the report in the circuit
+        :param str path: Path to the BlueConfig configuration file
+        :param float density: Circuit density (Value between 0 and 100)
+        :param float voxel_size: Voxel size of the volume generated for the visualization
+        :param bool synchronous: Load frames synchronously
+        """
+
+        params = dict()
+        params['name'] = name
+        params['path'] = path
+        params['reportName'] = report_name
+        params['density'] = density / 100.0
+        params['voxelSize'] = voxel_size
+        params['synchronous'] = synchronous
+        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'load-meg', params,
+                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)

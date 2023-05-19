@@ -28,6 +28,7 @@
 #include <plugin/neuroscience/common/MorphologyLoader.h>
 #include <plugin/neuroscience/neuron/AdvancedCircuitLoader.h>
 #include <plugin/neuroscience/neuron/CellGrowthHandler.h>
+#include <plugin/neuroscience/neuron/MEGHandler.h>
 #include <plugin/neuroscience/neuron/MeshCircuitLoader.h>
 #include <plugin/neuroscience/neuron/MorphologyCollageLoader.h>
 #include <plugin/neuroscience/neuron/PairSynapsesLoader.h>
@@ -354,6 +355,12 @@ void SonataExplorerPlugin::init()
         PLUGIN_REGISTER_ENDPOINT(endPoint);
         _api->getActionInterface()->registerRequest<AddBox, Response>(
             endPoint, [&](const AddBox& details) { return _addBox(details); });
+
+        endPoint = PLUGIN_API_PREFIX + "load-meg";
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
+        _api->getActionInterface()->registerRequest<LoadMEGSettings, Response>(
+            endPoint,
+            [&](const LoadMEGSettings& details) { return _loadMEG(details); });
     }
 }
 
@@ -585,6 +592,34 @@ Response SonataExplorerPlugin::_setSpikeReportVisualizationSettings(
                                                payload.spikingVoltage,
                                                payload.timeInterval,
                                                payload.decaySpeed);
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response SonataExplorerPlugin::_loadMEG(const LoadMEGSettings& details)
+{
+    Response response;
+    try
+    {
+        PLUGIN_INFO("Loading MEG for circuit " << details.path);
+        auto& scene = _api->getScene();
+        auto handler =
+            std::make_shared<MEGHandler>(details.path, details.reportName,
+                                         details.synchronous);
+        if (!handler)
+            PLUGIN_THROW("Failed to handler");
+        auto model = scene.createModel();
+        if (!model)
+            PLUGIN_THROW("Failed to create model");
+        const auto metadata =
+            handler->buildModel(*model, details.voxelSize, details.density);
+        model->setSimulationHandler(handler);
+        scene.addModel(std::make_shared<ModelDescriptor>(std::move(model),
+                                                         details.name,
+                                                         metadata));
+        scene.markModified();
+        _markModified();
     }
     CATCH_STD_EXCEPTION()
     return response;

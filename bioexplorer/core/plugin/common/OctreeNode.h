@@ -24,7 +24,7 @@
 
 namespace bioexplorer
 {
-namespace fields
+namespace common
 {
 using namespace brayns;
 
@@ -87,5 +87,5 @@ private:
 
     std::vector<OctreeNode*> _children;
 };
-} // namespace fields
+} // namespace common
 } // namespace bioexplorer

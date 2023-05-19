@@ -24,7 +24,7 @@
 
 namespace bioexplorer
 {
-namespace fields
+namespace common
 {
 using namespace std;
 
@@ -189,5 +189,5 @@ void Octree::_flattenChildren(OctreeNode *node, uint32_t level)
     for (OctreeNode *child : children)
         _flattenChildren(child, level - 1u);
 }
-} // namespace fields
+} // namespace common
 } // namespace bioexplorer

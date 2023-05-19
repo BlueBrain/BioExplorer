@@ -22,7 +22,7 @@
 
 namespace bioexplorer
 {
-namespace fields
+namespace common
 {
 OctreeNode::OctreeNode(const Vector3f& center, const double size)
     : _value(0)
@@ -56,5 +56,5 @@ const std::vector<OctreeNode*>& OctreeNode::getChildren() const
 {
     return _children;
 }
-} // namespace fields
+} // namespace common
 } // namespace bioexplorer
