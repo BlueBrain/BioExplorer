@@ -213,6 +213,7 @@ References:
 * [The SONATA data format for efficient description of large-scale network models](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007696)
 
 * [Cortical cell assemblies and their underlying connectivity: an in silico study](https://www.biorxiv.org/content/10.1101/2023.02.24.529863v1)
+* [Modeling and Simulation of Neocortical Micro- and Mesocircuitry. Part II: Physiology and Experimentation](https://www.biorxiv.org/content/10.1101/2023.05.17.541168v1)
 
 ![___](./bioexplorer/pythonsdk/doc/source/images/synapses2.png)
 
