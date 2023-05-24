@@ -30,14 +30,12 @@ namespace neuroscience
 {
 namespace neuron
 {
-VoltageSimulationHandler::VoltageSimulationHandler(
-    const std::string& reportPath, const brion::GIDSet& gids,
-    const bool synchronousMode)
+VoltageSimulationHandler::VoltageSimulationHandler(const std::string& reportPath, const brion::GIDSet& gids,
+                                                   const bool synchronousMode)
     : AbstractSimulationHandler()
     , _synchronousMode(synchronousMode)
     , _reportPath(reportPath)
-    , _compartmentReport(new brion::CompartmentReport(brion::URI(reportPath),
-                                                      brion::MODE_READ, gids))
+    , _compartmentReport(new brion::CompartmentReport(brion::URI(reportPath), brion::MODE_READ, gids))
 {
     // Load simulation information from compartment reports
     _dt = _compartmentReport->getTimestep();
@@ -59,8 +57,7 @@ VoltageSimulationHandler::VoltageSimulationHandler(
     PLUGIN_INFO("-----------------------------------------------------------");
 }
 
-VoltageSimulationHandler::VoltageSimulationHandler(
-    const VoltageSimulationHandler& rhs)
+VoltageSimulationHandler::VoltageSimulationHandler(const VoltageSimulationHandler& rhs)
     : AbstractSimulationHandler(rhs)
     , _synchronousMode(rhs._synchronousMode)
     , _compartmentReport(rhs._compartmentReport)
@@ -116,8 +113,7 @@ bool VoltageSimulationHandler::_isFrameLoaded() const
         return true;
     }
 
-    return _currentFrameFuture.wait_for(std::chrono::milliseconds(0)) ==
-           std::future_status::ready;
+    return _currentFrameFuture.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready;
 }
 
 bool VoltageSimulationHandler::_makeFrameReady(const uint32_t frame)
@@ -130,8 +126,7 @@ bool VoltageSimulationHandler::_makeFrameReady(const uint32_t frame)
         }
         catch (const std::exception& e)
         {
-            PLUGIN_ERROR("Error loading simulation frame " << frame << ": "
-                                                           << e.what());
+            PLUGIN_ERROR("Error loading simulation frame " << frame << ": " << e.what());
             return false;
         }
         _currentFrame = frame;

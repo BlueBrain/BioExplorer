@@ -55,10 +55,7 @@ public:
 
     AbstractSimulationHandlerPtr clone() const final;
 
-    void setMetaboliteIds(const int32_ts& metaboliteIds)
-    {
-        _metaboliteIds = metaboliteIds;
-    }
+    void setMetaboliteIds(const int32_ts& metaboliteIds) { _metaboliteIds = metaboliteIds; }
 
 private:
     DBConnectorPtr _connector{nullptr};

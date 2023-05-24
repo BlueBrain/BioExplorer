@@ -69,10 +69,7 @@ public:
      *
      * @param value Visibility of the model on creation
      */
-    void setModelVisibilityOnCreation(const bool value)
-    {
-        _modelVisibilityOnCreation = value;
-    }
+    void setModelVisibilityOnCreation(const bool value) { _modelVisibilityOnCreation = value; }
 
     /**
      * @brief Get the Off Folder object. The off folder is the cache where Off

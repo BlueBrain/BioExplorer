@@ -33,10 +33,7 @@ struct OSPRAY_SDK_INTERFACE SphereClippingPerspectiveCamera : public Camera
 
     //! \brief common function to help printf-debugging
     /*! Every derived class should override this! */
-    virtual std::string toString() const
-    {
-        return "ospray::SphereClippingPerspectiveCamera";
-    }
+    virtual std::string toString() const { return "ospray::SphereClippingPerspectiveCamera"; }
     virtual void commit();
 
 public:

@@ -28,21 +28,17 @@ namespace neuroscience
 {
 namespace common
 {
-
-ParallelModelContainer::ParallelModelContainer(
-    const Transformation& transformation)
+ParallelModelContainer::ParallelModelContainer(const Transformation& transformation)
     : _transformation(transformation)
 {
 }
 
-void ParallelModelContainer::addSphere(const size_t materialId,
-                                       const Sphere& sphere)
+void ParallelModelContainer::addSphere(const size_t materialId, const Sphere& sphere)
 {
     _spheres[materialId].push_back(sphere);
 }
 
-void ParallelModelContainer::addCylinder(const size_t materialId,
-                                         const Cylinder& cylinder)
+void ParallelModelContainer::addCylinder(const size_t materialId, const Cylinder& cylinder)
 {
     _cylinders[materialId].push_back(cylinder);
 }
@@ -52,9 +48,8 @@ void ParallelModelContainer::addCone(const size_t materialId, const Cone& cone)
     _cones[materialId].push_back(cone);
 }
 
-void ParallelModelContainer::addSDFGeometry(
-    const size_t materialId, const SDFGeometry& geom,
-    const std::vector<size_t> neighbours)
+void ParallelModelContainer::addSDFGeometry(const size_t materialId, const SDFGeometry& geom,
+                                            const std::vector<size_t> neighbours)
 {
     _sdfMaterials.push_back(materialId);
     _sdfGeometries.push_back(geom);
@@ -76,9 +71,7 @@ void ParallelModelContainer::_moveSpheresToModel(Model& model)
     for (const auto& sphere : _spheres)
     {
         const auto index = sphere.first;
-        model.getSpheres()[index].insert(model.getSpheres()[index].end(),
-                                         sphere.second.begin(),
-                                         sphere.second.end());
+        model.getSpheres()[index].insert(model.getSpheres()[index].end(), sphere.second.begin(), sphere.second.end());
     }
     _spheres.clear();
 }
@@ -88,8 +81,7 @@ void ParallelModelContainer::_moveCylindersToModel(Model& model)
     for (const auto& cylinder : _cylinders)
     {
         const auto index = cylinder.first;
-        model.getCylinders()[index].insert(model.getCylinders()[index].end(),
-                                           cylinder.second.begin(),
+        model.getCylinders()[index].insert(model.getCylinders()[index].end(), cylinder.second.begin(),
                                            cylinder.second.end());
     }
     _cylinders.clear();
@@ -100,8 +92,7 @@ void ParallelModelContainer::_moveConesToModel(Model& model)
     for (const auto& cone : _cones)
     {
         const auto index = cone.first;
-        model.getCones()[index].insert(model.getCones()[index].end(),
-                                       cone.second.begin(), cone.second.end());
+        model.getCones()[index].insert(model.getCones()[index].end(), cone.second.begin(), cone.second.end());
     }
     _cones.clear();
 }
@@ -115,8 +106,7 @@ void ParallelModelContainer::_moveSDFGeometriesToModel(Model& model)
     // yet so we leave them empty.
     for (size_t i = 0; i < numGeoms; i++)
     {
-        localToGlobalIndex[i] =
-            model.addSDFGeometry(_sdfMaterials[i], _sdfGeometries[i], {});
+        localToGlobalIndex[i] = model.addSDFGeometry(_sdfMaterials[i], _sdfGeometries[i], {});
     }
 
     // Write the neighbours using global indices
@@ -135,32 +125,26 @@ void ParallelModelContainer::_moveSDFGeometriesToModel(Model& model)
     _sdfNeighbours.clear();
 }
 
-void ParallelModelContainer::applyTransformation(const PropertyMap& properties,
-                                                 const Matrix4f& transformation)
+void ParallelModelContainer::applyTransformation(const PropertyMap& properties, const Matrix4f& transformation)
 {
     const auto& translation = _transformation.getTranslation();
     const auto& rotation = _transformation.getRotation();
     for (auto& s : _spheres)
         for (auto& sphere : s.second)
         {
-            sphere.center = _getAlignmentToGrid(
-                properties,
-                translation + rotation * transformVector3d(sphere.center,
-                                                           transformation));
+            sphere.center = _getAlignmentToGrid(properties, translation + rotation * transformVector3d(sphere.center,
+                                                                                                       transformation));
             _bounds.merge(sphere.center + sphere.radius);
             _bounds.merge(sphere.center - sphere.radius);
         }
     for (auto& c : _cylinders)
         for (auto& cylinder : c.second)
         {
-            cylinder.center = _getAlignmentToGrid(
-                properties,
-                translation + rotation * transformVector3d(cylinder.center,
-                                                           transformation));
-            cylinder.up = _getAlignmentToGrid(
-                properties,
-                translation +
-                    rotation * transformVector3d(cylinder.up, transformation));
+            cylinder.center =
+                _getAlignmentToGrid(properties,
+                                    translation + rotation * transformVector3d(cylinder.center, transformation));
+            cylinder.up = _getAlignmentToGrid(properties,
+                                              translation + rotation * transformVector3d(cylinder.up, transformation));
             _bounds.merge(cylinder.center + cylinder.radius);
             _bounds.merge(cylinder.center - cylinder.radius);
             _bounds.merge(cylinder.up + cylinder.radius);
@@ -169,14 +153,10 @@ void ParallelModelContainer::applyTransformation(const PropertyMap& properties,
     for (auto& c : _cones)
         for (auto& cone : c.second)
         {
-            cone.center = _getAlignmentToGrid(
-                properties,
-                translation +
-                    rotation * transformVector3d(cone.center, transformation));
-            cone.up = _getAlignmentToGrid(
-                properties,
-                translation +
-                    rotation * transformVector3d(cone.up, transformation));
+            cone.center = _getAlignmentToGrid(properties,
+                                              translation + rotation * transformVector3d(cone.center, transformation));
+            cone.up =
+                _getAlignmentToGrid(properties, translation + rotation * transformVector3d(cone.up, transformation));
             _bounds.merge(cone.center + cone.centerRadius);
             _bounds.merge(cone.center - cone.centerRadius);
             _bounds.merge(cone.up + cone.upRadius);
@@ -184,26 +164,19 @@ void ParallelModelContainer::applyTransformation(const PropertyMap& properties,
         }
     for (auto& s : _sdfGeometries)
     {
-        s.p0 = _getAlignmentToGrid(
-            properties,
-            translation + rotation * transformVector3d(s.p0, transformation));
-        s.p1 = _getAlignmentToGrid(
-            properties,
-            translation + rotation * transformVector3d(s.p1, transformation));
+        s.p0 = _getAlignmentToGrid(properties, translation + rotation * transformVector3d(s.p0, transformation));
+        s.p1 = _getAlignmentToGrid(properties, translation + rotation * transformVector3d(s.p1, transformation));
     }
 }
 
-Vector3d ParallelModelContainer::_getAlignmentToGrid(
-    const PropertyMap& properties, const Vector3d& position) const
+Vector3d ParallelModelContainer::_getAlignmentToGrid(const PropertyMap& properties, const Vector3d& position) const
 {
-    const double alignToGrid =
-        properties.getProperty<double>(PROP_ALIGN_TO_GRID.name);
+    const double alignToGrid = properties.getProperty<double>(PROP_ALIGN_TO_GRID.name);
 
     if (alignToGrid <= 0.0)
         return position;
 
-    const Vector3d tmp = Vector3d(Vector3i(position / alignToGrid) *
-                                  static_cast<int>(alignToGrid));
+    const Vector3d tmp = Vector3d(Vector3i(position / alignToGrid) * static_cast<int>(alignToGrid));
     return Vector3d(std::floor(tmp.x), std::floor(tmp.y), std::floor(tmp.z));
 }
 

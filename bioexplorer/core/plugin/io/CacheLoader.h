@@ -71,8 +71,7 @@ public:
      * @return true if the file extension is supported by the loader, false
      * otherwise
      */
-    bool isSupported(const std::string& filename,
-                     const std::string& extension) const final;
+    bool isSupported(const std::string& filename, const std::string& extension) const final;
 
     /**
      * @brief Returns the list of loader command line arguments
@@ -97,9 +96,8 @@ public:
      * @param properties Loader properties
      * @return A brayns model if loading is successfull
      */
-    ModelDescriptorPtr importFromBlob(
-        Blob&& blob, const LoaderProgress& callback,
-        const PropertyMap& properties) const final;
+    ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
+                                      const PropertyMap& properties) const final;
 
     /**
      * @brief Imports a 3D scene from file
@@ -110,9 +108,8 @@ public:
      * @param properties Loader properties
      * @return A brayns model if loading is successfull
      */
-    ModelDescriptorPtr importFromFile(
-        const std::string& filename, const LoaderProgress& callback,
-        const PropertyMap& properties) const final;
+    ModelDescriptorPtr importFromFile(const std::string& filename, const LoaderProgress& callback,
+                                      const PropertyMap& properties) const final;
 
     /**
      * @brief
@@ -122,10 +119,10 @@ public:
      * @param properties
      * @return std::vector<ModelDescriptorPtr>
      */
-    std::vector<ModelDescriptorPtr> importModelsFromFile(
-        const std::string& filename, const int32_t brickId = UNDEFINED_BOX_ID,
-        const LoaderProgress& callback = LoaderProgress(),
-        const PropertyMap& properties = PropertyMap()) const;
+    std::vector<ModelDescriptorPtr> importModelsFromFile(const std::string& filename,
+                                                         const int32_t brickId = UNDEFINED_BOX_ID,
+                                                         const LoaderProgress& callback = LoaderProgress(),
+                                                         const PropertyMap& properties = PropertyMap()) const;
 
     /**
      * @brief Exports an optimized binary representation the 3D scene to a file
@@ -140,8 +137,7 @@ public:
      * @param brickId
      * @return std::vector<ModelDescriptorPtr>
      */
-    std::vector<ModelDescriptorPtr> importBrickFromDB(
-        const int32_t brickId) const;
+    std::vector<ModelDescriptorPtr> importBrickFromDB(const int32_t brickId) const;
 
     /**
      * @brief Exports an optimized binary representation the 3D scene to a DB
@@ -155,17 +151,14 @@ public:
      * @param filename Full path of the file
      * @param format File format to be used for the export
      */
-    void exportToXYZ(const std::string& filename,
-                     const XYZFileFormat format) const;
+    void exportToXYZ(const std::string& filename, const XYZFileFormat format) const;
 
 private:
     std::string _readString(std::stringstream& f) const;
 
-    ModelDescriptorPtr _importModel(std::stringstream& buffer,
-                                    const int32_t brickId) const;
+    ModelDescriptorPtr _importModel(std::stringstream& buffer, const int32_t brickId) const;
 
-    bool _exportModel(const ModelDescriptorPtr modelDescriptor,
-                      std::stringstream& buffer, const Boxd& bounds) const;
+    bool _exportModel(const ModelDescriptorPtr modelDescriptor, std::stringstream& buffer, const Boxd& bounds) const;
 
     PropertyMap _defaults;
 };

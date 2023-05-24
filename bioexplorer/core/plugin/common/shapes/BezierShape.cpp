@@ -30,8 +30,7 @@ namespace common
 using namespace brayns;
 using namespace details;
 
-BezierShape::BezierShape(const Vector4ds& clippingPlanes,
-                         const Vector3ds points)
+BezierShape::BezierShape(const Vector4ds& clippingPlanes, const Vector3ds points)
     : Shape(clippingPlanes)
 {
     for (const auto& point : points)
@@ -41,10 +40,9 @@ BezierShape::BezierShape(const Vector4ds& clippingPlanes,
     }
 }
 
-Transformation BezierShape::getTransformation(
-    const uint64_t occurrence, const uint64_t nbOccurrences,
-    const MolecularSystemAnimationDetails& molecularSystemAnimationDetails,
-    const double offset) const
+Transformation BezierShape::getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
+                                              const MolecularSystemAnimationDetails& molecularSystemAnimationDetails,
+                                              const double offset) const
 {
     Vector3ds bezierPoints = _points;
     size_t i = bezierPoints.size() - 1;
@@ -52,12 +50,10 @@ Transformation BezierShape::getTransformation(
     {
         for (size_t k = 0; k < i; ++k)
             bezierPoints[k] =
-                bezierPoints[k] + static_cast<double>(occurrence) *
-                                      (bezierPoints[k + 1] - bezierPoints[k]);
+                bezierPoints[k] + static_cast<double>(occurrence) * (bezierPoints[k + 1] - bezierPoints[k]);
         --i;
     }
-    const Vector3d normal =
-        cross({0.0, 0.0, 1.0}, normalize(bezierPoints[1] - bezierPoints[0]));
+    const Vector3d normal = cross({0.0, 0.0, 1.0}, normalize(bezierPoints[1] - bezierPoints[0]));
 
     Vector3d pos = bezierPoints[0];
 

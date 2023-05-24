@@ -31,23 +31,18 @@ namespace connectomics
 using namespace io;
 using namespace db;
 
-SynapseEfficacySimulationHandler::SynapseEfficacySimulationHandler(
-    const SynapseEfficacyDetails& details)
+SynapseEfficacySimulationHandler::SynapseEfficacySimulationHandler(const SynapseEfficacyDetails& details)
     : brayns::AbstractSimulationHandler()
     , _details(details)
 {
     const auto& connector = DBConnector::getInstance();
-    _simulationReport =
-        connector.getSimulationReport(_details.populationName,
-                                      _details.simulationReportId);
+    _simulationReport = connector.getSimulationReport(_details.populationName, _details.simulationReportId);
 
-    _values = connector.getSynapseEfficacyReportValues(_details.populationName,
-                                                       0, _details.sqlFilter);
+    _values = connector.getSynapseEfficacyReportValues(_details.populationName, 0, _details.sqlFilter);
 
     _frameSize = _values.size();
     _frameData.resize(_frameSize);
-    _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) /
-                _simulationReport.timeStep;
+    _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) / _simulationReport.timeStep;
     _dt = _simulationReport.timeStep;
     _logSimulationInformation();
 }
@@ -59,17 +54,14 @@ void SynapseEfficacySimulationHandler::_logSimulationInformation()
     PLUGIN_INFO(1, "---------------------------------------");
     PLUGIN_INFO(1, "Population name             : " << _details.populationName);
     PLUGIN_INFO(1, "Number of simulated synapses: " << _frameSize);
-    PLUGIN_INFO(1, "Start time                  : "
-                       << _simulationReport.startTime);
-    PLUGIN_INFO(1,
-                "End time                    : " << _simulationReport.endTime);
+    PLUGIN_INFO(1, "Start time                  : " << _simulationReport.startTime);
+    PLUGIN_INFO(1, "End time                    : " << _simulationReport.endTime);
     PLUGIN_INFO(1, "Time interval               : " << _dt);
     PLUGIN_INFO(1, "Number of frames            : " << _nbFrames);
     PLUGIN_INFO(1, "---------------------------------------------------------");
 }
 
-SynapseEfficacySimulationHandler::SynapseEfficacySimulationHandler(
-    const SynapseEfficacySimulationHandler& rhs)
+SynapseEfficacySimulationHandler::SynapseEfficacySimulationHandler(const SynapseEfficacySimulationHandler& rhs)
     : brayns::AbstractSimulationHandler(rhs)
     , _details(rhs._details)
 {
@@ -93,8 +85,7 @@ void* SynapseEfficacySimulationHandler::getFrameData(const uint32_t frame)
     return _frameData.data();
 }
 
-brayns::AbstractSimulationHandlerPtr SynapseEfficacySimulationHandler::clone()
-    const
+brayns::AbstractSimulationHandlerPtr SynapseEfficacySimulationHandler::clone() const
 {
     return std::make_shared<SynapseEfficacySimulationHandler>(*this);
 }

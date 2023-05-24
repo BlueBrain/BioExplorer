@@ -29,8 +29,7 @@ namespace neuroscience
 {
 namespace neuron
 {
-SpikeSimulationHandler::SpikeSimulationHandler(const std::string& reportPath,
-                                               const brion::GIDSet& gids)
+SpikeSimulationHandler::SpikeSimulationHandler(const std::string& reportPath, const brion::GIDSet& gids)
     : AbstractSimulationHandler()
     , _reportPath(reportPath)
     , _gids(gids)
@@ -67,8 +66,7 @@ SpikeSimulationHandler::SpikeSimulationHandler(const std::string& reportPath,
     PLUGIN_INFO("-----------------------------------------------------------");
 }
 
-SpikeSimulationHandler::SpikeSimulationHandler(
-    const SpikeSimulationHandler& rhs)
+SpikeSimulationHandler::SpikeSimulationHandler(const SpikeSimulationHandler& rhs)
     : AbstractSimulationHandler(rhs)
     , _reportPath(rhs._reportPath)
     , _gids(rhs._gids)
@@ -92,9 +90,7 @@ void* SpikeSimulationHandler::getFrameData(const uint32_t frame)
 
         const float ts = boundedFrame * _dt;
         const float endTime = _spikeReport->getEndTime() - _dt;
-        const auto& spikes =
-            _spikeReport->getSpikes(std::min(ts, endTime),
-                                    std::min(ts + 1.f, endTime));
+        const auto& spikes = _spikeReport->getSpikes(std::min(ts, endTime), std::min(ts + 1.f, endTime));
 
         for (const auto spike : spikes)
             _frameData[_gidMap[spike.second]] = _spikingVoltage;
@@ -110,10 +106,8 @@ AbstractSimulationHandlerPtr SpikeSimulationHandler::clone() const
     return std::make_shared<SpikeSimulationHandler>(*this);
 }
 
-void SpikeSimulationHandler::setVisualizationSettings(const double restVoltage,
-                                                      const double spikingVoltage,
-                                                      const double timeInterval,
-                                                      const double decaySpeed)
+void SpikeSimulationHandler::setVisualizationSettings(const double restVoltage, const double spikingVoltage,
+                                                      const double timeInterval, const double decaySpeed)
 {
     _restVoltage = restVoltage;
     _spikingVoltage = spikingVoltage;

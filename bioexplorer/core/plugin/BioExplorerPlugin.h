@@ -88,8 +88,7 @@ private:
     Response _addGlycan(const SugarDetails &payload) const;
     Response _addSugar(const SugarDetails &payload) const;
     Response _addEnzymeReaction(const EnzymeReactionDetails &payload) const;
-    Response _setEnzymeReactionProgress(
-        const EnzymeReactionProgressDetails &payload) const;
+    Response _setEnzymeReactionProgress(const EnzymeReactionProgressDetails &payload) const;
 
     // Other elements
     Response _addGrid(const AddGridDetails &payload);
@@ -100,19 +99,14 @@ private:
     Response _addStreamlines(const AddStreamlinesDetails &payload);
 
     // Amino acids
-    Response _setAminoAcidSequenceAsString(
-        const AminoAcidSequenceAsStringDetails &payload) const;
-    Response _setAminoAcidSequenceAsRanges(
-        const AminoAcidSequenceAsRangesDetails &payload) const;
-    Response _getAminoAcidInformation(
-        const AminoAcidInformationDetails &payload) const;
+    Response _setAminoAcidSequenceAsString(const AminoAcidSequenceAsStringDetails &payload) const;
+    Response _setAminoAcidSequenceAsRanges(const AminoAcidSequenceAsRangesDetails &payload) const;
+    Response _getAminoAcidInformation(const AminoAcidInformationDetails &payload) const;
     Response _setAminoAcid(const AminoAcidDetails &payload) const;
 
     // Portein instances
-    Response _setProteinInstanceTransformation(
-        const ProteinInstanceTransformationDetails &payload) const;
-    Response _getProteinInstanceTransformation(
-        const ProteinInstanceTransformationDetails &payload) const;
+    Response _setProteinInstanceTransformation(const ProteinInstanceTransformationDetails &payload) const;
+    Response _getProteinInstanceTransformation(const ProteinInstanceTransformationDetails &payload) const;
 
     // Models
     NameDetails _getModelName(const ModelIdDetails &payload) const;
@@ -120,8 +114,7 @@ private:
     IdsDetails _getModelInstances(const ModelIdDetails &payload) const;
 
     // Colors and materials
-    Response _setProteinColorScheme(
-        const ProteinColorSchemeDetails &payload) const;
+    Response _setProteinColorScheme(const ProteinColorSchemeDetails &payload) const;
     Response _setMaterials(const MaterialsDetails &payload);
     IdsDetails _getMaterialIds(const ModelIdDetails &payload);
 
@@ -144,8 +137,7 @@ private:
     OOCManagerPtr _oocManager{nullptr};
 
     // Inspection
-    ProteinInspectionDetails _inspectProtein(
-        const InspectionDetails &details) const;
+    ProteinInspectionDetails _inspectProtein(const InspectionDetails &details) const;
 
     // Attributes
     AssemblyMap _assemblies;
@@ -160,24 +152,21 @@ private:
     Response _addVasculature(const VasculatureDetails &payload);
     Response _getVasculatureInfo(const NameDetails &payload) const;
     Response _setVasculatureReport(const VasculatureReportDetails &payload);
-    Response _setVasculatureRadiusReport(
-        const VasculatureRadiusReportDetails &payload);
+    Response _setVasculatureRadiusReport(const VasculatureRadiusReportDetails &payload);
 
     // Astrocytes
     Response _addAstrocytes(const AstrocytesDetails &payload);
 
     // Neurons
     Response _addNeurons(const NeuronsDetails &payload);
-    NeuronPointsDetails _getNeuronSectionPoints(
-        const NeuronIdSectionIdDetails &payload);
+    NeuronPointsDetails _getNeuronSectionPoints(const NeuronIdSectionIdDetails &payload);
     NeuronPointsDetails _getNeuronVaricosities(const NeuronIdDetails &payload);
 
     // Connectomics
     Response _addWhiteMatter(const WhiteMatterDetails &payload);
     Response _addSynapses(const SynapsesDetails &payload);
     Response _addSynapseEfficacy(const SynapseEfficacyDetails &payload);
-    Response _setSpikeReportVisualizationSettings(
-        const SpikeReportVisualizationSettingsDetails &payload);
+    Response _setSpikeReportVisualizationSettings(const SpikeReportVisualizationSettingsDetails &payload);
 
     // Utilities
     LookAtResponseDetails _lookAt(const LookAtDetails &payload);

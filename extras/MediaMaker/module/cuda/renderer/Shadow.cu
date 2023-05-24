@@ -51,12 +51,10 @@ rtBuffer<uchar4, 2> output_buffer;
 static __device__ inline void shade()
 {
     optix::size_t2 screen = output_buffer.size();
-    unsigned int seed =
-        tea<16>(screen.x * launch_index.y + launch_index.x, frame);
+    unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
 
     const float3 hit_point = ray.origin + t_hit * ray.direction;
-    const float3 normal =
-        optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
+    const float3 normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
 
     unsigned int num_lights = lights.size();
     float attenuation = 0.f;
@@ -72,9 +70,7 @@ static __device__ inline void shade()
                 float3 pos = light.pos;
                 if (softness > 0.f)
                     // Soft shadows
-                    pos += softness * make_float3(rnd(seed) - 0.5f,
-                                                  rnd(seed) - 0.5f,
-                                                  rnd(seed) - 0.5f);
+                    pos += softness * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
                 lightDirection = optix::normalize(pos - hit_point);
             }
             else
@@ -83,9 +79,7 @@ static __device__ inline void shade()
                 lightDirection = -light.pos;
                 if (softness > 0.f)
                     // Soft shadows
-                    lightDirection += softness * make_float3(rnd(seed) - 0.5f,
-                                                             rnd(seed) - 0.5f,
-                                                             rnd(seed) - 0.5f);
+                    lightDirection += softness * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
                 lightDirection = optix::normalize(lightDirection);
             }
             float nDl = optix::dot(normal, lightDirection);
@@ -95,8 +89,7 @@ static __device__ inline void shade()
             {
                 PerRayData_shadow shadow_prd;
                 shadow_prd.attenuation = make_float3(1.f);
-                optix::Ray shadow_ray(hit_point, lightDirection, shadowRayType,
-                                      sceneEpsilon, rayLength);
+                optix::Ray shadow_ray(hit_point, lightDirection, shadowRayType, sceneEpsilon, rayLength);
                 rtTrace(top_shadower, shadow_ray, shadow_prd);
 
                 // light_attenuation is zero if completely shadowed
@@ -104,8 +97,7 @@ static __device__ inline void shade()
             }
         }
     }
-    attenuation =
-        ::optix::clamp(attenuation / float(samplesPerFrame), 0.f, 1.f);
+    attenuation = ::optix::clamp(attenuation / float(samplesPerFrame), 0.f, 1.f);
     prd.result = make_float3(attenuation);
 }
 

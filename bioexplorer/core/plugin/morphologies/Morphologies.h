@@ -56,25 +56,19 @@ public:
      * @brief Construct a new Morphologies object
      *
      */
-    Morphologies(const double alignToGrid, const Vector3d& position,
-                 const Quaterniond& rotation,
+    Morphologies(const double alignToGrid, const Vector3d& position, const Quaterniond& rotation,
                  const Vector3f& scale = Vector3d(1.0, 1.0, 1.0));
 
 protected:
     size_t _getNbMitochondrionSegments() const;
 
-    void _addSomaInternals(ThreadSafeContainer& container,
-                           const size_t materialId,
-                           const Vector3d& somaPosition,
-                           const double somaRadius,
-                           const double mitochondriaDensity, const bool useSdf,
+    void _addSomaInternals(ThreadSafeContainer& container, const size_t materialId, const Vector3d& somaPosition,
+                           const double somaRadius, const double mitochondriaDensity, const bool useSdf,
                            const double radiusMultiplier);
 
-    double _getDistanceToSoma(const SectionMap& sections,
-                              const Section& section);
+    double _getDistanceToSoma(const SectionMap& sections, const Section& section);
 
-    size_t _getMaterialFromDistanceToSoma(const double maxDistanceToSoma,
-                                          const double distanceToSoma) const;
+    size_t _getMaterialFromDistanceToSoma(const double maxDistanceToSoma, const double distanceToSoma) const;
 };
 } // namespace morphology
 } // namespace bioexplorer

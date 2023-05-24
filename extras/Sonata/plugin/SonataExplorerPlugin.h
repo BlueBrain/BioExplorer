@@ -56,11 +56,9 @@ private:
 
     // Handlers
     Response _attachCellGrowthHandler(const AttachCellGrowthHandler& payload);
-    Response _attachCircuitSimulationHandler(
-        const AttachCircuitSimulationHandler& payload);
+    Response _attachCircuitSimulationHandler(const AttachCircuitSimulationHandler& payload);
     Response _setConnectionsPerValue(const ConnectionsPerValue&);
-    Response _setSpikeReportVisualizationSettings(
-        const SpikeReportVisualizationSettings& payload);
+    Response _setSpikeReportVisualizationSettings(const SpikeReportVisualizationSettings& payload);
 
     SynapseAttributes _synapseAttributes;
 
@@ -69,8 +67,7 @@ private:
     Response _exportModelToMesh(const ExportModelToMesh&);
 
     // Add geometry
-    void _createShapeMaterial(ModelPtr& model, const size_t id,
-                              const Vector3d& color, const double& opacity);
+    void _createShapeMaterial(ModelPtr& model, const size_t id, const Vector3d& color, const double& opacity);
     Response _addSphere(const AddSphere& payload);
     Response _addPill(const AddPill& payload);
     Response _addCylinder(const AddCylinder& payload);

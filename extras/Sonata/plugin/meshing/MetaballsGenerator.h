@@ -48,9 +48,8 @@ public:
      * @param defaultMaterialId Default material to apply to the generated mesh
      * @param triangles Generated triangles
      */
-    void generateMesh(const Vector4fs& metaballs, const size_t gridSize,
-                      const float threshold, const size_t defaultMaterialId,
-                      TriangleMeshMap& triangles);
+    void generateMesh(const Vector4fs& metaballs, const size_t gridSize, const float threshold,
+                      const size_t defaultMaterialId, TriangleMeshMap& triangles);
 
 private:
     struct SurfaceVertex
@@ -88,13 +87,10 @@ private:
 
     void _clear();
 
-    void _buildVerticesAndCubes(const Vector4fs& metaballs,
-                                const size_t gridSize,
-                                const size_t defaultMaterialId,
+    void _buildVerticesAndCubes(const Vector4fs& metaballs, const size_t gridSize, const size_t defaultMaterialId,
                                 const float scale = 5.f);
 
-    void _buildTriangles(const Vector4fs& metaballs, const float threshold,
-                         const size_t defaultMaterialId,
+    void _buildTriangles(const Vector4fs& metaballs, const float threshold, const size_t defaultMaterialId,
                          TriangleMeshMap& triangles);
 
     SurfaceVertices _edgeVertices;

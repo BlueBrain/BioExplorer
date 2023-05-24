@@ -43,22 +43,19 @@ public:
      * @param curveParams Curve parameters based on t, and depending on the
      * shape type
      */
-    RNAShape(const Vector4ds& clippingPlanes, const RNAShapeType& shapeType,
-             const uint64_t nbElements, const Vector2f& shapeParams,
-             const Vector2f& valuesRange, const Vector3d& curveParams);
+    RNAShape(const Vector4ds& clippingPlanes, const RNAShapeType& shapeType, const uint64_t nbElements,
+             const Vector2f& shapeParams, const Vector2f& valuesRange, const Vector3d& curveParams);
 
     /** @copydoc Shape::getTransformation */
-    Transformation getTransformation(
-        const uint64_t occurrence, const uint64_t nbOccurrences,
-        const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
-        const double offset) const final;
+    Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
+                                     const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+                                     const double offset) const final;
 
     /** @copydoc Shape::isInside */
     bool isInside(const Vector3d& point) const final;
 
 private:
-    void _getSegment(const double u, const double v, Vector3d& src,
-                     Vector3d& dst) const;
+    void _getSegment(const double u, const double v, Vector3d& src, Vector3d& dst) const;
     Vector3d _trefoilKnot(double t) const;
     Vector3d _torus(double t) const;
     Vector3d _star(double t) const;

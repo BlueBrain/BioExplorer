@@ -49,8 +49,7 @@ public:
      * @return true If the 3D representation is possible
      * @return false If the 3D representation could not be built
      */
-    bool toConvexHull(ThreadSafeContainer& container,
-                      const PointCloud& pointCloud);
+    bool toConvexHull(ThreadSafeContainer& container, const PointCloud& pointCloud);
 };
 } // namespace meshing
 } // namespace bioexplorer

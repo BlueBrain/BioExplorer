@@ -106,8 +106,7 @@ public:
      * @return std::stringstream The binary buffer with the contents of the
      * brick
      */
-    std::stringstream getBrick(const int32_t brickId, const uint32_t& version,
-                               uint32_t& nbModels);
+    std::stringstream getBrick(const int32_t brickId, const uint32_t& version, uint32_t& nbModels);
 
     /**
      * @brief Inserts a brick into the PostgreSQL database
@@ -118,8 +117,8 @@ public:
      * @param nbModels The number of models contained in the brick
      * @param buffer The binary buffer with the contents of the brick
      */
-    void insertBrick(const int32_t brickId, const uint32_t version,
-                     const uint32_t nbModels, const std::stringstream& buffer);
+    void insertBrick(const int32_t brickId, const uint32_t version, const uint32_t nbModels,
+                     const std::stringstream& buffer);
 
     /**
      * @brief Get the Nodes for a given population
@@ -128,8 +127,7 @@ public:
      * @param sqlCondition SQL condition
      * @return GeometryNodes Vasculature nodes
      */
-    GeometryNodes getVasculatureNodes(const std::string& populationName,
-                                      const std::string& sqlCondition = "",
+    GeometryNodes getVasculatureNodes(const std::string& populationName, const std::string& sqlCondition = "",
                                       const std::string& limits = "") const;
 
     /**
@@ -139,8 +137,7 @@ public:
      * @param sqlCondition SQL condition
      * @return Section ids
      */
-    uint64_ts getVasculatureSections(const std::string& populationName,
-                                     const std::string& sqlCondition = "");
+    uint64_ts getVasculatureSections(const std::string& populationName, const std::string& sqlCondition = "");
 
     /**
      * @brief Get the number of nodes for a given population and a given filter
@@ -149,8 +146,7 @@ public:
      * @param sqlCondition SQL condition
      * @return Number of nodes
      */
-    uint64_t getVasculatureNbNodes(const std::string& populationName,
-                                   const std::string& sqlCondition);
+    uint64_t getVasculatureNbNodes(const std::string& populationName, const std::string& sqlCondition);
 
     /**
      * @brief Get the Vasculature radius range
@@ -159,8 +155,7 @@ public:
      * @param sqlCondition SQL condition
      * @return Vector2d Min and max radius for the node selection
      */
-    Vector2d getVasculatureRadiusRange(const std::string& populationName,
-                                       const std::string& sqlCondition) const;
+    Vector2d getVasculatureRadiusRange(const std::string& populationName, const std::string& sqlCondition) const;
 
     /**
      * @brief Get the Edges for a given population
@@ -168,9 +163,7 @@ public:
      * @param populationName Name of the population
      * @return EdgeNodes
      */
-    GeometryEdges getVasculatureEdges(
-        const std::string& populationName,
-        const std::string& sqlCondition = "") const;
+    GeometryEdges getVasculatureEdges(const std::string& populationName, const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the bifurcations for a given population
@@ -178,8 +171,7 @@ public:
      * @param populationName Name of the population
      * @return Bifurcations
      */
-    Bifurcations getVasculatureBifurcations(
-        const std::string& populationName) const;
+    Bifurcations getVasculatureBifurcations(const std::string& populationName) const;
 
     /**
      * @brief Get information about the simulation Report
@@ -189,9 +181,7 @@ public:
      * @return SimulationReport Information about the simulation Report
      */
 
-    SimulationReport getSimulationReport(
-        const std::string& populationName,
-        const int32_t simulationReportId) const;
+    SimulationReport getSimulationReport(const std::string& populationName, const int32_t simulationReportId) const;
 
     /**
      * @brief Get time series from simulation report
@@ -201,8 +191,7 @@ public:
      * @param frame Frame number
      * @return floats Values of the simulation frame
      */
-    floats getVasculatureSimulationTimeSeries(const std::string& populationName,
-                                              const int32_t simulationReportId,
+    floats getVasculatureSimulationTimeSeries(const std::string& populationName, const int32_t simulationReportId,
                                               const int32_t frame) const;
 
     /**
@@ -213,8 +202,7 @@ public:
      * statement
      * @return SomaMap A map of somas (position, radius, etc)
      */
-    AstrocyteSomaMap getAstrocytes(const std::string& populationName,
-                                   const std::string& sqlCondition = "") const;
+    AstrocyteSomaMap getAstrocytes(const std::string& populationName, const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the sections of a given astrocyte
@@ -225,8 +213,7 @@ public:
      * connected to the soma if set to true
      * @return SectionMap A map of sections
      */
-    SectionMap getAstrocyteSections(const std::string& populationName,
-                                    const int64_t astrocyteId,
+    SectionMap getAstrocyteSections(const std::string& populationName, const int64_t astrocyteId,
                                     const bool connectedToSomaOnly) const;
 
     /**
@@ -236,8 +223,7 @@ public:
      * @param astrocyteId Identifier of the astrocyte
      * @return EndFootNodesMap A map of end-feet
      */
-    EndFootMap getAstrocyteEndFeet(const std::string& vasculaturePopulationName,
-                                   const uint64_t astrocyteId) const;
+    EndFootMap getAstrocyteEndFeet(const std::string& vasculaturePopulationName, const uint64_t astrocyteId) const;
 
     /**
      * @brief Get the micro-domain for a given astrocyte
@@ -246,8 +232,7 @@ public:
      * @param astrocyteId Identifier of the astrocyte
      * @return Micro-domain triangle mesh
      */
-    TriangleMesh getAstrocyteMicroDomain(const std::string& populationName,
-                                         const uint64_t astrocyteId) const;
+    TriangleMesh getAstrocyteMicroDomain(const std::string& populationName, const uint64_t astrocyteId) const;
 
     /**
      * @brief Get the neurons locations
@@ -257,8 +242,7 @@ public:
      * statement
      * @return NeuronSomaMap A map of neurons (position, type, etc)
      */
-    NeuronSomaMap getNeurons(const std::string& populationName,
-                             const std::string& sqlCondition = "") const;
+    NeuronSomaMap getNeurons(const std::string& populationName, const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the sections of a given neuron
@@ -269,8 +253,7 @@ public:
      * statement
      * @return SectionMap A map of sections
      */
-    SectionMap getNeuronSections(const std::string& populationName,
-                                 const uint64_t neuronId,
+    SectionMap getNeuronSections(const std::string& populationName, const uint64_t neuronId,
                                  const std::string& sqlCondition = "") const;
 
     /**
@@ -282,9 +265,8 @@ public:
      * statement
      * @return SectionSynapseMap A map of synapses
      */
-    SectionSynapseMap getNeuronSynapses(
-        const std::string& populationName, const uint64_t neuronId,
-        const std::string& sqlCondition = "") const;
+    SectionSynapseMap getNeuronSynapses(const std::string& populationName, const uint64_t neuronId,
+                                        const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get a selection of spikes from a neuron spike report
@@ -294,10 +276,8 @@ public:
      * @param endTime End time of the selection
      * @return uint64_ts Spiking neuron ids for the specified time selection
      */
-    SpikesMap getNeuronSpikeReportValues(const std::string& populationName,
-                                         const uint64_t reportId,
-                                         const double startTime,
-                                         const double endTime) const;
+    SpikesMap getNeuronSpikeReportValues(const std::string& populationName, const uint64_t reportId,
+                                         const double startTime, const double endTime) const;
 
     /**
      * @brief Get the Neuron Soma Report Guids
@@ -306,8 +286,7 @@ public:
      * @param reportId Simulation report identifier
      * @return uint64_tm Neuron Soma Report Guids
      */
-    uint64_tm getSimulatedNodesGuids(const std::string& populationName,
-                                     const uint64_t reportId) const;
+    uint64_tm getSimulatedNodesGuids(const std::string& populationName, const uint64_t reportId) const;
 
     /**
      * @brief Get the Neuron soma simulation values
@@ -317,9 +296,8 @@ public:
      * @param frame Simulation frame
      * @return floats The Neuron soma simulation values
      */
-    void getNeuronSomaReportValues(const std::string& populationName,
-                                   const uint64_t reportId,
-                                   const uint64_t frame, floats& values) const;
+    void getNeuronSomaReportValues(const std::string& populationName, const uint64_t reportId, const uint64_t frame,
+                                   floats& values) const;
 
     /**
      * @brief Get the neuron section compartments for a given simulation report
@@ -330,10 +308,8 @@ public:
      * @param neuronId Section identifier
      * @return uint64_ts Compartments identifiers
      */
-    uint64_ts getNeuronSectionCompartments(const std::string& populationName,
-                                           const uint64_t reportId,
-                                           const uint64_t nodeId,
-                                           const uint64_t sectionId) const;
+    uint64_ts getNeuronSectionCompartments(const std::string& populationName, const uint64_t reportId,
+                                           const uint64_t nodeId, const uint64_t sectionId) const;
 
     /**
      * @brief Get the Neuron compartment simulation values
@@ -343,8 +319,7 @@ public:
      * @param frame Simulation frame
      * @return floats The Neuron compartment simulation values
      */
-    floats getNeuronCompartmentReportValues(const std::string& populationName,
-                                            const uint64_t reportId,
+    floats getNeuronCompartmentReportValues(const std::string& populationName, const uint64_t reportId,
                                             const uint64_t frame) const;
 
     /**
@@ -364,8 +339,7 @@ public:
      * statement
      * @return CellMap A map of cells (position, orientation, type, etc)
      */
-    CellMap getAtlasCells(const uint64_t regionId,
-                          const std::string& sqlCondition = "") const;
+    CellMap getAtlasCells(const uint64_t regionId, const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the mesh of a given region from the brain atlas
@@ -383,9 +357,8 @@ public:
      * @param sqlCondition SQL condition
      * @return WhiteMatterStreamlines White matter streamlines
      */
-    WhiteMatterStreamlines getWhiteMatterStreamlines(
-        const std::string& populationName,
-        const std::string& sqlCondition = "") const;
+    WhiteMatterStreamlines getWhiteMatterStreamlines(const std::string& populationName,
+                                                     const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get positions of synapses
@@ -394,8 +367,7 @@ public:
      * @param sqlCondition SQL condition
      * @return Map of synapses indexed by ID
      */
-    SynapsesMap getSynapses(const std::string& populationName,
-                            const std::string& sqlCondition = "") const;
+    SynapsesMap getSynapses(const std::string& populationName, const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get positions of synapses for efficacy report
@@ -404,9 +376,8 @@ public:
      * @param sqlCondition SQL condition
      * @return Positions of synapses for efficacy report
      */
-    Vector3ds getSynapseEfficacyPositions(
-        const std::string& populationName,
-        const std::string& sqlCondition = "") const;
+    Vector3ds getSynapseEfficacyPositions(const std::string& populationName,
+                                          const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get synapse efficacy report values
@@ -416,9 +387,8 @@ public:
      * @param sqlCondition SQL condition
      * @return Values of synapses efficacy
      */
-    std::map<uint64_t, floats> getSynapseEfficacyReportValues(
-        const std::string& populationName, const uint64_t frame,
-        const std::string& sqlCondition = "") const;
+    std::map<uint64_t, floats> getSynapseEfficacyReportValues(const std::string& populationName, const uint64_t frame,
+                                                              const std::string& sqlCondition = "") const;
 
     static std::mutex _mutex;
     static DBConnector* _instance;

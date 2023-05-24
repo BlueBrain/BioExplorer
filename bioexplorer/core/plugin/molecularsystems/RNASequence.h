@@ -43,10 +43,8 @@ public:
      * @param details Details of the RNA sequence
      * @param position Relative position of the RNA sequence in the assembly
      */
-    RNASequence(Scene& scene, const RNASequenceDetails& details,
-                const Vector4ds& clippingPlanes,
-                const Vector3d& assemblyPosition = Vector3d(),
-                const Quaterniond& assemblyRotation = Quaterniond());
+    RNASequence(Scene& scene, const RNASequenceDetails& details, const Vector4ds& clippingPlanes,
+                const Vector3d& assemblyPosition = Vector3d(), const Quaterniond& assemblyRotation = Quaterniond());
 
     /**
      * @brief Get the map of RNA sequences

@@ -60,10 +60,8 @@ NucleotidMap nucleotidMap{{'A', {0, "Adenine", {0.f, 0.f, 1.f}}},
                           {'T', {3, "Thymine", {1.f, 0.f, 1.f}}},
                           {'C', {4, "Cytosine", {1.f, 1.f, 0.f}}}};
 
-RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
-                         const Vector4ds& clippingPlanes,
-                         const Vector3d& assemblyPosition,
-                         const Quaterniond& assemblyRotation)
+RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details, const Vector4ds& clippingPlanes,
+                         const Vector3d& assemblyPosition, const Quaterniond& assemblyRotation)
     : Node()
     , _scene(scene)
     , _details(details)
@@ -79,11 +77,9 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
     const auto shapeParams = doublesToVector2d(_details.shapeParams);
     const auto valuesRange = doublesToVector2d(_details.valuesRange);
     const auto curveParams = doublesToVector3d(_details.curveParams);
-    const auto MolecularSystemAnimationDetails =
-        doublesToMolecularSystemAnimationDetails(_details.animationParams);
+    const auto MolecularSystemAnimationDetails = doublesToMolecularSystemAnimationDetails(_details.animationParams);
 
-    PLUGIN_INFO(3, "Loading RNA sequence " << details.name << " from "
-                                           << details.contents);
+    PLUGIN_INFO(3, "Loading RNA sequence " << details.name << " from " << details.contents);
     PLUGIN_INFO(3, "- Shape params        : " << shapeParams);
     PLUGIN_INFO(3, "- Values range        : " << valuesRange);
     PLUGIN_INFO(3, "- Curve parameters    : " << curveParams);
@@ -91,8 +87,7 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
     PLUGIN_INFO(3, "- RNA Sequence length : " << _nbElements);
 
     _shape =
-        RNAShapePtr(new RNAShape(clippingPlanes, _details.shape, _nbElements,
-                                 shapeParams, valuesRange, curveParams));
+        RNAShapePtr(new RNAShape(clippingPlanes, _details.shape, _nbElements, shapeParams, valuesRange, curveParams));
 
     if (processAsProtein)
         _buildRNAAsProteinInstances(rotation);
@@ -103,8 +98,7 @@ RNASequence::RNASequence(Scene& scene, const RNASequenceDetails& details,
 void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
 {
     const auto& sequence = _details.contents;
-    const auto MolecularSystemAnimationDetails =
-        doublesToMolecularSystemAnimationDetails(_details.animationParams);
+    const auto MolecularSystemAnimationDetails = doublesToMolecularSystemAnimationDetails(_details.animationParams);
     const auto shapeParams = doublesToVector2d(_details.shapeParams);
     const auto radius = shapeParams.y;
 
@@ -113,13 +107,10 @@ void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
     size_t materialId = 0;
     for (const auto& nucleotid : nucleotidMap)
     {
-        auto material =
-            model->createMaterial(materialId, nucleotid.second.name);
+        auto material = model->createMaterial(materialId, nucleotid.second.name);
         brayns::PropertyMap props;
         props.setProperty(
-            {MATERIAL_PROPERTY_CHAMELEON_MODE,
-             static_cast<int>(
-                 MaterialChameleonMode::undefined_chameleon_mode)});
+            {MATERIAL_PROPERTY_CHAMELEON_MODE, static_cast<int>(MaterialChameleonMode::undefined_chameleon_mode)});
         material->setDiffuseColor(nucleotid.second.color);
         material->updateProperties(props);
         ++materialId;
@@ -135,16 +126,11 @@ void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
             const auto& codon = nucleotidMap[letter];
             const auto materialId = codon.index;
 
-            const auto src =
-                _shape->getTransformation(occurrence, occurrences,
-                                          MolecularSystemAnimationDetails, 0.f);
+            const auto src = _shape->getTransformation(occurrence, occurrences, MolecularSystemAnimationDetails, 0.f);
             const auto dst =
-                _shape->getTransformation(occurrence + 1, occurrences,
-                                          MolecularSystemAnimationDetails, 0.f);
+                _shape->getTransformation(occurrence + 1, occurrences, MolecularSystemAnimationDetails, 0.f);
 
-            model->addCylinder(materialId,
-                               {src.getTranslation(), dst.getTranslation(),
-                                static_cast<float>(radius)});
+            model->addCylinder(materialId, {src.getTranslation(), dst.getTranslation(), static_cast<float>(radius)});
         }
     }
 
@@ -152,19 +138,15 @@ void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
     ModelMetadata metadata;
     metadata[METADATA_ASSEMBLY] = _details.assemblyName;
     metadata["RNA sequence"] = sequence;
-    _modelDescriptor =
-        std::make_shared<ModelDescriptor>(std::move(model), _details.name,
-                                          metadata);
-    if (_modelDescriptor &&
-        !GeneralSettings::getInstance()->getModelVisibilityOnCreation())
+    _modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), _details.name, metadata);
+    if (_modelDescriptor && !GeneralSettings::getInstance()->getModelVisibilityOnCreation())
         _modelDescriptor->setVisible(false);
 }
 
 void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
 {
     const auto& sequence = _details.contents;
-    const auto MolecularSystemAnimationDetails =
-        doublesToMolecularSystemAnimationDetails(_details.animationParams);
+    const auto MolecularSystemAnimationDetails = doublesToMolecularSystemAnimationDetails(_details.animationParams);
     const size_t nbElements = sequence.length();
     Vector3d position = Vector3d(0.f);
 
@@ -184,8 +166,7 @@ void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
     _modelDescriptor = _protein->getModelDescriptor();
 
     const auto proteinBounds = _protein->getBounds().getSize();
-    const double proteinSize =
-        std::min(proteinBounds.x, std::min(proteinBounds.y, proteinBounds.z));
+    const double proteinSize = std::min(proteinBounds.x, std::min(proteinBounds.y, proteinBounds.z));
     double proteinSpacing = 0.f;
 
     Vector3d previousTranslation;
@@ -204,12 +185,10 @@ void RNASequence::_buildRNAAsProteinInstances(const Quaterniond& rotation)
             transformations.push_back(assemblyTransformation);
 
             const auto shapeTransformation =
-                _shape->getTransformation(occurrence, occurrences,
-                                          MolecularSystemAnimationDetails, 0.f);
+                _shape->getTransformation(occurrence, occurrences, MolecularSystemAnimationDetails, 0.f);
             transformations.push_back(shapeTransformation);
 
-            const Transformation finalTransformation =
-                combineTransformations(transformations);
+            const Transformation finalTransformation = combineTransformations(transformations);
 
             const Vector3d translation = finalTransformation.getTranslation();
 

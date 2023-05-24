@@ -37,9 +37,7 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-SynapseEfficacy::SynapseEfficacy(Scene& scene,
-                                 const SynapseEfficacyDetails& details,
-                                 const Vector3d& position,
+SynapseEfficacy::SynapseEfficacy(Scene& scene, const SynapseEfficacyDetails& details, const Vector3d& position,
                                  const Quaterniond& rotation)
     : SDFGeometries(details.alignToGrid, position, rotation)
     , _details(details)
@@ -59,8 +57,7 @@ void SynapseEfficacy::_buildModel()
     ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation);
 
     const auto synapsePositions =
-        DBConnector::getInstance().getSynapseEfficacyPositions(
-            _details.populationName, _details.sqlFilter);
+        DBConnector::getInstance().getSynapseEfficacyPositions(_details.populationName, _details.sqlFilter);
 
     const auto nbSynapses = synapsePositions.size();
     const size_t materialId = 0;
@@ -71,21 +68,17 @@ void SynapseEfficacy::_buildModel()
     {
         container.addSphere(position, _details.radius, materialId, useSdf, i);
         if (i % progressStep == 0)
-            PLUGIN_PROGRESS("Loading " << i << "/" << nbSynapses << " synapses",
-                            i, nbSynapses);
+            PLUGIN_PROGRESS("Loading " << i << "/" << nbSynapses << " synapses", i, nbSynapses);
         ++i;
     }
 
     container.commitToModel();
     PLUGIN_INFO(1, "");
 
-    const ModelMetadata metadata = {{"Number of synapses",
-                                     std::to_string(nbSynapses)},
+    const ModelMetadata metadata = {{"Number of synapses", std::to_string(nbSynapses)},
                                     {"SQL filter", _details.sqlFilter}};
 
-    _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
-                                                       _details.assemblyName,
-                                                       metadata));
+    _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model), _details.assemblyName, metadata));
     if (_modelDescriptor)
         _scene.addModel(_modelDescriptor);
     else

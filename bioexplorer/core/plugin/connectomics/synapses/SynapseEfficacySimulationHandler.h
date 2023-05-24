@@ -45,8 +45,7 @@ public:
     /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
     SynapseEfficacySimulationHandler(const SynapseEfficacyDetails& details);
     /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
-    SynapseEfficacySimulationHandler(
-        const SynapseEfficacySimulationHandler& rhs);
+    SynapseEfficacySimulationHandler(const SynapseEfficacySimulationHandler& rhs);
 
     /** @copydoc AbstractSimulationHandler::getFrameData */
     void* getFrameData(const uint32_t frame) final;

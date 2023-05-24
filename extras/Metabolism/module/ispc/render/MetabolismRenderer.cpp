@@ -45,8 +45,7 @@ void MetabolismRenderer::commit()
     _lightArray.clear();
     if (_lightData)
         for (size_t i = 0; i < _lightData->size(); ++i)
-            _lightArray.push_back(
-                ((ospray::Light**)_lightData->data)[i]->getIE());
+            _lightArray.push_back(((ospray::Light**)_lightData->data)[i]->getIE());
 
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
@@ -68,19 +67,15 @@ void MetabolismRenderer::commit()
     _userDataSize = _userData ? _userData->size() : 0;
 
     // Transfer function
-    ospray::TransferFunction* transferFunction =
-        (ospray::TransferFunction*)getParamObject("transferFunction", nullptr);
+    ospray::TransferFunction* transferFunction = (ospray::TransferFunction*)getParamObject("transferFunction", nullptr);
     if (transferFunction)
-        ispc::MetabolismRenderer_setTransferFunction(getIE(),
-                                                     transferFunction->getIE());
+        ispc::MetabolismRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 
     // Renderer
-    ispc::MetabolismRenderer_set(
-        getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr,
-        _lightArray.size(), (_userData ? (float*)_userData->data : nullptr),
-        _userDataSize, _nearPlane, _farPlane, _rayStep, _refinementSteps,
-        _exposure, _alphaCorrection, _colorMapPerRegion, _noiseFrequency,
-        _noiseAmplitude);
+    ispc::MetabolismRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr,
+                                 _lightArray.size(), (_userData ? (float*)_userData->data : nullptr), _userDataSize,
+                                 _nearPlane, _farPlane, _rayStep, _refinementSteps, _exposure, _alphaCorrection,
+                                 _colorMapPerRegion, _noiseFrequency, _noiseAmplitude);
 }
 
 MetabolismRenderer::MetabolismRenderer()

@@ -35,34 +35,27 @@ using namespace brayns;
 class AstrocyteLoader : public Loader
 {
 public:
-    AstrocyteLoader(Scene &scene,
-                    const ApplicationParameters &applicationParameters,
-                    PropertyMap &&loaderParams);
+    AstrocyteLoader(Scene &scene, const ApplicationParameters &applicationParameters, PropertyMap &&loaderParams);
 
     std::string getName() const final;
 
     std::vector<std::string> getSupportedExtensions() const final;
 
-    bool isSupported(const std::string &filename,
-                     const std::string &extension) const final;
+    bool isSupported(const std::string &filename, const std::string &extension) const final;
 
     static PropertyMap getCLIProperties();
 
     /** @copydoc Loader::importFromBlob */
-    ModelDescriptorPtr importFromBlob(
-        Blob &&blob, const LoaderProgress &callback,
-        const PropertyMap &properties) const final;
+    ModelDescriptorPtr importFromBlob(Blob &&blob, const LoaderProgress &callback,
+                                      const PropertyMap &properties) const final;
 
     /** @copydoc Loader::importFromFile */
-    ModelDescriptorPtr importFromFile(
-        const std::string &filename, const LoaderProgress &callback,
-        const PropertyMap &properties) const final;
+    ModelDescriptorPtr importFromFile(const std::string &filename, const LoaderProgress &callback,
+                                      const PropertyMap &properties) const final;
 
 private:
-    void _importMorphologiesFromURIs(const PropertyMap &properties,
-                                     const std::vector<std::string> &uris,
-                                     const LoaderProgress &callback,
-                                     Model &model) const;
+    void _importMorphologiesFromURIs(const PropertyMap &properties, const std::vector<std::string> &uris,
+                                     const LoaderProgress &callback, Model &model) const;
     const ApplicationParameters &_applicationParameters;
     PropertyMap _defaults;
     PropertyMap _fixedDefaults;

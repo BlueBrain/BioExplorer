@@ -27,16 +27,13 @@ namespace bioexplorer
 {
 namespace rendering
 {
-
 void GolgiStyleRenderer::commit()
 {
     Renderer::commit();
     _exponent = getParam1f("exponent", 1.f);
     _inverse = getParam("inverse", 0);
 
-    ispc::GolgiStyleRenderer_set(getIE(),
-                                 (_bgMaterial ? _bgMaterial->getIE() : nullptr),
-                                 spp, _exponent, _inverse);
+    ispc::GolgiStyleRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _exponent, _inverse);
 }
 
 GolgiStyleRenderer::GolgiStyleRenderer()

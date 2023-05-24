@@ -30,8 +30,8 @@ namespace bioexplorer
 {
 namespace common
 {
-SDFGeometries::SDFGeometries(const double alignToGrid, const Vector3d& position,
-                             const Quaterniond& rotation, const Vector3d& scale)
+SDFGeometries::SDFGeometries(const double alignToGrid, const Vector3d& position, const Quaterniond& rotation,
+                             const Vector3d& scale)
     : Node(scale)
     , _alignToGrid(alignToGrid)
     , _position(position)
@@ -45,55 +45,41 @@ void SDFGeometries::addSDFDemo(Model& model)
     const bool useSdf = true;
     const Vector3f displacement{0.1f, 10.f, 0.f};
 
-    ThreadSafeContainer modelContainer(model, _alignToGrid, _position,
-                                       _rotation);
+    ThreadSafeContainer modelContainer(model, _alignToGrid, _position, _rotation);
     Neighbours neighbours;
-    neighbours.insert(modelContainer.addCone(Vector3d(-1, 0, 0), 0.25,
-                                             Vector3d(0, 0, 0), 0.1, materialId,
-                                             useSdf, NO_USER_DATA, neighbours,
-                                             displacement));
-    neighbours.insert(modelContainer.addCone(Vector3d(0, 0, 0), 0.1,
-                                             Vector3d(1, 0, 0), 0.25,
-                                             materialId, useSdf, NO_USER_DATA,
-                                             neighbours, displacement));
-    neighbours.insert(modelContainer.addSphere(Vector3d(-0.5, 0, 0), 0.25,
-                                               materialId, useSdf, NO_USER_DATA,
-                                               neighbours, displacement));
-    neighbours.insert(modelContainer.addSphere(Vector3d(0.5, 0, 0), 0.25,
-                                               materialId, useSdf, NO_USER_DATA,
-                                               neighbours, displacement));
-    neighbours.insert(modelContainer.addCone(Vector3d(0, 0.25, 0), 0.5,
-                                             Vector3d(0, 1, 0), 0.0, materialId,
-                                             useSdf, NO_USER_DATA, neighbours,
-                                             displacement));
+    neighbours.insert(modelContainer.addCone(Vector3d(-1, 0, 0), 0.25, Vector3d(0, 0, 0), 0.1, materialId, useSdf,
+                                             NO_USER_DATA, neighbours, displacement));
+    neighbours.insert(modelContainer.addCone(Vector3d(0, 0, 0), 0.1, Vector3d(1, 0, 0), 0.25, materialId, useSdf,
+                                             NO_USER_DATA, neighbours, displacement));
+    neighbours.insert(modelContainer.addSphere(Vector3d(-0.5, 0, 0), 0.25, materialId, useSdf, NO_USER_DATA, neighbours,
+                                               displacement));
+    neighbours.insert(modelContainer.addSphere(Vector3d(0.5, 0, 0), 0.25, materialId, useSdf, NO_USER_DATA, neighbours,
+                                               displacement));
+    neighbours.insert(modelContainer.addCone(Vector3d(0, 0.25, 0), 0.5, Vector3d(0, 1, 0), 0.0, materialId, useSdf,
+                                             NO_USER_DATA, neighbours, displacement));
 
     modelContainer.commitToModel();
 }
 
-Vector3d SDFGeometries::_animatedPosition(const Vector4d& position,
-                                          const uint64_t index) const
+Vector3d SDFGeometries::_animatedPosition(const Vector4d& position, const uint64_t index) const
 {
     if (_animationDetails.seed == 0)
         return Vector3d(position);
     const auto seed = _animationDetails.seed + _animationDetails.offset * index;
     const auto amplitude = _animationDetails.amplitude * position.w;
     const auto frequency = _animationDetails.frequency;
-    return Vector3d(
-        position.x + amplitude * rnd3(seed + position.x * frequency),
-        position.y + amplitude * rnd3(seed + position.y * frequency),
-        position.z + amplitude * rnd3(seed + position.z * amplitude));
+    return Vector3d(position.x + amplitude * rnd3(seed + position.x * frequency),
+                    position.y + amplitude * rnd3(seed + position.y * frequency),
+                    position.z + amplitude * rnd3(seed + position.z * amplitude));
 }
 
-Vector4fs SDFGeometries::_getProcessedSectionPoints(
-    const MorphologyRepresentation& representation, const Vector4fs& points)
+Vector4fs SDFGeometries::_getProcessedSectionPoints(const MorphologyRepresentation& representation,
+                                                    const Vector4fs& points)
 {
     Vector4fs localPoints;
-    if (representation == MorphologyRepresentation::bezier &&
-        points.size() > DEFAULT_BEZIER_STEP * 2)
+    if (representation == MorphologyRepresentation::bezier && points.size() > DEFAULT_BEZIER_STEP * 2)
     {
-        for (double t = 0.0; t <= 1.0;
-             t +=
-             1.0 / static_cast<double>(points.size() * DEFAULT_BEZIER_STEP))
+        for (double t = 0.0; t <= 1.0; t += 1.0 / static_cast<double>(points.size() * DEFAULT_BEZIER_STEP))
             localPoints.push_back(getBezierPoint(points, t));
     }
     else
@@ -101,8 +87,7 @@ Vector4fs SDFGeometries::_getProcessedSectionPoints(
     return localPoints;
 }
 
-double SDFGeometries::_getCorrectedRadius(const double radius,
-                                          const double radiusMultiplier) const
+double SDFGeometries::_getCorrectedRadius(const double radius, const double radiusMultiplier) const
 {
     if (radiusMultiplier < 0.0)
         return -radiusMultiplier;

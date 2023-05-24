@@ -41,15 +41,13 @@ public:
      * @param threshold Threshold above which the worley noise value is in the
      * shape
      */
-    SphericalCellDiffusionShape(const Vector4ds& clippingPlanes,
-                                const double radius, const double frequency,
+    SphericalCellDiffusionShape(const Vector4ds& clippingPlanes, const double radius, const double frequency,
                                 const double threshold);
 
     /** @copydoc Shape::getTransformation */
-    Transformation getTransformation(
-        const uint64_t occurrence, const uint64_t nbOccurrences,
-        const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
-        const double offset) const final;
+    Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
+                                     const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+                                     const double offset) const final;
 
     /** @copydoc Shape::isInside */
     bool isInside(const Vector3d& point) const final;
@@ -57,8 +55,7 @@ public:
 private:
     Transformation _getFilledSphereTransformation(
         const uint64_t occurrence, const uint64_t nbOccurrences,
-        const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
-        const double offset) const;
+        const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails, const double offset) const;
 
     double _radius;
     double _frequency;

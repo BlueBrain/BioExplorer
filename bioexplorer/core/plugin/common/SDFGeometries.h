@@ -49,8 +49,7 @@ public:
      * @brief Construct a new SDFGeometries object
      *
      */
-    SDFGeometries(const double alignToGrid, const Vector3d& position,
-                  const Quaterniond& rotation,
+    SDFGeometries(const double alignToGrid, const Vector3d& position, const Quaterniond& rotation,
                   const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
 
     /**
@@ -61,18 +60,13 @@ public:
     void addSDFDemo(Model& model);
 
 protected:
-    virtual double _getDisplacementValue(
-        const DisplacementElement& element) = 0;
+    virtual double _getDisplacementValue(const DisplacementElement& element) = 0;
 
-    Vector4fs _getProcessedSectionPoints(
-        const MorphologyRepresentation& representation,
-        const Vector4fs& points);
+    Vector4fs _getProcessedSectionPoints(const MorphologyRepresentation& representation, const Vector4fs& points);
 
-    Vector3d _animatedPosition(const Vector4d& position,
-                               const uint64_t index = 0) const;
+    Vector3d _animatedPosition(const Vector4d& position, const uint64_t index = 0) const;
 
-    double _getCorrectedRadius(const double radius,
-                               const double radiusMultiplier) const;
+    double _getCorrectedRadius(const double radius, const double radiusMultiplier) const;
 
     CellAnimationDetails _animationDetails;
     double _alignToGrid{0.0};

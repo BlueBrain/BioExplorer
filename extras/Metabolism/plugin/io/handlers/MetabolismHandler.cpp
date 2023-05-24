@@ -80,9 +80,7 @@ void* MetabolismHandler::getFrameData(const uint32_t frame)
         return _frameData.data();
     _currentFrame = frame;
 
-    const auto values =
-        _connector->getConcentrations(frame, _referenceFrame, _metaboliteIds,
-                                      _relativeConcentration);
+    const auto values = _connector->getConcentrations(frame, _referenceFrame, _metaboliteIds, _relativeConcentration);
 
     _frameData.clear();
     _frameData.push_back(frame);

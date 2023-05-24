@@ -40,10 +40,9 @@ FanShape::FanShape(const Vector4ds& clippingPlanes, const double radius)
     _surface = 4.f * M_PI * _radius * _radius;
 }
 
-Transformation FanShape::getTransformation(
-    const uint64_t occurrence, const uint64_t nbOccurrences,
-    const MolecularSystemAnimationDetails& molecularSystemAnimationDetails,
-    const double offset) const
+Transformation FanShape::getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
+                                           const MolecularSystemAnimationDetails& molecularSystemAnimationDetails,
+                                           const double offset) const
 {
     uint64_t rnd = occurrence;
     if (nbOccurrences != 0 && molecularSystemAnimationDetails.seed != 0)
@@ -54,25 +53,21 @@ Transformation FanShape::getTransformation(
             rnd = rand() % std::numeric_limits<uint64_t>::max();
     }
 
-    const double radius =
-        _radius +
-        (molecularSystemAnimationDetails.positionSeed == 0
-             ? molecularSystemAnimationDetails.positionStrength
-             : molecularSystemAnimationDetails.positionStrength *
-                   rnd3(molecularSystemAnimationDetails.positionSeed + rnd));
+    const double radius = _radius + (molecularSystemAnimationDetails.positionSeed == 0
+                                         ? molecularSystemAnimationDetails.positionStrength
+                                         : molecularSystemAnimationDetails.positionStrength *
+                                               rnd3(molecularSystemAnimationDetails.positionSeed + rnd));
 
     Vector3d pos;
     Quaterniond rot;
-    sphereFilling(radius + offset, occurrence, nbOccurrences, rnd, pos, rot,
-                  0.1);
+    sphereFilling(radius + offset, occurrence, nbOccurrences, rnd, pos, rot, 0.1);
 
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");
 
     if (molecularSystemAnimationDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(
-            rot, molecularSystemAnimationDetails.rotationSeed, rnd,
-            molecularSystemAnimationDetails.rotationStrength);
+        rot = weightedRandomRotation(rot, molecularSystemAnimationDetails.rotationSeed, rnd,
+                                     molecularSystemAnimationDetails.rotationStrength);
 
     Transformation transformation;
     transformation.setTranslation(pos);

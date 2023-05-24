@@ -37,9 +37,8 @@ uniform const float skypower_zerobounce = 1.0f;
     @param n2 Out localRefraction index
     @return Refracted vector
 */
-inline vec3f refractedVector(const varying vec3f& direction,
-                             const varying vec3f& normal,
-                             const varying float n1, const varying float n2)
+inline vec3f refractedVector(const varying vec3f& direction, const varying vec3f& normal, const varying float n1,
+                             const varying float n2)
 {
     if (n2 == 0.f)
         return direction;
@@ -51,9 +50,8 @@ inline vec3f refractedVector(const varying vec3f& direction,
     return direction;
 }
 
-inline vec3f pathTracingContribution(
-    const uniform PathTracingRenderer* uniform self,
-    varying ScreenSample& sample, const varying vec3f& sunDirection)
+inline vec3f pathTracingContribution(const uniform PathTracingRenderer* uniform self, varying ScreenSample& sample,
+                                     const varying vec3f& sunDirection)
 {
     vec3f Kd;
     Ray localray = sample.ray;
@@ -70,20 +68,16 @@ inline vec3f pathTracingContribution(
         {
             localray.t = inf;
             const vec3f bgcol =
-                make_vec3f(skyboxMapping((Renderer*)self, localray,
-                                         self->super.super.bgMaterial)) *
-                skypower;
+                make_vec3f(skyboxMapping((Renderer*)self, localray, self->super.super.bgMaterial)) * skypower;
             accucolor = accucolor + mask * bgcol;
             break;
         }
         DifferentialGeometry dg;
         postIntersect(self->super.super.super.model, dg, localray,
-                      DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD |
-                          DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
+                      DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD | DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
 
         uniform Material* material = dg.material;
-        uniform AdvancedMaterial* objMaterial =
-            (uniform AdvancedMaterial*)material;
+        uniform AdvancedMaterial* objMaterial = (uniform AdvancedMaterial*)material;
 
         bool castUserData = false;
         if (!objMaterial)
@@ -97,19 +91,15 @@ inline vec3f pathTracingContribution(
 
         vec4f simulationColor = make_vec4f(0.f);
         if (castUserData && self->super.simulationDataSize > 0)
-            simulationColor =
-                getSimulationValue(&self->super, &dg, localray.primID);
-        Kd = make_vec3f(simulationColor) * simulationColor.w +
-             Kd * (1.f - simulationColor.w);
+            simulationColor = getSimulationValue(&self->super, &dg, localray.primID);
+        Kd = make_vec3f(simulationColor) * simulationColor.w + Kd * (1.f - simulationColor.w);
 
         // compute local orthornormal base at hitpoint
         const vec3f N = dg.Ns;
 
         // compute ray direction of uniformly random diffuse ray
-        const vec3f raydir =
-            getRandomVector(self->super.useHardwareRandomizer,
-                            self->super.super.super.fb->size.x, sample, N,
-                            self->super.randomNumber);
+        const vec3f raydir = getRandomVector(self->super.useHardwareRandomizer, self->super.super.super.fb->size.x,
+                                             sample, N, self->super.randomNumber);
 
         // origin of new ray in path is hitpoint of previous ray in path
         const vec3f hitpoint = dg.P + dg.epsilon * N;
@@ -144,9 +134,7 @@ inline vec3f pathTracingContribution(
     @param sample Screen sample containing information about the ray, and the
            location in the screen space.
 */
-inline vec3f PathTracingRenderer_shadeRay(
-    const uniform PathTracingRenderer* uniform self,
-    varying ScreenSample& sample)
+inline vec3f PathTracingRenderer_shadeRay(const uniform PathTracingRenderer* uniform self, varying ScreenSample& sample)
 {
     Ray ray = sample.ray;
     vec3f color = make_vec3f(0.f);
@@ -178,12 +166,10 @@ inline vec3f PathTracingRenderer_shadeRay(
         {
             // No intersection. Return skybox color
             ray.t = inf;
-            color =
-                self->super.showBackground
-                    ? make_vec3f(skyboxMapping((Renderer*)self, ray,
-                                               self->super.super.bgMaterial)) *
-                          skypower_zerobounce
-                    : make_vec3f(0.f);
+            color = self->super.showBackground
+                        ? make_vec3f(skyboxMapping((Renderer*)self, ray, self->super.super.bgMaterial)) *
+                              skypower_zerobounce
+                        : make_vec3f(0.f);
 
             // No Geometry intersection. No need to iterate more
             moreRebounds = false;
@@ -193,13 +179,11 @@ inline vec3f PathTracingRenderer_shadeRay(
             // else, we've got a hit!
             DifferentialGeometry dg;
             postIntersect(self->super.super.super.model, dg, ray,
-                          DG_NS | DG_NG | DG_NORMALIZE | DG_FACEFORWARD |
-                              DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
+                          DG_NS | DG_NG | DG_NORMALIZE | DG_FACEFORWARD | DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
             const vec3f intersection = dg.P;
 
             uniform Material* material = dg.material;
-            uniform AdvancedMaterial* objMaterial =
-                (uniform AdvancedMaterial*)material;
+            uniform AdvancedMaterial* objMaterial = (uniform AdvancedMaterial*)material;
 
             vec3f normal = dg.Ns;
             vec3f Kd = make_vec3f(0.f);
@@ -261,13 +245,10 @@ inline vec3f PathTracingRenderer_shadeRay(
             // Simulation
             vec4f simulationColor = make_vec4f(0.f);
             if (castUserData && self->super.simulationDataSize > 0)
-                simulationColor =
-                    getSimulationValue(&self->super, &dg, ray.primID);
-            Kd = make_vec3f(simulationColor) * simulationColor.w +
-                 Kd * (1.f - simulationColor.w);
+                simulationColor = getSimulationValue(&self->super, &dg, ray.primID);
+            Kd = make_vec3f(simulationColor) * simulationColor.w + Kd * (1.f - simulationColor.w);
 
-            const vec3f reflectedNormal =
-                ray.dir - 2.f * dot(ray.dir, normal) * normal;
+            const vec3f reflectedNormal = ray.dir - 2.f * dot(ray.dir, normal) * normal;
 
             // Phong + Blinn shading
             float cosNL = max(0.f, dot(sunDirection, normal));
@@ -276,11 +257,8 @@ inline vec3f PathTracingRenderer_shadeRay(
 
             // Path tracing contribution
             const float ao = self->aoStrength;
-            const vec3f pathTracingColor =
-                ao > 0.f
-                    ? Kd * ao *
-                          pathTracingContribution(self, sample, sunDirection)
-                    : Kd * radiance * cosNL + specularColor;
+            const vec3f pathTracingColor = ao > 0.f ? Kd * ao * pathTracingContribution(self, sample, sunDirection)
+                                                    : Kd * radiance * cosNL + specularColor;
 
             // Alpha and Z-Depth
             if (depth == 0)
@@ -289,8 +267,7 @@ inline vec3f PathTracingRenderer_shadeRay(
                 sample.alpha = opacity;
             }
 
-            color =
-                pathTracingColor * pathOpacity + color * (1.f - pathOpacity);
+            color = pathTracingColor * pathOpacity + color * (1.f - pathOpacity);
 
             // Prepare ray for next iteration
             bool doRefraction = (opacity < 1.f);
@@ -308,8 +285,7 @@ inline vec3f PathTracingRenderer_shadeRay(
                 // Refraction
                 vec3f correctedNormal = normal;
                 const float angle = dot(ray.dir, correctedNormal);
-                if (abs(refraction - oldlocalRefraction) < 0.001f &&
-                    angle > 0.f)
+                if (abs(refraction - oldlocalRefraction) < 0.001f && angle > 0.f)
                 {
                     // Exiting object, back to air (refractionindex = 1)
                     refraction = 1.f;
@@ -317,8 +293,7 @@ inline vec3f PathTracingRenderer_shadeRay(
                 }
 
                 ray.t0 = 0.f;
-                ray.dir = refractedVector(ray.dir, correctedNormal,
-                                          oldlocalRefraction, refraction);
+                ray.dir = refractedVector(ray.dir, correctedNormal, oldlocalRefraction, refraction);
                 ray.org = intersection + dg.epsilon * ray.dir;
 
                 pathOpacity -= (1.f - opacity);
@@ -344,16 +319,13 @@ inline vec3f PathTracingRenderer_shadeRay(
         }
     }
 
-    return clamp(color * self->super.exposure, make_vec3f(0.f),
-                 make_vec3f(1.f));
+    return clamp(color * self->super.exposure, make_vec3f(0.f), make_vec3f(1.f));
 }
 
-void PathTracingRenderer_renderSample(uniform Renderer* uniform _self,
-                                      void* uniform perFrameData,
+void PathTracingRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
                                       varying ScreenSample& sample)
 {
-    uniform PathTracingRenderer* uniform self =
-        (uniform PathTracingRenderer * uniform) _self;
+    uniform PathTracingRenderer* uniform self = (uniform PathTracingRenderer * uniform) _self;
     sample.ray.time = self->super.super.timestamp;
     sample.rgb = PathTracingRenderer_shadeRay(self, sample);
 }
@@ -361,27 +333,23 @@ void PathTracingRenderer_renderSample(uniform Renderer* uniform _self,
 // Exports (called from C++)
 export void* uniform PathTracingRenderer_create(void* uniform cppE)
 {
-    uniform PathTracingRenderer* uniform self =
-        uniform new uniform PathTracingRenderer;
+    uniform PathTracingRenderer* uniform self = uniform new uniform PathTracingRenderer;
     Renderer_Constructor(&self->super.super.super, cppE);
     self->super.super.super.renderSample = PathTracingRenderer_renderSample;
     return self;
 }
 
-export void PathTracingRenderer_set(
-    void* uniform _self, void* uniform bgMaterial, const uniform uint32 spp,
-    void** uniform lights, uniform int32 numLights,
-    uniform float* uniform simulationData,
-    const uniform uint64 simulationDataSize, const uniform float timestamp,
-    const uniform uint32 randomNumber, const uniform float exposure,
-    const uniform float aoStrength, const uniform float aoDistance,
-    const uniform bool useHardwareRandomizer, const uniform bool showBackground)
+export void PathTracingRenderer_set(void* uniform _self, void* uniform bgMaterial, const uniform uint32 spp,
+                                    void** uniform lights, uniform int32 numLights,
+                                    uniform float* uniform simulationData, const uniform uint64 simulationDataSize,
+                                    const uniform float timestamp, const uniform uint32 randomNumber,
+                                    const uniform float exposure, const uniform float aoStrength,
+                                    const uniform float aoDistance, const uniform bool useHardwareRandomizer,
+                                    const uniform bool showBackground)
 {
-    uniform PathTracingRenderer* uniform self =
-        (uniform PathTracingRenderer * uniform) _self;
+    uniform PathTracingRenderer* uniform self = (uniform PathTracingRenderer * uniform) _self;
 
-    self->super.super.bgMaterial =
-        (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
     self->super.simulationData = (uniform float* uniform)simulationData;
     self->super.simulationDataSize = simulationDataSize;
     self->super.super.timestamp = timestamp;

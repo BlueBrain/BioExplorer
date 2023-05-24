@@ -39,43 +39,36 @@ namespace morphology
 using namespace io;
 using namespace db;
 
-CompartmentSimulationHandler::CompartmentSimulationHandler(
-    const std::string& populationName, const uint64_t simulationReportId)
+CompartmentSimulationHandler::CompartmentSimulationHandler(const std::string& populationName,
+                                                           const uint64_t simulationReportId)
     : brayns::AbstractSimulationHandler()
     , _populationName(populationName)
     , _simulationReportId(simulationReportId)
 {
     const auto& connector = DBConnector::getInstance();
-    _simulationReport =
-        connector.getSimulationReport(_populationName, _simulationReportId);
-    _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) /
-                _simulationReport.timeStep;
+    _simulationReport = connector.getSimulationReport(_populationName, _simulationReportId);
+    _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) / _simulationReport.timeStep;
     _dt = _simulationReport.timeStep;
 
-    const auto values =
-        connector.getNeuronCompartmentReportValues(_populationName,
-                                                   _simulationReportId, 0);
+    const auto values = connector.getNeuronCompartmentReportValues(_populationName, _simulationReportId, 0);
 
     _frameSize = values.size();
     _frameData.resize(_frameSize);
-    mempcpy(&_frameData.data()[0], values.data(),
-            sizeof(float) * values.size());
+    mempcpy(&_frameData.data()[0], values.data(), sizeof(float) * values.size());
 
     PLUGIN_INFO(1, "---------------------------------------------------------");
     PLUGIN_INFO(1, "Compartment simulation information");
     PLUGIN_INFO(1, "----------------------------------");
     PLUGIN_INFO(1, "Population name          : " << _populationName);
     PLUGIN_INFO(1, "Number of simulated nodes: " << _frameSize);
-    PLUGIN_INFO(1,
-                "Start time               : " << _simulationReport.startTime);
+    PLUGIN_INFO(1, "Start time               : " << _simulationReport.startTime);
     PLUGIN_INFO(1, "End time                 : " << _simulationReport.endTime);
     PLUGIN_INFO(1, "Time interval            : " << _dt);
     PLUGIN_INFO(1, "Number of frames         : " << _nbFrames);
     PLUGIN_INFO(1, "---------------------------------------------------------");
 }
 
-CompartmentSimulationHandler::CompartmentSimulationHandler(
-    const CompartmentSimulationHandler& rhs)
+CompartmentSimulationHandler::CompartmentSimulationHandler(const CompartmentSimulationHandler& rhs)
     : brayns::AbstractSimulationHandler(rhs)
     , _populationName(rhs._populationName)
     , _simulationReport(rhs._simulationReport)
@@ -88,12 +81,8 @@ void* CompartmentSimulationHandler::getFrameData(const uint32_t frame)
     const auto boundedFrame = _getBoundedFrame(frame);
     if (_currentFrame != boundedFrame)
     {
-        const auto values =
-            connector.getNeuronCompartmentReportValues(_populationName,
-                                                       _simulationReportId,
-                                                       frame);
-        mempcpy(&_frameData.data()[0], values.data(),
-                sizeof(float) * values.size());
+        const auto values = connector.getNeuronCompartmentReportValues(_populationName, _simulationReportId, frame);
+        mempcpy(&_frameData.data()[0], values.data(), sizeof(float) * values.size());
         _currentFrame = boundedFrame;
     }
 

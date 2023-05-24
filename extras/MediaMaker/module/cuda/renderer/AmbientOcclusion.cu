@@ -48,31 +48,26 @@ rtBuffer<uchar4, 2> output_buffer;
 static __device__ inline void shade()
 {
     optix::size_t2 screen = output_buffer.size();
-    unsigned int seed =
-        tea<16>(screen.x * launch_index.y + launch_index.x, frame);
+    unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
 
     const float3 hit_point = ray.origin + t_hit * ray.direction;
-    const float3 normal =
-        optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
+    const float3 normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
 
     float attenuation = 0.f;
     for (int i = 0; i < samplesPerFrame; ++i)
     {
-        float3 aa_normal = optix::normalize(
-            make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f));
+        float3 aa_normal = optix::normalize(make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f));
         if (::optix::dot(aa_normal, normal) < 0.f)
             aa_normal = -aa_normal;
 
         PerRayData_shadow shadow_prd;
         shadow_prd.attenuation = make_float3(1.f);
-        ::optix::Ray shadow_ray(hit_point, aa_normal, shadowRayType,
-                                sceneEpsilon, rayLength);
+        ::optix::Ray shadow_ray(hit_point, aa_normal, shadowRayType, sceneEpsilon, rayLength);
         rtTrace(top_shadower, shadow_ray, shadow_prd);
 
         attenuation += ::optix::luminance(shadow_prd.attenuation);
     }
-    attenuation =
-        ::optix::clamp(attenuation / float(samplesPerFrame), 0.f, 1.f);
+    attenuation = ::optix::clamp(attenuation / float(samplesPerFrame), 0.f, 1.f);
     prd.result = make_float3(attenuation);
 }
 

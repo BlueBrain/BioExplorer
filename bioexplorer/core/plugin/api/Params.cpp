@@ -24,8 +24,7 @@
 #if !defined(DOXYGEN_SHOULD_SKIP_THIS)
 
 #ifndef BRAYNS_DEBUG_JSON_ENABLED
-#define FROM_JSON(PARAM, JSON, NAME) \
-    PARAM.NAME = JSON[#NAME].get<decltype(PARAM.NAME)>()
+#define FROM_JSON(PARAM, JSON, NAME) PARAM.NAME = JSON[#NAME].get<decltype(PARAM.NAME)>()
 #else
 #define FROM_JSON(PARAM, JSON, NAME)                                         \
     try                                                                      \
@@ -153,8 +152,7 @@ std::string to_json(const AssemblyDetails &payload)
     return "";
 }
 
-bool from_json(AssemblyTransformationsDetails &param,
-               const std::string &payload)
+bool from_json(AssemblyTransformationsDetails &param, const std::string &payload)
 {
     try
     {
@@ -188,8 +186,7 @@ bool from_json(ProteinColorSchemeDetails &param, const std::string &payload)
     return true;
 }
 
-bool from_json(AminoAcidSequenceAsStringDetails &param,
-               const std::string &payload)
+bool from_json(AminoAcidSequenceAsStringDetails &param, const std::string &payload)
 {
     try
     {
@@ -205,8 +202,7 @@ bool from_json(AminoAcidSequenceAsStringDetails &param,
     return true;
 }
 
-bool from_json(AminoAcidSequenceAsRangesDetails &param,
-               const std::string &payload)
+bool from_json(AminoAcidSequenceAsRangesDetails &param, const std::string &payload)
 {
     try
     {
@@ -722,8 +718,7 @@ bool from_json(ModelsVisibilityDetails &param, const std::string &payload)
     return true;
 }
 
-bool from_json(ProteinInstanceTransformationDetails &param,
-               const std::string &payload)
+bool from_json(ProteinInstanceTransformationDetails &param, const std::string &payload)
 {
     try
     {
@@ -841,8 +836,7 @@ bool from_json(VasculatureReportDetails &param, const std::string &payload)
     return true;
 }
 
-bool from_json(VasculatureRadiusReportDetails &param,
-               const std::string &payload)
+bool from_json(VasculatureRadiusReportDetails &param, const std::string &payload)
 {
     try
     {
@@ -1064,8 +1058,7 @@ bool from_json(SynapseEfficacyDetails &param, const std::string &payload)
     return true;
 }
 
-bool from_json(SpikeReportVisualizationSettingsDetails &param,
-               const std::string &payload)
+bool from_json(SpikeReportVisualizationSettingsDetails &param, const std::string &payload)
 {
     try
     {

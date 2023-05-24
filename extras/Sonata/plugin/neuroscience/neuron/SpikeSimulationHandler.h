@@ -39,8 +39,7 @@ typedef std::shared_ptr<brain::SpikeReportReader> SpikeReportReaderPtr;
 class SpikeSimulationHandler : public AbstractSimulationHandler
 {
 public:
-    SpikeSimulationHandler(const std::string& reportPath,
-                           const brain::GIDSet& gids);
+    SpikeSimulationHandler(const std::string& reportPath, const brain::GIDSet& gids);
     SpikeSimulationHandler(const SpikeSimulationHandler& rhs);
 
     void* getFrameData(const uint32_t frame) final;
@@ -51,9 +50,7 @@ public:
 
     AbstractSimulationHandlerPtr clone() const final;
 
-    void setVisualizationSettings(const double restVoltage,
-                                  const double spikingVoltage,
-                                  const double timeInterval,
+    void setVisualizationSettings(const double restVoltage, const double spikingVoltage, const double timeInterval,
                                   const double decaySpeed);
 
 private:

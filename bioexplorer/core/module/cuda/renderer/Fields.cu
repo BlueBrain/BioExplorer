@@ -51,10 +51,9 @@ rtBuffer<uchar4, 2> output_buffer;
 
 const uint STACK_SIZE = 20;
 
-static __device__ inline bool volumeIntersection(
-    const float3& volumeOffset, const float3& volumeDimensions,
-    const float3& volumeElementSpacing, const optix::Ray& ray, float& t0,
-    float& t1)
+static __device__ inline bool volumeIntersection(const float3& volumeOffset, const float3& volumeDimensions,
+                                                 const float3& volumeElementSpacing, const optix::Ray& ray, float& t0,
+                                                 float& t1)
 {
     float3 boxmin = volumeOffset + make_float3(0.f);
     float3 boxmax = volumeOffset + volumeDimensions / volumeElementSpacing;
@@ -69,10 +68,9 @@ static __device__ inline bool volumeIntersection(
     return (t0 <= t1);
 }
 
-static __device__ inline float treeWalker(
-    const uint startIndices, const uint startData,
-    const float3 volumeElementSpacing, const float3& point,
-    const float distance, const float cutoff, const uint index = 0)
+static __device__ inline float treeWalker(const uint startIndices, const uint startData,
+                                          const float3 volumeElementSpacing, const float3& point, const float distance,
+                                          const float cutoff, const uint index = 0)
 {
     return 1.f;
     float voxelValue = 0.f;
@@ -100,13 +98,10 @@ static __device__ inline float treeWalker(
             uint idxLeft = begin;
             const uint idxRight = end;
             const uint idxLeftData = startData + idxLeft * 4;
-            const float3 childCenter =
-                make_float3(simulation_data[idxLeftData],
-                            simulation_data[idxLeftData + 1],
-                            simulation_data[idxLeftData + 2]);
+            const float3 childCenter = make_float3(simulation_data[idxLeftData], simulation_data[idxLeftData + 1],
+                                                   simulation_data[idxLeftData + 2]);
             const float3 delta = point - childCenter;
-            float d =
-                sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
+            float d = sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
 
             if (d < volumeElementSpacing.x / 2.f)
                 d = volumeElementSpacing.x / 2.f;
@@ -134,12 +129,9 @@ static __device__ inline void shade()
 {
     float4 finalColor = make_float4(0.f);
 
-    const float3 offset =
-        make_float3(simulation_data[0], simulation_data[1], simulation_data[2]);
-    const float3 spacing =
-        make_float3(simulation_data[3], simulation_data[4], simulation_data[5]);
-    const float3 dimensions =
-        make_float3(simulation_data[6], simulation_data[7], simulation_data[8]);
+    const float3 offset = make_float3(simulation_data[0], simulation_data[1], simulation_data[2]);
+    const float3 spacing = make_float3(simulation_data[3], simulation_data[4], simulation_data[5]);
+    const float3 dimensions = make_float3(simulation_data[6], simulation_data[7], simulation_data[8]);
     const float distance = simulation_data[9] * 5.f; // Octree size * 5
     const uint startIndices = 11;
     const uint startData = startIndices + simulation_data[10];
@@ -162,15 +154,11 @@ static __device__ inline void shade()
         const float3 p = ray.origin + t_hit * ray.direction;
         const float3 point = (p - offset) / spacing;
 
-        const float value = treeWalker(startIndices, startData, spacing, point,
-                                       distance, cutoff);
+        const float value = treeWalker(startIndices, startData, spacing, point, distance, cutoff);
         const float4 sampleColor =
-            calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, value,
-                                      tfColors, tfOpacities);
-        const float alpha = (finalColor.w == 0.0 ? 1.f : finalColor.w) *
-                            alphaCorrection * sampleColor.w;
-        finalColor =
-            finalColor + make_float4(make_float3(sampleColor) * alpha, alpha);
+            calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, value, tfColors, tfOpacities);
+        const float alpha = (finalColor.w == 0.0 ? 1.f : finalColor.w) * alphaCorrection * sampleColor.w;
+        finalColor = finalColor + make_float4(make_float3(sampleColor) * alpha, alpha);
 
         t += step;
     }

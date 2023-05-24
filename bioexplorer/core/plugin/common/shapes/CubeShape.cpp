@@ -36,17 +36,14 @@ CubeShape::CubeShape(const Vector4ds& clippingPlanes, const Vector3d& size)
 {
     _bounds.merge(Vector3d(-size.x / 2.f, -size.y / 2.f, -size.z / 2.f));
     _bounds.merge(Vector3d(size.x / 2.f, size.y / 2.f, size.z / 2.f));
-    _surface = 2.f * (size.x * size.y) + 2.f * (size.x * size.z) +
-               2.f * (size.y * size.z);
+    _surface = 2.f * (size.x * size.y) + 2.f * (size.x * size.z) + 2.f * (size.y * size.z);
 }
 
-Transformation CubeShape::getTransformation(
-    const uint64_t occurrence, const uint64_t nbOccurrences,
-    const MolecularSystemAnimationDetails& molecularSystemAnimationDetails,
-    const double /*offset*/) const
+Transformation CubeShape::getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
+                                            const MolecularSystemAnimationDetails& molecularSystemAnimationDetails,
+                                            const double /*offset*/) const
 {
-    Vector3d pos =
-        Vector3d(rnd1() * _size.x, rnd1() * _size.y, rnd1() * _size.z);
+    Vector3d pos = Vector3d(rnd1() * _size.x, rnd1() * _size.y, rnd1() * _size.z);
 
     if (isClipped(pos, _clippingPlanes))
         throw std::runtime_error("Instance is clipped");
@@ -55,21 +52,16 @@ Transformation CubeShape::getTransformation(
 
     if (molecularSystemAnimationDetails.positionSeed != 0)
     {
-        const Vector3d posOffset =
-            molecularSystemAnimationDetails.positionStrength *
-            Vector3d(rnd2(occurrence +
-                          molecularSystemAnimationDetails.positionSeed),
-                     rnd2(occurrence +
-                          molecularSystemAnimationDetails.positionSeed + 1),
-                     rnd2(occurrence +
-                          molecularSystemAnimationDetails.positionSeed + 2));
+        const Vector3d posOffset = molecularSystemAnimationDetails.positionStrength *
+                                   Vector3d(rnd2(occurrence + molecularSystemAnimationDetails.positionSeed),
+                                            rnd2(occurrence + molecularSystemAnimationDetails.positionSeed + 1),
+                                            rnd2(occurrence + molecularSystemAnimationDetails.positionSeed + 2));
 
         pos += posOffset;
     }
 
     if (molecularSystemAnimationDetails.rotationSeed != 0)
-        dir = randomQuaternion(occurrence +
-                               molecularSystemAnimationDetails.rotationSeed);
+        dir = randomQuaternion(occurrence + molecularSystemAnimationDetails.rotationSeed);
 
     Transformation transformation;
     transformation.setTranslation(pos);

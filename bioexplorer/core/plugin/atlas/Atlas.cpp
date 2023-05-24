@@ -38,10 +38,8 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-Atlas::Atlas(Scene& scene, const AtlasDetails& details,
-             const Vector3d& position, const Quaterniond& rotation)
-    : SDFGeometries(NO_GRID_ALIGNMENT, position, rotation,
-                    doublesToVector3d(details.scale))
+Atlas::Atlas(Scene& scene, const AtlasDetails& details, const Vector3d& position, const Quaterniond& rotation)
+    : SDFGeometries(NO_GRID_ALIGNMENT, position, rotation, doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {
@@ -70,17 +68,14 @@ void Atlas::_load()
 #pragma omp parallel for num_threads(nbDBConnections)
     for (index = 0; index < regions.size(); ++index)
     {
-        ThreadSafeContainer container(*model, _alignToGrid, _position,
-                                      _rotation);
+        ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation);
 
         const auto region = regions[index];
         if (_details.loadCells)
         {
-            const auto cells =
-                connector.getAtlasCells(region, _details.cellSqlFilter);
+            const auto cells = connector.getAtlasCells(region, _details.cellSqlFilter);
             for (const auto& cell : cells)
-                container.addSphere(cell.second.position, _details.cellRadius,
-                                    cell.second.region, useSdf);
+                container.addSphere(cell.second.position, _details.cellRadius, cell.second.region, useSdf);
 #pragma omp critical
             nbCells += cells.size();
         }
@@ -88,8 +83,7 @@ void Atlas::_load()
         if (_details.loadMeshes)
         {
             const Vector3d position = doublesToVector3d(_details.meshPosition);
-            const Quaterniond rotation =
-                doublesToQuaterniond(_details.meshRotation);
+            const Quaterniond rotation = doublesToQuaterniond(_details.meshRotation);
             const Vector3d scale = doublesToVector3d(_details.meshScale);
             auto mesh = connector.getAtlasMesh(region);
             for (auto& vertex : mesh.vertices)
@@ -108,8 +102,7 @@ void Atlas::_load()
         ++counter;
 
 #pragma omp critical
-        PLUGIN_PROGRESS("Loading " << regions.size() << " regions", counter,
-                        regions.size());
+        PLUGIN_PROGRESS("Loading " << regions.size() << " regions", counter, regions.size());
     }
 
     for (uint64_t i = 0; i < containers.size(); ++i)
@@ -118,15 +111,12 @@ void Atlas::_load()
         auto& container = containers[i];
         container.commitToModel();
     }
-    const ModelMetadata metadata = {
-        {"Number of regions", std::to_string(regions.size())},
-        {"Number of cells", std::to_string(nbCells)},
-        {"Cell SQL filter", _details.cellSqlFilter},
-        {"Region SQL filter", _details.regionSqlFilter}};
+    const ModelMetadata metadata = {{"Number of regions", std::to_string(regions.size())},
+                                    {"Number of cells", std::to_string(nbCells)},
+                                    {"Cell SQL filter", _details.cellSqlFilter},
+                                    {"Region SQL filter", _details.regionSqlFilter}};
 
-    _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
-                                                       _details.assemblyName,
-                                                       metadata));
+    _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model), _details.assemblyName, metadata));
     if (_modelDescriptor)
         _scene.addModel(_modelDescriptor);
     else

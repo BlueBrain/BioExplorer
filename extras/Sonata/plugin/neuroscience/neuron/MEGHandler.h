@@ -52,8 +52,7 @@ public:
      * @param synchronous A boolean indicating whether synchronous mode is
      * enabled or not.
      */
-    MEGHandler(const std::string& circuitConfiguration,
-               const std::string& reportName, const bool synchronous);
+    MEGHandler(const std::string& circuitConfiguration, const std::string& reportName, const bool synchronous);
 
     /**
      * @brief Construct a new MEGHandler object
@@ -78,8 +77,7 @@ public:
      * @throws An exception if density is greater than 1 or less than or equal
      * to 0.
      */
-    ModelMetadata buildModel(Model& model, const double voxelSize,
-                             const double density);
+    ModelMetadata buildModel(Model& model, const double voxelSize, const double density);
 
     /**
      * @brief Get the Frame Data object

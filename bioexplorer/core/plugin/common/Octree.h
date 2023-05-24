@@ -45,8 +45,7 @@ public:
      * @param minAABB Lower bound of the scene bounding box
      * @param maxAABB Upper bound of the scene bounding box
      */
-    Octree(const floats &events, double voxelSize, const glm::vec3 &minAABB,
-           const glm::vec3 &maxAABB);
+    Octree(const floats &events, double voxelSize, const glm::vec3 &minAABB, const glm::vec3 &maxAABB);
 
     /**
      * @brief Destroy the Octree object

@@ -31,22 +31,15 @@ namespace neuron
 const std::string LOADER_NAME = "Circuit with meshes";
 const double DEFAULT_RADIUS_MULTIPLIER = 2.0;
 
-MeshCircuitLoader::MeshCircuitLoader(
-    Scene &scene, const ApplicationParameters &applicationParameters,
-    PropertyMap &&loaderParams)
-    : AbstractCircuitLoader(scene, applicationParameters,
-                            std::move(loaderParams))
+MeshCircuitLoader::MeshCircuitLoader(Scene &scene, const ApplicationParameters &applicationParameters,
+                                     PropertyMap &&loaderParams)
+    : AbstractCircuitLoader(scene, applicationParameters, std::move(loaderParams))
 {
-    _fixedDefaults.setProperty(
-        {PROP_PRESYNAPTIC_NEURON_GID.name, std::string("")});
-    _fixedDefaults.setProperty(
-        {PROP_POSTSYNAPTIC_NEURON_GID.name, std::string("")});
-    _fixedDefaults.setProperty(
-        {PROP_REPORT_TYPE.name, enumToString(ReportType::voltages_from_file)});
-    _fixedDefaults.setProperty({PROP_CIRCUIT_COLOR_SCHEME.name,
-                                enumToString(CircuitColorScheme::by_id)});
-    _fixedDefaults.setProperty(
-        {PROP_RADIUS_MULTIPLIER.name, DEFAULT_RADIUS_MULTIPLIER});
+    _fixedDefaults.setProperty({PROP_PRESYNAPTIC_NEURON_GID.name, std::string("")});
+    _fixedDefaults.setProperty({PROP_POSTSYNAPTIC_NEURON_GID.name, std::string("")});
+    _fixedDefaults.setProperty({PROP_REPORT_TYPE.name, enumToString(ReportType::voltages_from_file)});
+    _fixedDefaults.setProperty({PROP_CIRCUIT_COLOR_SCHEME.name, enumToString(CircuitColorScheme::by_id)});
+    _fixedDefaults.setProperty({PROP_RADIUS_MULTIPLIER.name, DEFAULT_RADIUS_MULTIPLIER});
     _fixedDefaults.setProperty({PROP_RADIUS_CORRECTION.name, 0.0});
     _fixedDefaults.setProperty({PROP_USE_SDF_SOMA.name, false});
     _fixedDefaults.setProperty({PROP_USE_SDF_BRANCHES.name, false});
@@ -54,16 +47,11 @@ MeshCircuitLoader::MeshCircuitLoader(
     _fixedDefaults.setProperty({PROP_USE_SDF_MITOCHONDRIA.name, false});
     _fixedDefaults.setProperty({PROP_USE_SDF_SYNAPSES.name, false});
     _fixedDefaults.setProperty({PROP_USE_SDF_MYELIN_STEATH.name, false});
-    _fixedDefaults.setProperty(
-        {PROP_DAMPEN_BRANCH_THICKNESS_CHANGERATE.name, false});
-    _fixedDefaults.setProperty({PROP_USER_DATA_TYPE.name,
-                                enumToString(UserDataType::simulation_offset)});
-    _fixedDefaults.setProperty(
-        {PROP_ASSET_COLOR_SCHEME.name, enumToString(AssetColorScheme::none)});
-    _fixedDefaults.setProperty(
-        {PROP_ASSET_QUALITY.name, enumToString(AssetQuality::high)});
-    _fixedDefaults.setProperty({PROP_MORPHOLOGY_MAX_DISTANCE_TO_SOMA.name,
-                                std::numeric_limits<double>::max()});
+    _fixedDefaults.setProperty({PROP_DAMPEN_BRANCH_THICKNESS_CHANGERATE.name, false});
+    _fixedDefaults.setProperty({PROP_USER_DATA_TYPE.name, enumToString(UserDataType::simulation_offset)});
+    _fixedDefaults.setProperty({PROP_ASSET_COLOR_SCHEME.name, enumToString(AssetColorScheme::none)});
+    _fixedDefaults.setProperty({PROP_ASSET_QUALITY.name, enumToString(AssetQuality::high)});
+    _fixedDefaults.setProperty({PROP_MORPHOLOGY_MAX_DISTANCE_TO_SOMA.name, std::numeric_limits<double>::max()});
     _fixedDefaults.setProperty({PROP_CELL_CLIPPING.name, false});
     _fixedDefaults.setProperty({PROP_AREAS_OF_INTEREST.name, 0});
     _fixedDefaults.setProperty({PROP_LOAD_AFFERENT_SYNAPSES.name, false});
@@ -72,9 +60,8 @@ MeshCircuitLoader::MeshCircuitLoader(
     _fixedDefaults.setProperty({PROP_EXTERNALS.name, false});
 }
 
-ModelDescriptorPtr MeshCircuitLoader::importFromFile(
-    const std::string &filename, const LoaderProgress &callback,
-    const PropertyMap &properties) const
+ModelDescriptorPtr MeshCircuitLoader::importFromFile(const std::string &filename, const LoaderProgress &callback,
+                                                     const PropertyMap &properties) const
 {
     PLUGIN_INFO("Loading circuit from " << filename);
     callback.updateProgress("Loading circuit ...", 0);

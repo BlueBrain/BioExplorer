@@ -42,14 +42,11 @@ void CellGrowthRenderer::commit()
 
     _useTransferFunctionColor = getParam("tfColor", false);
 
-    ispc::CellGrowthRenderer_set(
-        getIE(), (_secondaryModel ? _secondaryModel->getIE() : nullptr),
-        (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr,
-        _lightArray.size(),
-        (_simulationData ? (float*)_simulationData->data : nullptr),
-        _simulationDataSize, _alphaCorrection, _simulationThreshold, _exposure,
-        _fogThickness, _fogStart, _shadows, _softShadows, _shadowDistance,
-        _useTransferFunctionColor, _useHardwareRandomizer);
+    ispc::CellGrowthRenderer_set(getIE(), (_secondaryModel ? _secondaryModel->getIE() : nullptr),
+                                 (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr, _lightArray.size(),
+                                 (_simulationData ? (float*)_simulationData->data : nullptr), _simulationDataSize,
+                                 _alphaCorrection, _simulationThreshold, _exposure, _fogThickness, _fogStart, _shadows,
+                                 _softShadows, _shadowDistance, _useTransferFunctionColor, _useHardwareRandomizer);
 }
 
 CellGrowthRenderer::CellGrowthRenderer()

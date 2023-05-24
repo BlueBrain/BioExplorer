@@ -47,9 +47,8 @@ const std::string SUPPORTED_EXTENTION_ASTROCYTES = "astrocytes";
 const float DEFAULT_ASTROCYTE_MITOCHONDRIA_DENSITY = 0.05f;
 const size_t NB_MATERIALS_PER_INSTANCE = 10;
 
-AstrocyteLoader::AstrocyteLoader(
-    Scene &scene, const ApplicationParameters &applicationParameters,
-    PropertyMap &&loaderParams)
+AstrocyteLoader::AstrocyteLoader(Scene &scene, const ApplicationParameters &applicationParameters,
+                                 PropertyMap &&loaderParams)
     : Loader(scene)
     , _applicationParameters(applicationParameters)
     , _defaults(loaderParams)
@@ -59,28 +58,21 @@ AstrocyteLoader::AstrocyteLoader(
     _fixedDefaults.setProperty({PROP_REPORT.name, std::string("")});
     _fixedDefaults.setProperty({PROP_TARGETS.name, std::string("")});
     _fixedDefaults.setProperty({PROP_GIDS.name, std::string("")});
-    _fixedDefaults.setProperty(
-        {PROP_REPORT_TYPE.name, enumToString(ReportType::undefined)});
+    _fixedDefaults.setProperty({PROP_REPORT_TYPE.name, enumToString(ReportType::undefined)});
     _fixedDefaults.setProperty({PROP_RADIUS_MULTIPLIER.name, 1.0});
     _fixedDefaults.setProperty({PROP_RADIUS_CORRECTION.name, 0.0});
-    _fixedDefaults.setProperty(
-        {PROP_DAMPEN_BRANCH_THICKNESS_CHANGERATE.name, true});
-    _fixedDefaults.setProperty(
-        {PROP_USER_DATA_TYPE.name, enumToString(UserDataType::undefined)});
-    _fixedDefaults.setProperty({PROP_MORPHOLOGY_MAX_DISTANCE_TO_SOMA.name,
-                                std::numeric_limits<double>::max()});
+    _fixedDefaults.setProperty({PROP_DAMPEN_BRANCH_THICKNESS_CHANGERATE.name, true});
+    _fixedDefaults.setProperty({PROP_USER_DATA_TYPE.name, enumToString(UserDataType::undefined)});
+    _fixedDefaults.setProperty({PROP_MORPHOLOGY_MAX_DISTANCE_TO_SOMA.name, std::numeric_limits<double>::max()});
     _fixedDefaults.setProperty({PROP_MESH_FOLDER.name, std::string("")});
-    _fixedDefaults.setProperty(
-        {PROP_MESH_FILENAME_PATTERN.name, std::string("")});
+    _fixedDefaults.setProperty({PROP_MESH_FILENAME_PATTERN.name, std::string("")});
     _fixedDefaults.setProperty({PROP_MESH_TRANSFORMATION.name, false});
     _fixedDefaults.setProperty({PROP_CELL_CLIPPING.name, false});
     _fixedDefaults.setProperty({PROP_AREAS_OF_INTEREST.name, 0});
     _fixedDefaults.setProperty({PROP_LOAD_AFFERENT_SYNAPSES.name, true});
     _fixedDefaults.setProperty({PROP_LOAD_EFFERENT_SYNAPSES.name, true});
-    _fixedDefaults.setProperty(
-        {PROP_PRESYNAPTIC_NEURON_GID.name, std::string("")});
-    _fixedDefaults.setProperty(
-        {PROP_POSTSYNAPTIC_NEURON_GID.name, std::string("")});
+    _fixedDefaults.setProperty({PROP_PRESYNAPTIC_NEURON_GID.name, std::string("")});
+    _fixedDefaults.setProperty({PROP_POSTSYNAPTIC_NEURON_GID.name, std::string("")});
     _fixedDefaults.setProperty({PROP_USE_SDF_NUCLEUS.name, false});
     _fixedDefaults.setProperty({PROP_USE_SDF_MITOCHONDRIA.name, false});
     _fixedDefaults.setProperty({PROP_USE_SDF_SYNAPSES.name, false});
@@ -93,23 +85,20 @@ std::vector<std::string> AstrocyteLoader::getSupportedExtensions() const
     return {SUPPORTED_EXTENTION_ASTROCYTES};
 }
 
-bool AstrocyteLoader::isSupported(const std::string & /*filename*/,
-                                  const std::string &extension) const
+bool AstrocyteLoader::isSupported(const std::string & /*filename*/, const std::string &extension) const
 {
     const std::set<std::string> types = {SUPPORTED_EXTENTION_ASTROCYTES};
     return types.find(extension) != types.end();
 }
 
-ModelDescriptorPtr AstrocyteLoader::importFromBlob(
-    Blob && /*blob*/, const LoaderProgress & /*callback*/,
-    const PropertyMap & /*properties*/) const
+ModelDescriptorPtr AstrocyteLoader::importFromBlob(Blob && /*blob*/, const LoaderProgress & /*callback*/,
+                                                   const PropertyMap & /*properties*/) const
 {
     PLUGIN_THROW("Loading an astrocyte from memory is currently not supported");
 }
 
-ModelDescriptorPtr AstrocyteLoader::importFromFile(
-    const std::string &filename, const LoaderProgress &callback,
-    const PropertyMap &properties) const
+ModelDescriptorPtr AstrocyteLoader::importFromFile(const std::string &filename, const LoaderProgress &callback,
+                                                   const PropertyMap &properties) const
 {
     PropertyMap props = _defaults;
     props.merge(_fixedDefaults);
@@ -131,8 +120,7 @@ ModelDescriptorPtr AstrocyteLoader::importFromFile(
 
     ModelDescriptorPtr modelDescriptor;
     _importMorphologiesFromURIs(props, uris, callback, *model);
-    modelDescriptor =
-        std::make_shared<ModelDescriptor>(std::move(model), filename);
+    modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), filename);
     return modelDescriptor;
 }
 
@@ -159,18 +147,15 @@ PropertyMap AstrocyteLoader::getCLIProperties()
     return pm;
 }
 
-void AstrocyteLoader::_importMorphologiesFromURIs(
-    const PropertyMap &properties, const std::vector<std::string> &uris,
-    const LoaderProgress &callback, Model &model) const
+void AstrocyteLoader::_importMorphologiesFromURIs(const PropertyMap &properties, const std::vector<std::string> &uris,
+                                                  const LoaderProgress &callback, Model &model) const
 {
     PropertyMap morphologyProps(properties);
 
-    const auto colorScheme = stringToEnum<CircuitColorScheme>(
-        properties.getProperty<std::string>(PROP_CIRCUIT_COLOR_SCHEME.name));
-    const auto generateInternals =
-        properties.getProperty<bool>(PROP_INTERNALS.name);
-    const float mitochondriaDensity =
-        generateInternals ? DEFAULT_ASTROCYTE_MITOCHONDRIA_DENSITY : 0.f;
+    const auto colorScheme =
+        stringToEnum<CircuitColorScheme>(properties.getProperty<std::string>(PROP_CIRCUIT_COLOR_SCHEME.name));
+    const auto generateInternals = properties.getProperty<bool>(PROP_INTERNALS.name);
+    const float mitochondriaDensity = generateInternals ? DEFAULT_ASTROCYTE_MITOCHONDRIA_DENSITY : 0.f;
 
     Timer chrono;
 
@@ -182,39 +167,30 @@ void AstrocyteLoader::_importMorphologiesFromURIs(
         const auto uri = uris[morphologyId];
         try
         {
-            PLUGIN_DEBUG("[" << omp_get_thread_num() << "] ["
-                             << morphologyId + 1 << "/" << uris.size()
-                             << "] Loading " << uri);
+            PLUGIN_DEBUG("[" << omp_get_thread_num() << "] [" << morphologyId + 1 << "/" << uris.size() << "] Loading "
+                             << uri);
 
             const auto materialId =
-                (colorScheme == CircuitColorScheme::by_id
-                     ? morphologyId * NB_MATERIALS_PER_INSTANCE
-                     : NO_MATERIAL);
+                (colorScheme == CircuitColorScheme::by_id ? morphologyId * NB_MATERIALS_PER_INSTANCE : NO_MATERIAL);
 
             MorphologyLoader loader(_scene, std::move(morphologyProps));
             loader.setBaseMaterialId(materialId);
             ParallelModelContainer modelContainer =
-                loader.importMorphology(morphologyId, morphologyProps, uri,
-                                        morphologyId, SynapsesInfo(),
-                                        Matrix4f(), nullptr,
-                                        mitochondriaDensity);
+                loader.importMorphology(morphologyId, morphologyProps, uri, morphologyId, SynapsesInfo(), Matrix4f(),
+                                        nullptr, mitochondriaDensity);
 #pragma omp critical
             containers.push_back(modelContainer);
 
             if (omp_get_thread_num() == 0)
-                PLUGIN_PROGRESS("- Loading astrocytes",
-                                (1 + morphologyId) * omp_get_num_threads(),
-                                uris.size());
+                PLUGIN_PROGRESS("- Loading astrocytes", (1 + morphologyId) * omp_get_num_threads(), uris.size());
         }
         catch (const std::runtime_error &e)
         {
-            PLUGIN_ERROR("Failed to load morphology "
-                         << morphologyId << " (" << uri << "): " << e.what());
+            PLUGIN_ERROR("Failed to load morphology " << morphologyId << " (" << uri << "): " << e.what());
         }
 
 #pragma omp critical
-        callback.updateProgress("Loading astrocytes...",
-                                (float)morphologyId / (float)uris.size());
+        callback.updateProgress("Loading astrocytes...", (float)morphologyId / (float)uris.size());
     }
     PLUGIN_INFO("");
 

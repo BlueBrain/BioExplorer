@@ -62,10 +62,9 @@ public:
      * @param offset Location offset of the element on the shape itself
      * @return Transformation Transformation of the instance
      */
-    virtual Transformation getTransformation(
-        const uint64_t occurrence, const uint64_t nbOccurrences,
-        const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
-        const double offset = 0.0) const = 0;
+    virtual Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
+                                             const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+                                             const double offset = 0.0) const = 0;
 
     /**
      * @brief Return true if the specified 3D location is inside of the shape,

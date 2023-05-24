@@ -124,8 +124,7 @@ MembraneDetails getMembraneDescriptor()
 
     descriptor.assemblyName = "test";
     descriptor.name = "test";
-    descriptor.lipidContents =
-        getFileContents(folder + "pdb/membrane/popc.pdb");
+    descriptor.lipidContents = getFileContents(folder + "pdb/membrane/popc.pdb");
     descriptor.representation = ProteinRepresentation::atoms;
     descriptor.animationParams = {};
     return descriptor;
@@ -133,21 +132,16 @@ MembraneDetails getMembraneDescriptor()
 
 BOOST_AUTO_TEST_CASE(meshBasedMembrane)
 {
-    std::vector<const char*> argv{
-        "brayns", "--http-server", "localhost:0", "--plugin",
-        "BioExplorer --db-name=bioexplorer --db-user=brayns "
-        "--db-password=brayns --db-host=localhost --db-port=5432"};
+    std::vector<const char*> argv{"brayns", "--http-server", "localhost:0", "--plugin",
+                                  "BioExplorer --db-name=bioexplorer --db-user=brayns "
+                                  "--db-password=brayns --db-host=localhost --db-port=5432"};
     brayns::Brayns brayns(argv.size(), argv.data());
     auto& scene = brayns.getEngine().getScene();
 
     Assembly assembly(scene, getAssemblyDescriptor());
     assembly.addMembrane(getMembraneDescriptor());
 
-    BOOST_CHECK(assembly.getMembrane()
-                    ->getLipids()
-                    .begin()
-                    ->second->getAtoms()
-                    .size() == 426);
+    BOOST_CHECK(assembly.getMembrane()->getLipids().begin()->second->getAtoms().size() == 426);
 
     BOOST_CHECK(assembly.isInside(Vector3d(0.0, 0.0, 0.0)));
 }

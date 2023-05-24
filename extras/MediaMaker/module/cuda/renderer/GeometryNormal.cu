@@ -30,8 +30,7 @@ rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
 
 static __device__ inline void shade()
 {
-    prd.result = optix::normalize(
-        rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
+    prd.result = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
 }
 
 RT_PROGRAM void any_hit_shadow()

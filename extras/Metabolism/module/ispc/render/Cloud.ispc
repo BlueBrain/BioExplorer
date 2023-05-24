@@ -28,10 +28,8 @@ float cloudNoise(const vec3f& x)
     f = f * f * (3.0 - 2.0 * f);
 
     float n = p.x + p.y * 157.0 + 113.0 * p.z;
-    return 2.0f * mix(mix(mix(hash(n + 0.0), hash(n + 1.0), f.x),
-                          mix(hash(n + 157.0), hash(n + 158.0), f.x), f.y),
-                      mix(mix(hash(n + 113.0), hash(n + 114.0), f.x),
-                          mix(hash(n + 270.0), hash(n + 271.0), f.x), f.y),
+    return 2.0f * mix(mix(mix(hash(n + 0.0), hash(n + 1.0), f.x), mix(hash(n + 157.0), hash(n + 158.0), f.x), f.y),
+                      mix(mix(hash(n + 113.0), hash(n + 114.0), f.x), mix(hash(n + 270.0), hash(n + 271.0), f.x), f.y),
                       f.z) -
            1.0f;
 }
@@ -51,7 +49,5 @@ float fbm(vec3f& pos, int layers, float AM, float FM)
 
 float cloud(const vec3f& p, const float time)
 {
-    return fbm(0.9f * make_vec3f(0.2f, 0.2f, 0.3f) *
-                   (p + make_vec3f(0.0f, 0.0f, 3.0f * time)),
-               7, 0.5f, 4.0f);
+    return fbm(0.9f * make_vec3f(0.2f, 0.2f, 0.3f) * (p + make_vec3f(0.0f, 0.0f, 3.0f * time)), 7, 0.5f, 4.0f);
 }

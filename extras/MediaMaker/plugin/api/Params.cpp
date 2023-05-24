@@ -26,19 +26,17 @@ namespace bioexplorer
 namespace mediamaker
 {
 #ifndef BRAYNS_DEBUG_JSON_ENABLED
-#define FROM_JSON(PARAM, JSON, NAME) \
-    PARAM.NAME = JSON[#NAME].get<decltype(PARAM.NAME)>()
+#define FROM_JSON(PARAM, JSON, NAME) PARAM.NAME = JSON[#NAME].get<decltype(PARAM.NAME)>()
 #else
-#define FROM_JSON(PARAM, JSON, NAME)                                          \
-    try                                                                       \
-    {                                                                         \
-        PARAM.NAME = JSON[#NAME].get<decltype(PARAM.NAME)>();                 \
-    }                                                                         \
-    catch (...)                                                               \
-    {                                                                         \
-        PLUGIN_ERROR << "JSON parsing error for attribute '" << #NAME << "'!" \
-                     << std::endl;                                            \
-        throw;                                                                \
+#define FROM_JSON(PARAM, JSON, NAME)                                                        \
+    try                                                                                     \
+    {                                                                                       \
+        PARAM.NAME = JSON[#NAME].get<decltype(PARAM.NAME)>();                               \
+    }                                                                                       \
+    catch (...)                                                                             \
+    {                                                                                       \
+        PLUGIN_ERROR << "JSON parsing error for attribute '" << #NAME << "'!" << std::endl; \
+        throw;                                                                              \
     }
 #endif
 #define TO_JSON(PARAM, JSON, NAME) JSON[#NAME] = PARAM.NAME

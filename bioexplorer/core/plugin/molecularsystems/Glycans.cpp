@@ -71,9 +71,8 @@ Glycans::Glycans(Scene& scene, const SugarDetails& details)
             atom.second.position -= translation;
     }
 
-    _buildModel(_details.assemblyName, _details.name, _details.pdbId, header,
-                _details.representation, _details.atomRadiusMultiplier,
-                _details.loadBonds);
+    _buildModel(_details.assemblyName, _details.name, _details.pdbId, header, _details.representation,
+                _details.atomRadiusMultiplier, _details.loadBonds);
 }
 } // namespace molecularsystems
 } // namespace bioexplorer

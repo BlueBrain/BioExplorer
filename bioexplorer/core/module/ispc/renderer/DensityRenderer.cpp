@@ -49,18 +49,13 @@ void DensityRenderer::commit()
     _alphaCorrection = getParam1f("alphaCorrection", 1.0f);
 
     // Transfer function
-    ospray::TransferFunction* transferFunction =
-        (ospray::TransferFunction*)getParamObject("transferFunction", nullptr);
+    ospray::TransferFunction* transferFunction = (ospray::TransferFunction*)getParamObject("transferFunction", nullptr);
     if (transferFunction)
-        ispc::DensityRenderer_setTransferFunction(getIE(),
-                                                  transferFunction->getIE());
+        ispc::DensityRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 
     // Renderer
-    ispc::DensityRenderer_set(getIE(),
-                              (_bgMaterial ? _bgMaterial->getIE() : nullptr),
-                              _timestamp, spp, _farPlane, _searchLength,
-                              _rayStep, _samplesPerFrame, _exposure,
-                              _alphaCorrection);
+    ispc::DensityRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _farPlane,
+                              _searchLength, _rayStep, _samplesPerFrame, _exposure, _alphaCorrection);
 }
 
 DensityRenderer::DensityRenderer()

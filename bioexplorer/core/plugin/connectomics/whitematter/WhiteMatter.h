@@ -43,19 +43,14 @@ public:
      * @param details Set of attributes defining how the whitematter should be
      * loaded
      */
-    WhiteMatter(Scene& scene, const WhiteMatterDetails& details,
-                const Vector3d& position, const Quaterniond& rotation);
+    WhiteMatter(Scene& scene, const WhiteMatterDetails& details, const Vector3d& position, const Quaterniond& rotation);
 
 private:
-    double _getDisplacementValue(const DisplacementElement& element) final
-    {
-        return 0;
-    }
+    double _getDisplacementValue(const DisplacementElement& element) final { return 0; }
 
     void _buildModel();
 
-    void _addStreamline(ThreadSafeContainer& container, const Vector3fs& points,
-                        const uint64_t materialId);
+    void _addStreamline(ThreadSafeContainer& container, const Vector3fs& points, const uint64_t materialId);
 
     const WhiteMatterDetails _details;
     Scene& _scene;

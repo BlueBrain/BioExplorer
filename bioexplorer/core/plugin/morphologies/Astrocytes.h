@@ -45,8 +45,7 @@ public:
      * @param scene 3D scene into which astrocytes should be loaded
      * @param details Set of attributes defining how astrocytes should be loaded
      */
-    Astrocytes(Scene& scene, const AstrocytesDetails& details,
-               const Vector3d& assemblyPosition,
+    Astrocytes(Scene& scene, const AstrocytesDetails& details, const Vector3d& assemblyPosition,
                const Quaterniond& assemblyRotation);
 
     /**
@@ -56,20 +55,17 @@ public:
      *
      * @param details Details of the report
      */
-    void setVasculatureRadiusReport(
-        const VasculatureRadiusReportDetails& details);
+    void setVasculatureRadiusReport(const VasculatureRadiusReportDetails& details);
 
 private:
     double _getDisplacementValue(const DisplacementElement& element) final;
 
     void _logRealismParams();
     void _buildModel(const doubles& radii = doubles());
-    void _addEndFoot(ThreadSafeContainer& container, const Vector3d& somaCenter,
-                     const EndFootMap& endFeet, const doubles& radii,
-                     const size_t materialId);
+    void _addEndFoot(ThreadSafeContainer& container, const Vector3d& somaCenter, const EndFootMap& endFeet,
+                     const doubles& radii, const size_t materialId);
     void _addMicroDomain(TriangleMesh& mesh, const uint64_t astrocyteId);
-    void _buildMicroDomain(ThreadSafeContainer& container,
-                           const uint64_t astrocyteId, const size_t materialId);
+    void _buildMicroDomain(ThreadSafeContainer& container, const uint64_t astrocyteId, const size_t materialId);
     const AstrocytesDetails _details;
 
     double _maxDistanceToSoma{0.0};

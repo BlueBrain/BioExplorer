@@ -46,8 +46,7 @@ namespace meshing
 {
 PointCloudMesher::PointCloudMesher() {}
 
-bool PointCloudMesher::toConvexHull(ThreadSafeContainer& container,
-                                    const PointCloud& pointCloud)
+bool PointCloudMesher::toConvexHull(ThreadSafeContainer& container, const PointCloud& pointCloud)
 {
 #ifdef USE_CGAL
     bool addModel{false};
@@ -63,17 +62,14 @@ bool PointCloudMesher::toConvexHull(ThreadSafeContainer& container,
         CGAL::convex_hull_3(points.begin(), points.end(), obj);
         if (const Polyhedron_3* poly = CGAL::object_cast<Polyhedron_3>(&obj))
         {
-            for (auto eit = poly->edges_begin(); eit != poly->edges_end();
-                 ++eit)
+            for (auto eit = poly->edges_begin(); eit != poly->edges_end(); ++eit)
             {
                 Point_3 a = eit->vertex()->point();
                 Point_3 b = eit->opposite()->vertex()->point();
                 const float radius = static_cast<float>(point.second[0].w);
-                container.addCone(Vector3f(a.x(), a.y(), a.z()), radius,
-                                  Vector3f(b.x(), b.y(), b.z()), radius,
+                container.addCone(Vector3f(a.x(), a.y(), a.z()), radius, Vector3f(b.x(), b.y(), b.z()), radius,
                                   materialId, false);
-                container.addSphere(Vector3f(a.x(), a.y(), a.z()), radius,
-                                    materialId, false);
+                container.addSphere(Vector3f(a.x(), a.y(), a.z()), radius, materialId, false);
                 addModel = true;
             }
         }

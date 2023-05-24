@@ -74,8 +74,7 @@ public:
      * @param arguments Command line arguments (See class description for
      * details)
      */
-    OOCManager(Scene& scene, const Camera& camera,
-               const CommandLineArguments& arguments);
+    OOCManager(Scene& scene, const Camera& camera, const CommandLineArguments& arguments);
 
     /**
      * @brief Destroy the OOCManager object
@@ -88,10 +87,7 @@ public:
      *
      * @param frameBuffer A reference to the Brayns frame buffer
      */
-    void setFrameBuffer(FrameBuffer* frameBuffer)
-    {
-        _frameBuffer = frameBuffer;
-    }
+    void setFrameBuffer(FrameBuffer* frameBuffer) { _frameBuffer = frameBuffer; }
 
     /**
      * @brief Get the frame buffer
@@ -112,10 +108,7 @@ public:
      *
      * @return const std::string&
      */
-    const OOCSceneConfigurationDetails& getSceneConfiguration() const
-    {
-        return _sceneConfiguration;
-    }
+    const OOCSceneConfigurationDetails& getSceneConfiguration() const { return _sceneConfiguration; }
 
     /**
      * @brief Get the Show Grid value, read from the command line parameters

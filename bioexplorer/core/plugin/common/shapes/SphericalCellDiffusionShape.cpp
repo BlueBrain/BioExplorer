@@ -30,9 +30,8 @@ namespace common
 using namespace brayns;
 using namespace details;
 
-SphericalCellDiffusionShape::SphericalCellDiffusionShape(
-    const Vector4ds& clippingPlanes, const double radius,
-    const double frequency, const double threshold)
+SphericalCellDiffusionShape::SphericalCellDiffusionShape(const Vector4ds& clippingPlanes, const double radius,
+                                                         const double frequency, const double threshold)
     : Shape(clippingPlanes)
     , _radius(radius)
     , _frequency(frequency)
@@ -46,12 +45,9 @@ SphericalCellDiffusionShape::SphericalCellDiffusionShape(
 
 Transformation SphericalCellDiffusionShape::getTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
-    const double offset) const
+    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails, const double offset) const
 {
-    return _getFilledSphereTransformation(occurrence, nbOccurrences,
-                                          MolecularSystemAnimationDetails,
-                                          offset);
+    return _getFilledSphereTransformation(occurrence, nbOccurrences, MolecularSystemAnimationDetails, offset);
 }
 
 bool SphericalCellDiffusionShape::isInside(const Vector3d& point) const
@@ -61,27 +57,21 @@ bool SphericalCellDiffusionShape::isInside(const Vector3d& point) const
 
 Transformation SphericalCellDiffusionShape::_getFilledSphereTransformation(
     const uint64_t occurrence, const uint64_t nbOccurrences,
-    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
-    const double offset) const
+    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails, const double offset) const
 {
     Vector3d pos;
     const double diameter = _radius * 2.0;
     do
     {
         pos = Vector3d(rnd1() * diameter, rnd1() * diameter, rnd1() * diameter);
-    } while (length(pos) > _radius ||
-             worleyNoise(_frequency * pos, 2.f) < _threshold);
+    } while (length(pos) > _radius || worleyNoise(_frequency * pos, 2.f) < _threshold);
 
     if (MolecularSystemAnimationDetails.positionSeed != 0)
     {
-        const Vector3d posOffset =
-            MolecularSystemAnimationDetails.positionStrength *
-            Vector3d(rnd2(occurrence +
-                          MolecularSystemAnimationDetails.positionSeed),
-                     rnd2(occurrence +
-                          MolecularSystemAnimationDetails.positionSeed + 1),
-                     rnd2(occurrence +
-                          MolecularSystemAnimationDetails.positionSeed + 2));
+        const Vector3d posOffset = MolecularSystemAnimationDetails.positionStrength *
+                                   Vector3d(rnd2(occurrence + MolecularSystemAnimationDetails.positionSeed),
+                                            rnd2(occurrence + MolecularSystemAnimationDetails.positionSeed + 1),
+                                            rnd2(occurrence + MolecularSystemAnimationDetails.positionSeed + 2));
 
         pos += posOffset;
     }
@@ -90,9 +80,8 @@ Transformation SphericalCellDiffusionShape::_getFilledSphereTransformation(
 
     Quaterniond rot = safeQuatlookAt(normalize(pos));
     if (MolecularSystemAnimationDetails.rotationSeed != 0)
-        rot = weightedRandomRotation(
-            rot, MolecularSystemAnimationDetails.rotationSeed, occurrence,
-            MolecularSystemAnimationDetails.rotationStrength);
+        rot = weightedRandomRotation(rot, MolecularSystemAnimationDetails.rotationSeed, occurrence,
+                                     MolecularSystemAnimationDetails.rotationStrength);
 
     Transformation transformation;
     transformation.setTranslation(pos);

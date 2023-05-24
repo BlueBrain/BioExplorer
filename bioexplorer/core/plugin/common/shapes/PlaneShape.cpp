@@ -39,10 +39,9 @@ PlaneShape::PlaneShape(const Vector4ds& clippingPlanes, const Vector2f& size)
     _surface = size.x * size.y;
 }
 
-Transformation PlaneShape::getTransformation(
-    const uint64_t occurrence, const uint64_t nbOccurrences,
-    const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
-    const double offset) const
+Transformation PlaneShape::getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
+                                             const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+                                             const double offset) const
 {
     double up = 0.f;
     if (MolecularSystemAnimationDetails.seed != 0)

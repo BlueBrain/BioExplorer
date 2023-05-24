@@ -38,14 +38,12 @@ public:
      * @param clippingPlanes Clipping planes to apply to the shape
      * @param radius Radius of the sphere
      */
-    HelixShape(const Vector4ds& clippingPlanes, const double radius,
-               const double height);
+    HelixShape(const Vector4ds& clippingPlanes, const double radius, const double height);
 
     /** @copydoc Shape::getTransformation */
-    Transformation getTransformation(
-        const uint64_t occurrence, const uint64_t nbOccurrences,
-        const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
-        const double offset) const final;
+    Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
+                                     const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+                                     const double offset) const final;
 
     /** @copydoc Shape::isInside */
     bool isInside(const Vector3d& point) const final;

@@ -49,8 +49,7 @@ public:
      * @param details Set of attributes defining how the vasculature should be
      * loaded
      */
-    Vasculature(Scene& scene, const VasculatureDetails& details,
-                const Vector3d& assemblyPosition,
+    Vasculature(Scene& scene, const VasculatureDetails& details, const Vector3d& assemblyPosition,
                 const Quaterniond& assemblyRotation);
 
     /**
@@ -73,19 +72,13 @@ private:
 
     void _logRealismParams();
 
-    void _addGraphSection(ThreadSafeContainer& container,
-                          const GeometryNode& srcNode,
-                          const GeometryNode& dstNode, const size_t materialId);
-    void _addSimpleSection(ThreadSafeContainer& container,
-                           const GeometryNode& srcNode,
-                           const GeometryNode& dstNode, const size_t materialId,
-                           const uint64_t userData);
-    void _addDetailedSection(ThreadSafeContainer& container,
-                             const GeometryNodes& nodes,
-                             const size_t baseMaterialId, const doubles& radii,
-                             const Vector2d& radiusRange);
-    void _addOrientation(ThreadSafeContainer& container,
-                         const GeometryNodes& nodes, const uint64_t sectionId);
+    void _addGraphSection(ThreadSafeContainer& container, const GeometryNode& srcNode, const GeometryNode& dstNode,
+                          const size_t materialId);
+    void _addSimpleSection(ThreadSafeContainer& container, const GeometryNode& srcNode, const GeometryNode& dstNode,
+                           const size_t materialId, const uint64_t userData);
+    void _addDetailedSection(ThreadSafeContainer& container, const GeometryNodes& nodes, const size_t baseMaterialId,
+                             const doubles& radii, const Vector2d& radiusRange);
+    void _addOrientation(ThreadSafeContainer& container, const GeometryNodes& nodes, const uint64_t sectionId);
     void _buildModel(const doubles& radii = doubles());
 
     const VasculatureDetails _details;

@@ -43,16 +43,14 @@ void ShadowRenderer::commit()
 
     if (_lightData)
         for (size_t i = 0; i < _lightData->size(); ++i)
-            _lightArray.push_back(
-                ((ospray::Light**)_lightData->data)[i]->getIE());
+            _lightArray.push_back(((ospray::Light**)_lightData->data)[i]->getIE());
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
     _softness = getParam1f("softness", 0.f);
     _samplesPerFrame = getParam1i("samplesPerFrame", 16);
     _rayLength = getParam1f("rayLength", 1e6f);
 
-    ispc::ShadowRenderer_set(getIE(), spp, _lightPtr, _lightArray.size(),
-                             _samplesPerFrame, _rayLength, _softness);
+    ispc::ShadowRenderer_set(getIE(), spp, _lightPtr, _lightArray.size(), _samplesPerFrame, _rayLength, _softness);
 }
 
 ShadowRenderer::ShadowRenderer()

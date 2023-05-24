@@ -30,23 +30,18 @@ namespace neuron
 {
 const std::string LOADER_NAME = "Advanced circuit (Experimental)";
 
-AdvancedCircuitLoader::AdvancedCircuitLoader(
-    Scene &scene, const ApplicationParameters &applicationParameters,
-    PropertyMap &&loaderParams)
-    : AbstractCircuitLoader(scene, applicationParameters,
-                            std::move(loaderParams))
+AdvancedCircuitLoader::AdvancedCircuitLoader(Scene &scene, const ApplicationParameters &applicationParameters,
+                                             PropertyMap &&loaderParams)
+    : AbstractCircuitLoader(scene, applicationParameters, std::move(loaderParams))
 {
-    _fixedDefaults.setProperty(
-        {PROP_PRESYNAPTIC_NEURON_GID.name, std::string("")});
-    _fixedDefaults.setProperty(
-        {PROP_POSTSYNAPTIC_NEURON_GID.name, std::string("")});
+    _fixedDefaults.setProperty({PROP_PRESYNAPTIC_NEURON_GID.name, std::string("")});
+    _fixedDefaults.setProperty({PROP_POSTSYNAPTIC_NEURON_GID.name, std::string("")});
     _fixedDefaults.setProperty(PROP_POSITION);
     _fixedDefaults.setProperty(PROP_ROTATION);
 }
 
-ModelDescriptorPtr AdvancedCircuitLoader::importFromFile(
-    const std::string &filename, const LoaderProgress &callback,
-    const PropertyMap &properties) const
+ModelDescriptorPtr AdvancedCircuitLoader::importFromFile(const std::string &filename, const LoaderProgress &callback,
+                                                         const PropertyMap &properties) const
 {
     PLUGIN_INFO("Loading circuit from " << filename);
     callback.updateProgress("Loading circuit ...", 0);

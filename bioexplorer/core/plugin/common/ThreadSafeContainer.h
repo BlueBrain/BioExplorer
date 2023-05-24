@@ -47,8 +47,7 @@ public:
      * for the geometry
      * @param scale Scale applied to individual elements
      */
-    ThreadSafeContainer(Model& model, const double alignToGrid,
-                        const Vector3d& position, const Quaterniond& rotation,
+    ThreadSafeContainer(Model& model, const double alignToGrid, const Vector3d& position, const Quaterniond& rotation,
                         const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
 
     /**
@@ -71,10 +70,8 @@ public:
      * geometry)
      * @return uint64_t Index of the geometry in the model
      */
-    uint64_t addSphere(const Vector3f& position, const float radius,
-                       const size_t materialId, const bool useSdf,
-                       const uint64_t userDataOffset = 0,
-                       const Neighbours& neighbours = {},
+    uint64_t addSphere(const Vector3f& position, const float radius, const size_t materialId, const bool useSdf,
+                       const uint64_t userDataOffset = 0, const Neighbours& neighbours = {},
                        const Vector3f displacementRatio = Vector3f());
 
     /**
@@ -95,11 +92,9 @@ public:
      * geometry)
      * @return uint64_t Index of the geometry in the model
      */
-    uint64_t addCone(const Vector3f& sourcePosition, const float sourceRadius,
-                     const Vector3f& targetPosition, const float targetRadius,
-                     const size_t materialId, const bool useSdf,
-                     const uint64_t userDataOffset = 0,
-                     const Neighbours& neighbours = {},
+    uint64_t addCone(const Vector3f& sourcePosition, const float sourceRadius, const Vector3f& targetPosition,
+                     const float targetRadius, const size_t materialId, const bool useSdf,
+                     const uint64_t userDataOffset = 0, const Neighbours& neighbours = {},
                      const Vector3f displacementRatio = Vector3f());
 
     /**
@@ -114,8 +109,7 @@ public:
      *
      * @param streamline Streamline
      */
-    void addStreamline(const size_t materialId,
-                       const StreamlinesData& streamline);
+    void addStreamline(const size_t materialId, const StreamlinesData& streamline);
 
     /**
      * @brief Commit geometries and materials to the Brayns model
@@ -129,8 +123,7 @@ private:
     uint64_t _addSphere(const size_t materialId, const Sphere& sphere);
     uint64_t _addCylinder(const size_t materialId, const Cylinder& cylinder);
     uint64_t _addCone(const size_t materialId, const Cone& cone);
-    uint64_t _addSDFGeometry(const size_t materialId, const SDFGeometry& geom,
-                             const std::set<size_t>& neighbours);
+    uint64_t _addSDFGeometry(const size_t materialId, const SDFGeometry& geom, const std::set<size_t>& neighbours);
 
     void _commitSpheresToModel();
     void _commitCylindersToModel();

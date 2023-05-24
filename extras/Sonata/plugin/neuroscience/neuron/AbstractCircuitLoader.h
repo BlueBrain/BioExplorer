@@ -49,20 +49,15 @@ using namespace common;
 class AbstractCircuitLoader : public Loader
 {
 public:
-    AbstractCircuitLoader(Scene &scene,
-                          const ApplicationParameters &applicationParameters,
-                          PropertyMap &&loaderParams);
+    AbstractCircuitLoader(Scene &scene, const ApplicationParameters &applicationParameters, PropertyMap &&loaderParams);
 
     PropertyMap getProperties() const final;
 
     std::vector<std::string> getSupportedExtensions() const;
 
-    bool isSupported(const std::string &filename,
-                     const std::string &extension) const;
+    bool isSupported(const std::string &filename, const std::string &extension) const;
 
-    ModelDescriptorPtr importFromBlob(Blob &&blob,
-                                      const LoaderProgress &callback,
-                                      const PropertyMap &properties) const;
+    ModelDescriptorPtr importFromBlob(Blob &&blob, const LoaderProgress &callback, const PropertyMap &properties) const;
 
     /**
      * @brief Imports morphology from a circuit for the given target name
@@ -70,8 +65,7 @@ public:
      * @return ModelDescriptor if the circuit is successfully loaded, nullptr if
      * the circuit contains no cells.
      */
-    ModelDescriptorPtr importCircuit(const std::string &circuitConfig,
-                                     const PropertyMap &properties,
+    ModelDescriptorPtr importCircuit(const std::string &circuitConfig, const PropertyMap &properties,
                                      const LoaderProgress &callback) const;
 
     /**
@@ -80,12 +74,10 @@ public:
      * @param blueConfig Configuration of the circuit
      * @param gids GIDs of the neurons
      */
-    size_ts _populateLayerIds(const PropertyMap &props,
-                              const brion::BlueConfig &blueConfig,
+    size_ts _populateLayerIds(const PropertyMap &props, const brion::BlueConfig &blueConfig,
                               const brain::GIDSet &gids) const;
 
-    static void setSimulationTransferFunction(TransferFunction &tf,
-                                              const float finalOpacity = 1.f);
+    static void setSimulationTransferFunction(TransferFunction &tf, const float finalOpacity = 1.f);
 
 protected:
     const ApplicationParameters &_applicationParameters;
@@ -93,25 +85,19 @@ protected:
     PropertyMap _fixedDefaults;
 
 private:
-    std::vector<std::string> _getTargetsAsStrings(
-        const std::string &targets) const;
+    std::vector<std::string> _getTargetsAsStrings(const std::string &targets) const;
 
-    brain::GIDSet _getGids(const PropertyMap &properties,
-                           const brion::BlueConfig &blueConfiguration,
-                           const brain::Circuit &circuit,
-                           GIDOffsets &targetGIDOffsets) const;
+    brain::GIDSet _getGids(const PropertyMap &properties, const brion::BlueConfig &blueConfiguration,
+                           const brain::Circuit &circuit, GIDOffsets &targetGIDOffsets) const;
 
-    std::string _getMeshFilenameFromGID(const PropertyMap &props,
-                                        const uint64_t gid) const;
+    std::string _getMeshFilenameFromGID(const PropertyMap &props, const uint64_t gid) const;
 
-    float _importMorphologies(
-        const PropertyMap &props, const brain::Circuit &circuit, Model &model,
-        const brain::GIDSet &gids, const Matrix4fs &transformations,
-        const GIDOffsets &targetGIDOffsets,
-        CompartmentReportPtr compartmentReport, const size_ts &layerIds,
-        const size_ts &morphologyTypes, const size_ts &electrophysiologyTypes,
-        const LoaderProgress &callback,
-        const size_t materialId = NO_MATERIAL) const;
+    float _importMorphologies(const PropertyMap &props, const brain::Circuit &circuit, Model &model,
+                              const brain::GIDSet &gids, const Matrix4fs &transformations,
+                              const GIDOffsets &targetGIDOffsets, CompartmentReportPtr compartmentReport,
+                              const size_ts &layerIds, const size_ts &morphologyTypes,
+                              const size_ts &electrophysiologyTypes, const LoaderProgress &callback,
+                              const size_t materialId = NO_MATERIAL) const;
 
     /**
      * @brief _getMaterialFromSectionType return a material determined by the
@@ -123,30 +109,23 @@ private:
      * will be applied
      * @return Material ID determined by the geometry parameters
      */
-    size_t _getMaterialFromCircuitAttributes(
-        const PropertyMap &props, const uint64_t index, const size_t material,
-        const GIDOffsets &targetGIDOffsets, const size_ts &layerIds,
-        const size_ts &morphologyTypes, const size_ts &electrophysiologyTypes,
-        const bool forSimulationModel) const;
+    size_t _getMaterialFromCircuitAttributes(const PropertyMap &props, const uint64_t index, const size_t material,
+                                             const GIDOffsets &targetGIDOffsets, const size_ts &layerIds,
+                                             const size_ts &morphologyTypes, const size_ts &electrophysiologyTypes,
+                                             const bool forSimulationModel) const;
 
-    void _importMeshes(const PropertyMap &props, Model &model,
-                       const brain::GIDSet &gids,
-                       const Matrix4fs &transformations,
-                       const GIDOffsets &targetGIDOffsets,
-                       const size_ts &layerIds, const size_ts &morphologyTypes,
-                       const size_ts &electrophysiologyTypes,
+    void _importMeshes(const PropertyMap &props, Model &model, const brain::GIDSet &gids,
+                       const Matrix4fs &transformations, const GIDOffsets &targetGIDOffsets, const size_ts &layerIds,
+                       const size_ts &morphologyTypes, const size_ts &electrophysiologyTypes,
                        const LoaderProgress &callback) const;
 
-    CompartmentReportPtr _attachSimulationHandler(
-        const PropertyMap &properties,
-        const brion::BlueConfig &blueConfiguration, Model &model,
-        const ReportType &reportType, brain::GIDSet &gids) const;
+    CompartmentReportPtr _attachSimulationHandler(const PropertyMap &properties,
+                                                  const brion::BlueConfig &blueConfiguration, Model &model,
+                                                  const ReportType &reportType, brain::GIDSet &gids) const;
 
-    void _filterGIDsWithClippingPlanes(brain::GIDSet &gids,
-                                       Matrix4fs &transformations) const;
+    void _filterGIDsWithClippingPlanes(brain::GIDSet &gids, Matrix4fs &transformations) const;
 
-    void _filterGIDsWithAreasOfInterest(const uint16_t areasOfInterest,
-                                        brain::GIDSet &gids,
+    void _filterGIDsWithAreasOfInterest(const uint16_t areasOfInterest, brain::GIDSet &gids,
                                         Matrix4fs &transformations) const;
 
     bool _isClipped(const Vector3f &position) const;

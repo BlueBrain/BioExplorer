@@ -40,8 +40,7 @@ void AmbientOcclusionRenderer::commit()
     _samplesPerFrame = getParam1i("samplesPerFrame", 16);
     _aoRayLength = getParam1f("rayLength", 1e6f);
 
-    ispc::AmbientOcclusionRenderer_set(getIE(), spp, _samplesPerFrame,
-                                       _aoRayLength);
+    ispc::AmbientOcclusionRenderer_set(getIE(), spp, _samplesPerFrame, _aoRayLength);
 }
 
 AmbientOcclusionRenderer::AmbientOcclusionRenderer()

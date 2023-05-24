@@ -31,24 +31,18 @@ namespace morphology
 using namespace io;
 using namespace db;
 
-SpikeSimulationHandler::SpikeSimulationHandler(
-    const std::string& populationName, const uint64_t simulationReportId)
+SpikeSimulationHandler::SpikeSimulationHandler(const std::string& populationName, const uint64_t simulationReportId)
     : brayns::AbstractSimulationHandler()
     , _populationName(populationName)
     , _simulationReportId(simulationReportId)
 {
     const auto& connector = DBConnector::getInstance();
-    _simulationReport =
-        connector.getSimulationReport(_populationName, _simulationReportId);
-    _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) /
-                _simulationReport.timeStep;
+    _simulationReport = connector.getSimulationReport(_populationName, _simulationReportId);
+    _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) / _simulationReport.timeStep;
     _dt = _simulationReport.timeStep;
 
-    const auto spikes =
-        connector.getNeuronSpikeReportValues(_populationName,
-                                             _simulationReportId,
-                                             _simulationReport.startTime,
-                                             _simulationReport.endTime);
+    const auto spikes = connector.getNeuronSpikeReportValues(_populationName, _simulationReportId,
+                                                             _simulationReport.startTime, _simulationReport.endTime);
 
     uint64_t i = 0;
     for (const auto spike : spikes)
@@ -64,16 +58,14 @@ SpikeSimulationHandler::SpikeSimulationHandler(
     PLUGIN_INFO(1, "----------------------------");
     PLUGIN_INFO(1, "Population name          : " << _populationName);
     PLUGIN_INFO(1, "Number of simulated nodes: " << _frameSize);
-    PLUGIN_INFO(1,
-                "Start time               : " << _simulationReport.startTime);
+    PLUGIN_INFO(1, "Start time               : " << _simulationReport.startTime);
     PLUGIN_INFO(1, "End time                 : " << _simulationReport.endTime);
     PLUGIN_INFO(1, "Number of frames         : " << _nbFrames);
     _logVisualizationSettings();
     PLUGIN_INFO(1, "---------------------------------------------------------");
 }
 
-SpikeSimulationHandler::SpikeSimulationHandler(
-    const SpikeSimulationHandler& rhs)
+SpikeSimulationHandler::SpikeSimulationHandler(const SpikeSimulationHandler& rhs)
     : brayns::AbstractSimulationHandler(rhs)
     , _populationName(rhs._populationName)
     , _simulationReport(rhs._simulationReport)
@@ -89,14 +81,10 @@ void* SpikeSimulationHandler::getFrameData(const uint32_t frame)
     if (_currentFrame != boundedFrame)
     {
         const float ts = _simulationReport.startTime + boundedFrame * _dt;
-        const float startTime =
-            ts - (_spikingVoltage - _restVoltage) / _decaySpeed;
+        const float startTime = ts - (_spikingVoltage - _restVoltage) / _decaySpeed;
         const float endTime = _simulationReport.endTime;
-        const auto spikes =
-            connector.getNeuronSpikeReportValues(_populationName,
-                                                 _simulationReportId,
-                                                 std::max(0.f, startTime),
-                                                 std::min(ts, endTime));
+        const auto spikes = connector.getNeuronSpikeReportValues(_populationName, _simulationReportId,
+                                                                 std::max(0.f, startTime), std::min(ts, endTime));
 
         // Rest all values
         for (uint64_t i = 0; i < _frameSize; ++i)
@@ -105,8 +93,7 @@ void* SpikeSimulationHandler::getFrameData(const uint32_t frame)
         // Update values of nodes spiking within the specified time range
         for (const auto spike : spikes)
             _frameData[_guidsMapping[spike.first]] =
-                std::max(_restVoltage,
-                         _spikingVoltage - _decaySpeed * (ts - spike.second));
+                std::max(_restVoltage, _spikingVoltage - _decaySpeed * (ts - spike.second));
 
         _currentFrame = boundedFrame;
     }
@@ -119,9 +106,8 @@ brayns::AbstractSimulationHandlerPtr SpikeSimulationHandler::clone() const
     return std::make_shared<SpikeSimulationHandler>(*this);
 }
 
-void SpikeSimulationHandler::setVisualizationSettings(
-    const double restVoltage, const double spikingVoltage,
-    const double decaySpeed)
+void SpikeSimulationHandler::setVisualizationSettings(const double restVoltage, const double spikingVoltage,
+                                                      const double decaySpeed)
 {
     _restVoltage = restVoltage;
     _spikingVoltage = spikingVoltage;

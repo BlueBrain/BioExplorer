@@ -99,15 +99,13 @@ using namespace neuroscience;
 using namespace neuron;
 using namespace astrocyte;
 
-#define REGISTER_LOADER(LOADER, FUNC) \
-    registry.registerLoader({std::bind(&LOADER::getSupportedDataTypes), FUNC});
+#define REGISTER_LOADER(LOADER, FUNC) registry.registerLoader({std::bind(&LOADER::getSupportedDataTypes), FUNC});
 
 const std::string PLUGIN_API_PREFIX = "se-";
 
 const std::string RENDERER_CELL_GROWTH = "cell_growth";
 const std::string RENDERER_PROXIMITY = "proximity";
-const std::string CAMERA_SPHERE_CLIPPING_PERSPECTIVE =
-    "sphere_clipping_perspective";
+const std::string CAMERA_SPHERE_CLIPPING_PERSPECTIVE = "sphere_clipping_perspective";
 const std::string LOADER_BRICK = "brick";
 const std::string LOADER_SYNAPSE_CIRCUIT = "synapse_circuit";
 const std::string LOADER_MORPHOLOGY = "morphology";
@@ -121,21 +119,16 @@ void _addGrowthRenderer(Engine& engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_CELL_GROWTH);
     PropertyMap properties;
-    properties.setProperty(
-        {"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
-    properties.setProperty(
-        {"simulationThreshold", 0., 0., 1., {"Simulation threshold"}});
+    properties.setProperty({"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
+    properties.setProperty({"simulationThreshold", 0., 0., 1., {"Simulation threshold"}});
     properties.setProperty({"exposure", 1., 0.01, 10., {"Exposure"}});
     properties.setProperty({"fogStart", 0., 0., 1e6, {"Fog start"}});
     properties.setProperty({"fogThickness", 1e6, 1e6, 1e6, {"Fog thickness"}});
     properties.setProperty({"tfColor", false, {"Use transfer function color"}});
     properties.setProperty({"shadows", 0., 0., 1., {"Shadow intensity"}});
     properties.setProperty({"softShadows", 0., 0., 1., {"Shadow softness"}});
-    properties.setProperty(
-        {"shadowDistance", 1e4, 0., 1e4, {"Shadow distance"}});
-    properties.setProperty({"useHardwareRandomizer",
-                            false,
-                            {"Use hardware accelerated randomizer"}});
+    properties.setProperty({"shadowDistance", 1e4, 0., 1e4, {"Shadow distance"}});
+    properties.setProperty({"useHardwareRandomizer", false, {"Use hardware accelerated randomizer"}});
     engine.addRendererType(RENDERER_CELL_GROWTH, properties);
 }
 
@@ -143,26 +136,15 @@ void _addProximityRenderer(Engine& engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_PROXIMITY);
     PropertyMap properties;
-    properties.setProperty(
-        {"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
+    properties.setProperty({"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
     properties.setProperty({"detectionDistance", 1., {"Detection distance"}});
-    properties.setProperty({"detectionFarColor",
-                            std::array<double, 3>{{1., 0., 0.}},
-                            {"Detection far color"}});
-    properties.setProperty({"detectionNearColor",
-                            std::array<double, 3>{{0., 1., 0.}},
-                            {"Detection near color"}});
-    properties.setProperty({"detectionOnDifferentMaterial",
-                            false,
-                            {"Detection on different material"}});
-    properties.setProperty(
-        {"surfaceShadingEnabled", true, {"Surface shading"}});
-    properties.setProperty(
-        {"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
+    properties.setProperty({"detectionFarColor", std::array<double, 3>{{1., 0., 0.}}, {"Detection far color"}});
+    properties.setProperty({"detectionNearColor", std::array<double, 3>{{0., 1., 0.}}, {"Detection near color"}});
+    properties.setProperty({"detectionOnDifferentMaterial", false, {"Detection on different material"}});
+    properties.setProperty({"surfaceShadingEnabled", true, {"Surface shading"}});
+    properties.setProperty({"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
     properties.setProperty({"exposure", 1., 0.01, 10., {"Exposure"}});
-    properties.setProperty({"useHardwareRandomizer",
-                            false,
-                            {"Use hardware accelerated randomizer"}});
+    properties.setProperty({"useHardwareRandomizer", false, {"Use hardware accelerated randomizer"}});
     engine.addRendererType(RENDERER_PROXIMITY, properties);
 }
 
@@ -180,9 +162,7 @@ void _addSphereClippingPerspectiveCamera(Engine& engine)
 
 std::string _sanitizeString(const std::string& input)
 {
-    static const std::vector<std::string> sanitetizeItems = {"\"", "\\", "'",
-                                                             ";",  "&",  "|",
-                                                             "`"};
+    static const std::vector<std::string> sanitetizeItems = {"\"", "\\", "'", ";", "&", "|", "`"};
 
     std::string result = "";
 
@@ -206,8 +186,7 @@ std::string _sanitizeString(const std::string& input)
     return result;
 }
 
-std::vector<std::string> _splitString(const std::string& source,
-                                      const char token)
+std::vector<std::string> _splitString(const std::string& source, const char token)
 {
     std::vector<std::string> result;
     std::string split;
@@ -231,42 +210,34 @@ void SonataExplorerPlugin::init()
 
     // Loaders
     PLUGIN_REGISTER_LOADER(LOADER_BRICK);
-    registry.registerLoader(
-        std::make_unique<BrickLoader>(scene, BrickLoader::getCLIProperties()));
+    registry.registerLoader(std::make_unique<BrickLoader>(scene, BrickLoader::getCLIProperties()));
 
     PLUGIN_REGISTER_LOADER(LOADER_SYNAPSE_CIRCUIT);
-    registry.registerLoader(std::make_unique<SynapseCircuitLoader>(
-        scene, pm.getApplicationParameters(),
-        SynapseCircuitLoader::getCLIProperties()));
+    registry.registerLoader(std::make_unique<SynapseCircuitLoader>(scene, pm.getApplicationParameters(),
+                                                                   SynapseCircuitLoader::getCLIProperties()));
 
     PLUGIN_REGISTER_LOADER(LOADER_MORPHOLOGY);
-    registry.registerLoader(std::make_unique<MorphologyLoader>(
-        scene, MorphologyLoader::getCLIProperties()));
+    registry.registerLoader(std::make_unique<MorphologyLoader>(scene, MorphologyLoader::getCLIProperties()));
 
     PLUGIN_REGISTER_LOADER(LOADER_ADVANCED_CIRCUIT);
-    registry.registerLoader(std::make_unique<AdvancedCircuitLoader>(
-        scene, pm.getApplicationParameters(),
-        AdvancedCircuitLoader::getCLIProperties()));
+    registry.registerLoader(std::make_unique<AdvancedCircuitLoader>(scene, pm.getApplicationParameters(),
+                                                                    AdvancedCircuitLoader::getCLIProperties()));
 
     PLUGIN_REGISTER_LOADER(LOADER_MORPHOLOGY_COLLAGE);
-    registry.registerLoader(std::make_unique<MorphologyCollageLoader>(
-        scene, pm.getApplicationParameters(),
-        MorphologyCollageLoader::getCLIProperties()));
+    registry.registerLoader(std::make_unique<MorphologyCollageLoader>(scene, pm.getApplicationParameters(),
+                                                                      MorphologyCollageLoader::getCLIProperties()));
 
     PLUGIN_REGISTER_LOADER(LOADER_MESH_CIRCUIT);
-    registry.registerLoader(std::make_unique<MeshCircuitLoader>(
-        scene, pm.getApplicationParameters(),
-        MeshCircuitLoader::getCLIProperties()));
+    registry.registerLoader(std::make_unique<MeshCircuitLoader>(scene, pm.getApplicationParameters(),
+                                                                MeshCircuitLoader::getCLIProperties()));
 
     PLUGIN_REGISTER_LOADER(LOADER_PAIR_SYNAPSE);
-    registry.registerLoader(std::make_unique<PairSynapsesLoader>(
-        scene, pm.getApplicationParameters(),
-        PairSynapsesLoader::getCLIProperties()));
+    registry.registerLoader(std::make_unique<PairSynapsesLoader>(scene, pm.getApplicationParameters(),
+                                                                 PairSynapsesLoader::getCLIProperties()));
 
     PLUGIN_REGISTER_LOADER(LOADER_ASTROCYTES);
     registry.registerLoader(
-        std::make_unique<AstrocyteLoader>(scene, pm.getApplicationParameters(),
-                                          AstrocyteLoader::getCLIProperties()));
+        std::make_unique<AstrocyteLoader>(scene, pm.getApplicationParameters(), AstrocyteLoader::getCLIProperties()));
 
     // Renderers
     auto& engine = _api->getEngine();
@@ -285,82 +256,69 @@ void SonataExplorerPlugin::init()
     {
         std::string endPoint = PLUGIN_API_PREFIX + "get-version";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        actionInterface->registerRequest<Response>(endPoint, [&]()
-                                                   { return _getVersion(); });
+        actionInterface->registerRequest<Response>(endPoint, [&]() { return _getVersion(); });
 
         endPoint = PLUGIN_API_PREFIX + "save-model-to-cache";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        actionInterface->registerNotification<ExportModelToFile>(
-            endPoint,
-            [&](const ExportModelToFile& param) { _exportModelToFile(param); });
+        actionInterface->registerNotification<ExportModelToFile>(endPoint, [&](const ExportModelToFile& param)
+                                                                 { _exportModelToFile(param); });
 
         endPoint = PLUGIN_API_PREFIX + "save-model-to-mesh";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        actionInterface->registerNotification<ExportModelToMesh>(
-            endPoint,
-            [&](const ExportModelToMesh& param) { _exportModelToMesh(param); });
+        actionInterface->registerNotification<ExportModelToMesh>(endPoint, [&](const ExportModelToMesh& param)
+                                                                 { _exportModelToMesh(param); });
 
         endPoint = PLUGIN_API_PREFIX + "set-connections-per-value";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        actionInterface->registerNotification<ConnectionsPerValue>(
-            endPoint, [&](const ConnectionsPerValue& param)
-            { _setConnectionsPerValue(param); });
+        actionInterface->registerNotification<ConnectionsPerValue>(endPoint, [&](const ConnectionsPerValue& param)
+                                                                   { _setConnectionsPerValue(param); });
 
         endPoint = PLUGIN_API_PREFIX + "attach-cell-growth-handler";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        _api->getActionInterface()
-            ->registerNotification<AttachCellGrowthHandler>(
-                endPoint, [&](const AttachCellGrowthHandler& s)
-                { _attachCellGrowthHandler(s); });
+        _api->getActionInterface()->registerNotification<AttachCellGrowthHandler>(endPoint,
+                                                                                  [&](const AttachCellGrowthHandler& s)
+                                                                                  { _attachCellGrowthHandler(s); });
 
         endPoint = PLUGIN_API_PREFIX + "attach-circuit-simulation-handler";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        _api->getActionInterface()
-            ->registerNotification<AttachCircuitSimulationHandler>(
-                endPoint, [&](const AttachCircuitSimulationHandler& s)
-                { _attachCircuitSimulationHandler(s); });
+        _api->getActionInterface()->registerNotification<AttachCircuitSimulationHandler>(
+            endPoint, [&](const AttachCircuitSimulationHandler& s) { _attachCircuitSimulationHandler(s); });
 
-        endPoint =
-            PLUGIN_API_PREFIX + "set-spike-report-visualization-settings";
+        endPoint = PLUGIN_API_PREFIX + "set-spike-report-visualization-settings";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        _api->getActionInterface()
-            ->registerNotification<SpikeReportVisualizationSettings>(
-                endPoint, [&](const SpikeReportVisualizationSettings& s)
-                { _setSpikeReportVisualizationSettings(s); });
+        _api->getActionInterface()->registerNotification<SpikeReportVisualizationSettings>(
+            endPoint, [&](const SpikeReportVisualizationSettings& s) { _setSpikeReportVisualizationSettings(s); });
 
         endPoint = PLUGIN_API_PREFIX + "add-column";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        _api->getActionInterface()->registerNotification<AddColumn>(
-            endPoint, [&](const AddColumn& details) { _addColumn(details); });
+        _api->getActionInterface()->registerNotification<AddColumn>(endPoint, [&](const AddColumn& details)
+                                                                    { _addColumn(details); });
 
         endPoint = PLUGIN_API_PREFIX + "add-sphere";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        _api->getActionInterface()->registerRequest<AddSphere, Response>(
-            endPoint,
-            [&](const AddSphere& details) { return _addSphere(details); });
+        _api->getActionInterface()->registerRequest<AddSphere, Response>(endPoint, [&](const AddSphere& details)
+                                                                         { return _addSphere(details); });
 
         endPoint = PLUGIN_API_PREFIX + "add-pill";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        _api->getActionInterface()->registerRequest<AddPill, Response>(
-            endPoint,
-            [&](const AddPill& details) { return _addPill(details); });
+        _api->getActionInterface()->registerRequest<AddPill, Response>(endPoint, [&](const AddPill& details)
+                                                                       { return _addPill(details); });
 
         endPoint = PLUGIN_API_PREFIX + "add-cylinder";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        _api->getActionInterface()->registerRequest<AddCylinder, Response>(
-            endPoint,
-            [&](const AddCylinder& details) { return _addCylinder(details); });
+        _api->getActionInterface()->registerRequest<AddCylinder, Response>(endPoint, [&](const AddCylinder& details)
+                                                                           { return _addCylinder(details); });
 
         endPoint = PLUGIN_API_PREFIX + "add-box";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        _api->getActionInterface()->registerRequest<AddBox, Response>(
-            endPoint, [&](const AddBox& details) { return _addBox(details); });
+        _api->getActionInterface()->registerRequest<AddBox, Response>(endPoint, [&](const AddBox& details)
+                                                                      { return _addBox(details); });
 
         endPoint = PLUGIN_API_PREFIX + "load-meg";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        _api->getActionInterface()->registerRequest<LoadMEGSettings, Response>(
-            endPoint,
-            [&](const LoadMEGSettings& details) { return _loadMEG(details); });
+        _api->getActionInterface()->registerRequest<LoadMEGSettings, Response>(endPoint,
+                                                                               [&](const LoadMEGSettings& details)
+                                                                               { return _loadMEG(details); });
     }
 }
 
@@ -383,8 +341,7 @@ Response SonataExplorerPlugin::_getVersion() const
     return response;
 }
 
-Response SonataExplorerPlugin::_exportModelToFile(
-    const ExportModelToFile& saveModel)
+Response SonataExplorerPlugin::_exportModelToFile(const ExportModelToFile& saveModel)
 {
     Response response;
     try
@@ -403,8 +360,7 @@ Response SonataExplorerPlugin::_exportModelToFile(
     return response;
 }
 
-Response SonataExplorerPlugin::_exportModelToMesh(
-    const ExportModelToMesh& details)
+Response SonataExplorerPlugin::_exportModelToMesh(const ExportModelToMesh& details)
 {
     Response response;
     try
@@ -421,21 +377,18 @@ Response SonataExplorerPlugin::_exportModelToMesh(
                 for (const auto& s : spheres.second)
                 {
                     if (count % details.density == 0)
-                        l.push_front(Weighted_point(
-                            Point_3(s.center.x, s.center.y, s.center.z),
-                            details.radiusMultiplier * s.radius));
+                        l.push_front(Weighted_point(Point_3(s.center.x, s.center.y, s.center.z),
+                                                    details.radiusMultiplier * s.radius));
                     ++count;
                 }
             }
 
-            PLUGIN_INFO("Constructing skin surface from " << l.size()
-                                                          << " spheres");
+            PLUGIN_INFO("Constructing skin surface from " << l.size() << " spheres");
 
             Polyhedron polyhedron;
             if (details.skin)
             {
-                Skin_surface_3 skinSurface(l.begin(), l.end(),
-                                           details.shrinkFactor);
+                Skin_surface_3 skinSurface(l.begin(), l.end(), details.shrinkFactor);
 
                 PLUGIN_INFO("Meshing skin surface...");
                 CGAL::mesh_skin_surface_3(skinSurface, polyhedron);
@@ -452,15 +405,13 @@ Response SonataExplorerPlugin::_exportModelToMesh(
             out << polyhedron;
         }
         else
-            PLUGIN_THROW("Model " + std::to_string(details.modelId) +
-                         " is not registered");
+            PLUGIN_THROW("Model " + std::to_string(details.modelId) + " is not registered");
     }
     CATCH_STD_EXCEPTION()
     return response;
 }
 
-Response SonataExplorerPlugin::_setConnectionsPerValue(
-    const ConnectionsPerValue& cpv)
+Response SonataExplorerPlugin::_setConnectionsPerValue(const ConnectionsPerValue& cpv)
 {
     Response response;
     try
@@ -471,8 +422,7 @@ Response SonataExplorerPlugin::_setConnectionsPerValue(
         auto modelDescriptor = scene.getModel(cpv.modelId);
         if (modelDescriptor)
         {
-            auto simulationHandler =
-                modelDescriptor->getModel().getSimulationHandler();
+            auto simulationHandler = modelDescriptor->getModel().getSimulationHandler();
             if (!simulationHandler)
                 PLUGIN_THROW("Scene has not user data handler");
 
@@ -481,13 +431,11 @@ Response SonataExplorerPlugin::_setConnectionsPerValue(
             {
                 for (const auto& s : spheres.second)
                 {
-                    const float* data = static_cast<float*>(
-                        simulationHandler->getFrameData(cpv.frame));
+                    const float* data = static_cast<float*>(simulationHandler->getFrameData(cpv.frame));
 
                     const float value = data[s.userData];
                     if (abs(value - cpv.value) < cpv.epsilon)
-                        pointCloud[spheres.first].push_back(
-                            {s.center.x, s.center.y, s.center.z, s.radius});
+                        pointCloud[spheres.first].push_back({s.center.x, s.center.y, s.center.z, s.radius});
                 }
             }
 
@@ -497,16 +445,15 @@ Response SonataExplorerPlugin::_setConnectionsPerValue(
                 meshing::PointCloudMesher mesher;
                 if (mesher.toConvexHull(*meshModel, pointCloud))
                 {
-                    auto modelDesc = std::make_shared<ModelDescriptor>(
-                        std::move(meshModel),
-                        "Connection for value " + std::to_string(cpv.value));
+                    auto modelDesc =
+                        std::make_shared<ModelDescriptor>(std::move(meshModel),
+                                                          "Connection for value " + std::to_string(cpv.value));
                     scene.addModel(modelDesc);
                     _markModified();
                 }
             }
             else
-                PLUGIN_INFO("No connections added for value "
-                            << std::to_string(cpv.value));
+                PLUGIN_INFO("No connections added for value " << std::to_string(cpv.value));
         }
         else
             PLUGIN_INFO("Model " << cpv.modelId << " is not registered");
@@ -515,20 +462,17 @@ Response SonataExplorerPlugin::_setConnectionsPerValue(
     return response;
 }
 
-Response SonataExplorerPlugin::_attachCellGrowthHandler(
-    const AttachCellGrowthHandler& details)
+Response SonataExplorerPlugin::_attachCellGrowthHandler(const AttachCellGrowthHandler& details)
 {
     Response response;
     try
     {
-        PLUGIN_INFO("Attaching Cell Growth Handler to model "
-                    << details.modelId);
+        PLUGIN_INFO("Attaching Cell Growth Handler to model " << details.modelId);
         auto& scene = _api->getScene();
         auto modelDescriptor = scene.getModel(details.modelId);
         if (modelDescriptor)
         {
-            auto handler =
-                std::make_shared<CellGrowthHandler>(details.nbFrames);
+            auto handler = std::make_shared<CellGrowthHandler>(details.nbFrames);
             modelDescriptor->getModel().setSimulationHandler(handler);
         }
     }
@@ -536,46 +480,38 @@ Response SonataExplorerPlugin::_attachCellGrowthHandler(
     return response;
 }
 
-Response SonataExplorerPlugin::_attachCircuitSimulationHandler(
-    const AttachCircuitSimulationHandler& details)
+Response SonataExplorerPlugin::_attachCircuitSimulationHandler(const AttachCircuitSimulationHandler& details)
 {
     Response response;
     try
     {
-        PLUGIN_INFO("Attaching Circuit Simulation Handler to model "
-                    << details.modelId);
+        PLUGIN_INFO("Attaching Circuit Simulation Handler to model " << details.modelId);
         auto& scene = _api->getScene();
         auto modelDescriptor = scene.getModel(details.modelId);
         if (modelDescriptor)
         {
-            const brion::BlueConfig blueConfiguration(
-                details.circuitConfiguration);
+            const brion::BlueConfig blueConfiguration(details.circuitConfiguration);
             const brain::Circuit circuit(blueConfiguration);
             auto gids = circuit.getGIDs();
             auto handler = std::make_shared<VoltageSimulationHandler>(
-                blueConfiguration.getReportSource(details.reportName).getPath(),
-                gids, details.synchronousMode);
+                blueConfiguration.getReportSource(details.reportName).getPath(), gids, details.synchronousMode);
             auto& model = modelDescriptor->getModel();
             model.setSimulationHandler(handler);
-            AdvancedCircuitLoader::setSimulationTransferFunction(
-                model.getTransferFunction());
+            AdvancedCircuitLoader::setSimulationTransferFunction(model.getTransferFunction());
         }
         else
-            PLUGIN_THROW("Model " + std::to_string(details.modelId) +
-                         " does not exist");
+            PLUGIN_THROW("Model " + std::to_string(details.modelId) + " does not exist");
     }
     CATCH_STD_EXCEPTION()
     return response;
 }
 
-Response SonataExplorerPlugin::_setSpikeReportVisualizationSettings(
-    const SpikeReportVisualizationSettings& payload)
+Response SonataExplorerPlugin::_setSpikeReportVisualizationSettings(const SpikeReportVisualizationSettings& payload)
 {
     Response response;
     try
     {
-        PLUGIN_INFO("Setting spike report visualization settings to model "
-                    << payload.modelId);
+        PLUGIN_INFO("Setting spike report visualization settings to model " << payload.modelId);
         auto& scene = _api->getScene();
         auto modelDescriptor = scene.getModel(payload.modelId);
         if (!modelDescriptor)
@@ -583,14 +519,10 @@ Response SonataExplorerPlugin::_setSpikeReportVisualizationSettings(
         auto handler = modelDescriptor->getModel().getSimulationHandler();
         if (!handler)
             PLUGIN_THROW("Model has no simulation handler");
-        auto spikeHandler =
-            dynamic_cast<SpikeSimulationHandler*>(handler.get());
+        auto spikeHandler = dynamic_cast<SpikeSimulationHandler*>(handler.get());
         if (!spikeHandler)
-            PLUGIN_THROW(
-                "Model does not hold a spike report simulation handler");
-        spikeHandler->setVisualizationSettings(payload.restVoltage,
-                                               payload.spikingVoltage,
-                                               payload.timeInterval,
+            PLUGIN_THROW("Model does not hold a spike report simulation handler");
+        spikeHandler->setVisualizationSettings(payload.restVoltage, payload.spikingVoltage, payload.timeInterval,
                                                payload.decaySpeed);
     }
     CATCH_STD_EXCEPTION()
@@ -604,20 +536,15 @@ Response SonataExplorerPlugin::_loadMEG(const LoadMEGSettings& details)
     {
         PLUGIN_INFO("Loading MEG for circuit " << details.path);
         auto& scene = _api->getScene();
-        auto handler =
-            std::make_shared<MEGHandler>(details.path, details.reportName,
-                                         details.synchronous);
+        auto handler = std::make_shared<MEGHandler>(details.path, details.reportName, details.synchronous);
         if (!handler)
             PLUGIN_THROW("Failed to handler");
         auto model = scene.createModel();
         if (!model)
             PLUGIN_THROW("Failed to create model");
-        const auto metadata =
-            handler->buildModel(*model, details.voxelSize, details.density);
+        const auto metadata = handler->buildModel(*model, details.voxelSize, details.density);
         model->setSimulationHandler(handler);
-        scene.addModel(std::make_shared<ModelDescriptor>(std::move(model),
-                                                         details.name,
-                                                         metadata));
+        scene.addModel(std::make_shared<ModelDescriptor>(std::move(model), details.name, metadata));
         scene.markModified();
         _markModified();
     }
@@ -625,9 +552,7 @@ Response SonataExplorerPlugin::_loadMEG(const LoadMEGSettings& details)
     return response;
 }
 
-void SonataExplorerPlugin::_createShapeMaterial(ModelPtr& model,
-                                                const size_t id,
-                                                const Vector3d& color,
+void SonataExplorerPlugin::_createShapeMaterial(ModelPtr& model, const size_t id, const Vector3d& color,
                                                 const double& opacity)
 {
     MaterialPtr material = model->createMaterial(id, std::to_string(id));
@@ -659,21 +584,16 @@ Response SonataExplorerPlugin::_addSphere(const AddSphere& details)
         ModelPtr modelptr = scene.createModel();
 
         const size_t matId = 1;
-        const Vector3d color(details.color[0], details.color[1],
-                             details.color[2]);
+        const Vector3d color(details.color[0], details.color[1], details.color[2]);
         const double opacity = details.color[3];
         _createShapeMaterial(modelptr, matId, color, opacity);
 
-        const Vector3f center(details.center[0], details.center[1],
-                              details.center[2]);
+        const Vector3f center(details.center[0], details.center[1], details.center[2]);
         modelptr->addSphere(matId, {center, details.radius});
 
         size_t numModels = scene.getNumModels();
-        const std::string name = details.name.empty()
-                                     ? "sphere_" + std::to_string(numModels)
-                                     : details.name;
-        scene.addModel(
-            std::make_shared<ModelDescriptor>(std::move(modelptr), name));
+        const std::string name = details.name.empty() ? "sphere_" + std::to_string(numModels) : details.name;
+        scene.addModel(std::make_shared<ModelDescriptor>(std::move(modelptr), name));
         scene.markModified();
         _markModified();
     }
@@ -698,8 +618,7 @@ Response SonataExplorerPlugin::_addPill(const AddPill& details)
             PLUGIN_THROW(
                 "Pill color has the wrong number of parameters (RGBA, 4 "
                 "necessary)");
-        if (details.type != "pill" && details.type != "conepill" &&
-            details.type != "sigmoidpill")
+        if (details.type != "pill" && details.type != "conepill" && details.type != "sigmoidpill")
             PLUGIN_THROW(
                 "Unknown pill type parameter. Must be either \"pill\", "
                 "\"conepill\", or \"sigmoidpill\"");
@@ -710,8 +629,7 @@ Response SonataExplorerPlugin::_addPill(const AddPill& details)
         auto modelptr = scene.createModel();
 
         size_t matId = 1;
-        const Vector3d color(details.color[0], details.color[1],
-                             details.color[2]);
+        const Vector3d color(details.color[0], details.color[1], details.color[2]);
         const double opacity = details.color[3];
         _createShapeMaterial(modelptr, matId, color, opacity);
 
@@ -728,18 +646,13 @@ Response SonataExplorerPlugin::_addPill(const AddPill& details)
         }
         else if (details.type == "sigmoidpill")
         {
-            sdf = createSDFConePillSigmoid(p0, p1, details.radius1,
-                                           details.radius2);
+            sdf = createSDFConePillSigmoid(p0, p1, details.radius1, details.radius2);
         }
 
         modelptr->addSDFGeometry(matId, sdf, {});
         size_t numModels = scene.getNumModels();
-        const std::string name =
-            details.name.empty()
-                ? details.type + "_" + std::to_string(numModels)
-                : details.name;
-        scene.addModel(
-            std::make_shared<ModelDescriptor>(std::move(modelptr), name));
+        const std::string name = details.name.empty() ? details.type + "_" + std::to_string(numModels) : details.name;
+        scene.addModel(std::make_shared<ModelDescriptor>(std::move(modelptr), name));
         _markModified();
     }
     CATCH_STD_EXCEPTION()
@@ -771,22 +684,17 @@ Response SonataExplorerPlugin::_addCylinder(const AddCylinder& details)
         ModelPtr modelptr = scene.createModel();
 
         const size_t matId = 1;
-        const Vector3d color(details.color[0], details.color[1],
-                             details.color[2]);
+        const Vector3d color(details.color[0], details.color[1], details.color[2]);
         const double opacity = details.color[3];
         _createShapeMaterial(modelptr, matId, color, opacity);
 
-        const Vector3f center(details.center[0], details.center[1],
-                              details.center[2]);
+        const Vector3f center(details.center[0], details.center[1], details.center[2]);
         const Vector3f up(details.up[0], details.up[1], details.up[2]);
         modelptr->addCylinder(matId, {center, up, details.radius});
 
         size_t numModels = scene.getNumModels();
-        const std::string name = details.name.empty()
-                                     ? "cylinder_" + std::to_string(numModels)
-                                     : details.name;
-        scene.addModel(
-            std::make_shared<ModelDescriptor>(std::move(modelptr), name));
+        const std::string name = details.name.empty() ? "cylinder_" + std::to_string(numModels) : details.name;
+        scene.addModel(std::make_shared<ModelDescriptor>(std::move(modelptr), name));
         _markModified();
     }
     CATCH_STD_EXCEPTION()
@@ -815,15 +723,12 @@ Response SonataExplorerPlugin::_addBox(const AddBox& details)
         auto modelptr = scene.createModel();
 
         const size_t matId = 1;
-        const Vector3d color(details.color[0], details.color[1],
-                             details.color[2]);
+        const Vector3d color(details.color[0], details.color[1], details.color[2]);
         const double opacity = details.color[3];
         _createShapeMaterial(modelptr, matId, color, opacity);
 
-        const Vector3f minCorner(details.minCorner[0], details.minCorner[1],
-                                 details.minCorner[2]);
-        const Vector3f maxCorner(details.maxCorner[0], details.maxCorner[1],
-                                 details.maxCorner[2]);
+        const Vector3f minCorner(details.minCorner[0], details.minCorner[1], details.minCorner[2]);
+        const Vector3f maxCorner(details.maxCorner[0], details.maxCorner[1], details.maxCorner[2]);
 
         TriangleMesh mesh = createBox(minCorner, maxCorner);
 
@@ -831,11 +736,8 @@ Response SonataExplorerPlugin::_addBox(const AddBox& details)
         modelptr->markInstancesDirty();
 
         size_t numModels = scene.getNumModels();
-        const std::string name = details.name.empty()
-                                     ? "box_" + std::to_string(numModels)
-                                     : details.name;
-        scene.addModel(
-            std::make_shared<ModelDescriptor>(std::move(modelptr), name));
+        const std::string name = details.name.empty() ? "box_" + std::to_string(numModels) : details.name;
+        scene.addModel(std::make_shared<ModelDescriptor>(std::move(modelptr), name));
         _markModified();
     }
     CATCH_STD_EXCEPTION()
@@ -857,41 +759,32 @@ Response SonataExplorerPlugin::_addColumn(const AddColumn& details)
         auto material = model->createMaterial(0, "column");
         material->setDiffuseColor(white);
 
-        const Vector3fs verticesBottom = {
-            {-0.25f, -1.0f, -0.5f}, {0.25f, -1.0f, -0.5f},
-            {0.5f, -1.0f, -0.25f},  {0.5f, -1.0f, 0.25f},
-            {0.5f, -1.0f, -0.25f},  {0.5f, -1.0f, 0.25f},
-            {0.25f, -1.0f, 0.5f},   {-0.25f, -1.0f, 0.5f},
-            {-0.5f, -1.0f, 0.25f},  {-0.5f, -1.0f, -0.25f}};
-        const Vector3fs verticesTop = {
-            {-0.25f, 1.f, -0.5f}, {0.25f, 1.f, -0.5f}, {0.5f, 1.f, -0.25f},
-            {0.5f, 1.f, 0.25f},   {0.5f, 1.f, -0.25f}, {0.5f, 1.f, 0.25f},
-            {0.25f, 1.f, 0.5f},   {-0.25f, 1.f, 0.5f}, {-0.5f, 1.f, 0.25f},
-            {-0.5f, 1.f, -0.25f}};
+        const Vector3fs verticesBottom = {{-0.25f, -1.0f, -0.5f}, {0.25f, -1.0f, -0.5f}, {0.5f, -1.0f, -0.25f},
+                                          {0.5f, -1.0f, 0.25f},   {0.5f, -1.0f, -0.25f}, {0.5f, -1.0f, 0.25f},
+                                          {0.25f, -1.0f, 0.5f},   {-0.25f, -1.0f, 0.5f}, {-0.5f, -1.0f, 0.25f},
+                                          {-0.5f, -1.0f, -0.25f}};
+        const Vector3fs verticesTop = {{-0.25f, 1.f, -0.5f}, {0.25f, 1.f, -0.5f}, {0.5f, 1.f, -0.25f},
+                                       {0.5f, 1.f, 0.25f},   {0.5f, 1.f, -0.25f}, {0.5f, 1.f, 0.25f},
+                                       {0.25f, 1.f, 0.5f},   {-0.25f, 1.f, 0.5f}, {-0.5f, 1.f, 0.25f},
+                                       {-0.5f, 1.f, -0.25f}};
 
         const auto r = details.radius;
         for (size_t i = 0; i < verticesBottom.size(); ++i)
         {
-            model->addCylinder(0,
-                               {verticesBottom[i],
-                                verticesBottom[(i + 1) % verticesBottom.size()],
-                                r / 2.f});
+            model->addCylinder(0, {verticesBottom[i], verticesBottom[(i + 1) % verticesBottom.size()], r / 2.f});
             model->addSphere(0, {verticesBottom[i], r});
         }
 
         for (size_t i = 0; i < verticesTop.size(); ++i)
         {
-            model->addCylinder(0, {verticesTop[i],
-                                   verticesTop[(i + 1) % verticesTop.size()],
-                                   r / 2.f});
+            model->addCylinder(0, {verticesTop[i], verticesTop[(i + 1) % verticesTop.size()], r / 2.f});
             model->addSphere(0, {verticesTop[i], r});
         }
 
         for (size_t i = 0; i < verticesTop.size(); ++i)
             model->addCylinder(0, {verticesBottom[i], verticesTop[i], r / 2.f});
 
-        scene.addModel(
-            std::make_shared<ModelDescriptor>(std::move(model), "Column"));
+        scene.addModel(std::make_shared<ModelDescriptor>(std::move(model), "Column"));
     }
     CATCH_STD_EXCEPTION()
     return response;
@@ -902,26 +795,26 @@ extern "C" ExtensionPlugin* brayns_plugin_create(int /*argc*/, char** /*argv*/)
     PLUGIN_INFO("");
 
     PLUGIN_INFO(
-        "   _|_|_|                                  _|                _|_|_|_| "
-        "                     _|                                          ");
+        "   _|_|_|                                  _|                _|_|_|_|                      _|                 "
+        "                         ");
     PLUGIN_INFO(
-        " _|          _|_|    _|_|_|      _|_|_|  _|_|_|_|    _|_|_|  _|       "
-        " _|    _|  _|_|_|    _|    _|_|    _|  _|_|    _|_|    _|  _|_|  ");
+        " _|          _|_|    _|_|_|      _|_|_|  _|_|_|_|    _|_|_|  _|        _|    _|  _|_|_|    _|    _|_|    _|  "
+        "_|_|    _|_|    _|  _|_|  ");
     PLUGIN_INFO(
-        "   _|_|    _|    _|  _|    _|  _|    _|    _|      _|    _|  _|_|_|   "
-        "   _|_|    _|    _|  _|  _|    _|  _|_|      _|_|_|_|  _|_|      ");
+        "   _|_|    _|    _|  _|    _|  _|    _|    _|      _|    _|  _|_|_|      _|_|    _|    _|  _|  _|    _|  _|_| "
+        "     _|_|_|_|  _|_|      ");
     PLUGIN_INFO(
-        "       _|  _|    _|  _|    _|  _|    _|    _|      _|    _|  _|       "
-        " _|    _|  _|    _|  _|  _|    _|  _|        _|        _|        ");
+        "       _|  _|    _|  _|    _|  _|    _|    _|      _|    _|  _|        _|    _|  _|    _|  _|  _|    _|  _|   "
+        "     _|        _|        ");
     PLUGIN_INFO(
-        " _|_|_|      _|_|    _|    _|    _|_|_|      _|_|    _|_|_|  _|_|_|_| "
-        " _|    _|  _|_|_|    _|    _|_|    _|          _|_|_|  _|        ");
+        " _|_|_|      _|_|    _|    _|    _|_|_|      _|_|    _|_|_|  _|_|_|_|  _|    _|  _|_|_|    _|    _|_|    _|   "
+        "       _|_|_|  _|        ");
     PLUGIN_INFO(
-        "                                                                      "
-        "           _|                                                    ");
+        "                                                                                 _|                           "
+        "                         ");
     PLUGIN_INFO(
-        "                                                                      "
-        "           _|                                                    ");
+        "                                                                                 _|                           "
+        "                         ");
     PLUGIN_INFO("");
     PLUGIN_INFO("Initializing SonataExplorer plug-in");
     return new SonataExplorerPlugin();

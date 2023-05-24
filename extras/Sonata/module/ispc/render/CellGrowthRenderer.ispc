@@ -39,20 +39,17 @@ struct CellGrowthRenderer
     bool useTransferFunctionColor;
 };
 
-inline float processShadows(const uniform CellGrowthRenderer* uniform self,
-                            varying ScreenSample& sample,
+inline float processShadows(const uniform CellGrowthRenderer* uniform self, varying ScreenSample& sample,
                             varying DifferentialGeometry& dg)
 
 {
     // Shadows
     float shadowIntensity = 0.f;
-    for (uniform int i = 0;
-         shadowIntensity < 1.f && i < self->super.super.numLights; ++i)
+    for (uniform int i = 0; shadowIntensity < 1.f && i < self->super.super.numLights; ++i)
     {
         const uniform Light* uniform light = self->super.super.lights[i];
         const vec2f samplingLocation = make_vec2f(0.5f);
-        const varying Light_SampleRes lightSample =
-            light->sample(light, dg, samplingLocation);
+        const varying Light_SampleRes lightSample = light->sample(light, dg, samplingLocation);
         const vec3f lightColor = lightSample.weight;
         const float radiance = reduce_max(lightColor);
         const vec3f lightDirection = lightSample.dir;
@@ -62,12 +59,9 @@ inline float processShadows(const uniform CellGrowthRenderer* uniform self,
 
         vec3f ld = lightDirection;
         if (self->softShadows > 0.f)
-            ld = normalize(
-                ld + self->softShadows *
-                         getRandomVector(self->super.useHardwareRandomizer,
-                                         self->super.super.super.fb->size.x,
-                                         sample, dg.Ns,
-                                         self->super.randomNumber));
+            ld = normalize(ld + self->softShadows * getRandomVector(self->super.useHardwareRandomizer,
+                                                                    self->super.super.super.fb->size.x, sample, dg.Ns,
+                                                                    self->super.randomNumber));
 
         Ray shadowRay;
         setRay(shadowRay, dg.P, ld);
@@ -91,11 +85,8 @@ inline float processShadows(const uniform CellGrowthRenderer* uniform self,
             else
             {
                 DifferentialGeometry shadowDg;
-                postIntersect(self->super.super.super.model, shadowDg,
-                              shadowRay, DG_NG);
-                const vec4f simulationColor =
-                    getSimulationValue(&self->super, &shadowDg,
-                                       shadowRay.primID);
+                postIntersect(self->super.super.super.model, shadowDg, shadowRay, DG_NG);
+                const vec4f simulationColor = getSimulationValue(&self->super, &shadowDg, shadowRay.primID);
 
                 if (simulationColor.w > self->simulationThreshold)
                     shadowIntensity += self->shadows;
@@ -108,9 +99,7 @@ inline float processShadows(const uniform CellGrowthRenderer* uniform self,
     return shadowIntensity;
 }
 
-inline vec3f CellGrowthRenderer_shadeRay(
-    const uniform CellGrowthRenderer* uniform self,
-    varying ScreenSample& sample)
+inline vec3f CellGrowthRenderer_shadeRay(const uniform CellGrowthRenderer* uniform self, varying ScreenSample& sample)
 {
     Ray ray = sample.ray;
     ray.time = inf;
@@ -132,8 +121,7 @@ inline vec3f CellGrowthRenderer_shadeRay(
         {
             // No intersection
             vec4f colorContribution =
-                skyboxMapping((Renderer*)self, ray,
-                              (AdvancedMaterial*)self->super.super.bgMaterial);
+                skyboxMapping((Renderer*)self, ray, (AdvancedMaterial*)self->super.super.bgMaterial);
             colorContribution.w = 1.f;
             pathColor = make_vec3f(colorContribution);
             break;
@@ -144,13 +132,11 @@ inline vec3f CellGrowthRenderer_shadeRay(
         // normal to the surface, material ID, texture coordinates, etc.
         DifferentialGeometry dg;
         postIntersect(self->super.super.super.model, dg, ray,
-                      DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD |
-                          DG_MATERIALID | DG_COLOR);
+                      DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD | DG_MATERIALID | DG_COLOR);
 
         // Material management
         const uniform Material* material = dg.material;
-        const uniform AdvancedMaterial* advancedMaterial =
-            (const uniform AdvancedMaterial*)material;
+        const uniform AdvancedMaterial* advancedMaterial = (const uniform AdvancedMaterial*)material;
 
         MaterialShadingMode shadingMode = diffuse;
 
@@ -164,8 +150,7 @@ inline vec3f CellGrowthRenderer_shadeRay(
                 Ns = mat->Ns;
             }
 
-        const vec4f simulationColor =
-            getSimulationValue(&self->super, &dg, ray.primID);
+        const vec4f simulationColor = getSimulationValue(&self->super, &dg, ray.primID);
 
         if (simulationColor.w > self->simulationThreshold)
         {
@@ -175,8 +160,7 @@ inline vec3f CellGrowthRenderer_shadeRay(
             // Shading
             const uniform Light* uniform light = self->super.super.lights[0];
             const vec2f samplingLocation = make_vec2f(0.5f);
-            const varying Light_SampleRes lightSample =
-                light->sample(light, dg, samplingLocation);
+            const varying Light_SampleRes lightSample = light->sample(light, dg, samplingLocation);
             const vec3f lightDirection = lightSample.dir;
 
             sample.z = ray.t;
@@ -229,46 +213,39 @@ inline vec3f CellGrowthRenderer_shadeRay(
     return make_vec3f(pathColor) * self->super.exposure;
 }
 
-void CellGrowthRenderer_renderSample(uniform Renderer* uniform _self,
-                                     void* uniform perFrameData,
+void CellGrowthRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
                                      varying ScreenSample& sample)
 {
-    uniform CellGrowthRenderer* uniform self =
-        (uniform CellGrowthRenderer * uniform) _self;
+    uniform CellGrowthRenderer* uniform self = (uniform CellGrowthRenderer * uniform) _self;
     sample.rgb = CellGrowthRenderer_shadeRay(self, sample);
 }
 
 // Exports (called from C++)
 export void* uniform CellGrowthRenderer_create(void* uniform cppE)
 {
-    uniform CellGrowthRenderer* uniform self =
-        uniform new uniform CellGrowthRenderer;
+    uniform CellGrowthRenderer* uniform self = uniform new uniform CellGrowthRenderer;
     Renderer_Constructor(&self->super.super.super, cppE);
     self->super.super.super.renderSample = CellGrowthRenderer_renderSample;
     return self;
 }
 
-export void CellGrowthRenderer_set(
-    void* uniform _self, void* uniform secondaryModel, void* uniform bgMaterial,
-    const uniform int spp, void** uniform lights, const uniform int32 numLights,
-    uniform float* uniform simulationData,
-    const uniform int64 simulationDataSize, const uniform float alphaCorrection,
-    const uniform float simulationThreshold, const uniform float exposure,
-    const uniform float fogThickness, const uniform float fogStart,
-    const uniform float shadows, const uniform float softShadows,
-    const uniform float shadowDistance,
-    const uniform bool useTransferFunctionColor,
-    const uniform bool useHardwareRandomizer)
+export void CellGrowthRenderer_set(void* uniform _self, void* uniform secondaryModel, void* uniform bgMaterial,
+                                   const uniform int spp, void** uniform lights, const uniform int32 numLights,
+                                   uniform float* uniform simulationData, const uniform int64 simulationDataSize,
+                                   const uniform float alphaCorrection, const uniform float simulationThreshold,
+                                   const uniform float exposure, const uniform float fogThickness,
+                                   const uniform float fogStart, const uniform float shadows,
+                                   const uniform float softShadows, const uniform float shadowDistance,
+                                   const uniform bool useTransferFunctionColor,
+                                   const uniform bool useHardwareRandomizer)
 {
-    uniform CellGrowthRenderer* uniform self =
-        (uniform CellGrowthRenderer * uniform) _self;
+    uniform CellGrowthRenderer* uniform self = (uniform CellGrowthRenderer * uniform) _self;
 
     // OSPRay
     self->super.super.super.spp = spp;
 
     // Abstract
-    self->super.super.bgMaterial =
-        (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
     self->super.super.lights = (const uniform Light* uniform* uniform)lights;
     self->super.super.numLights = numLights;
 
