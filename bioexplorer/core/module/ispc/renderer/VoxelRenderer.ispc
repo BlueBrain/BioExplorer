@@ -23,17 +23,13 @@
 #include <brayns/ispc/render/utils/RendererUtils.ih>
 #include <brayns/ispc/render/utils/SkyBox.ih>
 
-void linearCompose(const varying vec4f& src, varying vec4f& dst,
-                   const varying float alphaRatio)
+void linearCompose(const varying vec4f& src, varying vec4f& dst, const varying float alphaRatio)
 {
     const float a = alphaRatio * src.w;
-    dst = make_vec4f((1.f - dst.w) * a * make_vec3f(src) +
-                         dst.w * make_vec3f(dst),
-                     dst.w + a);
+    dst = make_vec4f((1.f - dst.w) * a * make_vec3f(src) + dst.w * make_vec3f(dst), dst.w + a);
 }
 
-inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self,
-                                    varying ScreenSample& sample)
+inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self, varying ScreenSample& sample)
 {
     Ray ray = sample.ray;
     ray.time = inf;
@@ -52,22 +48,18 @@ inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self,
         {
             // No intersection
             const vec4f backgroundColor =
-                skyboxMapping((Renderer*)self, ray,
-                              (AdvancedMaterial*)self->super.super.bgMaterial);
+                skyboxMapping((Renderer*)self, ray, (AdvancedMaterial*)self->super.super.bgMaterial);
             pathColor =
-                make_vec4f(make_vec3f(backgroundColor) * (1.f - pathColor.w) +
-                               make_vec3f(pathColor) * pathColor.w,
+                make_vec4f(make_vec3f(backgroundColor) * (1.f - pathColor.w) + make_vec3f(pathColor) * pathColor.w,
                            pathColor.w);
             break;
         }
 
         DifferentialGeometry dg;
-        postIntersect(self->super.super.super.model, dg, ray,
-                      DG_FACEFORWARD | DG_MATERIALID);
+        postIntersect(self->super.super.super.model, dg, ray, DG_FACEFORWARD | DG_MATERIALID);
 
         uniform Material* material = dg.material;
-        uniform AdvancedMaterial* objMaterial =
-            (uniform AdvancedMaterial*)material;
+        uniform AdvancedMaterial* objMaterial = (uniform AdvancedMaterial*)material;
 
         bool castUserData = false;
         if (objMaterial)
@@ -75,13 +67,11 @@ inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self,
 
         vec4f colorContribution = make_vec4f(0.f);
         if (castUserData && self->super.simulationDataSize > 0)
-            colorContribution =
-                getSimulationValue(&self->super, &dg, ray.primID);
+            colorContribution = getSimulationValue(&self->super, &dg, ray.primID);
 
         if (colorContribution.w > self->simulationThreshold)
         {
-            adaptiveCompose(colorContribution, pathColor,
-                            self->super.alphaCorrection);
+            adaptiveCompose(colorContribution, pathColor, self->super.alphaCorrection);
             // Depth
             if (depth == 0)
                 sample.z = ray.t;
@@ -103,12 +93,10 @@ inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self,
     return make_vec3f(pathColor) * self->super.exposure;
 }
 
-void VoxelRenderer_renderSample(uniform Renderer* uniform _self,
-                                void* uniform perFrameData,
+void VoxelRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
                                 varying ScreenSample& sample)
 {
-    uniform VoxelRenderer* uniform self =
-        (uniform VoxelRenderer * uniform) _self;
+    uniform VoxelRenderer* uniform self = (uniform VoxelRenderer * uniform) _self;
     sample.rgb = VoxelRenderer_shadeRay(self, sample);
 }
 
@@ -121,23 +109,18 @@ export void* uniform VoxelRenderer_create(void* uniform cppE)
     return self;
 }
 
-export void VoxelRenderer_set(void* uniform _self, void* uniform bgMaterial,
-                              const uniform uint32 spp,
-                              uniform float* uniform simulationData,
-                              const uniform uint64 simulationDataSize,
-                              const uniform float alphaCorrection,
-                              const uniform float simulationThreshold,
+export void VoxelRenderer_set(void* uniform _self, void* uniform bgMaterial, const uniform uint32 spp,
+                              uniform float* uniform simulationData, const uniform uint64 simulationDataSize,
+                              const uniform float alphaCorrection, const uniform float simulationThreshold,
                               const uniform float exposure)
 {
-    uniform VoxelRenderer* uniform self =
-        (uniform VoxelRenderer * uniform) _self;
+    uniform VoxelRenderer* uniform self = (uniform VoxelRenderer * uniform) _self;
 
     // OSPRay
     self->super.super.super.spp = spp;
 
     // User data renderer
-    self->super.super.bgMaterial =
-        (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
     self->super.simulationData = (uniform float* uniform)simulationData;
     self->super.simulationDataSize = simulationDataSize;
     self->super.exposure = exposure;

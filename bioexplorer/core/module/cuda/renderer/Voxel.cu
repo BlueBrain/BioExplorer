@@ -55,18 +55,14 @@ static __device__ inline void shade()
 {
     const float3 hit_point = ray.origin + t_hit * ray.direction;
     float3 color = make_float3(0.f);
-    if (prd_radiance.depth < maxBounces && cast_user_data &&
-        simulation_data.size() > 0)
+    if (prd_radiance.depth < maxBounces && cast_user_data && simulation_data.size() > 0)
     {
-        const float4 userDataColor =
-            calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange,
-                                      simulation_data[simulation_idx], tfColors,
-                                      tfOpacities);
+        const float4 userDataColor = calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange,
+                                                               simulation_data[simulation_idx], tfColors, tfOpacities);
 
         if (userDataColor.w >= simulationThreshold)
         {
-            color = color * (1.f - userDataColor.w) +
-                    make_float3(userDataColor) * userDataColor.w;
+            color = color * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;
             prd.importance = userDataColor.w * alphaCorrection;
         }
         else
@@ -75,9 +71,7 @@ static __device__ inline void shade()
         PerRayData_radiance new_prd;
         new_prd.depth = prd_radiance.depth + 1;
 
-        const optix::Ray new_ray =
-            optix::make_Ray(hit_point, ray.direction, radianceRayType,
-                            sceneEpsilon, ray.tmax);
+        const optix::Ray new_ray = optix::make_Ray(hit_point, ray.direction, radianceRayType, sceneEpsilon, ray.tmax);
         rtTrace(top_object, new_ray, new_prd);
     }
 

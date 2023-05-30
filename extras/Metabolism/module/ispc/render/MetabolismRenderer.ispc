@@ -27,8 +27,7 @@
 
 #define OPACITY_EPSILON 0.001f
 
-uint32 getLocation(const uniform MetabolismRenderer* uniform self,
-                   varying Ray& ray, float& epsilon)
+uint32 getLocation(const uniform MetabolismRenderer* uniform self, varying Ray& ray, float& epsilon)
 {
     // Back ray
     int backLocation = extra_cellular_space;
@@ -39,16 +38,13 @@ uint32 getLocation(const uniform MetabolismRenderer* uniform self,
     {
         DifferentialGeometry dg;
         postIntersect(self->super.model, dg, backRay, DG_NS | DG_NORMALIZE);
-        uniform AdvancedMaterial* objMaterial =
-            (uniform AdvancedMaterial*)dg.material;
+        uniform AdvancedMaterial* objMaterial = (uniform AdvancedMaterial*)dg.material;
         foreach_unique(mat in objMaterial) backLocation = mat->userParameter;
     }
     return backLocation;
 }
 
-inline vec3f MetabolismRenderer_shadeRay(
-    const uniform MetabolismRenderer* uniform self,
-    varying ScreenSample& sample)
+inline vec3f MetabolismRenderer_shadeRay(const uniform MetabolismRenderer* uniform self, varying ScreenSample& sample)
 {
     vec3f finalColor = make_vec3f(0.f);
     if (sample.sampleID.z == 0)
@@ -60,8 +56,7 @@ inline vec3f MetabolismRenderer_shadeRay(
     if (self->userDataSize == 0)
         return finalColor;
 
-    float t = self->nearPlane + ((sample.sampleID.z % self->refinementSteps) *
-                                 (self->rayStep / self->refinementSteps));
+    float t = self->nearPlane + ((sample.sampleID.z % self->refinementSteps) * (self->rayStep / self->refinementSteps));
 
     // Following intersections
     float finalAlpha = 0.f;
@@ -85,27 +80,20 @@ inline vec3f MetabolismRenderer_shadeRay(
         const float concentration = self->userData[1 + location];
         if (concentration >= 1e38)
             continue;
-        voxelAlpha =
-            self->transferFunction->getOpacityForValue(self->transferFunction,
-                                                       concentration);
+        voxelAlpha = self->transferFunction->getOpacityForValue(self->transferFunction, concentration);
         if (voxelAlpha > OPACITY_EPSILON)
-            voxelColor =
-                self->transferFunction->getColorForValue(self->transferFunction,
-                                                         concentration);
+            voxelColor = self->transferFunction->getColorForValue(self->transferFunction, concentration);
 
         float noiseAlpha = 1.f;
         if (self->noiseFrequency > 0.f && finalAlpha > OPACITY_EPSILON)
         {
             const vec3f p = sample.ray.org + t * sample.ray.dir;
-            noiseAlpha =
-                1.f + cloud(p * self->noiseFrequency,
-                            cos((location + self->timestamp) * 0.05f) +
-                                sin((location + self->timestamp) * 0.032f) *
-                                    self->noiseAmplitude);
+            noiseAlpha = 1.f + cloud(p * self->noiseFrequency,
+                                     cos((location + self->timestamp) * 0.05f) +
+                                         sin((location + self->timestamp) * 0.032f) * self->noiseAmplitude);
         }
 
-        const float alpha =
-            clamp(noiseAlpha * self->alphaCorrection * voxelAlpha, 0.f, 1.f);
+        const float alpha = clamp(noiseAlpha * self->alphaCorrection * voxelAlpha, 0.f, 1.f);
         finalColor = finalColor + voxelColor * alpha * (1.f - finalAlpha);
         finalAlpha += alpha;
     }
@@ -114,12 +102,10 @@ inline vec3f MetabolismRenderer_shadeRay(
     return clamp(finalColor * self->exposure, make_vec3f(0.f), make_vec3f(1.f));
 }
 
-void MetabolismRenderer_renderSample(uniform Renderer* uniform _self,
-                                     void* uniform perFrameData,
+void MetabolismRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
                                      varying ScreenSample& sample)
 {
-    uniform MetabolismRenderer* uniform self =
-        (uniform MetabolismRenderer * uniform) _self;
+    uniform MetabolismRenderer* uniform self = (uniform MetabolismRenderer * uniform) _self;
     sample.ray.time = self->timestamp;
     sample.rgb = MetabolismRenderer_shadeRay(self, sample);
 }
@@ -127,25 +113,22 @@ void MetabolismRenderer_renderSample(uniform Renderer* uniform _self,
 // Exports (called from C++)
 export void* uniform MetabolismRenderer_create(void* uniform cppE)
 {
-    uniform MetabolismRenderer* uniform self =
-        uniform new uniform MetabolismRenderer;
+    uniform MetabolismRenderer* uniform self = uniform new uniform MetabolismRenderer;
     Renderer_Constructor(&self->super, cppE);
     self->super.renderSample = MetabolismRenderer_renderSample;
     return self;
 }
 
-export void MetabolismRenderer_set(
-    void* uniform _self, void* uniform bgMaterial, const uniform int& spp,
-    void** uniform lights, const uniform uint32 numLights,
-    uniform float* uniform userData, const uniform uint64 userDataSize,
-    const uniform float& nearPlane, const uniform float& farPlane,
-    const uniform float& rayStep, const uniform uint32& refinementSteps,
-    const uniform float& exposure, const uniform float& alphaCorrection,
-    const uniform bool& colorMapPerRegion, const uniform float& noiseFrequency,
-    const uniform float& noiseAmplitude)
+export void MetabolismRenderer_set(void* uniform _self, void* uniform bgMaterial, const uniform int& spp,
+                                   void** uniform lights, const uniform uint32 numLights,
+                                   uniform float* uniform userData, const uniform uint64 userDataSize,
+                                   const uniform float& nearPlane, const uniform float& farPlane,
+                                   const uniform float& rayStep, const uniform uint32& refinementSteps,
+                                   const uniform float& exposure, const uniform float& alphaCorrection,
+                                   const uniform bool& colorMapPerRegion, const uniform float& noiseFrequency,
+                                   const uniform float& noiseAmplitude)
 {
-    uniform MetabolismRenderer* uniform self =
-        (uniform MetabolismRenderer * uniform) _self;
+    uniform MetabolismRenderer* uniform self = (uniform MetabolismRenderer * uniform) _self;
 
     self->super.spp = spp;
 
@@ -175,10 +158,8 @@ export void MetabolismRenderer_set(
         self->timestamp = self->userData[0];
 }
 
-export void MetabolismRenderer_setTransferFunction(void* uniform _self,
-                                                   void* uniform value)
+export void MetabolismRenderer_setTransferFunction(void* uniform _self, void* uniform value)
 {
-    uniform MetabolismRenderer* uniform self =
-        (uniform MetabolismRenderer * uniform) _self;
+    uniform MetabolismRenderer* uniform self = (uniform MetabolismRenderer * uniform) _self;
     self->transferFunction = (TransferFunction * uniform) value;
 }

@@ -45,27 +45,22 @@ public:
      * @param contents Contents defining the mesh in a format supported by
      * ASSIMP
      */
-    MeshShape(const Vector4ds& clippingPlanes, const Vector3d& scale,
-              const std::string& contents);
+    MeshShape(const Vector4ds& clippingPlanes, const Vector3d& scale, const std::string& contents);
 
     /** @copydoc Shape::getTransformation */
-    Transformation getTransformation(
-        const uint64_t occurrence, const uint64_t nbOccurrences,
-        const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
-        const double offset) const final;
+    Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
+                                     const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+                                     const double offset) const final;
 
     /** @copydoc Shape::isInside */
     bool isInside(const Vector3d& point) const final;
 
 private:
-    double _getSurfaceArea(const Vector3d& a, const Vector3d& b,
-                           const Vector3d& c) const;
+    double _getSurfaceArea(const Vector3d& a, const Vector3d& b, const Vector3d& c) const;
 
     Vector3d _toVector3d(const aiVector3D& v) const;
-    Vector3d _toVector3d(const aiVector3D& v, const Vector3d& center,
-                         const Vector3d& scale) const;
-    Vector3d _toVector3d(const aiVector3D& v, const Vector3d& center,
-                         const Vector3d& scale,
+    Vector3d _toVector3d(const aiVector3D& v, const Vector3d& center, const Vector3d& scale) const;
+    Vector3d _toVector3d(const aiVector3D& v, const Vector3d& center, const Vector3d& scale,
                          const Quaterniond& rotation) const;
 
     std::vector<Vector3ui> _faces;

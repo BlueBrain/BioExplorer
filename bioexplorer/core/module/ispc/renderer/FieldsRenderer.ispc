@@ -24,9 +24,8 @@
 
 const float EPSILON = 1e-6f;
 
-float treeWalker(const uniform FieldsRenderer* uniform self, const vec3f& point,
-                 const varying float distance, const varying float cutoff,
-                 const varying int32 index = 0)
+float treeWalker(const uniform FieldsRenderer* uniform self, const vec3f& point, const varying float distance,
+                 const varying float cutoff, const varying int32 index = 0)
 {
     const uint64 begin = self->userData[self->startIndices + index * 2];
     const uint64 end = self->userData[self->startIndices + index * 2 + 1];
@@ -43,13 +42,10 @@ float treeWalker(const uniform FieldsRenderer* uniform self, const vec3f& point,
     for (unsigned int64 childIndex = begin; childIndex <= end; ++childIndex)
     {
         const uint64 idx = self->startData + childIndex * 4;
-        const vec3f childPosition =
-            make_vec3f(self->userData[idx], self->userData[idx + 1],
-                       self->userData[idx + 2]);
+        const vec3f childPosition = make_vec3f(self->userData[idx], self->userData[idx + 1], self->userData[idx + 2]);
         const vec3f delta = point - childPosition;
 
-        const float d =
-            sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
+        const float d = sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
 
         if (d >= cutoff)
         {
@@ -72,11 +68,9 @@ float treeWalker(const uniform FieldsRenderer* uniform self, const vec3f& point,
     @param dst Returned destination RGBA color
     @param alphaCorrection Alpha correction used to blend colors
 */
-inline void composite(const varying vec4f& src, varying vec4f& dst,
-                      const varying float alphaCorrection)
+inline void composite(const varying vec4f& src, varying vec4f& dst, const varying float alphaCorrection)
 {
-    const float alpha =
-        1.f - pow(1.f - min(src.w, 1.f - 1.f / 256.f), alphaCorrection);
+    const float alpha = 1.f - pow(1.f - min(src.w, 1.f - 1.f / 256.f), alphaCorrection);
     const float a = alpha * (1.f - dst.w);
     dst.x = dst.x + src.x * a;
     dst.y = dst.y + src.y * a;
@@ -84,8 +78,7 @@ inline void composite(const varying vec4f& src, varying vec4f& dst,
     dst.w += (alpha * (1.f - dst.w));
 }
 
-inline vec3f FieldsRenderer_shadeRay(const uniform FieldsRenderer* uniform self,
-                                     varying ScreenSample& sample)
+inline vec3f FieldsRenderer_shadeRay(const uniform FieldsRenderer* uniform self, varying ScreenSample& sample)
 {
     const Ray ray = sample.ray;
 
@@ -95,8 +88,7 @@ inline vec3f FieldsRenderer_shadeRay(const uniform FieldsRenderer* uniform self,
         sample.z = inf;
     }
 
-    const uniform box3f box =
-        make_box3f(self->offset, self->offset + self->size * self->spacing);
+    const uniform box3f box = make_box3f(self->offset, self->offset + self->size * self->spacing);
 
     float t0, t1;
     intersectBox(ray, box, t0, t1);
@@ -117,39 +109,29 @@ inline vec3f FieldsRenderer_shadeRay(const uniform FieldsRenderer* uniform self,
 
         float value = treeWalker(self, point, self->distance, self->cutoff);
 
-        value = clamp(value, self->transferFunction->valueRange.x,
-                      self->transferFunction->valueRange.y);
+        value = clamp(value, self->transferFunction->valueRange.x, self->transferFunction->valueRange.y);
 
-        const float sampleOpacity =
-            self->transferFunction->getOpacityForValue(self->transferFunction,
-                                                       value);
+        const float sampleOpacity = self->transferFunction->getOpacityForValue(self->transferFunction, value);
         if (sampleOpacity > 0.f)
         {
-            const vec3f sampleColor =
-                self->transferFunction->getColorForValue(self->transferFunction,
-                                                         value);
+            const vec3f sampleColor = self->transferFunction->getColorForValue(self->transferFunction, value);
             finalColor =
                 make_vec4f(make_vec3f(finalColor) * finalColor.w +
-                               make_vec3f(sampleColor) * sampleOpacity *
-                                   self->alphaCorrection * (1.f - finalColor.w),
-                           finalColor.w +
-                               sampleOpacity * self->alphaCorrection);
+                               make_vec3f(sampleColor) * sampleOpacity * self->alphaCorrection * (1.f - finalColor.w),
+                           finalColor.w + sampleOpacity * self->alphaCorrection);
         }
 
         t += step;
     }
 
     sample.alpha = finalColor.w;
-    return clamp(make_vec3f(finalColor) * self->exposure, make_vec3f(0.f),
-                 make_vec3f(1.f));
+    return clamp(make_vec3f(finalColor) * self->exposure, make_vec3f(0.f), make_vec3f(1.f));
 }
 
-void FieldsRenderer_renderSample(uniform Renderer* uniform _self,
-                                 void* uniform perFrameData,
+void FieldsRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
                                  varying ScreenSample& sample)
 {
-    uniform FieldsRenderer* uniform self =
-        (uniform FieldsRenderer * uniform) _self;
+    uniform FieldsRenderer* uniform self = (uniform FieldsRenderer * uniform) _self;
     sample.ray.time = self->timestamp;
     sample.rgb = FieldsRenderer_shadeRay(self, sample);
 }
@@ -163,18 +145,15 @@ export void* uniform FieldsRenderer_create(void* uniform cppE)
     return self;
 }
 
-export void FieldsRenderer_set(
-    void* uniform _self, void* uniform bgMaterial,
-    uniform float* uniform userData, const uniform uint64 userDataSize,
-    const uniform int& randomNumber, const uniform float& timestamp,
-    const uniform int& spp, void** uniform lights,
-    const uniform int32 numLights, const uniform float& minRayStep,
-    const uniform int32& nbRaySteps, const uniform int32& nbRayRefinementSteps,
-    const uniform float& exposure, const uniform bool& useHardwareRandomizer,
-    const uniform float& cutoff, const uniform float& alphaCorrection)
+export void FieldsRenderer_set(void* uniform _self, void* uniform bgMaterial, uniform float* uniform userData,
+                               const uniform uint64 userDataSize, const uniform int& randomNumber,
+                               const uniform float& timestamp, const uniform int& spp, void** uniform lights,
+                               const uniform int32 numLights, const uniform float& minRayStep,
+                               const uniform int32& nbRaySteps, const uniform int32& nbRayRefinementSteps,
+                               const uniform float& exposure, const uniform bool& useHardwareRandomizer,
+                               const uniform float& cutoff, const uniform float& alphaCorrection)
 {
-    uniform FieldsRenderer* uniform self =
-        (uniform FieldsRenderer * uniform) _self;
+    uniform FieldsRenderer* uniform self = (uniform FieldsRenderer * uniform) _self;
 
     // OSPRay
     self->super.spp = spp;
@@ -199,22 +178,16 @@ export void FieldsRenderer_set(
     self->userData = userData;
     self->userDataSize = userDataSize;
 
-    self->offset = (userData ? make_vec3f(userData[0], userData[1], userData[2])
-                             : make_vec3f(0.f));
-    self->spacing =
-        (userData ? make_vec3f(userData[3], userData[4], userData[5])
-                  : make_vec3f(0.f));
-    self->size = (userData ? make_vec3f(userData[6], userData[7], userData[8])
-                           : make_vec3f(0.f));
+    self->offset = (userData ? make_vec3f(userData[0], userData[1], userData[2]) : make_vec3f(0.f));
+    self->spacing = (userData ? make_vec3f(userData[3], userData[4], userData[5]) : make_vec3f(0.f));
+    self->size = (userData ? make_vec3f(userData[6], userData[7], userData[8]) : make_vec3f(0.f));
     self->distance = (userData ? userData[9] * 5.f : 0.f); // Octree size * 5
     self->startIndices = 11;
     self->startData = (userData ? self->startIndices + userData[10] : 0);
 }
 
-export void FieldsRenderer_setTransferFunction(void* uniform _self,
-                                               void* uniform value)
+export void FieldsRenderer_setTransferFunction(void* uniform _self, void* uniform value)
 {
-    uniform FieldsRenderer* uniform self =
-        (uniform FieldsRenderer * uniform) _self;
+    uniform FieldsRenderer* uniform self = (uniform FieldsRenderer * uniform) _self;
     self->transferFunction = (TransferFunction * uniform) value;
 }

@@ -38,9 +38,7 @@ public:
      * @param atoms atoms used to generate the mesh
      * @param triangles Generated triangles
      */
-    ModelDescriptorPtr generateSurface(brayns::Scene& scene,
-                                       const std::string& pdbId,
-                                       const Vector4ds& atoms,
+    ModelDescriptorPtr generateSurface(brayns::Scene& scene, const std::string& pdbId, const Vector4ds& atoms,
                                        const double shrinkfactor = 0.5);
 
     /** Generates a triangle based mesh model
@@ -48,9 +46,7 @@ public:
      * @param atoms atoms used to generate the mesh
      * @param triangles Generated triangles
      */
-    ModelDescriptorPtr generateUnionOfBalls(brayns::Scene& scene,
-                                            const std::string& pdbId,
-                                            const Vector4ds& atoms);
+    ModelDescriptorPtr generateUnionOfBalls(brayns::Scene& scene, const std::string& pdbId, const Vector4ds& atoms);
 
 private:
     uint32_t _uuid;

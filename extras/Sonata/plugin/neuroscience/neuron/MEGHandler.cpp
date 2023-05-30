@@ -50,12 +50,10 @@ const float DEFAULT_VOLTAGE_REST_VALUE = -80.f;
 
 std::string Vector3fToString(const Vector3f& v)
 {
-    return "[" + std::to_string(v.x) + "," + std::to_string(v.y) + "," +
-           std::to_string(v.z) + "]";
+    return "[" + std::to_string(v.x) + "," + std::to_string(v.y) + "," + std::to_string(v.z) + "]";
 }
 
-MEGHandler::MEGHandler(const std::string& circuitConfiguration,
-                       const std::string& reportName, const bool synchronous)
+MEGHandler::MEGHandler(const std::string& circuitConfiguration, const std::string& reportName, const bool synchronous)
     : AbstractSimulationHandler()
     , _synchronousMode(synchronous)
     , _ready(false)
@@ -67,9 +65,7 @@ MEGHandler::MEGHandler(const std::string& circuitConfiguration,
     const auto& voltageReport = blueConfiguration.getReportSource(reportName);
     PLUGIN_INFO("Voltage report: " << voltageReport);
     _report =
-        std::make_shared<brion::CompartmentReport>(brion::URI(voltageReport),
-                                                   brion::MODE_READ,
-                                                   circuit.getGIDs());
+        std::make_shared<brion::CompartmentReport>(brion::URI(voltageReport), brion::MODE_READ, circuit.getGIDs());
 
     const brain::GIDSet& simulatedGids = _report->getGIDs();
     _transformations = circuit.getTransforms(simulatedGids);
@@ -103,8 +99,7 @@ MEGHandler::MEGHandler(const MEGHandler& rhs)
 
 MEGHandler::~MEGHandler() {}
 
-ModelMetadata MEGHandler::buildModel(Model& model, const double voxelSize,
-                                     const double density)
+ModelMetadata MEGHandler::buildModel(Model& model, const double voxelSize, const double density)
 {
     _voxelSize = voxelSize;
     _density = density;
@@ -130,14 +125,13 @@ ModelMetadata MEGHandler::buildModel(Model& model, const double voxelSize,
     model.getTriangleMeshes()[materialId] = mesh;
     model.updateBounds();
 
-    ModelMetadata metadata = {
-        {"Scene AABB", Vector3fToString(_bounds.getMin()) + ", " +
-                           Vector3fToString(_bounds.getMax())},
-        {"Scene dimension", Vector3fToString(_bounds.getSize())},
-        {"Element spacing ", Vector3fToString(_spacing)},
-        {"Volume dimensions", Vector3fToString(_dimensions)},
-        {"Element offset", Vector3fToString(_offset)},
-        {"Data size", std::to_string(_frameSize)}};
+    ModelMetadata metadata = {{"Scene AABB",
+                               Vector3fToString(_bounds.getMin()) + ", " + Vector3fToString(_bounds.getMax())},
+                              {"Scene dimension", Vector3fToString(_bounds.getSize())},
+                              {"Element spacing ", Vector3fToString(_spacing)},
+                              {"Volume dimensions", Vector3fToString(_dimensions)},
+                              {"Element offset", Vector3fToString(_offset)},
+                              {"Data size", std::to_string(_frameSize)}};
     return metadata;
 }
 
@@ -145,9 +139,7 @@ void MEGHandler::_buildOctree()
 {
     const auto voltages = std::move(*_currentFrameFuture.get().data);
     if (voltages.size() != _transformations.size())
-        PLUGIN_ERROR("Invalid number of values: " << voltages.size()
-                                                  << " instead of "
-                                                  << _transformations.size());
+        PLUGIN_ERROR("Invalid number of values: " << voltages.size() << " instead of " << _transformations.size());
     uint64_t index = 0;
     const uint32_t densityRatio = 1.f / _density;
     floats events;
@@ -168,9 +160,7 @@ void MEGHandler::_buildOctree()
         ++index;
     }
 
-    const ::bioexplorer::common::Octree accelerator(events, _voxelSize,
-                                                    _bounds.getMin(),
-                                                    _bounds.getMax());
+    const ::bioexplorer::common::Octree accelerator(events, _voxelSize, _bounds.getMin(), _bounds.getMax());
     const uint32_t volumeSize = accelerator.getVolumeSize();
     _offset = _bounds.getMin();
     _dimensions = accelerator.getVolumeDimensions();
@@ -234,8 +224,7 @@ bool MEGHandler::_isFrameLoaded() const
         return true;
     }
 
-    return _currentFrameFuture.wait_for(std::chrono::milliseconds(0)) ==
-           std::future_status::ready;
+    return _currentFrameFuture.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready;
 }
 
 bool MEGHandler::_makeFrameReady(const uint32_t frame)
@@ -248,8 +237,7 @@ bool MEGHandler::_makeFrameReady(const uint32_t frame)
         }
         catch (const std::exception& e)
         {
-            PLUGIN_ERROR("Error loading simulation frame " << frame << ": "
-                                                           << e.what());
+            PLUGIN_ERROR("Error loading simulation frame " << frame << ": " << e.what());
             return false;
         }
         _currentFrame = frame;

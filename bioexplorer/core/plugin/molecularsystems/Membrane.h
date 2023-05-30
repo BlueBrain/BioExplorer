@@ -43,10 +43,8 @@ public:
      *
      * @param scene The 3D scene where the membrane are added
      */
-    Membrane(const MembraneDetails &details, Scene &scene,
-             const Vector3d &assemblyPosition,
-             const Quaterniond &assemblyRotation, const ShapePtr shape,
-             const ProteinMap &transmembraneProteins);
+    Membrane(const MembraneDetails &details, Scene &scene, const Vector3d &assemblyPosition,
+             const Quaterniond &assemblyRotation, const ShapePtr shape, const ProteinMap &transmembraneProteins);
 
     /**
      * @brief Destroy the Membrane object

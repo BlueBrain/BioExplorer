@@ -58,16 +58,13 @@ bool PointCloudMesher::toConvexHull(Model& model, const PointCloud& pointCloud)
         CGAL::convex_hull_3(points.begin(), points.end(), obj);
         if (const Polyhedron_3* poly = CGAL::object_cast<Polyhedron_3>(&obj))
         {
-            PLUGIN_INFO("The convex hull contains " << poly->size_of_vertices()
-                                                    << " vertices");
+            PLUGIN_INFO("The convex hull contains " << poly->size_of_vertices() << " vertices");
 
-            for (auto eit = poly->edges_begin(); eit != poly->edges_end();
-                 ++eit)
+            for (auto eit = poly->edges_begin(); eit != poly->edges_end(); ++eit)
             {
                 Point_3 a = eit->vertex()->point();
                 Point_3 b = eit->opposite()->vertex()->point();
-                const Cylinder cylinder(Vector3f(a.x(), a.y(), a.z()),
-                                        Vector3f(b.x(), b.y(), b.z()), 1.f);
+                const Cylinder cylinder(Vector3f(a.x(), a.y(), a.z()), Vector3f(b.x(), b.y(), b.z()), 1.f);
                 model.addCylinder(point.first, cylinder);
                 addModel = true;
             }
@@ -78,8 +75,8 @@ bool PointCloudMesher::toConvexHull(Model& model, const PointCloud& pointCloud)
     return addModel;
 }
 
-bool PointCloudMesher::toMetaballs(Model& model, const PointCloud& pointCloud,
-                                   const size_t gridSize, const float threshold)
+bool PointCloudMesher::toMetaballs(Model& model, const PointCloud& pointCloud, const size_t gridSize,
+                                   const float threshold)
 {
     auto& triangles = model.getTriangleMeshes();
     for (const auto& point : pointCloud)
@@ -87,14 +84,12 @@ bool PointCloudMesher::toMetaballs(Model& model, const PointCloud& pointCloud,
         if (point.second.empty())
             continue;
 
-        PLUGIN_INFO("Material " << point.first << ", number of balls: "
-                                << point.second.size());
+        PLUGIN_INFO("Material " << point.first << ", number of balls: " << point.second.size());
 
         model.createMaterial(point.first, std::to_string(point.first));
 
         MetaballsGenerator metaballsGenerator;
-        metaballsGenerator.generateMesh(point.second, gridSize, threshold,
-                                        point.first, triangles);
+        metaballsGenerator.generateMesh(point.second, gridSize, threshold, point.first, triangles);
     }
     return !triangles.empty();
 }

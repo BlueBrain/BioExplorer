@@ -28,8 +28,7 @@ namespace sonataexplorer
 namespace api
 {
 #ifndef BRAYNS_DEBUG_JSON_ENABLED
-#define FROM_JSON(PARAM, JSON, NAME) \
-    PARAM.NAME = JSON[#NAME].get<decltype(PARAM.NAME)>()
+#define FROM_JSON(PARAM, JSON, NAME) PARAM.NAME = JSON[#NAME].get<decltype(PARAM.NAME)>()
 #else
 #define FROM_JSON(PARAM, JSON, NAME)                                         \
     try                                                                      \
@@ -283,8 +282,7 @@ bool from_json(AttachCellGrowthHandler& param, const std::string& payload)
     return true;
 }
 
-bool from_json(AttachCircuitSimulationHandler& param,
-               const std::string& payload)
+bool from_json(AttachCircuitSimulationHandler& param, const std::string& payload)
 {
     try
     {
@@ -407,8 +405,7 @@ bool from_json(AddBox& param, const std::string& payload)
     return true;
 }
 
-bool from_json(SpikeReportVisualizationSettings& param,
-               const std::string& payload)
+bool from_json(SpikeReportVisualizationSettings& param, const std::string& payload)
 {
     try
     {

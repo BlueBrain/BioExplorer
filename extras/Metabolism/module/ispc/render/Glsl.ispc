@@ -27,8 +27,7 @@ float mix(const float x, const float y, const float a)
 
 vec3f mod(const vec3f& v, const int m)
 {
-    return make_vec3f(v.x - m * floor(v.x / m), v.y - m * floor(v.y / m),
-                      v.z - m * floor(v.z / m));
+    return make_vec3f(v.x - m * floor(v.x / m), v.y - m * floor(v.y / m), v.z - m * floor(v.z / m));
 }
 
 vec3f mod(const vec3f& v, const vec3f& u)

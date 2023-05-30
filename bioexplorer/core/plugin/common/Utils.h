@@ -70,8 +70,7 @@ bool isClipped(const Vector3d& position, const Vector4ds& clippingPlanes);
  *
  * @param model Model to which the transfer function should be set
  */
-void setDefaultTransferFunction(Model& model, const Vector2d range = {0.0, 1.0},
-                                const double alpha = 1.0);
+void setDefaultTransferFunction(Model& model, const Vector2d range = {0.0, 1.0}, const double alpha = 1.0);
 
 /**
  * @brief Get the Clipping Planes from the scene
@@ -127,8 +126,7 @@ Vector4ds doublesToVector4ds(const doubles& values);
  * @param value Vector of doubles
  * @return MolecularSystemAnimationDetails The animation details
  */
-MolecularSystemAnimationDetails doublesToMolecularSystemAnimationDetails(
-    const doubles& values);
+MolecularSystemAnimationDetails doublesToMolecularSystemAnimationDetails(const doubles& values);
 
 /**
  * @brief Converts a vector of doubles into cell animation details
@@ -150,10 +148,8 @@ CellAnimationDetails doublesToCellAnimationDetails(const doubles& values);
  * @param ratio Ratio of coverage of the sphere
  * @return Vector3d
  */
-Vector3d sphereFilling(const double radius, const uint64_t occurrence,
-                       const uint64_t occurrences, const uint64_t rnd,
-                       Vector3d& position, Quaterniond& rotation,
-                       const double ratio = 1.0);
+Vector3d sphereFilling(const double radius, const uint64_t occurrence, const uint64_t occurrences, const uint64_t rnd,
+                       Vector3d& position, Quaterniond& rotation, const double ratio = 1.0);
 
 /**
  * @brief Splits a string according to the delimiter
@@ -162,8 +158,7 @@ Vector3d sphereFilling(const double radius, const uint64_t occurrence,
  * @param delimiter Delimiter
  * @return std::vector<std::string> Vector of strings
  */
-std::vector<std::string> split(
-    const std::string& s, const std::string& delimiter = CONTENTS_DELIMITER);
+std::vector<std::string> split(const std::string& s, const std::string& delimiter = CONTENTS_DELIMITER);
 
 /**
  * @brief Combine a list of transformations
@@ -185,9 +180,8 @@ Transformation combineTransformations(const Transformations& transformations);
  * @return true The ray intersects with the box
  * @return false The ray does not intersect with the box
  */
-bool rayBoxIntersection(const Vector3d& origin, const Vector3d& direction,
-                        const Boxd& box, const double t0, const double t1,
-                        double& t);
+bool rayBoxIntersection(const Vector3d& origin, const Vector3d& direction, const Boxd& box, const double t0,
+                        const double t1, double& t);
 
 /**
  * @brief Get the Bezier Point from a curve defined by the provided control
@@ -254,8 +248,8 @@ double rnd3(const uint64_t index);
  * @param weight Weight of the alteration
  * @return Quaterniond Resulting modified quaternion
  */
-Quaterniond weightedRandomRotation(const Quaterniond& q, const uint64_t seed,
-                                   const uint64_t index, const double weight);
+Quaterniond weightedRandomRotation(const Quaterniond& q, const uint64_t seed, const uint64_t index,
+                                   const double weight);
 
 /**
  * @brief Generate a random quaternion
@@ -291,8 +285,7 @@ std::string boolAsString(const bool value);
  * @param defaultValue Default value if index is out of bounds
  * @return double
  */
-double valueFromDoubles(const doubles& array, const size_t index,
-                        const double defaultValue);
+double valueFromDoubles(const doubles& array, const size_t index, const double defaultValue);
 
 /**
  * @brief Align a 3D position to a given grid

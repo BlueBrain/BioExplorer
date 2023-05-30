@@ -25,17 +25,15 @@
 #include <ospray/SDK/math/random.ih>
 #include <ospray/SDK/math/sampling.ih>
 
-inline vec3f AmbientOcclusionRenderer_shadeRay(
-    const uniform AmbientOcclusionRenderer* uniform self,
-    varying ScreenSample& sample)
+inline vec3f AmbientOcclusionRenderer_shadeRay(const uniform AmbientOcclusionRenderer* uniform self,
+                                               varying ScreenSample& sample)
 {
     Ray ray = sample.ray;
     sample.z = inf;
     sample.alpha = 0.f;
 
     const uniform int sampleCnt = self->samplesPerFrame;
-    const uniform int accumID =
-        reduce_max(sample.sampleID.z) * self->samplesPerFrame;
+    const uniform int accumID = reduce_max(sample.sampleID.z) * self->samplesPerFrame;
 
     traceRay(self->super.model, ray);
 
@@ -47,16 +45,13 @@ inline vec3f AmbientOcclusionRenderer_shadeRay(
     sample.alpha = 1.f;
 
     DifferentialGeometry dg;
-    postIntersect(self->super.model, dg, ray,
-                  DG_NS | DG_NG | DG_NORMALIZE | DG_FACEFORWARD);
+    postIntersect(self->super.model, dg, ray, DG_NS | DG_NG | DG_NORMALIZE | DG_FACEFORWARD);
 
     // init TEA RNG //
     uniform FrameBuffer* uniform fb = self->super.fb;
     RandomTEA rng_state;
     varying RandomTEA* const uniform rng = &rng_state;
-    RandomTEA__Constructor(rng, 0x290374,
-                           (fb->size.x * sample.sampleID.y) +
-                               sample.sampleID.x);
+    RandomTEA__Constructor(rng, 0x290374, (fb->size.x * sample.sampleID.y) + sample.sampleID.x);
     const vec2f rot = RandomTEA__getFloats(rng);
 
     int hits = 0;
@@ -82,12 +77,10 @@ inline vec3f AmbientOcclusionRenderer_shadeRay(
     return make_vec3f(1.0f - hits / (float)sampleCnt);
 }
 
-void AmbientOcclusionRenderer_renderSample(uniform Renderer* uniform _self,
-                                           void* uniform perFrameData,
+void AmbientOcclusionRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
                                            varying ScreenSample& sample)
 {
-    uniform AmbientOcclusionRenderer* uniform self =
-        (uniform AmbientOcclusionRenderer * uniform) _self;
+    uniform AmbientOcclusionRenderer* uniform self = (uniform AmbientOcclusionRenderer * uniform) _self;
     sample.ray.time = inf;
     sample.rgb = AmbientOcclusionRenderer_shadeRay(self, sample);
 }
@@ -95,20 +88,16 @@ void AmbientOcclusionRenderer_renderSample(uniform Renderer* uniform _self,
 // Exports (called from C++)
 export void* uniform AmbientOcclusionRenderer_create(void* uniform cppE)
 {
-    uniform AmbientOcclusionRenderer* uniform self =
-        uniform new uniform AmbientOcclusionRenderer;
+    uniform AmbientOcclusionRenderer* uniform self = uniform new uniform AmbientOcclusionRenderer;
     Renderer_Constructor(&self->super, cppE);
     self->super.renderSample = AmbientOcclusionRenderer_renderSample;
     return self;
 }
 
-export void AmbientOcclusionRenderer_set(void* uniform _self,
-                                         const uniform int spp,
-                                         const uniform int samplesPerFrame,
+export void AmbientOcclusionRenderer_set(void* uniform _self, const uniform int spp, const uniform int samplesPerFrame,
                                          const uniform float aoRayLength)
 {
-    uniform AmbientOcclusionRenderer* uniform self =
-        (uniform AmbientOcclusionRenderer * uniform) _self;
+    uniform AmbientOcclusionRenderer* uniform self = (uniform AmbientOcclusionRenderer * uniform) _self;
 
     self->super.spp = spp;
     self->samplesPerFrame = samplesPerFrame;

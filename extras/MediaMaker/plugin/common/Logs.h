@@ -28,12 +28,9 @@ namespace mediamaker
 {
 #define PLUGIN_PREFIX "MM"
 
-#define PLUGIN_ERROR(message) \
-    std::cerr << "E [" << PLUGIN_PREFIX << "] " << message << std::endl;
-#define PLUGIN_WARN(message) \
-    std::cerr << "W [" << PLUGIN_PREFIX << "] " << message << std::endl;
-#define PLUGIN_INFO(message) \
-    std::cout << "I [" << PLUGIN_PREFIX << "] " << message << std::endl;
+#define PLUGIN_ERROR(message) std::cerr << "E [" << PLUGIN_PREFIX << "] " << message << std::endl;
+#define PLUGIN_WARN(message) std::cerr << "W [" << PLUGIN_PREFIX << "] " << message << std::endl;
+#define PLUGIN_INFO(message) std::cout << "I [" << PLUGIN_PREFIX << "] " << message << std::endl;
 #define PLUGIN_REGISTER_ENDPOINT(__msg)         \
     std::cerr << "I [" << PLUGIN_PREFIX << "] " \
               << "Registering end-point '" << __msg << "'" << std::endl;
@@ -49,12 +46,10 @@ namespace mediamaker
 #ifdef NDEBUG
 #define PLUGIN_DEBUG(message) ;
 #else
-#define PLUGIN_DEBUG(message) \
-    std::cout << "D [" << PLUGIN_PREFIX << "] " << message << std::endl;
+#define PLUGIN_DEBUG(message) std::cout << "D [" << PLUGIN_PREFIX << "] " << message << std::endl;
 #endif
-#define PLUGIN_TIMER(__time, __msg)                                         \
-    std::cout << "T [" << PLUGIN_PREFIX << "] [" << __time << "] " << __msg \
-              << std::endl;
+#define PLUGIN_TIMER(__time, __msg) \
+    std::cout << "T [" << PLUGIN_PREFIX << "] [" << __time << "] " << __msg << std::endl;
 
 #define PLUGIN_THROW(message)              \
     {                                      \

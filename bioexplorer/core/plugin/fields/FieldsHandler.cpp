@@ -37,8 +37,7 @@ using namespace common;
 
 const float DEFAULT_EVENT_VALUE = 1.f;
 
-FieldsHandler::FieldsHandler(const Scene& scene, const double voxelSize,
-                             const double density)
+FieldsHandler::FieldsHandler(const Scene& scene, const double voxelSize, const double density)
     : AbstractSimulationHandler()
 {
     // Load simulation information from compartment reports
@@ -59,8 +58,7 @@ FieldsHandler::FieldsHandler(const std::string& filename)
     _unit = "microns";
 }
 
-void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize,
-                                 const double density)
+void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize, const double density)
 {
     PLUGIN_INFO(3, "Building Octree");
 
@@ -88,9 +86,7 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize,
                 for (const auto& sphere : spheres.second)
                 {
                     const Vector3f center =
-                        tf.getTranslation() +
-                        tf.getRotation() *
-                            (Vector3d(sphere.center) - tf.getRotationCenter());
+                        tf.getTranslation() + tf.getRotation() * (Vector3d(sphere.center) - tf.getRotationCenter());
 
                     const Vector3d c = center;
                     if (isClipped(c, clipPlanes))
@@ -204,9 +200,7 @@ void FieldsHandler::importFromFile(const std::string& filename)
     _spacing = {_frameData[3], _frameData[4], _frameData[5]};
     _dimensions = {_frameData[6], _frameData[7], _frameData[8]};
 
-    PLUGIN_INFO(3, "Octree: dimensions=" << _dimensions
-                                         << ", offset=" << _offset
-                                         << ", spacing=" << _spacing);
+    PLUGIN_INFO(3, "Octree: dimensions=" << _dimensions << ", offset=" << _offset << ", spacing=" << _spacing);
 
     file.close();
 }

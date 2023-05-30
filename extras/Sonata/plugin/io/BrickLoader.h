@@ -53,23 +53,19 @@ public:
 
     std::vector<std::string> getSupportedExtensions() const final;
 
-    bool isSupported(const std::string& filename,
-                     const std::string& extension) const final;
+    bool isSupported(const std::string& filename, const std::string& extension) const final;
 
     static PropertyMap getCLIProperties();
 
     PropertyMap getProperties() const final;
 
-    ModelDescriptorPtr importFromBlob(
-        Blob&& blob, const LoaderProgress& callback,
-        const PropertyMap& properties) const final;
+    ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
+                                      const PropertyMap& properties) const final;
 
-    ModelDescriptorPtr importFromFile(
-        const std::string& filename, const LoaderProgress& callback,
-        const PropertyMap& properties) const final;
+    ModelDescriptorPtr importFromFile(const std::string& filename, const LoaderProgress& callback,
+                                      const PropertyMap& properties) const final;
 
-    void exportToFile(const ModelDescriptorPtr modelDescriptor,
-                      const std::string& filename);
+    void exportToFile(const ModelDescriptorPtr modelDescriptor, const std::string& filename);
 
 private:
     std::string _readString(std::ifstream& f) const;

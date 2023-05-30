@@ -34,10 +34,8 @@ namespace bioexplorer
 {
 namespace molecularsystems
 {
-Membrane::Membrane(const MembraneDetails& details, Scene& scene,
-                   const Vector3d& assemblyPosition,
-                   const Quaterniond& assemblyRotation, const ShapePtr shape,
-                   const ProteinMap& transmembraneProteins)
+Membrane::Membrane(const MembraneDetails& details, Scene& scene, const Vector3d& assemblyPosition,
+                   const Quaterniond& assemblyRotation, const ShapePtr shape, const ProteinMap& transmembraneProteins)
     : SDFGeometries(NO_GRID_ALIGNMENT, assemblyPosition, assemblyRotation)
     , _scene(scene)
     , _details(details)
@@ -67,23 +65,20 @@ Membrane::Membrane(const MembraneDetails& details, Scene& scene,
         // Create model
         ProteinPtr lipid(new Protein(_scene, pd));
         const auto& lipidSize = lipid->getBounds().getSize();
-        lipidAverageSize +=
-            std::min(lipidSize.x, std::min(lipidSize.y, lipidSize.z));
+        lipidAverageSize += std::min(lipidSize.x, std::min(lipidSize.y, lipidSize.z));
         _lipids[pd.name] = std::move(lipid);
         ++i;
     }
     lipidAverageSize /= lipidContents.size();
     lipidAverageSize /= _details.lipidDensity;
 
-    _nbOccurrences = _shape->getSurface() / lipidAverageSize *
-                     2.0; // WHY DO I HAVE TO DOUBLE IT!
+    _nbOccurrences = _shape->getSurface() / lipidAverageSize * 2.0; // WHY DO I HAVE TO DOUBLE IT!
 
     _processInstances();
 
     // Add models to the scene
     for (size_t i = 0; i < lipidContents.size(); ++i)
-        _scene.addModel(
-            _lipids[_getElementNameFromId(i)]->getModelDescriptor());
+        _scene.addModel(_lipids[_getElementNameFromId(i)]->getModelDescriptor());
 }
 
 Membrane::~Membrane()
@@ -100,8 +95,7 @@ double Membrane::_getDisplacementValue(const DisplacementElement&)
 void Membrane::_processInstances()
 {
     const auto rotation = doublesToQuaterniond(_details.lipidRotation);
-    const auto MolecularSystemAnimationDetails =
-        doublesToMolecularSystemAnimationDetails(_details.animationParams);
+    const auto MolecularSystemAnimationDetails = doublesToMolecularSystemAnimationDetails(_details.animationParams);
     srand(MolecularSystemAnimationDetails.seed);
 
     std::map<size_t, size_t> instanceCounts;
@@ -128,16 +122,14 @@ void Membrane::_processInstances()
             transformations.push_back(assemblyTransformation);
 
             const auto shapeTransformation =
-                _shape->getTransformation(occurrence, _nbOccurrences,
-                                          MolecularSystemAnimationDetails);
+                _shape->getTransformation(occurrence, _nbOccurrences, MolecularSystemAnimationDetails);
             transformations.push_back(shapeTransformation);
 
             Transformation lipidTransformation;
             lipidTransformation.setRotation(rotation);
             transformations.push_back(lipidTransformation);
 
-            const Transformation finalTransformation =
-                combineTransformations(transformations);
+            const Transformation finalTransformation = combineTransformations(transformations);
             const auto& finalTranslation = finalTransformation.getTranslation();
             const auto& finalRotation = finalTransformation.getRotation();
 
@@ -145,23 +137,17 @@ void Membrane::_processInstances()
             bool collision = false;
             for (const auto& protein : _transmembraneProteins)
             {
-                const auto transMembraneRadius =
-                    protein.second->getTransMembraneRadius();
-                const auto transMembraneOffset =
-                    protein.second->getTransMembraneOffset();
+                const auto transMembraneRadius = protein.second->getTransMembraneRadius();
+                const auto transMembraneOffset = protein.second->getTransMembraneOffset();
                 auto modelDescriptor = protein.second->getModelDescriptor();
                 const auto& instances = modelDescriptor->getInstances();
-                const auto& instanceSize =
-                    modelDescriptor->getModel().getBounds().getSize();
+                const auto& instanceSize = modelDescriptor->getModel().getBounds().getSize();
                 for (const auto& instance : instances)
                 {
                     const auto& tf = instance.getTransformation();
                     const Vector3d proteinBase =
-                        finalTranslation +
-                        transMembraneOffset *
-                            normalize(finalRotation * UP_VECTOR);
-                    if (length(finalTranslation - tf.getTranslation()) <
-                        transMembraneRadius)
+                        finalTranslation + transMembraneOffset * normalize(finalRotation * UP_VECTOR);
+                    if (length(finalTranslation - tf.getTranslation()) < transMembraneRadius)
                     {
                         collision = true;
                         break;

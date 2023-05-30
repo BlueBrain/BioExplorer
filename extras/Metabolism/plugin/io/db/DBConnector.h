@@ -37,9 +37,7 @@ public:
 
     uint32_t getNbFrames();
     Locations getLocations();
-    Concentrations getConcentrations(const uint32_t frame,
-                                     const uint32_t referenceFrame,
-                                     const int32_ts& metaboliteIds,
+    Concentrations getConcentrations(const uint32_t frame, const uint32_t referenceFrame, const int32_ts& metaboliteIds,
                                      const bool relativeConcentration);
 
 private:

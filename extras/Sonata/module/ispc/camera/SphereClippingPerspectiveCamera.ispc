@@ -34,14 +34,14 @@ struct SphereClippingPerspectiveCamera
 {
     Camera super;
 
-    vec3f org;    //!< position of camera, already contains shift when
-                  //! STEREO_{LEFT|RIGHT}
-    vec3f dir_00; //!< direction of ray with screenSample=(0,0); scaled to
-                  //! focusDistance
-    vec3f dir_du; //!< delta of ray direction between two pixels in X; scaled to
-                  //! focusDistance
-    vec3f dir_dv; //!< delta of ray direction between two pixels in Y; scaled to
-                  //! focusDistance
+    vec3f org;            //!< position of camera, already contains shift when
+                          //! STEREO_{LEFT|RIGHT}
+    vec3f dir_00;         //!< direction of ray with screenSample=(0,0); scaled to
+                          //! focusDistance
+    vec3f dir_du;         //!< delta of ray direction between two pixels in X; scaled to
+                          //! focusDistance
+    vec3f dir_dv;         //!< delta of ray direction between two pixels in Y; scaled to
+                          //! focusDistance
     float scaledAperture; //!< radius of aperture, divided by horizontal image
                           //! plane size
     float aspect;         //!< image plane size x / y
@@ -53,10 +53,8 @@ struct SphereClippingPerspectiveCamera
     unsigned int numClipPlanes;
 };
 
-inline void sphereClipRay(const uniform vec4f* clipPlanes,
-                          const unsigned int numClipPlanes,
-                          const varying vec3f& position,
-                          const varying vec3f& direction, varying float& near,
+inline void sphereClipRay(const uniform vec4f* clipPlanes, const unsigned int numClipPlanes,
+                          const varying vec3f& position, const varying vec3f& direction, varying float& near,
                           varying float& far)
 {
     if (numClipPlanes == 0)
@@ -70,8 +68,7 @@ inline void sphereClipRay(const uniform vec4f* clipPlanes,
         if (r == 0.f)
             continue;
 
-        const vec3f center = {clipPlanes[i].x, clipPlanes[i].y,
-                              clipPlanes[i].z};
+        const vec3f center = {clipPlanes[i].x, clipPlanes[i].y, clipPlanes[i].z};
         const float radius = clipPlanes[i].w;
 
         const float rd2 = 1.f / r;
@@ -95,32 +92,27 @@ inline void sphereClipRay(const uniform vec4f* clipPlanes,
     }
 }
 
-void SphereClippingPerspectiveCamera_initRay(uniform Camera* uniform _self,
-                                             varying Ray& ray,
+void SphereClippingPerspectiveCamera_initRay(uniform Camera* uniform _self, varying Ray& ray,
                                              const varying CameraSample& sample)
 {
-    uniform SphereClippingPerspectiveCamera* uniform self =
-        (uniform SphereClippingPerspectiveCamera * uniform) _self;
+    uniform SphereClippingPerspectiveCamera* uniform self = (uniform SphereClippingPerspectiveCamera * uniform) _self;
 
     vec2f screen = sample.screen;
     vec3f org = self->org;
 
     screen = Camera_subRegion(_self, screen);
 
-    vec3f dir =
-        self->dir_00 + screen.x * self->dir_du + screen.y * self->dir_dv;
+    vec3f dir = self->dir_00 + screen.x * self->dir_du + screen.y * self->dir_dv;
 
     if (self->super.doesDOF)
     {
         float random = 1.f;
         random = getRandomValue();
         random = (random == 0.f ? 0.001f : random);
-        const vec3f llp =
-            uniformSampleDisk(random * self->scaledAperture, sample.lens);
+        const vec3f llp = uniformSampleDisk(random * self->scaledAperture, sample.lens);
         // transform local lens point to focal plane (dir_XX are prescaled in
         // this case)
-        const vec3f lp =
-            (llp.x * self->dir_du) + ((llp.y * self->aspect) * self->dir_dv);
+        const vec3f lp = (llp.x * self->dir_du) + ((llp.y * self->aspect) * self->dir_dv);
         org = org + lp;
         dir = dir - lp;
     }
@@ -129,8 +121,7 @@ void SphereClippingPerspectiveCamera_initRay(uniform Camera* uniform _self,
     varying float farClip = inf;
     const varying vec3f direction = normalize(dir);
 
-    sphereClipRay(self->clipPlanes, self->numClipPlanes, org, direction,
-                  nearClip, farClip);
+    sphereClipRay(self->clipPlanes, self->numClipPlanes, org, direction, nearClip, farClip);
 
     const float time = Camera_shutterTime(_self, sample.time);
     setRay(ray, org, direction, nearClip, farClip, time);
@@ -142,8 +133,7 @@ void SphereClippingPerspectiveCamera_initRay(uniform Camera* uniform _self,
     parameters */
 export void* uniform SphereClippingPerspectiveCamera_create(void* uniform cppE)
 {
-    uniform SphereClippingPerspectiveCamera* uniform self =
-        uniform new uniform SphereClippingPerspectiveCamera;
+    uniform SphereClippingPerspectiveCamera* uniform self = uniform new uniform SphereClippingPerspectiveCamera;
     self->super.cppEquivalent = cppE;
     self->super.initRay = SphereClippingPerspectiveCamera_initRay;
     self->super.doesDOF = false;
@@ -151,15 +141,14 @@ export void* uniform SphereClippingPerspectiveCamera_create(void* uniform cppE)
     return self;
 }
 
-export void SphereClippingPerspectiveCamera_set(
-    void* uniform _self, const uniform vec3f& org, const uniform vec3f& dir_00,
-    const uniform vec3f& dir_du, const uniform vec3f& dir_dv,
-    const uniform float scaledAperture, const uniform float aspect,
-    const uniform vec3f& ipd_offset, const uniform vec4f clipPlanes[],
-    const uniform unsigned int numClipPlanes)
+export void SphereClippingPerspectiveCamera_set(void* uniform _self, const uniform vec3f& org,
+                                                const uniform vec3f& dir_00, const uniform vec3f& dir_du,
+                                                const uniform vec3f& dir_dv, const uniform float scaledAperture,
+                                                const uniform float aspect, const uniform vec3f& ipd_offset,
+                                                const uniform vec4f clipPlanes[],
+                                                const uniform unsigned int numClipPlanes)
 {
-    uniform SphereClippingPerspectiveCamera* uniform self =
-        (uniform SphereClippingPerspectiveCamera * uniform) _self;
+    uniform SphereClippingPerspectiveCamera* uniform self = (uniform SphereClippingPerspectiveCamera * uniform) _self;
     self->org = org;
     self->dir_00 = dir_00;
     self->dir_du = dir_du;

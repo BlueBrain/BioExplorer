@@ -58,8 +58,7 @@ namespace io
 using namespace common;
 using namespace db;
 
-OOCManager::OOCManager(Scene& scene, const Camera& camera,
-                       const CommandLineArguments& arguments)
+OOCManager::OOCManager(Scene& scene, const Camera& camera, const CommandLineArguments& arguments)
     : _scene(scene)
     , _camera(camera)
 {
@@ -104,13 +103,9 @@ void OOCManager::_loadBricks()
     while (true)
     {
         const Vector3d& cameraPosition = _camera.getPosition();
-        const Vector3i brick =
-            (cameraPosition - _sceneConfiguration.brickSize / 2.0) /
-            _sceneConfiguration.brickSize;
-        const int32_t brickId = brick.z +
-                                brick.y * _sceneConfiguration.nbBricks +
-                                brick.x * _sceneConfiguration.nbBricks *
-                                    _sceneConfiguration.nbBricks;
+        const Vector3i brick = (cameraPosition - _sceneConfiguration.brickSize / 2.0) / _sceneConfiguration.brickSize;
+        const int32_t brickId = brick.z + brick.y * _sceneConfiguration.nbBricks +
+                                brick.x * _sceneConfiguration.nbBricks * _sceneConfiguration.nbBricks;
 
         if (_frameBuffer && _frameBuffer->numAccumFrames() > 1)
         {
@@ -122,22 +117,17 @@ void OOCManager::_loadBricks()
                 for (int32_t y = 0; y < _nbVisibleBricks; ++y)
                     for (int32_t z = 0; z < _nbVisibleBricks; ++z)
                     {
-                        visibleBricks.insert(
-                            (z + brick.z) +
-                            (y + brick.y) * _sceneConfiguration.nbBricks +
-                            (x + brick.x) * _sceneConfiguration.nbBricks *
-                                _sceneConfiguration.nbBricks);
-                        visibleBricks.insert(
-                            (-z + brick.z) +
-                            (-y + brick.y) * _sceneConfiguration.nbBricks +
-                            (-x + brick.x) * _sceneConfiguration.nbBricks *
-                                _sceneConfiguration.nbBricks);
+                        visibleBricks.insert((z + brick.z) + (y + brick.y) * _sceneConfiguration.nbBricks +
+                                             (x + brick.x) * _sceneConfiguration.nbBricks *
+                                                 _sceneConfiguration.nbBricks);
+                        visibleBricks.insert((-z + brick.z) + (-y + brick.y) * _sceneConfiguration.nbBricks +
+                                             (-x + brick.x) * _sceneConfiguration.nbBricks *
+                                                 _sceneConfiguration.nbBricks);
                     }
 
             // Identify bricks to load
             for (const int32_t visibleBrick : visibleBricks)
-                if (std::find(loadedBricks.begin(), loadedBricks.end(),
-                              visibleBrick) == loadedBricks.end())
+                if (std::find(loadedBricks.begin(), loadedBricks.end(), visibleBrick) == loadedBricks.end())
                 {
                     bricksToLoad.insert(visibleBrick);
                     if (bricksToLoad.size() >= _nbBricksPerCycle)
@@ -145,8 +135,7 @@ void OOCManager::_loadBricks()
                 }
 
             if (!bricksToLoad.empty())
-                PLUGIN_INFO(3, "Loading bricks   "
-                                   << int32_set_to_string(bricksToLoad));
+                PLUGIN_INFO(3, "Loading bricks   " << int32_set_to_string(bricksToLoad));
 
             _progress = double(bricksToLoad.size()) / double(_nbBricksPerCycle);
             // Loading bricks
@@ -164,8 +153,7 @@ void OOCManager::_loadBricks()
                     PLUGIN_DEBUG(e.what());
                 }
                 const auto duration =
-                    std::chrono::duration_cast<std::chrono::milliseconds>(
-                        std::chrono::steady_clock::now() - start);
+                    std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start);
 
                 totalLoadingTime += duration.count();
                 ++nbLoads;
@@ -176,10 +164,8 @@ void OOCManager::_loadBricks()
             if (bricksToLoad.size())
             {
                 PLUGIN_DEBUG("Current brick Id: " << brickId);
-                PLUGIN_DEBUG(
-                    "Loaded bricks   : " << int32_set_to_string(loadedBricks));
-                PLUGIN_DEBUG(
-                    "Visible bricks  : " << int32_set_to_string(visibleBricks));
+                PLUGIN_DEBUG("Loaded bricks   : " << int32_set_to_string(loadedBricks));
+                PLUGIN_DEBUG("Visible bricks  : " << int32_set_to_string(visibleBricks));
 
                 bool visibilityModified = false;
 
@@ -193,9 +179,7 @@ void OOCManager::_loadBricks()
                     {
                         const int32_t id = atoi(it->second.c_str());
                         const bool visible =
-                            std::find(visibleBricks.begin(),
-                                      visibleBricks.end(),
-                                      id) != visibleBricks.end();
+                            std::find(visibleBricks.begin(), visibleBricks.end(), id) != visibleBricks.end();
                         if (visible)
                         {
                             if (!modelDescriptor->getVisible())
@@ -213,9 +197,7 @@ void OOCManager::_loadBricks()
                     while (i != loadedBricks.end())
                     {
                         const auto loadedBrick = (*i);
-                        const auto it =
-                            std::find(visibleBricks.begin(),
-                                      visibleBricks.end(), loadedBrick);
+                        const auto it = std::find(visibleBricks.begin(), visibleBricks.end(), loadedBrick);
                         if (it == visibleBricks.end())
                             loadedBricks.erase(i++);
                         else
@@ -285,12 +267,10 @@ void OOCManager::_parseArguments(const CommandLineArguments& arguments)
     auto& connector = DBConnector::getInstance();
     _sceneConfiguration = connector.getSceneConfiguration();
 
-    const bool disableBroadcasting =
-        std::getenv(ENV_ROCKETS_DISABLE_SCENE_BROADCASTING.c_str()) != nullptr;
+    const bool disableBroadcasting = std::getenv(ENV_ROCKETS_DISABLE_SCENE_BROADCASTING.c_str()) != nullptr;
     if (!disableBroadcasting)
-        PLUGIN_THROW(
-            ENV_ROCKETS_DISABLE_SCENE_BROADCASTING +
-            " environment variable must be set when out-of-core is enabled");
+        PLUGIN_THROW(ENV_ROCKETS_DISABLE_SCENE_BROADCASTING +
+                     " environment variable must be set when out-of-core is enabled");
 }
 } // namespace io
 } // namespace bioexplorer

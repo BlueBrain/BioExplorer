@@ -43,8 +43,7 @@ class SpikeSimulationHandler : public AbstractSimulationHandler
 {
 public:
     /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
-    SpikeSimulationHandler(const std::string& populationName,
-                           const uint64_t simulationReportId);
+    SpikeSimulationHandler(const std::string& populationName, const uint64_t simulationReportId);
 
     /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
     SpikeSimulationHandler(const SpikeSimulationHandler& rhs);
@@ -56,9 +55,7 @@ public:
     brayns::AbstractSimulationHandlerPtr clone() const final;
 
     /** Sets the visualization settings */
-    void setVisualizationSettings(const double restVoltage,
-                                  const double spikingVoltage,
-                                  const double decaySpeed);
+    void setVisualizationSettings(const double restVoltage, const double spikingVoltage, const double decaySpeed);
 
 private:
     void _logVisualizationSettings();

@@ -42,8 +42,7 @@ void PathTracingRenderer::commit()
 
     if (_lightData)
         for (size_t i = 0; i < _lightData->size(); ++i)
-            _lightArray.push_back(
-                ((ospray::Light**)_lightData->data)[i]->getIE());
+            _lightArray.push_back(((ospray::Light**)_lightData->data)[i]->getIE());
 
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
@@ -55,12 +54,10 @@ void PathTracingRenderer::commit()
     _aoDistance = getParam1f("aoDistance", 100.f);
     _randomNumber = rand() % 1000;
 
-    ispc::PathTracingRenderer_set(
-        getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr,
-        _lightArray.size(),
-        (_simulationData ? (float*)_simulationData->data : nullptr),
-        _simulationDataSize, _timestamp, _randomNumber, _exposure, _aoStrength,
-        _aoDistance, _useHardwareRandomizer, _showBackground);
+    ispc::PathTracingRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr,
+                                  _lightArray.size(), (_simulationData ? (float*)_simulationData->data : nullptr),
+                                  _simulationDataSize, _timestamp, _randomNumber, _exposure, _aoStrength, _aoDistance,
+                                  _useHardwareRandomizer, _showBackground);
 }
 
 PathTracingRenderer::PathTracingRenderer()

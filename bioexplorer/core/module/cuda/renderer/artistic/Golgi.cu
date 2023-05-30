@@ -37,11 +37,8 @@ static __device__ inline void shade()
 {
     const float3 hit_point = ray.origin + t_hit * ray.direction;
     const float3 dir = ::optix::normalize(hit_point - eye);
-    float3 world_shading_normal =
-        optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
-    float cosNL = max(0.f, pow(::optix::dot(::optix::normalize(dir),
-                                            -1.f * world_shading_normal),
-                               exponent));
+    float3 world_shading_normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
+    float cosNL = max(0.f, pow(::optix::dot(::optix::normalize(dir), -1.f * world_shading_normal), exponent));
     if (inverse)
         cosNL = 1.f - cosNL;
 

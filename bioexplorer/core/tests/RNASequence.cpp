@@ -65,8 +65,7 @@ RNASequenceDetails getRNASequenceDescriptor()
 
     descriptor.assemblyName = "test";
     descriptor.name = "test";
-    descriptor.contents = getFileContents(
-        "./bioexplorer/pythonsdk/tests/test_files/rna/sars-cov-2.rna");
+    descriptor.contents = getFileContents("./bioexplorer/pythonsdk/tests/test_files/rna/sars-cov-2.rna");
     descriptor.shape = RNAShapeType::trefoilKnot;
     descriptor.shapeParams = {11.0, 0.5};
     descriptor.valuesRange = {0.0, 30.5 * static_cast<double>(M_PI)};
@@ -78,10 +77,9 @@ RNASequenceDetails getRNASequenceDescriptor()
 
 BOOST_AUTO_TEST_CASE(rna_sequence)
 {
-    std::vector<const char*> argv{
-        "brayns", "--http-server", "localhost:0", "--plugin",
-        "BioExplorer --db-name=bioexplorer --db-user=brayns "
-        "--db-password=brayns --db-host=localhost --db-port=5432"};
+    std::vector<const char*> argv{"brayns", "--http-server", "localhost:0", "--plugin",
+                                  "BioExplorer --db-name=bioexplorer --db-user=brayns "
+                                  "--db-password=brayns --db-host=localhost --db-port=5432"};
     brayns::Brayns brayns(argv.size(), argv.data());
     auto& scene = brayns.getEngine().getScene();
     Assembly assembly(scene, getAssemblyDescriptor());

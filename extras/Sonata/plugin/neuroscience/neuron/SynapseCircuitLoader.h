@@ -33,17 +33,14 @@ using namespace common;
 class SynapseCircuitLoader : public AbstractCircuitLoader
 {
 public:
-    SynapseCircuitLoader(Scene &scene,
-                         const ApplicationParameters &applicationParameters,
-                         PropertyMap &&loaderParams);
+    SynapseCircuitLoader(Scene &scene, const ApplicationParameters &applicationParameters, PropertyMap &&loaderParams);
 
     std::string getName() const final;
 
     static PropertyMap getCLIProperties();
 
-    ModelDescriptorPtr importFromFile(
-        const std::string &filename, const LoaderProgress &callback,
-        const PropertyMap &properties) const final;
+    ModelDescriptorPtr importFromFile(const std::string &filename, const LoaderProgress &callback,
+                                      const PropertyMap &properties) const final;
 };
 } // namespace neuron
 } // namespace neuroscience

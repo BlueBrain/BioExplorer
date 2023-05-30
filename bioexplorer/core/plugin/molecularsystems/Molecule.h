@@ -79,10 +79,7 @@ public:
      * molecule. The key of the map is the id of the chain, as defined in the
      * PDB file
      */
-    const ResidueSequenceMap& getResidueSequences() const
-    {
-        return _residueSequenceMap;
-    }
+    const ResidueSequenceMap& getResidueSequences() const { return _residueSequenceMap; }
 
     /**
      * @brief Get the Sequences As String object
@@ -105,20 +102,16 @@ protected:
     void _setChainColorScheme(const Palette& palette);
     void _setResiduesColorScheme(const Palette& palette);
     void _setAminoAcidSequenceColorScheme(const Palette& palette);
-    void _setMaterialDiffuseColor(const size_t atomIndex,
-                                  const RGBColorDetails& color);
+    void _setMaterialDiffuseColor(const size_t atomIndex, const RGBColorDetails& color);
     void _setMaterialDiffuseColor(const size_t atomIndex, const Color& color);
 
     // Geometry
-    void _buildModel(const std::string& assemblyName, const std::string& name,
-                     const std::string& title, const std::string& header,
-                     const ProteinRepresentation& representation,
+    void _buildModel(const std::string& assemblyName, const std::string& name, const std::string& title,
+                     const std::string& header, const ProteinRepresentation& representation,
                      const double atomRadiusMultiplier, const bool loadBonds);
 
-    void _buildAtomicStruture(const ProteinRepresentation representation,
-                              const double atomRadiusMultiplier,
-                              const bool surface, const bool loadBonds,
-                              ThreadSafeContainer& container);
+    void _buildAtomicStruture(const ProteinRepresentation representation, const double atomRadiusMultiplier,
+                              const bool surface, const bool loadBonds, ThreadSafeContainer& container);
     void _computeReqSetOffset();
 
     // IO

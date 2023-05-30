@@ -39,8 +39,7 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-Synapses::Synapses(Scene& scene, const SynapsesDetails& details,
-                   const Vector3d& assemblyPosition,
+Synapses::Synapses(Scene& scene, const SynapsesDetails& details, const Vector3d& assemblyPosition,
                    const Quaterniond& assemblyRotation)
     : Morphologies(0, assemblyPosition, assemblyRotation)
     , _details(details)
@@ -73,9 +72,7 @@ void Synapses::_buildModel()
     auto model = _scene.createModel();
     ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation);
 
-    const auto synapses =
-        DBConnector::getInstance().getSynapses(_details.populationName,
-                                               _details.sqlFilter);
+    const auto synapses = DBConnector::getInstance().getSynapses(_details.populationName, _details.sqlFilter);
 
     const auto nbSynapses = synapses.size();
     const size_t materialId = 0;
@@ -87,25 +84,19 @@ void Synapses::_buildModel()
             _addSpine(container, synapse.first, synapse.second, materialId);
         else
             container.addSphere(synapse.second.preSynapticSurfacePosition,
-                                DEFAULT_SPINE_RADIUS *
-                                    _details.radiusMultiplier,
-                                materialId, false, i);
+                                DEFAULT_SPINE_RADIUS * _details.radiusMultiplier, materialId, false, i);
         if (i % progressStep == 0)
-            PLUGIN_PROGRESS("Loading " << i << "/" << nbSynapses << " synapses",
-                            i, nbSynapses);
+            PLUGIN_PROGRESS("Loading " << i << "/" << nbSynapses << " synapses", i, nbSynapses);
         ++i;
     }
 
     container.commitToModel();
     PLUGIN_INFO(1, "");
 
-    const ModelMetadata metadata = {{"Number of synapses",
-                                     std::to_string(nbSynapses)},
+    const ModelMetadata metadata = {{"Number of synapses", std::to_string(nbSynapses)},
                                     {"SQL filter", _details.sqlFilter}};
 
-    _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
-                                                       _details.assemblyName,
-                                                       metadata));
+    _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model), _details.assemblyName, metadata));
     if (_modelDescriptor)
         _scene.addModel(_modelDescriptor);
     else
@@ -115,8 +106,8 @@ void Synapses::_buildModel()
             _details.populationName);
 }
 
-void Synapses::_addSpine(ThreadSafeContainer& container, const uint64_t guid,
-                         const Synapse& synapse, const size_t SpineMaterialId)
+void Synapses::_addSpine(ThreadSafeContainer& container, const uint64_t guid, const Synapse& synapse,
+                         const size_t SpineMaterialId)
 {
     const double radius = _details.radiusMultiplier * DEFAULT_SPINE_RADIUS;
 
@@ -125,8 +116,7 @@ void Synapses::_addSpine(ThreadSafeContainer& container, const uint64_t guid,
     const auto spineLargeRadius = radius * spineRadiusRatio * 2.5;
 
     const auto direction =
-        Vector3d((rand() % 200 - 100) / 100.0, (rand() % 200 - 100) / 100.0,
-                 (rand() % 200 - 100) / 100.0);
+        Vector3d((rand() % 200 - 100) / 100.0, (rand() % 200 - 100) / 100.0, (rand() % 200 - 100) / 100.0);
     const auto l = 6.f * radius;
 
     const auto origin = synapse.postSynapticSurfacePosition;
@@ -140,26 +130,20 @@ void Synapses::_addSpine(ThreadSafeContainer& container, const uint64_t guid,
     middle += Vector3f(d * rnd2(id), d * rnd2(id + 1), d * rnd2(id + 2));
     const float spineMiddleRadius = spineSmallRadius + d * 0.1 * rnd2(id + 3);
 
-    const auto displacement = Vector3f(
-        _getDisplacementValue(DisplacementElement::morphology_spine_strength),
-        _getDisplacementValue(DisplacementElement::morphology_spine_frequency),
-        0.f);
+    const auto displacement = Vector3f(_getDisplacementValue(DisplacementElement::morphology_spine_strength),
+                                       _getDisplacementValue(DisplacementElement::morphology_spine_frequency), 0.f);
 
     const bool useSdf =
-        andCheck(static_cast<uint32_t>(_details.realismLevel),
-                 static_cast<uint32_t>(MorphologyRealismLevel::spine));
+        andCheck(static_cast<uint32_t>(_details.realismLevel), static_cast<uint32_t>(MorphologyRealismLevel::spine));
     Neighbours neighbours;
-    neighbours.insert(container.addSphere(middle, spineMiddleRadius,
-                                          SpineMaterialId, useSdf, NO_USER_DATA,
-                                          neighbours, displacement));
+    neighbours.insert(container.addSphere(middle, spineMiddleRadius, SpineMaterialId, useSdf, NO_USER_DATA, neighbours,
+                                          displacement));
     if (middle != origin)
-        container.addCone(origin, spineSmallRadius, middle, spineMiddleRadius,
-                          SpineMaterialId, useSdf, NO_USER_DATA, neighbours,
-                          displacement);
+        container.addCone(origin, spineSmallRadius, middle, spineMiddleRadius, SpineMaterialId, useSdf, NO_USER_DATA,
+                          neighbours, displacement);
     if (middle != target)
-        container.addCone(middle, spineMiddleRadius, target, spineLargeRadius,
-                          SpineMaterialId, useSdf, NO_USER_DATA, neighbours,
-                          displacement);
+        container.addCone(middle, spineMiddleRadius, target, spineLargeRadius, SpineMaterialId, useSdf, NO_USER_DATA,
+                          neighbours, displacement);
 }
 
 } // namespace morphology

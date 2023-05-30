@@ -44,14 +44,10 @@ public:
      * @param details Set of attributes defining how the vasculature should be
      * loaded
      */
-    Atlas(Scene& scene, const AtlasDetails& details, const Vector3d& position,
-          const Quaterniond& rotation);
+    Atlas(Scene& scene, const AtlasDetails& details, const Vector3d& position, const Quaterniond& rotation);
 
 private:
-    double _getDisplacementValue(const DisplacementElement& element) final
-    {
-        return 0;
-    }
+    double _getDisplacementValue(const DisplacementElement& element) final { return 0; }
 
     void _load();
 

@@ -60,16 +60,11 @@ void _addMetabolismRenderer(Engine &engine)
     properties.setProperty({"rayStep", 0.1, 0.01, 10., {"Ray marching step"}});
     properties.setProperty({"nearPlane", 10., 0.01, 1e6, {"Near plane"}});
     properties.setProperty({"farPlane", 50., 0.01, 1e6, {"Far plane"}});
-    properties.setProperty(
-        {"refinementSteps", 64, 1, 256, {"Refinement steps"}});
-    properties.setProperty(
-        {"alphaCorrection", 1., 0.001, 1., {"Alpha correction"}});
-    properties.setProperty(
-        {"noiseFrequency", 1., 0., 100., {"Noise frequency"}});
-    properties.setProperty(
-        {"noiseAmplitude", 1., 0.00001, 10., {"Noise amplitude"}});
-    properties.setProperty(
-        {"colorMapPerRegion", true, {"Color map per region"}});
+    properties.setProperty({"refinementSteps", 64, 1, 256, {"Refinement steps"}});
+    properties.setProperty({"alphaCorrection", 1., 0.001, 1., {"Alpha correction"}});
+    properties.setProperty({"noiseFrequency", 1., 0., 100., {"Noise frequency"}});
+    properties.setProperty({"noiseAmplitude", 1., 0.00001, 10., {"Noise amplitude"}});
+    properties.setProperty({"colorMapPerRegion", true, {"Color map per region"}});
     engine.addRendererType(RENDERER_METABOLISM, properties);
 }
 
@@ -88,9 +83,9 @@ void MetabolismPlugin::init()
     {
         std::string endPoint = PLUGIN_API_PREFIX + "attach-handler";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        actionInterface->registerRequest<AttachHandlerDetails, Response>(
-            endPoint, [&](const AttachHandlerDetails &payload)
-            { return _attachHandler(payload); });
+        actionInterface->registerRequest<AttachHandlerDetails, Response>(endPoint,
+                                                                         [&](const AttachHandlerDetails &payload)
+                                                                         { return _attachHandler(payload); });
     }
 
     _addMetabolismRenderer(engine);
@@ -142,24 +137,13 @@ Response MetabolismPlugin::_attachHandler(const AttachHandlerDetails &payload)
 
 extern "C" ExtensionPlugin *brayns_plugin_create(int argc, char **argv)
 {
-    PLUGIN_INFO("Initializing Metabolism plug-in (version " << PLUGIN_VERSION
-                                                            << ")");
+    PLUGIN_INFO("Initializing Metabolism plug-in (version " << PLUGIN_VERSION << ")");
     PLUGIN_INFO("");
-    PLUGIN_INFO(
-        "_|      _|              _|                _|                  _|  _|  "
-        "                          ");
-    PLUGIN_INFO(
-        "_|_|  _|_|    _|_|    _|_|_|_|    _|_|_|  _|_|_|      _|_|    _|      "
-        "  _|_|_|  _|_|_|  _|_|    ");
-    PLUGIN_INFO(
-        "_|  _|  _|  _|_|_|_|    _|      _|    _|  _|    _|  _|    _|  _|  _|  "
-        "_|_|      _|    _|    _|  ");
-    PLUGIN_INFO(
-        "_|      _|  _|          _|      _|    _|  _|    _|  _|    _|  _|  _|  "
-        "    _|_|  _|    _|    _|  ");
-    PLUGIN_INFO(
-        "_|      _|    _|_|_|      _|_|    _|_|_|  _|_|_|      _|_|    _|  _|  "
-        "_|_|_|    _|    _|    _|  ");
+    PLUGIN_INFO("_|      _|              _|                _|                  _|  _|                            ");
+    PLUGIN_INFO("_|_|  _|_|    _|_|    _|_|_|_|    _|_|_|  _|_|_|      _|_|    _|        _|_|_|  _|_|_|  _|_|    ");
+    PLUGIN_INFO("_|  _|  _|  _|_|_|_|    _|      _|    _|  _|    _|  _|    _|  _|  _|  _|_|      _|    _|    _|  ");
+    PLUGIN_INFO("_|      _|  _|          _|      _|    _|  _|    _|  _|    _|  _|  _|      _|_|  _|    _|    _|  ");
+    PLUGIN_INFO("_|      _|    _|_|_|      _|_|    _|_|_|  _|_|_|      _|_|    _|  _|  _|_|_|    _|    _|    _|  ");
     PLUGIN_INFO("");
 
     return new MetabolismPlugin(argc, argv);

@@ -41,10 +41,9 @@ public:
     FanShape(const Vector4ds& clippingPlanes, const double radius);
 
     /** @copydoc Shape::getTransformation */
-    Transformation getTransformation(
-        const uint64_t occurrence, const uint64_t nbOccurrences,
-        const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
-        const double offset) const final;
+    Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
+                                     const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+                                     const double offset) const final;
 
     /** @copydoc Shape::isInside */
     bool isInside(const Vector3d& point) const final;

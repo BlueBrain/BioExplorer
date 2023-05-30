@@ -28,16 +28,14 @@ namespace sonataexplorer
 // Convertors
 brayns::Vector3f get_translation(const brayns::Matrix4f& matrix);
 
-brayns::Vector3d transformVector3d(const brayns::Vector3f& v,
-                                   const brayns::Matrix4f& transformation);
+brayns::Vector3d transformVector3d(const brayns::Vector3f& v, const brayns::Matrix4f& transformation);
 
 std::vector<uint64_t> GIDsAsInts(const std::string& gids);
 
 // Containers
 bool inBox(const brayns::Vector3f& point, const brayns::Boxf& box);
 brayns::Vector3f getPointInSphere(const float innerRadius);
-brayns::Vector3fs getPointsInSphere(const size_t nbPoints,
-                                    const float innerRadius);
+brayns::Vector3fs getPointsInSphere(const size_t nbPoints, const float innerRadius);
 
 // Volumes
 float sphereVolume(const float radius);

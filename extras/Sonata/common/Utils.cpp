@@ -24,23 +24,20 @@ namespace sonataexplorer
 {
 brayns::Vector3f get_translation(const brayns::Matrix4f& matrix)
 {
-    return brayns::Vector3f(glm::value_ptr(matrix)[12],
-                            glm::value_ptr(matrix)[13],
-                            glm::value_ptr(matrix)[14]);
+    return brayns::Vector3f(glm::value_ptr(matrix)[12], glm::value_ptr(matrix)[13], glm::value_ptr(matrix)[14]);
 }
 
 bool inBox(const brayns::Vector3f& point, const brayns::Boxf& box)
 {
     const auto min = box.getMin();
     const auto max = box.getMax();
-    return (point.x >= min.x && point.y >= min.y && point.z >= min.z &&
-            point.x <= max.x && point.y <= max.y && point.z <= max.z);
+    return (point.x >= min.x && point.y >= min.y && point.z >= min.z && point.x <= max.x && point.y <= max.y &&
+            point.z <= max.z);
 }
 
 brayns::Vector3f getPointInSphere(const float innerRadius)
 {
-    const float radius =
-        innerRadius + (rand() % 1000 / 1000.f) * (1.f - innerRadius);
+    const float radius = innerRadius + (rand() % 1000 / 1000.f) * (1.f - innerRadius);
     const float phi = M_PI * ((rand() % 2000 - 1000) / 1000.f);
     const float theta = M_PI * ((rand() % 2000 - 1000) / 1000.f);
     brayns::Vector3f v;
@@ -50,19 +47,15 @@ brayns::Vector3f getPointInSphere(const float innerRadius)
     return v;
 }
 
-brayns::Vector3fs getPointsInSphere(const size_t nbPoints,
-                                    const float innerRadius)
+brayns::Vector3fs getPointsInSphere(const size_t nbPoints, const float innerRadius)
 {
-    const float radius =
-        innerRadius + (rand() % 1000 / 1000.f) * (1.f - innerRadius);
+    const float radius = innerRadius + (rand() % 1000 / 1000.f) * (1.f - innerRadius);
     float phi = M_PI * ((rand() % 2000 - 1000) / 1000.f);
     float theta = M_PI * ((rand() % 2000 - 1000) / 1000.f);
     brayns::Vector3fs points;
     for (size_t i = 0; i < nbPoints; ++i)
     {
-        brayns::Vector3f point = {radius * sin(phi) * cos(theta),
-                                  radius * sin(phi) * sin(theta),
-                                  radius * cos(phi)};
+        brayns::Vector3f point = {radius * sin(phi) * cos(theta), radius * sin(phi) * sin(theta), radius * cos(phi)};
         points.push_back(point);
         phi += ((rand() % 1000) / 5000.f);
         theta += ((rand() % 1000) / 5000.f);
@@ -70,16 +63,14 @@ brayns::Vector3fs getPointsInSphere(const size_t nbPoints,
     return points;
 }
 
-brayns::Vector3d transformVector3d(const brayns::Vector3f& v,
-                                   const brayns::Matrix4f& transformation)
+brayns::Vector3d transformVector3d(const brayns::Vector3f& v, const brayns::Matrix4f& transformation)
 {
     glm::vec3 scale;
     glm::quat rotation;
     glm::vec3 translation;
     glm::vec3 skew;
     glm::vec4 perspective;
-    glm::decompose(transformation, scale, rotation, translation, skew,
-                   perspective);
+    glm::decompose(transformation, scale, rotation, translation, skew, perspective);
     return translation + rotation * v;
 }
 

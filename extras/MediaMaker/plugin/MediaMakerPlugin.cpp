@@ -92,8 +92,7 @@ void _addAmbientOcclusionRenderer(brayns::Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_AMBIENT_OCCLUSION);
     brayns::PropertyMap properties;
-    properties.setProperty(
-        {"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
+    properties.setProperty({"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
     properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
     engine.addRendererType(RENDERER_AMBIENT_OCCLUSION, properties);
 }
@@ -102,8 +101,7 @@ void _addShadowRenderer(brayns::Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_SHADOW);
     brayns::PropertyMap properties;
-    properties.setProperty(
-        {"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
+    properties.setProperty({"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
     properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
     properties.setProperty({"softness", 0.0, 0.0, 1.0, {"Shadow softness"}});
     engine.addRendererType(RENDERER_SHADOW, properties);
@@ -121,31 +119,28 @@ void MediaMakerPlugin::init()
     {
         std::string entryPoint = PLUGIN_API_PREFIX + "version";
         PLUGIN_REGISTER_ENDPOINT(entryPoint);
-        actionInterface->registerRequest<Response>(entryPoint, [&]()
-                                                   { return _version(); });
+        actionInterface->registerRequest<Response>(entryPoint, [&]() { return _version(); });
 
         entryPoint = PLUGIN_API_PREFIX + "set-odu-camera";
         PLUGIN_REGISTER_ENDPOINT(entryPoint);
-        actionInterface->registerNotification<CameraDefinition>(
-            entryPoint, [&](const CameraDefinition &s) { _setCamera(s); });
+        actionInterface->registerNotification<CameraDefinition>(entryPoint,
+                                                                [&](const CameraDefinition &s) { _setCamera(s); });
 
         entryPoint = PLUGIN_API_PREFIX + "get-odu-camera";
         PLUGIN_REGISTER_ENDPOINT(entryPoint);
-        actionInterface->registerRequest<CameraDefinition>(
-            entryPoint, [&]() -> CameraDefinition { return _getCamera(); });
+        actionInterface->registerRequest<CameraDefinition>(entryPoint,
+                                                           [&]() -> CameraDefinition { return _getCamera(); });
 
         entryPoint = PLUGIN_API_PREFIX + "export-frames-to-disk";
         PLUGIN_REGISTER_ENDPOINT(entryPoint);
-        actionInterface->registerNotification<ExportFramesToDisk>(
-            entryPoint,
-            [&](const ExportFramesToDisk &s) { _exportFramesToDisk(s); });
+        actionInterface->registerNotification<ExportFramesToDisk>(entryPoint, [&](const ExportFramesToDisk &s)
+                                                                  { _exportFramesToDisk(s); });
 
         entryPoint = PLUGIN_API_PREFIX + "get-export-frames-progress";
         PLUGIN_REGISTER_ENDPOINT(entryPoint);
-        actionInterface->registerRequest<FrameExportProgress>(
-            entryPoint,
-            [&](void) -> FrameExportProgress
-            { return _getFrameExportProgress(); });
+        actionInterface->registerRequest<FrameExportProgress>(entryPoint,
+                                                              [&](void) -> FrameExportProgress
+                                                              { return _getFrameExportProgress(); });
     }
 
     auto &engine = _api->getEngine();
@@ -169,8 +164,7 @@ void MediaMakerPlugin::_createOptiXRenderers()
         {RENDERER_ALBEDO, MediaMaker_generated_Albedo_cu_ptx},
         {RENDERER_SHADING_NORMAL, MediaMaker_generated_ShadingNormal_cu_ptx},
         {RENDERER_GEOMETRY_NORMAL, MediaMaker_generated_GeometryNormal_cu_ptx},
-        {RENDERER_AMBIENT_OCCLUSION,
-         MediaMaker_generated_AmbientOcclusion_cu_ptx},
+        {RENDERER_AMBIENT_OCCLUSION, MediaMaker_generated_AmbientOcclusion_cu_ptx},
         {RENDERER_SHADOW, MediaMaker_generated_Shadow_cu_ptx},
         {RENDERER_DEPTH, MediaMaker_generated_Depth_cu_ptx},
     };
@@ -181,11 +175,8 @@ void MediaMakerPlugin::_createOptiXRenderers()
         const std::string ptx = renderer.second;
 
         auto osp = std::make_shared<OptixShaderProgram>();
-        osp->closest_hit =
-            context.getOptixContext()->createProgramFromPTXString(
-                ptx, "closest_hit_radiance");
-        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(
-            ptx, "any_hit_shadow");
+        osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance");
+        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "any_hit_shadow");
 
         context.addRenderer(renderer.first, osp);
     }
@@ -229,8 +220,7 @@ void MediaMakerPlugin::preRender()
         // Animation parameters
         const auto &ai = _exportFramesToDiskPayload.animationInformation;
         if (!ai.empty())
-            _api->getParametersManager().getAnimationParameters().setFrame(
-                ai[_frameNumber]);
+            _api->getParametersManager().getAnimationParameters().setFrame(ai[_frameNumber]);
     }
 }
 
@@ -249,8 +239,7 @@ void MediaMakerPlugin::postRender()
             {
                 ++_frameNumber;
                 _accumulationFrameNumber = 0;
-                _exportFramesToDiskDirty =
-                    (_frameNumber < _exportFramesToDiskPayload.endFrame);
+                _exportFramesToDiskDirty = (_frameNumber < _exportFramesToDiskPayload.endFrame);
                 _exportFrameToDisk();
             }
         }
@@ -293,8 +282,7 @@ void MediaMakerPlugin::_setCamera(const CameraDefinition &payload)
 
     // Stereo
     camera.updateProperty("stereo", payload.interpupillaryDistance != 0.0);
-    camera.updateProperty("interpupillaryDistance",
-                          payload.interpupillaryDistance);
+    camera.updateProperty("interpupillaryDistance", payload.interpupillaryDistance);
 
     _api->getCamera().markModified();
 }
@@ -306,17 +294,14 @@ CameraDefinition MediaMakerPlugin::_getCamera()
     CameraDefinition cd;
     const auto &p = camera.getPosition();
     cd.origin = {p.x, p.y, p.z};
-    const auto d =
-        glm::rotate(camera.getOrientation(), brayns::Vector3d(0., 0., -1.));
+    const auto d = glm::rotate(camera.getOrientation(), brayns::Vector3d(0., 0., -1.));
     cd.direction = {d.x, d.y, d.z};
-    const auto u =
-        glm::rotate(camera.getOrientation(), brayns::Vector3d(0., 1., 0.));
+    const auto u = glm::rotate(camera.getOrientation(), brayns::Vector3d(0., 1., 0.));
     cd.up = {u.x, u.y, u.z};
     return cd;
 }
 
-const std::string MediaMakerPlugin::_getFileName(
-    const std::string &format) const
+const std::string MediaMakerPlugin::_getFileName(const std::string &format) const
 {
     std::string baseName = _baseName;
     if (baseName.empty())
@@ -334,8 +319,7 @@ void MediaMakerPlugin::_exportColorBuffer() const
     auto image = frameBuffer.getImage();
     auto fif = _exportFramesToDiskPayload.format == "jpg"
                    ? FIF_JPEG
-                   : FreeImage_GetFIFFromFormat(
-                         _exportFramesToDiskPayload.format.c_str());
+                   : FreeImage_GetFIFFromFormat(_exportFramesToDiskPayload.format.c_str());
     if (fif == FIF_JPEG)
         image.reset(FreeImage_ConvertTo24Bits(image.get()));
     else if (fif == FIF_UNKNOWN)
@@ -443,26 +427,19 @@ void MediaMakerPlugin::_exportFramesToDisk(const ExportFramesToDisk &payload)
 
     auto &camera = _api->getCamera();
     if (camera.hasProperty("aspect"))
-        camera.updateProperty("aspect", static_cast<double>(size.x) /
-                                            static_cast<double>(size.y));
+        camera.updateProperty("aspect", static_cast<double>(size.x) / static_cast<double>(size.y));
     camera.commit();
-    const size_t nbFrames = _exportFramesToDiskPayload.endFrame -
-                            _exportFramesToDiskPayload.startFrame;
+    const size_t nbFrames = _exportFramesToDiskPayload.endFrame - _exportFramesToDiskPayload.startFrame;
     PLUGIN_INFO(
         "----------------------------------------------------------------------"
         "----------");
     PLUGIN_INFO("Movie settings               :");
-    PLUGIN_INFO("- Samples per pixel          : " +
-                std::to_string(payload.spp));
-    PLUGIN_INFO("- Frame size                 : " + std::to_string(size.x) +
-                "x" + std::to_string(size.y));
+    PLUGIN_INFO("- Samples per pixel          : " + std::to_string(payload.spp));
+    PLUGIN_INFO("- Frame size                 : " + std::to_string(size.x) + "x" + std::to_string(size.y));
     PLUGIN_INFO("- Export folder              : " + payload.path);
-    PLUGIN_INFO("- Export intermediate frames : " +
-                std::string(payload.exportIntermediateFrames ? "Yes" : "No"));
-    PLUGIN_INFO("- Start frame                : " +
-                std::to_string(payload.startFrame));
-    PLUGIN_INFO(
-        "- End frame                  : " << std::to_string(payload.endFrame));
+    PLUGIN_INFO("- Export intermediate frames : " + std::string(payload.exportIntermediateFrames ? "Yes" : "No"));
+    PLUGIN_INFO("- Start frame                : " + std::to_string(payload.startFrame));
+    PLUGIN_INFO("- End frame                  : " << std::to_string(payload.endFrame));
     PLUGIN_INFO("- Frame base name            : " << payload.baseName);
     PLUGIN_INFO("- Number of frames           : " << std::to_string(nbFrames));
     PLUGIN_INFO(
@@ -474,46 +451,29 @@ FrameExportProgress MediaMakerPlugin::_getFrameExportProgress()
 {
     FrameExportProgress result;
     double percentage = 1.f;
-    const size_t nbFrames =
-        _exportFramesToDiskPayload.cameraInformation.size() /
-        CAMERA_DEFINITION_SIZE;
-    const size_t totalNumberOfFrames =
-        nbFrames * _exportFramesToDiskPayload.spp;
+    const size_t nbFrames = _exportFramesToDiskPayload.cameraInformation.size() / CAMERA_DEFINITION_SIZE;
+    const size_t totalNumberOfFrames = nbFrames * _exportFramesToDiskPayload.spp;
 
     if (totalNumberOfFrames != 0)
     {
-        const double currentProgress =
-            _frameNumber * _exportFramesToDiskPayload.spp +
-            _accumulationFrameNumber;
+        const double currentProgress = _frameNumber * _exportFramesToDiskPayload.spp + _accumulationFrameNumber;
         percentage = currentProgress / double(totalNumberOfFrames);
     }
     result.progress = percentage;
     result.done = !_exportFramesToDiskDirty;
-    PLUGIN_DEBUG("Percentage = " << result.progress << ", Done = "
-                                 << (result.done ? "True" : "False"));
+    PLUGIN_DEBUG("Percentage = " << result.progress << ", Done = " << (result.done ? "True" : "False"));
     return result;
 }
 
 extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
 {
-    PLUGIN_INFO("Initializing Media Maker plug-in (version " << PACKAGE_VERSION
-                                                             << ")");
+    PLUGIN_INFO("Initializing Media Maker plug-in (version " << PACKAGE_VERSION << ")");
     PLUGIN_INFO("");
-    PLUGIN_INFO(
-        "_|      _|                  _|  _|                _|      "
-        "_|            _|                          ");
-    PLUGIN_INFO(
-        "_|_|  _|_|    _|_|      _|_|_|        _|_|_|      _|_|  "
-        "_|_|    _|_|_|  _|  _|      _|_|    _|  _|_|");
-    PLUGIN_INFO(
-        "_|  _|  _|  _|_|_|_|  _|    _|  _|  _|    _|      _|  _|  "
-        "_|  _|    _|  _|_|      _|_|_|_|  _|_|    ");
-    PLUGIN_INFO(
-        "_|      _|  _|        _|    _|  _|  _|    _|      _|      "
-        "_|  _|    _|  _|  _|    _|        _|      ");
-    PLUGIN_INFO(
-        "_|      _|    _|_|_|    _|_|_|  _|    _|_|_|      _|      "
-        "_|    _|_|_|  _|    _|    _|_|_|  _|      ");
+    PLUGIN_INFO("_|      _|                  _|  _|                _|      _|            _|                          ");
+    PLUGIN_INFO("_|_|  _|_|    _|_|      _|_|_|        _|_|_|      _|_|  _|_|    _|_|_|  _|  _|      _|_|    _|  _|_|");
+    PLUGIN_INFO("_|  _|  _|  _|_|_|_|  _|    _|  _|  _|    _|      _|  _|  _|  _|    _|  _|_|      _|_|_|_|  _|_|    ");
+    PLUGIN_INFO("_|      _|  _|        _|    _|  _|  _|    _|      _|      _|  _|    _|  _|  _|    _|        _|      ");
+    PLUGIN_INFO("_|      _|    _|_|_|    _|_|_|  _|    _|_|_|      _|      _|    _|_|_|  _|    _|    _|_|_|  _|      ");
     PLUGIN_INFO("");
     return new MediaMakerPlugin();
 }

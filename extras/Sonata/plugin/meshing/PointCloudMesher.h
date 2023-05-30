@@ -38,8 +38,7 @@ public:
 
     bool toConvexHull(Model& model, const PointCloud& pointCloud);
 
-    bool toMetaballs(Model& model, const PointCloud& pointCloud,
-                     const size_t gridSize, const float threshold);
+    bool toMetaballs(Model& model, const PointCloud& pointCloud, const size_t gridSize, const float threshold);
 };
 } // namespace meshing
 } // namespace sonataexplorer

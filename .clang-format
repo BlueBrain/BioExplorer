@@ -48,4 +48,5 @@ SpacesInParentheses: false # '(' style
 Standard: Cpp11
 TabWidth:        4
 UseTab:          Never
+ColumnLimit: 120
 ...

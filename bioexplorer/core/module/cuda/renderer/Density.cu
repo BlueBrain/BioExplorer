@@ -53,26 +53,21 @@ static __device__ inline void shade()
     while (color.w < 0.9f && t < farPlane)
     {
         unsigned int hits = 0;
-        unsigned int seed =
-            tea<16>(screen.x * launch_index.y + launch_index.x, frame);
+        unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
 
         const float3 hit_point = ray.origin + t_hit * ray.direction;
-        const float3 normal = optix::normalize(
-            rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
+        const float3 normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
 
         for (int i = 0; i < samplesPerFrame; ++i)
         {
             float attenuation = 0.f;
-            float3 aa_normal =
-                optix::normalize(make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f,
-                                             rnd(seed) - 0.5f));
+            float3 aa_normal = optix::normalize(make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f));
             if (::optix::dot(aa_normal, normal) < 0.f)
                 aa_normal = -aa_normal;
 
             PerRayData_shadow shadow_prd;
             shadow_prd.attenuation = make_float3(0.f);
-            ::optix::Ray shadow_ray(hit_point, aa_normal, shadowRayType,
-                                    sceneEpsilon, rayLength);
+            ::optix::Ray shadow_ray(hit_point, aa_normal, shadowRayType, sceneEpsilon, rayLength);
             rtTrace(top_shadower, shadow_ray, shadow_prd);
 
             attenuation += ::optix::luminance(shadow_prd.attenuation);
@@ -85,9 +80,7 @@ static __device__ inline void shade()
             const float a = (float)hits / (float)samplesPerFrame;
             const float3 sampleColor = make_float3(a, a, 1.f - a);
             const float alpha = 1.f / (float)samplesPerFrame;
-            color = make_float4(make_float3(color) * color.w +
-                                    (1.f - color.w * alpha) * sampleColor,
-                                color.w + alpha);
+            color = make_float4(make_float3(color) * color.w + (1.f - color.w * alpha) * sampleColor, color.w + alpha);
         }
         t += rayStep;
     }

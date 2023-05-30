@@ -30,32 +30,22 @@ namespace neuron
 {
 const std::string LOADER_NAME = "Morphology collage";
 
-MorphologyCollageLoader::MorphologyCollageLoader(
-    Scene &scene, const ApplicationParameters &applicationParameters,
-    PropertyMap &&loaderParams)
-    : AbstractCircuitLoader(scene, applicationParameters,
-                            std::move(loaderParams))
+MorphologyCollageLoader::MorphologyCollageLoader(Scene &scene, const ApplicationParameters &applicationParameters,
+                                                 PropertyMap &&loaderParams)
+    : AbstractCircuitLoader(scene, applicationParameters, std::move(loaderParams))
 {
-    _fixedDefaults.setProperty(
-        {PROP_PRESYNAPTIC_NEURON_GID.name, std::string("")});
-    _fixedDefaults.setProperty(
-        {PROP_POSTSYNAPTIC_NEURON_GID.name, std::string("")});
+    _fixedDefaults.setProperty({PROP_PRESYNAPTIC_NEURON_GID.name, std::string("")});
+    _fixedDefaults.setProperty({PROP_POSTSYNAPTIC_NEURON_GID.name, std::string("")});
     _fixedDefaults.setProperty({PROP_GIDS.name, std::string("")});
     _fixedDefaults.setProperty({PROP_REPORT.name, std::string("")});
-    _fixedDefaults.setProperty(
-        {PROP_REPORT_TYPE.name, enumToString(ReportType::undefined)});
-    _fixedDefaults.setProperty({PROP_CIRCUIT_COLOR_SCHEME.name,
-                                enumToString(CircuitColorScheme::none)});
+    _fixedDefaults.setProperty({PROP_REPORT_TYPE.name, enumToString(ReportType::undefined)});
+    _fixedDefaults.setProperty({PROP_CIRCUIT_COLOR_SCHEME.name, enumToString(CircuitColorScheme::none)});
     _fixedDefaults.setProperty({PROP_RADIUS_CORRECTION.name, 0.0});
-    _fixedDefaults.setProperty(
-        {PROP_DAMPEN_BRANCH_THICKNESS_CHANGERATE.name, true});
-    _fixedDefaults.setProperty(
-        {PROP_USER_DATA_TYPE.name, enumToString(UserDataType::undefined)});
-    _fixedDefaults.setProperty({PROP_MORPHOLOGY_MAX_DISTANCE_TO_SOMA.name,
-                                std::numeric_limits<double>::max()});
+    _fixedDefaults.setProperty({PROP_DAMPEN_BRANCH_THICKNESS_CHANGERATE.name, true});
+    _fixedDefaults.setProperty({PROP_USER_DATA_TYPE.name, enumToString(UserDataType::undefined)});
+    _fixedDefaults.setProperty({PROP_MORPHOLOGY_MAX_DISTANCE_TO_SOMA.name, std::numeric_limits<double>::max()});
     _fixedDefaults.setProperty({PROP_MESH_FOLDER.name, std::string("")});
-    _fixedDefaults.setProperty(
-        {PROP_MESH_FILENAME_PATTERN.name, std::string("")});
+    _fixedDefaults.setProperty({PROP_MESH_FILENAME_PATTERN.name, std::string("")});
     _fixedDefaults.setProperty({PROP_MESH_TRANSFORMATION.name, false});
     _fixedDefaults.setProperty({PROP_LOAD_AFFERENT_SYNAPSES.name, false});
     _fixedDefaults.setProperty({PROP_LOAD_EFFERENT_SYNAPSES.name, false});
@@ -63,9 +53,8 @@ MorphologyCollageLoader::MorphologyCollageLoader(
     _fixedDefaults.setProperty({PROP_EXTERNALS.name, false});
 }
 
-ModelDescriptorPtr MorphologyCollageLoader::importFromFile(
-    const std::string &filename, const LoaderProgress &callback,
-    const PropertyMap &properties) const
+ModelDescriptorPtr MorphologyCollageLoader::importFromFile(const std::string &filename, const LoaderProgress &callback,
+                                                           const PropertyMap &properties) const
 {
     PLUGIN_INFO("Loading circuit from " << filename);
     callback.updateProgress("Loading circuit ...", 0);

@@ -35,10 +35,8 @@ namespace molecularsystems
 using namespace common;
 using namespace details;
 
-EnzymeReaction::EnzymeReaction(Scene& scene,
-                               const EnzymeReactionDetails& details,
-                               AssemblyPtr enzymeAssembly, ProteinPtr enzyme,
-                               Proteins& substrates, Proteins& products)
+EnzymeReaction::EnzymeReaction(Scene& scene, const EnzymeReactionDetails& details, AssemblyPtr enzymeAssembly,
+                               ProteinPtr enzyme, Proteins& substrates, Proteins& products)
     : _scene(scene)
     , _details(details)
     , _enzymeAssembly(enzymeAssembly)
@@ -85,8 +83,7 @@ been rendered.
  * @param instanceId
  * @param progress
  */
-void EnzymeReaction::setProgress(const uint64_t instanceId,
-                                 const double progress)
+void EnzymeReaction::setProgress(const uint64_t instanceId, const double progress)
 {
     auto enzymeModelDescriptor = _enzyme->getModelDescriptor();
     auto& enzymeInstances = enzymeModelDescriptor->getInstances();
@@ -95,14 +92,11 @@ void EnzymeReaction::setProgress(const uint64_t instanceId,
     auto enzymeInstance = enzymeModelDescriptor->getInstance(instanceId);
 
     Transformation enzymeTransformation;
-    auto modelInstanceId =
-        ModelInstanceId(enzymeModelDescriptor->getModelID(), instanceId);
-    if (_enzymeInitialTransformations.find(modelInstanceId) ==
-        _enzymeInitialTransformations.end())
+    auto modelInstanceId = ModelInstanceId(enzymeModelDescriptor->getModelID(), instanceId);
+    if (_enzymeInitialTransformations.find(modelInstanceId) == _enzymeInitialTransformations.end())
     {
         enzymeTransformation =
-            (instanceId == 0 ? enzymeModelDescriptor->getTransformation()
-                             : enzymeInstance->getTransformation());
+            (instanceId == 0 ? enzymeModelDescriptor->getTransformation() : enzymeInstance->getTransformation());
         _enzymeInitialTransformations[modelInstanceId] = enzymeTransformation;
     }
     else
@@ -116,8 +110,7 @@ void EnzymeReaction::setProgress(const uint64_t instanceId,
     Vector3d averageSubstrateDirection;
     for (auto& substrate : _substrates)
     {
-        const auto animationProgress =
-            progress + animationSequenceIndex * animationSequenceInterval;
+        const auto animationProgress = progress + animationSequenceIndex * animationSequenceInterval;
         auto modelDescriptor = substrate->getModelDescriptor();
         auto& instances = modelDescriptor->getInstances();
         if (instanceId > instances.size())
@@ -128,12 +121,10 @@ void EnzymeReaction::setProgress(const uint64_t instanceId,
         Transformation transformation;
 
         modelInstanceId = ModelInstanceId(modelId, instanceId);
-        if (_substrateInitialTransformations.find(modelInstanceId) ==
-            _substrateInitialTransformations.end())
+        if (_substrateInitialTransformations.find(modelInstanceId) == _substrateInitialTransformations.end())
         {
             auto transformation =
-                (instanceId == 0 ? modelDescriptor->getTransformation()
-                                 : instance->getTransformation());
+                (instanceId == 0 ? modelDescriptor->getTransformation() : instance->getTransformation());
             _substrateInitialTransformations[modelInstanceId] = transformation;
         }
         else
@@ -144,11 +135,8 @@ void EnzymeReaction::setProgress(const uint64_t instanceId,
 
         if (progress < 0.5)
         {
-            const double indexedProgress =
-                std::max(0.0, 1.0 - 2.0 * animationProgress);
-            transformation.setTranslation(enzymeTranslation +
-                                          (translation - enzymeTranslation) *
-                                              indexedProgress);
+            const double indexedProgress = std::max(0.0, 1.0 - 2.0 * animationProgress);
+            transformation.setTranslation(enzymeTranslation + (translation - enzymeTranslation) * indexedProgress);
             transformation.setRotation(_getMoleculeRotation(progress));
 
             if (instanceId == 0)
@@ -166,8 +154,7 @@ void EnzymeReaction::setProgress(const uint64_t instanceId,
     Vector3d averageProductDirection;
     for (auto& product : _products)
     {
-        const auto animationProgress =
-            progress + animationSequenceIndex * animationSequenceInterval;
+        const auto animationProgress = progress + animationSequenceIndex * animationSequenceInterval;
         auto modelDescriptor = product->getModelDescriptor();
         auto& instances = modelDescriptor->getInstances();
         if (instanceId > instances.size())
@@ -178,12 +165,9 @@ void EnzymeReaction::setProgress(const uint64_t instanceId,
 
         auto modelId = modelDescriptor->getModelID();
         modelInstanceId = ModelInstanceId(modelId, instanceId);
-        if (_productInitialTransformations.find(modelInstanceId) ==
-            _productInitialTransformations.end())
+        if (_productInitialTransformations.find(modelInstanceId) == _productInitialTransformations.end())
         {
-            transformation =
-                (instanceId == 0 ? modelDescriptor->getTransformation()
-                                 : instance->getTransformation());
+            transformation = (instanceId == 0 ? modelDescriptor->getTransformation() : instance->getTransformation());
             _productInitialTransformations[modelInstanceId] = transformation;
         }
         else
@@ -194,11 +178,8 @@ void EnzymeReaction::setProgress(const uint64_t instanceId,
 
         if (progress >= 0.5)
         {
-            const double indexedProgress =
-                std::min(0.0, -2.0 * (animationProgress - 0.5));
-            transformation.setTranslation(enzymeTranslation +
-                                          (translation - enzymeTranslation) *
-                                              indexedProgress);
+            const double indexedProgress = std::min(0.0, -2.0 * (animationProgress - 0.5));
+            transformation.setTranslation(enzymeTranslation + (translation - enzymeTranslation) * indexedProgress);
             transformation.setRotation(_getMoleculeRotation(progress));
 
             if (instanceId == 0)
@@ -222,14 +203,13 @@ void EnzymeReaction::setProgress(const uint64_t instanceId,
     // Enzyme rotation according to substrates and products positions
     Transformations transformations;
     transformations.push_back(_enzymeAssembly->getTransformation());
-    transformations.push_back(_enzymeAssembly->getShape()->getTransformation(
-        instanceId, enzymeInstances.size(), enzymeAnimationDetails));
+    transformations.push_back(
+        _enzymeAssembly->getShape()->getTransformation(instanceId, enzymeInstances.size(), enzymeAnimationDetails));
     transformations.push_back(_enzyme->getTransformation());
 
     Transformation enzymeAlignmentTransformation;
     const auto rotation =
-        slerp(safeQuatlookAt(averageSubstrateDirection),
-              safeQuatlookAt(averageProductDirection), progress);
+        slerp(safeQuatlookAt(averageSubstrateDirection), safeQuatlookAt(averageProductDirection), progress);
 
     enzymeAlignmentTransformation.setRotation(rotation);
     transformations.push_back(enzymeAlignmentTransformation);
@@ -258,8 +238,7 @@ Quaterniond object with the calculated roll, pitch, and yaw values.
  * @param rotationSpeed
  * @return Quaterniond
  */
-Quaterniond EnzymeReaction::_getMoleculeRotation(
-    const double progress, const double rotationSpeed) const
+Quaterniond EnzymeReaction::_getMoleculeRotation(const double progress, const double rotationSpeed) const
 {
     const double angle = rotationSpeed * progress * M_PI;
     const double roll = cos(angle * 0.91);

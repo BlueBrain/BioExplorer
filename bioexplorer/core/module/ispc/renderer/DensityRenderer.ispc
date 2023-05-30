@@ -33,11 +33,9 @@
     @param dst Returned destination RGBA color
     @param alphaCorrection Alpha correction used to blend colors
 */
-inline void composite(const varying vec4f& src, varying vec4f& dst,
-                      const varying float alphaCorrection)
+inline void composite(const varying vec4f& src, varying vec4f& dst, const varying float alphaCorrection)
 {
-    const float alpha =
-        1.f - pow(1.f - min(src.w, 1.f - 1.f / 256.f), alphaCorrection);
+    const float alpha = 1.f - pow(1.f - min(src.w, 1.f - 1.f / 256.f), alphaCorrection);
     const float a = alpha * (1.f - dst.w);
     dst.x = dst.x + src.x * a;
     dst.y = dst.y + src.y * a;
@@ -45,8 +43,7 @@ inline void composite(const varying vec4f& src, varying vec4f& dst,
     dst.w += (alpha * (1.f - dst.w));
 }
 
-inline vec3f DensityRenderer_shadeRay(
-    const uniform DensityRenderer* uniform self, varying ScreenSample& sample)
+inline vec3f DensityRenderer_shadeRay(const uniform DensityRenderer* uniform self, varying ScreenSample& sample)
 {
     const Ray ray = sample.ray;
 
@@ -60,9 +57,7 @@ inline vec3f DensityRenderer_shadeRay(
     uniform FrameBuffer* uniform fb = self->super.fb;
     RandomTEA rng_state;
     varying RandomTEA* const uniform rng = &rng_state;
-    RandomTEA__Constructor(rng, 0x290374,
-                           (fb->size.x * sample.sampleID.y) +
-                               sample.sampleID.x);
+    RandomTEA__Constructor(rng, 0x290374, (fb->size.x * sample.sampleID.y) + sample.sampleID.x);
     const vec2f rot = RandomTEA__getFloats(rng);
 
     vec4f finalColor = make_vec4f(0.f);
@@ -79,8 +74,7 @@ inline vec3f DensityRenderer_shadeRay(
 
         for (uniform int i = 0; i < self->samplesPerFrame; ++i)
         {
-            const vec2f halton = HaltonSequence_get2D(
-                self->samplesPerFrame * sample.sampleID.z + i);
+            const vec2f halton = HaltonSequence_get2D(self->samplesPerFrame * sample.sampleID.z + i);
             const vec2f r = CranleyPattersonRotation(halton, rot);
             const vec3f local_ao_dir = cosineSampleHemisphere(r);
             const vec3f ao_dir = localToWorld * local_ao_dir;
@@ -110,16 +104,13 @@ inline vec3f DensityRenderer_shadeRay(
     }
 
     sample.alpha = finalColor.w;
-    return clamp(make_vec3f(finalColor) * self->exposure, make_vec3f(0.f),
-                 make_vec3f(1.f));
+    return clamp(make_vec3f(finalColor) * self->exposure, make_vec3f(0.f), make_vec3f(1.f));
 }
 
-void DensityRenderer_renderSample(uniform Renderer* uniform _self,
-                                  void* uniform perFrameData,
+void DensityRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
                                   varying ScreenSample& sample)
 {
-    uniform DensityRenderer* uniform self =
-        (uniform DensityRenderer * uniform) _self;
+    uniform DensityRenderer* uniform self = (uniform DensityRenderer * uniform) _self;
     sample.ray.time = self->timestamp;
     sample.rgb = DensityRenderer_shadeRay(self, sample);
 }
@@ -133,15 +124,13 @@ export void* uniform DensityRenderer_create(void* uniform cppE)
     return self;
 }
 
-export void DensityRenderer_set(
-    void* uniform _self, void* uniform bgMaterial,
-    const uniform float& timestamp, const uniform int& spp,
-    const uniform float& farPlane, const uniform float& searchLength,
-    const uniform float& rayStep, const uniform int32& samplesPerFrame,
-    const uniform float& exposure, const uniform float& alphaCorrection)
+export void DensityRenderer_set(void* uniform _self, void* uniform bgMaterial, const uniform float& timestamp,
+                                const uniform int& spp, const uniform float& farPlane,
+                                const uniform float& searchLength, const uniform float& rayStep,
+                                const uniform int32& samplesPerFrame, const uniform float& exposure,
+                                const uniform float& alphaCorrection)
 {
-    uniform DensityRenderer* uniform self =
-        (uniform DensityRenderer * uniform) _self;
+    uniform DensityRenderer* uniform self = (uniform DensityRenderer * uniform) _self;
 
     // OSPRay
     self->super.spp = spp;
@@ -159,10 +148,8 @@ export void DensityRenderer_set(
     self->alphaCorrection = alphaCorrection;
 }
 
-export void DensityRenderer_setTransferFunction(void* uniform _self,
-                                                void* uniform value)
+export void DensityRenderer_setTransferFunction(void* uniform _self, void* uniform value)
 {
-    uniform DensityRenderer* uniform self =
-        (uniform DensityRenderer * uniform) _self;
+    uniform DensityRenderer* uniform self = (uniform DensityRenderer * uniform) _self;
     self->transferFunction = (TransferFunction * uniform) value;
 }

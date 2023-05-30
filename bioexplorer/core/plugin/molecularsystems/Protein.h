@@ -57,8 +57,7 @@ public:
      * @param chainIds Optional identifiers of chains to which the color scheme
      * is to be applied
      */
-    void setColorScheme(const ProteinColorScheme& colorScheme,
-                        const Palette& palette, const size_ts& chainIds);
+    void setColorScheme(const ProteinColorScheme& colorScheme, const Palette& palette, const size_ts& chainIds);
 
     /**
      * @brief Set the Amino Acid Sequence As String object
@@ -99,8 +98,7 @@ public:
      * rotations should be returned. If empty, positions and rotations are
      * returned for every glycosylation site on the protein
      */
-    void getGlycosilationSites(Vector3ds& positions, Quaternions& rotations,
-                               const size_ts& siteIndices) const;
+    void getGlycosilationSites(Vector3ds& positions, Quaternions& rotations, const size_ts& siteIndices) const;
 
     /**
      * @brief Get the sugar binding sites positions and rotations
@@ -114,8 +112,7 @@ public:
      * rotations should be returned. If empty, positions and rotations are
      * returned for every sugar binding site on the protein
      */
-    void getSugarBindingSites(Vector3ds& positions, Quaternions& rotations,
-                              const size_ts& siteIndices,
+    void getSugarBindingSites(Vector3ds& positions, Quaternions& rotations, const size_ts& siteIndices,
                               const size_ts& chainIds) const;
 
     /**
@@ -125,8 +122,7 @@ public:
      * sites should be returned. If empty, all sites are returned
      * @return Glycosylation sites of the protein
      */
-    const std::map<std::string, size_ts> getGlycosylationSites(
-        const size_ts& siteIndices) const;
+    const std::map<std::string, size_ts> getGlycosylationSites(const size_ts& siteIndices) const;
 
     /**
      * @brief Set an amino acid at a given position in the protein sequences
@@ -166,19 +162,16 @@ public:
 
 private:
     // Analysis
-    void _getSitesTransformations(
-        Vector3ds& positions, Quaternions& rotations,
-        const std::map<std::string, size_ts>& sites) const;
+    void _getSitesTransformations(Vector3ds& positions, Quaternions& rotations,
+                                  const std::map<std::string, size_ts>& sites) const;
 
     // Color schemes
     void _setRegionColorScheme(const Palette& palette, const size_ts& chainIds);
     void _setGlycosylationSiteColorScheme(const Palette& palette);
 
     // Utility functions
-    void _processInstances(ModelDescriptorPtr md, const Vector3ds& positions,
-                           const Quaternions& rotations,
-                           const Quaterniond& proteinrotation,
-                           const MolecularSystemAnimationDetails& randInfo);
+    void _processInstances(ModelDescriptorPtr md, const Vector3ds& positions, const Quaternions& rotations,
+                           const Quaterniond& proteinrotation, const MolecularSystemAnimationDetails& randInfo);
     void _buildAminoAcidBounds();
 
     // Class members

@@ -37,10 +37,9 @@ using namespace common;
 using namespace io;
 using namespace db;
 
-WhiteMatter::WhiteMatter(Scene& scene, const WhiteMatterDetails& details,
-                         const Vector3d& position, const Quaterniond& rotation)
-    : SDFGeometries(NO_GRID_ALIGNMENT, position, rotation,
-                    doublesToVector3d(details.scale))
+WhiteMatter::WhiteMatter(Scene& scene, const WhiteMatterDetails& details, const Vector3d& position,
+                         const Quaterniond& rotation)
+    : SDFGeometries(NO_GRID_ALIGNMENT, position, rotation, doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {
@@ -49,9 +48,7 @@ WhiteMatter::WhiteMatter(Scene& scene, const WhiteMatterDetails& details,
     PLUGIN_TIMER(chrono.elapsed(), "White matter loaded");
 }
 
-void WhiteMatter::_addStreamline(ThreadSafeContainer& container,
-                                 const Vector3fs& points,
-                                 const uint64_t materialId)
+void WhiteMatter::_addStreamline(ThreadSafeContainer& container, const Vector3fs& points, const uint64_t materialId)
 {
     StreamlinesData streamline;
 
@@ -60,12 +57,9 @@ void WhiteMatter::_addStreamline(ThreadSafeContainer& container,
     Vector3f previousPoint;
     for (const auto& point : points)
     {
-        streamline.vertex.push_back(
-            {point.x, point.y, point.z, _details.radius});
-        streamline.vertexColor.push_back(
-            (i == 0 ? Vector4f(0.f, 0.f, 0.f, alpha)
-                    : Vector4f(0.5f + 0.5f * normalize(point - previousPoint),
-                               alpha)));
+        streamline.vertex.push_back({point.x, point.y, point.z, _details.radius});
+        streamline.vertexColor.push_back((i == 0 ? Vector4f(0.f, 0.f, 0.f, alpha)
+                                                 : Vector4f(0.5f + 0.5f * normalize(point - previousPoint), alpha)));
         previousPoint = point;
         ++i;
     }
@@ -84,27 +78,21 @@ void WhiteMatter::_buildModel()
     const auto ompThreads = omp_get_max_threads();
 
     const auto streamlines =
-        DBConnector::getInstance().getWhiteMatterStreamlines(
-            _details.populationName, _details.sqlFilter);
+        DBConnector::getInstance().getWhiteMatterStreamlines(_details.populationName, _details.sqlFilter);
     const auto nbStreamlines = streamlines.size();
     for (uint64_t i = 0; i < nbStreamlines; ++i)
     {
         _addStreamline(container, streamlines[i], i);
-        PLUGIN_PROGRESS("Loading " << i << "/" << nbStreamlines
-                                   << " streamlines",
-                        i, nbStreamlines);
+        PLUGIN_PROGRESS("Loading " << i << "/" << nbStreamlines << " streamlines", i, nbStreamlines);
     }
 
     container.commitToModel();
     PLUGIN_INFO(1, "");
 
-    const ModelMetadata metadata = {{"Number of streamlines",
-                                     std::to_string(nbStreamlines)},
+    const ModelMetadata metadata = {{"Number of streamlines", std::to_string(nbStreamlines)},
                                     {"SQL filter", _details.sqlFilter}};
 
-    _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model),
-                                                       _details.assemblyName,
-                                                       metadata));
+    _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model), _details.assemblyName, metadata));
     if (_modelDescriptor)
         _scene.addModel(_modelDescriptor);
     else

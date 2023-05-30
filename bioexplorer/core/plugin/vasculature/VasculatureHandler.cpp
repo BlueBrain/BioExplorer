@@ -37,20 +37,15 @@ VasculatureHandler::VasculatureHandler(const VasculatureReportDetails& details)
     , _details(details)
 {
     auto& connector = DBConnector::getInstance();
-    _simulationReport =
-        connector.getSimulationReport(_details.populationName,
-                                      _details.simulationReportId);
+    _simulationReport = connector.getSimulationReport(_details.populationName, _details.simulationReportId);
     const auto endTime = _simulationReport.endTime;
     _dt = _simulationReport.timeStep;
     _unit = _simulationReport.timeUnits;
-    _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) /
-                _simulationReport.timeStep;
-    _frameData = connector.getVasculatureSimulationTimeSeries(
-        _details.populationName, _details.simulationReportId, 0);
+    _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) / _simulationReport.timeStep;
+    _frameData = connector.getVasculatureSimulationTimeSeries(_details.populationName, _details.simulationReportId, 0);
     _frameSize = _frameData.size();
     PLUGIN_INFO(1, "Report successfully attached");
-    PLUGIN_INFO(1,
-                "- Value evolution : " << boolAsString(_details.showEvolution));
+    PLUGIN_INFO(1, "- Value evolution : " << boolAsString(_details.showEvolution));
     PLUGIN_INFO(1, "- Frame size      : " << _frameSize);
     PLUGIN_INFO(1, "- Number of frames: " << _nbFrames);
     PLUGIN_INFO(1, "- Start time      : " << _simulationReport.startTime);
@@ -69,25 +64,21 @@ void* VasculatureHandler::getFrameData(const uint32_t frame)
                 const auto startFrame = frame % _nbFrames;
                 const auto endFrame = (frame + 1) % _nbFrames;
                 const auto startValues =
-                    DBConnector::getInstance()
-                        .getVasculatureSimulationTimeSeries(
-                            _details.populationName,
-                            _details.simulationReportId, startFrame);
+                    DBConnector::getInstance().getVasculatureSimulationTimeSeries(_details.populationName,
+                                                                                  _details.simulationReportId,
+                                                                                  startFrame);
                 const auto endValues =
-                    DBConnector::getInstance()
-                        .getVasculatureSimulationTimeSeries(
-                            _details.populationName,
-                            _details.simulationReportId, endFrame);
+                    DBConnector::getInstance().getVasculatureSimulationTimeSeries(_details.populationName,
+                                                                                  _details.simulationReportId,
+                                                                                  endFrame);
 
                 for (uint64_t i = 0; i < startValues.size(); ++i)
-                    _frameData[i] =
-                        (endValues[i] - startValues[i]) / startValues[i];
+                    _frameData[i] = (endValues[i] - startValues[i]) / startValues[i];
             }
             else
-                _frameData = DBConnector::getInstance()
-                                 .getVasculatureSimulationTimeSeries(
-                                     _details.populationName,
-                                     _details.simulationReportId, frame);
+                _frameData =
+                    DBConnector::getInstance().getVasculatureSimulationTimeSeries(_details.populationName,
+                                                                                  _details.simulationReportId, frame);
     }
     catch (const std::runtime_error& e)
     {

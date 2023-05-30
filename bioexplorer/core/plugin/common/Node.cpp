@@ -47,8 +47,7 @@ void Node::_setMaterialExtraAttributes()
     for (auto& material : materials)
     {
         brayns::PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE,
-                           static_cast<int>(MaterialChameleonMode::receiver)});
+        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, static_cast<int>(MaterialChameleonMode::receiver)});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
         material.second->updateProperties(props);
     }

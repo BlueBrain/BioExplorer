@@ -20,8 +20,7 @@
 
 #include "DepthRenderer.ih"
 
-inline vec3f DepthRenderer_shadeRay(const uniform DepthRenderer* uniform self,
-                                    varying ScreenSample& sample)
+inline vec3f DepthRenderer_shadeRay(const uniform DepthRenderer* uniform self, varying ScreenSample& sample)
 {
     Ray ray = sample.ray;
     sample.z = inf;
@@ -39,12 +38,10 @@ inline vec3f DepthRenderer_shadeRay(const uniform DepthRenderer* uniform self,
     return make_vec3f(ray.t / self->infinity);
 }
 
-void DepthRenderer_renderSample(uniform Renderer* uniform _self,
-                                void* uniform perFrameData,
+void DepthRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
                                 varying ScreenSample& sample)
 {
-    uniform DepthRenderer* uniform self =
-        (uniform DepthRenderer * uniform) _self;
+    uniform DepthRenderer* uniform self = (uniform DepthRenderer * uniform) _self;
     sample.ray.time = inf;
     sample.rgb = DepthRenderer_shadeRay(self, sample);
 }
@@ -58,11 +55,9 @@ export void* uniform DepthRenderer_create(void* uniform cppE)
     return self;
 }
 
-export void DepthRenderer_set(void* uniform _self, const uniform int spp,
-                              const uniform float infinity)
+export void DepthRenderer_set(void* uniform _self, const uniform int spp, const uniform float infinity)
 {
-    uniform DepthRenderer* uniform self =
-        (uniform DepthRenderer * uniform) _self;
+    uniform DepthRenderer* uniform self = (uniform DepthRenderer * uniform) _self;
 
     self->super.spp = spp;
     self->infinity = infinity;

@@ -58,41 +58,30 @@ const Vector3f DEFAULT_SDF_DISPLACEMENT = {0.f, 0.f, 0.f};
 // Atomic radii in picometers (10e-12 meters)
 const double DEFAULT_ATOM_RADIUS = 25.0;
 static AtomicRadii atomicRadii = {
-    {{"H"}, {53.0}},   {{"HE"}, {31.0}},  {{"LI"}, {167.0}}, {{"BE"}, {112.0}},
-    {{"B"}, {87.0}},   {{"C"}, {67.0}},   {{"N"}, {56.0}},   {{"O"}, {48.0}},
-    {{"F"}, {42.0}},   {{"NE"}, {38.0}},  {{"NA"}, {190.0}}, {{"MG"}, {145.0}},
-    {{"AL"}, {118.0}}, {{"SI"}, {111.0}}, {{"P"}, {98.0}},   {{"S"}, {88.0}},
-    {{"CL"}, {79.0}},  {{"AR"}, {71.0}},  {{"K"}, {243.0}},  {{"CA"}, {194.0}},
-    {{"SC"}, {184.0}}, {{"TI"}, {176.0}}, {{"V"}, {171.0}},  {{"CR"}, {166.0}},
-    {{"MN"}, {161.0}}, {{"FE"}, {156.0}}, {{"CO"}, {152.0}}, {{"NI"}, {149.0}},
-    {{"CU"}, {145.0}}, {{"ZN"}, {142.0}}, {{"GA"}, {136.0}}, {{"GE"}, {125.0}},
-    {{"AS"}, {114.0}}, {{"SE"}, {103.0}}, {{"BR"}, {94.0}},  {{"KR"}, {88.0}},
-    {{"RB"}, {265.0}}, {{"SR"}, {219.0}}, {{"Y"}, {212.0}},  {{"ZR"}, {206.0}},
-    {{"NB"}, {198.0}}, {{"MO"}, {190.0}}, {{"TC"}, {183.0}}, {{"RU"}, {178.0}},
-    {{"RH"}, {173.0}}, {{"PD"}, {169.0}}, {{"AG"}, {165.0}}, {{"CD"}, {161.0}},
-    {{"IN"}, {156.0}}, {{"SN"}, {145.0}}, {{"SB"}, {133.0}}, {{"TE"}, {123.0}},
-    {{"I"}, {115.0}},  {{"XE"}, {108.0}}, {{"CS"}, {298.0}}, {{"BA"}, {253.0}},
-    {{"LA"}, {226.0}}, {{"CE"}, {210.0}}, {{"PR"}, {247.0}}, {{"ND"}, {206.0}},
-    {{"PM"}, {205.0}}, {{"SM"}, {238.0}}, {{"EU"}, {231.0}}, {{"GD"}, {233.0}},
-    {{"TB"}, {225.0}}, {{"DY"}, {228.0}}, {{"HO"}, {226.0}}, {{"ER"}, {226.0}},
-    {{"TM"}, {222.0}}, {{"YB"}, {222.0}}, {{"LU"}, {217.0}}, {{"HF"}, {208.0}},
-    {{"TA"}, {200.0}}, {{"W"}, {193.0}},  {{"RE"}, {188.0}}, {{"OS"}, {185.0}},
-    {{"IR"}, {180.0}}, {{"PT"}, {177.0}}, {{"AU"}, {174.0}}, {{"HG"}, {171.0}},
-    {{"TL"}, {156.0}}, {{"PB"}, {154.0}}, {{"BI"}, {143.0}}, {{"PO"}, {135.0}},
-    {{"AT"}, {127.0}}, {{"RN"}, {120.0}}, {{"FR"}, {25.0}},  {{"RA"}, {25.0}},
-    {{"AC"}, {25.0}},  {{"TH"}, {25.0}},  {{"PA"}, {25.0}},  {{"U"}, {25.0}},
-    {{"NP"}, {25.0}},  {{"PU"}, {25.0}},  {{"AM"}, {25.0}},  {{"CM"}, {25.0}},
-    {{"BK"}, {25.0}},  {{"CF"}, {25.0}},  {{"ES"}, {25.0}},  {{"FM"}, {25.0}},
-    {{"MD"}, {25.0}},  {{"NO"}, {25.0}},  {{"LR"}, {25.0}},  {{"RF"}, {25.0}},
-    {{"DB"}, {25.0}},  {{"SG"}, {25.0}},  {{"BH"}, {25.0}},  {{"HS"}, {25.0}},
-    {{"MT"}, {25.0}},  {{"DS"}, {25.0}},  {{"RG"}, {25.0}},  {{"CN"}, {25.0}},
-    {{"NH"}, {25.0}},  {{"FL"}, {25.0}},  {{"MC"}, {25.0}},  {{"LV"}, {25.0}},
-    {{"TS"}, {25.0}},  {{"OG"}, {25.0}}};
+    {{"H"}, {53.0}},   {{"HE"}, {31.0}},  {{"LI"}, {167.0}}, {{"BE"}, {112.0}}, {{"B"}, {87.0}},   {{"C"}, {67.0}},
+    {{"N"}, {56.0}},   {{"O"}, {48.0}},   {{"F"}, {42.0}},   {{"NE"}, {38.0}},  {{"NA"}, {190.0}}, {{"MG"}, {145.0}},
+    {{"AL"}, {118.0}}, {{"SI"}, {111.0}}, {{"P"}, {98.0}},   {{"S"}, {88.0}},   {{"CL"}, {79.0}},  {{"AR"}, {71.0}},
+    {{"K"}, {243.0}},  {{"CA"}, {194.0}}, {{"SC"}, {184.0}}, {{"TI"}, {176.0}}, {{"V"}, {171.0}},  {{"CR"}, {166.0}},
+    {{"MN"}, {161.0}}, {{"FE"}, {156.0}}, {{"CO"}, {152.0}}, {{"NI"}, {149.0}}, {{"CU"}, {145.0}}, {{"ZN"}, {142.0}},
+    {{"GA"}, {136.0}}, {{"GE"}, {125.0}}, {{"AS"}, {114.0}}, {{"SE"}, {103.0}}, {{"BR"}, {94.0}},  {{"KR"}, {88.0}},
+    {{"RB"}, {265.0}}, {{"SR"}, {219.0}}, {{"Y"}, {212.0}},  {{"ZR"}, {206.0}}, {{"NB"}, {198.0}}, {{"MO"}, {190.0}},
+    {{"TC"}, {183.0}}, {{"RU"}, {178.0}}, {{"RH"}, {173.0}}, {{"PD"}, {169.0}}, {{"AG"}, {165.0}}, {{"CD"}, {161.0}},
+    {{"IN"}, {156.0}}, {{"SN"}, {145.0}}, {{"SB"}, {133.0}}, {{"TE"}, {123.0}}, {{"I"}, {115.0}},  {{"XE"}, {108.0}},
+    {{"CS"}, {298.0}}, {{"BA"}, {253.0}}, {{"LA"}, {226.0}}, {{"CE"}, {210.0}}, {{"PR"}, {247.0}}, {{"ND"}, {206.0}},
+    {{"PM"}, {205.0}}, {{"SM"}, {238.0}}, {{"EU"}, {231.0}}, {{"GD"}, {233.0}}, {{"TB"}, {225.0}}, {{"DY"}, {228.0}},
+    {{"HO"}, {226.0}}, {{"ER"}, {226.0}}, {{"TM"}, {222.0}}, {{"YB"}, {222.0}}, {{"LU"}, {217.0}}, {{"HF"}, {208.0}},
+    {{"TA"}, {200.0}}, {{"W"}, {193.0}},  {{"RE"}, {188.0}}, {{"OS"}, {185.0}}, {{"IR"}, {180.0}}, {{"PT"}, {177.0}},
+    {{"AU"}, {174.0}}, {{"HG"}, {171.0}}, {{"TL"}, {156.0}}, {{"PB"}, {154.0}}, {{"BI"}, {143.0}}, {{"PO"}, {135.0}},
+    {{"AT"}, {127.0}}, {{"RN"}, {120.0}}, {{"FR"}, {25.0}},  {{"RA"}, {25.0}},  {{"AC"}, {25.0}},  {{"TH"}, {25.0}},
+    {{"PA"}, {25.0}},  {{"U"}, {25.0}},   {{"NP"}, {25.0}},  {{"PU"}, {25.0}},  {{"AM"}, {25.0}},  {{"CM"}, {25.0}},
+    {{"BK"}, {25.0}},  {{"CF"}, {25.0}},  {{"ES"}, {25.0}},  {{"FM"}, {25.0}},  {{"MD"}, {25.0}},  {{"NO"}, {25.0}},
+    {{"LR"}, {25.0}},  {{"RF"}, {25.0}},  {{"DB"}, {25.0}},  {{"SG"}, {25.0}},  {{"BH"}, {25.0}},  {{"HS"}, {25.0}},
+    {{"MT"}, {25.0}},  {{"DS"}, {25.0}},  {{"RG"}, {25.0}},  {{"CN"}, {25.0}},  {{"NH"}, {25.0}},  {{"FL"}, {25.0}},
+    {{"MC"}, {25.0}},  {{"LV"}, {25.0}},  {{"TS"}, {25.0}},  {{"OG"}, {25.0}}};
 
 Molecule::Molecule(Scene& scene, const size_ts& chainIds)
     : SDFGeometries(NO_GRID_ALIGNMENT, Vector3d(), Quaterniond())
-    , _aminoAcidRange(std::numeric_limits<size_t>::max(),
-                      std::numeric_limits<size_t>::min())
+    , _aminoAcidRange(std::numeric_limits<size_t>::max(), std::numeric_limits<size_t>::min())
     , _scene(scene)
     , _chainIds(chainIds)
 {
@@ -143,12 +132,9 @@ void Molecule::_computeReqSetOffset()
         for (const auto& aa : sequence.second.resNames)
             theoreticalReqSeq += aminoAcidMap.find(aa)->second.shortName;
 
-        sequence.second.offset =
-            theoreticalReqSeq.find(physicalReqSeq) - firstReqSeq;
-        PLUGIN_INFO(3, "Sequence [" << sequence.first
-                                    << "], offset: " << sequence.second.offset
-                                    << ", Theoretical: " << theoreticalReqSeq
-                                    << ", Physical: " << physicalReqSeq);
+        sequence.second.offset = theoreticalReqSeq.find(physicalReqSeq) - firstReqSeq;
+        PLUGIN_INFO(3, "Sequence [" << sequence.first << "], offset: " << sequence.second.offset
+                                    << ", Theoretical: " << theoreticalReqSeq << ", Physical: " << physicalReqSeq);
     }
 }
 
@@ -157,22 +143,18 @@ const StringMap Molecule::getSequencesAsString() const
     StringMap sequencesAsStrings;
     for (const auto& sequence : _residueSequenceMap)
     {
-        std::string shortSequence = std::to_string(_aminoAcidRange.x) + "," +
-                                    std::to_string(_aminoAcidRange.y) + ",";
+        std::string shortSequence = std::to_string(_aminoAcidRange.x) + "," + std::to_string(_aminoAcidRange.y) + ",";
         for (const auto& resName : sequence.second.resNames)
             shortSequence += aminoAcidMap[resName].shortName;
 
         sequencesAsStrings[sequence.first] = shortSequence;
-        PLUGIN_DEBUG(sequence.first << " (" << sequence.second.resNames.size()
-                                    << "): " << shortSequence);
+        PLUGIN_DEBUG(sequence.first << " (" << sequence.second.resNames.size() << "): " << shortSequence);
     }
     return sequencesAsStrings;
 }
 
-void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
-                                    const double atomRadiusMultiplier,
-                                    const bool surface, const bool loadBonds,
-                                    ThreadSafeContainer& container)
+void Molecule::_buildAtomicStruture(const ProteinRepresentation representation, const double atomRadiusMultiplier,
+                                    const bool surface, const bool loadBonds, ThreadSafeContainer& container)
 {
     const uint64_t userData = NO_USER_DATA;
     const bool useSdf = DEFAULT_USE_SDF;
@@ -183,12 +165,9 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
     for (const auto& atom : _atomMap)
     {
         // Geometry
-        const float radius =
-            static_cast<float>(atom.second.radius * atomRadiusMultiplier);
-        neighbours[currentReqSeq].insert(
-            container.addSphere(atom.second.position, radius, atom.first,
-                                useSdf, userData, neighbours[currentReqSeq],
-                                DEFAULT_SDF_DISPLACEMENT));
+        const float radius = static_cast<float>(atom.second.radius * atomRadiusMultiplier);
+        neighbours[currentReqSeq].insert(container.addSphere(atom.second.position, radius, atom.first, useSdf, userData,
+                                                             neighbours[currentReqSeq], DEFAULT_SDF_DISPLACEMENT));
         if (currentReqSeq != atom.second.reqSeq)
             currentReqSeq = atom.second.reqSeq;
     }
@@ -203,23 +182,18 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
             for (const auto bondedAtom : bond.second)
             {
                 const auto& atomDst = _atomMap.find(bondedAtom)->second;
-                const float radius = static_cast<float>(atomRadiusMultiplier *
-                                                        DEFAULT_BOND_RADIUS);
+                const float radius = static_cast<float>(atomRadiusMultiplier * DEFAULT_BOND_RADIUS);
 
                 const auto center = (atomSrc.position + atomDst.position) / 2.0;
 
                 const auto reqSeq = atomSrc.reqSeq;
-                neighbours[reqSeq].insert(
-                    container.addCone(atomSrc.position, radius, center, radius,
-                                      bond.first, useSdf, userData,
-                                      neighbours[reqSeq],
-                                      DEFAULT_SDF_DISPLACEMENT));
+                neighbours[reqSeq].insert(container.addCone(atomSrc.position, radius, center, radius, bond.first,
+                                                            useSdf, userData, neighbours[reqSeq],
+                                                            DEFAULT_SDF_DISPLACEMENT));
 
-                neighbours[reqSeq].insert(
-                    container.addCone(atomDst.position, radius, center, radius,
-                                      bondedAtom, useSdf, userData,
-                                      neighbours[reqSeq],
-                                      DEFAULT_SDF_DISPLACEMENT));
+                neighbours[reqSeq].insert(container.addCone(atomDst.position, radius, center, radius, bondedAtom,
+                                                            useSdf, userData, neighbours[reqSeq],
+                                                            DEFAULT_SDF_DISPLACEMENT));
             }
         }
     }
@@ -237,24 +211,17 @@ void Molecule::_buildAtomicStruture(const ProteinRepresentation representation,
             const auto reqSeq = atom1.second.reqSeq;
             while ((*it2).second.reqSeq == reqSeq)
             {
-                const auto stick =
-                    (*it2).second.position - atom1.second.position;
+                const auto stick = (*it2).second.position - atom1.second.position;
                 if (length(stick) < DEFAULT_STICK_DISTANCE)
                 {
-                    const auto center =
-                        ((*it2).second.position + atom1.second.position) / 2.0;
-                    const float radius = static_cast<float>(
-                        atomRadiusMultiplier * DEFAULT_BOND_RADIUS);
-                    neighbours[reqSeq].insert(
-                        container.addCone(atom1.second.position, radius, center,
-                                          radius, atom1.first, useSdf, userData,
-                                          neighbours[reqSeq],
-                                          DEFAULT_SDF_DISPLACEMENT));
-                    neighbours[reqSeq].insert(
-                        container.addCone((*it2).second.position, radius,
-                                          center, radius, (*it2).first, useSdf,
-                                          userData, neighbours[reqSeq],
-                                          DEFAULT_SDF_DISPLACEMENT));
+                    const auto center = ((*it2).second.position + atom1.second.position) / 2.0;
+                    const float radius = static_cast<float>(atomRadiusMultiplier * DEFAULT_BOND_RADIUS);
+                    neighbours[reqSeq].insert(container.addCone(atom1.second.position, radius, center, radius,
+                                                                atom1.first, useSdf, userData, neighbours[reqSeq],
+                                                                DEFAULT_SDF_DISPLACEMENT));
+                    neighbours[reqSeq].insert(container.addCone((*it2).second.position, radius, center, radius,
+                                                                (*it2).first, useSdf, userData, neighbours[reqSeq],
+                                                                DEFAULT_SDF_DISPLACEMENT));
                 }
                 ++it2;
                 ++it1;
@@ -277,12 +244,9 @@ void Molecule::_rescaleMesh(Model& model, const Vector3f& scale)
     }
 }
 
-void Molecule::_buildModel(const std::string& assemblyName,
-                           const std::string& name, const std::string& pdbId,
-                           const std::string& header,
-                           const ProteinRepresentation& representation,
-                           const double atomRadiusMultiplier,
-                           const bool loadBonds)
+void Molecule::_buildModel(const std::string& assemblyName, const std::string& name, const std::string& pdbId,
+                           const std::string& header, const ProteinRepresentation& representation,
+                           const double atomRadiusMultiplier, const bool loadBonds)
 {
     PLUGIN_INFO(3, "Building protein " << name << " [PDB " << pdbId << "]...");
 
@@ -293,18 +257,15 @@ void Molecule::_buildModel(const std::string& assemblyName,
     metadata[METADATA_HEADER] = header;
     metadata[METADATA_ATOMS] = std::to_string(_atomMap.size());
     metadata[METADATA_BONDS] = std::to_string(_bondsMap.size());
-    metadata[METADATA_AA_RANGE] = std::to_string(_aminoAcidRange.x) + ":" +
-                                  std::to_string(_aminoAcidRange.y);
+    metadata[METADATA_AA_RANGE] = std::to_string(_aminoAcidRange.x) + ":" + std::to_string(_aminoAcidRange.y);
 
     const auto& size = _bounds.getSize();
-    metadata[METADATA_SIZE] = std::to_string(size.x) + ", " +
-                              std::to_string(size.y) + ", " +
-                              std::to_string(size.z) + " angstroms";
+    metadata[METADATA_SIZE] =
+        std::to_string(size.x) + ", " + std::to_string(size.y) + ", " + std::to_string(size.z) + " angstroms";
 
     for (const auto& sequence : getSequencesAsString())
         metadata[METADATA_AA_SEQUENCE + sequence.first] =
-            "[" + std::to_string(sequence.second.size()) + "] " +
-            sequence.second;
+            "[" + std::to_string(sequence.second.size()) + "] " + sequence.second;
 
     switch (representation)
     {
@@ -312,11 +273,9 @@ void Molecule::_buildModel(const std::string& assemblyName,
     case ProteinRepresentation::atoms_and_sticks:
     {
         auto model = _scene.createModel();
-        ThreadSafeContainer container(*model, _alignToGrid, _position,
-                                      _rotation);
+        ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation);
 
-        _buildAtomicStruture(representation, atomRadiusMultiplier, false,
-                             loadBonds, container);
+        _buildAtomicStruture(representation, atomRadiusMultiplier, false, loadBonds, container);
         container.commitToModel();
 
         // Materials
@@ -331,29 +290,21 @@ void Molecule::_buildModel(const std::string& assemblyName,
 
             brayns::PropertyMap props;
             props.setProperty(
-                {MATERIAL_PROPERTY_CHAMELEON_MODE,
-                 static_cast<int>(
-                     MaterialChameleonMode::undefined_chameleon_mode)});
-            props.setProperty(
-                {MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
-            material->setDiffuseColor(
-                {rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0});
+                {MATERIAL_PROPERTY_CHAMELEON_MODE, static_cast<int>(MaterialChameleonMode::undefined_chameleon_mode)});
+            props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
+            material->setDiffuseColor({rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0});
             material->updateProperties(props);
         }
 
-        _modelDescriptor =
-            std::make_shared<ModelDescriptor>(std::move(model), name, header,
-                                              metadata);
+        _modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), name, header, metadata);
 
         break;
     }
     case ProteinRepresentation::mesh:
     {
-        const std::string filename =
-            GeneralSettings::getInstance()->getMeshFolder() + pdbId + ".obj";
+        const std::string filename = GeneralSettings::getInstance()->getMeshFolder() + pdbId + ".obj";
         MeshLoader meshLoader(_scene);
-        _modelDescriptor =
-            meshLoader.importFromFile(filename, LoaderProgress(), {});
+        _modelDescriptor = meshLoader.importFromFile(filename, LoaderProgress(), {});
         _setMaterialExtraAttributes();
         _rescaleMesh(_modelDescriptor->getModel(), Vector3d(0.1, 0.1, 0.1));
         break;
@@ -369,26 +320,21 @@ void Molecule::_buildModel(const std::string& assemblyName,
         {
             if (atom.first % std::max(1, int(atomRadiusMultiplier)) != 0)
                 continue;
-            pointCloud.push_back({atom.second.position.x,
-                                  atom.second.position.y,
-                                  atom.second.position.z,
+            pointCloud.push_back({atom.second.position.x, atom.second.position.y, atom.second.position.z,
                                   atom.second.radius * atomRadiusMultiplier});
         }
 
         SurfaceMesher sm(_uuid);
         if (representation == ProteinRepresentation::union_of_balls)
-            _modelDescriptor =
-                sm.generateUnionOfBalls(_scene, pdbId, pointCloud);
+            _modelDescriptor = sm.generateUnionOfBalls(_scene, pdbId, pointCloud);
         else
             _modelDescriptor = sm.generateSurface(_scene, pdbId, pointCloud);
         _setMaterialExtraAttributes();
         _modelDescriptor->setMetadata(metadata);
 
         Model& model = _modelDescriptor->getModel();
-        ThreadSafeContainer container(model, _alignToGrid, _position,
-                                      _rotation);
-        _buildAtomicStruture(representation, atomRadiusMultiplier * 2.0, true,
-                             loadBonds, container);
+        ThreadSafeContainer container(model, _alignToGrid, _position, _rotation);
+        _buildAtomicStruture(representation, atomRadiusMultiplier * 2.0, true, loadBonds, container);
         container.commitToModel();
         // Materials
         for (const auto atom : _atomMap)
@@ -401,13 +347,9 @@ void Molecule::_buildModel(const std::string& assemblyName,
                 rgb = (*it).second;
 
             brayns::PropertyMap props;
-            props.setProperty(
-                {MATERIAL_PROPERTY_CHAMELEON_MODE,
-                 static_cast<int>(MaterialChameleonMode::emitter)});
-            props.setProperty(
-                {MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
-            material->setDiffuseColor(
-                {rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0});
+            props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, static_cast<int>(MaterialChameleonMode::emitter)});
+            props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
+            material->setDiffuseColor({rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0});
             material->updateProperties(props);
         }
         break;
@@ -417,19 +359,14 @@ void Molecule::_buildModel(const std::string& assemblyName,
         auto model = _scene.createModel();
         PointCloud pointCloud;
         for (const auto& atom : _atomMap)
-            pointCloud[0].push_back(
-                {atom.second.position.x, atom.second.position.y,
-                 atom.second.position.z,
-                 atom.second.radius * atomRadiusMultiplier});
+            pointCloud[0].push_back({atom.second.position.x, atom.second.position.y, atom.second.position.z,
+                                     atom.second.radius * atomRadiusMultiplier});
 
         PointCloudMesher pcm;
-        ThreadSafeContainer container(*model, _alignToGrid, _position,
-                                      _rotation);
+        ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation);
         pcm.toConvexHull(container, pointCloud);
         container.commitToModel();
-        _modelDescriptor =
-            std::make_shared<ModelDescriptor>(std::move(model), name, header,
-                                              metadata);
+        _modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), name, header, metadata);
         _setMaterialExtraAttributes();
         break;
     }
@@ -446,8 +383,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
         const size_t materialId = 0;
         brayns::Boxf box;
         for (const auto& atom : _atomMap)
-            box.merge({atom.second.position.x, atom.second.position.y,
-                       atom.second.position.z});
+            box.merge({atom.second.position.x, atom.second.position.y, atom.second.position.z});
 
         const auto halfSize = box.getSize() * 0.5;
         const auto center = box.getCenter();
@@ -457,19 +393,12 @@ void Molecule::_buildModel(const std::string& assemblyName,
         const brayns::Vector3d c = {0.0, 0.0, center.z - halfSize.z * 0.51};
         const brayns::Vector3d d = {0.0, 0.0, center.z - halfSize.z};
 
-        model->addSphere(materialId,
-                         {a, static_cast<float>(atomRadiusMultiplier * 0.2)});
-        model->addCylinder(materialId,
-                           {a, b,
-                            static_cast<float>(atomRadiusMultiplier * 0.2)});
-        model->addCone(materialId,
-                       {b, c, static_cast<float>(atomRadiusMultiplier * 0.2),
-                        static_cast<float>(atomRadiusMultiplier)});
-        model->addCone(materialId,
-                       {c, d, static_cast<float>(atomRadiusMultiplier), 0.0});
-        _modelDescriptor =
-            std::make_shared<ModelDescriptor>(std::move(model), name, header,
-                                              metadata);
+        model->addSphere(materialId, {a, static_cast<float>(atomRadiusMultiplier * 0.2)});
+        model->addCylinder(materialId, {a, b, static_cast<float>(atomRadiusMultiplier * 0.2)});
+        model->addCone(materialId, {b, c, static_cast<float>(atomRadiusMultiplier * 0.2),
+                                    static_cast<float>(atomRadiusMultiplier)});
+        model->addCone(materialId, {c, d, static_cast<float>(atomRadiusMultiplier), 0.0});
+        _modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), name, header, metadata);
         break;
     }
     }
@@ -483,8 +412,7 @@ void Molecule::_buildModel(const std::string& assemblyName,
     PLUGIN_INFO(3, "Number of atoms       : " << _atomMap.size());
     PLUGIN_INFO(3, "Number of bonds       : " << _bondsMap.size());
 
-    if (_modelDescriptor &&
-        !GeneralSettings::getInstance()->getModelVisibilityOnCreation())
+    if (_modelDescriptor && !GeneralSettings::getInstance()->getModelVisibilityOnCreation())
         _modelDescriptor->setVisible(false);
 }
 
@@ -578,8 +506,7 @@ void Molecule::_readAtom(const std::string& line, const bool loadHydrogen)
         if (it != atomicRadii.end())
             atom.radius = 0.001 * (*it).second;
         else
-            PLUGIN_DEBUG("[" << atom.element << "]/[" << atom.name
-                             << "] not found");
+            PLUGIN_DEBUG("[" << atom.element << "]/[" << atom.name << "] not found");
     }
 
     _atomMap.insert(std::make_pair(serial, atom));
@@ -729,9 +656,8 @@ void Molecule::_setAtomColorScheme()
     std::set<size_t> materialId;
     for (const auto& atom : _atomMap)
     {
-        const size_t index = static_cast<size_t>(
-            std::distance(atomColorMap.begin(),
-                          atomColorMap.find(atom.second.element)));
+        const size_t index =
+            static_cast<size_t>(std::distance(atomColorMap.begin(), atomColorMap.find(atom.second.element)));
         materialId.insert(index);
 
         _setMaterialDiffuseColor(atom.first, atomColorMap[atom.second.element]);
@@ -755,13 +681,11 @@ void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
                 bool selected = false;
                 for (const auto& range : _selectedAminoAcidRanges)
                 {
-                    selected = (atom.second.reqSeq >= range.x &&
-                                atom.second.reqSeq <= range.y);
+                    selected = (atom.second.reqSeq >= range.x && atom.second.reqSeq <= range.y);
                     if (selected)
                         break;
                 }
-                _setMaterialDiffuseColor(atom.first,
-                                         selected ? palette[1] : palette[0]);
+                _setMaterialDiffuseColor(atom.first, selected ? palette[1] : palette[0]);
             }
         }
         else
@@ -771,13 +695,10 @@ void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
             for (const auto& resName : sequence.second.resNames)
                 shortSequence += aminoAcidMap[resName].shortName;
 
-            const auto sequencePosition =
-                shortSequence.find(_selectedAminoAcidSequence);
+            const auto sequencePosition = shortSequence.find(_selectedAminoAcidSequence);
             if (sequencePosition != -1)
             {
-                PLUGIN_INFO(3, _selectedAminoAcidSequence
-                                   << " was found at position "
-                                   << sequencePosition);
+                PLUGIN_INFO(3, _selectedAminoAcidSequence << " was found at position " << sequencePosition);
                 size_t minSeq = 1e6;
                 size_t maxSeq = 0;
                 for (auto& atom : _atomMap)
@@ -785,9 +706,7 @@ void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
                     minSeq = std::min(minSeq, atom.second.reqSeq);
                     maxSeq = std::max(maxSeq, atom.second.reqSeq);
                     if (atom.second.reqSeq >= sequencePosition &&
-                        atom.second.reqSeq <
-                            sequencePosition +
-                                _selectedAminoAcidSequence.length())
+                        atom.second.reqSeq < sequencePosition + _selectedAminoAcidSequence.length())
                     {
                         _setMaterialDiffuseColor(atom.first, palette[1]);
                         ++atomCount;
@@ -795,16 +714,13 @@ void Molecule::_setAminoAcidSequenceColorScheme(const Palette& palette)
                     else
                         _setMaterialDiffuseColor(atom.first, palette[0]);
                 }
-                PLUGIN_DEBUG(atomCount << "[" << minSeq << "," << maxSeq
-                                       << "] atoms where colored");
+                PLUGIN_DEBUG(atomCount << "[" << minSeq << "," << maxSeq << "] atoms where colored");
             }
             else
-                PLUGIN_WARN(_selectedAminoAcidSequence << " was not found in "
-                                                       << shortSequence);
+                PLUGIN_WARN(_selectedAminoAcidSequence << " was not found in " << shortSequence);
         }
     }
-    PLUGIN_INFO(3, "Applying Amino Acid Sequence color scheme ("
-                       << (atomCount > 0 ? "2" : "1") << ")");
+    PLUGIN_INFO(3, "Applying Amino Acid Sequence color scheme (" << (atomCount > 0 ? "2" : "1") << ")");
 }
 
 void Molecule::_setChainColorScheme(const Palette& palette)
@@ -824,34 +740,27 @@ void Molecule::_setResiduesColorScheme(const Palette& palette)
     std::set<size_t> materialId;
     for (auto& atom : _atomMap)
     {
-        const size_t index = static_cast<size_t>(
-            std::distance(_residues.begin(),
-                          _residues.find(atom.second.resName)));
+        const size_t index = static_cast<size_t>(std::distance(_residues.begin(), _residues.find(atom.second.resName)));
         materialId.insert(index);
         _setMaterialDiffuseColor(atom.first, palette[index]);
     }
-    PLUGIN_INFO(3,
-                "Applying Residues color scheme (" << materialId.size() << ")");
+    PLUGIN_INFO(3, "Applying Residues color scheme (" << materialId.size() << ")");
 }
 
-void Molecule::_setMaterialDiffuseColor(const size_t atomIndex,
-                                        const RGBColorDetails& color)
+void Molecule::_setMaterialDiffuseColor(const size_t atomIndex, const RGBColorDetails& color)
 {
     auto& model = _modelDescriptor->getModel();
     auto material = model.getMaterial(atomIndex);
     if (material)
     {
-        material->setDiffuseColor(
-            {color.r / 255.0, color.g / 255.0, color.b / 255.0});
+        material->setDiffuseColor({color.r / 255.0, color.g / 255.0, color.b / 255.0});
         material->commit();
     }
     else
-        PLUGIN_THROW("Model has no material for atom " +
-                     std::to_string(atomIndex));
+        PLUGIN_THROW("Model has no material for atom " + std::to_string(atomIndex));
 }
 
-void Molecule::_setMaterialDiffuseColor(const size_t atomIndex,
-                                        const Color& color)
+void Molecule::_setMaterialDiffuseColor(const size_t atomIndex, const Color& color)
 {
     auto& model = _modelDescriptor->getModel();
     try
@@ -863,8 +772,7 @@ void Molecule::_setMaterialDiffuseColor(const size_t atomIndex,
             material->markModified();
         }
         else
-            PLUGIN_THROW("Model has no material for atom " +
-                         std::to_string(atomIndex));
+            PLUGIN_THROW("Model has no material for atom " + std::to_string(atomIndex));
     }
     catch (const std::runtime_error& e)
     {

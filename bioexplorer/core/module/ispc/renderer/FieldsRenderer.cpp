@@ -41,8 +41,7 @@ void FieldsRenderer::commit()
 
     if (_lightData)
         for (size_t i = 0; i < _lightData->size(); ++i)
-            _lightArray.push_back(
-                ((ospray::Light**)_lightData->data)[i]->getIE());
+            _lightArray.push_back(((ospray::Light**)_lightData->data)[i]->getIE());
 
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
@@ -68,20 +67,15 @@ void FieldsRenderer::commit()
     _userDataSize = _userData ? _userData->size() : 0;
 
     // Transfer function
-    ospray::TransferFunction* transferFunction =
-        (ospray::TransferFunction*)getParamObject("transferFunction", nullptr);
+    ospray::TransferFunction* transferFunction = (ospray::TransferFunction*)getParamObject("transferFunction", nullptr);
     if (transferFunction)
-        ispc::FieldsRenderer_setTransferFunction(getIE(),
-                                                 transferFunction->getIE());
+        ispc::FieldsRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 
     // Renderer
-    ispc::FieldsRenderer_set(getIE(),
-                             (_bgMaterial ? _bgMaterial->getIE() : nullptr),
-                             (_userData ? (float*)_userData->data : nullptr),
-                             _userDataSize, _randomNumber, _timestamp, spp,
-                             _lightPtr, _lightArray.size(), _minRayStep,
-                             _nbRaySteps, _nbRayRefinementSteps, _exposure,
-                             _useHardwareRandomizer, _cutoff, _alphaCorrection);
+    ispc::FieldsRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr),
+                             (_userData ? (float*)_userData->data : nullptr), _userDataSize, _randomNumber, _timestamp,
+                             spp, _lightPtr, _lightArray.size(), _minRayStep, _nbRaySteps, _nbRayRefinementSteps,
+                             _exposure, _useHardwareRandomizer, _cutoff, _alphaCorrection);
 }
 
 FieldsRenderer::FieldsRenderer()

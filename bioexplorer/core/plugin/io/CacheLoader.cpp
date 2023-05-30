@@ -43,8 +43,7 @@ bool inBounds(const Vector3d& point, const Boxd& bounds)
 {
     const auto mi = bounds.getMin();
     const auto ma = bounds.getMax();
-    return point.x >= mi.x && point.x < ma.x && point.y >= mi.y &&
-           point.y < ma.y && point.z >= mi.z && point.z < ma.z;
+    return point.x >= mi.x && point.x < ma.x && point.y >= mi.y && point.y < ma.y && point.z >= mi.z && point.z < ma.z;
 }
 } // namespace
 
@@ -76,22 +75,19 @@ std::vector<std::string> CacheLoader::getSupportedExtensions() const
     return {SUPPORTED_EXTENTION_BIOEXPLORER};
 }
 
-bool CacheLoader::isSupported(const std::string& /*filename*/,
-                              const std::string& extension) const
+bool CacheLoader::isSupported(const std::string& /*filename*/, const std::string& extension) const
 {
     const std::set<std::string> types = {SUPPORTED_EXTENTION_BIOEXPLORER};
     return types.find(extension) != types.end();
 }
 
-ModelDescriptorPtr CacheLoader::importFromBlob(
-    Blob&& /*blob*/, const LoaderProgress& /*callback*/,
-    const PropertyMap& /*properties*/) const
+ModelDescriptorPtr CacheLoader::importFromBlob(Blob&& /*blob*/, const LoaderProgress& /*callback*/,
+                                               const PropertyMap& /*properties*/) const
 {
     PLUGIN_THROW("Loading molecular systems from blob is not supported");
 }
 
-ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer,
-                                             const int32_t brickId) const
+ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer, const int32_t brickId) const
 {
     auto model = _scene.createModel();
 
@@ -329,8 +325,7 @@ ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer,
             buffer.read((char*)&size, sizeof(size_t));
             bufferSize = size * sizeof(uint64_t);
             sdfData.geometryIndices[materialId].resize(size);
-            buffer.read((char*)sdfData.geometryIndices[materialId].data(),
-                        bufferSize);
+            buffer.read((char*)sdfData.geometryIndices[materialId].data(), bufferSize);
         }
 
         // Neighbours
@@ -355,9 +350,7 @@ ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer,
 
     if (!transformations.empty())
     {
-        auto modelDescriptor =
-            std::make_shared<ModelDescriptor>(std::move(model), name, path,
-                                              metadata);
+        auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), name, path, metadata);
 
         bool first{true};
         for (const auto& tf : transformations)
@@ -372,17 +365,16 @@ ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer,
             modelDescriptor->addInstance(instance);
         }
 
-        const auto visible =
-            GeneralSettings::getInstance()->getModelVisibilityOnCreation();
+        const auto visible = GeneralSettings::getInstance()->getModelVisibilityOnCreation();
         modelDescriptor->setVisible(visible);
         return modelDescriptor;
     }
     return nullptr;
 }
 
-std::vector<ModelDescriptorPtr> CacheLoader::importModelsFromFile(
-    const std::string& filename, const int32_t brickId,
-    const LoaderProgress& callback, const PropertyMap& properties) const
+std::vector<ModelDescriptorPtr> CacheLoader::importModelsFromFile(const std::string& filename, const int32_t brickId,
+                                                                  const LoaderProgress& callback,
+                                                                  const PropertyMap& properties) const
 {
     std::vector<ModelDescriptorPtr> modelDescriptors;
     PropertyMap props = _defaults;
@@ -419,12 +411,10 @@ std::vector<ModelDescriptorPtr> CacheLoader::importModelsFromFile(
     return modelDescriptors;
 }
 
-ModelDescriptorPtr CacheLoader::importFromFile(
-    const std::string& filename, const LoaderProgress& callback,
-    const PropertyMap& properties) const
+ModelDescriptorPtr CacheLoader::importFromFile(const std::string& filename, const LoaderProgress& callback,
+                                               const PropertyMap& properties) const
 {
-    const auto modelDescriptors =
-        importModelsFromFile(filename, UNDEFINED_BOX_ID, callback, properties);
+    const auto modelDescriptors = importModelsFromFile(filename, UNDEFINED_BOX_ID, callback, properties);
     for (const auto modelDescriptor : modelDescriptors)
         _scene.addModel(modelDescriptor);
 
@@ -441,8 +431,7 @@ std::string CacheLoader::_readString(std::stringstream& buffer) const
     return str.data();
 }
 
-bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
-                               std::stringstream& buffer,
+bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor, std::stringstream& buffer,
                                const Boxd& bounds) const
 {
     uint64_t bufferSize{0};
@@ -553,8 +542,7 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
         int32_t chameleonMode = MaterialChameleonMode::undefined_chameleon_mode;
         try
         {
-            shadingMode = material.second->getProperty<int32_t>(
-                MATERIAL_PROPERTY_CHAMELEON_MODE);
+            shadingMode = material.second->getProperty<int32_t>(MATERIAL_PROPERTY_CHAMELEON_MODE);
         }
         catch (const std::runtime_error&)
         {
@@ -564,8 +552,7 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
         int32_t nodeId = 0;
         try
         {
-            shadingMode = material.second->getProperty<int32_t>(
-                MATERIAL_PROPERTY_NODE_ID);
+            shadingMode = material.second->getProperty<int32_t>(MATERIAL_PROPERTY_NODE_ID);
         }
         catch (const std::runtime_error&)
         {
@@ -731,8 +718,7 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor,
     return true;
 }
 
-void CacheLoader::exportToFile(const std::string& filename,
-                               const Boxd& bounds) const
+void CacheLoader::exportToFile(const std::string& filename, const Boxd& bounds) const
 {
     PLUGIN_DEBUG("Saving scene to BioExplorer file: " << filename);
 
@@ -759,8 +745,7 @@ void CacheLoader::exportToFile(const std::string& filename,
     file.close();
 }
 
-std::vector<ModelDescriptorPtr> CacheLoader::importBrickFromDB(
-    const int32_t brickId) const
+std::vector<ModelDescriptorPtr> CacheLoader::importBrickFromDB(const int32_t brickId) const
 {
     std::vector<ModelDescriptorPtr> modelDescriptors;
     uint32_t nbModels = 0;
@@ -778,8 +763,7 @@ std::vector<ModelDescriptorPtr> CacheLoader::importBrickFromDB(
     return modelDescriptors;
 }
 
-void CacheLoader::exportBrickToDB(const int32_t brickId,
-                                  const Boxd& bounds) const
+void CacheLoader::exportBrickToDB(const int32_t brickId, const Boxd& bounds) const
 {
     std::stringstream buffer;
     uint32_t nbModels = 0;
@@ -789,20 +773,17 @@ void CacheLoader::exportBrickToDB(const int32_t brickId,
 
     if (nbModels > 0)
     {
-        PLUGIN_INFO(3, "Saving brick " << brickId << " ( " << nbModels
-                                       << " models) to database");
+        PLUGIN_INFO(3, "Saving brick " << brickId << " ( " << nbModels << " models) to database");
         auto& connector = DBConnector::getInstance();
         connector.insertBrick(brickId, CACHE_VERSION_1, nbModels, buffer);
     }
 }
 
-void CacheLoader::exportToXYZ(const std::string& filename,
-                              const XYZFileFormat fileFormat) const
+void CacheLoader::exportToXYZ(const std::string& filename, const XYZFileFormat fileFormat) const
 {
     PLUGIN_INFO(3, "Saving scene to XYZ file: " << filename);
     std::ios_base::openmode flags = std::ios::out;
-    if (fileFormat == XYZFileFormat::xyz_binary ||
-        fileFormat == XYZFileFormat::xyzr_binary)
+    if (fileFormat == XYZFileFormat::xyz_binary || fileFormat == XYZFileFormat::xyzr_binary)
         flags |= std::ios::binary;
 
     std::ofstream file(filename, flags);
@@ -825,9 +806,7 @@ void CacheLoader::exportToXYZ(const std::string& filename,
                 for (const auto& sphere : spheres.second)
                 {
                     const Vector3d center =
-                        tf.getTranslation() +
-                        tf.getRotation() *
-                            (Vector3d(sphere.center) - tf.getRotationCenter());
+                        tf.getTranslation() + tf.getRotation() * (Vector3d(sphere.center) - tf.getRotationCenter());
 
                     const Vector3d c = center;
                     if (isClipped(c, clipPlanes))
@@ -841,21 +820,18 @@ void CacheLoader::exportToXYZ(const std::string& filename,
                         file.write((char*)&c.x, sizeof(double));
                         file.write((char*)&c.y, sizeof(double));
                         file.write((char*)&c.z, sizeof(double));
-                        if (fileFormat == XYZFileFormat::xyzr_binary ||
-                            fileFormat == XYZFileFormat::xyzrv_binary)
+                        if (fileFormat == XYZFileFormat::xyzr_binary || fileFormat == XYZFileFormat::xyzrv_binary)
                         {
                             file.write((char*)&sphere.radius, sizeof(double));
                             if (fileFormat == XYZFileFormat::xyzrv_binary)
-                                file.write((char*)&sphere.radius,
-                                           sizeof(double));
+                                file.write((char*)&sphere.radius, sizeof(double));
                         }
                         break;
                     case XYZFileFormat::xyz_ascii:
                     case XYZFileFormat::xyzr_ascii:
                     case XYZFileFormat::xyzrv_ascii:
                         file << c.x << " " << c.y << " " << c.z;
-                        if (fileFormat == XYZFileFormat::xyzr_ascii ||
-                            fileFormat == XYZFileFormat::xyzrv_ascii)
+                        if (fileFormat == XYZFileFormat::xyzr_ascii || fileFormat == XYZFileFormat::xyzrv_ascii)
                         {
                             file << " " << sphere.radius;
                             if (fileFormat == XYZFileFormat::xyzrv_ascii)

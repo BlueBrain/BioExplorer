@@ -73,8 +73,7 @@ struct MaterialDescriptor
     float userParameter;
 };
 
-bool from_json(MaterialDescriptor& materialDescriptor,
-               const std::string& payload);
+bool from_json(MaterialDescriptor& materialDescriptor, const std::string& payload);
 
 struct MaterialsDescriptor
 {
@@ -94,8 +93,7 @@ struct MaterialsDescriptor
     std::vector<float> userParameters;
 };
 
-bool from_json(MaterialsDescriptor& materialsDescriptor,
-               const std::string& payload);
+bool from_json(MaterialsDescriptor& materialsDescriptor, const std::string& payload);
 
 struct MaterialRangeDescriptor
 {
@@ -115,8 +113,7 @@ struct MaterialRangeDescriptor
     float userParameter;
 };
 
-bool from_json(MaterialRangeDescriptor& materialRangeDescriptor,
-               const std::string& payload);
+bool from_json(MaterialRangeDescriptor& materialRangeDescriptor, const std::string& payload);
 
 // Material IDs for a given model
 struct ModelId
@@ -150,8 +147,7 @@ struct SynapseAttributes
     float radius;
 };
 
-bool from_json(SynapseAttributes& synapseAttributes,
-               const std::string& payload);
+bool from_json(SynapseAttributes& synapseAttributes, const std::string& payload);
 
 /** Circuit bounding box */
 struct CircuitBoundingBox
@@ -159,8 +155,7 @@ struct CircuitBoundingBox
     std::vector<double> aabb{0, 0, 0, 0, 0, 0};
 };
 
-bool from_json(CircuitBoundingBox& circuitBoundingBox,
-               const std::string& payload);
+bool from_json(CircuitBoundingBox& circuitBoundingBox, const std::string& payload);
 
 /** Connections per value */
 struct ConnectionsPerValue
@@ -171,8 +166,7 @@ struct ConnectionsPerValue
     double epsilon;
 };
 
-bool from_json(ConnectionsPerValue& connectionsPerValue,
-               const std::string& payload);
+bool from_json(ConnectionsPerValue& connectionsPerValue, const std::string& payload);
 
 struct AttachCellGrowthHandler
 {
@@ -188,8 +182,7 @@ struct AttachCircuitSimulationHandler
     std::string reportName;
     bool synchronousMode;
 };
-bool from_json(AttachCircuitSimulationHandler& param,
-               const std::string& payload);
+bool from_json(AttachCircuitSimulationHandler& param, const std::string& payload);
 
 struct AddGrid
 {
@@ -257,8 +250,7 @@ struct SpikeReportVisualizationSettings
     float timeInterval;
     float decaySpeed;
 };
-bool from_json(SpikeReportVisualizationSettings& param,
-               const std::string& payload);
+bool from_json(SpikeReportVisualizationSettings& param, const std::string& payload);
 
 struct LoadMEGSettings
 {

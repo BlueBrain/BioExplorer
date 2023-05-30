@@ -43,8 +43,7 @@ class CompartmentSimulationHandler : public AbstractSimulationHandler
 {
 public:
     /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
-    CompartmentSimulationHandler(const std::string& populationName,
-                                 const uint64_t simulationReportId);
+    CompartmentSimulationHandler(const std::string& populationName, const uint64_t simulationReportId);
 
     /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
     CompartmentSimulationHandler(const CompartmentSimulationHandler& rhs);

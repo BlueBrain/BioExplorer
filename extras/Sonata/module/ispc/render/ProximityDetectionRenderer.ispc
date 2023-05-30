@@ -40,9 +40,8 @@ struct ProximityDetectionRenderer
     float alphaCorrection;
 };
 
-inline vec3f ProximityDetectionRenderer_shadeRay(
-    const uniform ProximityDetectionRenderer* uniform self,
-    varying ScreenSample& sample)
+inline vec3f ProximityDetectionRenderer_shadeRay(const uniform ProximityDetectionRenderer* uniform self,
+                                                 varying ScreenSample& sample)
 {
     varying Ray ray = sample.ray;
     vec4f color = make_vec4f(0.f);
@@ -55,9 +54,7 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
 
         if (ray.geomID < 0)
         {
-            vec4f bgColor =
-                skyboxMapping((Renderer*)self, ray,
-                              (AdvancedMaterial*)self->super.super.bgMaterial);
+            vec4f bgColor = skyboxMapping((Renderer*)self, ray, (AdvancedMaterial*)self->super.super.bgMaterial);
             bgColor.w = 1.f;
             composite(bgColor, color, self->alphaCorrection);
             return make_vec3f(color) * self->super.exposure;
@@ -69,21 +66,17 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
 
         DifferentialGeometry dg;
         postIntersect(self->super.super.super.model, dg, ray,
-                      DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD |
-                          DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
+                      DG_NG | DG_NS | DG_NORMALIZE | DG_FACEFORWARD | DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
 
         uniform Material* material = dg.material;
-        uniform AdvancedMaterial* advancedMaterial =
-            (uniform AdvancedMaterial*)material;
+        uniform AdvancedMaterial* advancedMaterial = (uniform AdvancedMaterial*)material;
 
         vec3f normal = dg.Ns;
         const vec3f P = dg.P + dg.epsilon * dg.Ng;
 
         bool processSurfaceShading = true;
-        varying vec3f ao_dir =
-            getRandomVector(self->super.useHardwareRandomizer,
-                            self->super.super.super.fb->size.x, sample, normal,
-                            self->super.randomNumber);
+        varying vec3f ao_dir = getRandomVector(self->super.useHardwareRandomizer, self->super.super.super.fb->size.x,
+                                               sample, normal, self->super.randomNumber);
 
         Ray ao_ray;
         ao_ray.org = P;
@@ -101,19 +94,13 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
             processSurfaceShading = false;
 
             DifferentialGeometry ao_dg;
-            postIntersect(self->super.super.super.model, ao_dg, ao_ray,
-                          DG_MATERIALID);
+            postIntersect(self->super.super.super.model, ao_dg, ao_ray, DG_MATERIALID);
 
-            const bool doDetectionTest = self->detectionOnDifferentMaterial
-                                             ? material != ao_dg.material
-                                             : true;
+            const bool doDetectionTest = self->detectionOnDifferentMaterial ? material != ao_dg.material : true;
             if (doDetectionTest)
             {
                 const float a = ao_ray.t / self->detectionDistance;
-                const vec4f touchColor =
-                    make_vec4f(a > nearFarThreshold ? self->nearColor
-                                                    : self->farColor,
-                               1.f);
+                const vec4f touchColor = make_vec4f(a > nearFarThreshold ? self->nearColor : self->farColor, 1.f);
                 composite(touchColor, color, self->alphaCorrection);
                 sample.alpha = 1.f;
                 if (depth == 0)
@@ -141,32 +128,25 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
                     opacity = dg.color.w * mat->d;
                 }
 
-            for (uniform int i = 0;
-                 self->super.super.lights && i < self->super.super.numLights;
-                 i++)
+            for (uniform int i = 0; self->super.super.lights && i < self->super.super.numLights; i++)
             {
-                const uniform Light* uniform light =
-                    self->super.super.lights[i];
+                const uniform Light* uniform light = self->super.super.lights[i];
 
                 const vec2f samplingLocation = make_vec2f(0.f);
-                const Light_SampleRes lightSample =
-                    light->sample(light, dg, samplingLocation);
+                const Light_SampleRes lightSample = light->sample(light, dg, samplingLocation);
                 const float radiance = reduce_max(lightSample.weight);
 
                 if (reduce_max(radiance) > 0.f)
                 {
                     // Head-light shading
-                    float cosNL = (shadingMode == undefined_shading_mode
-                                       ? 1.f
-                                       : max(0.f, dot(neg(ray.dir), dg.Ns)));
+                    float cosNL = (shadingMode == undefined_shading_mode ? 1.f : max(0.f, dot(neg(ray.dir), dg.Ns)));
 
                     switch (shadingMode)
                     {
                     case electron:
                     case electron_transparency:
                         cosNL = 1.f - pow(cosNL, Ns);
-                        opacity *= (shadingMode == electron_transparency ? cosNL
-                                                                         : 1.f);
+                        opacity *= (shadingMode == electron_transparency ? cosNL : 1.f);
                         break;
                     case diffuse_transparency:
                         opacity *= cosNL;
@@ -188,8 +168,7 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
                         break;
                     }
 
-                    const vec4f shadedColor =
-                        make_vec4f(Kd * cosNL * radiance, 1.f);
+                    const vec4f shadedColor = make_vec4f(Kd * cosNL * radiance, 1.f);
 
                     composite(shadedColor, color, self->alphaCorrection);
                 }
@@ -208,12 +187,10 @@ inline vec3f ProximityDetectionRenderer_shadeRay(
     return make_vec3f(color) * self->super.exposure;
 }
 
-void ProximityDetectionRenderer_renderSample(uniform Renderer* uniform _self,
-                                             void* uniform perFrameData,
+void ProximityDetectionRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
                                              varying ScreenSample& sample)
 {
-    uniform ProximityDetectionRenderer* uniform self =
-        (uniform ProximityDetectionRenderer * uniform) _self;
+    uniform ProximityDetectionRenderer* uniform self = (uniform ProximityDetectionRenderer * uniform) _self;
     sample.ray.time = self->super.super.timestamp;
     sample.rgb = ProximityDetectionRenderer_shadeRay(self, sample);
 }
@@ -221,35 +198,30 @@ void ProximityDetectionRenderer_renderSample(uniform Renderer* uniform _self,
 // Exports (called from C++)
 export void* uniform ProximityDetectionRenderer_create(void* uniform cppE)
 {
-    uniform ProximityDetectionRenderer* uniform self =
-        uniform new uniform ProximityDetectionRenderer;
+    uniform ProximityDetectionRenderer* uniform self = uniform new uniform ProximityDetectionRenderer;
 
     Renderer_Constructor(&self->super.super.super, cppE);
-    self->super.super.super.renderSample =
-        ProximityDetectionRenderer_renderSample;
+    self->super.super.super.renderSample = ProximityDetectionRenderer_renderSample;
     return self;
 }
 
-export void ProximityDetectionRenderer_set(
-    void* uniform _self, void* uniform bgMaterial,
-    const uniform vec3f& nearColor, const uniform vec3f& farColor,
-    const uniform float detectionDistance,
-    const uniform bool detectionOnDifferentMaterial,
-    const uniform uint32 randomNumber, const uniform float timestamp,
-    const uniform uint32 spp, const uniform bool surfaceShadingEnabled,
-    void** uniform lights, uniform uint32 numLights,
-    const uniform float alphaCorrection, const uniform uint32 maxBounces,
-    const uniform float exposure, const uniform bool useHardwareRandomizer)
+export void ProximityDetectionRenderer_set(void* uniform _self, void* uniform bgMaterial,
+                                           const uniform vec3f& nearColor, const uniform vec3f& farColor,
+                                           const uniform float detectionDistance,
+                                           const uniform bool detectionOnDifferentMaterial,
+                                           const uniform uint32 randomNumber, const uniform float timestamp,
+                                           const uniform uint32 spp, const uniform bool surfaceShadingEnabled,
+                                           void** uniform lights, uniform uint32 numLights,
+                                           const uniform float alphaCorrection, const uniform uint32 maxBounces,
+                                           const uniform float exposure, const uniform bool useHardwareRandomizer)
 {
-    uniform ProximityDetectionRenderer* uniform self =
-        (uniform ProximityDetectionRenderer * uniform) _self;
+    uniform ProximityDetectionRenderer* uniform self = (uniform ProximityDetectionRenderer * uniform) _self;
 
     // OSPRay
     self->super.super.super.spp = spp;
 
     // Abstract Renderer
-    self->super.super.bgMaterial =
-        (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
     self->super.super.lights = (const uniform Light* uniform* uniform)lights;
     self->super.super.numLights = numLights;
     self->super.super.timestamp = timestamp;

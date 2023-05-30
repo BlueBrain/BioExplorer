@@ -64,28 +64,23 @@ SurfaceMesher::SurfaceMesher(const uint32_t uuid)
 {
 }
 
-ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene,
-                                                  const std::string& pdbId,
-                                                  const Vector4ds& atoms,
-                                                  const double shrinkfactor)
+ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene, const std::string& pdbId,
+                                                  const Vector4ds& atoms, const double shrinkfactor)
 {
 #ifdef USE_CGAL
     ModelDescriptorPtr modelDescriptor{nullptr};
     MeshLoader meshLoader(scene);
-    const std::string filename =
-        GeneralSettings::getInstance()->getMeshFolder() + pdbId + ".off";
+    const std::string filename = GeneralSettings::getInstance()->getMeshFolder() + pdbId + ".off";
     try
     {
         PLUGIN_INFO(3, "Trying to load surface from cache " << filename);
-        modelDescriptor =
-            meshLoader.importFromFile(filename, LoaderProgress(), {});
+        modelDescriptor = meshLoader.importFromFile(filename, LoaderProgress(), {});
         PLUGIN_INFO(3, "Surface loaded from cache " << filename);
         return modelDescriptor;
     }
     catch (const std::runtime_error& e)
     {
-        PLUGIN_INFO(3, "Failed to load surface from cache ("
-                           << e.what() << "), constructing it...");
+        PLUGIN_INFO(3, "Failed to load surface from cache (" << e.what() << "), constructing it...");
     }
 
     std::list<Weighted_point> l;
@@ -110,8 +105,7 @@ ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene,
 #endif
 }
 
-ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene,
-                                                       const std::string& pdbId,
+ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene, const std::string& pdbId,
                                                        const Vector4ds& atoms)
 {
 #ifdef USE_CGAL
@@ -121,20 +115,17 @@ ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene,
 
     ModelDescriptorPtr modelDescriptor{nullptr};
     MeshLoader meshLoader(scene);
-    const std::string filename =
-        GeneralSettings::getInstance()->getMeshFolder() + pdbId + ".off";
+    const std::string filename = GeneralSettings::getInstance()->getMeshFolder() + pdbId + ".off";
     try
     {
         PLUGIN_INFO(3, "Trying to load union of balls from cache " << filename);
-        modelDescriptor =
-            meshLoader.importFromFile(filename, LoaderProgress(), {});
+        modelDescriptor = meshLoader.importFromFile(filename, LoaderProgress(), {});
         PLUGIN_INFO(3, "Surface loaded from cache " << filename);
         return modelDescriptor;
     }
     catch (const std::runtime_error& e)
     {
-        PLUGIN_INFO(3, "Failed to load union of balls from cache ("
-                           << e.what() << "), constructing it...");
+        PLUGIN_INFO(3, "Failed to load union of balls from cache (" << e.what() << "), constructing it...");
     }
 
     PLUGIN_INFO(3, "Constructing union of balls from " << l.size() << " atoms");

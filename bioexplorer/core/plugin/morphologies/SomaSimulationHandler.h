@@ -42,8 +42,7 @@ class SomaSimulationHandler : public AbstractSimulationHandler
 {
 public:
     /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
-    SomaSimulationHandler(const std::string& populationName,
-                          const uint64_t simulationReportId);
+    SomaSimulationHandler(const std::string& populationName, const uint64_t simulationReportId);
     /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
     SomaSimulationHandler(const SomaSimulationHandler& rhs);
 

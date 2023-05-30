@@ -13,7 +13,9 @@
 __pycache__
 .idea
 debug
+Debug
 release
+Release
 build
 dist
 .ipynb_checkpoints

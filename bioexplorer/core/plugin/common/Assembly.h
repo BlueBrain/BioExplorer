@@ -66,24 +66,21 @@ public:
      * given amino acid sequence defined by a string
      * @param details Amino acid sequence as a string
      */
-    void setAminoAcidSequenceAsString(
-        const AminoAcidSequenceAsStringDetails &details);
+    void setAminoAcidSequenceAsString(const AminoAcidSequenceAsStringDetails &details);
 
     /**
      * @brief setAminoAcidSequenceAsRange Apply a color scheme to visualize a
      * given amino acid sequence defined by a range of indices
      * @param details Amino acid sequence as a range of indices
      */
-    void setAminoAcidSequenceAsRange(
-        const AminoAcidSequenceAsRangesDetails &details);
+    void setAminoAcidSequenceAsRange(const AminoAcidSequenceAsRangesDetails &details);
 
     /**
      * @param details Name of the assembly and name of the protein
      * @return Amino acid sequence and indices for a given protein of the
      * assembly
      */
-    const std::string getAminoAcidInformation(
-        const AminoAcidInformationDetails &details) const;
+    const std::string getAminoAcidInformation(const AminoAcidInformationDetails &details) const;
 
     /**
      * @brief Set an amino acid at a given position in the protein sequences
@@ -102,10 +99,7 @@ public:
      * @brief setClippingPlanes Set clipping planes on the assembly
      * @param clippingPlanes Clipping planes as a vector of 4 doubles
      */
-    void setClippingPlanes(const Vector4ds &clippingPlanes)
-    {
-        _clippingPlanes = clippingPlanes;
-    }
+    void setClippingPlanes(const Vector4ds &clippingPlanes) { _clippingPlanes = clippingPlanes; }
 
     /**
      * @return The description of the assembly
@@ -126,15 +120,13 @@ public:
      * @brief Set the transformation for a specific instance of a protein
      * @param details Details about the instance
      */
-    void setProteinInstanceTransformation(
-        const ProteinInstanceTransformationDetails &details);
+    void setProteinInstanceTransformation(const ProteinInstanceTransformationDetails &details);
 
     /**
      * @param details Details about the instance
      * @return The transformation for a specific instance of a protein
      */
-    const Transformation getProteinInstanceTransformation(
-        const ProteinInstanceTransformationDetails &details) const;
+    const Transformation getProteinInstanceTransformation(const ProteinInstanceTransformationDetails &details) const;
 
     /**
      * @brief addMembrane Add a membrane to the assembly
@@ -161,8 +153,7 @@ public:
      * @brief addProtein Add a protein to the assembly
      * @param details Details of the protein
      */
-    void addProtein(const ProteinDetails &details,
-                    const AssemblyConstraints &constraints);
+    void addProtein(const ProteinDetails &details, const AssemblyConstraints &constraints);
 
     /**
      * @brief addGlycans Add glycans to glycosilation sites of a given protein
@@ -187,8 +178,7 @@ public:
      * @param substrates List of pointers to the substrates
      * @param products List of pointers to the products
      */
-    void addEnzymeReaction(const EnzymeReactionDetails &details,
-                           AssemblyPtr enzymeAssembly, ProteinPtr enzyme,
+    void addEnzymeReaction(const EnzymeReactionDetails &details, AssemblyPtr enzymeAssembly, ProteinPtr enzyme,
                            Proteins &substrates, Proteins &products);
 
     /**
@@ -196,8 +186,7 @@ public:
      *
      * @param details Details about the enzyme reaction
      */
-    void setEnzymeReactionProgress(
-        const EnzymeReactionProgressDetails &details);
+    void setEnzymeReactionProgress(const EnzymeReactionProgressDetails &details);
 
     /**
      * @brief Check if a location is inside the assembly
@@ -216,9 +205,7 @@ public:
      * @param direction Direction of the ray
      * @return ProteinInspectionDetails Details about the protein
      */
-    ProteinInspectionDetails inspect(const Vector3d &origin,
-                                     const Vector3d &direction,
-                                     double &t) const;
+    ProteinInspectionDetails inspect(const Vector3d &origin, const Vector3d &direction, double &t) const;
 
     /**
      * @brief Get the assembly transformation
@@ -261,8 +248,7 @@ public:
      *
      * @param details Details of the radius report
      */
-    void setVasculatureRadiusReport(
-        const VasculatureRadiusReportDetails &details);
+    void setVasculatureRadiusReport(const VasculatureRadiusReportDetails &details);
 
     /**
      * @brief Add astrocytes to the assembly
@@ -324,12 +310,10 @@ public:
     void addSynapseEfficacy(const SynapseEfficacyDetails &details);
 
 private:
-    void _processInstances(
-        ModelDescriptorPtr md, const std::string &name,
-        const size_t occurrences, const Vector3d &position,
-        const Quaterniond &rotation, const uint64_ts &allowedOccurrences,
-        const MolecularSystemAnimationDetails &molecularSystemAnimationDetails,
-        const double offset, const AssemblyConstraints &constraints);
+    void _processInstances(ModelDescriptorPtr md, const std::string &name, const size_t occurrences,
+                           const Vector3d &position, const Quaterniond &rotation, const uint64_ts &allowedOccurrences,
+                           const MolecularSystemAnimationDetails &molecularSystemAnimationDetails, const double offset,
+                           const AssemblyConstraints &constraints);
 
     AssemblyDetails _details;
     Scene &_scene;

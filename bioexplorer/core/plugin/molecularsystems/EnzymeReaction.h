@@ -51,8 +51,7 @@ public:
      * @param substrates List of pointers to the substrates
      * @param products List of pointers to the products
      */
-    EnzymeReaction(Scene& scene, const EnzymeReactionDetails& details,
-                   AssemblyPtr enzymeAssembly, ProteinPtr enzyme,
+    EnzymeReaction(Scene& scene, const EnzymeReactionDetails& details, AssemblyPtr enzymeAssembly, ProteinPtr enzyme,
                    Proteins& substrates, Proteins& products);
 
     /**
@@ -64,8 +63,7 @@ public:
     void setProgress(const uint64_t instanceId, const double progress);
 
 protected:
-    Quaterniond _getMoleculeRotation(const double progress,
-                                     const double rotationSpeed = 5.0) const;
+    Quaterniond _getMoleculeRotation(const double progress, const double rotationSpeed = 5.0) const;
 
     Scene& _scene;
     AssemblyPtr _enzymeAssembly;

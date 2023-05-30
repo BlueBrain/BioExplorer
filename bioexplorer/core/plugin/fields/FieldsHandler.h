@@ -41,8 +41,7 @@ public:
     /**
      * @brief Default constructor
      */
-    FieldsHandler(const Scene& scene, const double voxelSize,
-                  const double density);
+    FieldsHandler(const Scene& scene, const double voxelSize, const double density);
 
     /**
      * @brief Construct a new FieldsHandler from a file
@@ -123,8 +122,7 @@ public:
     const Vector3f& getOffset() const { return _offset; }
 
 private:
-    void _buildOctree(const Scene& scene, const double voxelSize,
-                      const double density);
+    void _buildOctree(const Scene& scene, const double voxelSize, const double density);
 
     Vector3ui _dimensions;
     Vector3f _spacing;

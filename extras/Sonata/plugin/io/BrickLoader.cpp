@@ -56,14 +56,9 @@ const Property PROP_LOAD_SPHERES = {"spheres", true, {"Load spheres"}};
 const Property PROP_LOAD_CYLINDERS = {"cylinders", true, {"Load cylinders"}};
 const Property PROP_LOAD_CONES = {"cones", true, {"Load cones"}};
 const Property PROP_LOAD_MESHES = {"meshes", true, {"Load meshes"}};
-const Property PROP_LOAD_STREAMLINES = {"streamlines",
-                                        true,
-                                        {"Load streamlines"}};
-const Property PROP_LOAD_SDF = {"sdf",
-                                true,
-                                {"Load signed distance field geometry"}};
-const Property PROP_LOAD_SIMULATION = {
-    "simulation", true, {"Attach simulation data (if applicable"}};
+const Property PROP_LOAD_STREAMLINES = {"streamlines", true, {"Load streamlines"}};
+const Property PROP_LOAD_SDF = {"sdf", true, {"Load signed distance field geometry"}};
+const Property PROP_LOAD_SIMULATION = {"simulation", true, {"Attach simulation data (if applicable"}};
 
 BrickLoader::BrickLoader(Scene& scene, PropertyMap&& loaderParams)
     : Loader(scene)
@@ -81,17 +76,14 @@ std::vector<std::string> BrickLoader::getSupportedExtensions() const
     return {SUPPORTED_EXTENTION_BRAYNS, SUPPORTED_EXTENTION_BIN};
 }
 
-bool BrickLoader::isSupported(const std::string& /*filename*/,
-                              const std::string& extension) const
+bool BrickLoader::isSupported(const std::string& /*filename*/, const std::string& extension) const
 {
-    const std::set<std::string> types = {SUPPORTED_EXTENTION_BRAYNS,
-                                         SUPPORTED_EXTENTION_BIN};
+    const std::set<std::string> types = {SUPPORTED_EXTENTION_BRAYNS, SUPPORTED_EXTENTION_BIN};
     return types.find(extension) != types.end();
 }
 
-ModelDescriptorPtr BrickLoader::importFromBlob(
-    Blob&& /*blob*/, const LoaderProgress& /*callback*/,
-    const PropertyMap& /*properties*/) const
+ModelDescriptorPtr BrickLoader::importFromBlob(Blob&& /*blob*/, const LoaderProgress& /*callback*/,
+                                               const PropertyMap& /*properties*/) const
 {
     throw std::runtime_error("Loading circuit from blob is not supported");
 }
@@ -106,9 +98,8 @@ std::string BrickLoader::_readString(std::ifstream& buffer) const
     return str.data();
 }
 
-ModelDescriptorPtr BrickLoader::importFromFile(
-    const std::string& filename, const LoaderProgress& callback,
-    const PropertyMap& properties) const
+ModelDescriptorPtr BrickLoader::importFromFile(const std::string& filename, const LoaderProgress& callback,
+                                               const PropertyMap& properties) const
 {
     PropertyMap props = _defaults;
     props.merge(properties);
@@ -154,8 +145,7 @@ ModelDescriptorPtr BrickLoader::importFromFile(
     size_t materialId;
     for (size_t i = 0; i < nbMaterials; ++i)
     {
-        callback.updateProgress("Materials (" + std::to_string(i + 1) + "/" +
-                                    std::to_string(nbMaterials) + ")",
+        callback.updateProgress("Materials (" + std::to_string(i + 1) + "/" + std::to_string(nbMaterials) + ")",
                                 0.1f * float(i) / float(nbMaterials));
         file.read((char*)&materialId, sizeof(size_t));
 
@@ -189,8 +179,7 @@ ModelDescriptorPtr BrickLoader::importFromFile(
 
             size_t shadingMode;
             file.read((char*)&shadingMode, sizeof(size_t));
-            material->setShadingMode(
-                static_cast<MaterialShadingMode>(shadingMode));
+            material->setShadingMode(static_cast<MaterialShadingMode>(shadingMode));
         }
 
         if (version >= CACHE_VERSION_2)
@@ -201,25 +190,21 @@ ModelDescriptorPtr BrickLoader::importFromFile(
 
             int32_t shadingMode;
             file.read((char*)&shadingMode, sizeof(int32_t));
-            material->setShadingMode(
-                static_cast<MaterialShadingMode>(shadingMode));
+            material->setShadingMode(static_cast<MaterialShadingMode>(shadingMode));
         }
 
         if (version == CACHE_VERSION_3)
         {
             bool clipped;
             file.read((char*)&clipped, sizeof(bool));
-            material->setClippingMode(clipped
-                                          ? MaterialClippingMode::plane
-                                          : MaterialClippingMode::no_clipping);
+            material->setClippingMode(clipped ? MaterialClippingMode::plane : MaterialClippingMode::no_clipping);
         }
 
         if (version >= CACHE_VERSION_4)
         {
             int32_t clippingMode;
             file.read((char*)&clippingMode, sizeof(int32_t));
-            material->setClippingMode(
-                static_cast<MaterialClippingMode>(clippingMode));
+            material->setClippingMode(static_cast<MaterialClippingMode>(clippingMode));
         }
     }
 
@@ -243,8 +228,7 @@ ModelDescriptorPtr BrickLoader::importFromFile(
 
         if (props.getProperty<bool>(PROP_LOAD_SPHERES.name))
         {
-            callback.updateProgress("Spheres (" + std::to_string(i + 1) + "/" +
-                                        std::to_string(nbSpheres) + ")",
+            callback.updateProgress("Spheres (" + std::to_string(i + 1) + "/" + std::to_string(nbSpheres) + ")",
                                     0.2f + 0.1f * float(i) / float(nbSpheres));
             auto& spheres = model->getSpheres()[materialId];
             spheres.resize(nbElements);
@@ -292,10 +276,8 @@ ModelDescriptorPtr BrickLoader::importFromFile(
 
         if (props.getProperty<bool>(PROP_LOAD_CYLINDERS.name))
         {
-            callback.updateProgress("Cylinders (" + std::to_string(i + 1) +
-                                        "/" + std::to_string(nbCylinders) + ")",
-                                    0.3f +
-                                        0.1f * float(i) / float(nbCylinders));
+            callback.updateProgress("Cylinders (" + std::to_string(i + 1) + "/" + std::to_string(nbCylinders) + ")",
+                                    0.3f + 0.1f * float(i) / float(nbCylinders));
             auto& cylinders = model->getCylinders()[materialId];
             cylinders.resize(nbElements);
             if (version >= CACHE_VERSION_2)
@@ -309,8 +291,7 @@ ModelDescriptorPtr BrickLoader::importFromFile(
                 bufferSize = nbElements * sizeof(CylinderV1);
                 file.read((char*)cylindersV1.data(), bufferSize);
                 for (uint64_t s = 0; s < cylindersV1.size(); ++s)
-                    cylinders[s] = {cylindersV1[i].center, cylindersV1[i].up,
-                                    cylindersV1[i].radius};
+                    cylinders[s] = {cylindersV1[i].center, cylindersV1[i].up, cylindersV1[i].radius};
             }
         }
         else
@@ -342,8 +323,7 @@ ModelDescriptorPtr BrickLoader::importFromFile(
 
         if (props.getProperty<bool>(PROP_LOAD_CONES.name))
         {
-            callback.updateProgress("Cones (" + std::to_string(i + 1) + "/" +
-                                        std::to_string(nbCones) + ")",
+            callback.updateProgress("Cones (" + std::to_string(i + 1) + "/" + std::to_string(nbCones) + ")",
                                     0.4f + 0.1f * float(i) / float(nbCones));
             auto& cones = model->getCones()[materialId];
             cones.resize(nbElements);
@@ -358,8 +338,7 @@ ModelDescriptorPtr BrickLoader::importFromFile(
                 bufferSize = nbElements * sizeof(ConeV1);
                 file.read((char*)conesV1.data(), bufferSize);
                 for (uint64_t s = 0; s < conesV1.size(); ++s)
-                    cones[s] = {conesV1[i].center, conesV1[i].up,
-                                conesV1[i].centerRadius, conesV1[i].upRadius};
+                    cones[s] = {conesV1[i].center, conesV1[i].up, conesV1[i].centerRadius, conesV1[i].upRadius};
             }
         }
         else
@@ -387,11 +366,8 @@ ModelDescriptorPtr BrickLoader::importFromFile(
             bufferSize = nbVertices * sizeof(Vector3f);
             if (load)
             {
-                callback.updateProgress("Meshes (" + std::to_string(i + 1) +
-                                            "/" + std::to_string(nbMeshes) +
-                                            ")",
-                                        0.5f +
-                                            0.1f * float(i) / float(nbMeshes));
+                callback.updateProgress("Meshes (" + std::to_string(i + 1) + "/" + std::to_string(nbMeshes) + ")",
+                                        0.5f + 0.1f * float(i) / float(nbMeshes));
                 meshes.vertices.resize(nbVertices);
                 file.read((char*)meshes.vertices.data(), bufferSize);
             }
@@ -459,11 +435,8 @@ ModelDescriptorPtr BrickLoader::importFromFile(
         bufferSize = nbElements * sizeof(Vector4f);
         if (load)
         {
-            callback.updateProgress("Streamlines (" + std::to_string(i + 1) +
-                                        "/" + std::to_string(nbStreamlines) +
-                                        ")",
-                                    0.6f +
-                                        0.1f * float(i) / float(nbStreamlines));
+            callback.updateProgress("Streamlines (" + std::to_string(i + 1) + "/" + std::to_string(nbStreamlines) + ")",
+                                    0.6f + 0.1f * float(i) / float(nbStreamlines));
             streamlineData.vertex.resize(nbElements);
             file.read((char*)streamlineData.vertex.data(), bufferSize);
         }
@@ -511,8 +484,7 @@ ModelDescriptorPtr BrickLoader::importFromFile(
             // Update userParams (Displacement parameters)
             for (uint64_t i = 0; i < nbElements; ++i)
             {
-                const char* index = (char*)sdfData.geometries.data() +
-                                    i * sizeof(SDFGeometry) + sizeof(uint64_t);
+                const char* index = (char*)sdfData.geometries.data() + i * sizeof(SDFGeometry) + sizeof(uint64_t);
                 memcpy((char*)index, &DISPLACEMENT_PARAMS, sizeof(Vector3f));
             }
 
@@ -526,14 +498,11 @@ ModelDescriptorPtr BrickLoader::importFromFile(
             bufferSize = size * sizeof(uint64_t);
             if (load)
             {
-                callback.updateProgress("SDF geometries indices (" +
-                                            std::to_string(i + 1) + "/" +
+                callback.updateProgress("SDF geometries indices (" + std::to_string(i + 1) + "/" +
                                             std::to_string(nbElements) + ")",
-                                        0.8f + 0.1f * float(i) /
-                                                   float(nbElements));
+                                        0.8f + 0.1f * float(i) / float(nbElements));
                 sdfData.geometryIndices[materialId].resize(size);
-                file.read((char*)sdfData.geometryIndices[materialId].data(),
-                          bufferSize);
+                file.read((char*)sdfData.geometryIndices[materialId].data(), bufferSize);
             }
             else
                 file.ignore(bufferSize);
@@ -601,9 +570,7 @@ ModelDescriptorPtr BrickLoader::importFromFile(
             file.read((char*)&synchronized, sizeof(bool));
 
             // Handler
-            auto handler =
-                std::make_shared<VoltageSimulationHandler>(reportPath, gids,
-                                                           synchronized);
+            auto handler = std::make_shared<VoltageSimulationHandler>(reportPath, gids, synchronized);
             model->setSimulationHandler(handler);
             break;
         }
@@ -623,8 +590,7 @@ ModelDescriptorPtr BrickLoader::importFromFile(
             }
 
             // Handler
-            auto handler =
-                std::make_shared<SpikeSimulationHandler>(reportPath, gids);
+            auto handler = std::make_shared<SpikeSimulationHandler>(reportPath, gids);
             model->setSimulationHandler(handler);
             break;
         }
@@ -670,14 +636,11 @@ ModelDescriptorPtr BrickLoader::importFromFile(
     if (cpIt != metadata.end())
         path = cpIt->second;
 
-    auto modelDescriptor =
-        std::make_shared<ModelDescriptor>(std::move(model), "Brick", path,
-                                          metadata);
+    auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), "Brick", path, metadata);
     return modelDescriptor;
 }
 
-void BrickLoader::exportToFile(const ModelDescriptorPtr modelDescriptor,
-                               const std::string& filename)
+void BrickLoader::exportToFile(const ModelDescriptorPtr modelDescriptor, const std::string& filename)
 {
     PLUGIN_INFO("Saving model to cache file: " << filename);
     std::ofstream file(filename, std::ios::out | std::ios::binary);
@@ -754,8 +717,7 @@ void BrickLoader::exportToFile(const ModelDescriptorPtr modelDescriptor,
         bool clipped = false;
         try
         {
-            clipped = material.second->getProperty<bool>(
-                MATERIAL_PROPERTY_CLIPPING_MODE);
+            clipped = material.second->getProperty<bool>(MATERIAL_PROPERTY_CLIPPING_MODE);
         }
         catch (const std::runtime_error&)
         {
@@ -919,14 +881,11 @@ void BrickLoader::exportToFile(const ModelDescriptorPtr modelDescriptor,
     const AbstractSimulationHandlerPtr handler = model.getSimulationHandler();
     if (handler)
     {
-        VoltageSimulationHandler* vsh =
-            dynamic_cast<VoltageSimulationHandler*>(handler.get());
-        SpikeSimulationHandler* ssh =
-            dynamic_cast<SpikeSimulationHandler*>(handler.get());
+        VoltageSimulationHandler* vsh = dynamic_cast<VoltageSimulationHandler*>(handler.get());
+        SpikeSimulationHandler* ssh = dynamic_cast<SpikeSimulationHandler*>(handler.get());
         if (vsh)
         {
-            const size_t reportType{
-                static_cast<size_t>(ReportType::voltages_from_file)};
+            const size_t reportType{static_cast<size_t>(ReportType::voltages_from_file)};
             file.write((char*)&reportType, sizeof(size_t));
 
             // Report path

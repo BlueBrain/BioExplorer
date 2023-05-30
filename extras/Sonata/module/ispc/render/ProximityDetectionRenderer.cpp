@@ -34,18 +34,16 @@ void ProximityDetectionRenderer::commit()
     _nearColor = getParam3f("detectionNearColor", ospray::vec3f(0.f, 1.f, 0.f));
     _farColor = getParam3f("detectionFarColor", ospray::vec3f(1.f, 0.f, 0.f));
     _detectionDistance = getParam1f("detectionDistance", 1.f);
-    _detectionOnDifferentMaterial =
-        bool(getParam1i("detectionOnDifferentMaterial", 1));
+    _detectionOnDifferentMaterial = bool(getParam1i("detectionOnDifferentMaterial", 1));
     _surfaceShadingEnabled = bool(getParam1i("surfaceShadingEnabled", 1));
     _randomNumber = getParam1i("randomNumber", 0);
     _alphaCorrection = getParam1f("alphaCorrection", 0.5f);
 
-    ispc::ProximityDetectionRenderer_set(
-        getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr),
-        (ispc::vec3f&)_nearColor, (ispc::vec3f&)_farColor, _detectionDistance,
-        _detectionOnDifferentMaterial, _randomNumber, _timestamp, spp,
-        _surfaceShadingEnabled, _lightPtr, _lightArray.size(), _alphaCorrection,
-        _maxBounces, _exposure, _useHardwareRandomizer);
+    ispc::ProximityDetectionRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr),
+                                         (ispc::vec3f&)_nearColor, (ispc::vec3f&)_farColor, _detectionDistance,
+                                         _detectionOnDifferentMaterial, _randomNumber, _timestamp, spp,
+                                         _surfaceShadingEnabled, _lightPtr, _lightArray.size(), _alphaCorrection,
+                                         _maxBounces, _exposure, _useHardwareRandomizer);
 }
 
 ProximityDetectionRenderer::ProximityDetectionRenderer()

@@ -37,11 +37,9 @@ public:
     void addSphere(const size_t materialId, const Sphere& sphere);
     void addCylinder(const size_t materialId, const Cylinder& cylinder);
     void addCone(const size_t materialId, const Cone& cone);
-    void addSDFGeometry(const size_t materialId, const SDFGeometry& geom,
-                        const std::vector<size_t> neighbours);
+    void addSDFGeometry(const size_t materialId, const SDFGeometry& geom, const std::vector<size_t> neighbours);
     void moveGeometryToModel(Model& model);
-    void applyTransformation(const PropertyMap& properties,
-                             const Matrix4f& transformation);
+    void applyTransformation(const PropertyMap& properties, const Matrix4f& transformation);
 
     MorphologyInfo& getMorphologyInfo() { return _morphologyInfo; }
 
@@ -50,8 +48,7 @@ private:
     void _moveCylindersToModel(Model& model);
     void _moveConesToModel(Model& model);
     void _moveSDFGeometriesToModel(Model& model);
-    Vector3d _getAlignmentToGrid(const PropertyMap& properties,
-                                 const Vector3d& position) const;
+    Vector3d _getAlignmentToGrid(const PropertyMap& properties, const Vector3d& position) const;
 
     SpheresMap _spheres;
     CylindersMap _cylinders;

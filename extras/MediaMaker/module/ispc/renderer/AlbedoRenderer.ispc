@@ -24,8 +24,7 @@
 
 #include <ospray/SDK/common/Material.ih>
 
-inline vec3f AlbedoRenderer_shadeRay(const uniform AlbedoRenderer* uniform self,
-                                     varying ScreenSample& sample)
+inline vec3f AlbedoRenderer_shadeRay(const uniform AlbedoRenderer* uniform self, varying ScreenSample& sample)
 {
     Ray ray = sample.ray;
     sample.z = inf;
@@ -39,8 +38,7 @@ inline vec3f AlbedoRenderer_shadeRay(const uniform AlbedoRenderer* uniform self,
 
     DifferentialGeometry dg;
     postIntersect(self->super.model, dg, ray,
-                  DG_NS | DG_NG | DG_NORMALIZE | DG_FACEFORWARD |
-                      DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
+                  DG_NS | DG_NG | DG_NORMALIZE | DG_FACEFORWARD | DG_MATERIALID | DG_COLOR | DG_TEXCOORD);
 
     uniform AdvancedMaterial* material = (uniform AdvancedMaterial*)dg.material;
 
@@ -65,12 +63,10 @@ inline vec3f AlbedoRenderer_shadeRay(const uniform AlbedoRenderer* uniform self,
     return make_vec3f(Kd);
 }
 
-void AlbedoRenderer_renderSample(uniform Renderer* uniform _self,
-                                 void* uniform perFrameData,
+void AlbedoRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
                                  varying ScreenSample& sample)
 {
-    uniform AlbedoRenderer* uniform self =
-        (uniform AlbedoRenderer * uniform) _self;
+    uniform AlbedoRenderer* uniform self = (uniform AlbedoRenderer * uniform) _self;
     sample.ray.time = inf;
     sample.rgb = AlbedoRenderer_shadeRay(self, sample);
 }
@@ -86,8 +82,7 @@ export void* uniform AlbedoRenderer_create(void* uniform cppE)
 
 export void AlbedoRenderer_set(void* uniform _self, const uniform int spp)
 {
-    uniform AlbedoRenderer* uniform self =
-        (uniform AlbedoRenderer * uniform) _self;
+    uniform AlbedoRenderer* uniform self = (uniform AlbedoRenderer * uniform) _self;
 
     self->super.spp = spp;
 }

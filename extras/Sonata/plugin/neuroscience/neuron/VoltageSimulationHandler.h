@@ -53,8 +53,7 @@ public:
      * @param reportSource path to report source
      * @param gids GIDS to load
      */
-    VoltageSimulationHandler(const std::string& reportPath,
-                             const brion::GIDSet& gids,
+    VoltageSimulationHandler(const std::string& reportPath, const brion::GIDSet& gids,
                              const bool synchronousMode = false);
     VoltageSimulationHandler(const VoltageSimulationHandler& rhs);
     ~VoltageSimulationHandler();

@@ -43,16 +43,15 @@ public:
      * @param details Set of attributes defining how the synapse efficacy should
      * be loaded
      */
-    Synapses(Scene& scene, const SynapsesDetails& details,
-             const Vector3d& assemblyPosition,
+    Synapses(Scene& scene, const SynapsesDetails& details, const Vector3d& assemblyPosition,
              const Quaterniond& assemblyRotation);
 
 private:
     double _getDisplacementValue(const DisplacementElement& element) final;
 
     void _buildModel();
-    void _addSpine(ThreadSafeContainer& container, const uint64_t guid,
-                   const Synapse& synapse, const size_t SpineMaterialId);
+    void _addSpine(ThreadSafeContainer& container, const uint64_t guid, const Synapse& synapse,
+                   const size_t SpineMaterialId);
 
     const SynapsesDetails _details;
     Scene& _scene;

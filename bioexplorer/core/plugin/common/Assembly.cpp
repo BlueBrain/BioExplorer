@@ -68,9 +68,7 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
     case AssemblyShape::empty_sphere:
     case AssemblyShape::filled_sphere:
     {
-        _shape = ShapePtr(
-            new SphereShape(details.shape == AssemblyShape::filled_sphere,
-                            _clippingPlanes, size.x));
+        _shape = ShapePtr(new SphereShape(details.shape == AssemblyShape::filled_sphere, _clippingPlanes, size.x));
         break;
     }
     case AssemblyShape::sinusoid:
@@ -90,14 +88,12 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
     }
     case AssemblyShape::plane:
     {
-        _shape =
-            ShapePtr(new PlaneShape(_clippingPlanes, Vector2f(size.x, size.z)));
+        _shape = ShapePtr(new PlaneShape(_clippingPlanes, Vector2f(size.x, size.z)));
         break;
     }
     case AssemblyShape::mesh:
     {
-        _shape = ShapePtr(
-            new MeshShape(_clippingPlanes, size, _details.shapeMeshContents));
+        _shape = ShapePtr(new MeshShape(_clippingPlanes, size, _details.shapeMeshContents));
         break;
     }
     case AssemblyShape::helix:
@@ -107,9 +103,7 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
     }
     case AssemblyShape::spherical_cell_diffusion:
     {
-        _shape =
-            ShapePtr(new SphericalCellDiffusionShape(_clippingPlanes, size.x,
-                                                     size.y, size.z));
+        _shape = ShapePtr(new SphericalCellDiffusionShape(_clippingPlanes, size.x, size.y, size.z));
         break;
     }
     default:
@@ -117,9 +111,7 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
         break;
     }
 
-    PLUGIN_INFO(3, "Adding assembly [" << details.name << "] at position "
-                                       << _position << ", rotation "
-                                       << _rotation);
+    PLUGIN_INFO(3, "Adding assembly [" << details.name << "] at position " << _position << ", rotation " << _rotation);
 }
 
 Assembly::~Assembly()
@@ -127,82 +119,65 @@ Assembly::~Assembly()
     for (const auto &protein : _proteins)
     {
         const auto modelId = protein.second->getModelDescriptor()->getModelID();
-        PLUGIN_INFO(3, "Removing protein [" << modelId << "] [" << protein.first
-                                            << "] from assembly ["
-                                            << _details.name << "]");
+        PLUGIN_INFO(3, "Removing protein [" << modelId << "] [" << protein.first << "] from assembly [" << _details.name
+                                            << "]");
         _scene.removeModel(protein.second->getModelDescriptor()->getModelID());
     }
     if (_rnaSequence)
     {
         const auto modelId = _rnaSequence->getModelDescriptor()->getModelID();
-        PLUGIN_INFO(3, "Removing RNA sequence ["
-                           << modelId << "] from assembly [" << _details.name
-                           << "]");
+        PLUGIN_INFO(3, "Removing RNA sequence [" << modelId << "] from assembly [" << _details.name << "]");
         _scene.removeModel(modelId);
     }
     if (_vasculature)
     {
         const auto modelId = _vasculature->getModelDescriptor()->getModelID();
-        PLUGIN_INFO(3, "Removing Vasculature ["
-                           << modelId << "] from assembly [" << _details.name
-                           << "]");
+        PLUGIN_INFO(3, "Removing Vasculature [" << modelId << "] from assembly [" << _details.name << "]");
         _scene.removeModel(modelId);
     }
     if (_neurons)
     {
         const auto modelId = _neurons->getModelDescriptor()->getModelID();
-        PLUGIN_INFO(3, "Removing Neurons [" << modelId << "] from assembly ["
-                                            << _details.name << "]");
+        PLUGIN_INFO(3, "Removing Neurons [" << modelId << "] from assembly [" << _details.name << "]");
         _scene.removeModel(modelId);
     }
     if (_astrocytes)
     {
         const auto modelId = _astrocytes->getModelDescriptor()->getModelID();
-        PLUGIN_INFO(3, "Removing Astrocytes [" << modelId << "] from assembly ["
-                                               << _details.name << "]");
+        PLUGIN_INFO(3, "Removing Astrocytes [" << modelId << "] from assembly [" << _details.name << "]");
         _scene.removeModel(modelId);
     }
     if (_atlas)
     {
         const auto modelId = _atlas->getModelDescriptor()->getModelID();
-        PLUGIN_INFO(3, "Removing Atlas [" << modelId << "] from assembly ["
-                                          << _details.name << "]");
+        PLUGIN_INFO(3, "Removing Atlas [" << modelId << "] from assembly [" << _details.name << "]");
         _scene.removeModel(modelId);
     }
     if (_synapseEfficacy)
     {
-        const auto modelId =
-            _synapseEfficacy->getModelDescriptor()->getModelID();
-        PLUGIN_INFO(3, "Removing synapse efficacy ["
-                           << modelId << "] from assembly [" << _details.name
-                           << "]");
+        const auto modelId = _synapseEfficacy->getModelDescriptor()->getModelID();
+        PLUGIN_INFO(3, "Removing synapse efficacy [" << modelId << "] from assembly [" << _details.name << "]");
         _scene.removeModel(modelId);
     }
     _modelDescriptors.clear();
 }
 
-void Assembly::addProtein(const ProteinDetails &details,
-                          const AssemblyConstraints &constraints)
+void Assembly::addProtein(const ProteinDetails &details, const AssemblyConstraints &constraints)
 {
     ProteinPtr protein(new Protein(_scene, details));
     auto modelDescriptor = protein->getModelDescriptor();
-    const auto animationParams =
-        doublesToMolecularSystemAnimationDetails(details.animationParams);
+    const auto animationParams = doublesToMolecularSystemAnimationDetails(details.animationParams);
     const auto proteinPosition = doublesToVector3d(details.position);
     const auto proteinRotation = doublesToQuaterniond(details.rotation);
-    const auto transmembraneParams =
-        doublesToVector2d(details.transmembraneParams);
+    const auto transmembraneParams = doublesToVector2d(details.transmembraneParams);
 
-    _processInstances(modelDescriptor, details.name, details.occurrences,
-                      proteinPosition, proteinRotation,
-                      details.allowedOccurrences, animationParams,
-                      transmembraneParams.x, constraints);
+    _processInstances(modelDescriptor, details.name, details.occurrences, proteinPosition, proteinRotation,
+                      details.allowedOccurrences, animationParams, transmembraneParams.x, constraints);
 
     _proteins[details.name] = std::move(protein);
     _modelDescriptors.push_back(modelDescriptor);
     _scene.addModel(modelDescriptor);
-    PLUGIN_INFO(3, "Number of instances: "
-                       << modelDescriptor->getInstances().size());
+    PLUGIN_INFO(3, "Number of instances: " << modelDescriptor->getInstances().size());
 }
 
 void Assembly::addMembrane(const MembraneDetails &details)
@@ -210,8 +185,7 @@ void Assembly::addMembrane(const MembraneDetails &details)
     if (_membrane)
         PLUGIN_THROW("Assembly already has a membrane");
 
-    MembranePtr membrane(
-        new Membrane(details, _scene, _position, _rotation, _shape, _proteins));
+    MembranePtr membrane(new Membrane(details, _scene, _position, _rotation, _shape, _proteins));
     _membrane = std::move(membrane);
 }
 
@@ -225,8 +199,7 @@ void Assembly::addSugar(const SugarDetails &details)
         std::string s;
         for (const auto &protein : _proteins)
             s += "[" + protein.first + "]";
-        PLUGIN_THROW("Target protein " + details.proteinName +
-                     " not registered in assembly " + details.assemblyName +
+        PLUGIN_THROW("Target protein " + details.proteinName + " not registered in assembly " + details.assemblyName +
                      ". Registered proteins are " + s);
     }
     PLUGIN_INFO(3, "Adding sugars to protein " << details.proteinName);
@@ -244,8 +217,7 @@ void Assembly::addGlycan(const SugarDetails &details)
         std::string s;
         for (const auto &protein : _proteins)
             s += "[" + protein.first + "]";
-        PLUGIN_THROW("Target protein " + details.proteinName +
-                     " not registered in assembly " + details.assemblyName +
+        PLUGIN_THROW("Target protein " + details.proteinName + " not registered in assembly " + details.assemblyName +
                      ". Registered proteins are " + s);
     }
 
@@ -254,12 +226,11 @@ void Assembly::addGlycan(const SugarDetails &details)
     targetProtein->addGlycan(details);
 }
 
-void Assembly::_processInstances(
-    ModelDescriptorPtr md, const std::string &name, const size_t occurrences,
-    const Vector3d &position, const Quaterniond &rotation,
-    const uint64_ts &allowedOccurrences,
-    const MolecularSystemAnimationDetails &molecularSystemAnimationDetails,
-    const double offset, const AssemblyConstraints &constraints)
+void Assembly::_processInstances(ModelDescriptorPtr md, const std::string &name, const size_t occurrences,
+                                 const Vector3d &position, const Quaterniond &rotation,
+                                 const uint64_ts &allowedOccurrences,
+                                 const MolecularSystemAnimationDetails &molecularSystemAnimationDetails,
+                                 const double offset, const AssemblyConstraints &constraints)
 {
     srand(molecularSystemAnimationDetails.seed);
 
@@ -270,8 +241,7 @@ void Assembly::_processInstances(
         try
         {
             if (!allowedOccurrences.empty() &&
-                std::find(allowedOccurrences.begin(), allowedOccurrences.end(),
-                          occurrence) == allowedOccurrences.end())
+                std::find(allowedOccurrences.begin(), allowedOccurrences.end(), occurrence) == allowedOccurrences.end())
                 continue;
 
             Transformations transformations;
@@ -282,9 +252,7 @@ void Assembly::_processInstances(
             transformations.push_back(assemblyTransformation);
 
             Transformation shapeTransformation =
-                _shape->getTransformation(occurrence, occurrences,
-                                          molecularSystemAnimationDetails,
-                                          offset);
+                _shape->getTransformation(occurrence, occurrences, molecularSystemAnimationDetails, offset);
 
             transformations.push_back(shapeTransformation);
 
@@ -293,19 +261,16 @@ void Assembly::_processInstances(
             proteinTransformation.setRotation(rotation);
             transformations.push_back(proteinTransformation);
 
-            const Transformation finalTransformation =
-                combineTransformations(transformations);
+            const Transformation finalTransformation = combineTransformations(transformations);
             const auto &translation = finalTransformation.getTranslation();
 
             // Assembly constaints
             bool addInstance = true;
             for (const auto &constraint : constraints)
             {
-                if (constraint.first == AssemblyConstraintType::inside &&
-                    !constraint.second->isInside(translation))
+                if (constraint.first == AssemblyConstraintType::inside && !constraint.second->isInside(translation))
                     addInstance = false;
-                if (constraint.first == AssemblyConstraintType::outside &&
-                    constraint.second->isInside(translation))
+                if (constraint.first == AssemblyConstraintType::outside && constraint.second->isInside(translation))
                     addInstance = false;
             }
             if (!addInstance)
@@ -336,8 +301,7 @@ void Assembly::setProteinColorScheme(const ProteinColorSchemeDetails &details)
     else if (_membrane)
     {
         const auto membraneLipids = _membrane->getLipids();
-        const auto it =
-            membraneLipids.find(details.assemblyName + '_' + details.name);
+        const auto it = membraneLipids.find(details.assemblyName + '_' + details.name);
         if (it != membraneLipids.end())
             protein = (*it).second;
     }
@@ -346,23 +310,18 @@ void Assembly::setProteinColorScheme(const ProteinColorSchemeDetails &details)
     {
         Palette palette;
         for (size_t i = 0; i < details.palette.size(); i += 3)
-            palette.push_back({details.palette[i], details.palette[i + 1],
-                               details.palette[i + 2]});
+            palette.push_back({details.palette[i], details.palette[i + 1], details.palette[i + 2]});
 
-        PLUGIN_INFO(3, "Applying color scheme to protein "
-                           << details.name << " on assembly "
-                           << details.assemblyName);
+        PLUGIN_INFO(3, "Applying color scheme to protein " << details.name << " on assembly " << details.assemblyName);
         protein->setColorScheme(details.colorScheme, palette, details.chainIds);
 
         _scene.markModified();
     }
     else
-        PLUGIN_ERROR("Protein " << details.name << " not found on assembly "
-                                << details.assemblyName);
+        PLUGIN_ERROR("Protein " << details.name << " not found on assembly " << details.assemblyName);
 }
 
-void Assembly::setAminoAcidSequenceAsString(
-    const AminoAcidSequenceAsStringDetails &details)
+void Assembly::setAminoAcidSequenceAsString(const AminoAcidSequenceAsStringDetails &details)
 {
     const auto it = _proteins.find(details.name);
     if (it != _proteins.end())
@@ -371,8 +330,7 @@ void Assembly::setAminoAcidSequenceAsString(
         PLUGIN_THROW("Protein not found: " + details.name);
 }
 
-void Assembly::setAminoAcidSequenceAsRange(
-    const AminoAcidSequenceAsRangesDetails &details)
+void Assembly::setAminoAcidSequenceAsRange(const AminoAcidSequenceAsRangesDetails &details)
 {
     const auto it = _proteins.find(details.name);
     if (it != _proteins.end())
@@ -387,11 +345,9 @@ void Assembly::setAminoAcidSequenceAsRange(
         PLUGIN_THROW("Protein not found: " + details.name);
 }
 
-const std::string Assembly::getAminoAcidInformation(
-    const AminoAcidInformationDetails &details) const
+const std::string Assembly::getAminoAcidInformation(const AminoAcidInformationDetails &details) const
 {
-    PLUGIN_INFO(3, "Returning Amino Acid information from protein "
-                       << details.name);
+    PLUGIN_INFO(3, "Returning Amino Acid information from protein " << details.name);
 
     std::string response;
     const auto it = _proteins.find(details.name);
@@ -441,8 +397,7 @@ void Assembly::addRNASequence(const RNASequenceDetails &details)
     for (size_t i = 0; i < _details.position.size(); ++i)
         rd.position[i] += _details.position[i];
 
-    _rnaSequence = RNASequencePtr(
-        new RNASequence(_scene, rd, _clippingPlanes, _position, _rotation));
+    _rnaSequence = RNASequencePtr(new RNASequence(_scene, rd, _clippingPlanes, _position, _rotation));
     const auto modelDescriptor = _rnaSequence->getModelDescriptor();
     _modelDescriptors.push_back(modelDescriptor);
     _scene.addModel(modelDescriptor);
@@ -454,23 +409,20 @@ void Assembly::addRNASequence(const RNASequenceDetails &details)
     }
 }
 
-void Assembly::setProteinInstanceTransformation(
-    const ProteinInstanceTransformationDetails &details)
+void Assembly::setProteinInstanceTransformation(const ProteinInstanceTransformationDetails &details)
 {
     ProteinPtr protein{nullptr};
     const auto itProtein = _proteins.find(details.name);
     if (itProtein != _proteins.end())
         protein = (*itProtein).second;
     else
-        PLUGIN_THROW("Protein " + details.name + " not found on assembly " +
-                     details.assemblyName);
+        PLUGIN_THROW("Protein " + details.name + " not found on assembly " + details.assemblyName);
 
     const auto modelDescriptor = protein->getModelDescriptor();
 
     const auto &instances = modelDescriptor->getInstances();
     if (details.instanceIndex >= instances.size())
-        PLUGIN_THROW("Invalid instance index (" +
-                     std::to_string(details.instanceIndex) + ") for protein " +
+        PLUGIN_THROW("Invalid instance index (" + std::to_string(details.instanceIndex) + ") for protein " +
                      details.name + " in assembly " + details.assemblyName);
 
     const auto instance = modelDescriptor->getInstance(details.instanceIndex);
@@ -479,11 +431,9 @@ void Assembly::setProteinInstanceTransformation(
     const auto position = doublesToVector3d(details.position);
     const auto rotation = doublesToQuaterniond(details.rotation);
 
-    PLUGIN_INFO(3, "Modifying instance "
-                       << details.instanceIndex << " of protein "
-                       << details.name << " in assembly "
-                       << details.assemblyName << " with position=" << position
-                       << " and rotation=" << rotation);
+    PLUGIN_INFO(3, "Modifying instance " << details.instanceIndex << " of protein " << details.name << " in assembly "
+                                         << details.assemblyName << " with position=" << position
+                                         << " and rotation=" << rotation);
     Transformation newTransformation = transformation;
     newTransformation.setTranslation(position);
     newTransformation.setRotation(rotation);
@@ -502,15 +452,13 @@ const Transformation Assembly::getProteinInstanceTransformation(
     if (itProtein != _proteins.end())
         protein = (*itProtein).second;
     else
-        PLUGIN_THROW("Protein " + details.name + " not found on assembly " +
-                     details.assemblyName);
+        PLUGIN_THROW("Protein " + details.name + " not found on assembly " + details.assemblyName);
 
     const auto modelDescriptor = protein->getModelDescriptor();
 
     const auto &instances = modelDescriptor->getInstances();
     if (details.instanceIndex >= instances.size())
-        PLUGIN_THROW("Invalid instance index (" +
-                     std::to_string(details.instanceIndex) + ") for protein " +
+        PLUGIN_THROW("Invalid instance index (" + std::to_string(details.instanceIndex) + ") for protein " +
                      details.name + " in assembly " + details.assemblyName);
 
     const auto instance = modelDescriptor->getInstance(details.instanceIndex);
@@ -518,11 +466,9 @@ const Transformation Assembly::getProteinInstanceTransformation(
     const auto &position = transformation.getTranslation();
     const auto &rotation = transformation.getRotation();
 
-    PLUGIN_INFO(3, "Getting instance "
-                       << details.instanceIndex << " of protein "
-                       << details.name << " in assembly "
-                       << details.assemblyName << " with position=" << position
-                       << " and rotation=" << rotation);
+    PLUGIN_INFO(3, "Getting instance " << details.instanceIndex << " of protein " << details.name << " in assembly "
+                                       << details.assemblyName << " with position=" << position
+                                       << " and rotation=" << rotation);
 
     return transformation;
 }
@@ -535,9 +481,7 @@ bool Assembly::isInside(const Vector3d &location) const
     return result;
 }
 
-ProteinInspectionDetails Assembly::inspect(const Vector3d &origin,
-                                           const Vector3d &direction,
-                                           double &t) const
+ProteinInspectionDetails Assembly::inspect(const Vector3d &origin, const Vector3d &direction, double &t) const
 {
     ProteinInspectionDetails result;
     result.hit = false;
@@ -550,14 +494,12 @@ ProteinInspectionDetails Assembly::inspect(const Vector3d &origin,
     {
         const auto md = protein.second->getModelDescriptor();
         const auto &instances = md->getInstances();
-        const Vector3d instanceHalfSize =
-            protein.second->getBounds().getSize() / 2.0;
+        const Vector3d instanceHalfSize = protein.second->getBounds().getSize() / 2.0;
 
         uint64_t count = 0;
         for (const auto &instance : instances)
         {
-            const auto instancePosition =
-                instance.getTransformation().getTranslation();
+            const auto instancePosition = instance.getTransformation().getTranslation();
 
             Boxd box;
             box.merge(instancePosition - instanceHalfSize);
@@ -572,8 +514,7 @@ ProteinInspectionDetails Assembly::inspect(const Vector3d &origin,
                     result.proteinName = protein.second->getDescriptor().name;
                     result.modelId = md->getModelID();
                     result.instanceId = count;
-                    result.position = {instancePosition.x, instancePosition.y,
-                                       instancePosition.z};
+                    result.position = {instancePosition.x, instancePosition.y, instancePosition.z};
                     t = tHit;
                 }
             }
@@ -588,14 +529,12 @@ ProteinInspectionDetails Assembly::inspect(const Vector3d &origin,
         {
             const auto md = protein.second->getModelDescriptor();
             const auto &instances = md->getInstances();
-            const Vector3d instanceHalfSize =
-                protein.second->getBounds().getSize() / 2.0;
+            const Vector3d instanceHalfSize = protein.second->getBounds().getSize() / 2.0;
 
             uint64_t count = 0;
             for (const auto &instance : instances)
             {
-                const auto instancePosition =
-                    instance.getTransformation().getTranslation();
+                const auto instancePosition = instance.getTransformation().getTranslation();
 
                 Boxd box;
                 box.merge(instancePosition - instanceHalfSize);
@@ -607,13 +546,10 @@ ProteinInspectionDetails Assembly::inspect(const Vector3d &origin,
                     result.hit = true;
                     if (tHit < t)
                     {
-                        result.proteinName =
-                            protein.second->getDescriptor().name;
+                        result.proteinName = protein.second->getDescriptor().name;
                         result.modelId = md->getModelID();
                         result.instanceId = count;
-                        result.position = {instancePosition.x,
-                                           instancePosition.y,
-                                           instancePosition.z};
+                        result.position = {instancePosition.x, instancePosition.y, instancePosition.z};
                         t = tHit;
                     }
                 }
@@ -636,8 +572,7 @@ void Assembly::addVasculature(const VasculatureDetails &details)
             _scene.removeModel(modelId);
         }
     }
-    _vasculature.reset(
-        std::move(new Vasculature(_scene, details, _position, _rotation)));
+    _vasculature.reset(std::move(new Vasculature(_scene, details, _position, _rotation)));
     _scene.markModified(false);
 }
 
@@ -646,11 +581,9 @@ std::string Assembly::getVasculatureInfo() const
     auto modelDescriptor = _vasculature->getModelDescriptor();
     Response response;
     if (!_vasculature)
-        PLUGIN_THROW("No vasculature is currently defined in assembly " +
-                     _details.name);
+        PLUGIN_THROW("No vasculature is currently defined in assembly " + _details.name);
     std::stringstream s;
-    s << "modelId=" << modelDescriptor->getModelID() << CONTENTS_DELIMITER
-      << "nbNodes=" << _vasculature->getNbNodes();
+    s << "modelId=" << modelDescriptor->getModelID() << CONTENTS_DELIMITER << "nbNodes=" << _vasculature->getNbNodes();
     return s.str().c_str();
 }
 
@@ -666,8 +599,7 @@ void Assembly::setVasculatureReport(const VasculatureReportDetails &details)
     model.setSimulationHandler(handler);
 }
 
-void Assembly::setVasculatureRadiusReport(
-    const VasculatureRadiusReportDetails &details)
+void Assembly::setVasculatureRadiusReport(const VasculatureRadiusReportDetails &details)
 {
     if (!_vasculature && !_astrocytes)
         PLUGIN_THROW("No vasculature nor astrocytes are currently loaded");
@@ -681,19 +613,16 @@ void Assembly::setVasculatureRadiusReport(
 void Assembly::addAstrocytes(const AstrocytesDetails &details)
 {
     if (_astrocytes)
-        PLUGIN_THROW("Astrocytes already exists in assembly " +
-                     details.assemblyName);
+        PLUGIN_THROW("Astrocytes already exists in assembly " + details.assemblyName);
 
-    _astrocytes =
-        AstrocytesPtr(new Astrocytes(_scene, details, _position, _rotation));
+    _astrocytes = AstrocytesPtr(new Astrocytes(_scene, details, _position, _rotation));
     _scene.markModified(false);
 }
 
 void Assembly::addAtlas(const AtlasDetails &details)
 {
     if (_atlas)
-        PLUGIN_THROW("Atlas already exists in assembly " +
-                     details.assemblyName);
+        PLUGIN_THROW("Atlas already exists in assembly " + details.assemblyName);
 
     _atlas = AtlasPtr(new Atlas(_scene, details, _position, _rotation));
     _scene.markModified(false);
@@ -702,28 +631,23 @@ void Assembly::addAtlas(const AtlasDetails &details)
 void Assembly::addNeurons(const NeuronsDetails &details)
 {
     if (_neurons)
-        PLUGIN_THROW("Neurons already exists in assembly " +
-                     details.assemblyName);
+        PLUGIN_THROW("Neurons already exists in assembly " + details.assemblyName);
 
     _neurons = NeuronsPtr(new Neurons(_scene, details, _position, _rotation));
     _scene.markModified(false);
 }
 
-Vector4ds Assembly::getNeuronSectionPoints(
-    const NeuronIdSectionIdDetails &details)
+Vector4ds Assembly::getNeuronSectionPoints(const NeuronIdSectionIdDetails &details)
 {
     if (!_neurons)
-        PLUGIN_THROW("No neurons are currently defined in assembly " +
-                     details.assemblyName);
-    return _neurons->getNeuronSectionPoints(details.neuronId,
-                                            details.sectionId);
+        PLUGIN_THROW("No neurons are currently defined in assembly " + details.assemblyName);
+    return _neurons->getNeuronSectionPoints(details.neuronId, details.sectionId);
 }
 
 Vector3ds Assembly::getNeuronVaricosities(const NeuronIdDetails &details)
 {
     if (!_neurons)
-        PLUGIN_THROW("No neurons are currently defined in assembly " +
-                     details.assemblyName);
+        PLUGIN_THROW("No neurons are currently defined in assembly " + details.assemblyName);
     return _neurons->getNeuronVaricosities(details.neuronId);
 }
 
@@ -744,24 +668,19 @@ Transformation Assembly::getTransformation() const
     return transformation;
 }
 
-void Assembly::addEnzymeReaction(const EnzymeReactionDetails &details,
-                                 AssemblyPtr enzymeAssembly, ProteinPtr enzyme,
+void Assembly::addEnzymeReaction(const EnzymeReactionDetails &details, AssemblyPtr enzymeAssembly, ProteinPtr enzyme,
                                  Proteins &substrates, Proteins &products)
 {
     auto enzymeReaction =
-        EnzymeReactionPtr(new EnzymeReaction(_scene, details, enzymeAssembly,
-                                             enzyme, substrates, products));
+        EnzymeReactionPtr(new EnzymeReaction(_scene, details, enzymeAssembly, enzyme, substrates, products));
     _enzymeReactions[details.name] = enzymeReaction;
 }
 
-void Assembly::setEnzymeReactionProgress(
-    const EnzymeReactionProgressDetails &details)
+void Assembly::setEnzymeReactionProgress(const EnzymeReactionProgressDetails &details)
 {
     if (_enzymeReactions.find(details.name) == _enzymeReactions.end())
-        PLUGIN_THROW("Enzyme reaction does not exist in assembly " +
-                     _details.name);
-    _enzymeReactions[details.name]->setProgress(details.instanceId,
-                                                details.progress);
+        PLUGIN_THROW("Enzyme reaction does not exist in assembly " + _details.name);
+    _enzymeReactions[details.name]->setProgress(details.instanceId, details.progress);
 }
 
 void Assembly::addWhiteMatter(const WhiteMatterDetails &details)
@@ -775,8 +694,7 @@ void Assembly::addWhiteMatter(const WhiteMatterDetails &details)
             _scene.removeModel(modelId);
         }
     }
-    _whiteMatter.reset(
-        std::move(new WhiteMatter(_scene, details, _position, _rotation)));
+    _whiteMatter.reset(std::move(new WhiteMatter(_scene, details, _position, _rotation)));
     _scene.markModified(false);
 }
 
@@ -791,8 +709,7 @@ void Assembly::addSynapses(const SynapsesDetails &details)
             _scene.removeModel(modelId);
         }
     }
-    _synapses.reset(
-        std::move(new Synapses(_scene, details, _position, _rotation)));
+    _synapses.reset(std::move(new Synapses(_scene, details, _position, _rotation)));
     _scene.markModified(false);
 }
 
@@ -807,8 +724,7 @@ void Assembly::addSynapseEfficacy(const SynapseEfficacyDetails &details)
             _scene.removeModel(modelId);
         }
     }
-    _synapseEfficacy.reset(
-        std::move(new SynapseEfficacy(_scene, details, _position, _rotation)));
+    _synapseEfficacy.reset(std::move(new SynapseEfficacy(_scene, details, _position, _rotation)));
 
     auto modelDescriptor = _synapseEfficacy->getModelDescriptor();
     auto handler = std::make_shared<SynapseEfficacySimulationHandler>(details);

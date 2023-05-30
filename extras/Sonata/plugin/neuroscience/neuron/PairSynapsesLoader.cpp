@@ -30,31 +30,23 @@ namespace neuron
 {
 const std::string LOADER_NAME = "Pair synapses";
 
-PairSynapsesLoader::PairSynapsesLoader(
-    Scene &scene, const ApplicationParameters &applicationParameters,
-    PropertyMap &&loaderParams)
-    : AbstractCircuitLoader(scene, applicationParameters,
-                            std::move(loaderParams))
+PairSynapsesLoader::PairSynapsesLoader(Scene &scene, const ApplicationParameters &applicationParameters,
+                                       PropertyMap &&loaderParams)
+    : AbstractCircuitLoader(scene, applicationParameters, std::move(loaderParams))
 {
     _fixedDefaults.setProperty({PROP_DENSITY.name, 1.0});
     _fixedDefaults.setProperty({PROP_RANDOM_SEED.name, 0.0});
     _fixedDefaults.setProperty({PROP_REPORT.name, std::string("")});
     _fixedDefaults.setProperty({PROP_TARGETS.name, std::string("")});
     _fixedDefaults.setProperty({PROP_GIDS.name, std::string("")});
-    _fixedDefaults.setProperty(
-        {PROP_REPORT_TYPE.name, enumToString(ReportType::undefined)});
+    _fixedDefaults.setProperty({PROP_REPORT_TYPE.name, enumToString(ReportType::undefined)});
     _fixedDefaults.setProperty({PROP_RADIUS_CORRECTION.name, 0.0});
-    _fixedDefaults.setProperty({PROP_CIRCUIT_COLOR_SCHEME.name,
-                                enumToString(CircuitColorScheme::by_id)});
-    _fixedDefaults.setProperty(
-        {PROP_DAMPEN_BRANCH_THICKNESS_CHANGERATE.name, true});
-    _fixedDefaults.setProperty(
-        {PROP_USER_DATA_TYPE.name, enumToString(UserDataType::undefined)});
-    _fixedDefaults.setProperty({PROP_MORPHOLOGY_MAX_DISTANCE_TO_SOMA.name,
-                                std::numeric_limits<double>::max()});
+    _fixedDefaults.setProperty({PROP_CIRCUIT_COLOR_SCHEME.name, enumToString(CircuitColorScheme::by_id)});
+    _fixedDefaults.setProperty({PROP_DAMPEN_BRANCH_THICKNESS_CHANGERATE.name, true});
+    _fixedDefaults.setProperty({PROP_USER_DATA_TYPE.name, enumToString(UserDataType::undefined)});
+    _fixedDefaults.setProperty({PROP_MORPHOLOGY_MAX_DISTANCE_TO_SOMA.name, std::numeric_limits<double>::max()});
     _fixedDefaults.setProperty({PROP_MESH_FOLDER.name, std::string("")});
-    _fixedDefaults.setProperty(
-        {PROP_MESH_FILENAME_PATTERN.name, std::string("")});
+    _fixedDefaults.setProperty({PROP_MESH_FILENAME_PATTERN.name, std::string("")});
     _fixedDefaults.setProperty({PROP_MESH_TRANSFORMATION.name, false});
     _fixedDefaults.setProperty({PROP_CELL_CLIPPING.name, false});
     _fixedDefaults.setProperty({PROP_AREAS_OF_INTEREST.name, 0});
@@ -68,9 +60,8 @@ PairSynapsesLoader::PairSynapsesLoader(
     _fixedDefaults.setProperty({PROP_USE_SDF_MYELIN_STEATH.name, false});
 }
 
-ModelDescriptorPtr PairSynapsesLoader::importFromFile(
-    const std::string &filename, const LoaderProgress &callback,
-    const PropertyMap &properties) const
+ModelDescriptorPtr PairSynapsesLoader::importFromFile(const std::string &filename, const LoaderProgress &callback,
+                                                      const PropertyMap &properties) const
 {
     PLUGIN_INFO("Loading circuit from " << filename);
     callback.updateProgress("Loading circuit ...", 0);
