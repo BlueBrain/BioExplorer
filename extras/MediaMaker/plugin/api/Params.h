@@ -22,7 +22,7 @@
 
 #include <plugin/common/Types.h>
 
-#include <bioexplorer/core/plugin/common/Types.h>
+#include <bioexplorer/backend/plugin/common/Types.h>
 
 #include <limits>
 #include <string>

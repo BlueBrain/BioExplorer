@@ -25,7 +25,7 @@
 
 #include <plugin/neuroscience/common/Types.h>
 
-#include <bioexplorer/core/plugin/common/Octree.h>
+#include <bioexplorer/backend/plugin/common/Octree.h>
 
 #include <brayns/common/scene/ClipPlane.h>
 #include <brayns/engineapi/Model.h>

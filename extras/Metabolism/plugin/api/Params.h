@@ -22,7 +22,7 @@
 
 #include <string>
 
-#include <bioexplorer/core/plugin/api/Params.h>
+#include <bioexplorer/backend/plugin/api/Params.h>
 #include <plugin/common/Types.h>
 
 namespace bioexplorer

@@ -55,7 +55,7 @@ endif()
 
 set(BIOEXPLORER_SOURCE_DIR ${PROJECT_SOURCE_DIR})
 configure_file(common/Defines.h.in ${CMAKE_BINARY_DIR}/generated/circuitexplorer/Defines.h)
-include_directories(${PROJECT_SOURCE_DIR}/core ${CMAKE_BINARY_DIR}/generated/circuitexplorer)
+include_directories(${PROJECT_SOURCE_DIR}/backend ${CMAKE_BINARY_DIR}/generated/circuitexplorer)
 
 # ==============================================================================
 # Sources

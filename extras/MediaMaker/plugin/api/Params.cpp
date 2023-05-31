@@ -19,7 +19,7 @@
  */
 
 #include "Params.h"
-#include <bioexplorer/core/json.hpp>
+#include <bioexplorer/backend/json.hpp>
 
 namespace bioexplorer
 {

@@ -51,7 +51,7 @@ configure_file(
 )
 
 include_directories(
-    ${PROJECT_SOURCE_DIR}/bioexplorer/core
+    ${PROJECT_SOURCE_DIR}/bioexplorer/backend
     ${CMAKE_BINARY_DIR}/generated/bioexplorer
 )
 
@@ -252,7 +252,7 @@ include_directories(
     ${BRAYNS_INCLUDE_DIRS}
     ${morphio_INCLUDE_DIRS}
     ${GLM_INCLUDE_DIRS}
-    ${PROJECT_SOURCE_DIR}/bioexplorer/core/module/ispc
+    ${PROJECT_SOURCE_DIR}/bioexplorer/backend/module/ispc
     ${${NAME}_MODULES_DIR}
 )
 

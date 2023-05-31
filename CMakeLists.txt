@@ -56,7 +56,7 @@ if(OptiX6_FOUND AND CUDA_FOUND)
         message(STATUS "[BioExplorer] OptiX 6 module enabled")
     endif()
 endif()
-add_subdirectory(bioexplorer/core)
+add_subdirectory(bioexplorer/backend)
 
 option(BIOEXPLORER_MEDIA_MAKER_ENABLED "Enable media maker plugin" ON)
 if(BIOEXPLORER_MEDIA_MAKER_ENABLED)
