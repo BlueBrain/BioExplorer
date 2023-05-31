@@ -19,20 +19,37 @@
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 set(NAME BIOEXPLORER)
-set(BIOEXPLORER_PACKAGE_VERSION 1.6.0)
-project(${NAME} VERSION ${BIOEXPLORER_PACKAGE_VERSION})
+
+set(PACKAGE_VERSION_ABI 1)
+set(PACKAGE_VERSION_MAJOR 1)
+set(PACKAGE_VERSION_MINOR 6)
+set(PACKAGE_VERSION_PATCH 0)
+
+# Get the Git revision using the git command
+execute_process(
+    COMMAND git rev-parse --short HEAD
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE PACKAGE_VERSION_REVISION
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+project(${NAME} VERSION "${PACKAGE_VERSION_MAJOR}.${PACKAGE_VERSION_MINOR}.${PACKAGE_VERSION_PATCH}")
+set(PACKAGE_REV_STRING "${PACKAGE_VERSION_MAJOR}.${PACKAGE_VERSION_MINOR}.${PACKAGE_VERSION_PATCH}.${PACKAGE_VERSION_REVISION}")
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake)
 set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_STANDARD 14)
 
-find_package(Brayns REQUIRED)
+find_package(Boost REQUIRED COMPONENTS program_options filesystem)
+find_package(glm REQUIRED)
+find_package(FreeImage REQUIRED)
 find_package(ospray)
 find_package(OptiX6)
 find_package(CUDA)
-find_package(Boost REQUIRED COMPONENTS program_options filesystem)
-find_package(glm REQUIRED SYSTEM)
-find_package(FreeImage REQUIRED)
+find_package(assimp)
+find_package(LibJpegTurbo)
+find_package(Rockets)
+
+set(BIOEXPLORER_SOURCE_DIRS ${PROJECT_SOURCE_DIR} ${CMAKE_BINARY_DIR}/generated/common)
 
 # ==============================================================================
 # Options
@@ -40,22 +57,89 @@ find_package(FreeImage REQUIRED)
 set(OSPRAY_FOUND 0)
 if(ospray_FOUND)
     include(ispc)
-    option(BIOEXPLORER_OSPRAY_ENABLED "Enable OSPRay 1 module" ON)
-
-    if(BIOEXPLORER_OSPRAY_ENABLED)
+    option(CORE_OSPRAY_ENABLED "Enable OSPRay 1 module" ON)
+    if(CORE_OSPRAY_ENABLED)
         set(OSPRAY_FOUND 1)
-        message(STATUS "[BioExplorer] OSPRay module enabled")
+        message(STATUS "[Core] OSPRay module enabled")
     endif()
 endif()
 
 set(OPTIX6_FOUND 0)
 if(OptiX6_FOUND AND CUDA_FOUND)
-    option(BIOEXPLORER_OPTIX6_ENABLED "Enable OptiX 6 module" ON)
-    if(BIOEXPLORER_OSPRAY_ENABLED)
+    option(CORE_OPTIX6_ENABLED "Enable OptiX 6 module" OFF)
+    if(CORE_OPTIX6_ENABLED)
         set(OPTIX6_FOUND 1)
-        message(STATUS "[BioExplorer] OptiX 6 module enabled")
+        message(STATUS "[Core] OptiX 6 module enabled")
     endif()
 endif()
+
+set(OPTIX7_FOUND 0)
+if(OptiX7_FOUND AND CUDA_FOUND)
+    option(CORE_OPTIX7_ENABLED "Enable OptiX 7 module" OFF)
+    if(CORE_OPTIX7_ENABLED)
+        set(OPTIX7_FOUND 1)
+        message(STATUS "[Core] OptiX 7 module enabled")
+    endif()
+endif()
+
+set(CGAL_FOUND 0)
+if(${${NAME}_USE_CGAL})
+    set(CGAL_DATA_DIR ".")
+    find_package(CGAL REQUIRED)
+endif()
+
+set(ASSIMP_FOUND 0)
+if(assimp_FOUND)
+    option(CORE_ASSIMP_ENABLED "Activate assimp library for standard 3D file format management" ${assimp_FOUND})
+    if(CORE_ASSIMP_ENABLED)
+        set(ASSIMP_FOUND 1)
+        link_directories(${ASSIMP_LIBRARY_DIRS})
+        message(STATUS "[Core] Assimp module enabled")
+    endif()
+endif()
+
+set(NETWORKING_FOUND 0)
+if(LibLIBJPEGTURBO_FOUND AND Rockets_FOUND)
+    if(ROCKETS_USE_LIBWEBSOCKETS)
+        option(CORE_NETWORKING_ENABLED "Activate networking interfaces" ON)
+    else()
+        option(CORE_NETWORKING_ENABLED "Activate networking interfaces" OFF)
+    endif()
+
+    if(CORE_NETWORKING_ENABLED)
+        message(STATUS "[Core] Building networking module")
+        set(NETWORKING_FOUND 1)
+        # We require turbojpeg for networking to get image streaming working
+
+        if(NOT ROCKETS_USE_LIBWEBSOCKETS)
+            message(WARNING "Could not enable networking, missing Rockets with libwebsockets")
+        endif()
+
+        list(APPEND COMMON_FIND_PACKAGE_DEFINES CORE_USE_NETWORKING)
+    endif()
+endif()
+
+# ==============================================================================
+# Update Defines.h.in and Version.h.in
+# ==============================================================================
+configure_file(
+    common/Defines.h.in
+    ${CMAKE_BINARY_DIR}/generated/common/Defines.h
+)
+
+configure_file(
+    common/Version.h.in
+    ${CMAKE_BINARY_DIR}/generated/common/Version.h
+)
+
+# ==============================================================================
+# Core platform
+# ==============================================================================
+add_subdirectory(core)
+
+# ==============================================================================
+# BioExplorer backend
+# ==============================================================================
 add_subdirectory(bioexplorer/backend)
 
 option(BIOEXPLORER_MEDIA_MAKER_ENABLED "Enable media maker plugin" ON)

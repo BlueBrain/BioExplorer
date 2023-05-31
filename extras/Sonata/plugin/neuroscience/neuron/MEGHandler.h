@@ -22,10 +22,10 @@
 
 #include <plugin/neuroscience/common/Types.h>
 
-#include <brayns/common/simulation/AbstractSimulationHandler.h>
+#include <core/brayns/common/simulation/AbstractSimulationHandler.h>
 
-#include <brayns/common/types.h>
-#include <brayns/engineapi/Scene.h>
+#include <core/brayns/common/Types.h>
+#include <core/brayns/engineapi/Scene.h>
 
 namespace sonataexplorer
 {

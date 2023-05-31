@@ -23,8 +23,9 @@
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
-#include <brayns/common/geometry/TriangleMesh.h>
+#include <core/brayns/common/geometry/TriangleMesh.h>
 
+#include <omp.h>
 #include <pqxx/pqxx>
 
 namespace bioexplorer

@@ -24,8 +24,8 @@
 #include <plugin/common/Types.h>
 #include <plugin/io/db/DBConnector.h>
 
-#include <brayns/api.h>
-#include <brayns/common/simulation/AbstractSimulationHandler.h>
+#include <core/brayns/common/Api.h>
+#include <core/brayns/common/simulation/AbstractSimulationHandler.h>
 
 namespace bioexplorer
 {

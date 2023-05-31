@@ -16,31 +16,25 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
-
 # ==============================================================================
 # Project
 # ==============================================================================
 set(NAME MEDIAMAKER)
 set(LIBRARY_NAME MediaMaker)
-project(${NAME} VERSION ${BIOEXPLORER_PACKAGE_VERSION})
-set(${NAME}_VERSION_ABI 1)
 
 # ==============================================================================
 # Packages and settings
 # ==============================================================================
-set(BIOEXPLORER_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../..)
-list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIR}/CMake)
+list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIRS}/CMake)
 set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
 
 find_package(TIFF REQUIRED)
 find_package(exiv2 REQUIRED)
 
 include_directories(
-    ${BIOEXPLORER_SOURCE_DIR}
+    ${BIOEXPLORER_SOURCE_DIRS}
     ${CMAKE_BINARY_DIR}/generated/mediamaker
     ${PROJECT_SOURCE_DIR}
-    ${BRAYNS_INCLUDE_DIRS}
     ${TIFF_INCLUDE_DIRS}
     ${${NAME}_MODULES_DIR}
 )
@@ -85,6 +79,7 @@ if(BIOEXPLORER_OSPRAY_ENABLED)
     # Compile ispc code
     # ==============================================================================
     list(APPEND CMAKE_MODULE_PATH ${OSPRAY_CMAKE_ROOT})
+    list(APPEND ALL_ISPC_INCLUDES ${BIOEXPLORER_SOURCE_DIRS})
     list(APPEND ALL_ISPC_INCLUDES ${${NAME}_MODULES_DIR})
     list(APPEND ALL_ISPC_INCLUDES ${OSPRAY_INCLUDE_DIRS})
     list(APPEND ALL_ISPC_INCLUDES ${GLM_INCLUDE_DIRS})
@@ -93,16 +88,16 @@ if(BIOEXPLORER_OSPRAY_ENABLED)
     list(APPEND ${NAME}_SOURCES ${ISPC_OBJECTS})
 
     list(APPEND ${NAME}_PUBLIC_MODULE_LIBRARIES ${OSPRAY_LIBRARIES})
-    list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES braynsOSPRayEngine)
+    list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES OSPRayEngine)
     include_directories(${OSPRAY_INCLUDE_DIRS})
 endif()
 
 # ==============================================================================
 # OptiX 6 module
 # ==============================================================================
-if(BIOEXPLORER_OPTIX6_ENABLED)
+if(CORE_OPTIX6_ENABLED)
     message(STATUS "[MediaMaker] Building OptiX 6 module")
-    list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIR}/CMake)
+    list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIRS}/CMake)
 
     find_package(CUDA REQUIRED)
     if(CUDA_FOUND)
@@ -141,6 +136,12 @@ endif()
 # ==============================================================================
 # Compile c++ code
 # ==============================================================================
+include_directories(
+    SYSTEM
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${BIOEXPLORER_SOURCE_DIRS}
+)
+
 configure_file(
     plugin/common/Defines.h.in
     ${CMAKE_BINARY_DIR}/generated/mediamaker/Defines.h
@@ -148,12 +149,14 @@ configure_file(
 
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${${NAME}_PUBLIC_MODULE_LIBRARIES} ${TIFF_LIBRARIES} exiv2
-    PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO ${${NAME}_PRIVATE_MODULE_LIBRARIES}
+    PRIVATE CoreParameters CoreCommon CoreEngine CoreIO ${${NAME}_PRIVATE_MODULE_LIBRARIES}
 )
 
 add_library(
     ${LIBRARY_NAME}
     SHARED ${${NAME}_SOURCES})
+
+link_directories(${CMAKE_BINARY_DIR})
 
 target_link_libraries(
     ${LIBRARY_NAME}

@@ -22,8 +22,8 @@
 
 #include <Defines.h>
 
-#include <brayns/common/geometry/SDFGeometry.h>
-#include <brayns/engineapi/Scene.h>
+#include <core/brayns/common/geometry/SDFGeometry.h>
+#include <core/brayns/engineapi/Scene.h>
 
 #include <map>
 #include <set>

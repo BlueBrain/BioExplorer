@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <brayns/common/types.h>
+#include <core/brayns/common/Types.h>
 
 #include "OctreeNode.h"
 

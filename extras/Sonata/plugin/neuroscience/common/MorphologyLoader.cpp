@@ -24,11 +24,11 @@
 
 #include <plugin/neuroscience/common/ParallelModelContainer.h>
 
-#include <brayns/common/simulation/AbstractSimulationHandler.h>
-#include <brayns/common/types.h>
-#include <brayns/engineapi/Material.h>
-#include <brayns/engineapi/Model.h>
-#include <brayns/engineapi/Scene.h>
+#include <core/brayns/common/simulation/AbstractSimulationHandler.h>
+#include <core/brayns/common/Types.h>
+#include <core/brayns/engineapi/Material.h>
+#include <core/brayns/engineapi/Model.h>
+#include <core/brayns/engineapi/Scene.h>
 
 #include <brion/uri.h>
 

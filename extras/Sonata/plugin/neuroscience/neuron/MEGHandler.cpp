@@ -27,8 +27,8 @@
 
 #include <bioexplorer/backend/plugin/common/Octree.h>
 
-#include <brayns/common/scene/ClipPlane.h>
-#include <brayns/engineapi/Model.h>
+#include <core/brayns/common/scene/ClipPlane.h>
+#include <core/brayns/engineapi/Model.h>
 
 #include <brain/brain.h>
 #include <brion/brion.h>

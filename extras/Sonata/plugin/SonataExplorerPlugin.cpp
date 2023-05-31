@@ -18,7 +18,8 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "Defines.h"
+#include <Defines.h>
+#include <Version.h>
 
 #include "SonataExplorerPlugin.h"
 #include <common/Logs.h>
@@ -38,19 +39,19 @@
 
 #include <plugin/meshing/PointCloudMesher.h>
 
-#include <brayns/common/ActionInterface.h>
-#include <brayns/common/Progress.h>
-#include <brayns/common/Timer.h>
-#include <brayns/common/geometry/Streamline.h>
-#include <brayns/common/utils/imageUtils.h>
-#include <brayns/engineapi/Camera.h>
-#include <brayns/engineapi/Engine.h>
-#include <brayns/engineapi/FrameBuffer.h>
-#include <brayns/engineapi/Material.h>
-#include <brayns/engineapi/Model.h>
-#include <brayns/engineapi/Scene.h>
-#include <brayns/parameters/ParametersManager.h>
-#include <brayns/pluginapi/Plugin.h>
+#include <core/brayns/common/ActionInterface.h>
+#include <core/brayns/common/Progress.h>
+#include <core/brayns/common/Timer.h>
+#include <core/brayns/common/geometry/Streamline.h>
+#include <core/brayns/common/utils/imageUtils.h>
+#include <core/brayns/engineapi/Camera.h>
+#include <core/brayns/engineapi/Engine.h>
+#include <core/brayns/engineapi/FrameBuffer.h>
+#include <core/brayns/engineapi/Material.h>
+#include <core/brayns/engineapi/Model.h>
+#include <core/brayns/engineapi/Scene.h>
+#include <core/brayns/parameters/ParametersManager.h>
+#include <core/brayns/pluginapi/Plugin.h>
 
 #include <cstdio>
 #include <dirent.h>
@@ -337,7 +338,7 @@ void SonataExplorerPlugin::preRender()
 Response SonataExplorerPlugin::_getVersion() const
 {
     Response response;
-    response.contents = PACKAGE_VERSION;
+    response.contents = PACKAGE_VERSION_STRING;
     return response;
 }
 

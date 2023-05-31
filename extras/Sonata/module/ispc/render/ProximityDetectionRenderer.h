@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <brayns/ispc/render/utils/SimulationRenderer.h>
+#include <core/engines/ospray/ispc/render/utils/SimulationRenderer.h>
 
 namespace sonataexplorer
 {

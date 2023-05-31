@@ -22,8 +22,8 @@
 
 #include "Utils.h"
 
-#include <brayns/engineapi/Material.h>
-#include <brayns/engineapi/Model.h>
+#include <core/brayns/engineapi/Material.h>
+#include <core/brayns/engineapi/Model.h>
 
 #include <iostream>
 

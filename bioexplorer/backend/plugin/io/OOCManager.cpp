@@ -26,10 +26,10 @@
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 
-#include <brayns/engineapi/Camera.h>
-#include <brayns/engineapi/FrameBuffer.h>
-#include <brayns/engineapi/Model.h>
-#include <brayns/engineapi/Scene.h>
+#include <core/brayns/engineapi/Camera.h>
+#include <core/brayns/engineapi/FrameBuffer.h>
+#include <core/brayns/engineapi/Model.h>
+#include <core/brayns/engineapi/Scene.h>
 
 #include <thread>
 

@@ -18,8 +18,8 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <brayns/common/mathTypes.h>
-#include <brayns/common/types.h>
+#include <core/brayns/common/MathTypes.h>
+#include <core/brayns/common/Types.h>
 
 #include <glm/gtx/matrix_decompose.hpp>
 

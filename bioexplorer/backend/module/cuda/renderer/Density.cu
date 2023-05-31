@@ -20,8 +20,8 @@
 
 #include <optix_world.h>
 
-#include <brayns/OptiXCommonStructs.h>
-#include <brayns/cuda/Random.cuh>
+#include <core/engines/optix6/OptiXCommonStructs.h>
+#include <core/engines/optix6/cuda/Random.cuh>
 
 // Scene
 rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );

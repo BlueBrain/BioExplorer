@@ -20,6 +20,8 @@
 
 #include "Assembly.h"
 
+#include <Defines.h>
+
 #include <plugin/atlas/Atlas.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
@@ -29,7 +31,6 @@
 #include <plugin/common/shapes/CubeShape.h>
 #include <plugin/common/shapes/FanShape.h>
 #include <plugin/common/shapes/HelixShape.h>
-#include <plugin/common/shapes/MeshShape.h>
 #include <plugin/common/shapes/PlaneShape.h>
 #include <plugin/common/shapes/PointShape.h>
 #include <plugin/common/shapes/SinusoidShape.h>
@@ -48,7 +49,11 @@
 #include <plugin/vasculature/Vasculature.h>
 #include <plugin/vasculature/VasculatureHandler.h>
 
-#include <brayns/engineapi/Model.h>
+#ifdef USE_ASSIMP
+#include <plugin/common/shapes/MeshShape.h>
+#endif
+
+#include <core/brayns/engineapi/Model.h>
 
 namespace bioexplorer
 {
@@ -92,10 +97,14 @@ Assembly::Assembly(Scene &scene, const AssemblyDetails &details)
         break;
     }
     case AssemblyShape::mesh:
+#ifdef USE_ASSIMP
     {
         _shape = ShapePtr(new MeshShape(_clippingPlanes, size, _details.shapeMeshContents));
         break;
     }
+#else
+        PLUGIN_THROW("BioExplorer was not compiled with the Assimp library");
+#endif
     case AssemblyShape::helix:
     {
         _shape = ShapePtr(new HelixShape(_clippingPlanes, size.x, size.y));

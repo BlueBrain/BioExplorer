@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include <brayns/common/Transformation.h>
-#include <brayns/common/loader/Loader.h>
-#include <brayns/common/types.h>
+#include <core/brayns/common/Transformation.h>
+#include <core/brayns/common/loader/Loader.h>
+#include <core/brayns/common/Types.h>
 
 namespace sonataexplorer
 {

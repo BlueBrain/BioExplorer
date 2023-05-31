@@ -20,6 +20,8 @@
 
 #include "BioExplorerPlugin.h"
 
+#include <Version.h>
+
 #include <plugin/common/Assembly.h>
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
@@ -28,14 +30,14 @@
 #include <plugin/io/OOCManager.h>
 #include <plugin/morphologies/SpikeSimulationHandler.h>
 
-#include <brayns/common/ActionInterface.h>
-#include <brayns/common/scene/ClipPlane.h>
-#include <brayns/engineapi/Camera.h>
-#include <brayns/engineapi/Engine.h>
-#include <brayns/engineapi/Material.h>
-#include <brayns/engineapi/Model.h>
-#include <brayns/parameters/ParametersManager.h>
-#include <brayns/pluginapi/Plugin.h>
+#include <core/brayns/common/ActionInterface.h>
+#include <core/brayns/common/scene/ClipPlane.h>
+#include <core/brayns/engineapi/Camera.h>
+#include <core/brayns/engineapi/Engine.h>
+#include <core/brayns/engineapi/Material.h>
+#include <core/brayns/engineapi/Model.h>
+#include <core/brayns/parameters/ParametersManager.h>
+#include <core/brayns/pluginapi/Plugin.h>
 
 #ifdef USE_OPTIX6
 #include <BioExplorer_generated_Density.cu.ptx.h>
@@ -43,7 +45,7 @@
 #include <BioExplorer_generated_Golgi.cu.ptx.h>
 #include <BioExplorer_generated_PathTracing.cu.ptx.h>
 #include <BioExplorer_generated_Voxel.cu.ptx.h>
-#include <brayns/OptiXContext.h>
+#include <core/engines/optix6/OptiXContext.h>
 #endif
 
 namespace bioexplorer
@@ -635,7 +637,7 @@ void BioExplorerPlugin::preRender()
 Response BioExplorerPlugin::_getVersion() const
 {
     Response response;
-    response.contents = PACKAGE_VERSION;
+    response.contents = PACKAGE_VERSION_STRING;
     return response;
 }
 
@@ -1957,7 +1959,7 @@ extern "C" ExtensionPlugin *brayns_plugin_create(int argc, char **argv)
     PLUGIN_INFO(1, " _|_|_|    _|    _|_|    _|_|_|_|  _|    _|  _|_|_|    _|    _|_|    _|          _|_|_|  _|      ");
     PLUGIN_INFO(1, "                                             _|                                                  ");
     PLUGIN_INFO(1, "                                             _|                                                  ");
-    PLUGIN_INFO(1, "Initializing BioExplorer plug-in (version " << PACKAGE_VERSION << ")");
+    PLUGIN_INFO(1, "Initializing BioExplorer plug-in (version " << PACKAGE_VERSION_STRING << ")");
 #ifdef USE_CGAL
     PLUGIN_INFO(1, "- CGAL module loaded");
 #endif

@@ -22,9 +22,9 @@
 
 #include <plugin/api/Params.h>
 
-#include <brayns/api.h>
-#include <brayns/common/simulation/AbstractSimulationHandler.h>
-#include <brayns/common/types.h>
+#include <core/brayns/common/Api.h>
+#include <core/brayns/common/simulation/AbstractSimulationHandler.h>
+#include <core/brayns/common/Types.h>
 
 namespace bioexplorer
 {

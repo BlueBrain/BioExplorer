@@ -16,13 +16,10 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
-
 # ==============================================================================
 # Project
 # ==============================================================================
 set(LIBRARY_NAME BioExplorer)
-set(${NAME}_VERSION_ABI 1)
 
 # ==============================================================================
 # Packages and settings
@@ -38,21 +35,9 @@ find_package(PQXX REQUIRED)
 # Compiler flags
 add_compile_options("-fopenmp")
 
-# Optional packages (managed by Defines.h.in)
-set(CGAL_FOUND 0)
-if(${${NAME}_USE_CGAL})
-    set(CGAL_DATA_DIR ".")
-    find_package(CGAL REQUIRED)
-endif()
-
-configure_file(
-    plugin/common/Defines.h.in
-    ${CMAKE_BINARY_DIR}/generated/bioexplorer/Defines.h
-)
-
 include_directories(
     ${PROJECT_SOURCE_DIR}/bioexplorer/backend
-    ${CMAKE_BINARY_DIR}/generated/bioexplorer
+    ${BIOEXPLORER_SOURCE_DIRS}
 )
 
 # ==============================================================================
@@ -65,7 +50,6 @@ set(${NAME}_SOURCES
     plugin/common/Node.cpp
     plugin/common/SDFGeometries.cpp
     plugin/common/shapes/Shape.cpp
-    plugin/common/shapes/MeshShape.cpp
     plugin/common/shapes/SphereShape.cpp
     plugin/common/shapes/SphericalCellDiffusionShape.cpp
     plugin/common/shapes/HelixShape.cpp
@@ -140,7 +124,6 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/common/CommonTypes.h
     plugin/common/ThreadSafeContainer.h
     plugin/common/shapes/Shape.h
-    plugin/common/shapes/MeshShape.h
     plugin/common/shapes/SphereShape.h
     plugin/common/shapes/SphericalCellDiffusionShape.h
     plugin/common/shapes/HelixShape.h
@@ -162,6 +145,12 @@ set(${NAME}_PUBLIC_HEADERS
 
 if(${CGAL_FOUND} AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options(-frounding-math)
+endif()
+
+if(ASSIMP_FOUND)
+    list(APPEND ${NAME}_SOURCES plugin/common/shapes/MeshShape.cpp)
+    list(APPEND ${NAME}_PUBLIC_HEADERS plugin/common/shapes/MeshShape.h)
+    list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES ${ASSIMP_LIBRARIES})
 endif()
 
 set(${NAME}_PUBLIC_MODULE_LIBRARIES)
@@ -190,6 +179,7 @@ if(BIOEXPLORER_OSPRAY_ENABLED)
     # Compile ispc code
     # ==============================================================================
     list(APPEND CMAKE_MODULE_PATH ${OSPRAY_CMAKE_ROOT})
+    list(APPEND ALL_ISPC_INCLUDES ${BIOEXPLORER_SOURCE_DIRS})
     list(APPEND ALL_ISPC_INCLUDES ${${NAME}_MODULES_DIR})
     list(APPEND ALL_ISPC_INCLUDES ${OSPRAY_INCLUDE_DIRS})
     list(APPEND ALL_ISPC_INCLUDES ${GLM_INCLUDE_DIRS})
@@ -198,15 +188,15 @@ if(BIOEXPLORER_OSPRAY_ENABLED)
     list(APPEND ${NAME}_SOURCES ${ISPC_OBJECTS})
 
     list(APPEND ${NAME}_PUBLIC_MODULE_LIBRARIES ${OSPRAY_LIBRARIES})
-    list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES braynsOSPRayEngine)
+    list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES OSPRayEngine)
     include_directories(${OSPRAY_INCLUDE_DIRS})
 endif()
 
 # ==============================================================================
 # OptiX 6 module
 # ==============================================================================
-if(BIOEXPLORER_OPTIX6_ENABLED)
-    list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIR}/CMake)
+if(CORE_OPTIX6_ENABLED)
+    list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIRS}/CMake)
 
     find_package(CUDA REQUIRED)
     if(CUDA_FOUND)
@@ -238,9 +228,9 @@ if(BIOEXPLORER_OPTIX6_ENABLED)
     )
 
     list(APPEND ${NAME}_HEADERS ${PTX_HEADERS})
-    include_directories(${OptiX6_INCLUDE_DIRS} ${CUDA_INCLUDE_DIRS})
+    include_directories(${BIOEXPLORER_SOURCE_DIRS} ${OptiX6_INCLUDE_DIRS} ${CUDA_INCLUDE_DIRS})
     list(APPEND ${NAME}_PUBLIC_MODULE_LIBRARIES ${OptiX6_LIBRARIES})
-    list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES braynsOptix6Engine)
+    list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES OptiX6Engine)
 endif()
 
 # ==============================================================================
@@ -258,7 +248,7 @@ include_directories(
 
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${${NAME}_PUBLIC_MODULE_LIBRARIES}
-    PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO mpfr
+    PRIVATE CoreParameters CoreCommon CoreEngine CoreIO mpfr
     ${${NAME}_PRIVATE_MODULE_LIBRARIES} ${FreeImage_LIBRARIES} ${PQXX_LIBRARIES} ${OpenMP_CXX_LIBRARIES}
 )
 

@@ -27,8 +27,8 @@
 #include <plugin/common/Utils.h>
 #include <plugin/common/shapes/Shape.h>
 
-#include <brayns/engineapi/Material.h>
-#include <brayns/engineapi/Model.h>
+#include <core/brayns/engineapi/Material.h>
+#include <core/brayns/engineapi/Model.h>
 
 namespace bioexplorer
 {

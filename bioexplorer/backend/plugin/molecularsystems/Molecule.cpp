@@ -29,9 +29,11 @@
 #include <plugin/meshing/SurfaceMesher.h>
 #endif
 
-#include <brayns/engineapi/Material.h>
-#include <brayns/engineapi/Model.h>
-#include <brayns/io/MeshLoader.h>
+#include <core/brayns/engineapi/Material.h>
+#include <core/brayns/engineapi/Model.h>
+#ifdef USE_ASSIMP
+#include <core/brayns/io/MeshLoader.h>
+#endif
 
 #include <omp.h>
 
@@ -300,6 +302,7 @@ void Molecule::_buildModel(const std::string& assemblyName, const std::string& n
 
         break;
     }
+#ifdef USE_ASSIMP
     case ProteinRepresentation::mesh:
     {
         const std::string filename = GeneralSettings::getInstance()->getMeshFolder() + pdbId + ".obj";
@@ -309,6 +312,7 @@ void Molecule::_buildModel(const std::string& assemblyName, const std::string& n
         _rescaleMesh(_modelDescriptor->getModel(), Vector3d(0.1, 0.1, 0.1));
         break;
     }
+#endif
 #ifdef USE_CGAL
     case ProteinRepresentation::surface:
     case ProteinRepresentation::union_of_balls:

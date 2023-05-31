@@ -24,8 +24,8 @@
 #include <plugin/common/Octree.h>
 #include <plugin/common/Utils.h>
 
-#include <brayns/common/scene/ClipPlane.h>
-#include <brayns/engineapi/Model.h>
+#include <core/brayns/common/scene/ClipPlane.h>
+#include <core/brayns/engineapi/Model.h>
 
 #include <fstream>
 

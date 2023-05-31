@@ -23,24 +23,18 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 # ==============================================================================
 set(NAME METABOLISM)
 set(LIBRARY_NAME Metabolism)
-project(${NAME} VERSION ${BIOEXPLORER_PACKAGE_VERSION})
-set(${NAME}_VERSION_ABI 1)
 
 # ==============================================================================
 # Packages and settings
 # ==============================================================================
-set(BIOEXPLORER_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../..)
-list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIR}/CMake)
+list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIRS}/CMake)
 set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
 
 find_package(PQXX REQUIRED)
 
 include(ispc)
 
-include_directories(
-    ${BIOEXPLORER_SOURCE_DIR}
-    ${CMAKE_BINARY_DIR}/generated/bioexplorer
-)
+include_directories(${BIOEXPLORER_SOURCE_DIRS})
 
 # ==============================================================================
 # Sources
@@ -75,7 +69,7 @@ list(APPEND CMAKE_MODULE_PATH ${OSPRAY_CMAKE_ROOT})
 list(APPEND ALL_ISPC_INCLUDES ${${NAME}_MODULES_DIR})
 list(APPEND ALL_ISPC_INCLUDES ${OSPRAY_INCLUDE_DIRS})
 list(APPEND ALL_ISPC_INCLUDES ${GLM_INCLUDE_DIRS})
-list(APPEND ALL_ISPC_INCLUDES ${BIOEXPLORER_SOURCE_DIR})
+list(APPEND ALL_ISPC_INCLUDES ${BIOEXPLORER_SOURCE_DIRS})
 include_directories_ispc(${ALL_ISPC_INCLUDES})
 ospray_ispc_compile(${${NAME}_ISPC_SOURCES})
 list(APPEND ${NAME}_SOURCES ${ISPC_OBJECTS})
@@ -83,25 +77,24 @@ list(APPEND ${NAME}_SOURCES ${ISPC_OBJECTS})
 # ==============================================================================
 # Compile c++ code
 # ==============================================================================
+
 include_directories(
-    ${PROJECT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${OSPRAY_INCLUDE_DIRS}
-    ${BRAYNS_INCLUDE_DIRS}
-    ${GLM_INCLUDE_DIRS}
-    ${Boost_INCLUDE_DIRS}
-    ${${NAME}_MODULES_DIR}
 )
 
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${OSPRAY_LIBRARIES} pqxx
-    PRIVATE braynsParameters braynsPluginAPI braynsCommon braynsEngine braynsIO
-    braynsOSPRayEngine
+    PRIVATE CoreParameters CoreCommon CoreEngine CoreIO
+    OSPRayEngine
 )
 
 add_library(
     ${LIBRARY_NAME}
     SHARED ${${NAME}_SOURCES})
 
+link_directories(${CMAKE_BINARY_DIR})
+    
 target_link_libraries(
     ${LIBRARY_NAME}
     ${${NAME}_LINK_LIBRARIES})

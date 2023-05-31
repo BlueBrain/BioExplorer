@@ -23,8 +23,8 @@
 #include <plugin/api/SonataExplorerParams.h>
 #include <plugin/neuroscience/common/Types.h>
 
-#include <brayns/common/loader/Loader.h>
-#include <brayns/common/types.h>
+#include <core/brayns/common/loader/Loader.h>
+#include <core/brayns/common/Types.h>
 
 #include <set>
 #include <vector>

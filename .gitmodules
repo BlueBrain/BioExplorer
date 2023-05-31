@@ -1,0 +1,21 @@
+[submodule "core/deps/uvw"]
+path = core/deps/uvw
+url = https://github.com/skypjack/uvw.git
+
+[submodule "core/deps/async++"]
+path = core/deps/async++
+url = https://github.com/Amanieu/asyncplusplus.git
+
+[submodule "core/deps/rapidjson"]
+path = core/deps/rapidjson
+url = https://github.com/Tencent/rapidjson.git
+
+[submodule "core/deps/glm"]
+path = core/deps/glm
+url = https://github.com/g-truc/glm.git
+branch = master
+
+[submodule "core/deps/perceptualdiff"]
+path = core/deps/perceptualdiff
+url = https://github.com/myint/perceptualdiff.git
+branch = master

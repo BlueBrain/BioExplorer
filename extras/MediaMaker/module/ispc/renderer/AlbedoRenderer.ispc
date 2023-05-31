@@ -20,7 +20,7 @@
 
 #include "AlbedoRenderer.ih"
 
-#include <brayns/ispc/render/utils/AdvancedMaterial.ih>
+#include <core/engines/ospray/ispc/render/utils/AdvancedMaterial.ih>
 
 #include <ospray/SDK/common/Material.ih>
 

@@ -22,9 +22,9 @@
 
 #include <plugin/common/Logs.h>
 
-#include <brayns/common/scene/ClipPlane.h>
-#include <brayns/common/transferFunction/TransferFunction.h>
-#include <brayns/engineapi/Model.h>
+#include <core/brayns/common/scene/ClipPlane.h>
+#include <core/brayns/common/transferFunction/TransferFunction.h>
+#include <core/brayns/engineapi/Model.h>
 
 #include <glm/gtx/matrix_decompose.hpp>
 

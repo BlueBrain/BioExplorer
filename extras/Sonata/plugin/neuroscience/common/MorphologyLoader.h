@@ -24,9 +24,9 @@
 
 #include <plugin/neuroscience/common/Types.h>
 
-#include <brayns/common/loader/Loader.h>
-#include <brayns/common/types.h>
-#include <brayns/parameters/GeometryParameters.h>
+#include <core/brayns/common/loader/Loader.h>
+#include <core/brayns/common/Types.h>
+#include <core/brayns/parameters/GeometryParameters.h>
 
 #include <vector>
 

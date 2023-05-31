@@ -20,7 +20,7 @@
 
 #include "ProximityDetectionRenderer.h"
 
-#include <brayns/ispc/render/utils/AdvancedMaterial.h>
+#include <core/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
 // ispc exports
 #include "ProximityDetectionRenderer_ispc.h"

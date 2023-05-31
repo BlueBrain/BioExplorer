@@ -21,7 +21,7 @@
 #include "MetabolismRenderer.h"
 
 // Brayns
-#include <brayns/ispc/render/utils/AdvancedMaterial.h>
+#include <core/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
 // ospray
 #include <ospray/SDK/common/Data.h>

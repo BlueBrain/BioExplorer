@@ -47,6 +47,7 @@ RUN apt-get update \
    libssl-dev \
    libcgal-dev \
    libexiv2-dev \
+   libglm-dev \
    libtiff-dev \
    pkg-config \
    wget \
@@ -130,54 +131,45 @@ RUN mkdir -p ${LWS_SRC} \
    && ninja clean
 
 # --------------------------------------------------------------------------------
-# Install Brayns
-# https://github.com/BlueBrain/BioExplorer
+# Install Rockets
+# https://github.com/BlueBrain/Rockets
 # --------------------------------------------------------------------------------
-ARG BRAYNS_SRC=/app/brayns
+ARG ROCKETS_TAG=1.0.0
+ARG ROCKETS_SRC=/app/rockets
 
-# TODO: "|| exit 0"  hack to be removed as soon as MVDTool export issue is fixed.
-RUN mkdir -p ${BRAYNS_SRC} \
-   && git clone https://github.com/BlueBrain/BioExplorer.git ${BRAYNS_SRC} \
-   && cd ${BRAYNS_SRC} \
-   && git checkout Brayns \
-   && git submodule update --init --recursive \
+RUN mkdir -p ${ROCKETS_SRC} \
+   && git clone https://github.com/BlueBrain/Rockets.git ${ROCKETS_SRC} \
+   && cd ${ROCKETS_SRC} \
+   && git checkout ${ROCKETS_TAG} \
+   && git submodule update --init \
    && mkdir -p build \
    && cd build \
-   && CMAKE_PREFIX_PATH=${DIST_PATH}:${DIST_PATH}/lib/cmake/libwebsockets \
-   cmake .. -GNinja -Wno-dev \
-   -DBRAYNS_BENCHMARK_ENABLED=OFF \
-   -DBRAYNS_DEFLECT_ENABLED=OFF \
-   -DBRAYNS_MULTIVIEW_ENABLED=OFF \
-   -DBRAYNS_OPENDECK_ENABLED=OFF \
-   -DBRAYNS_OPTIX_ENABLED=OFF \
-   -DBRAYNS_UNIT_TESTING_ENABLED=OFF \
-   -DBRAYNS_ASSIMP_ENABLED=ON \
-   -DBRAYNS_OSPRAY_ENABLED=ON \
-   -DBRAYNS_NETWORKING_ENABLED=ON \
-   -DCLONE_SUBPROJECTS=ON \
-   -DCMAKE_BUILD_TYPE=Release \
+   && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
    && ninja install \
    && ninja clean
 
 # --------------------------------------------------------------------------------
-# Add BioExplorer and additional plugins
+# Install BioExplorer
+# https://github.com/BlueBrain/BioExplorer
 # --------------------------------------------------------------------------------
-
-ARG BIOEXPLORER_SRC=/app/bioexplorer
+ARG BIOEXPLORER_SRC=/app
 ADD . ${BIOEXPLORER_SRC}
 
 WORKDIR /app
 
 RUN cd ${BIOEXPLORER_SRC} \
-   && rm -rf ${BIOEXPLORER_SRC}/bioexplorer_build \
-   && mkdir -p ${BIOEXPLORER_SRC}/bioexplorer_build \
-   && cd ${BIOEXPLORER_SRC}/bioexplorer_build \
+   && git clone --recursive https://github.com/BlueBrain/BioExplorer.git \
+   && rm -rf build \
+   && mkdir build \
+   && cd build \
+   && git submodule update --init \
    && PATH=${ISPC_PATH}/bin:${PATH} \
    PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig \
    CMAKE_PREFIX_PATH=${DIST_PATH} \
    LDFLAGS="-lCGAL" \
    cmake .. -GNinja \
+   -DCORE_NETWORKING_ENABLED=ON \
    -DBIOEXPLORER_UNIT_TESTING_ENABLED=OFF \
    -DBIOEXPLORER_USE_CGAL=ON \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \

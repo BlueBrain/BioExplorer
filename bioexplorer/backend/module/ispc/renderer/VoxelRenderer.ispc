@@ -20,8 +20,8 @@
 
 #include "VoxelRenderer.ih"
 
-#include <brayns/ispc/render/utils/RendererUtils.ih>
-#include <brayns/ispc/render/utils/SkyBox.ih>
+#include <core/engines/ospray/ispc/render/utils/RendererUtils.ih>
+#include <core/engines/ospray/ispc/render/utils/SkyBox.ih>
 
 void linearCompose(const varying vec4f& src, varying vec4f& dst, const varying float alphaRatio)
 {

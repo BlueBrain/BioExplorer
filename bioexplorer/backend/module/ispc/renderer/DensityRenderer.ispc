@@ -21,7 +21,7 @@
 #include "DensityRenderer.ih"
 
 // Brayns
-#include <brayns/ispc/render/utils/RandomGenerator.ih>
+#include <core/engines/ospray/ispc/render/utils/RandomGenerator.ih>
 
 // OSPRay
 #include <ospray/SDK/math/sampling.ih>

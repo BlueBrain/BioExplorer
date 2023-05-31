@@ -26,8 +26,8 @@
 
 #include <plugin/io/db/DBConnector.h>
 
-#include <brayns/engineapi/Model.h>
-#include <brayns/engineapi/Scene.h>
+#include <core/brayns/engineapi/Model.h>
+#include <core/brayns/engineapi/Scene.h>
 
 namespace bioexplorer
 {

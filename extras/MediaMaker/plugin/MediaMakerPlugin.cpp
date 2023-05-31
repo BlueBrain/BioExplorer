@@ -21,15 +21,17 @@
 #include "MediaMakerPlugin.h"
 
 #include <Defines.h>
+#include <Version.h>
+
 #include <plugin/common/Logs.h>
 
-#include <brayns/common/ActionInterface.h>
-#include <brayns/engineapi/Camera.h>
-#include <brayns/engineapi/Engine.h>
-#include <brayns/engineapi/FrameBuffer.h>
-#include <brayns/engineapi/Scene.h>
-#include <brayns/parameters/ParametersManager.h>
-#include <brayns/pluginapi/Plugin.h>
+#include <core/brayns/common/ActionInterface.h>
+#include <core/brayns/engineapi/Camera.h>
+#include <core/brayns/engineapi/Engine.h>
+#include <core/brayns/engineapi/FrameBuffer.h>
+#include <core/brayns/engineapi/Scene.h>
+#include <core/brayns/parameters/ParametersManager.h>
+#include <core/brayns/pluginapi/Plugin.h>
 
 #ifdef USE_OPTIX6
 #include <MediaMaker_generated_Albedo.cu.ptx.h>
@@ -38,7 +40,7 @@
 #include <MediaMaker_generated_GeometryNormal.cu.ptx.h>
 #include <MediaMaker_generated_ShadingNormal.cu.ptx.h>
 #include <MediaMaker_generated_Shadow.cu.ptx.h>
-#include <brayns/OptiXContext.h>
+#include <core/engines/optix6/OptiXContext.h>
 #endif
 
 #include <fstream>
@@ -197,7 +199,7 @@ void MediaMakerPlugin::_createRenderers()
 Response MediaMakerPlugin::_version() const
 {
     Response response;
-    response.contents = PACKAGE_VERSION;
+    response.contents = PACKAGE_VERSION_STRING;
     return response;
 }
 
@@ -467,7 +469,7 @@ FrameExportProgress MediaMakerPlugin::_getFrameExportProgress()
 
 extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
 {
-    PLUGIN_INFO("Initializing Media Maker plug-in (version " << PACKAGE_VERSION << ")");
+    PLUGIN_INFO("Initializing Media Maker plug-in (version " << PACKAGE_VERSION_STRING << ")");
     PLUGIN_INFO("");
     PLUGIN_INFO("_|      _|                  _|  _|                _|      _|            _|                          ");
     PLUGIN_INFO("_|_|  _|_|    _|_|      _|_|_|        _|_|_|      _|_|  _|_|    _|_|_|  _|  _|      _|_|    _|  _|_|");

@@ -28,12 +28,12 @@
 #include <plugin/common/Utils.h>
 #include <plugin/molecularsystems/Protein.h>
 
-#include <brayns/common/scene/ClipPlane.h>
+#include <core/brayns/common/scene/ClipPlane.h>
 
-#include <brayns/engineapi/Material.h>
-#include <brayns/engineapi/Model.h>
-#include <brayns/engineapi/Scene.h>
-#include <brayns/parameters/ParametersManager.h>
+#include <core/brayns/engineapi/Material.h>
+#include <core/brayns/engineapi/Model.h>
+#include <core/brayns/engineapi/Scene.h>
+#include <core/brayns/parameters/ParametersManager.h>
 
 #include <fstream>
 

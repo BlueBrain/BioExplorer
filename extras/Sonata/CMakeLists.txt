@@ -21,8 +21,8 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 # ==============================================================================
 # Project
 # ==============================================================================
+set(NAME SONATAEXPLORER)
 set(LIBRARY_NAME SonataExplorer)
-set(${NAME}_VERSION_ABI 1)
 
 # ==============================================================================
 # Packages and settings
@@ -32,13 +32,10 @@ set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_STANDARD 14) # C++ 14
 
 # Packages
-find_package(Brayns REQUIRED)
-find_package(ospray REQUIRED SYSTEM)
 find_package(Brion REQUIRED)
 
 # OpenMP
 find_package(OpenMP)
-
 if(OPENMP_FOUND)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
@@ -53,7 +50,6 @@ if(${${NAME}_USE_CGAL})
     find_package(CGAL REQUIRED)
 endif()
 
-set(BIOEXPLORER_SOURCE_DIR ${PROJECT_SOURCE_DIR})
 configure_file(common/Defines.h.in ${CMAKE_BINARY_DIR}/generated/circuitexplorer/Defines.h)
 include_directories(${PROJECT_SOURCE_DIR}/backend ${CMAKE_BINARY_DIR}/generated/circuitexplorer)
 
@@ -140,7 +136,7 @@ list(APPEND CMAKE_MODULE_PATH ${OSPRAY_CMAKE_ROOT})
 list(APPEND ALL_ISPC_INCLUDES ${${NAME}_MODULES_DIR})
 list(APPEND ALL_ISPC_INCLUDES ${OSPRAY_INCLUDE_DIRS})
 list(APPEND ALL_ISPC_INCLUDES ${GLM_INCLUDE_DIRS})
-list(APPEND ALL_ISPC_INCLUDES ${BIOEXPLORER_SOURCE_DIR})
+list(APPEND ALL_ISPC_INCLUDES ${BIOEXPLORER_SOURCE_DIRS})
 
 include_directories_ispc(${ALL_ISPC_INCLUDES})
 ospray_ispc_compile(${${NAME}_ISPC_SOURCES})
@@ -152,18 +148,14 @@ list(APPEND ${NAME}_SOURCES ${ISPC_OBJECTS})
 include_directories(
     SYSTEM
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${BRAYNS_INCLUDE_DIRS}
-    ${BIOEXPLORER_SOURCE_DIR}
+    ${OSPRAY_INCLUDE_DIRS}
+    ${BIOEXPLORER_SOURCE_DIRS}
 )
 
-set(${NAME}_LINK_LIBRARIES
-    PUBLIC ${OSPRAY_LIBRARIES}
-    PRIVATE braynsCommon braynsParameters braynsIO braynsEngine braynsPluginAPI
-    braynsOSPRayEngine glm
-    ${FREEIMAGE_LIBRARIES} ${HDF5_LIBRARIES}
+set(
+    ${NAME}_LINK_LIBRARIES
+    PRIVATE CoreCommon CoreParameters CoreIO CoreEngine OSPRayEngine ${GLM_LIBRARIES} Brion Brain ${OSPRAY_LIBRARIES}
 )
-
-list(APPEND ${NAME}_LINK_LIBRARIES Brion Brain)
 
 if(${CGAL_FOUND})
     list(APPEND ${NAME}_LINK_LIBRARIES ${CGAL_LIBRARIES})
@@ -172,6 +164,8 @@ endif()
 add_library(
     ${LIBRARY_NAME}
     SHARED ${${NAME}_SOURCES})
+
+link_directories(${CMAKE_BINARY_DIR})
 
 target_link_libraries(
     ${LIBRARY_NAME}

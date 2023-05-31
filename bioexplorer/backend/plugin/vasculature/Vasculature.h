@@ -26,8 +26,8 @@
 #include <plugin/common/SDFGeometries.h>
 #include <plugin/common/Types.h>
 
-#include <brayns/common/loader/Loader.h>
-#include <brayns/parameters/GeometryParameters.h>
+#include <core/brayns/common/loader/Loader.h>
+#include <core/brayns/parameters/GeometryParameters.h>
 
 namespace bioexplorer
 {

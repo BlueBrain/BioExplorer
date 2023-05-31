@@ -28,10 +28,12 @@
 
 #include <plugin/meshing/PointCloudMesher.h>
 
-#include <brayns/common/Timer.h>
-#include <brayns/engineapi/Material.h>
-#include <brayns/engineapi/Model.h>
-#include <brayns/engineapi/Scene.h>
+#include <core/brayns/common/Timer.h>
+#include <core/brayns/engineapi/Material.h>
+#include <core/brayns/engineapi/Model.h>
+#include <core/brayns/engineapi/Scene.h>
+
+#include <omp.h>
 
 namespace bioexplorer
 {

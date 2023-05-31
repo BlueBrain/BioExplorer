@@ -23,12 +23,12 @@
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
-#include <brayns/common/ActionInterface.h>
-#include <brayns/engineapi/Engine.h>
-#include <brayns/engineapi/Model.h>
-#include <brayns/engineapi/Scene.h>
-#include <brayns/parameters/ParametersManager.h>
-#include <brayns/pluginapi/Plugin.h>
+#include <core/brayns/common/ActionInterface.h>
+#include <core/brayns/engineapi/Engine.h>
+#include <core/brayns/engineapi/Model.h>
+#include <core/brayns/engineapi/Scene.h>
+#include <core/brayns/parameters/ParametersManager.h>
+#include <core/brayns/pluginapi/Plugin.h>
 
 #include <fstream>
 

@@ -23,8 +23,8 @@
 #include <plugin/api/SonataExplorerParams.h>
 
 #include <array>
-#include <brayns/common/types.h>
-#include <brayns/pluginapi/ExtensionPlugin.h>
+#include <core/brayns/common/Types.h>
+#include <core/brayns/pluginapi/ExtensionPlugin.h>
 #include <vector>
 
 namespace sonataexplorer

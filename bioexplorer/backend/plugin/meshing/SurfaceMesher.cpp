@@ -20,15 +20,20 @@
 
 #include "SurfaceMesher.h"
 
+#include <Defines.h>
+
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 
-#include <brayns/engineapi/Material.h>
-#include <brayns/engineapi/Model.h>
-#include <brayns/engineapi/Scene.h>
-#include <brayns/io/MeshLoader.h>
+#include <core/brayns/engineapi/Material.h>
+#include <core/brayns/engineapi/Model.h>
+#include <core/brayns/engineapi/Scene.h>
 
 #include <fstream>
+
+#ifdef USE_ASSIMP
+#include <core/brayns/io/MeshLoader.h>
+#endif
 
 #ifdef USE_CGAL
 #if !defined(DOXYGEN_SHOULD_SKIP_THIS)

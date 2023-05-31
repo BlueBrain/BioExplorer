@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include <brayns/common/PropertyMap.h>
-#include <brayns/common/geometry/SDFGeometry.h>
-#include <brayns/engineapi/Model.h>
+#include <core/brayns/common/PropertyMap.h>
+#include <core/brayns/common/geometry/SDFGeometry.h>
+#include <core/brayns/engineapi/Model.h>
 
 #include <brain/brain.h>
 #include <brion/brion.h>

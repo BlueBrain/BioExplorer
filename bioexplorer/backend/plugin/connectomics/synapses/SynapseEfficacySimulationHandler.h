@@ -22,7 +22,7 @@
 
 #include <plugin/common/Types.h>
 
-#include <brayns/common/simulation/AbstractSimulationHandler.h>
+#include <core/brayns/common/simulation/AbstractSimulationHandler.h>
 
 namespace bioexplorer
 {

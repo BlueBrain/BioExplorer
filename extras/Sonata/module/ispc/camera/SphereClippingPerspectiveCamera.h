@@ -20,12 +20,12 @@
 
 #pragma once
 
-#include "camera/Camera.h"
+#include <ospray/SDK/camera/Camera.h>
 
 namespace ospray
 {
 //! Implements a clipped perspective camera
-struct OSPRAY_SDK_INTERFACE SphereClippingPerspectiveCamera : public Camera
+struct SphereClippingPerspectiveCamera : Camera
 {
     /*! \brief constructor \internal also creates the ispc-side data structure
      */
@@ -44,8 +44,8 @@ public:
     float aspect;
     float apertureRadius;
     float focusDistance;
-    bool architectural; // orient image plane to be parallel to 'up' and shift
-                        // the lens
+    bool architectural;           // orient image plane to be parallel to 'up' and shift
+                                  // the lens
     bool stereo;
     float interpupillaryDistance; // distance between the two cameras (stereo)
 

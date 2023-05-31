@@ -25,11 +25,11 @@
 #include "ThreadSafeContainer.h"
 #include "Types.h"
 
-#include <brayns/common/geometry/Cone.h>
-#include <brayns/common/geometry/Cylinder.h>
-#include <brayns/common/geometry/Sphere.h>
-#include <brayns/common/geometry/Streamline.h>
-#include <brayns/common/geometry/TriangleMesh.h>
+#include <core/brayns/common/geometry/Cone.h>
+#include <core/brayns/common/geometry/Cylinder.h>
+#include <core/brayns/common/geometry/Sphere.h>
+#include <core/brayns/common/geometry/Streamline.h>
+#include <core/brayns/common/geometry/TriangleMesh.h>
 
 namespace bioexplorer
 {

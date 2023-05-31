@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <brayns/engineapi/Model.h>
+#include <core/brayns/engineapi/Model.h>
 #include <plugin/api/Params.h>
 #include <plugin/molecularsystems/Molecule.h>
 

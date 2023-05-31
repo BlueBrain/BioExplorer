@@ -22,7 +22,7 @@
 
 #include <common/Logs.h>
 
-#include <brayns/parameters/AnimationParameters.h>
+#include <core/brayns/parameters/AnimationParameters.h>
 
 namespace sonataexplorer
 {

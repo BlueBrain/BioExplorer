@@ -18,10 +18,9 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <brayns/OptiXCommonStructs.h>
-
-#include <brayns/cuda/Random.cuh>
-#include <brayns/cuda/renderer/TransferFunction.cuh>
+#include <core/engines/optix6/OptiXCommonStructs.h>
+#include <core/engines/optix6/cuda/Random.cuh>
+#include <core/engines/optix6/cuda/renderer/TransferFunction.cuh>
 
 // Scene
 rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );

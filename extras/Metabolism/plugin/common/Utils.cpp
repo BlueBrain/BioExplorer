@@ -22,7 +22,7 @@
 
 #include <plugin/common/Logs.h>
 
-#include <brayns/common/transferFunction/TransferFunction.h>
+#include <core/brayns/common/transferFunction/TransferFunction.h>
 
 namespace metabolism
 {

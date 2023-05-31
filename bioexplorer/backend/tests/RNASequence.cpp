@@ -22,9 +22,9 @@
 #include <plugin/common/Logs.h>
 #include <plugin/molecularsystems/RNASequence.h>
 
-#include <brayns/Brayns.h>
-#include <brayns/engineapi/Engine.h>
-#include <brayns/engineapi/Scene.h>
+#include <core/brayns/Brayns.h>
+#include <core/brayns/engineapi/Engine.h>
+#include <core/brayns/engineapi/Scene.h>
 
 #define BOOST_TEST_MODULE rnasequence
 #include <boost/test/unit_test.hpp>

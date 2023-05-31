@@ -22,7 +22,7 @@
 
 #include "GeneralSettings.h"
 
-#include <brayns/common/Timer.h>
+#include <core/brayns/common/Timer.h>
 
 #include <iostream>
 

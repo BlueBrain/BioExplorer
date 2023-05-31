@@ -22,7 +22,7 @@
 
 #include <plugin/common/Types.h>
 
-#include <brayns/common/types.h>
+#include <core/brayns/common/Types.h>
 
 namespace bioexplorer
 {

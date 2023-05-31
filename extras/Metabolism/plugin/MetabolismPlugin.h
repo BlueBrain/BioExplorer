@@ -23,7 +23,7 @@
 #include <plugin/api/Params.h>
 #include <plugin/io/handlers/MetabolismHandler.h>
 
-#include <brayns/pluginapi/ExtensionPlugin.h>
+#include <core/brayns/pluginapi/ExtensionPlugin.h>
 
 namespace bioexplorer
 {

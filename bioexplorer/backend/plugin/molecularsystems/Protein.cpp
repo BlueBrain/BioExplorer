@@ -25,8 +25,8 @@
 #include <plugin/common/shapes/Shape.h>
 #include <plugin/molecularsystems/Glycans.h>
 
-#include <brayns/engineapi/Material.h>
-#include <brayns/engineapi/Scene.h>
+#include <core/brayns/engineapi/Material.h>
+#include <core/brayns/engineapi/Scene.h>
 
 namespace bioexplorer
 {

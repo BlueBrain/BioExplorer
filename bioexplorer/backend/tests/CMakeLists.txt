@@ -17,7 +17,6 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 find_package(Boost REQUIRED COMPONENTS unit_test_framework)
-find_package(Brayns REQUIRED)
 
 set(TESTS_SRC
     MeshBasedMembrane.cpp
@@ -34,7 +33,7 @@ foreach(FILE ${TESTS_SRC})
 
     target_link_libraries(${NAME}
         PRIVATE
-        brayns braynsParameters braynsCommon braynsEngine braynsIO braynsOSPRayEngine braynsRockets
+        Core CoreParameters CoreCommon CoreEngine CoreIO OSPRayEngine CorePluginRockets
         ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
         ${LIBRARY_NAME}
     )

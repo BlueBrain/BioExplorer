@@ -30,16 +30,16 @@
 #include <common/Logs.h>
 #include <common/Utils.h>
 
-#include <brayns/common/Timer.h>
-#include <brayns/common/scene/ClipPlane.h>
-#include <brayns/engineapi/Material.h>
-#include <brayns/engineapi/Model.h>
-#include <brayns/engineapi/Scene.h>
+#include <core/brayns/common/Timer.h>
+#include <core/brayns/common/scene/ClipPlane.h>
+#include <core/brayns/engineapi/Material.h>
+#include <core/brayns/engineapi/Model.h>
+#include <core/brayns/engineapi/Scene.h>
 
 #include <omp.h>
 
-#if BRAYNS_USE_ASSIMP
-#include <brayns/io/MeshLoader.h>
+#ifdef USE_ASSIMP
+#include <core/brayns/io/MeshLoader.h>
 #endif
 
 namespace sonataexplorer
@@ -537,7 +537,7 @@ std::string AbstractCircuitLoader::_getMeshFilenameFromGID(const PropertyMap &pr
     return meshFolder + "/" + tmp;
 }
 
-#if BRAYNS_USE_ASSIMP
+#ifdef USE_ASSIMP
 void AbstractCircuitLoader::_importMeshes(const PropertyMap &properties, Model &model, const brain::GIDSet &gids,
                                           const Matrix4fs &transformations, const GIDOffsets &targetGIDOffsets,
                                           const size_ts &layerIds, const size_ts &morphologyTypes,

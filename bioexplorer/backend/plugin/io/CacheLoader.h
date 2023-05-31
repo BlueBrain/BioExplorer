@@ -22,7 +22,7 @@
 
 #include <plugin/io/db/DBConnector.h>
 
-#include <brayns/parameters/GeometryParameters.h>
+#include <core/brayns/parameters/GeometryParameters.h>
 
 using namespace brayns;
 
