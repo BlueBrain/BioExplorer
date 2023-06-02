@@ -15,12 +15,11 @@ set(${NAME}_SOURCES main.cpp)
 # ==============================================================================
 include_directories(${BIOEXPLORER_SOURCE_DIRS})
 
-set(${NAME}_LINK_LIBRARIES PUBLIC Core ${LIBUV_LIBRARIES})
+set(${NAME}_LINK_LIBRARIES PUBLIC Core)
 
 if(CORE_NETWORKING_ENABLED)
   list(APPEND ${NAME}_LINK_LIBRARIES PRIVATE CorePluginRockets)
-
-  endif()
+endif()
 
 add_executable(${NAME} ${${NAME}_SOURCES})
 
