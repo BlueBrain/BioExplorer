@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <engines/optix6/OptiXCameraProgram.h>
+#include <core/engines/optix6/OptiXCameraProgram.h>
 
 namespace brayns
 {

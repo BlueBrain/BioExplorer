@@ -28,7 +28,7 @@ set(${NAME}_LINK_LIBRARIES PRIVATE CoreCommon CoreEngine)
 # ==============================================================================
 # OSPRay module
 # ==============================================================================
-if(USE_OSPRAY)
+if(OSPRAY_FOUND)
   message(STATUS "[OpenDeck] OSPRay 1 module enabled")
 
   list(
@@ -63,7 +63,7 @@ endif()
 # ==============================================================================
 # OptiX 6 module
 # ==============================================================================
-if(USE_OPTIX6)
+if(OPTIX6_FOUND)
     list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIRS}/CMake)
 
     if(CUDA_FOUND)
@@ -112,7 +112,7 @@ configure_file(
 # ==============================================================================
 # Compile c++ code
 # ==============================================================================
-include_directories(${BIOEXPLORER_SOURCE_DIRS})
+include_directories(${BIOEXPLORER_SOURCE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_BINARY_DIR})
 
 set(${NAME}_INCLUDE_NAME plugins/opendeck)
 

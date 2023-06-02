@@ -19,8 +19,8 @@
 
 // #include "Helpers.h"
 #include <core/engines/optix6/OptiXCommonStructs.h>
-#include <engines/optix6/cuda/Helpers.cuh>
-#include <engines/optix6/cuda/Random.cuh>
+#include <core/engines/optix6/cuda/Helpers.cuh>
+#include <core/engines/optix6/cuda/Random.cuh>
 
 #include <optix.h>
 #include <optixu/optixu_math_namespace.h>

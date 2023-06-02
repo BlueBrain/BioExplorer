@@ -20,8 +20,8 @@
 
 #include "Scene.h"
 
-#include <core/brayns/common/Transformation.h>
 #include <core/brayns/common/Logs.h>
+#include <core/brayns/common/Transformation.h>
 #include <core/brayns/common/scene/ClipPlane.h>
 #include <core/brayns/common/utils/utils.h>
 #include <core/brayns/engineapi/Material.h>
@@ -380,7 +380,7 @@ void Scene::buildDefault()
     }
 #endif
 
-    addModel(std::make_shared<ModelDescriptor>(std::move(model), "DefaultScene"));
+    addModel(std::make_shared<ModelDescriptor>(std::move(model), "Demo scene"));
 }
 
 void Scene::setMaterialsColorMap(MaterialsColorMap colorMap)

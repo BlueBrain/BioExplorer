@@ -33,7 +33,7 @@ find_package(exiv2 REQUIRED)
 
 include_directories(
     ${BIOEXPLORER_SOURCE_DIRS}
-    ${CMAKE_BINARY_DIR}/generated/mediamaker
+    ${CMAKE_BINARY_DIR}/generated/${LIBRARY_NAME}
     ${PROJECT_SOURCE_DIR}
     ${TIFF_INCLUDE_DIRS}
     ${${NAME}_MODULES_DIR}
@@ -140,6 +140,7 @@ include_directories(
     SYSTEM
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${BIOEXPLORER_SOURCE_DIRS}
+    ${CMAKE_BINARY_DIR}/extras/${LIBRARY_NAME}
 )
 
 configure_file(

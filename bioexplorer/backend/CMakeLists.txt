@@ -239,11 +239,7 @@ endif()
 include_directories(
     ${PROJECT_SOURCE_DIR}
     ${OSPRAY_INCLUDE_DIRS}
-    ${BRAYNS_INCLUDE_DIRS}
-    ${morphio_INCLUDE_DIRS}
-    ${GLM_INCLUDE_DIRS}
-    ${PROJECT_SOURCE_DIR}/bioexplorer/backend/module/ispc
-    ${${NAME}_MODULES_DIR}
+    ${CMAKE_BINARY_DIR}/bioexplorer/backend
 )
 
 set(${NAME}_LINK_LIBRARIES

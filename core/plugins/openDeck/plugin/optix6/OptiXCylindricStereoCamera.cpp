@@ -19,15 +19,16 @@
 
 #include "OptiXCylindricStereoCamera.h"
 
-#include <engines/optix6/OptiXCamera.h>
-#include <engines/optix6/OptiXContext.h>
+#include <core/engines/optix6/OptiXCamera.h>
+#include <core/engines/optix6/OptiXContext.h>
 
-#include <braynsOpenDeck_generated_CylindricStereoCamera.cu.ptx.h>
-#include <engines/optix6/OptiX6Engine_generated_Constantbg.cu.ptx.h>
+#include <CorePluginOpenDeck_generated_CylindricStereoCamera.cu.ptx.h>
+
+#include <core/engines/optix6/OptiX6Engine_generated_Constantbg.cu.ptx.h>
 
 namespace brayns
 {
-const std::string PTX_CYLINDRIC_STEREO_CAMERA = braynsOpenDeck_generated_CylindricStereoCamera_cu_ptx;
+const std::string PTX_CYLINDRIC_STEREO_CAMERA = CorePluginOpenDeck_generated_CylindricStereoCamera_cu_ptx;
 const std::string PTX_MISS = OptiX6Engine_generated_Constantbg_cu_ptx;
 const std::string CUDA_FUNC_OPENDECK_CAMERA = "openDeckCamera";
 const std::string CONTEXT_CAMERA_SEGMENT_ID = "segmentID";

@@ -19,7 +19,7 @@
 
 #include "OpenDeckPlugin.h"
 
-#include "plugin/common/Logs.h"
+#include <plugin/common/Logs.h>
 
 #include <core/brayns/engineapi/Camera.h>
 #include <core/brayns/engineapi/Engine.h>
@@ -27,7 +27,7 @@
 #include <core/brayns/pluginapi/Plugin.h>
 
 #ifdef USE_OPTIX6
-#include <engines/optix6/OptiXContext.h>
+#include <core/engines/optix6/OptiXContext.h>
 #include <plugin/optix6/OptiXCylindricStereoCamera.h>
 #endif
 
