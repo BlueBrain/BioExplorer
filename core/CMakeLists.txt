@@ -58,15 +58,6 @@ find_package(GLEW REQUIRED)
 add_subdirectory(deps)
 
 if(Libuv_FOUND)
-  # The libuv version of Ubuntu 16.04 is too old to have this definition that is
-  # required by uvw (in fact, it uses an old enough version as well to make
-  # things work, but couldn't go further).
-  message(STATUS "UV version:" ${LIBUV_VERSION})
-
-  if(libuv_VERSION VERSION_LESS 1.9.0)
-    add_definitions(-DUV_DISCONNECT=4)
-  endif()
-
   include_directories(SYSTEM deps/uvw/src)
 endif()
 
