@@ -25,14 +25,14 @@
 #include <plugin/common/GeneralSettings.h>
 #include <plugin/common/Logs.h>
 
-#include <core/brayns/engineapi/Material.h>
-#include <core/brayns/engineapi/Model.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/engineapi/Material.h>
+#include <platform/core/engineapi/Model.h>
+#include <platform/core/engineapi/Scene.h>
 
 #include <fstream>
 
 #ifdef USE_ASSIMP
-#include <core/brayns/io/MeshLoader.h>
+#include <platform/core/io/MeshLoader.h>
 #endif
 
 #ifdef USE_CGAL
@@ -69,7 +69,7 @@ SurfaceMesher::SurfaceMesher(const uint32_t uuid)
 {
 }
 
-ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene, const std::string& pdbId,
+ModelDescriptorPtr SurfaceMesher::generateSurface(core::Scene& scene, const std::string& pdbId,
                                                   const Vector4ds& atoms, const double shrinkfactor)
 {
 #ifdef USE_CGAL
@@ -110,7 +110,7 @@ ModelDescriptorPtr SurfaceMesher::generateSurface(brayns::Scene& scene, const st
 #endif
 }
 
-ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(brayns::Scene& scene, const std::string& pdbId,
+ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(core::Scene& scene, const std::string& pdbId,
                                                        const Vector4ds& atoms)
 {
 #ifdef USE_CGAL

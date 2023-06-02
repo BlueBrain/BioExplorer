@@ -27,7 +27,7 @@ namespace bioexplorer
 namespace common
 {
 using namespace details;
-using namespace brayns;
+using namespace core;
 
 class HelixShape : public Shape
 {

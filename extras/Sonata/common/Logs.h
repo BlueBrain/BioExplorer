@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <core/brayns/common/Timer.h>
+#include <platform/core/common/Timer.h>
 
 #include <iostream>
 

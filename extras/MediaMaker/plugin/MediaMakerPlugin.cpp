@@ -25,13 +25,13 @@
 
 #include <plugin/common/Logs.h>
 
-#include <core/brayns/common/ActionInterface.h>
-#include <core/brayns/engineapi/Camera.h>
-#include <core/brayns/engineapi/Engine.h>
-#include <core/brayns/engineapi/FrameBuffer.h>
-#include <core/brayns/engineapi/Scene.h>
-#include <core/brayns/parameters/ParametersManager.h>
-#include <core/brayns/pluginapi/Plugin.h>
+#include <platform/core/common/ActionInterface.h>
+#include <platform/core/engineapi/Camera.h>
+#include <platform/core/engineapi/Engine.h>
+#include <platform/core/engineapi/FrameBuffer.h>
+#include <platform/core/engineapi/Scene.h>
+#include <platform/core/parameters/ParametersManager.h>
+#include <platform/core/pluginapi/Plugin.h>
 
 #ifdef USE_OPTIX6
 #include <MediaMaker_generated_Albedo.cu.ptx.h>
@@ -40,7 +40,7 @@
 #include <MediaMaker_generated_GeometryNormal.cu.ptx.h>
 #include <MediaMaker_generated_ShadingNormal.cu.ptx.h>
 #include <MediaMaker_generated_Shadow.cu.ptx.h>
-#include <core/engines/optix6/OptiXContext.h>
+#include <platform/engines/optix6/OptiXContext.h>
 #endif
 
 #include <fstream>
@@ -53,7 +53,7 @@ namespace bioexplorer
 {
 namespace mediamaker
 {
-using namespace brayns;
+using namespace core;
 
 const std::string PLUGIN_API_PREFIX = "mm-";
 
@@ -75,34 +75,34 @@ const size_t CAMERA_DEFINITION_SIZE = 12;
         PLUGIN_ERROR << e.what() );     \
     }
 
-void _addDepthRenderer(brayns::Engine &engine)
+void _addDepthRenderer(core::Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_DEPTH);
-    brayns::PropertyMap properties;
+    core::PropertyMap properties;
     properties.setProperty({"infinity", 1e6, 0., 1e6, {"Infinity"}});
     engine.addRendererType(RENDERER_DEPTH, properties);
 }
 
-void _addAlbedoRenderer(brayns::Engine &engine)
+void _addAlbedoRenderer(core::Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_ALBEDO);
-    brayns::PropertyMap properties;
+    core::PropertyMap properties;
     engine.addRendererType(RENDERER_ALBEDO, properties);
 }
 
-void _addAmbientOcclusionRenderer(brayns::Engine &engine)
+void _addAmbientOcclusionRenderer(core::Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_AMBIENT_OCCLUSION);
-    brayns::PropertyMap properties;
+    core::PropertyMap properties;
     properties.setProperty({"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
     properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
     engine.addRendererType(RENDERER_AMBIENT_OCCLUSION, properties);
 }
 
-void _addShadowRenderer(brayns::Engine &engine)
+void _addShadowRenderer(core::Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_SHADOW);
-    brayns::PropertyMap properties;
+    core::PropertyMap properties;
     properties.setProperty({"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
     properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
     properties.setProperty({"softness", 0.0, 0.0, 1.0, {"Shadow softness"}});
@@ -258,17 +258,17 @@ void MediaMakerPlugin::_setCamera(const CameraDefinition &payload)
 
     // Origin
     const auto &o = payload.origin;
-    brayns::Vector3d origin{o[0], o[1], o[2]};
+    core::Vector3d origin{o[0], o[1], o[2]};
     camera.setPosition(origin);
 
     // Target
     const auto &d = payload.direction;
-    brayns::Vector3d direction{d[0], d[1], d[2]};
+    core::Vector3d direction{d[0], d[1], d[2]};
     camera.setTarget(origin + direction);
 
     // Up
     const auto &u = payload.up;
-    brayns::Vector3d up{u[0], u[1], u[2]};
+    core::Vector3d up{u[0], u[1], u[2]};
 
     // Orientation
     const auto q = glm::inverse(glm::lookAt(origin, origin + direction,
@@ -296,9 +296,9 @@ CameraDefinition MediaMakerPlugin::_getCamera()
     CameraDefinition cd;
     const auto &p = camera.getPosition();
     cd.origin = {p.x, p.y, p.z};
-    const auto d = glm::rotate(camera.getOrientation(), brayns::Vector3d(0., 0., -1.));
+    const auto d = glm::rotate(camera.getOrientation(), core::Vector3d(0., 0., -1.));
     cd.direction = {d.x, d.y, d.z};
-    const auto u = glm::rotate(camera.getOrientation(), brayns::Vector3d(0., 1., 0.));
+    const auto u = glm::rotate(camera.getOrientation(), core::Vector3d(0., 1., 0.));
     cd.up = {u.x, u.y, u.z};
     return cd;
 }
@@ -331,7 +331,7 @@ void MediaMakerPlugin::_exportColorBuffer() const
     if (fif == FIF_TIFF)
         flags = TIFF_NONE;
 
-    brayns::freeimage::MemoryPtr memory(FreeImage_OpenMemory());
+    core::freeimage::MemoryPtr memory(FreeImage_OpenMemory());
 
     FreeImage_SaveToMemory(fif, image.get(), memory.get(), flags);
 

@@ -20,15 +20,15 @@
 
 #pragma once
 
-// Brayns
-#include <core/engines/ospray/ispc/render/utils/SimulationRenderer.h>
+// Platform
+#include <platform/engines/ospray/ispc/render/utils/SimulationRenderer.h>
 
 namespace bioexplorer
 {
 namespace rendering
 {
 using namespace ospray;
-using namespace brayns;
+using namespace core;
 
 /**
  * @brief The VoxelRenderer class can perform fast transparency

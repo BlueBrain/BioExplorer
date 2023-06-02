@@ -22,13 +22,13 @@
 
 #include <plugin/common/Types.h>
 
-#include <core/brayns/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractSimulationHandler.h>
 
 namespace bioexplorer
 {
 namespace morphology
 {
-using namespace brayns;
+using namespace core;
 using namespace io;
 using namespace common;
 
@@ -52,7 +52,7 @@ public:
     void* getFrameData(const uint32_t frame) final;
 
     /** @copydoc AbstractSimulationHandler::clone */
-    brayns::AbstractSimulationHandlerPtr clone() const final;
+    core::AbstractSimulationHandlerPtr clone() const final;
 
     /** Sets the visualization settings */
     void setVisualizationSettings(const double restVoltage, const double spikingVoltage, const double decaySpeed);

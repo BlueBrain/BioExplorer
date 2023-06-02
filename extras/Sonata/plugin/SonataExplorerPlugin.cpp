@@ -39,19 +39,19 @@
 
 #include <plugin/meshing/PointCloudMesher.h>
 
-#include <core/brayns/common/ActionInterface.h>
-#include <core/brayns/common/Progress.h>
-#include <core/brayns/common/Timer.h>
-#include <core/brayns/common/geometry/Streamline.h>
-#include <core/brayns/common/utils/imageUtils.h>
-#include <core/brayns/engineapi/Camera.h>
-#include <core/brayns/engineapi/Engine.h>
-#include <core/brayns/engineapi/FrameBuffer.h>
-#include <core/brayns/engineapi/Material.h>
-#include <core/brayns/engineapi/Model.h>
-#include <core/brayns/engineapi/Scene.h>
-#include <core/brayns/parameters/ParametersManager.h>
-#include <core/brayns/pluginapi/Plugin.h>
+#include <platform/core/common/ActionInterface.h>
+#include <platform/core/common/Progress.h>
+#include <platform/core/common/Timer.h>
+#include <platform/core/common/geometry/Streamline.h>
+#include <platform/core/common/utils/imageUtils.h>
+#include <platform/core/engineapi/Camera.h>
+#include <platform/core/engineapi/Engine.h>
+#include <platform/core/engineapi/FrameBuffer.h>
+#include <platform/core/engineapi/Material.h>
+#include <platform/core/engineapi/Model.h>
+#include <platform/core/engineapi/Scene.h>
+#include <platform/core/parameters/ParametersManager.h>
+#include <platform/core/pluginapi/Plugin.h>
 
 #include <cstdio>
 #include <dirent.h>
@@ -92,7 +92,7 @@ typedef CGAL::Union_of_balls_3<Traits> Union_of_balls_3;
 
 namespace sonataexplorer
 {
-using namespace brayns;
+using namespace core;
 using namespace api;
 using namespace io;
 using namespace loader;

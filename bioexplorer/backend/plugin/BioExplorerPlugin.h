@@ -24,7 +24,7 @@
 #include <plugin/fields/FieldsHandler.h>
 #include <plugin/vasculature/Vasculature.h>
 
-#include <core/brayns/pluginapi/ExtensionPlugin.h>
+#include <platform/core/pluginapi/ExtensionPlugin.h>
 
 namespace bioexplorer
 {

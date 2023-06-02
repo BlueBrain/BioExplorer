@@ -20,14 +20,14 @@
 
 #pragma once
 
-// Brayns
-#include <core/engines/ospray/ispc/render/utils/SimulationRenderer.h>
+// Platform
+#include <platform/engines/ospray/ispc/render/utils/SimulationRenderer.h>
 
 namespace bioexplorer
 {
 namespace rendering
 {
-using namespace brayns;
+using namespace core;
 
 /**
  * @brief The PathTracingRenderer class is a renderer that processes the

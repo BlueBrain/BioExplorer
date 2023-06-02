@@ -23,8 +23,8 @@
 #include <plugin/api/SonataExplorerParams.h>
 #include <plugin/neuroscience/common/Types.h>
 
-#include <core/brayns/common/loader/Loader.h>
-#include <core/brayns/common/Types.h>
+#include <platform/core/common/loader/Loader.h>
+#include <platform/core/common/Types.h>
 
 #include <set>
 #include <vector>
@@ -40,7 +40,7 @@ namespace neuroscience
 {
 namespace neuron
 {
-using namespace brayns;
+using namespace core;
 using namespace common;
 
 /**

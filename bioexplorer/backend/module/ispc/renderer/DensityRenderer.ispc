@@ -20,8 +20,8 @@
 
 #include "DensityRenderer.ih"
 
-// Brayns
-#include <core/engines/ospray/ispc/render/utils/RandomGenerator.ih>
+// Platform
+#include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
 
 // OSPRay
 #include <ospray/SDK/math/sampling.ih>

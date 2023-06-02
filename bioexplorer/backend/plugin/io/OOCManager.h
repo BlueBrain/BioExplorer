@@ -26,7 +26,7 @@ namespace bioexplorer
 {
 namespace io
 {
-using namespace brayns;
+using namespace core;
 using namespace details;
 
 /**

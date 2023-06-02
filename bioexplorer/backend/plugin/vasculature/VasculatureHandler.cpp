@@ -33,7 +33,7 @@ using namespace io;
 using namespace db;
 
 VasculatureHandler::VasculatureHandler(const VasculatureReportDetails& details)
-    : brayns::AbstractSimulationHandler()
+    : core::AbstractSimulationHandler()
     , _details(details)
 {
     auto& connector = DBConnector::getInstance();
@@ -88,7 +88,7 @@ void* VasculatureHandler::getFrameData(const uint32_t frame)
     return _frameData.data();
 }
 
-brayns::AbstractSimulationHandlerPtr VasculatureHandler::clone() const
+core::AbstractSimulationHandlerPtr VasculatureHandler::clone() const
 {
     return std::make_shared<VasculatureHandler>(*this);
 }

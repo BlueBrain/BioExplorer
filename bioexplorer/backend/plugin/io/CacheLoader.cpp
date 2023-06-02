@@ -28,12 +28,12 @@
 #include <plugin/common/Utils.h>
 #include <plugin/molecularsystems/Protein.h>
 
-#include <core/brayns/common/scene/ClipPlane.h>
+#include <platform/core/common/scene/ClipPlane.h>
 
-#include <core/brayns/engineapi/Material.h>
-#include <core/brayns/engineapi/Model.h>
-#include <core/brayns/engineapi/Scene.h>
-#include <core/brayns/parameters/ParametersManager.h>
+#include <platform/core/engineapi/Material.h>
+#include <platform/core/engineapi/Model.h>
+#include <platform/core/engineapi/Scene.h>
+#include <platform/core/parameters/ParametersManager.h>
 
 #include <fstream>
 
@@ -173,7 +173,7 @@ ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer, const in
         buffer.read((char*)&value, sizeof(double));
         material->setGlossiness(value);
 
-        brayns::PropertyMap props;
+        core::PropertyMap props;
         double userParameter;
         buffer.read((char*)&userParameter, sizeof(double));
         material->setUserParameter(value);
@@ -495,13 +495,13 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor, std::st
     for (const auto& tf : transformations)
     {
         const auto& t = tf.getTranslation();
-        buffer.write((char*)&t, sizeof(brayns::Vector3d));
+        buffer.write((char*)&t, sizeof(core::Vector3d));
         const auto& rc = tf.getRotationCenter();
-        buffer.write((char*)&rc, sizeof(brayns::Vector3d));
+        buffer.write((char*)&rc, sizeof(core::Vector3d));
         const auto& q = tf.getRotation();
-        buffer.write((char*)&q, sizeof(brayns::Quaterniond));
+        buffer.write((char*)&q, sizeof(core::Quaterniond));
         const auto& s = tf.getScale();
-        buffer.write((char*)&s, sizeof(brayns::Vector3d));
+        buffer.write((char*)&s, sizeof(core::Vector3d));
     }
 
     // Materials
@@ -517,11 +517,11 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor, std::st
         buffer.write((char*)&size, sizeof(size_t));
         buffer.write((char*)name.c_str(), size);
 
-        brayns::Vector3d value3f;
+        core::Vector3d value3f;
         value3f = material.second->getDiffuseColor();
-        buffer.write((char*)&value3f, sizeof(brayns::Vector3d));
+        buffer.write((char*)&value3f, sizeof(core::Vector3d));
         value3f = material.second->getSpecularColor();
-        buffer.write((char*)&value3f, sizeof(brayns::Vector3d));
+        buffer.write((char*)&value3f, sizeof(core::Vector3d));
         double value = material.second->getSpecularExponent();
         buffer.write((char*)&value, sizeof(double));
         value = material.second->getReflectionIndex();
@@ -572,7 +572,7 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor, std::st
         const auto& data = spheres.second;
         nbElements = data.size();
         buffer.write((char*)&nbElements, sizeof(size_t));
-        bufferSize = nbElements * sizeof(brayns::Sphere);
+        bufferSize = nbElements * sizeof(core::Sphere);
         buffer.write((char*)data.data(), bufferSize);
     }
 
@@ -588,7 +588,7 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor, std::st
         const auto& data = cylinders.second;
         nbElements = data.size();
         buffer.write((char*)&nbElements, sizeof(size_t));
-        bufferSize = nbElements * sizeof(brayns::Cylinder);
+        bufferSize = nbElements * sizeof(core::Cylinder);
         buffer.write((char*)data.data(), bufferSize);
     }
 
@@ -604,7 +604,7 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor, std::st
         const auto& data = cones.second;
         nbElements = data.size();
         buffer.write((char*)&nbElements, sizeof(size_t));
-        bufferSize = nbElements * sizeof(brayns::Cone);
+        bufferSize = nbElements * sizeof(core::Cone);
         buffer.write((char*)data.data(), bufferSize);
     }
 
@@ -622,25 +622,25 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor, std::st
         // Vertices
         nbElements = data.vertices.size();
         buffer.write((char*)&nbElements, sizeof(size_t));
-        bufferSize = nbElements * sizeof(brayns::Vector3d);
+        bufferSize = nbElements * sizeof(core::Vector3d);
         buffer.write((char*)data.vertices.data(), bufferSize);
 
         // Indices
         nbElements = data.indices.size();
         buffer.write((char*)&nbElements, sizeof(size_t));
-        bufferSize = nbElements * sizeof(brayns::Vector3ui);
+        bufferSize = nbElements * sizeof(core::Vector3ui);
         buffer.write((char*)data.indices.data(), bufferSize);
 
         // Normals
         nbElements = data.normals.size();
         buffer.write((char*)&nbElements, sizeof(size_t));
-        bufferSize = nbElements * sizeof(brayns::Vector3d);
+        bufferSize = nbElements * sizeof(core::Vector3d);
         buffer.write((char*)data.normals.data(), bufferSize);
 
         // Texture coordinates
         nbElements = data.textureCoordinates.size();
         buffer.write((char*)&nbElements, sizeof(size_t));
-        bufferSize = nbElements * sizeof(brayns::Vector2f);
+        bufferSize = nbElements * sizeof(core::Vector2f);
         buffer.write((char*)data.textureCoordinates.data(), bufferSize);
     }
 
@@ -658,13 +658,13 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor, std::st
         // Vertex
         nbElements = streamlineData.vertex.size();
         buffer.write((char*)&nbElements, sizeof(size_t));
-        bufferSize = nbElements * sizeof(brayns::Vector4f);
+        bufferSize = nbElements * sizeof(core::Vector4f);
         buffer.write((char*)streamlineData.vertex.data(), bufferSize);
 
         // Vertex Color
         nbElements = streamlineData.vertexColor.size();
         buffer.write((char*)&nbElements, sizeof(size_t));
-        bufferSize = nbElements * sizeof(brayns::Vector4f);
+        bufferSize = nbElements * sizeof(core::Vector4f);
         buffer.write((char*)streamlineData.vertexColor.data(), bufferSize);
 
         // Indices
@@ -682,7 +682,7 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor, std::st
     if (nbElements > 0)
     {
         // Geometries
-        bufferSize = nbElements * sizeof(brayns::SDFGeometry);
+        bufferSize = nbElements * sizeof(core::SDFGeometry);
         buffer.write((char*)sdfData.geometries.data(), bufferSize);
 
         // SDF indices

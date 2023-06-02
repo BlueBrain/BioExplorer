@@ -22,12 +22,12 @@
 
 #include <plugin/neuroscience/common/Types.h>
 
-#include <core/brayns/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractSimulationHandler.h>
 #include <plugin/api/SonataExplorerParams.h>
 
-#include <core/brayns/common/Api.h>
-#include <core/brayns/common/Types.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/common/Api.h>
+#include <platform/core/common/Types.h>
+#include <platform/core/engineapi/Scene.h>
 
 namespace sonataexplorer
 {
@@ -35,7 +35,7 @@ namespace neuroscience
 {
 namespace neuron
 {
-using namespace brayns;
+using namespace core;
 using namespace common;
 
 /**

@@ -22,9 +22,9 @@
 
 #include <plugin/api/Params.h>
 
-#include <core/brayns/common/Api.h>
-#include <core/brayns/common/simulation/AbstractSimulationHandler.h>
-#include <core/brayns/common/Types.h>
+#include <platform/core/common/Api.h>
+#include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/Types.h>
 
 namespace bioexplorer
 {
@@ -36,7 +36,7 @@ namespace vasculature
  * @brief The VasculatureHandler class handles the mapping of the vasculature
  * simulation to the geometry
  */
-class VasculatureHandler : public brayns::AbstractSimulationHandler
+class VasculatureHandler : public core::AbstractSimulationHandler
 {
 public:
     /**
@@ -45,19 +45,19 @@ public:
     VasculatureHandler(const VasculatureReportDetails& details);
 
     /**
-     * @copydoc brayns::AbstractSimulationHandler::getFrameData
+     * @copydoc core::AbstractSimulationHandler::getFrameData
      */
     void* getFrameData(const uint32_t) final;
 
     /**
-     * @copydoc brayns::AbstractSimulationHandler::isReady
+     * @copydoc core::AbstractSimulationHandler::isReady
      */
     bool isReady() const final { return true; }
 
     /**
-     * @copydoc brayns::AbstractSimulationHandler::clone
+     * @copydoc core::AbstractSimulationHandler::clone
      */
-    brayns::AbstractSimulationHandlerPtr clone() const final;
+    core::AbstractSimulationHandlerPtr clone() const final;
 
 private:
     VasculatureReportDetails _details;

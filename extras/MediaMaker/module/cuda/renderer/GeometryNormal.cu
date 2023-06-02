@@ -20,7 +20,7 @@
 
 #include <optix_world.h>
 
-#include <core/engines/optix6/OptiXCommonStructs.h>
+#include <platform/engines/optix6/OptiXCommonStructs.h>
 
 // Scene
 rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );

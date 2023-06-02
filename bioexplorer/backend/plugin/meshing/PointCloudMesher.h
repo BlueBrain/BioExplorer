@@ -26,7 +26,7 @@ namespace bioexplorer
 {
 namespace meshing
 {
-using namespace brayns;
+using namespace core;
 using namespace common;
 
 typedef std::map<size_t, Vector4ds> PointCloud;

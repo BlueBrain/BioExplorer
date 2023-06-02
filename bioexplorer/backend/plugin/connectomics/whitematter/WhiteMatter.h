@@ -26,7 +26,7 @@ namespace bioexplorer
 {
 namespace connectomics
 {
-using namespace brayns;
+using namespace core;
 using namespace common;
 using namespace details;
 

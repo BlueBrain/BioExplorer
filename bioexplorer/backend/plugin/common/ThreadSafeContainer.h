@@ -26,7 +26,7 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace brayns;
+using namespace core;
 
 using MaterialSet = std::set<size_t>;
 using Neighbours = std::set<size_t>;

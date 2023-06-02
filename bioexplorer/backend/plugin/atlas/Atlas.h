@@ -28,7 +28,7 @@ namespace bioexplorer
 {
 namespace atlas
 {
-using namespace brayns;
+using namespace core;
 using namespace common;
 
 /**

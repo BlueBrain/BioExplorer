@@ -22,8 +22,8 @@
 
 #include <plugin/common/UniqueId.h>
 
-#include <core/brayns/engineapi/Material.h>
-#include <core/brayns/engineapi/Model.h>
+#include <platform/core/engineapi/Material.h>
+#include <platform/core/engineapi/Model.h>
 
 namespace bioexplorer
 {
@@ -46,7 +46,7 @@ void Node::_setMaterialExtraAttributes()
     auto materials = _modelDescriptor->getModel().getMaterials();
     for (auto& material : materials)
     {
-        brayns::PropertyMap props;
+        core::PropertyMap props;
         props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, static_cast<int>(MaterialChameleonMode::receiver)});
         props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
         material.second->updateProperties(props);

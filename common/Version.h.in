@@ -9,11 +9,11 @@
 
 // clang-format off
 
-#include <core/brayns/common/Api.h>
+#include <platform/core/common/Api.h>
 
 #include <string>
 
-namespace brayns
+namespace core
 {
 /** The current major version. */
 #define PACKAGE_VERSION_MAJOR @PACKAGE_VERSION_MAJOR@

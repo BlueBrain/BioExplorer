@@ -25,9 +25,9 @@
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
-#include <core/brayns/engineapi/Material.h>
-#include <core/brayns/engineapi/Model.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/engineapi/Material.h>
+#include <platform/core/engineapi/Model.h>
+#include <platform/core/engineapi/Scene.h>
 
 namespace bioexplorer
 {
@@ -108,7 +108,7 @@ void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
     for (const auto& nucleotid : nucleotidMap)
     {
         auto material = model->createMaterial(materialId, nucleotid.second.name);
-        brayns::PropertyMap props;
+        core::PropertyMap props;
         props.setProperty(
             {MATERIAL_PROPERTY_CHAMELEON_MODE, static_cast<int>(MaterialChameleonMode::undefined_chameleon_mode)});
         material->setDiffuseColor(nucleotid.second.color);

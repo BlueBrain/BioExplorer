@@ -26,8 +26,8 @@
 
 #include <plugin/io/db/DBConnector.h>
 
-#include <core/brayns/engineapi/Model.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/engineapi/Model.h>
+#include <platform/core/engineapi/Scene.h>
 
 #include <omp.h>
 
@@ -94,7 +94,7 @@ void WhiteMatter::_buildModel()
     const ModelMetadata metadata = {{"Number of streamlines", std::to_string(nbStreamlines)},
                                     {"SQL filter", _details.sqlFilter}};
 
-    _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model), _details.assemblyName, metadata));
+    _modelDescriptor.reset(new core::ModelDescriptor(std::move(model), _details.assemblyName, metadata));
     if (_modelDescriptor)
         _scene.addModel(_modelDescriptor);
     else

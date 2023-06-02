@@ -24,19 +24,19 @@
 #include <plugin/common/Types.h>
 #include <plugin/io/db/DBConnector.h>
 
-#include <core/brayns/common/Api.h>
-#include <core/brayns/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/Api.h>
+#include <platform/core/common/simulation/AbstractSimulationHandler.h>
 
 namespace bioexplorer
 {
 namespace metabolism
 {
-using namespace brayns;
+using namespace core;
 
 /**
  * @brief The MetabolismHandler class handles metabolite concentrations
  */
-class MetabolismHandler : public brayns::AbstractSimulationHandler
+class MetabolismHandler : public core::AbstractSimulationHandler
 {
 public:
     /**

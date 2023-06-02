@@ -25,8 +25,8 @@
 #include <plugin/common/shapes/Shape.h>
 #include <plugin/molecularsystems/Glycans.h>
 
-#include <core/brayns/engineapi/Material.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/engineapi/Material.h>
+#include <platform/core/engineapi/Scene.h>
 
 namespace bioexplorer
 {
@@ -80,7 +80,7 @@ Protein::Protein(Scene& scene, const ProteinDetails& details)
     // Build 3d models according to atoms positions (re-centered to origin)
     if (details.recenter)
     {
-        brayns::Boxf newBounds;
+        core::Boxf newBounds;
         const auto& center = _bounds.getCenter();
         for (auto& atom : _atomMap)
         {

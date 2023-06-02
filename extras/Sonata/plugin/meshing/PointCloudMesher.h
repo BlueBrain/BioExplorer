@@ -20,14 +20,14 @@
 
 #pragma once
 
-#include <core/brayns/common/Types.h>
+#include <platform/core/common/Types.h>
 #include <map>
 
 namespace sonataexplorer
 {
 namespace meshing
 {
-using namespace brayns;
+using namespace core;
 
 typedef std::map<size_t, std::vector<Vector4f>> PointCloud;
 

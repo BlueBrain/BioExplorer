@@ -22,7 +22,7 @@
 #include "../../common/Logs.h"
 
 #include "MetaballsGenerator.h"
-#include <core/brayns/engineapi/Model.h>
+#include <platform/core/engineapi/Model.h>
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Polyhedron_3.h>

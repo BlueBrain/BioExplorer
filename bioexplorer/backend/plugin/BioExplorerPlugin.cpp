@@ -30,14 +30,14 @@
 #include <plugin/io/OOCManager.h>
 #include <plugin/morphologies/SpikeSimulationHandler.h>
 
-#include <core/brayns/common/ActionInterface.h>
-#include <core/brayns/common/scene/ClipPlane.h>
-#include <core/brayns/engineapi/Camera.h>
-#include <core/brayns/engineapi/Engine.h>
-#include <core/brayns/engineapi/Material.h>
-#include <core/brayns/engineapi/Model.h>
-#include <core/brayns/parameters/ParametersManager.h>
-#include <core/brayns/pluginapi/Plugin.h>
+#include <platform/core/common/ActionInterface.h>
+#include <platform/core/common/scene/ClipPlane.h>
+#include <platform/core/engineapi/Camera.h>
+#include <platform/core/engineapi/Engine.h>
+#include <platform/core/engineapi/Material.h>
+#include <platform/core/engineapi/Model.h>
+#include <platform/core/parameters/ParametersManager.h>
+#include <platform/core/pluginapi/Plugin.h>
 
 #ifdef USE_OPTIX6
 #include <BioExplorer_generated_Density.cu.ptx.h>
@@ -45,7 +45,7 @@
 #include <BioExplorer_generated_Golgi.cu.ptx.h>
 #include <BioExplorer_generated_PathTracing.cu.ptx.h>
 #include <BioExplorer_generated_Voxel.cu.ptx.h>
-#include <core/engines/optix6/OptiXContext.h>
+#include <platform/engines/optix6/OptiXContext.h>
 #endif
 
 namespace bioexplorer
@@ -1410,7 +1410,7 @@ Response BioExplorerPlugin::_addStreamlines(const AddStreamlinesDetails &payload
             model->addStreamline(materialId, streamline);
         }
 
-        auto modelDescriptor = std::make_shared<brayns::ModelDescriptor>(std::move(model), name);
+        auto modelDescriptor = std::make_shared<core::ModelDescriptor>(std::move(model), name);
         scene.addModel(modelDescriptor);
 
         PLUGIN_INFO(1, nbIndices << " streamlines added");

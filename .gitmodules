@@ -1,21 +1,15 @@
-[submodule "core/deps/uvw"]
-path = core/deps/uvw
+[submodule "platorm/deps/uvw"]
+path = platorm/deps/uvw
 url = https://github.com/skypjack/uvw.git
-
-[submodule "core/deps/async++"]
-path = core/deps/async++
+[submodule "platform/deps/async++"]
+path = platform/deps/async++
 url = https://github.com/Amanieu/asyncplusplus.git
-
-[submodule "core/deps/rapidjson"]
-path = core/deps/rapidjson
-url = https://github.com/Tencent/rapidjson.git
-
-[submodule "core/deps/glm"]
-path = core/deps/glm
-url = https://github.com/g-truc/glm.git
-branch = master
-
-[submodule "core/deps/perceptualdiff"]
-path = core/deps/perceptualdiff
+[submodule "platform/deps/perceptualdiff"]
+path = platform/deps/perceptualdiff
 url = https://github.com/myint/perceptualdiff.git
-branch = master
+[submodule "platform/deps/rapidjson"]
+path = platform/deps/rapidjson
+url = https://github.com/Tencent/rapidjson.git
+[submodule "platform/deps/uvw"]
+path = platform/deps/uvw
+url = https://github.com/skypjack/uvw.git

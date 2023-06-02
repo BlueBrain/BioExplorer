@@ -26,7 +26,7 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace brayns;
+using namespace core;
 
 /**
  * @brief The Node class

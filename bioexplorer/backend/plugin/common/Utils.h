@@ -22,13 +22,13 @@
 
 #include <plugin/common/Types.h>
 
-#include <core/brayns/common/Types.h>
+#include <platform/core/common/Types.h>
 
 namespace bioexplorer
 {
 namespace common
 {
-using namespace brayns;
+using namespace core;
 using namespace details;
 
 /**

@@ -22,9 +22,9 @@
 
 #include <plugin/io/db/DBConnector.h>
 
-#include <core/brayns/parameters/GeometryParameters.h>
+#include <platform/core/parameters/GeometryParameters.h>
 
-using namespace brayns;
+using namespace core;
 
 namespace bioexplorer
 {

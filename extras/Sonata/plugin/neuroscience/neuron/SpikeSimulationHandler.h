@@ -21,10 +21,10 @@
 #pragma once
 
 #include <brain/brain.h>
-#include <core/brayns/common/Api.h>
-#include <core/brayns/common/simulation/AbstractSimulationHandler.h>
-#include <core/brayns/common/Types.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/common/Api.h>
+#include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/Types.h>
+#include <platform/core/engineapi/Scene.h>
 
 namespace sonataexplorer
 {
@@ -32,7 +32,7 @@ namespace neuroscience
 {
 namespace neuron
 {
-using namespace brayns;
+using namespace core;
 
 typedef std::shared_ptr<brain::SpikeReportReader> SpikeReportReaderPtr;
 

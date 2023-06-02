@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include <core/brayns/common/Transformation.h>
-#include <core/brayns/common/loader/Loader.h>
-#include <core/brayns/common/Types.h>
+#include <platform/core/common/Transformation.h>
+#include <platform/core/common/loader/Loader.h>
+#include <platform/core/common/Types.h>
 
 namespace sonataexplorer
 {
@@ -30,7 +30,7 @@ namespace neuroscience
 {
 namespace astrocyte
 {
-using namespace brayns;
+using namespace core;
 
 class AstrocyteLoader : public Loader
 {

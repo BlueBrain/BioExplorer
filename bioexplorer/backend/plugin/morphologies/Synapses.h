@@ -26,7 +26,7 @@ namespace bioexplorer
 {
 namespace morphology
 {
-using namespace brayns;
+using namespace core;
 using namespace common;
 using namespace details;
 

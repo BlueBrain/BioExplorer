@@ -27,7 +27,7 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace brayns;
+using namespace core;
 using namespace details;
 
 HelixShape::HelixShape(const Vector4ds& clippingPlanes, const double radius, const double height)

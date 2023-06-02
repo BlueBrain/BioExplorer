@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include <core/brayns/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractSimulationHandler.h>
 
-#include <core/brayns/common/Api.h>
-#include <core/brayns/common/Types.h>
+#include <platform/core/common/Api.h>
+#include <platform/core/common/Types.h>
 
 namespace sonataexplorer
 {
@@ -34,7 +34,7 @@ namespace neuron
 /**
  * @brief The CellGrowthHandler class handles distance to the soma
  */
-class CellGrowthHandler : public brayns::AbstractSimulationHandler
+class CellGrowthHandler : public core::AbstractSimulationHandler
 {
 public:
     /**
@@ -48,7 +48,7 @@ public:
 
     bool isReady() const final { return true; }
 
-    brayns::AbstractSimulationHandlerPtr clone() const final;
+    core::AbstractSimulationHandlerPtr clone() const final;
 };
 using CellGrowthHandlerPtr = std::shared_ptr<CellGrowthHandler>;
 } // namespace neuron

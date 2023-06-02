@@ -20,7 +20,7 @@
 
 #include "FieldsRenderer.ih"
 
-#include <core/engines/ospray/ispc/render/utils/RandomGenerator.ih>
+#include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
 
 const float EPSILON = 1e-6f;
 

@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include <core/brayns/common/PropertyMap.h>
-#include <core/brayns/common/geometry/SDFGeometry.h>
-#include <core/brayns/engineapi/Model.h>
+#include <platform/core/common/PropertyMap.h>
+#include <platform/core/common/geometry/SDFGeometry.h>
+#include <platform/core/engineapi/Model.h>
 
 #include <brain/brain.h>
 #include <brion/brion.h>
@@ -39,10 +39,10 @@ class ParallelModelContainer;
 
 using Gid = uint32_t;
 using GIDOffsets = std::vector<uint64_t>;
-using Matrix4fs = std::vector<brayns::Matrix4f>;
+using Matrix4fs = std::vector<core::Matrix4f>;
 
 // Empirical amplitude & frequency
-const brayns::Vector3f DISPLACEMENT_PARAMS = {0.05f, 2.0f, 0.f};
+const core::Vector3f DISPLACEMENT_PARAMS = {0.05f, 2.0f, 0.f};
 
 /* Returns a mapping from a name to an enum type. */
 template <typename EnumT>
@@ -85,7 +85,7 @@ inline std::string enumToString(const EnumT v)
 // SDF structures
 struct SDFMorphologyData
 {
-    std::vector<brayns::SDFGeometry> geometries;
+    std::vector<core::SDFGeometry> geometries;
     std::vector<std::set<size_t>> neighbours;
     std::vector<size_t> materials;
     std::vector<size_t> localToGlobalIdx;
@@ -166,8 +166,8 @@ enum class UserDataType
 
 struct MorphologyInfo
 {
-    brayns::Vector3d somaPosition;
-    brayns::Boxd bounds;
+    core::Vector3d somaPosition;
+    core::Boxd bounds;
     float maxDistanceToSoma;
 };
 
@@ -219,85 +219,85 @@ inline std::vector<std::pair<std::string, bool>> enumerateMap()
     return {{"On", true}, {"Off", false}};
 }
 
-const brayns::Property PROP_DENSITY = {"001Density", 1.0, {"Density of cells in the circuit in percent"}};
-const brayns::Property PROP_RANDOM_SEED = {"002RandomSeed", 0.0, {"Random seed for target sub-setting"}};
-const brayns::Property PROP_TARGETS = {"010Targets",
+const core::Property PROP_DENSITY = {"001Density", 1.0, {"Density of cells in the circuit in percent"}};
+const core::Property PROP_RANDOM_SEED = {"002RandomSeed", 0.0, {"Random seed for target sub-setting"}};
+const core::Property PROP_TARGETS = {"010Targets",
                                        std::string(""),
                                        {"Circuit targets [comma separated list of labels]"}};
-const brayns::Property PROP_PRESYNAPTIC_NEURON_GID = {"012PreNeuron", std::string(""), {"Pre-synaptic neuron GID"}};
-const brayns::Property PROP_POSTSYNAPTIC_NEURON_GID = {"013PostNeuron", std::string(""), {"Post-synaptic neuron GID"}};
-const brayns::Property PROP_REPORT{"020Report", std::string(), {"Circuit report"}};
-const brayns::Property PROP_REPORT_TYPE = {"021ReportType",
+const core::Property PROP_PRESYNAPTIC_NEURON_GID = {"012PreNeuron", std::string(""), {"Pre-synaptic neuron GID"}};
+const core::Property PROP_POSTSYNAPTIC_NEURON_GID = {"013PostNeuron", std::string(""), {"Post-synaptic neuron GID"}};
+const core::Property PROP_REPORT{"020Report", std::string(), {"Circuit report"}};
+const core::Property PROP_REPORT_TYPE = {"021ReportType",
                                            enumToString(ReportType::undefined),
                                            enumerateNames<ReportType>(),
                                            {"Type of simulation report"}};
-const brayns::Property PROP_USER_DATA_TYPE = {"022UserDataType",
+const core::Property PROP_USER_DATA_TYPE = {"022UserDataType",
                                               enumToString(UserDataType::undefined),
                                               enumerateNames<UserDataType>(),
                                               {"Type of data attached to morphology segments"}};
-const brayns::Property PROP_SYNCHRONOUS_MODE = {"023SynchronousMode", false, {"Synchronous mode"}};
-const brayns::Property PROP_CIRCUIT_COLOR_SCHEME = {"030CircuitColorScheme",
+const core::Property PROP_SYNCHRONOUS_MODE = {"023SynchronousMode", false, {"Synchronous mode"}};
+const core::Property PROP_CIRCUIT_COLOR_SCHEME = {"030CircuitColorScheme",
                                                     enumToString(CircuitColorScheme::none),
                                                     enumerateNames<CircuitColorScheme>(),
                                                     {"Color scheme to be applied to the circuit"}};
-const brayns::Property PROP_MESH_FOLDER = {"040MeshFolder", std::string(), {"Folder constaining meshes"}};
-const brayns::Property PROP_MESH_FILENAME_PATTERN = {"041MeshFilenamePattern",
+const core::Property PROP_MESH_FOLDER = {"040MeshFolder", std::string(), {"Folder constaining meshes"}};
+const core::Property PROP_MESH_FILENAME_PATTERN = {"041MeshFilenamePattern",
                                                      std::string("mesh_{gid}.obj"),
                                                      {"File name pattern for meshes"}};
-const brayns::Property PROP_MESH_TRANSFORMATION = {"042MeshTransformation",
+const core::Property PROP_MESH_TRANSFORMATION = {"042MeshTransformation",
                                                    false,
                                                    {"Apply circuit transformation to meshes"}};
-const brayns::Property PROP_SECTION_TYPE_SOMA = {"052SectionTypeSoma", true, {"Soma"}};
-const brayns::Property PROP_SECTION_TYPE_AXON = {"053SectionTypeAxon", true, {"Axon"}};
-const brayns::Property PROP_SECTION_TYPE_DENDRITE = {"054SectionTypeDendrite", true, {"Dendrite"}};
-const brayns::Property PROP_SECTION_TYPE_APICAL_DENDRITE = {"055SectionTypeApicalDendrite", true, {"Apical Dendrite"}};
-const brayns::Property PROP_MORPHOLOGY_MAX_DISTANCE_TO_SOMA = {"091MaxDistanceToSoma",
+const core::Property PROP_SECTION_TYPE_SOMA = {"052SectionTypeSoma", true, {"Soma"}};
+const core::Property PROP_SECTION_TYPE_AXON = {"053SectionTypeAxon", true, {"Axon"}};
+const core::Property PROP_SECTION_TYPE_DENDRITE = {"054SectionTypeDendrite", true, {"Dendrite"}};
+const core::Property PROP_SECTION_TYPE_APICAL_DENDRITE = {"055SectionTypeApicalDendrite", true, {"Apical Dendrite"}};
+const core::Property PROP_MORPHOLOGY_MAX_DISTANCE_TO_SOMA = {"091MaxDistanceToSoma",
                                                                std::numeric_limits<double>::max(),
                                                                {"Maximum distance to soma"}};
-const brayns::Property PROP_CELL_CLIPPING = {"100CellClipping",
+const core::Property PROP_CELL_CLIPPING = {"100CellClipping",
                                              false,
                                              {"Clip cells according to scene-defined clipping planes"}};
-const brayns::Property PROP_AREAS_OF_INTEREST = {"101AreasOfInterest", 0, {"Loads only one cell per area of interest"}};
-const brayns::Property PROP_LOAD_AFFERENT_SYNAPSES = {"110LoadAfferentSynapses", false, {"Loads afferent synapses"}};
-const brayns::Property PROP_LOAD_EFFERENT_SYNAPSES = {"111LoadEfferentSynapses", false, {"Loads efferent synapses"}};
-const brayns::Property PROP_INTERNALS = {"120Internals", false, {"Generate internals (mitochondria and nucleus)"}};
-const brayns::Property PROP_EXTERNALS = {"121Externals", false, {"Generate externals (myelin steath)"}};
-const brayns::Property PROP_ALIGN_TO_GRID = {"122AlignToGrid", 0.0, {"Size of the grid to align to (disabled if 0)"}};
+const core::Property PROP_AREAS_OF_INTEREST = {"101AreasOfInterest", 0, {"Loads only one cell per area of interest"}};
+const core::Property PROP_LOAD_AFFERENT_SYNAPSES = {"110LoadAfferentSynapses", false, {"Loads afferent synapses"}};
+const core::Property PROP_LOAD_EFFERENT_SYNAPSES = {"111LoadEfferentSynapses", false, {"Loads efferent synapses"}};
+const core::Property PROP_INTERNALS = {"120Internals", false, {"Generate internals (mitochondria and nucleus)"}};
+const core::Property PROP_EXTERNALS = {"121Externals", false, {"Generate externals (myelin steath)"}};
+const core::Property PROP_ALIGN_TO_GRID = {"122AlignToGrid", 0.0, {"Size of the grid to align to (disabled if 0)"}};
 
-const brayns::Property PROP_GIDS = {"011Gids", std::string(""), {"GIDs [comma separated list of GIDs]"}};
-const brayns::Property PROP_RADIUS_MULTIPLIER = {"050RadiusMultiplier",
+const core::Property PROP_GIDS = {"011Gids", std::string(""), {"GIDs [comma separated list of GIDs]"}};
+const core::Property PROP_RADIUS_MULTIPLIER = {"050RadiusMultiplier",
                                                  double(1.0),
                                                  {"Multiplier applied to morphology radius"}};
-const brayns::Property PROP_RADIUS_CORRECTION = {"051RadiusCorrection",
+const core::Property PROP_RADIUS_CORRECTION = {"051RadiusCorrection",
                                                  double(0.0),
                                                  {"Value overrideing the radius of the morphology"}};
-const brayns::Property PROP_USE_SDF_SOMA = {"060UseSdfSoma", true, {"Use signed distance field for the soma"}};
-const brayns::Property PROP_USE_SDF_BRANCHES = {"061UseSdfBranches",
+const core::Property PROP_USE_SDF_SOMA = {"060UseSdfSoma", true, {"Use signed distance field for the soma"}};
+const core::Property PROP_USE_SDF_BRANCHES = {"061UseSdfBranches",
                                                 true,
                                                 {"Use signed distance field for the branches (dendrites and axon)"}};
-const brayns::Property PROP_USE_SDF_NUCLEUS = {"062UseSdfNucleus", true, {"Use signed distance field for the nucleus"}};
-const brayns::Property PROP_USE_SDF_MITOCHONDRIA = {"063UseSdfMitochondria",
+const core::Property PROP_USE_SDF_NUCLEUS = {"062UseSdfNucleus", true, {"Use signed distance field for the nucleus"}};
+const core::Property PROP_USE_SDF_MITOCHONDRIA = {"063UseSdfMitochondria",
                                                     true,
                                                     {"Use signed distance field for the mitochondria"}};
-const brayns::Property PROP_USE_SDF_SYNAPSES = {"064UseSdfSynapses",
+const core::Property PROP_USE_SDF_SYNAPSES = {"064UseSdfSynapses",
                                                 true,
                                                 {"Use signed distance field for the synapses"}};
-const brayns::Property PROP_USE_SDF_MYELIN_STEATH = {"065UseSdfMyelinSteath",
+const core::Property PROP_USE_SDF_MYELIN_STEATH = {"065UseSdfMyelinSteath",
                                                      true,
                                                      {"Use signed distance field for the myelin steath"}};
-const brayns::Property PROP_DAMPEN_BRANCH_THICKNESS_CHANGERATE = {"066DampenBranchThicknessChangerate",
+const core::Property PROP_DAMPEN_BRANCH_THICKNESS_CHANGERATE = {"066DampenBranchThicknessChangerate",
                                                                   true,
                                                                   {"Dampen branch thickness changerate"}};
-const brayns::Property PROP_ASSET_QUALITY = {"090AssetQuality",
+const core::Property PROP_ASSET_QUALITY = {"090AssetQuality",
                                              enumToString(AssetQuality::high),
                                              enumerateNames<AssetQuality>(),
                                              {"Quality of the asset"}};
-const brayns::Property PROP_ASSET_COLOR_SCHEME = {"080AssetColorScheme",
+const core::Property PROP_ASSET_COLOR_SCHEME = {"080AssetColorScheme",
                                                   enumToString(AssetColorScheme::none),
                                                   enumerateNames<AssetColorScheme>(),
                                                   {"Color scheme to be applied to the asset"}};
-const brayns::Property PROP_POSITION = {"070Position", std::array<double, 3>{0, 0, 0}, {"Model position"}};
-const brayns::Property PROP_ROTATION = {"071Rotation", std::array<double, 4>{0, 0, 0, 1}, {"Model rotation"}};
+const core::Property PROP_POSITION = {"070Position", std::array<double, 3>{0, 0, 0}, {"Model position"}};
+const core::Property PROP_ROTATION = {"071Rotation", std::array<double, 4>{0, 0, 0, 1}, {"Model rotation"}};
 
 } // namespace common
 } // namespace neuroscience

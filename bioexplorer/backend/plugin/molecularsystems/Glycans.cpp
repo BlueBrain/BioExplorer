@@ -22,8 +22,8 @@
 
 #include <plugin/common/Utils.h>
 
-#include <core/brayns/engineapi/Material.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/engineapi/Material.h>
+#include <platform/core/engineapi/Scene.h>
 
 namespace bioexplorer
 {

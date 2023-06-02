@@ -20,8 +20,8 @@
 
 #include "MetabolismRenderer.h"
 
-// Brayns
-#include <core/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
+// Platform
+#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
 // ospray
 #include <ospray/SDK/common/Data.h>
@@ -35,7 +35,7 @@ namespace metabolism
 {
 namespace rendering
 {
-using namespace brayns;
+using namespace core;
 
 void MetabolismRenderer::commit()
 {

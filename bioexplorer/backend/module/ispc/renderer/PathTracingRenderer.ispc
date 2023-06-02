@@ -20,9 +20,9 @@
 
 #include "PathTracingRenderer.ih"
 
-// Brayns
-#include <core/engines/ospray/ispc/render/utils/RandomGenerator.ih>
-#include <core/engines/ospray/ispc/render/utils/SkyBox.ih>
+// Platform
+#include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
+#include <platform/engines/ospray/ispc/render/utils/SkyBox.ih>
 
 uniform const uint16 NB_MAX_REBOUNDS = 20;
 uniform const float skypower = 3.0f;

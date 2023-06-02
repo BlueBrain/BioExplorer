@@ -22,10 +22,10 @@
 
 #include <plugin/neuroscience/common/Types.h>
 
-#include <core/brayns/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractSimulationHandler.h>
 
-#include <core/brayns/common/Types.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/common/Types.h>
+#include <platform/core/engineapi/Scene.h>
 
 namespace sonataexplorer
 {
@@ -33,7 +33,7 @@ namespace neuroscience
 {
 namespace neuron
 {
-using namespace brayns;
+using namespace core;
 
 /**
  * @brief The MEGHandler class handles electro-magnetic fields data

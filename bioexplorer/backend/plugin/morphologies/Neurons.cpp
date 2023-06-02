@@ -29,10 +29,10 @@
 
 #include <plugin/io/db/DBConnector.h>
 
-#include <core/brayns/common/Timer.h>
-#include <core/brayns/engineapi/Material.h>
-#include <core/brayns/engineapi/Model.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/common/Timer.h>
+#include <platform/core/engineapi/Material.h>
+#include <platform/core/engineapi/Model.h>
+#include <platform/core/engineapi/Scene.h>
 
 #include <omp.h>
 
@@ -206,7 +206,7 @@ void Neurons::_buildNeurons()
         metadata["Simulation " + reportTypeAsString[_simulationReport.type] + " report"] =
             _simulationReport.description;
 
-    _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model), _details.assemblyName, metadata));
+    _modelDescriptor.reset(new core::ModelDescriptor(std::move(model), _details.assemblyName, metadata));
     if (_modelDescriptor)
     {
         _scene.addModel(_modelDescriptor);

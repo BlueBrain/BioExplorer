@@ -18,24 +18,24 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <core/brayns/common/MathTypes.h>
-#include <core/brayns/common/Types.h>
+#include <platform/core/common/MathTypes.h>
+#include <platform/core/common/Types.h>
 
 #include <glm/gtx/matrix_decompose.hpp>
 
 namespace sonataexplorer
 {
 // Convertors
-brayns::Vector3f get_translation(const brayns::Matrix4f& matrix);
+core::Vector3f get_translation(const core::Matrix4f& matrix);
 
-brayns::Vector3d transformVector3d(const brayns::Vector3f& v, const brayns::Matrix4f& transformation);
+core::Vector3d transformVector3d(const core::Vector3f& v, const core::Matrix4f& transformation);
 
 std::vector<uint64_t> GIDsAsInts(const std::string& gids);
 
 // Containers
-bool inBox(const brayns::Vector3f& point, const brayns::Boxf& box);
-brayns::Vector3f getPointInSphere(const float innerRadius);
-brayns::Vector3fs getPointsInSphere(const size_t nbPoints, const float innerRadius);
+bool inBox(const core::Vector3f& point, const core::Boxf& box);
+core::Vector3f getPointInSphere(const float innerRadius);
+core::Vector3fs getPointsInSphere(const size_t nbPoints, const float innerRadius);
 
 // Volumes
 float sphereVolume(const float radius);

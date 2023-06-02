@@ -53,7 +53,7 @@
 #include <plugin/common/shapes/MeshShape.h>
 #endif
 
-#include <core/brayns/engineapi/Model.h>
+#include <platform/core/engineapi/Model.h>
 
 namespace bioexplorer
 {

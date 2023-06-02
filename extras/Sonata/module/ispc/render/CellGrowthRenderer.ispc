@@ -18,9 +18,9 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <core/engines/ospray/ispc/render/utils/SimulationRenderer.ih>
+#include <platform/engines/ospray/ispc/render/utils/SimulationRenderer.ih>
 
-#include <core/brayns/common/CommonTypes.h>
+#include <platform/core/common/CommonTypes.h>
 
 struct CellGrowthRenderer
 {

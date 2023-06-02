@@ -32,7 +32,7 @@ using namespace io;
 using namespace db;
 
 SynapseEfficacySimulationHandler::SynapseEfficacySimulationHandler(const SynapseEfficacyDetails& details)
-    : brayns::AbstractSimulationHandler()
+    : core::AbstractSimulationHandler()
     , _details(details)
 {
     const auto& connector = DBConnector::getInstance();
@@ -62,7 +62,7 @@ void SynapseEfficacySimulationHandler::_logSimulationInformation()
 }
 
 SynapseEfficacySimulationHandler::SynapseEfficacySimulationHandler(const SynapseEfficacySimulationHandler& rhs)
-    : brayns::AbstractSimulationHandler(rhs)
+    : core::AbstractSimulationHandler(rhs)
     , _details(rhs._details)
 {
 }
@@ -85,7 +85,7 @@ void* SynapseEfficacySimulationHandler::getFrameData(const uint32_t frame)
     return _frameData.data();
 }
 
-brayns::AbstractSimulationHandlerPtr SynapseEfficacySimulationHandler::clone() const
+core::AbstractSimulationHandlerPtr SynapseEfficacySimulationHandler::clone() const
 {
     return std::make_shared<SynapseEfficacySimulationHandler>(*this);
 }

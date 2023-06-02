@@ -27,7 +27,7 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace brayns;
+using namespace core;
 using namespace details;
 
 FanShape::FanShape(const Vector4ds& clippingPlanes, const double radius)

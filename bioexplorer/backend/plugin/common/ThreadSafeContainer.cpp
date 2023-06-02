@@ -22,8 +22,8 @@
 
 #include "Utils.h"
 
-#include <core/brayns/engineapi/Material.h>
-#include <core/brayns/engineapi/Model.h>
+#include <platform/core/engineapi/Material.h>
+#include <platform/core/engineapi/Model.h>
 
 #include <iostream>
 
@@ -31,7 +31,7 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace brayns;
+using namespace core;
 
 const float equalityEpsilon = 0.001f;
 

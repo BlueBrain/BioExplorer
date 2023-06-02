@@ -26,10 +26,10 @@
 
 #include <common/Logs.h>
 
-#include <core/brayns/common/CommonTypes.h>
-#include <core/brayns/common/Timer.h>
-#include <core/brayns/engineapi/Model.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/common/CommonTypes.h>
+#include <platform/core/common/Timer.h>
+#include <platform/core/engineapi/Model.h>
+#include <platform/core/engineapi/Scene.h>
 
 #include <fstream>
 #include <omp.h>

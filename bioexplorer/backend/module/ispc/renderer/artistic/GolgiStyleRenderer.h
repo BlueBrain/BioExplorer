@@ -20,8 +20,8 @@
 
 #pragma once
 
-// Brayns
-#include <core/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
+// Platform
+#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
 // OSPRay
 #include <ospray/SDK/render/Renderer.h>
@@ -31,7 +31,7 @@ namespace bioexplorer
 namespace rendering
 {
 using namespace ospray;
-using namespace brayns;
+using namespace core;
 
 class GolgiStyleRenderer : public Renderer
 {
@@ -42,7 +42,7 @@ public:
        Returns the class name as a string
        @return string containing the full name of the class
     */
-    std::string toString() const final { return "brayns::GolgiStyleRenderer"; }
+    std::string toString() const final { return "core::GolgiStyleRenderer"; }
     void commit() final;
 
 private:

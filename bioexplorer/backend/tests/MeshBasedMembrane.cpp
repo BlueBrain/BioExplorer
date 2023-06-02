@@ -23,9 +23,9 @@
 #include <plugin/molecularsystems/Membrane.h>
 #include <plugin/molecularsystems/Protein.h>
 
-#include <core/brayns/Brayns.h>
-#include <core/brayns/engineapi/Engine.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/Brayns.h>
+#include <platform/core/engineapi/Engine.h>
+#include <platform/core/engineapi/Scene.h>
 
 #define BOOST_TEST_MODULE mesh
 #include <boost/test/unit_test.hpp>
@@ -135,7 +135,7 @@ BOOST_AUTO_TEST_CASE(meshBasedMembrane)
     std::vector<const char*> argv{"brayns", "--http-server", "localhost:0", "--plugin",
                                   "BioExplorer --db-name=bioexplorer --db-user=brayns "
                                   "--db-password=brayns --db-host=localhost --db-port=5432"};
-    brayns::Brayns brayns(argv.size(), argv.data());
+    core::Brayns brayns(argv.size(), argv.data());
     auto& scene = brayns.getEngine().getScene();
 
     Assembly assembly(scene, getAssemblyDescriptor());

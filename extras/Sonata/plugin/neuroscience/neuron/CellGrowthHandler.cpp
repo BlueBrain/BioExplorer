@@ -27,7 +27,7 @@ namespace neuroscience
 namespace neuron
 {
 CellGrowthHandler::CellGrowthHandler(const uint32_t nbFrames)
-    : brayns::AbstractSimulationHandler()
+    : core::AbstractSimulationHandler()
 {
     // Load simulation information from compartment reports
     _dt = 1.f;
@@ -37,7 +37,7 @@ CellGrowthHandler::CellGrowthHandler(const uint32_t nbFrames)
 }
 
 CellGrowthHandler::CellGrowthHandler(const CellGrowthHandler& rhs)
-    : brayns::AbstractSimulationHandler(rhs)
+    : core::AbstractSimulationHandler(rhs)
 {
 }
 
@@ -55,7 +55,7 @@ void* CellGrowthHandler::getFrameData(const uint32_t frame)
     return _frameData.data();
 }
 
-brayns::AbstractSimulationHandlerPtr CellGrowthHandler::clone() const
+core::AbstractSimulationHandlerPtr CellGrowthHandler::clone() const
 {
     return std::make_shared<CellGrowthHandler>(*this);
 }

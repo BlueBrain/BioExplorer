@@ -29,10 +29,10 @@
 #include <plugin/meshing/SurfaceMesher.h>
 #endif
 
-#include <core/brayns/engineapi/Material.h>
-#include <core/brayns/engineapi/Model.h>
+#include <platform/core/engineapi/Material.h>
+#include <platform/core/engineapi/Model.h>
 #ifdef USE_ASSIMP
-#include <core/brayns/io/MeshLoader.h>
+#include <platform/core/io/MeshLoader.h>
 #endif
 
 #include <omp.h>
@@ -41,7 +41,7 @@ namespace bioexplorer
 {
 namespace molecularsystems
 {
-using namespace brayns;
+using namespace core;
 using namespace common;
 #ifdef USE_CGAL
 using namespace meshing;
@@ -290,7 +290,7 @@ void Molecule::_buildModel(const std::string& assemblyName, const std::string& n
             if (it != atomColorMap.end())
                 rgb = (*it).second;
 
-            brayns::PropertyMap props;
+            core::PropertyMap props;
             props.setProperty(
                 {MATERIAL_PROPERTY_CHAMELEON_MODE, static_cast<int>(MaterialChameleonMode::undefined_chameleon_mode)});
             props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
@@ -350,7 +350,7 @@ void Molecule::_buildModel(const std::string& assemblyName, const std::string& n
             if (it != atomColorMap.end())
                 rgb = (*it).second;
 
-            brayns::PropertyMap props;
+            core::PropertyMap props;
             props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, static_cast<int>(MaterialChameleonMode::emitter)});
             props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
             material->setDiffuseColor({rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0});
@@ -385,17 +385,17 @@ void Molecule::_buildModel(const std::string& assemblyName, const std::string& n
     {
         auto model = _scene.createModel();
         const size_t materialId = 0;
-        brayns::Boxf box;
+        core::Boxf box;
         for (const auto& atom : _atomMap)
             box.merge({atom.second.position.x, atom.second.position.y, atom.second.position.z});
 
         const auto halfSize = box.getSize() * 0.5;
         const auto center = box.getCenter();
 
-        const brayns::Vector3d a = {0.0, 0.0, center.z + halfSize.z};
-        const brayns::Vector3d b = {0.0, 0.0, center.z - halfSize.z * 0.5};
-        const brayns::Vector3d c = {0.0, 0.0, center.z - halfSize.z * 0.51};
-        const brayns::Vector3d d = {0.0, 0.0, center.z - halfSize.z};
+        const core::Vector3d a = {0.0, 0.0, center.z + halfSize.z};
+        const core::Vector3d b = {0.0, 0.0, center.z - halfSize.z * 0.5};
+        const core::Vector3d c = {0.0, 0.0, center.z - halfSize.z * 0.51};
+        const core::Vector3d d = {0.0, 0.0, center.z - halfSize.z};
 
         model->addSphere(materialId, {a, static_cast<float>(atomRadiusMultiplier * 0.2)});
         model->addCylinder(materialId, {a, b, static_cast<float>(atomRadiusMultiplier * 0.2)});

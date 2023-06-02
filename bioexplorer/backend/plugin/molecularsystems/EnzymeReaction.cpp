@@ -25,8 +25,8 @@
 #include <plugin/common/Utils.h>
 #include <plugin/molecularsystems/Protein.h>
 
-#include <core/brayns/engineapi/Model.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/engineapi/Model.h>
+#include <platform/core/engineapi/Scene.h>
 
 namespace bioexplorer
 {

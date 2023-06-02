@@ -24,7 +24,7 @@
 #include <bioexplorer/core/plugin/common/Utils.h>
 #include <boost/test/unit_test.hpp>
 
-using namespace brayns;
+using namespace core;
 using namespace bioexplorer;
 using namespace common;
 

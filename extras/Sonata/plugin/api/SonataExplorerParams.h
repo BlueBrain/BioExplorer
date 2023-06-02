@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <core/brayns/common/Types.h>
+#include <platform/core/common/Types.h>
 
 namespace sonataexplorer
 {

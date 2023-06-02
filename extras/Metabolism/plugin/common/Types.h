@@ -24,7 +24,7 @@
 
 #include <bioexplorer/backend/plugin/common/Types.h>
 
-using namespace brayns;
+using namespace core;
 
 namespace bioexplorer
 {

@@ -22,11 +22,11 @@
 
 #include <plugin/common/Logs.h>
 
-#include <core/brayns/common/transferFunction/TransferFunction.h>
+#include <platform/core/common/transferFunction/TransferFunction.h>
 
 namespace metabolism
 {
-void setTransferFunction(brayns::TransferFunction& tf)
+void setTransferFunction(core::TransferFunction& tf)
 {
     tf.setControlPoints({{0.0, 0.0}, {0.1, 1.0}, {1.0, 1.0}});
     // curl https://api.colormaps.io/colormap/unipolar

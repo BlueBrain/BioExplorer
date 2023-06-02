@@ -26,7 +26,7 @@ namespace neuroscience
 {
 namespace common
 {
-using namespace brayns;
+using namespace core;
 
 class ParallelModelContainer
 {

@@ -20,7 +20,7 @@
 
 #include "AmbientOcclusionRenderer.ih"
 
-#include <core/engines/ospray/ispc/render/utils/AdvancedMaterial.ih>
+#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.ih>
 
 #include <ospray/SDK/math/random.ih>
 #include <ospray/SDK/math/sampling.ih>

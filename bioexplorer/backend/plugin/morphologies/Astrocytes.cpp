@@ -28,10 +28,10 @@
 
 #include <plugin/meshing/PointCloudMesher.h>
 
-#include <core/brayns/common/Timer.h>
-#include <core/brayns/engineapi/Material.h>
-#include <core/brayns/engineapi/Model.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/common/Timer.h>
+#include <platform/core/engineapi/Material.h>
+#include <platform/core/engineapi/Model.h>
+#include <platform/core/engineapi/Scene.h>
 
 #include <omp.h>
 
@@ -355,7 +355,7 @@ void Astrocytes::_buildModel(const doubles& radii)
                                     {"SQL filter", _details.sqlFilter},
                                     {"Max distance to soma", std::to_string(_maxDistanceToSoma)}};
 
-    _modelDescriptor.reset(new brayns::ModelDescriptor(std::move(model), _details.assemblyName, metadata));
+    _modelDescriptor.reset(new core::ModelDescriptor(std::move(model), _details.assemblyName, metadata));
     if (_modelDescriptor)
         _scene.addModel(_modelDescriptor);
     else

@@ -22,9 +22,9 @@
 
 #include <plugin/common/Logs.h>
 
-#include <core/brayns/common/scene/ClipPlane.h>
-#include <core/brayns/common/transferFunction/TransferFunction.h>
-#include <core/brayns/engineapi/Model.h>
+#include <platform/core/common/scene/ClipPlane.h>
+#include <platform/core/common/transferFunction/TransferFunction.h>
+#include <platform/core/engineapi/Model.h>
 
 #include <glm/gtx/matrix_decompose.hpp>
 
@@ -32,7 +32,7 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace brayns;
+using namespace core;
 
 const std::vector<double> randoms = {
     0.28148369141,    0.796861024715,  0.074193743197,  0.482440306945,  0.992773878589,  0.709310247315,

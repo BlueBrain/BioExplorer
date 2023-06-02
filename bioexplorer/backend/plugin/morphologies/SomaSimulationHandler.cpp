@@ -32,7 +32,7 @@ using namespace io;
 using namespace db;
 
 SomaSimulationHandler::SomaSimulationHandler(const std::string& populationName, const uint64_t simulationReportId)
-    : brayns::AbstractSimulationHandler()
+    : core::AbstractSimulationHandler()
     , _populationName(populationName)
     , _simulationReportId(simulationReportId)
 {
@@ -58,7 +58,7 @@ void SomaSimulationHandler::_logSimulationInformation()
 }
 
 SomaSimulationHandler::SomaSimulationHandler(const SomaSimulationHandler& rhs)
-    : brayns::AbstractSimulationHandler(rhs)
+    : core::AbstractSimulationHandler(rhs)
     , _populationName(rhs._populationName)
     , _simulationReport(rhs._simulationReport)
     , _guidsMapping(rhs._guidsMapping)
@@ -85,7 +85,7 @@ void* SomaSimulationHandler::getFrameData(const uint32_t frame)
     return _frameData.data();
 }
 
-brayns::AbstractSimulationHandlerPtr SomaSimulationHandler::clone() const
+core::AbstractSimulationHandlerPtr SomaSimulationHandler::clone() const
 {
     return std::make_shared<SomaSimulationHandler>(*this);
 }

@@ -27,7 +27,7 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace brayns;
+using namespace core;
 using namespace details;
 
 RNAShape::RNAShape(const Vector4ds& clippingPlanes, const RNAShapeType& shapeType, const uint64_t nbElements,

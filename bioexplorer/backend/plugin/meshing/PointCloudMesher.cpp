@@ -23,8 +23,8 @@
 #include <plugin/common/Logs.h>
 #include <plugin/common/ThreadSafeContainer.h>
 
-#include <core/brayns/engineapi/Material.h>
-#include <core/brayns/engineapi/Model.h>
+#include <platform/core/engineapi/Material.h>
+#include <platform/core/engineapi/Model.h>
 
 #ifdef USE_CGAL
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>

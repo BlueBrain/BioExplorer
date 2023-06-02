@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include <core/engines/ospray/ispc/render/utils/SimulationRenderer.h>
+#include <platform/engines/ospray/ispc/render/utils/SimulationRenderer.h>
 
 namespace sonataexplorer
 {
-using namespace brayns;
+using namespace core;
 
 /**
  * @brief The CellGrowthRenderer class can perform fast transparency

@@ -30,16 +30,16 @@
 #include <common/Logs.h>
 #include <common/Utils.h>
 
-#include <core/brayns/common/Timer.h>
-#include <core/brayns/common/scene/ClipPlane.h>
-#include <core/brayns/engineapi/Material.h>
-#include <core/brayns/engineapi/Model.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/common/Timer.h>
+#include <platform/core/common/scene/ClipPlane.h>
+#include <platform/core/engineapi/Material.h>
+#include <platform/core/engineapi/Model.h>
+#include <platform/core/engineapi/Scene.h>
 
 #include <omp.h>
 
 #ifdef USE_ASSIMP
-#include <core/brayns/io/MeshLoader.h>
+#include <platform/core/io/MeshLoader.h>
 #endif
 
 namespace sonataexplorer

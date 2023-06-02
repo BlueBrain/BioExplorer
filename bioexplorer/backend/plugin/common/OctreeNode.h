@@ -20,13 +20,13 @@
 
 #pragma once
 
-#include <core/brayns/common/Types.h>
+#include <platform/core/common/Types.h>
 
 namespace bioexplorer
 {
 namespace common
 {
-using namespace brayns;
+using namespace core;
 
 /**
  * @brief The OctreeNode class implement a spherical node of the Octree

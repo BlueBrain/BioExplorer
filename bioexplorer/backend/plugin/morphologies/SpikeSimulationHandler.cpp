@@ -32,7 +32,7 @@ using namespace io;
 using namespace db;
 
 SpikeSimulationHandler::SpikeSimulationHandler(const std::string& populationName, const uint64_t simulationReportId)
-    : brayns::AbstractSimulationHandler()
+    : core::AbstractSimulationHandler()
     , _populationName(populationName)
     , _simulationReportId(simulationReportId)
 {
@@ -66,7 +66,7 @@ SpikeSimulationHandler::SpikeSimulationHandler(const std::string& populationName
 }
 
 SpikeSimulationHandler::SpikeSimulationHandler(const SpikeSimulationHandler& rhs)
-    : brayns::AbstractSimulationHandler(rhs)
+    : core::AbstractSimulationHandler(rhs)
     , _populationName(rhs._populationName)
     , _simulationReport(rhs._simulationReport)
     , _guidsMapping(rhs._guidsMapping)
@@ -101,7 +101,7 @@ void* SpikeSimulationHandler::getFrameData(const uint32_t frame)
     return _frameData.data();
 }
 
-brayns::AbstractSimulationHandlerPtr SpikeSimulationHandler::clone() const
+core::AbstractSimulationHandlerPtr SpikeSimulationHandler::clone() const
 {
     return std::make_shared<SpikeSimulationHandler>(*this);
 }

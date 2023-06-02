@@ -41,7 +41,7 @@ using namespace db;
 
 CompartmentSimulationHandler::CompartmentSimulationHandler(const std::string& populationName,
                                                            const uint64_t simulationReportId)
-    : brayns::AbstractSimulationHandler()
+    : core::AbstractSimulationHandler()
     , _populationName(populationName)
     , _simulationReportId(simulationReportId)
 {
@@ -69,7 +69,7 @@ CompartmentSimulationHandler::CompartmentSimulationHandler(const std::string& po
 }
 
 CompartmentSimulationHandler::CompartmentSimulationHandler(const CompartmentSimulationHandler& rhs)
-    : brayns::AbstractSimulationHandler(rhs)
+    : core::AbstractSimulationHandler(rhs)
     , _populationName(rhs._populationName)
     , _simulationReport(rhs._simulationReport)
 {
@@ -89,7 +89,7 @@ void* CompartmentSimulationHandler::getFrameData(const uint32_t frame)
     return _frameData.data();
 }
 
-brayns::AbstractSimulationHandlerPtr CompartmentSimulationHandler::clone() const
+core::AbstractSimulationHandlerPtr CompartmentSimulationHandler::clone() const
 {
     return std::make_shared<CompartmentSimulationHandler>(*this);
 }

@@ -21,7 +21,7 @@
 #include <common/Logs.h>
 
 #include "SpikeSimulationHandler.h"
-#include <core/brayns/parameters/AnimationParameters.h>
+#include <platform/core/parameters/AnimationParameters.h>
 
 namespace sonataexplorer
 {

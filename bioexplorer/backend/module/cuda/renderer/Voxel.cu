@@ -20,8 +20,8 @@
 
 #include <optix_world.h>
 
-#include <core/engines/optix6/OptiXCommonStructs.h>
-#include <core/engines/optix6/cuda/renderer/TransferFunction.cuh>
+#include <platform/engines/optix6/OptiXCommonStructs.h>
+#include <platform/engines/optix6/cuda/renderer/TransferFunction.cuh>
 
 // Scene
 rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );

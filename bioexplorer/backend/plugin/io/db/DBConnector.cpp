@@ -23,7 +23,7 @@
 #include <plugin/common/Logs.h>
 #include <plugin/common/Utils.h>
 
-#include <core/brayns/common/geometry/TriangleMesh.h>
+#include <platform/core/common/geometry/TriangleMesh.h>
 
 #include <omp.h>
 #include <pqxx/pqxx>

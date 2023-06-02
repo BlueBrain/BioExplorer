@@ -23,7 +23,7 @@
 #include <plugin/api/Params.h>
 #include <plugin/io/handlers/MetabolismHandler.h>
 
-#include <core/brayns/pluginapi/ExtensionPlugin.h>
+#include <platform/core/pluginapi/ExtensionPlugin.h>
 
 namespace bioexplorer
 {
@@ -34,7 +34,7 @@ using namespace details;
 /**
  * @brief This class implements the MetabolismPlugin plugin
  */
-class MetabolismPlugin : public brayns::ExtensionPlugin
+class MetabolismPlugin : public core::ExtensionPlugin
 {
 public:
     MetabolismPlugin(int argc, char **argv);

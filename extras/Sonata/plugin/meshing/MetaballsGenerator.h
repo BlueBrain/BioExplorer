@@ -20,13 +20,13 @@
 
 #pragma once
 
-#include <core/brayns/common/Types.h>
+#include <platform/core/common/Types.h>
 
 namespace sonataexplorer
 {
 namespace meshing
 {
-using namespace brayns;
+using namespace core;
 
 /**
  * Generated a mesh according to given set of metaballs.

@@ -20,9 +20,9 @@
 
 #include "MetaballsGenerator.h"
 
-#include <core/brayns/common/geometry/Sphere.h>
-#include <core/brayns/common/geometry/TriangleMesh.h>
-#include <core/brayns/engineapi/Material.h>
+#include <platform/core/common/geometry/Sphere.h>
+#include <platform/core/common/geometry/TriangleMesh.h>
+#include <platform/core/engineapi/Material.h>
 #include <common/Logs.h>
 
 namespace sonataexplorer

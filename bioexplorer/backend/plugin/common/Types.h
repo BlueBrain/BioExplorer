@@ -22,8 +22,8 @@
 
 #include <Defines.h>
 
-#include <core/brayns/common/geometry/SDFGeometry.h>
-#include <core/brayns/engineapi/Scene.h>
+#include <platform/core/common/geometry/SDFGeometry.h>
+#include <platform/core/engineapi/Scene.h>
 
 #include <map>
 #include <set>
@@ -32,7 +32,7 @@
 
 namespace bioexplorer
 {
-using namespace brayns;
+using namespace core;
 
 const std::string CONTENTS_DELIMITER = "||||";
 

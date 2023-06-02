@@ -22,7 +22,7 @@
 
 #include <plugin/common/Types.h>
 
-#include <core/brayns/common/Types.h>
+#include <platform/core/common/Types.h>
 
 #include <pqxx/pqxx>
 
@@ -32,7 +32,7 @@ namespace io
 {
 namespace db
 {
-using namespace brayns;
+using namespace core;
 using namespace details;
 using namespace common;
 using namespace morphology;

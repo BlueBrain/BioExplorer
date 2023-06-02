@@ -18,11 +18,11 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <core/engines/ospray/ispc/render/utils/AdvancedMaterial.ih>
-#include <core/engines/ospray/ispc/render/utils/RendererUtils.ih>
-#include <core/engines/ospray/ispc/render/utils/SimulationRenderer.ih>
+#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.ih>
+#include <platform/engines/ospray/ispc/render/utils/RendererUtils.ih>
+#include <platform/engines/ospray/ispc/render/utils/SimulationRenderer.ih>
 
-#include <core/brayns/common/CommonTypes.h>
+#include <platform/core/common/CommonTypes.h>
 
 uniform const float nearFarThreshold = 0.2f;
 

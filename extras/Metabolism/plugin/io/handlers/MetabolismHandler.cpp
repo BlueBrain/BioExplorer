@@ -29,7 +29,7 @@ namespace bioexplorer
 namespace metabolism
 {
 MetabolismHandler::MetabolismHandler()
-    : brayns::AbstractSimulationHandler()
+    : core::AbstractSimulationHandler()
 {
     // Load simulation information from compartment reports
     _dt = 1.f;
@@ -38,7 +38,7 @@ MetabolismHandler::MetabolismHandler()
 }
 
 MetabolismHandler::MetabolismHandler(const CommandLineArguments& args)
-    : brayns::AbstractSimulationHandler()
+    : core::AbstractSimulationHandler()
     , _connector(new DBConnector(args))
 {
     _dt = 1.f;
@@ -47,7 +47,7 @@ MetabolismHandler::MetabolismHandler(const CommandLineArguments& args)
 }
 
 MetabolismHandler::MetabolismHandler(const AttachHandlerDetails& payload)
-    : brayns::AbstractSimulationHandler()
+    : core::AbstractSimulationHandler()
     , _connector(new DBConnector(payload))
 {
     _dt = 1.f;
@@ -68,7 +68,7 @@ MetabolismHandler::MetabolismHandler(const AttachHandlerDetails& payload)
 }
 
 MetabolismHandler::MetabolismHandler(const MetabolismHandler& rhs)
-    : brayns::AbstractSimulationHandler(rhs)
+    : core::AbstractSimulationHandler(rhs)
 {
 }
 

@@ -24,8 +24,8 @@
 
 namespace metabolism
 {
-using namespace brayns;
+using namespace core;
 
-void setTransferFunction(brayns::TransferFunction& tf);
+void setTransferFunction(core::TransferFunction& tf);
 
 } // namespace metabolism

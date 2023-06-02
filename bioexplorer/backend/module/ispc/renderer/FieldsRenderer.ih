@@ -18,8 +18,8 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Brayns
-#include <core/engines/ospray/ispc/render/utils/AdvancedMaterial.ih>
+// Platform
+#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.ih>
 
 // OSPRay
 #include <ospray/SDK/camera/PerspectiveCamera.ih>

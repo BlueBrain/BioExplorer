@@ -26,14 +26,14 @@
 #include <plugin/common/SDFGeometries.h>
 #include <plugin/common/Types.h>
 
-#include <core/brayns/common/loader/Loader.h>
-#include <core/brayns/parameters/GeometryParameters.h>
+#include <platform/core/common/loader/Loader.h>
+#include <platform/core/parameters/GeometryParameters.h>
 
 namespace bioexplorer
 {
 namespace vasculature
 {
-using namespace brayns;
+using namespace core;
 using namespace common;
 
 /**

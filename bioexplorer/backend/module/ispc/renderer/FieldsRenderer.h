@@ -20,8 +20,8 @@
 
 #pragma once
 
-// Brayns
-#include <core/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
+// Platform
+#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
 // OSPRay
 #include <ospray/SDK/render/Renderer.h>
@@ -31,7 +31,7 @@ namespace bioexplorer
 namespace rendering
 {
 using namespace ospray;
-using namespace brayns;
+using namespace core;
 
 /**
  * @brief The FieldsRenderer class allows visualization of magnetic

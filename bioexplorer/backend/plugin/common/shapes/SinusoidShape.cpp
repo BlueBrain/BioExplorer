@@ -27,7 +27,7 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace brayns;
+using namespace core;
 using namespace details;
 
 SinusoidShape::SinusoidShape(const Vector4ds& clippingPlanes, const Vector3d& size)

@@ -23,7 +23,7 @@
 #include <plugin/api/Params.h>
 #include <plugin/common/Types.h>
 
-#include <core/brayns/pluginapi/ExtensionPlugin.h>
+#include <platform/core/pluginapi/ExtensionPlugin.h>
 
 namespace bioexplorer
 {
@@ -32,7 +32,7 @@ namespace mediamaker
 /**
  * @brief This class implements the Media Maker plugin for Brayns
  */
-class MediaMakerPlugin : public brayns::ExtensionPlugin
+class MediaMakerPlugin : public core::ExtensionPlugin
 {
 public:
     MediaMakerPlugin();
