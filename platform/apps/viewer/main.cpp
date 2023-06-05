@@ -3,7 +3,7 @@
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Jafet Villafranca <jafet.villafrancadiaz@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  */
 
 #include "Viewer.h"
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 #include <platform/core/common/Logs.h>
 #include <platform/core/common/Types.h>
 #include <platform/core/engineapi/Engine.h>
@@ -30,14 +30,13 @@ int main(int argc, const char** argv)
 {
     try
     {
-        core::Brayns braynsInstance(argc, argv);
+        core::Core core(argc, argv);
         core::initGLUT(&argc, argv);
-        core::Viewer braynsViewer(braynsInstance);
+        core::Viewer viewer(core);
         CORE_INFO("Initializing Application...");
-        const core::Vector2ui& size =
-            braynsInstance.getParametersManager().getApplicationParameters().getWindowSize();
+        const core::Vector2ui& size = core.getParametersManager().getApplicationParameters().getWindowSize();
 
-        braynsViewer.create("Brayns Viewer", size.x, size.y);
+        viewer.create("Core Viewer", size.x, size.y);
         core::runGLUT();
     }
     catch (const std::runtime_error& e)

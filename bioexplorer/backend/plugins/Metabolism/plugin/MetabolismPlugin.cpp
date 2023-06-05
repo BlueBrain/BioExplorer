@@ -135,7 +135,7 @@ Response MetabolismPlugin::_attachHandler(const AttachHandlerDetails &payload)
     return response;
 }
 
-extern "C" ExtensionPlugin *brayns_plugin_create(int argc, char **argv)
+extern "C" ExtensionPlugin *core_plugin_create(int argc, char **argv)
 {
     PLUGIN_INFO("Initializing Metabolism plug-in (version " << PLUGIN_VERSION << ")");
     PLUGIN_INFO("");

@@ -30,7 +30,7 @@ namespace bioexplorer
 namespace mediamaker
 {
 /**
- * @brief This class implements the Media Maker plugin for Brayns
+ * @brief This class implements the Media Maker plugin for Core
  */
 class MediaMakerPlugin : public core::ExtensionPlugin
 {

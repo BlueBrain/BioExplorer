@@ -2,7 +2,7 @@
 # All rights reserved. Do not distribute without permission.
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
-# This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+# This file is part of Core <https://github.com/BlueBrain/Core>
 
 # ==============================================================================
 # Project
@@ -61,7 +61,7 @@ set(BRAYNSOPTIX7ENGINE_CU
   cuda/renderer/Material.cu
 )
 
-CUDA_WRAP_SRCS(braynsOptix7Engine PTX ptx_generated_files ${BRAYNSOPTIX7ENGINE_CU})
+CUDA_WRAP_SRCS(Optix7Engine PTX ptx_generated_files ${BRAYNSOPTIX7ENGINE_CU})
 
 include(StringifyPtx)
 stringify_ptx(${ptx_generated_files})
@@ -132,8 +132,6 @@ include_directories(
   ${OptiX6_INCLUDE_DIRS}
   ${CUDA_INCLUDE_DIRS}
 )
-
-set(${NAME}_INCLUDE_NAME engines/optix6)
 
 add_library(
     ${LIBRARY_NAME}

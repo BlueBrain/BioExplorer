@@ -3,7 +3,7 @@
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Jafet Villafranca <jafet.villafrancadiaz@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,20 +21,20 @@
 
 #include "Viewer.h"
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/parameters/ParametersManager.h>
 
 namespace core
 {
-Viewer::Viewer(Brayns& brayns)
-    : BaseWindow(brayns)
+Viewer::Viewer(Core& core)
+    : BaseWindow(core)
 {
 }
 
 void Viewer::display()
 {
-    const auto& pm = _brayns.getParametersManager();
+    const auto& pm = _core.getParametersManager();
     std::stringstream ss;
     ss << "BioExplorer Viewer";
     const auto animationFrame = pm.getAnimationParameters().getFrame();
@@ -42,7 +42,7 @@ void Viewer::display()
     ss << " [" << engineName << "]";
     if (animationFrame != std::numeric_limits<uint32_t>::max())
         ss << " (frame " << animationFrame << ")";
-    if (_brayns.getParametersManager().getApplicationParameters().isBenchmarking())
+    if (_core.getParametersManager().getApplicationParameters().isBenchmarking())
         ss << " @ " << _timer.perSecondSmoothed() << " FPS";
     setTitle(ss.str());
 

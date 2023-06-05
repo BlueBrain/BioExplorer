@@ -2,7 +2,7 @@
 # All rights reserved. Do not distribute without permission.
 # Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
 #
-# This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+# This file is part of Core <https://github.com/BlueBrain/Core>
 
 # ==============================================================================
 # Project
@@ -42,8 +42,6 @@ endif()
 # Compile c++ code
 # ==============================================================================
 include_directories(${BIOEXPLORER_SOURCE_DIRS})
-
-set(${NAME}_INCLUDE_NAME plugins/deflect)
 
 add_library(
   ${LIBRARY_NAME}

@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 #include <platform/core/common/Logs.h>
 #include <platform/core/common/Timer.h>
 #include <platform/core/common/Types.h>
@@ -35,12 +35,12 @@ int main(int argc, const char** argv)
         core::Timer timer;
 
         timer.start();
-        core::Brayns brayns(argc, argv);
+        core::Core core(argc, argv);
         timer.stop();
 
         CORE_INFO("[PERF] Scene initialization took " << timer.milliseconds() << " milliseconds");
 
-        auto& engine = brayns.getEngine();
+        auto& engine = core.getEngine();
         auto& scene = engine.getScene();
         const auto bounds = scene.getBounds();
         const double radius = glm::compMax(bounds.getSize());
@@ -51,7 +51,7 @@ int main(int argc, const char** argv)
             const auto quat = glm::angleAxis(frame * M_PI / 180.0, core::Vector3d(0.0, 1.0, 0.0));
             const core::Vector3d dir = glm::rotate(quat, core::Vector3d(0, 0, -1));
             engine.getCamera().set(center + radius * -dir, quat);
-            brayns.commitAndRender();
+            core.commitAndRender();
         }
         timer.stop();
 

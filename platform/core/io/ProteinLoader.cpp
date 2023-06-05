@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -332,7 +332,7 @@ ProteinLoader::ProteinLoader(Scene& scene, const GeometryParameters& params)
         {PROP_RADIUS_MULTIPLIER, static_cast<double>(params.getRadiusMultiplier()), {"Radius multiplier"}});
 }
 
-bool ProteinLoader::isSupported(const std::string& filename BRAYNS_UNUSED, const std::string& extension) const
+bool ProteinLoader::isSupported(const std::string& filename, const std::string& extension) const
 {
     const std::set<std::string> types = {"pdb", "pdb1"};
     return types.find(extension) != types.end();

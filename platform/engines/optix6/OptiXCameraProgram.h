@@ -1,7 +1,7 @@
 /* Copyright (c) 2019, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -40,7 +40,7 @@ public:
     /**
      * @brief commit Virtual method for commiting camera specific variables to
      * the context
-     * @param camera The main brayns camera
+     * @param camera The main core camera
      * @param context The OptiX context
      */
     virtual void commit(const OptiXCamera& camera, ::optix::Context context) = 0;

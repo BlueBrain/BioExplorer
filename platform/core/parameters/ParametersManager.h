@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -47,52 +47,52 @@ public:
        Registers specific parameters to the manager
        @param parameters to be registered
      */
-    BRAYNS_API void registerParameters(AbstractParameters* parameters);
+    PLATFORM_API void registerParameters(AbstractParameters* parameters);
 
     /**
        Displays usage of registered parameters
      */
-    BRAYNS_API void usage();
+    PLATFORM_API void usage();
 
     /**
        Displays values registered parameters
      */
-    BRAYNS_API void print();
+    PLATFORM_API void print();
 
     /**
        Gets animation parameters
        @return Animation parameters for the current scene
     */
-    BRAYNS_API AnimationParameters& getAnimationParameters();
-    BRAYNS_API const AnimationParameters& getAnimationParameters() const;
+    PLATFORM_API AnimationParameters& getAnimationParameters();
+    PLATFORM_API const AnimationParameters& getAnimationParameters() const;
 
     /**
        Gets rendering parameters
        @return Rendering parameters for the current scene
     */
-    BRAYNS_API RenderingParameters& getRenderingParameters();
-    BRAYNS_API const RenderingParameters& getRenderingParameters() const;
+    PLATFORM_API RenderingParameters& getRenderingParameters();
+    PLATFORM_API const RenderingParameters& getRenderingParameters() const;
 
     /**
        Gets geometry parameters
        @return Geometry parameters for the current scene
     */
-    BRAYNS_API GeometryParameters& getGeometryParameters();
-    BRAYNS_API const GeometryParameters& getGeometryParameters() const;
+    PLATFORM_API GeometryParameters& getGeometryParameters();
+    PLATFORM_API const GeometryParameters& getGeometryParameters() const;
 
     /**
        Gets application parameters
        @return Application parameters for the current scene
     */
-    BRAYNS_API ApplicationParameters& getApplicationParameters();
-    BRAYNS_API const ApplicationParameters& getApplicationParameters() const;
+    PLATFORM_API ApplicationParameters& getApplicationParameters();
+    PLATFORM_API const ApplicationParameters& getApplicationParameters() const;
 
     /**
        Gets volume parameters
        @return Parameters for the current volume
     */
-    BRAYNS_API VolumeParameters& getVolumeParameters();
-    BRAYNS_API const VolumeParameters& getVolumeParameters() const;
+    PLATFORM_API VolumeParameters& getVolumeParameters();
+    PLATFORM_API const VolumeParameters& getVolumeParameters() const;
 
     /** Call resetModified on all parameters. */
     void resetModified();

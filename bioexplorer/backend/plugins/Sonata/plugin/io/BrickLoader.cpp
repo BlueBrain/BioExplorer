@@ -20,11 +20,11 @@
 
 #include "BrickLoader.h"
 
-#include <science/neuroscience/common/Types.h>
+#include <plugin/neuroscience/common/Types.h>
 
-#include <science/neuroscience/common/MorphologyLoader.h>
-#include <science/neuroscience/neuron/SpikeSimulationHandler.h>
-#include <science/neuroscience/neuron/VoltageSimulationHandler.h>
+#include <plugin/neuroscience/common/MorphologyLoader.h>
+#include <plugin/neuroscience/neuron/SpikeSimulationHandler.h>
+#include <plugin/neuroscience/neuron/VoltageSimulationHandler.h>
 
 #include <common/Logs.h>
 
@@ -49,7 +49,7 @@ const size_t CACHE_VERSION_3 = 3;
 const size_t CACHE_VERSION_4 = 4;
 
 const std::string LOADER_NAME = "Cache";
-const std::string SUPPORTED_EXTENTION_BRAYNS = "brayns";
+const std::string SUPPORTED_EXTENTION_BRAYNS = "core";
 const std::string SUPPORTED_EXTENTION_BIN = "bin";
 
 const Property PROP_LOAD_SPHERES = {"spheres", true, {"Load spheres"}};

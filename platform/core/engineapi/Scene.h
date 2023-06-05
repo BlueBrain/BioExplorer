@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -49,16 +49,16 @@ public:
      * Called after scene-related changes have been made before rendering the
      * scene.
      */
-    BRAYNS_API virtual void commit();
+    PLATFORM_API virtual void commit();
 
     /**
      * Commits lights to renderers.
      * @return True if lights were committed, false otherwise
      */
-    BRAYNS_API virtual bool commitLights() = 0;
+    PLATFORM_API virtual bool commitLights() = 0;
 
     /** Factory method to create an engine-specific model. */
-    BRAYNS_API virtual ModelPtr createModel() const = 0;
+    PLATFORM_API virtual ModelPtr createModel() const = 0;
 
     //@}
 
@@ -66,7 +66,7 @@ public:
      * Creates a scene object responsible for handling models, simulations and
      * light sources.
      */
-    BRAYNS_API Scene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
+    PLATFORM_API Scene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
                      VolumeParameters& volumeParameters);
 
     /**
@@ -79,43 +79,43 @@ public:
         Adds a model to the scene
         @throw std::runtime_error if model is empty
       */
-    BRAYNS_API size_t addModel(ModelDescriptorPtr model);
+    PLATFORM_API size_t addModel(ModelDescriptorPtr model);
 
     /**
         Removes a model from the scene
         @param id id of the model (descriptor)
         @return True if model was found and removed, false otherwise
       */
-    BRAYNS_API bool removeModel(const size_t id);
+    PLATFORM_API bool removeModel(const size_t id);
 
-    BRAYNS_API const ModelDescriptors& getModelDescriptors() const { return _modelDescriptors; }
-    BRAYNS_API ModelDescriptorPtr getModel(const size_t id) const;
+    PLATFORM_API const ModelDescriptors& getModelDescriptors() const { return _modelDescriptors; }
+    PLATFORM_API ModelDescriptorPtr getModel(const size_t id) const;
 
     /**
         Builds a default scene made of a Cornell box, a reflective cube, and
         a transparent sphere
     */
-    BRAYNS_API void buildDefault();
+    PLATFORM_API void buildDefault();
 
     /**
      * @return true if the scene does not contain any geometry, false otherwise
      */
-    BRAYNS_API bool empty() const;
+    PLATFORM_API bool empty() const;
 
     /** Add a clip plane to the scene.
      * @param plane The coefficients of the clip plane equation.
      * @return The clip plane ID.
      */
-    BRAYNS_API size_t addClipPlane(const Plane& plane);
+    PLATFORM_API size_t addClipPlane(const Plane& plane);
 
     /** Get a clip plane by its ID.
         @param id the plane ID.
         @return A pointer to the clip plane or null if not found.
      */
-    BRAYNS_API ClipPlanePtr getClipPlane(const size_t id) const;
+    PLATFORM_API ClipPlanePtr getClipPlane(const size_t id) const;
 
     /** Remove a clip plane by its ID, or nop if not found. */
-    BRAYNS_API void removeClipPlane(const size_t id);
+    PLATFORM_API void removeClipPlane(const size_t id);
 
     /**
        @return the clip planes
@@ -182,9 +182,9 @@ public:
     auto acquireReadAccess() const { return std::shared_lock<std::shared_timed_mutex>(_modelMutex); }
 
     /** @internal */
-    BRAYNS_API void copyFrom(const Scene& rhs);
+    PLATFORM_API void copyFrom(const Scene& rhs);
 
-    BRAYNS_API void computeBounds();
+    PLATFORM_API void computeBounds();
 
 protected:
     /** @return True if this scene supports scene updates from any thread. */

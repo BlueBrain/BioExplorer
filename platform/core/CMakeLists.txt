@@ -2,7 +2,7 @@
 # All rights reserved. Do not distribute without permission.
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
-# This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+# This file is part of Core <https://github.com/BlueBrain/Core>
 
 # ==============================================================================
 # Dependencies
@@ -28,9 +28,9 @@ unset(${NAME}_HEADERS)
 # ==============================================================================
 # Sources
 # ==============================================================================
-set(${NAME}_SOURCES Brayns.cpp EngineFactory.cpp PluginManager.cpp)
+set(${NAME}_SOURCES Core.cpp EngineFactory.cpp PluginManager.cpp)
 set(${NAME}_HEADERS EngineFactory.h)
-set(${NAME}_PUBLIC_HEADERS Brayns.h)
+set(${NAME}_PUBLIC_HEADERS Core.h)
 
 # ==============================================================================
 # Compile c++ code
@@ -42,8 +42,6 @@ set(${NAME}_LINK_LIBRARIES PRIVATE ${Boost_PROGRAM_OPTIONS_LIBRARY})
 if(NETWORKING_FOUND)
   list(APPEND ${NAME}_LINK_LIBRARIES CorePluginRockets)
 endif()
-
-set(${NAME}_INCLUDE_NAME brayns)
 
 add_library(${LIBRARY_NAME} SHARED ${${NAME}_SOURCES})
 

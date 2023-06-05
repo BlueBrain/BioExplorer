@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -33,16 +33,16 @@ ImageGenerator::~ImageGenerator()
         tjDestroy(_compressor);
 }
 
-ImageGenerator::ImageBase64 ImageGenerator::createImage(FrameBuffer& frameBuffer BRAYNS_UNUSED,
-                                                        const std::string& format BRAYNS_UNUSED,
-                                                        const uint8_t quality BRAYNS_UNUSED)
+ImageGenerator::ImageBase64 ImageGenerator::createImage(FrameBuffer& frameBuffer,
+                                                        const std::string& format,
+                                                        const uint8_t quality)
 {
     return {freeimage::getBase64Image(frameBuffer.getImage(), format, quality)};
 }
 
-ImageGenerator::ImageBase64 ImageGenerator::createImage(const std::vector<FrameBufferPtr>& frameBuffers BRAYNS_UNUSED,
-                                                        const std::string& format BRAYNS_UNUSED,
-                                                        const uint8_t quality BRAYNS_UNUSED)
+ImageGenerator::ImageBase64 ImageGenerator::createImage(const std::vector<FrameBufferPtr>& frameBuffers,
+                                                        const std::string& format,
+                                                        const uint8_t quality)
 {
     if (frameBuffers.size() == 1)
         return createImage(*frameBuffers[0], format, quality);
@@ -53,8 +53,8 @@ ImageGenerator::ImageBase64 ImageGenerator::createImage(const std::vector<FrameB
     return {freeimage::getBase64Image(freeimage::mergeImages(images), format, quality)};
 }
 
-ImageGenerator::ImageJPEG ImageGenerator::createJPEG(FrameBuffer& frameBuffer BRAYNS_UNUSED,
-                                                     const uint8_t quality BRAYNS_UNUSED)
+ImageGenerator::ImageJPEG ImageGenerator::createJPEG(FrameBuffer& frameBuffer,
+                                                     const uint8_t quality)
 {
     frameBuffer.map();
     const auto colorBuffer = frameBuffer.getColorBuffer();

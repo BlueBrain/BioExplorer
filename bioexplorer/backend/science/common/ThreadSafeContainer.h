@@ -34,7 +34,7 @@ using Neighbours = std::set<size_t>;
 /**
  * @brief The ThreadSafeContainer class is used to load large datasets in
  * parallel. Every individual element is loaded in a separate thread and
- * eventualy merged into a single Brayns model
+ * eventualy merged into a single Core model
  *
  */
 class ThreadSafeContainer
@@ -43,7 +43,7 @@ public:
     /**
      * @brief Construct a new Thread Safe Model object
      *
-     * @param model Brayns model
+     * @param model Core model
      * for the geometry
      * @param scale Scale applied to individual elements
      */
@@ -112,7 +112,7 @@ public:
     void addStreamline(const size_t materialId, const StreamlinesData& streamline);
 
     /**
-     * @brief Commit geometries and materials to the Brayns model
+     * @brief Commit geometries and materials to the Core model
      *
      */
     void commitToModel();

@@ -4,19 +4,19 @@
 #include <Defines.h>
 
 #if defined(_MSC_VER) || defined(__declspec)
-#define BRAYNS_DLLEXPORT __declspec(dllexport)
-#define BRAYNS_DLLIMPORT __declspec(dllimport)
+#define CORE_DLLEXPORT __declspec(dllexport)
+#define CORE_DLLIMPORT __declspec(dllimport)
 #else // _MSC_VER
-#define BRAYNS_DLLEXPORT
-#define BRAYNS_DLLIMPORT
+#define CORE_DLLEXPORT
+#define CORE_DLLIMPORT
 #endif // _MSC_VER
 
-#if defined(BRAYNS_STATIC)
-#define BRAYNS_API
-#elif defined(BRAYNS_SHARED)
-#define BRAYNS_API BRAYNS_DLLEXPORT
+#if defined(CORE_STATIC)
+#define PLATFORM_API
+#elif defined(CORE_SHARED)
+#define PLATFORM_API CORE_DLLEXPORT
 #else
-#define BRAYNS_API BRAYNS_DLLIMPORT
+#define PLATFORM_API CORE_DLLIMPORT
 #endif
 
 #endif

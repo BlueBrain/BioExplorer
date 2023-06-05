@@ -25,7 +25,7 @@ namespace bioexplorer
 {
 namespace mediamaker
 {
-#ifndef BRAYNS_DEBUG_JSON_ENABLED
+#ifndef PLATFORM_DEBUG_JSON_ENABLED
 #define FROM_JSON(PARAM, JSON, NAME) PARAM.NAME = JSON[#NAME].get<decltype(PARAM.NAME)>()
 #else
 #define FROM_JSON(PARAM, JSON, NAME)                                                        \

@@ -1,7 +1,7 @@
 /* Copyright (c) 2018-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -132,7 +132,7 @@ void OpenDeckPlugin::init()
     auto& engine = _api->getEngine();
     auto& params = engine.getParametersManager().getApplicationParameters();
     const auto& engineName = params.getEngine();
-#ifdef BRAYNS_USE_OSPRAY
+#ifdef PLATFORM_USE_OSPRAY
     if (engineName == ENGINE_OSPRAY)
     {
         engine.addCameraType(CAMERA_CYLINDRIC);
@@ -148,7 +148,7 @@ void OpenDeckPlugin::init()
         engine.addFrameBuffer(frameBuffer);
     }
 #endif
-#ifdef BRAYNS_USE_OSPRAY
+#ifdef PLATFORM_USE_OSPRAY
     if (engineName == ENGINE_OPTIX_6)
     {
         OptiXContext& context = OptiXContext::get();

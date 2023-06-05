@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <science/api/SonataExplorerParams.h>
+#include <plugin/api/SonataExplorerParams.h>
 
 #include <array>
 #include <platform/core/common/Types.h>

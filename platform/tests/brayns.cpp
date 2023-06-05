@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -18,7 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 
 #include <platform/core/engineapi/Camera.h>
 #include <platform/core/engineapi/Engine.h>
@@ -33,31 +33,31 @@
 
 TEST_CASE("simple_construction")
 {
-    const char* argv[] = {"brayns"};
-    CHECK_NOTHROW(core::Brayns(1, argv));
+    const char* argv[] = {"core"};
+    CHECK_NOTHROW(core::Core(1, argv));
 }
 
 TEST_CASE("defaults")
 {
-    const char* argv[] = {"brayns", "demo"};
+    const char* argv[] = {"core", "demo"};
     const int argc = sizeof(argv) / sizeof(char*);
-    core::Brayns brayns(argc, argv);
+    core::Core core(argc, argv);
 
-    auto& camera = brayns.getEngine().getCamera();
+    auto& camera = core.getEngine().getCamera();
     CHECK_EQ(camera.getCurrentType(), "perspective");
     CHECK_EQ(camera.getPosition(), core::Vector3d(0.5, 0.5, 1.5));
     CHECK_EQ(camera.getOrientation(), core::Quaterniond(1, 0, 0, 0));
 
-    auto& manipulator = brayns.getCameraManipulator();
+    auto& manipulator = core.getCameraManipulator();
     CHECK(dynamic_cast<core::InspectCenterManipulator*>(&manipulator));
 
-    auto& fb = brayns.getEngine().getFrameBuffer();
+    auto& fb = core.getEngine().getFrameBuffer();
     CHECK(!fb.getColorBuffer());
     CHECK_EQ(fb.getColorDepth(), 4);
     CHECK(!fb.getDepthBuffer());
     CHECK_EQ(fb.getSize(), core::Vector2ui(800, 600));
 
-    auto& pm = brayns.getParametersManager();
+    auto& pm = core.getParametersManager();
     const auto& appParams = pm.getApplicationParameters();
     CHECK(appParams.getEngine() == "ospray");
     CHECK(appParams.getOsprayModules().empty());
@@ -86,7 +86,7 @@ TEST_CASE("defaults")
     CHECK_EQ(volumeParams.getElementSpacing(), core::Vector3d(1., 1., 1.));
     CHECK_EQ(volumeParams.getOffset(), core::Vector3d(0., 0., 0.));
 
-    auto& scene = brayns.getEngine().getScene();
+    auto& scene = core.getEngine().getScene();
     core::Boxd defaultBoundingBox;
     defaultBoundingBox.merge(core::Vector3d(0, 0, 0));
     defaultBoundingBox.merge(core::Vector3d(1, 1, 1));
@@ -97,13 +97,13 @@ TEST_CASE("defaults")
 TEST_CASE("bvh_type")
 {
     const char* argv[] = {
-        "brayns",  "demo", "--default-bvh-flag", "robust", "--default-bvh-flag",
+        "core",  "demo", "--default-bvh-flag", "robust", "--default-bvh-flag",
         "compact",
     };
     const int argc = sizeof(argv) / sizeof(char*);
-    core::Brayns brayns(argc, argv);
+    core::Core core(argc, argv);
 
-    auto model = brayns.getEngine().getScene().getModel(0);
+    auto model = core.getEngine().getScene().getModel(0);
     const auto& bvhFlags = model->getModel().getBVHFlags();
 
     CHECK(bvhFlags.count(core::BVHFlag::robust) > 0);

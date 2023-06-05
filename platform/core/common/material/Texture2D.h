@@ -1,7 +1,7 @@
 /* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -44,7 +44,7 @@ public:
         aoe
     };
 
-    BRAYNS_API Texture2D(const Type type, const std::string& filename, const uint8_t channels, const uint8_t depth,
+    PLATFORM_API Texture2D(const Type type, const std::string& filename, const uint8_t channels, const uint8_t depth,
                          const uint32_t width, const uint32_t height);
 
     size_t getSizeInBytes() const { return height * width * depth * channels; }

@@ -94,7 +94,7 @@ public:
      * @param callback Callback object providing the status of the loading
      * process
      * @param properties Loader properties
-     * @return A brayns model if loading is successfull
+     * @return A core model if loading is successfull
      */
     ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
                                       const PropertyMap& properties) const final;
@@ -106,7 +106,7 @@ public:
      * @param callback Callback object providing the status of the loading
      * process
      * @param properties Loader properties
-     * @return A brayns model if loading is successfull
+     * @return A core model if loading is successfull
      */
     ModelDescriptorPtr importFromFile(const std::string& filename, const LoaderProgress& callback,
                                       const PropertyMap& properties) const final;

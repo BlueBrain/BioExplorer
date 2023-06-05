@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -34,7 +34,7 @@ TEST_CASE_FIXTURE(ClientServer, "illegal_no_request")
     const std::string illegal("illegal");
     getWsClient().sendBinary(illegal.data(), illegal.size());
     process();
-    // nothing to test, Brayns ignores the message and prints a warning
+    // nothing to test, Core ignores the message and prints a warning
 }
 
 TEST_CASE_FIXTURE(ClientServer, "illegal_no_params")

@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -41,9 +41,9 @@ class Engine;
  * char** argv)
  * @endcode
  *
- * It must return the instance of the plugin, and from hereon Brayns owns the
+ * It must return the instance of the plugin, and from hereon Core owns the
  * plugin and calls preRender() and postRender() accordingly.
- * In the shutdown sequence of Brayns, the plugin will be destructed properly.
+ * In the shutdown sequence of Core, the plugin will be destructed properly.
  */
 class ExtensionPlugin
 {
@@ -51,15 +51,15 @@ public:
     virtual ~ExtensionPlugin() = default;
 
     /**
-     * Called from Brayns::Brayns right after the engine has been created
+     * Called from Core::Core right after the engine has been created
      */
     virtual void init() {}
     /**
-     * Called from Brayns::preRender() to prepare the engine based on the
+     * Called from Core::preRender() to prepare the engine based on the
      * plugins' need for an upcoming render().
      */
     virtual void preRender() {}
-    /** Called from Brayns::postRender() after render() has finished. */
+    /** Called from Core::postRender() after render() has finished. */
     virtual void postRender() {}
 
 protected:

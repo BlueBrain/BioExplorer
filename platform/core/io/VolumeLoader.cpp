@@ -1,7 +1,7 @@
 /* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -148,7 +148,7 @@ RawVolumeLoader::RawVolumeLoader(Scene& scene)
 {
 }
 
-bool RawVolumeLoader::isSupported(const std::string& filename BRAYNS_UNUSED, const std::string& extension) const
+bool RawVolumeLoader::isSupported(const std::string& filename, const std::string& extension) const
 {
     return extension == "raw";
 }
@@ -228,13 +228,13 @@ MHDVolumeLoader::MHDVolumeLoader(Scene& scene)
 {
 }
 
-bool MHDVolumeLoader::isSupported(const std::string& filename BRAYNS_UNUSED, const std::string& extension) const
+bool MHDVolumeLoader::isSupported(const std::string& filename, const std::string& extension) const
 {
     return extension == "mhd";
 }
 
-ModelDescriptorPtr MHDVolumeLoader::importFromBlob(Blob&& blob BRAYNS_UNUSED, const LoaderProgress&,
-                                                   const PropertyMap& properties BRAYNS_UNUSED) const
+ModelDescriptorPtr MHDVolumeLoader::importFromBlob(Blob&& blob, const LoaderProgress&,
+                                                   const PropertyMap& properties) const
 {
     throw std::runtime_error("Volume loading from blob is not supported");
 }

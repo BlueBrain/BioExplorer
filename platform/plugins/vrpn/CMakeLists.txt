@@ -1,7 +1,7 @@
 # Copyright (c) 2015-2023, EPFL/Blue Brain Project
 # All rights reserved. Do not distribute without permission.
 #
-# This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+# This file is part of Core <https://github.com/BlueBrain/Core>
 
 # ==============================================================================
 # Project
@@ -20,8 +20,6 @@ set(${NAME}_HEADERS VRPNPlugin.h)
 set(${NAME}_SOURCES VRPNPlugin.cpp)
 set(${NAME}_LINK_LIBRARIES PRIVATE CoreCommon CoreEngine
   ${Libuv_LIBRARIES} ${VRPN_LIBRARIES})
-
-set(${NAME}_INCLUDE_NAME plugins/vrpn)
 
 add_library(
   ${LIBRARY_NAME}

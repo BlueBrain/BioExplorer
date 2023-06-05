@@ -2,9 +2,9 @@
 # All rights reserved. Do not distribute without permission.
 # Responsible Author: Daniel.Nachbaur@epfl.ch
 #
-# This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+# This file is part of Core <https://github.com/BlueBrain/Core>
 
-set(TEST_LIBRARIES brayns CoreIO CoreManipulators)
+set(TEST_LIBRARIES Core CoreIO CoreManipulators)
 
 configure_file(paths.h.in ${PROJECT_BINARY_DIR}/tests/paths.h)
 
@@ -25,7 +25,7 @@ if(NOT OSPRAY_ENABLED)
     addModel.cpp
     addModelFromBlob.cpp
     background.cpp
-    brayns.cpp
+    core.cpp
     clipPlaneRendering.cpp
     model.cpp
     plugin.cpp
@@ -97,7 +97,7 @@ include_directories(
   ${PROJECT_SOURCE_DIR}/plugins/Rockets/rapidjson/include
 )
 
-list(APPEND LCOV_EXCLUDE '${PROJECT_SOURCE_DIR}/brayns/common/utils/base64/*'
+list(APPEND LCOV_EXCLUDE '${PROJECT_SOURCE_DIR}/platform/common/utils/base64/*'
                          '${PROJECT_SOURCE_DIR}/plugins/Rockets/rapidjson/*'
                          '${PROJECT_SOURCE_DIR}/plugins/Rockets/staticjson/*')
 

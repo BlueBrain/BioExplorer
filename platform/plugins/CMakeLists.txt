@@ -2,7 +2,7 @@
 # All rights reserved. Do not distribute without permission.
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
-# This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+# This file is part of Core <https://github.com/BlueBrain/Core>
 
 option(PLATFORM_DEFLECT_ENABLED "Activate streaming to display wall" OFF)
 if(PLATFORM_DEFLECT_ENABLED)

@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include <science/api/SonataExplorerParams.h>
-#include <science/neuroscience/common/Types.h>
+#include <plugin/api/SonataExplorerParams.h>
+#include <plugin/neuroscience/common/Types.h>
 
 #include <platform/core/common/loader/Loader.h>
 #include <platform/core/common/Types.h>

@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -131,7 +131,7 @@ MeshLoader::MeshLoader(Scene& scene, const GeometryParameters& params)
                            {"Geometry quality"}});
 }
 
-bool MeshLoader::isSupported(const std::string& filename BRAYNS_UNUSED, const std::string& extension) const
+bool MeshLoader::isSupported(const std::string& filename, const std::string& extension) const
 {
     const auto types = getSupportedTypes();
     return std::find(types.begin(), types.end(), extension) != types.end();

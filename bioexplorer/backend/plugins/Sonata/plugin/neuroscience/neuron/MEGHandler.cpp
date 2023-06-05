@@ -23,9 +23,9 @@
 #include <common/Logs.h>
 #include <common/Utils.h>
 
-#include <science/neuroscience/common/Types.h>
+#include <plugin/neuroscience/common/Types.h>
 
-#include <bioexplorer/backend/plugin/common/Octree.h>
+#include <bioexplorer/backend/science/common/Octree.h>
 
 #include <platform/core/common/scene/ClipPlane.h>
 #include <platform/core/engineapi/Model.h>

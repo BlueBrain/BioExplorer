@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -57,7 +57,7 @@ GeometryParameters::GeometryParameters()
          "Radius multiplier for spheres, cones and cylinders [float]")
         //
         (PARAM_MEMORY_MODE.c_str(), po::value<std::string>(),
-         "Defines what memory mode should be used between Brayns and "
+         "Defines what memory mode should be used between Core and "
          "the underlying renderer [shared|replicated]")
         //
         (PARAM_DEFAULT_BVH_FLAG.c_str(), po::value<std::vector<std::string>>()->multitoken(),

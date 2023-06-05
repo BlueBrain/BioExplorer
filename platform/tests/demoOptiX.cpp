@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: jonas.karlsson@epfl.ch
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -18,7 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 
 #include <platform/core/engineapi/Camera.h>
 #include <platform/core/engineapi/Engine.h>
@@ -36,18 +36,18 @@ TEST_CASE("render_demo")
     const char* argv[] = {"demoOptix", "demo", "--engine", "optix"};
     const int argc = sizeof(argv) / sizeof(char*);
 
-    core::Brayns brayns(argc, argv);
+    core::Core core(argc, argv);
 
     const core::Vector3d rotCenter = {0.5, 0.5, 0.5};
 
-    auto& camera = brayns.getEngine().getCamera();
+    auto& camera = core.getEngine().getCamera();
     const auto camPos = camera.getPosition();
 
     camera.setOrientation(core::Quaterniond(1, 0, 0, 0));
     camera.setPosition(camPos - (rotCenter - camPos));
 
-    brayns.commitAndRender();
+    core.commitAndRender();
 
     CHECK(compareTestImage("testdemoOptiX.png",
-                           brayns.getEngine().getFrameBuffer()));
+                           core.getEngine().getFrameBuffer()));
 }

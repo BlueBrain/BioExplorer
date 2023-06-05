@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -307,7 +307,7 @@ void OptiXModel::buildBoundingBox()
     addCylinder(BOUNDINGBOX_MATERIAL_ID, {positions[3], positions[7], radius});
 }
 
-MaterialPtr OptiXModel::createMaterialImpl(const PropertyMap& properties BRAYNS_UNUSED)
+MaterialPtr OptiXModel::createMaterialImpl(const PropertyMap& properties)
 {
     auto material = std::make_shared<OptiXMaterial>();
     if (!material)

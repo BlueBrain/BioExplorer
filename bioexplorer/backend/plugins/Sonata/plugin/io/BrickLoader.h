@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include <science/api/SonataExplorerParams.h>
+#include <plugin/api/SonataExplorerParams.h>
 
-#include <platform/core/common/loader/Loader.h>
 #include <platform/core/common/Types.h>
+#include <platform/core/common/loader/Loader.h>
 
 #include <set>
 #include <vector>

@@ -1,7 +1,7 @@
 # Copyright (c) 2015-2023, EPFL/Blue Brain Project
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
-# This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+# This file is part of Core <https://github.com/BlueBrain/Core>
 
 # ==============================================================================
 # Project
@@ -61,8 +61,6 @@ endif()
 # Compile c++ code
 # ==============================================================================
 include_directories(${BIOEXPLORER_SOURCE_DIRS} ${ASSIMP_INCLUDE_DIRS})
-
-set(${NAME}_INCLUDE_NAME brayns/io)
 
 add_library(${LIBRARY_NAME} SHARED ${${NAME}_SOURCES})
 

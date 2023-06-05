@@ -2,7 +2,7 @@
 # All rights reserved. Do not distribute without permission.
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
-# This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+# This file is part of Core <https://github.com/BlueBrain/Core>
 
 # Configure the output directories. To allow IMPI to do its magic we
 # will put *executables* into the (same) build directory, but tag
@@ -144,8 +144,6 @@ list(APPEND ${NAME}_SOURCES ${ISPC_OBJECTS})
 # Compile c++ code
 # ==============================================================================
 include_directories(${BIOEXPLORER_SOURCE_DIRS})
-
-set(${NAME}_INCLUDE_NAME engines/ospray)
 
 add_library(
     ${LIBRARY_NAME}

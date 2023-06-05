@@ -22,10 +22,10 @@
 #include <common/Logs.h>
 #include <common/Utils.h>
 
-#include <science/neuroscience/common/ParallelModelContainer.h>
+#include <plugin/neuroscience/common/ParallelModelContainer.h>
 
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
 #include <platform/core/common/Types.h>
+#include <platform/core/common/simulation/AbstractSimulationHandler.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
@@ -210,7 +210,8 @@ void MorphologyLoader::_connectSDFBifurcations(SDFMorphologyData& sdfMorphologyD
 
         // Function for connecting overlapping geometries with current
         // bifurcation
-        const auto connectGeometriesToBifurcation = [&](const std::vector<size_t>& geometries) {
+        const auto connectGeometriesToBifurcation = [&](const std::vector<size_t>& geometries)
+        {
             const auto& bifGeom = sdfMorphologyData.geometries[bifurcationId];
 
             for (size_t geomIdx : geometries)
@@ -350,7 +351,8 @@ MorphologyTreeStructure MorphologyLoader::_calculateMorphologyTreeStructure(
         }
     }
 
-    const auto overlaps = [](const std::pair<float, Vector3f>& p0, const std::pair<float, Vector3f>& p1) {
+    const auto overlaps = [](const std::pair<float, Vector3f>& p0, const std::pair<float, Vector3f>& p1)
+    {
         const float d = (p0.second - p1.second).length();
         const float r = p0.first + p1.first;
 

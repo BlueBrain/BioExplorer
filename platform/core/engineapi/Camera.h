@@ -3,7 +3,7 @@
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Jafet Villafranca <jafet.villafrancadiaz@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -47,11 +47,11 @@ public:
     virtual void commit(){};
     //@}
 
-    BRAYNS_API Camera() = default;
+    PLATFORM_API Camera() = default;
 
-    BRAYNS_API virtual ~Camera() = default;
+    PLATFORM_API virtual ~Camera() = default;
 
-    BRAYNS_API Camera& operator=(const Camera& rhs);
+    PLATFORM_API Camera& operator=(const Camera& rhs);
 
     /**
        Sets position, and quaternion
@@ -60,10 +60,10 @@ public:
               the camera orientation
        @param target The x, y, z coordinates of the camera target
     */
-    BRAYNS_API void set(const Vector3d& position, const Quaterniond& orientation,
+    PLATFORM_API void set(const Vector3d& position, const Quaterniond& orientation,
                         const Vector3d& target = Vector3d(0.0, 0.0, 0.0));
 
-    BRAYNS_API void setInitialState(const Vector3d& position, const Quaterniond& orientation,
+    PLATFORM_API void setInitialState(const Vector3d& position, const Quaterniond& orientation,
                                     const Vector3d& target = Vector3d(0.0, 0.0, 0.0));
 
     /**
@@ -101,7 +101,7 @@ public:
     */
     const Quaterniond& getOrientation() const { return _orientation; }
     /** Resets the camera to its initial values */
-    BRAYNS_API void reset();
+    PLATFORM_API void reset();
 
     /** @internal Sets the name of current rendered frame buffer. */
     void setBufferTarget(const std::string& target) { _updateValue(_bufferTarget, target, false); }

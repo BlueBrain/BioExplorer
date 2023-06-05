@@ -1,7 +1,7 @@
 # Copyright (c) 2015-2023, EPFL/Blue Brain Project
 # All rights reserved. Do not distribute without permission.
 #
-# This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+# This file is part of Core <https://github.com/BlueBrain/Core>
 
 # ==============================================================================
 # Project
@@ -113,8 +113,6 @@ configure_file(
 # Compile c++ code
 # ==============================================================================
 include_directories(${BIOEXPLORER_SOURCE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_BINARY_DIR})
-
-set(${NAME}_INCLUDE_NAME plugins/opendeck)
 
 add_library(
   ${LIBRARY_NAME}

@@ -1,7 +1,7 @@
 # Copyright (c) 2015-2017, EPFL/Blue Brain Project
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
-# This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+# This file is part of Core <https://github.com/BlueBrain/Core>
 
 # ==============================================================================
 # Project
@@ -22,8 +22,6 @@ set(${NAME}_LINK_LIBRARIES
 # ==============================================================================
 include_directories(${BIOEXPLORER_SOURCE_DIRS})
 
-set(${NAME}_INCLUDE_NAME brayns/engineapi)
-
 add_library(
     ${LIBRARY_NAME}
     SHARED ${${NAME}_SOURCES})
@@ -31,8 +29,8 @@ add_library(
 target_link_libraries(${LIBRARY_NAME} ${${NAME}_LINK_LIBRARIES})
 
 if(APPLE)
-  target_compile_options(braynsUI PRIVATE -Wno-deprecated-declarations)
-  target_link_libraries(braynsUI PRIVATE "-framework OpenGL")
+  target_compile_options(CoreUI PRIVATE -Wno-deprecated-declarations)
+  target_link_libraries(CoreUI PRIVATE "-framework OpenGL")
 endif()
 
 # ==============================================================================

@@ -467,7 +467,7 @@ FrameExportProgress MediaMakerPlugin::_getFrameExportProgress()
     return result;
 }
 
-extern "C" ExtensionPlugin *brayns_plugin_create(int /*argc*/, char ** /*argv*/)
+extern "C" ExtensionPlugin *core_plugin_create(int /*argc*/, char ** /*argv*/)
 {
     PLUGIN_INFO("Initializing Media Maker plug-in (version " << PACKAGE_VERSION_STRING << ")");
     PLUGIN_INFO("");

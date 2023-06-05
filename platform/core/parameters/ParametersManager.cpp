@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -101,7 +101,7 @@ std::vector<std::string> findSimilarOptions(const std::string& name, const std::
 
 void _printVersion()
 {
-    std::cout << "Brayns " << PACKAGE_VERSION_STRING << std::endl;
+    std::cout << "Core " << PACKAGE_VERSION_STRING << std::endl;
 }
 } // namespace
 
@@ -132,7 +132,7 @@ void ParametersManager::_parse(int argc, const char** argv)
     {
         po::options_description generalOptions("General options");
         generalOptions.add_options()("help", "Print this help")("version",
-                                                                "Print the Brayns version")("verbose",
+                                                                "Print the Core version")("verbose",
                                                                                             "Print parsed parameters");
 
         _allOptions.add(generalOptions);

@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
  *
- * This file is part of https://github.com/BlueBrain/Brayns
+ * This file is part of https://github.com/BlueBrain/Core
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -40,7 +40,7 @@ namespace utils
 {
 /**
  * Decode the framebuffer name to know the eye pass. Defined by plugins that
- * follow our convention, and by default in Brayns.cpp
+ * follow our convention, and by default in Core.cpp
  */
 inline deflect::View getView(const std::string& name)
 {
@@ -57,7 +57,7 @@ inline deflect::View getView(const std::string& name)
 
 /**
  * Decode the framebuffer name to know the surface. Defined by plugins that
- * follow our convention, and by default in Brayns.cpp
+ * follow our convention, and by default in Core.cpp
  */
 inline uint8_t getChannel(const std::string& name)
 {

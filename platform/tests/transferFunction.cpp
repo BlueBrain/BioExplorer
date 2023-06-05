@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -18,9 +18,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 
-#ifdef BRAYNS_USE_OSPRAY
+#ifdef PLATFORM_USE_OSPRAY
 #include <platform/engines/ospray/OSPRayModel.h>
 #include <ospray/SDK/common/Data.h>
 #include <ospray/SDK/common/Managed.h>
@@ -76,7 +76,7 @@ TEST_CASE_FIXTURE(ClientServer, "get_transfer_function_invalid_model")
         std::runtime_error);
 }
 
-#ifdef BRAYNS_USE_OSPRAY
+#ifdef PLATFORM_USE_OSPRAY
 TEST_CASE_FIXTURE(ClientServer, "validate_opacity_interpolation")
 {
     auto& model = getScene().getModel(0)->getModel();

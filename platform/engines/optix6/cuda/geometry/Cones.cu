@@ -6,7 +6,7 @@
  * Ray-cone intersection:
  * based on Ching-Kuang Shene (Graphics Gems 5, p. 227-230)
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published

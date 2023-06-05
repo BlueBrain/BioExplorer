@@ -1,7 +1,7 @@
 # Copyright (c) 2015-2023, EPFL/Blue Brain Project
 # Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
 #
-# This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+# This file is part of Core <https://github.com/BlueBrain/Core>
 
 # ==============================================================================
 # Project
@@ -33,8 +33,6 @@ include_directories(${BIOEXPLORER_SOURCE_DIRS})
 set(${NAME}_LINK_LIBRARIES
     PRIVATE ${GLM_LIBRARIES} ${Boost_PROGRAM_OPTIONS_LIBRARY}
 )
-
-set(${NAME}_INCLUDE_NAME brayns/tasks)
 
 add_library(
     ${LIBRARY_NAME}

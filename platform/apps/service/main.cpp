@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 #include <platform/core/common/Logs.h>
 #include <platform/core/common/Types.h>
 #include <platform/core/engineapi/Engine.h>
@@ -32,9 +32,9 @@ int main(int argc, const char** argv)
 {
     try
     {
-        core::Brayns brayns(argc, argv);
+        core::Core core(argc, argv);
 
-        const auto& engine = brayns.getEngine();
+        const auto& engine = core.getEngine();
         const auto& fbs = engine.getFrameBuffers();
         const auto& rp = engine.getParametersManager().getRenderingParameters();
         const auto fb = fbs[0];
@@ -43,11 +43,11 @@ int main(int argc, const char** argv)
         while (true)
         {
             if (fb->numAccumFrames() < rp.getMaxAccumFrames())
-                brayns.commitAndRender();
+                core.commitAndRender();
             else
             {
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                brayns.commit();
+                core.commit();
             }
         }
     }

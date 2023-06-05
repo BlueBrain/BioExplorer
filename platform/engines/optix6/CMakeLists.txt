@@ -2,7 +2,7 @@
 # All rights reserved. Do not distribute without permission.
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
-# This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+# This file is part of Core <https://github.com/BlueBrain/Core>
 
 # ==============================================================================
 # Project
@@ -114,8 +114,6 @@ include_directories(
   ${OptiX6_INCLUDE_DIRS}
   ${CUDA_INCLUDE_DIRS}
 )
-
-set(${NAME}_INCLUDE_NAME engines/optix6)
 
 add_library(
     ${LIBRARY_NAME}

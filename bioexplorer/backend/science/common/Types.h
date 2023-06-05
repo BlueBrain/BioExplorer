@@ -738,7 +738,7 @@ typedef struct
 
 /**
  * @brief Structure containing attributes of materials attached to one or
- several Brayns models
+ several Core models
  */
 typedef struct
 {

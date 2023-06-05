@@ -1,7 +1,7 @@
 /* Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -39,9 +39,9 @@ public:
 
     AbstractSimulationHandler& operator=(const AbstractSimulationHandler& rhs);
 
-    BRAYNS_API virtual void bind(const MaterialPtr& /* material */){};
+    PLATFORM_API virtual void bind(const MaterialPtr& /* material */){};
 
-    BRAYNS_API virtual void unbind(const MaterialPtr& /* material */){};
+    PLATFORM_API virtual void unbind(const MaterialPtr& /* material */){};
 
     /** @return the current loaded frame for the simulation. */
     uint32_t getCurrentFrame() const { return _currentFrame; }
@@ -49,7 +49,7 @@ public:
      * @brief returns a void pointer to the simulation data for the given frame
      * or nullptr if the frame is not loaded yet.
      */
-    virtual void* getFrameData(uint32_t frame BRAYNS_UNUSED) { return _frameData.data(); }
+    virtual void* getFrameData(uint32_t frame) { return _frameData.data(); }
 
     /**
      * @brief getFrameSize return the size of the current simulation frame

@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Jonas Karlsson <jonas.karlsson@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -18,7 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 #include <tests/paths.h>
 
 #include <platform/core/common/light/Light.h>
@@ -43,11 +43,11 @@ TEST_CASE("cylinders")
         {"shadows", "--disable-accumulation", "--window-size", "1600", "900",
          "--plugin", "braynsCircuitViewer", "--no-head-light"}};
 
-    core::Brayns brayns(argv.size(), argv.data());
-    brayns.getParametersManager().getRenderingParameters().setCurrentRenderer(
+    core::Core core(argv.size(), argv.data());
+    core.getParametersManager().getRenderingParameters().setCurrentRenderer(
         "advanced_simulation");
-    brayns.commit();
-    auto& scene = brayns.getEngine().getScene();
+    core.commit();
+    auto& scene = core.getEngine().getScene();
 
     auto model = scene.createModel();
 
@@ -103,7 +103,7 @@ TEST_CASE("cylinders")
         core::Vector3f(0.f, 0.f, -1.f), 0, WHITE, 1.0f, true));
     scene.commitLights();
 
-    auto& camera = brayns.getEngine().getCamera();
+    auto& camera = core.getEngine().getCamera();
 
     const double dist = 1.5;
     const double alpha = -std::atan(2 * height / dist);
@@ -112,10 +112,10 @@ TEST_CASE("cylinders")
     camera.setOrientation(orientation);
     camera.setPosition(core::Vector3f(0.f, 2 * height, dist));
 
-    auto& renderer = brayns.getEngine().getRenderer();
+    auto& renderer = core.getEngine().getRenderer();
     renderer.updateProperty("shadows", 1.);
 
-    brayns.commitAndRender();
+    core.commitAndRender();
     CHECK(compareTestImage("shadowCylinders.png",
-                           brayns.getEngine().getFrameBuffer()));
+                           core.getEngine().getFrameBuffer()));
 }

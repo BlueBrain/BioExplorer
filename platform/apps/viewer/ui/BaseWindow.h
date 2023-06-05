@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ enum class FrameBufferMode
 class BaseWindow
 {
 public:
-    BaseWindow(Brayns& brayns, FrameBufferMode frameBufferMode = FrameBufferMode::COLOR_I8);
+    BaseWindow(Core& core, FrameBufferMode frameBufferMode = FrameBufferMode::COLOR_I8);
     virtual ~BaseWindow();
 
     /*! size we'll create a window at */
@@ -111,7 +111,7 @@ protected:
     virtual void _registerKeyboardShortcuts();
     void _renderBitmapString(float x, float y, const std::string& text);
 
-    Brayns& _brayns;
+    Core& _core;
 
     Vector2i _lastMousePos; /*! last mouse screen position of mouse before
                                     current motion */

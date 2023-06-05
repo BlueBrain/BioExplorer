@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 
 #include <platform/core/common/Timer.h>
 #include <platform/core/engineapi/Camera.h>
@@ -33,33 +33,33 @@
 
 TEST_CASE("default_scene_benchmark")
 {
-    const char* argv[] = {"brayns"};
-    core::Brayns brayns(1, argv);
+    const char* argv[] = {"core"};
+    core::Core core(1, argv);
 
     uint64_t reference, shadows, softShadows, ambientOcclusion, allOptions;
 
     // Set default rendering parameters
-    core::ParametersManager& params = brayns.getParametersManager();
+    core::ParametersManager& params = core.getParametersManager();
     params.getRenderingParameters().setSamplesPerPixel(32);
-    brayns.commit();
+    core.commit();
 
     // Start timer
     core::Timer timer;
     timer.start();
-    brayns.render();
+    core.render();
     timer.stop();
     reference = timer.milliseconds();
 
-    auto& renderer = brayns.getEngine().getRenderer();
+    auto& renderer = core.getEngine().getRenderer();
 
     // Shadows
     auto props = renderer.getPropertyMap();
     props.updateProperty("shadows", 1.);
     renderer.updateProperties(props);
-    brayns.commit();
+    core.commit();
 
     timer.start();
-    brayns.render();
+    core.render();
     timer.stop();
     shadows = timer.milliseconds();
 
@@ -69,10 +69,10 @@ TEST_CASE("default_scene_benchmark")
 
     props.updateProperty("softShadows", 1.);
     renderer.updateProperties(props);
-    brayns.commit();
+    core.commit();
 
     timer.start();
-    brayns.render();
+    core.render();
     timer.stop();
     softShadows = timer.milliseconds();
 
@@ -85,10 +85,10 @@ TEST_CASE("default_scene_benchmark")
     props.updateProperty("softShadows", 0.);
     props.updateProperty("aoWeight", 1.);
     renderer.updateProperties(props);
-    brayns.commit();
+    core.commit();
 
     timer.start();
-    brayns.render();
+    core.render();
     timer.stop();
     ambientOcclusion = timer.milliseconds();
 
@@ -101,10 +101,10 @@ TEST_CASE("default_scene_benchmark")
     props.updateProperty("softShadows", 1.);
     props.updateProperty("aoWeight", 1.);
     renderer.updateProperties(props);
-    brayns.commit();
+    core.commit();
 
     timer.start();
-    brayns.render();
+    core.render();
     timer.stop();
     allOptions = timer.milliseconds();
 

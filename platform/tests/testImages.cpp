@@ -3,7 +3,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -21,7 +21,7 @@
 
 #include <Defines.h>
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 #include <tests/paths.h>
 
 #include <platform/core/engineapi/Camera.h>
@@ -43,14 +43,14 @@ TEST_CASE("render_two_frames_and_compare_they_are_same")
 {
     const char* argv[] = {"testImages", "--disable-accumulation", "demo"};
     const int argc = sizeof(argv) / sizeof(char*);
-    core::Brayns brayns(argc, argv);
+    core::Core core(argc, argv);
 
-    brayns.commitAndRender();
-    const auto oldImage = createPDiffRGBAImage(brayns.getEngine().getFrameBuffer());
+    core.commitAndRender();
+    const auto oldImage = createPDiffRGBAImage(core.getEngine().getFrameBuffer());
 
-    brayns.getEngine().getFrameBuffer().clear();
-    brayns.commitAndRender();
-    const auto newImage = createPDiffRGBAImage(brayns.getEngine().getFrameBuffer());
+    core.getEngine().getFrameBuffer().clear();
+    core.commitAndRender();
+    const auto newImage = createPDiffRGBAImage(core.getEngine().getFrameBuffer());
 
     CHECK(pdiff::yee_compare(*oldImage, *newImage));
 }
@@ -61,19 +61,19 @@ TEST_CASE("render_xyz_and_compare")
     const char* argv[] = {"testImages", path, "--disable-accumulation"};
     const int argc = sizeof(argv) / sizeof(char*);
 
-    core::Brayns brayns(argc, argv);
-    brayns.commitAndRender();
-    CHECK(compareTestImage("testdataMonkey.png", brayns.getEngine().getFrameBuffer()));
+    core::Core core(argc, argv);
+    core.commitAndRender();
+    CHECK(compareTestImage("testdataMonkey.png", core.getEngine().getFrameBuffer()));
 
-    auto model = brayns.getEngine().getScene().getModel(0);
+    auto model = core.getEngine().getScene().getModel(0);
     auto props = model->getProperties();
     props.updateProperty("radius", props.getProperty<double>("radius") / 2.);
     model->setProperties(props);
 
-    brayns.getEngine().getScene().markModified();
+    core.getEngine().getScene().markModified();
 
-    brayns.commitAndRender();
-    CHECK(compareTestImage("testdataMonkey_smaller.png", brayns.getEngine().getFrameBuffer()));
+    core.commitAndRender();
+    CHECK(compareTestImage("testdataMonkey_smaller.png", core.getEngine().getFrameBuffer()));
 }
 
 #ifdef USE_NETWORKING
@@ -103,9 +103,9 @@ TEST_CASE("render_protein_and_compare")
     const char* argv[] = {"testImages", BRAYNS_TESTDATA_MODEL_PDB_PATH, "--disable-accumulation"};
     const int argc = sizeof(argv) / sizeof(char*);
 
-    core::Brayns brayns(argc, argv);
-    brayns.commitAndRender();
-    CHECK(compareTestImage("testdataProtein.png", brayns.getEngine().getFrameBuffer()));
+    core::Core core(argc, argv);
+    core.commitAndRender();
+    CHECK(compareTestImage("testdataProtein.png", core.getEngine().getFrameBuffer()));
 }
 
 TEST_CASE("render_protein_in_stereo_and_compare")
@@ -113,10 +113,10 @@ TEST_CASE("render_protein_in_stereo_and_compare")
     const char* argv[] = {"testImages", BRAYNS_TESTDATA_MODEL_PDB_PATH, "--disable-accumulation", "--stereo"};
     const int argc = sizeof(argv) / sizeof(char*);
 
-    core::Brayns brayns(argc, argv);
-    brayns.commitAndRender();
-    CHECK(compareTestImage("testdataProtein_left_eye.png", *brayns.getEngine().getFrameBuffers()[0]));
-    CHECK(compareTestImage("testdataProtein_right_eye.png", *brayns.getEngine().getFrameBuffers()[1]));
+    core::Core core(argc, argv);
+    core.commitAndRender();
+    CHECK(compareTestImage("testdataProtein_left_eye.png", *core.getEngine().getFrameBuffers()[0]));
+    CHECK(compareTestImage("testdataProtein_right_eye.png", *core.getEngine().getFrameBuffers()[1]));
 }
 
 #ifdef USE_ASSIMP
@@ -126,20 +126,20 @@ TEST_CASE("render_ply_and_compare")
     const char* argv[] = {"testImages", path, "--disable-accumulation"};
     const int argc = sizeof(argv) / sizeof(char*);
 
-    core::Brayns brayns(argc, argv);
-    brayns.commitAndRender();
-    CHECK(compareTestImage("testdataLucy.png", brayns.getEngine().getFrameBuffer()));
+    core::Core core(argc, argv);
+    core.commitAndRender();
+    CHECK(compareTestImage("testdataLucy.png", core.getEngine().getFrameBuffer()));
 }
 #endif
 
-#if BRAYNS_USE_LIBARCHIVE
+#if PLATFORM_USE_LIBARCHIVE
 TEST_CASE("render_capsule_and_compare")
 {
     const char* argv[] = {"testImages", BRAYNS_TESTDATA_MODEL_CAPSULE_PATH, "--samples-per-pixel", "128"};
     const int argc = sizeof(argv) / sizeof(char*);
 
-    core::Brayns brayns(argc, argv);
-    brayns.commitAndRender();
-    CHECK(compareTestImage("testCapsule.png", brayns.getEngine().getFrameBuffer()));
+    core::Core core(argc, argv);
+    core.commitAndRender();
+    CHECK(compareTestImage("testCapsule.png", core.getEngine().getFrameBuffer()));
 }
 #endif

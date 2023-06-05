@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -46,7 +46,7 @@ public:
     GeometryQuality getGeometryQuality() const { return _geometryQuality; }
     float getRadiusMultiplier() const { return _radiusMultiplier; }
     /**
-     * Defines what memory mode should be used between Brayns and the
+     * Defines what memory mode should be used between Core and the
      * underlying renderer
      */
     MemoryMode getMemoryMode() const { return _memoryMode; };

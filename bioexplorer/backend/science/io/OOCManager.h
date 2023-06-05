@@ -38,7 +38,7 @@ using namespace details;
  * in order to avoid unnecessary network traffic, the scene contents are not
  * broadcasted anymore to the BioExplorer clients (Python notebook or User
  * Inferface). Note that ENV_ROCKETS_DISABLE_SCENE_BROADCASTING environment
- * variable has to be set to order Brayns not to broadcast the scene changes.
+ * variable has to be set to order Core not to broadcast the scene changes.
  * The out-of-core mode is a read-only feature and does not allow any
  * modification of the scene. When the camera position changes, the OOCManager
  * identifies the visible bricks and loads them as a background task. For
@@ -85,7 +85,7 @@ public:
     /**
      * @brief Set the Frame Buffer object
      *
-     * @param frameBuffer A reference to the Brayns frame buffer
+     * @param frameBuffer A reference to the Core frame buffer
      */
     void setFrameBuffer(FrameBuffer* frameBuffer) { _frameBuffer = frameBuffer; }
 

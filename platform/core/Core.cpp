@@ -3,7 +3,7 @@
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Jafet Villafranca <jafet.villafrancadiaz@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -19,7 +19,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "Brayns.h"
+#include "Core.h"
 #include "EngineFactory.h"
 #include "PluginManager.h"
 
@@ -46,7 +46,7 @@
 
 #include <platform/core/parameters/ParametersManager.h>
 
-#if BRAYNS_USE_LIBARCHIVE
+#if PLATFORM_USE_LIBARCHIVE
 #include <platform/core/io/ArchiveLoader.h>
 #endif
 
@@ -75,7 +75,7 @@ constexpr double DEFAULT_SUN_INTENSITY = 1.0;
 
 namespace core
 {
-struct Brayns::Impl : public PluginAPI
+struct Core::Impl : public PluginAPI
 {
     Impl(int argc, const char** argv)
         : _parametersManager{argc, argv}
@@ -310,7 +310,7 @@ private:
 #ifdef USE_ASSIMP
         registry.registerLoader(std::make_unique<MeshLoader>(scene, params));
 #endif
-#if BRAYNS_USE_LIBARCHIVE
+#if PLATFORM_USE_LIBARCHIVE
         registry.registerArchiveLoader(std::make_unique<ArchiveLoader>(scene, registry));
 #endif
     }
@@ -396,27 +396,27 @@ private:
     void _registerKeyboardShortcuts()
     {
         _keyboardHandler.registerKeyboardShortcut('[', "Decrease animation frame by 1",
-                                                  std::bind(&Brayns::Impl::_decreaseAnimationFrame, this));
+                                                  std::bind(&Core::Impl::_decreaseAnimationFrame, this));
         _keyboardHandler.registerKeyboardShortcut(']', "Increase animation frame by 1",
-                                                  std::bind(&Brayns::Impl::_increaseAnimationFrame, this));
+                                                  std::bind(&Core::Impl::_increaseAnimationFrame, this));
         _keyboardHandler.registerKeyboardShortcut('f', "Enable fly mode",
                                                   [this]()
-                                                  { Brayns::Impl::_setupCameraManipulator(CameraMode::flying); });
+                                                  { Core::Impl::_setupCameraManipulator(CameraMode::flying); });
         _keyboardHandler.registerKeyboardShortcut('i', "Enable inspect mode",
                                                   [this]()
-                                                  { Brayns::Impl::_setupCameraManipulator(CameraMode::inspect); });
+                                                  { Core::Impl::_setupCameraManipulator(CameraMode::inspect); });
         _keyboardHandler.registerKeyboardShortcut('r', "Set animation frame to 0",
-                                                  std::bind(&Brayns::Impl::_resetAnimationFrame, this));
+                                                  std::bind(&Core::Impl::_resetAnimationFrame, this));
         _keyboardHandler.registerKeyboardShortcut('p', "Enable/Disable animation playback",
-                                                  std::bind(&Brayns::Impl::_toggleAnimationPlayback, this));
+                                                  std::bind(&Core::Impl::_toggleAnimationPlayback, this));
         _keyboardHandler.registerKeyboardShortcut(' ', "Camera reset to initial state",
-                                                  std::bind(&Brayns::Impl::_resetCamera, this));
+                                                  std::bind(&Core::Impl::_resetCamera, this));
         _keyboardHandler.registerKeyboardShortcut('+', "Increase motion speed",
-                                                  std::bind(&Brayns::Impl::_increaseMotionSpeed, this));
+                                                  std::bind(&Core::Impl::_increaseMotionSpeed, this));
         _keyboardHandler.registerKeyboardShortcut('-', "Decrease motion speed",
-                                                  std::bind(&Brayns::Impl::_decreaseMotionSpeed, this));
+                                                  std::bind(&Core::Impl::_decreaseMotionSpeed, this));
         _keyboardHandler.registerKeyboardShortcut('c', "Log current camera information",
-                                                  std::bind(&Brayns::Impl::_displayCameraInformation, this));
+                                                  std::bind(&Core::Impl::_displayCameraInformation, this));
         _keyboardHandler.registerKeyboardShortcut('b', "Toggle benchmarking",
                                                   [this]()
                                                   {
@@ -476,13 +476,13 @@ private:
 
 // -----------------------------------------------------------------------------
 
-Brayns::Brayns(int argc, const char** argv)
+Core::Core(int argc, const char** argv)
     : _impl(std::make_unique<Impl>(argc, argv))
 {
 }
-Brayns::~Brayns() = default;
+Core::~Core() = default;
 
-void Brayns::commitAndRender(const RenderInput& renderInput, RenderOutput& renderOutput)
+void Core::commitAndRender(const RenderInput& renderInput, RenderOutput& renderOutput)
 {
     if (_impl->commit(renderInput))
     {
@@ -491,7 +491,7 @@ void Brayns::commitAndRender(const RenderInput& renderInput, RenderOutput& rende
     }
 }
 
-bool Brayns::commitAndRender()
+bool Core::commitAndRender()
 {
     if (_impl->commit())
     {
@@ -501,33 +501,33 @@ bool Brayns::commitAndRender()
     return _impl->getEngine().getKeepRunning();
 }
 
-bool Brayns::commit()
+bool Core::commit()
 {
     return _impl->commit();
 }
-void Brayns::render()
+void Core::render()
 {
     return _impl->render();
 }
-void Brayns::postRender()
+void Core::postRender()
 {
     _impl->postRender(nullptr);
 }
-Engine& Brayns::getEngine()
+Engine& Core::getEngine()
 {
     return _impl->getEngine();
 }
-ParametersManager& Brayns::getParametersManager()
+ParametersManager& Core::getParametersManager()
 {
     return _impl->getParametersManager();
 }
 
-KeyboardHandler& Brayns::getKeyboardHandler()
+KeyboardHandler& Core::getKeyboardHandler()
 {
     return _impl->getKeyboardHandler();
 }
 
-AbstractManipulator& Brayns::getCameraManipulator()
+AbstractManipulator& Core::getCameraManipulator()
 {
     return _impl->getCameraManipulator();
 }

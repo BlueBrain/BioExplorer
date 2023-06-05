@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Jonas karlsson <jonas.karlsson@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -18,7 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 #include <tests/paths.h>
 
 #include <platform/core/common/Types.h>
@@ -40,8 +40,8 @@ TEST_CASE("streamlines")
                           "--window-size", "1600", "900"};
     const int argc = sizeof(argv) / sizeof(char*);
 
-    core::Brayns brayns(argc, argv);
-    auto& scene = brayns.getEngine().getScene();
+    core::Core core(argc, argv);
+    auto& scene = core.getEngine().getScene();
 
     {
         constexpr size_t materialId = 0;
@@ -96,11 +96,11 @@ TEST_CASE("streamlines")
         auto position = modelDesc->getModel().getBounds().getCenter();
         position.z += glm::compMax(modelDesc->getModel().getBounds().getSize());
 
-        brayns.getEngine().getCamera().setInitialState(
+        core.getEngine().getCamera().setInitialState(
             position, glm::identity<core::Quaterniond>());
     }
 
-    brayns.commitAndRender();
+    core.commitAndRender();
     CHECK(compareTestImage("streamlines.png",
-                           brayns.getEngine().getFrameBuffer()));
+                           core.getEngine().getFrameBuffer()));
 }

@@ -35,7 +35,7 @@ using namespace common;
 /**
  * @brief The CompartmentSimulationHandler handles the reading of simulation
  * information from the database at a compartment level. When attached to a
- * model, the simulation data is communicated to the renderer by Brayns, and
+ * model, the simulation data is communicated to the renderer by Core, and
  * mapped to the geometry by the BioExplorer advanced renderer
  *
  */

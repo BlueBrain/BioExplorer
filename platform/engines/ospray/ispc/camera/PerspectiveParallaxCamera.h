@@ -3,7 +3,7 @@
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Grigori Chevtchenko <grigori.chevtchenko@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published

@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -21,21 +21,13 @@
 #ifndef MACROS_H
 #define MACROS_H
 
-#define SERIALIZATION_ACCESS(type)            \
-    namespace staticjson                      \
-    {                                         \
-    class ObjectHandler;                      \
+#define SERIALIZATION_ACCESS(type)          \
+    namespace staticjson                    \
+    {                                       \
+    class ObjectHandler;                    \
     void init(core::type*, ObjectHandler*); \
     }
 
 #define SERIALIZATION_FRIEND(type) friend void staticjson::init(type*, staticjson::ObjectHandler*);
-
-#ifdef __GNUC__
-#define BRAYNS_UNUSED __attribute__((unused))
-#else
-#define BRAYNS_UNUSED
-#endif
-
-#define BRAYNS_UNUSED_VAR(x) (void)x;
 
 #endif // MACROS_H

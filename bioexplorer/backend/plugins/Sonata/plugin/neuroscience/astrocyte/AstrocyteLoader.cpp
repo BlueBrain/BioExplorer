@@ -20,9 +20,9 @@
 
 #include "AstrocyteLoader.h"
 
-#include <science/neuroscience/common/MorphologyLoader.h>
-#include <science/neuroscience/common/ParallelModelContainer.h>
-#include <science/neuroscience/common/Types.h>
+#include <plugin/neuroscience/common/MorphologyLoader.h>
+#include <plugin/neuroscience/common/ParallelModelContainer.h>
+#include <plugin/neuroscience/common/Types.h>
 
 #include <common/Logs.h>
 

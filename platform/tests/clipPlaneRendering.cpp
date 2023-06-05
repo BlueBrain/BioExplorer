@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -20,7 +20,7 @@
 
 #include "PDiffHelpers.h"
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 #include <platform/core/common/scene/ClipPlane.h>
 #include <platform/core/engineapi/Camera.h>
 #include <platform/core/engineapi/Engine.h>
@@ -35,20 +35,20 @@ public:
     Demo()
         : _argv{"clipPlanes",    "demo", "--disable-accumulation",
                 "--window-size", "50",   "50"}
-        , _brayns(_argv.size(), _argv.data())
+        , _core(_argv.size(), _argv.data())
     {
-        instance = &_brayns;
+        instance = &_core;
     }
 
-    static core::Brayns* instance;
+    static core::Core* instance;
 
 private:
     std::vector<const char*> _argv;
-    core::Brayns _brayns;
+    core::Core _core;
 };
-core::Brayns* Demo::instance = nullptr;
+core::Core* Demo::instance = nullptr;
 
-void testClipping(core::Brayns& brayns, bool orthographic = false)
+void testClipping(core::Core& core, bool orthographic = false)
 {
     const std::string original =
         orthographic ? "demo_ortho.png" : "snapshot.png";
@@ -56,7 +56,7 @@ void testClipping(core::Brayns& brayns, bool orthographic = false)
     const std::string clipped = orthographic ? "demo_clipped_ortho.png"
                                              : "demo_clipped_perspective.png";
 
-    auto& engine = brayns.getEngine();
+    auto& engine = core.getEngine();
     auto& scene = engine.getScene();
     auto& camera = engine.getCamera();
 
@@ -69,23 +69,23 @@ void testClipping(core::Brayns& brayns, bool orthographic = false)
         camera.setCurrentType("orthographic");
     else
         camera.setCurrentType("perspective");
-    brayns.commitAndRender();
+    core.commitAndRender();
     CHECK(compareTestImage(original, engine.getFrameBuffer()));
 
     auto id1 = scene.addClipPlane({{1.0, 0.0, 0.0, -0.5}});
     auto id2 = scene.addClipPlane({{0.0, -1.0, 0.0, 0.5}});
-    brayns.commitAndRender();
+    core.commitAndRender();
     CHECK(compareTestImage(clipped, engine.getFrameBuffer()));
 
     scene.removeClipPlane(id1);
     scene.removeClipPlane(id2);
-    brayns.commitAndRender();
+    core.commitAndRender();
     CHECK(compareTestImage(original, engine.getFrameBuffer()));
 
     id1 = scene.addClipPlane({{1.0, 0.0, 0.0, -0.5}});
     id2 = scene.addClipPlane({{0.0, 1.0, 0.0, 0.5}});
     scene.getClipPlane(id2)->setPlane({{0.0, -1.0, 0.0, 0.5}});
-    brayns.commitAndRender();
+    core.commitAndRender();
     CHECK(compareTestImage(clipped, engine.getFrameBuffer()));
 
     scene.removeClipPlane(id1);

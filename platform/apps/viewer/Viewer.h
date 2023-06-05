@@ -3,7 +3,7 @@
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Jafet Villafranca <jafet.villafrancadiaz@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BRAYNSVIEWER_H
-#define BRAYNSVIEWER_H
+#pragma once
 
 #include "ui/BaseWindow.h"
 
@@ -31,11 +30,10 @@ class DeflectManager;
 class Viewer : public BaseWindow
 {
 public:
-    Viewer(Brayns& brayns);
+    Viewer(Core& core);
 
     /** Sets the rendering parameters and renders the current frame
      */
     void display();
 };
 } // namespace core
-#endif // BRAYNSVIEWER_H

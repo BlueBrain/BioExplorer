@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <science/neuroscience/common/Types.h>
+#include <plugin/neuroscience/common/Types.h>
 
 #include <platform/core/common/simulation/AbstractSimulationHandler.h>
 

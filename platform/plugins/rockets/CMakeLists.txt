@@ -2,7 +2,7 @@
 # All rights reserved. Do not distribute without permission.
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
-# This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+# This file is part of Core <https://github.com/BlueBrain/Core>
 
 # ==============================================================================
 # Project
@@ -55,8 +55,6 @@ endif()
 if(Libuv_FOUND)
   list(APPEND ${NAME}_LINK_LIBRARIES PRIVATE ${Libuv_LIBRARIES})
 endif()
-
-set(${NAME}_INCLUDE_NAME plugins/rockets)
 
 add_library(
   ${LIBRARY_NAME}

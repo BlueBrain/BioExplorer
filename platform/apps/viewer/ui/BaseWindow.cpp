@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include "BaseWindow.h"
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 #include <platform/core/common/Logs.h>
 #include <platform/core/common/input/KeyboardHandler.h>
 #include <platform/core/engineapi/Camera.h>
@@ -120,8 +120,8 @@ void glut3dPassiveMouseFunc(int x, int y)
 /*! currently active window */
 BaseWindow* BaseWindow::_activeWindow = nullptr;
 
-BaseWindow::BaseWindow(Brayns& brayns, const FrameBufferMode frameBufferMode)
-    : _brayns(brayns)
+BaseWindow::BaseWindow(Core& core, const FrameBufferMode frameBufferMode)
+    : _core(core)
     , _lastMousePos(-1, -1)
     , _currMousePos(-1, -1)
     , _lastButtonState(0)
@@ -133,15 +133,15 @@ BaseWindow::BaseWindow(Brayns& brayns, const FrameBufferMode frameBufferMode)
     , _displayHelp(false)
     , _fullScreen(false)
 {
-    const auto motionSpeed = _brayns.getCameraManipulator().getMotionSpeed();
-    CORE_INFO("Camera       :" << _brayns.getEngine().getCamera());
+    const auto motionSpeed = _core.getCameraManipulator().getMotionSpeed();
+    CORE_INFO("Camera       :" << _core.getEngine().getCamera());
     CORE_INFO("Motion speed :" << motionSpeed);
 
-    const auto& rp = _brayns.getParametersManager().getRenderingParameters();
+    const auto& rp = _core.getParametersManager().getRenderingParameters();
     if (rp.getAccumulationType() == AccumulationType::ai_denoised)
         _frameBufferMode = FrameBufferMode::COLOR_F32;
 
-    _rendererTypes = _brayns.getEngine().getRendererTypes();
+    _rendererTypes = _core.getEngine().getRendererTypes();
 }
 
 BaseWindow::~BaseWindow() {}
@@ -158,16 +158,16 @@ void BaseWindow::mouseButton(const int button, const bool released, const Vector
         _currButtonState = _currButtonState | (1 << button);
     _currModifiers = glutGetModifiers();
 
-    auto& manipulator = _brayns.getCameraManipulator();
+    auto& manipulator = _core.getCameraManipulator();
 
     if (_currModifiers & GLUT_ACTIVE_SHIFT && released)
     {
         const auto& result =
-            _brayns.getEngine().getRenderer().pick({pos.x / float(_windowSize.x), 1.f - pos.y / float(_windowSize.y)});
-        _brayns.getEngine().getFrameBuffer().clear();
+            _core.getEngine().getRenderer().pick({pos.x / float(_windowSize.x), 1.f - pos.y / float(_windowSize.y)});
+        _core.getEngine().getFrameBuffer().clear();
         if (result.hit)
         {
-            _brayns.getEngine().getCamera().setTarget(result.pos);
+            _core.getEngine().getCamera().setTarget(result.pos);
             // updates position based on new target and current rotation
             manipulator.rotate(result.pos, 0, 0, AbstractManipulator::AxisMode::localY);
         }
@@ -193,7 +193,7 @@ void BaseWindow::motion(const Vector2i& pos)
         _lastButtonState = _currButtonState;
     }
 
-    auto& manipulator = _brayns.getCameraManipulator();
+    auto& manipulator = _core.getCameraManipulator();
 
     if ((_currButtonState == (1 << GLUT_RIGHT_BUTTON)) ||
         ((_currButtonState == (1 << GLUT_LEFT_BUTTON)) && (_currModifiers & GLUT_ACTIVE_ALT)))
@@ -227,7 +227,7 @@ void BaseWindow::reshape(const Vector2i& newSize)
 {
     _windowSize = newSize;
 
-    auto& applicationParameters = _brayns.getParametersManager();
+    auto& applicationParameters = _core.getParametersManager();
     applicationParameters.getApplicationParameters().setWindowSize(_windowSize);
 }
 
@@ -244,26 +244,26 @@ void BaseWindow::forceRedraw()
 
 void BaseWindow::display()
 {
-    const Vector2ui windowSize = _brayns.getParametersManager().getApplicationParameters().getWindowSize();
+    const Vector2ui windowSize = _core.getParametersManager().getApplicationParameters().getWindowSize();
     if (windowSize != _windowSize)
         glutReshapeWindow(windowSize.x, windowSize.y);
 
     _timer.start();
 
-    const auto& camera = _brayns.getEngine().getCamera();
+    const auto& camera = _core.getEngine().getCamera();
     _renderInput.windowSize = windowSize;
     _renderInput.position = camera.getPosition();
     _renderInput.orientation = camera.getOrientation();
     _renderInput.target = camera.getTarget();
 
-    const auto& fb = _brayns.getEngine().getFrameBuffer();
-    const auto& rp = _brayns.getParametersManager().getRenderingParameters();
+    const auto& fb = _core.getEngine().getFrameBuffer();
+    const auto& rp = _core.getParametersManager().getRenderingParameters();
     const auto maxAccumFrames = rp.getMaxAccumFrames();
 
     if (fb.numAccumFrames() < maxAccumFrames)
-        _brayns.commitAndRender(_renderInput, _renderOutput);
+        _core.commitAndRender(_renderInput, _renderOutput);
     else
-        _brayns.commit();
+        _core.commit();
 
     GLenum format = GL_RGBA;
     switch (_renderOutput.colorBufferFormat)
@@ -315,7 +315,7 @@ void BaseWindow::display()
 
     if (_displayHelp)
     {
-        auto& keyHandler = _brayns.getKeyboardHandler();
+        auto& keyHandler = _core.getKeyboardHandler();
         std::string help;
         for (const auto& value : keyHandler.help())
             help += value + "\n";
@@ -395,13 +395,13 @@ void BaseWindow::keypress(const char key, const Vector2f&)
 #endif
         break;
     default:
-        auto& kh = _brayns.getKeyboardHandler();
+        auto& kh = _core.getKeyboardHandler();
         kh.handleKeyboardShortcut(key);
         if (_hintMessage.empty())
             _setHint(kh.getKeyboardShortcutDescription(key));
     }
 
-    _brayns.getEngine().commit();
+    _core.getEngine().commit();
 }
 
 void BaseWindow::specialkey(const int key, const Vector2f&)
@@ -409,16 +409,16 @@ void BaseWindow::specialkey(const int key, const Vector2f&)
     switch (key)
     {
     case GLUT_KEY_LEFT:
-        _brayns.getKeyboardHandler().handle(SpecialKey::LEFT);
+        _core.getKeyboardHandler().handle(SpecialKey::LEFT);
         break;
     case GLUT_KEY_RIGHT:
-        _brayns.getKeyboardHandler().handle(SpecialKey::RIGHT);
+        _core.getKeyboardHandler().handle(SpecialKey::RIGHT);
         break;
     case GLUT_KEY_UP:
-        _brayns.getKeyboardHandler().handle(SpecialKey::UP);
+        _core.getKeyboardHandler().handle(SpecialKey::UP);
         break;
     case GLUT_KEY_DOWN:
-        _brayns.getKeyboardHandler().handle(SpecialKey::DOWN);
+        _core.getKeyboardHandler().handle(SpecialKey::DOWN);
         break;
     case GLUT_KEY_F11:
         if (_fullScreen)
@@ -436,7 +436,7 @@ void BaseWindow::specialkey(const int key, const Vector2f&)
 
 void BaseWindow::_registerKeyboardShortcuts()
 {
-    auto& keyHandler = _brayns.getKeyboardHandler();
+    auto& keyHandler = _core.getKeyboardHandler();
     keyHandler.registerKeyboardShortcut('z', "Switch between depth and color buffers",
                                         std::bind(&BaseWindow::_toggleFrameBuffer, this));
     keyHandler.registerKeyboardShortcut('n', "Next renderer type", std::bind(&BaseWindow::_toggleRendererType, this));
@@ -463,7 +463,7 @@ void BaseWindow::_toggleFrameBuffer()
 {
     size_t mode = static_cast<size_t>(_frameBufferMode);
     mode = (mode + 1) % 2;
-    auto& engine = _brayns.getEngine();
+    auto& engine = _core.getEngine();
     const auto& ap = engine.getParametersManager().getApplicationParameters();
     const auto& engineName = ap.getEngine();
     if (engineName == ENGINE_OSPRAY && mode == static_cast<size_t>(AccumulationType::ai_denoised))
@@ -493,14 +493,14 @@ void BaseWindow::_toggleRendererType()
     ++_currentRendererTypeIndex;
     _currentRendererTypeIndex = _currentRendererTypeIndex % _rendererTypes.size();
     const auto rendererType = _rendererTypes[_currentRendererTypeIndex];
-    auto& rp = _brayns.getParametersManager().getRenderingParameters();
+    auto& rp = _core.getParametersManager().getRenderingParameters();
     rp.setCurrentRenderer(rendererType);
     _setHint("Renderer: [" + rendererType + "]");
 }
 
 void BaseWindow::_toggleHeadLight()
 {
-    auto& rp = _brayns.getParametersManager().getRenderingParameters();
+    auto& rp = _core.getParametersManager().getRenderingParameters();
     rp.setHeadLight(!rp.getHeadLight());
     std::string hint = "Head light: [";
     hint += (rp.getHeadLight() ? "ON" : "OFF");

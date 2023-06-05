@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -24,7 +24,7 @@
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/parameters/ParametersManager.h>
 
-#if (BRAYNS_USE_OSPRAY)
+#if (PLATFORM_USE_OSPRAY)
 #include <platform/engines/ospray/OSPRayEngine.h>
 #endif
 
@@ -62,11 +62,11 @@ Engine* EngineFactory::_loadEngine(const std::string& name, int argc, const char
     try
     {
         DynamicLib library(name);
-        auto createSym = library.getSymbolAddress("brayns_engine_create");
+        auto createSym = library.getSymbolAddress("core_engine_create");
         if (!createSym)
         {
-            throw std::runtime_error(std::string("Plugin '") + name + "' is not a valid Brayns engine; missing " +
-                                     "brayns_engine_create()");
+            throw std::runtime_error(std::string("Plugin '") + name + "' is not a valid Core engine; missing " +
+                                     "core_engine_create()");
         }
 
         CreateFuncType createFunc = (CreateFuncType)createSym;

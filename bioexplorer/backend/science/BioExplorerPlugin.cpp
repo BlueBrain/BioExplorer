@@ -1950,7 +1950,7 @@ Response BioExplorerPlugin::_setSpikeReportVisualizationSettings(const SpikeRepo
     return response;
 }
 
-extern "C" ExtensionPlugin *brayns_plugin_create(int argc, char **argv)
+extern "C" ExtensionPlugin *core_plugin_create(int argc, char **argv)
 {
     PLUGIN_INFO(1, " _|_|_|    _|            _|_|_|_|                      _|                                        ");
     PLUGIN_INFO(1, " _|    _|        _|_|    _|        _|    _|  _|_|_|    _|    _|_|    _|  _|_|    _|_|    _|  _|_|");

@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -122,7 +122,7 @@ protected:
  * @brief The ModelDescriptor struct defines the metadata attached to a model.
  * Model descriptor are exposed via the HTTP/WS interface.
  * - Enabling a model means that the model is part of scene. If disabled, the
- * model still exists in Brayns, but is removed from the rendered scene.
+ * model still exists in Core, but is removed from the rendered scene.
  * - The visible attribute defines if the model should be visible or not. If
  * invisible, the model is removed from the BVH.
  * - If set to true, the bounding box attribute displays a bounding box for the
@@ -210,7 +210,7 @@ class Model
 public:
     Model(AnimationParameters& animationParameters, VolumeParameters& volumeParameters);
 
-    BRAYNS_API virtual ~Model();
+    PLATFORM_API virtual ~Model();
 
     /** @name API for engine-specific code */
     //@{
@@ -223,14 +223,14 @@ public:
     bool commitSimulationData();
 
     /** Factory method to create an engine-specific material. */
-    BRAYNS_API MaterialPtr createMaterial(const size_t materialId, const std::string& name,
+    PLATFORM_API MaterialPtr createMaterial(const size_t materialId, const std::string& name,
                                           const PropertyMap& properties = {});
 
     /**
      * Create a volume with the given dimensions, voxel spacing and data type
      * where the voxels are set via setVoxels() from any memory location.
      */
-    BRAYNS_API virtual SharedDataVolumePtr createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
+    PLATFORM_API virtual SharedDataVolumePtr createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
                                                                   const DataType type) = 0;
 
     /**
@@ -238,20 +238,20 @@ public:
      * where the voxels are copied via setBrick() into an optimized internal
      * storage.
      */
-    BRAYNS_API virtual BrickedVolumePtr createBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
+    PLATFORM_API virtual BrickedVolumePtr createBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
                                                             const DataType type) = 0;
 
-    BRAYNS_API virtual void buildBoundingBox() = 0;
+    PLATFORM_API virtual void buildBoundingBox() = 0;
     //@}
 
     /**
      * @return true if the geometry Model does not contain any geometry, false
      *         otherwise
      */
-    BRAYNS_API bool empty() const;
+    PLATFORM_API bool empty() const;
 
     /** @return true if the geometry Model is dirty, false otherwise */
-    BRAYNS_API bool isDirty() const;
+    PLATFORM_API bool isDirty() const;
 
     /**
         Returns the bounds for the Model
@@ -280,7 +280,7 @@ public:
       @param sphere Sphere to add
       @return Index of the sphere for the specified material
       */
-    BRAYNS_API uint64_t addSphere(const size_t materialId, const Sphere& sphere);
+    PLATFORM_API uint64_t addSphere(const size_t materialId, const Sphere& sphere);
 
     /**
         Returns cylinders handled by the model
@@ -297,7 +297,7 @@ public:
       @param cylinder Cylinder to add
       @return Index of the sphere for the specified material
       */
-    BRAYNS_API uint64_t addCylinder(const size_t materialId, const Cylinder& cylinder);
+    PLATFORM_API uint64_t addCylinder(const size_t materialId, const Cylinder& cylinder);
     /**
         Returns cones handled by the model
     */
@@ -313,7 +313,7 @@ public:
       @param cone Cone to add
       @return Index of the sphere for the specified material
       */
-    BRAYNS_API uint64_t addCone(const size_t materialId, const Cone& cone);
+    PLATFORM_API uint64_t addCone(const size_t materialId, const Cone& cone);
 
     /**
         Returns SDFBezier handled by the model
@@ -331,14 +331,14 @@ public:
       @param sdfBezier SDFBezier to add
       @return Index of the bezier for the specified material
       */
-    BRAYNS_API uint64_t addSDFBezier(const size_t materialId, const SDFBezier& sdfBezier);
+    PLATFORM_API uint64_t addSDFBezier(const size_t materialId, const SDFBezier& sdfBezier);
 
     /**
       Adds a streamline to the model
       @param materialId Id of the material for the streamline
       @param streamline Streamline to add
       */
-    BRAYNS_API void addStreamline(const size_t materialId, const Streamline& streamline);
+    PLATFORM_API void addStreamline(const size_t materialId, const Streamline& streamline);
 
     /**
         Returns streamlines handled by the model
@@ -355,7 +355,7 @@ public:
       @param materialId Id of the material for the curve
       @param curve Curve to add
       */
-    BRAYNS_API void addCurve(const size_t materialId, const Curve& curve);
+    PLATFORM_API void addCurve(const size_t materialId, const Curve& curve);
 
     /**
         Returns curves handled by the model
@@ -405,16 +405,16 @@ public:
     }
 
     /** Add a volume to the model*/
-    BRAYNS_API void addVolume(VolumePtr);
+    PLATFORM_API void addVolume(VolumePtr);
 
     /** Remove a volume from the model */
-    BRAYNS_API void removeVolume(VolumePtr);
+    PLATFORM_API void removeVolume(VolumePtr);
 
     /**
      * @brief logInformation Logs information about the model, like the number
      * of primitives, and the associated memory footprint.
      */
-    BRAYNS_API void logInformation();
+    PLATFORM_API void logInformation();
 
     /**
         Sets the materials handled by the model, and available to the geometry
@@ -422,21 +422,21 @@ public:
        materials. For instance MT_RANDOM creates materials with random colors,
        transparency, reflection, and light emission
     */
-    void BRAYNS_API setMaterialsColorMap(const MaterialsColorMap colorMap);
+    void PLATFORM_API setMaterialsColorMap(const MaterialsColorMap colorMap);
 
     /**
      * @brief getMaterials Returns a reference to the map of materials handled
      * by the model
      * @return The map of materials handled by the model
      */
-    BRAYNS_API const MaterialMap& getMaterials() const { return _materials; }
+    PLATFORM_API const MaterialMap& getMaterials() const { return _materials; }
     /**
      * @brief getMaterial Returns a pointer to a specific material
      * @param materialId Id of the material
      * @return A pointer to the material or an exception if the material is not
      * registered in the model
      */
-    BRAYNS_API MaterialPtr getMaterial(const size_t materialId) const;
+    PLATFORM_API MaterialPtr getMaterial(const size_t materialId) const;
 
     /** @return the transfer function used for volumes and simulations. */
     TransferFunction& getTransferFunction() { return _transferFunction; }
@@ -446,12 +446,12 @@ public:
     /**
         Returns the simulutation handler
     */
-    BRAYNS_API AbstractSimulationHandlerPtr getSimulationHandler() const;
+    PLATFORM_API AbstractSimulationHandlerPtr getSimulationHandler() const;
 
     /**
         Sets the simulation handler
     */
-    BRAYNS_API void setSimulationHandler(AbstractSimulationHandlerPtr handler);
+    PLATFORM_API void setSimulationHandler(AbstractSimulationHandlerPtr handler);
 
     /** @return the size in bytes of all geometries. */
     size_t getSizeInBytes() const;
@@ -470,7 +470,7 @@ protected:
     void _updateSizeInBytes();
 
     /** Factory method to create an engine-specific material. */
-    BRAYNS_API virtual MaterialPtr createMaterialImpl(const PropertyMap& properties = {}) = 0;
+    PLATFORM_API virtual MaterialPtr createMaterialImpl(const PropertyMap& properties = {}) = 0;
 
     /** Mark all geometries as clean. */
     void _markGeometriesClean();

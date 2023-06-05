@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -58,7 +58,7 @@ typedef std::vector<size_t> size_ts;
 namespace core
 {
 // Forward declarations
-class Brayns;
+class Core;
 
 class ActionInterface;
 using ActionInterfacePtr = std::shared_ptr<ActionInterface>;
@@ -215,7 +215,7 @@ enum class GeometryQuality
     high
 };
 
-/** Some 'special' materials are used by Brayns to accomplish specific features
+/** Some 'special' materials are used by Core to accomplish specific features
  *  such as bounding boxes.
  */
 const size_t NO_MATERIAL = std::numeric_limits<size_t>::max();

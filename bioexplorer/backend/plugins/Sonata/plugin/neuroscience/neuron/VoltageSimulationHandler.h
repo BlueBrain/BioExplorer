@@ -20,13 +20,12 @@
 
 #pragma once
 
-#include <science/neuroscience/common/Types.h>
-
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
-#include <science/api/SonataExplorerParams.h>
+#include <plugin/api/SonataExplorerParams.h>
+#include <plugin/neuroscience/common/Types.h>
 
 #include <platform/core/common/Api.h>
 #include <platform/core/common/Types.h>
+#include <platform/core/common/simulation/AbstractSimulationHandler.h>
 #include <platform/core/engineapi/Scene.h>
 
 namespace sonataexplorer

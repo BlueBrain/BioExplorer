@@ -55,7 +55,7 @@ public:
     /**
      * @brief Add a simple demo of SDF geometries, mainly for testing purpose
      *
-     * @param model Brayns model to which the SDF geometries are added
+     * @param model Core model to which the SDF geometries are added
      */
     void addSDFDemo(Model& model);
 

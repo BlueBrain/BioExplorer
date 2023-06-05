@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel.Nachbaur@epfl.ch
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 #include <platform/core/common/loader/Loader.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/Scene.h>
@@ -51,7 +51,7 @@ public:
     using core::Loader::Loader;
 
     bool isSupported(const std::string& filename,
-                     const std::string& extension BRAYNS_UNUSED) const final
+                     const std::string& extension) const final
     {
         return filename == "forever";
     }
@@ -61,7 +61,7 @@ public:
     core::PropertyMap getProperties() const { return {}; }
     core::ModelDescriptorPtr importFromBlob(
         core::Blob&&, const core::LoaderProgress& callback,
-        const core::PropertyMap& properties BRAYNS_UNUSED) const final
+        const core::PropertyMap& properties) const final
     {
         for (;;)
         {
@@ -73,7 +73,7 @@ public:
 
     core::ModelDescriptorPtr importFromFile(
         const std::string&, const core::LoaderProgress& callback,
-        const core::PropertyMap& properties BRAYNS_UNUSED) const final
+        const core::PropertyMap& properties) const final
     {
         for (;;)
         {
@@ -98,17 +98,17 @@ public:
         : _wsClient{std::make_unique<rockets::ws::Client>()}
         , _client(*_wsClient)
     {
-        std::vector<const char*> argv{"brayns", "--http-server", "localhost:0"};
+        std::vector<const char*> argv{"core", "--http-server", "localhost:0"};
         for (const auto& arg : additionalArgv)
             argv.push_back(arg);
         const int argc = argv.size();
-        _brayns.reset(new core::Brayns(argc, argv.data()));
-        _brayns->getParametersManager()
+        _core.reset(new core::Core(argc, argv.data()));
+        _core->getParametersManager()
             .getApplicationParameters()
             .setImageStreamFPS(0);
-        _brayns->commitAndRender();
+        _core->commitAndRender();
 
-        auto& scene = _brayns->getEngine().getScene();
+        auto& scene = _core->getEngine().getScene();
         scene.getLoaderRegistry().registerLoader(
             std::make_unique<ForeverLoader>(scene));
 
@@ -119,12 +119,12 @@ public:
     ~ClientServer()
     {
         _wsClient.reset();
-        _brayns->commit(); // handle disconnect of client
+        _core->commit(); // handle disconnect of client
     }
 
     void connect(rockets::ws::Client& client)
     {
-        const auto uri = _brayns->getParametersManager()
+        const auto uri = _core->getParametersManager()
                              .getApplicationParameters()
                              .getHttpServerURI();
 
@@ -132,7 +132,7 @@ public:
         while (!is_ready(connectFuture))
         {
             client.process(CLIENT_PROCESS_TIMEOUT);
-            _brayns->commit();
+            _core->commit();
         }
         connectFuture.get();
     }
@@ -144,7 +144,7 @@ public:
         while (!request.is_ready())
         {
             _wsClient->process(0);
-            _brayns->commit();
+            _core->commit();
         }
 
         return request.get();
@@ -157,7 +157,7 @@ public:
         while (!request.is_ready())
         {
             _wsClient->process(0);
-            _brayns->commit();
+            _core->commit();
         }
 
         RetVal retVal;
@@ -172,7 +172,7 @@ public:
         while (!request.is_ready())
         {
             _wsClient->process(0);
-            _brayns->commit();
+            _core->commit();
         }
 
         return request.get();
@@ -186,7 +186,7 @@ public:
         while (!request.is_ready())
         {
             _wsClient->process(0);
-            _brayns->commit();
+            _core->commit();
         }
 
         return request.get().result;
@@ -220,7 +220,7 @@ public:
         while (!rockets::is_ready(future))
         {
             _wsClient->process(0);
-            _brayns->commit();
+            _core->commit();
         }
 
         return future.get();
@@ -253,7 +253,7 @@ public:
         while (!rockets::is_ready(future))
         {
             _wsClient->process(0);
-            _brayns->commit();
+            _core->commit();
         }
 
         return future.get();
@@ -266,7 +266,7 @@ public:
 
         _wsClient->process(CLIENT_PROCESS_TIMEOUT);
         for (size_t i = 0; i < SERVER_PROCESS_RETRIES; ++i)
-            _brayns->commit();
+            _core->commit();
     }
 
     void makeNotification(const std::string& method)
@@ -275,21 +275,21 @@ public:
 
         _wsClient->process(CLIENT_PROCESS_TIMEOUT);
         for (size_t i = 0; i < SERVER_PROCESS_RETRIES; ++i)
-            _brayns->commit();
+            _core->commit();
     }
 
-    auto& getBrayns() { return *_brayns; }
+    auto& getBrayns() { return *_core; }
     auto& getWsClient() { return *_wsClient; }
     auto& getJsonRpcClient() { return _client; }
     void process()
     {
         _wsClient->process(CLIENT_PROCESS_TIMEOUT);
-        _brayns->commit();
+        _core->commit();
     }
 
 private:
     static ClientServer* _instance;
-    std::unique_ptr<core::Brayns> _brayns;
+    std::unique_ptr<core::Core> _core;
     std::unique_ptr<rockets::ws::Client> _wsClient;
     rockets::jsonrpc::Client<rockets::ws::Client> _client;
 };

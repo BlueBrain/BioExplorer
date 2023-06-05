@@ -54,8 +54,6 @@ set(${NAME}_LINK_LIBRARIES
     PRIVATE ${GLM_LIBRARIES} ${Boost_PROGRAM_OPTIONS_LIBRARY}
 )
 
-set(${NAME}_INCLUDE_NAME brayns/parameters)
-
 add_library(
     ${LIBRARY_NAME}
     SHARED ${${NAME}_SOURCES})

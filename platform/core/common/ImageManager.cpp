@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -64,8 +64,7 @@ void setRawData(Texture2DPtr texture, const freeimage::ImagePtr& image, const ui
 }
 } // namespace
 
-Texture2DPtr ImageManager::importTextureFromFile(const std::string& filename BRAYNS_UNUSED,
-                                                 const TextureType type BRAYNS_UNUSED)
+Texture2DPtr ImageManager::importTextureFromFile(const std::string& filename, const TextureType type)
 {
     auto format = FreeImage_GetFileType(filename.c_str());
     if (format == FIF_UNKNOWN)

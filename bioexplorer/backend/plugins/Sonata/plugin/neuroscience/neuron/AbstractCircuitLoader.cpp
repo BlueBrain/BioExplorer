@@ -23,9 +23,9 @@
 #include "SpikeSimulationHandler.h"
 #include "VoltageSimulationHandler.h"
 
-#include <science/neuroscience/common/MorphologyLoader.h>
-#include <science/neuroscience/common/ParallelModelContainer.h>
-#include <science/neuroscience/common/Types.h>
+#include <plugin/neuroscience/common/MorphologyLoader.h>
+#include <plugin/neuroscience/common/ParallelModelContainer.h>
+#include <plugin/neuroscience/common/Types.h>
 
 #include <common/Logs.h>
 #include <common/Utils.h>
@@ -73,7 +73,8 @@ std::vector<std::string> AbstractCircuitLoader::getSupportedExtensions() const
 
 bool AbstractCircuitLoader::isSupported(const std::string &filename, const std::string & /*extension*/) const
 {
-    const auto ends_with = [](const std::string &value, const std::string &ending) {
+    const auto ends_with = [](const std::string &value, const std::string &ending)
+    {
         if (ending.size() > value.size())
             return false;
         return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
@@ -83,7 +84,8 @@ bool AbstractCircuitLoader::isSupported(const std::string &filename, const std::
         if (ends_with(filename, name))
             return true;
 
-    const auto contains = [](const std::string &value, const std::string &keyword) {
+    const auto contains = [](const std::string &value, const std::string &keyword)
+    {
         if (value.size() < keyword.size())
             return false;
 

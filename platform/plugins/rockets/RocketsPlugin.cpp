@@ -2,7 +2,7 @@
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -173,9 +173,9 @@ std::string getRequestEndpointName(const std::string& endpoint)
     return "get-" + endpoint;
 }
 
-const Response::Error VIDEOSTREAM_NOT_ENABLED_ERROR{"Brayns was not started with videostream support enabled",
+const Response::Error VIDEOSTREAM_NOT_ENABLED_ERROR{"Core was not started with videostream support enabled",
                                                     VIDEOSTREAMING_NOT_ENABLED};
-const Response::Error VIDEOSTREAM_NOT_SUPPORTED_ERROR{"Brayns was not build with videostream support",
+const Response::Error VIDEOSTREAM_NOT_SUPPORTED_ERROR{"Core was not build with videostream support",
                                                       VIDEOSTREAMING_NOT_SUPPORTED};
 } // namespace
 
@@ -789,7 +789,7 @@ public:
         // - setup progress reporting during the task execution using libuv
         // - wire the cancel request from rockets to the task
 
-        auto action = [&, createTask](P params, auto clientID, auto respond, auto progressCb BRAYNS_UNUSED)
+        auto action = [&, createTask](P params, auto clientID, auto respond, auto progressCb)
         {
             // transform task error to rockets error response
             auto errorCallback = [&, respond](const TaskRuntimeError& error)
@@ -1208,8 +1208,8 @@ public:
     void _handleExitLater()
     {
         _handleRPC<ExitLaterSchedule>({METHOD_EXIT_LATER,
-                                       "Schedules Brayns to shutdown after a given amount of minutes", "minutes",
-                                       "Number of minutes after which Brayns will shut down"},
+                                       "Schedules Core to shutdown after a given amount of minutes", "minutes",
+                                       "Number of minutes after which Core will shut down"},
                                       [&](const ExitLaterSchedule& schedule)
                                       {
                                           std::lock_guard<std::mutex> lock(_scheduleMutex);
@@ -2082,7 +2082,7 @@ public:
         const RpcParameterDescription desc{METHOD_SET_VIDEOSTREAM, "Set the video streaming parameters", "params",
                                            "videostream parameters"};
 
-        auto action = [&](const VideoStreamParam& params BRAYNS_UNUSED, auto clientID BRAYNS_UNUSED, auto respond, auto)
+        auto action = [&](const VideoStreamParam& params, auto clientID, auto respond, auto)
         {
             if (!_parametersManager.getApplicationParameters().useVideoStreaming())
             {

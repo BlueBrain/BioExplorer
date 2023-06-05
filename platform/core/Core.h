@@ -3,7 +3,7 @@
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Jafet Villafranca <jafet.villafrancadiaz@epfl.ch>
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -19,8 +19,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef BRAYNS_H
-#define BRAYNS_H
+#pragma once
 
 #include <platform/core/common/Api.h>
 #include <platform/core/common/Types.h>
@@ -28,12 +27,12 @@
 namespace core
 {
 /**
-    Brayns is a minimalistic library that allows optimized ray-tracing rendering
-    of meshes and parametric geometry. Brayns provides an abstraction of the
+    Core is a minimalistic library that allows optimized ray-tracing rendering
+    of meshes and parametric geometry. Core provides an abstraction of the
     underlying rendering engines, making it possible to use the best rendering
     engine depending on the case.
 
-    Brayns uses plugins for extended function. There are a few built-in plugins
+    Core uses plugins for extended function. There are a few built-in plugins
     and additional plugins can be dynamically loaded.
 
     The underlying rendering engine (OSPRay, Optix, FireRays, etc) is specified
@@ -43,12 +42,12 @@ namespace core
     Underlying rendering engines support CPU, GPU and heterogeneous
     architectures
 
-    This object exposes the basic API for Brayns
+    This object exposes the basic API for Core
 */
-class Brayns
+class Core
 {
 public:
-    /** Brayns instance initialization.
+    /** Core instance initialization.
      *
      * Initialization involves command line parsing, engine creation, plugin
      * loading and initialization, data loading, scene creation and setup of
@@ -59,11 +58,11 @@ public:
      * event callbacks successfully.
      *
      * Command line parameters provide options about the application itself,
-     * the geometry and the renderer. Brayns creates the scene using built-in
+     * the geometry and the renderer. Core creates the scene using built-in
      * and plug-in provided loaders.
      */
-    BRAYNS_API Brayns(int argc, const char** argv);
-    BRAYNS_API ~Brayns();
+    PLATFORM_API Core(int argc, const char** argv);
+    PLATFORM_API ~Core();
 
     /** @name Simple execution API  */
     //@{
@@ -77,7 +76,7 @@ public:
      *        camera and according model and projection matrices
      * @param renderOutput Color and depth buffers
      */
-    BRAYNS_API void commitAndRender(const RenderInput& renderInput, RenderOutput& renderOutput);
+    PLATFORM_API void commitAndRender(const RenderInput& renderInput, RenderOutput& renderOutput);
 
     /**
      * Renders color and depth buffers of the current scene, according to
@@ -94,7 +93,7 @@ public:
      * @return true if rendering should continue or false if user inputs
      *         requested to stop.
      */
-    BRAYNS_API bool commitAndRender();
+    PLATFORM_API bool commitAndRender();
     //@}
 
     /** @name Low-level execution API */
@@ -108,45 +107,44 @@ public:
      *         evaluated (accum rendering, data loading, etc.)
      * @note threadsafe with render()
      */
-    BRAYNS_API bool commit();
+    PLATFORM_API bool commit();
 
     /**
      * Render a frame into the current framebuffer.
      * @note threadsafe with commit()
      */
-    BRAYNS_API void render();
+    PLATFORM_API void render();
 
     /**
      * Call postRender() on engine and plugins to signal finish of render().
      * Shall only be called after render() has finished. This is only needed if
      * commit() and render() are called individually.
      */
-    BRAYNS_API void postRender();
+    PLATFORM_API void postRender();
     //@}
 
     /**
        @return the current engine
     */
-    BRAYNS_API Engine& getEngine();
+    PLATFORM_API Engine& getEngine();
 
     /**
      * @return The parameter manager
      */
-    BRAYNS_API ParametersManager& getParametersManager();
+    PLATFORM_API ParametersManager& getParametersManager();
 
     /**
      * Gets the keyboard handler
      */
-    BRAYNS_API KeyboardHandler& getKeyboardHandler();
+    PLATFORM_API KeyboardHandler& getKeyboardHandler();
 
     /**
      * Gets the camera manipulator
      */
-    BRAYNS_API AbstractManipulator& getCameraManipulator();
+    PLATFORM_API AbstractManipulator& getCameraManipulator();
 
 private:
     struct Impl;
     std::unique_ptr<Impl> _impl;
 };
 } // namespace core
-#endif // Platform

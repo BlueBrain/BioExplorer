@@ -22,7 +22,7 @@
 #include <science/common/Logs.h>
 #include <science/molecularsystems/RNASequence.h>
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/Scene.h>
 
@@ -77,11 +77,11 @@ RNASequenceDetails getRNASequenceDescriptor()
 
 BOOST_AUTO_TEST_CASE(rna_sequence)
 {
-    std::vector<const char*> argv{"brayns", "--http-server", "localhost:0", "--plugin",
-                                  "BioExplorer --db-name=bioexplorer --db-user=brayns "
-                                  "--db-password=brayns --db-host=localhost --db-port=5432"};
-    core::Brayns brayns(argv.size(), argv.data());
-    auto& scene = brayns.getEngine().getScene();
+    std::vector<const char*> argv{"service", "--http-server", "localhost:0", "--plugin",
+                                  "BioExplorer --db-name=bioexplorer --db-user=core "
+                                  "--db-password=core --db-host=localhost --db-port=5432"};
+    core::Core core(argv.size(), argv.data());
+    auto& scene = core.getEngine().getScene();
     Assembly assembly(scene, getAssemblyDescriptor());
     assembly.addRNASequence(getRNASequenceDescriptor());
 

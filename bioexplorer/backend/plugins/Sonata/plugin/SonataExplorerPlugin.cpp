@@ -24,20 +24,20 @@
 #include "SonataExplorerPlugin.h"
 #include <common/Logs.h>
 
-#include <science/io/BrickLoader.h>
-#include <science/neuroscience/astrocyte/AstrocyteLoader.h>
-#include <science/neuroscience/common/MorphologyLoader.h>
-#include <science/neuroscience/neuron/AdvancedCircuitLoader.h>
-#include <science/neuroscience/neuron/CellGrowthHandler.h>
-#include <science/neuroscience/neuron/MEGHandler.h>
-#include <science/neuroscience/neuron/MeshCircuitLoader.h>
-#include <science/neuroscience/neuron/MorphologyCollageLoader.h>
-#include <science/neuroscience/neuron/PairSynapsesLoader.h>
-#include <science/neuroscience/neuron/SpikeSimulationHandler.h>
-#include <science/neuroscience/neuron/SynapseCircuitLoader.h>
-#include <science/neuroscience/neuron/VoltageSimulationHandler.h>
+#include <plugin/io/BrickLoader.h>
+#include <plugin/neuroscience/astrocyte/AstrocyteLoader.h>
+#include <plugin/neuroscience/common/MorphologyLoader.h>
+#include <plugin/neuroscience/neuron/AdvancedCircuitLoader.h>
+#include <plugin/neuroscience/neuron/CellGrowthHandler.h>
+#include <plugin/neuroscience/neuron/MEGHandler.h>
+#include <plugin/neuroscience/neuron/MeshCircuitLoader.h>
+#include <plugin/neuroscience/neuron/MorphologyCollageLoader.h>
+#include <plugin/neuroscience/neuron/PairSynapsesLoader.h>
+#include <plugin/neuroscience/neuron/SpikeSimulationHandler.h>
+#include <plugin/neuroscience/neuron/SynapseCircuitLoader.h>
+#include <plugin/neuroscience/neuron/VoltageSimulationHandler.h>
 
-#include <science/meshing/PointCloudMesher.h>
+#include <plugin/meshing/PointCloudMesher.h>
 
 #include <platform/core/common/ActionInterface.h>
 #include <platform/core/common/Progress.h>
@@ -791,7 +791,7 @@ Response SonataExplorerPlugin::_addColumn(const AddColumn& details)
     return response;
 }
 
-extern "C" ExtensionPlugin* brayns_plugin_create(int /*argc*/, char** /*argv*/)
+extern "C" ExtensionPlugin* core_plugin_create(int /*argc*/, char** /*argv*/)
 {
     PLUGIN_INFO("");
 

@@ -1,7 +1,7 @@
 /* Copyright (c) 2019, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
- * This file is part of Brayns <https://github.com/BlueBrain/Brayns>
+ * This file is part of Core <https://github.com/BlueBrain/Core>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <platform/core/Brayns.h>
+#include <platform/core/Core.h>
 
 #include <platform/core/common/light/Light.h>
 #include <platform/core/engineapi/Camera.h>
@@ -55,17 +55,17 @@ TEST_CASE("render_scivis_quadlight")
                           "--renderer", "scivis", "--no-head-light"};
     const int argc = sizeof(argv) / sizeof(char*);
 
-    core::Brayns brayns(argc, argv);
+    core::Core core(argc, argv);
 
-    brayns.getEngine().getScene().getLightManager().addLight(
+    core.getEngine().getScene().getLightManager().addLight(
         std::make_shared<core::QuadLight>(
             lampPositions[0], (lampPositions[1] - lampPositions[0]),
             (lampPositions[3] - lampPositions[0]), YELLOW, 1.0f, true));
 
-    brayns.commitAndRender();
+    core.commitAndRender();
 
     CHECK(compareTestImage("testLightScivisQuadLight.png",
-                           brayns.getEngine().getFrameBuffer()));
+                           core.getEngine().getFrameBuffer()));
 }
 
 TEST_CASE("render_scivis_spotlight")
@@ -74,14 +74,14 @@ TEST_CASE("render_scivis_spotlight")
                           "--renderer", "scivis", "--no-head-light"};
     const int argc = sizeof(argv) / sizeof(char*);
 
-    core::Brayns brayns(argc, argv);
+    core::Core core(argc, argv);
 
-    brayns.getEngine().getScene().getLightManager().addLight(
+    core.getEngine().getScene().getLightManager().addLight(
         std::make_shared<core::SpotLight>(lampCentre,
                                             core::Vector3f(0, -1, 0), 90.f,
                                             10.f, lampWidth, BLUE, 1.0f, true));
-    brayns.commitAndRender();
+    core.commitAndRender();
 
     CHECK(compareTestImage("testLightScivisSpotLight.png",
-                           brayns.getEngine().getFrameBuffer()));
+                           core.getEngine().getFrameBuffer()));
 }
