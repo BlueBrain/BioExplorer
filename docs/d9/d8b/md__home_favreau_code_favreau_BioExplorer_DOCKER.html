@@ -89,13 +89,13 @@ $(document).ready(function(){initNavTree('d9/d8b/md__home_favreau_code_favreau_B
 <div class="textblock"><blockquote class="doxtable">
 <p>Use <a href="https://docs.docker.com">Docker</a> to run the Blue Brain BioExplorer as a service and avoid painful tooling setup. </p>
 </blockquote>
-<h1><a class="anchor" id="autotoc_md38"></a>
+<h1><a class="anchor" id="autotoc_md41"></a>
 Prerequisites</h1>
 <p>Head over to <a href="https://docs.docker.com/engine/installation/#supported-platforms">Docker</a> and install Docker for your own platform.</p>
-<h1><a class="anchor" id="autotoc_md39"></a>
+<h1><a class="anchor" id="autotoc_md42"></a>
 Setup</h1>
 <p>First build the image (<em>it's necessary to do this step if you want to run Brayns</em>): </p><div class="fragment"><div class="line">docker build . -t bioexplorer</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md40"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md43"></a>
 Usage</h1>
 <p>By default, the entrypoint when running the image is <code>braynsService</code>, but if you want to ssh into the container use: </p><div class="fragment"><div class="line"># `-p 5000:5000` is used only to provide some port bindings (host:container) if you want to run and access Brayns from your host while in the container</div>
 <div class="line">docker run -ti --rm --entrypoint bash -p 5000:5000 bioexplorer</div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/meshing/SurfaceMesher.h Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/backend/science/meshing/SurfaceMesher.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,62 +86,67 @@ $(document).ready(function(){initNavTree('d2/dd7/SurfaceMesher_8h_source.html','
 <div class="title">SurfaceMesher.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Types.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>meshing</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html">   31</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html">SurfaceMesher</a></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html">SurfaceMesher</a>(<span class="keyword">const</span> uint32_t uuid);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    ModelDescriptorPtr generateSurface(brayns::Scene&amp; scene,</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                                       <span class="keyword">const</span> std::string&amp; pdbId,</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                                       <span class="keyword">const</span> Vector4ds&amp; atoms,</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                                       <span class="keyword">const</span> <span class="keywordtype">double</span> shrinkfactor = 0.5);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    ModelDescriptorPtr generateUnionOfBalls(brayns::Scene&amp; scene,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                            <span class="keyword">const</span> std::string&amp; pdbId,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                            <span class="keyword">const</span> Vector4ds&amp; atoms);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    uint32_t _uuid;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;} <span class="comment">// namespace meshing</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<a href="../../d2/dd7/SurfaceMesher_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;science/common/Types.h&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>meshing</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html">   34</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html">SurfaceMesher</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html">SurfaceMesher</a>(<span class="keyword">const</span> uint32_t uuid);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">ModelDescriptorPtr</a> generateSurface(<a class="code" href="../../d5/d76/classcore_1_1Scene.html">core::Scene</a>&amp; scene, <span class="keyword">const</span> std::string&amp; pdbId, <span class="keyword">const</span> <a class="code" href="../../d8/d8e/namespacebioexplorer.html#a4200c06cfe8f2933097acc193e376617">Vector4ds</a>&amp; <a class="code" href="../../d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5a2bb8d809d871a7c1a392fec36563a8f7">atoms</a>,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                                       <span class="keyword">const</span> <span class="keywordtype">double</span> shrinkfactor = 0.5);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">ModelDescriptorPtr</a> generateUnionOfBalls(<a class="code" href="../../d5/d76/classcore_1_1Scene.html">core::Scene</a>&amp; scene, <span class="keyword">const</span> std::string&amp; pdbId, <span class="keyword">const</span> <a class="code" href="../../d8/d8e/namespacebioexplorer.html#a4200c06cfe8f2933097acc193e376617">Vector4ds</a>&amp; <a class="code" href="../../d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5a2bb8d809d871a7c1a392fec36563a8f7">atoms</a>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    uint32_t _uuid;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;} <span class="comment">// namespace meshing</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1meshing_1_1SurfaceMesher_html"><div class="ttname"><a href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html">bioexplorer::meshing::SurfaceMesher</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dd7/SurfaceMesher_8h_source.html#l00031">SurfaceMesher.h:31</a></div></div>
+<div class="ttc" id="aclasscore_1_1Scene_html"><div class="ttname"><a href="../../d5/d76/classcore_1_1Scene.html">core::Scene</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d2d/Scene_8h_source.html#l00047">Scene.h:47</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/platform_2plugins_2openDeck_2plugin_2common_2Logs_8h_source.html#l00028">Logs.h:28</a></div></div>
+<div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00055">BaseWindow.cpp:55</a></div></div>
+<div class="ttc" id="anamespacecore_html_a987cf8f70fb0d4935ca96689d9af77b4"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">core::ModelDescriptorPtr</a></div><div class="ttdeci">std::shared_ptr&lt; ModelDescriptor &gt; ModelDescriptorPtr</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00096">Types.h:96</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html_a4200c06cfe8f2933097acc193e376617"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html#a4200c06cfe8f2933097acc193e376617">bioexplorer::Vector4ds</a></div><div class="ttdeci">std::vector&lt; Vector4d &gt; Vector4ds</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00090">Types.h:90</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1meshing_1_1SurfaceMesher_html"><div class="ttname"><a href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html">bioexplorer::meshing::SurfaceMesher</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dd7/SurfaceMesher_8h_source.html#l00034">SurfaceMesher.h:34</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_1_1details_html_aad9e1645c632a352d331a058fa332cc5a2bb8d809d871a7c1a392fec36563a8f7"><div class="ttname"><a href="../../d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5a2bb8d809d871a7c1a392fec36563a8f7">bioexplorer::details::ProteinRepresentation::atoms</a></div><div class="ttdeci">@ atoms</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_b70eba8f50d8f7315ab2a0128c0ea16a.html">plugin</a></li><li class="navelem"><a class="el" href="../../dir_259d830460222c7d8f30faf1ab6bae85.html">meshing</a></li><li class="navelem"><b>SurfaceMesher.h</b></li>
+    <li class="navelem"><a class="el" href="../../dir_14d627cccd023aaf4f18eaf1359097e2.html">science</a></li><li class="navelem"><a class="el" href="../../dir_ce7c53f7ae7b05cd876b756753a17bbc.html">meshing</a></li><li class="navelem"><a class="el" href="../../d2/dd7/SurfaceMesher_8h.html">SurfaceMesher.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

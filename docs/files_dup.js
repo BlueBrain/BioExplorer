@@ -1,7 +1,8 @@
 var files_dup =
 [
-    [ "extras", "dir_1510bd745cd29c20d24c27171ebe5ba5.html", "dir_1510bd745cd29c20d24c27171ebe5ba5" ],
-    [ "module", "dir_2a00177d73d450c0d29f575ac84bba77.html", "dir_2a00177d73d450c0d29f575ac84bba77" ],
-    [ "plugin", "dir_b70eba8f50d8f7315ab2a0128c0ea16a.html", "dir_b70eba8f50d8f7315ab2a0128c0ea16a" ],
-    [ "tests", "dir_dd04afd5f12baec36e89f91229f2c9f6.html", "dir_dd04afd5f12baec36e89f91229f2c9f6" ]
+    [ "module", "dir_c688dfc80a4dcefb30f317756915084e.html", "dir_c688dfc80a4dcefb30f317756915084e" ],
+    [ "platform", "dir_c5a52a81292cf9a5167198f4f346d6d9.html", "dir_c5a52a81292cf9a5167198f4f346d6d9" ],
+    [ "plugins", "dir_f1f9c636edd67c457aa0bf92847eca1a.html", "dir_f1f9c636edd67c457aa0bf92847eca1a" ],
+    [ "pythonsdk", "dir_5d3b5975966398b5baf34c09cbec0461.html", "dir_5d3b5975966398b5baf34c09cbec0461" ],
+    [ "science", "dir_14d627cccd023aaf4f18eaf1359097e2.html", "dir_14d627cccd023aaf4f18eaf1359097e2" ]
 ];

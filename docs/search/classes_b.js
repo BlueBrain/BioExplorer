@@ -1,12 +1,14 @@
 var searchData=
 [
-  ['namedetails_539',['NameDetails',['../d8/d70/structbioexplorer_1_1details_1_1NameDetails.html',1,'bioexplorer::details']]],
-  ['neuroniddetails_540',['NeuronIdDetails',['../da/dc3/structbioexplorer_1_1details_1_1NeuronIdDetails.html',1,'bioexplorer::details']]],
-  ['neuronidsectioniddetails_541',['NeuronIdSectionIdDetails',['../d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails.html',1,'bioexplorer::details']]],
-  ['neuronpointsdetails_542',['NeuronPointsDetails',['../d0/d6e/structbioexplorer_1_1details_1_1NeuronPointsDetails.html',1,'bioexplorer::details']]],
-  ['neurons_543',['Neurons',['../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html',1,'bioexplorer::morphology']]],
-  ['neuronsdetails_544',['NeuronsDetails',['../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html',1,'bioexplorer::details']]],
-  ['neuronsoma_545',['NeuronSoma',['../d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html',1,'bioexplorer::morphology']]],
-  ['node_546',['Node',['../d7/d93/classbioexplorer_1_1common_1_1Node.html',1,'bioexplorer::common']]],
-  ['nucleotid_547',['Nucleotid',['../d6/d5b/structbioexplorer_1_1molecularsystems_1_1Nucleotid.html',1,'bioexplorer::molecularsystems']]]
+  ['light_3968',['Light',['../d5/daa/classcore_1_1Light.html',1,'core']]],
+  ['lightmanager_3969',['LightManager',['../d0/dc8/classcore_1_1LightManager.html',1,'core']]],
+  ['loader_3970',['Loader',['../de/d2b/classcore_1_1Loader.html',1,'core']]],
+  ['loaderinfo_3971',['LoaderInfo',['../d1/dad/structcore_1_1LoaderInfo.html',1,'core']]],
+  ['loaderprogress_3972',['LoaderProgress',['../d4/de1/classcore_1_1LoaderProgress.html',1,'core']]],
+  ['loaderregistry_3973',['LoaderRegistry',['../dc/d97/classcore_1_1LoaderRegistry.html',1,'core']]],
+  ['loadmegsettings_3974',['LoadMEGSettings',['../d6/de7/structsonataexplorer_1_1api_1_1LoadMEGSettings.html',1,'sonataexplorer::api']]],
+  ['loadmodelfunctor_3975',['LoadModelFunctor',['../d2/d4d/classcore_1_1LoadModelFunctor.html',1,'core']]],
+  ['location_3976',['Location',['../df/d9e/structbioexplorer_1_1metabolism_1_1Location.html',1,'bioexplorer::metabolism']]],
+  ['lookatdetails_3977',['LookAtDetails',['../dd/d4c/structbioexplorer_1_1details_1_1LookAtDetails.html',1,'bioexplorer::details']]],
+  ['lookatresponsedetails_3978',['LookAtResponseDetails',['../d6/d4b/structbioexplorer_1_1details_1_1LookAtResponseDetails.html',1,'bioexplorer::details']]]
 ];

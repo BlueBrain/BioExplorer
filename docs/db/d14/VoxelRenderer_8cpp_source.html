@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/module/ispc/render/VoxelRenderer.cpp Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/backend/module/ispc/renderer/VoxelRenderer.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,68 +86,79 @@ $(document).ready(function(){initNavTree('db/d14/VoxelRenderer_8cpp_source.html'
 <div class="title">VoxelRenderer.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;VoxelRenderer.h&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// ospray</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/common/Data.h&gt;</span></div>
+<a href="../../db/d14/VoxelRenderer_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d5/d86/VoxelRenderer_8h.html">VoxelRenderer.h</a>&quot;</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// ispc exports</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;VoxelRenderer_ispc.h&quot;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// ospray</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/common/Data.h&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>rendering</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using namespace </span>ospray;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span> VoxelRenderer::commit()</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    SimulationRenderer::commit();</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    _simulationThreshold = getParam1f(<span class="stringliteral">&quot;simulationThreshold&quot;</span>, 0.f);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    _adaptiveComposition = getParam(<span class="stringliteral">&quot;adaptiveComposition&quot;</span>, 0);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">// ispc exports</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;VoxelRenderer_ispc.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>rendering</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d1/d51/namespaceospray.html">ospray</a>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer.html#a8825389998fc6d41c0f552364216b0ef">   37</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer.html#a8825389998fc6d41c0f552364216b0ef">VoxelRenderer::commit</a>()</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#a6c5963dc2673946318b15761dd1c98af">SimulationRenderer::commit</a>();</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    ispc::VoxelRenderer_set(getIE(),</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                            (_bgMaterial ? _bgMaterial-&gt;getIE() : <span class="keyword">nullptr</span>), spp,</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                            (_simulationData ? (<span class="keywordtype">float</span>*)_simulationData-&gt;data</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                                             : <span class="keyword">nullptr</span>),</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                            _simulationDataSize, _adaptiveComposition,</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                            _alphaCorrection, _simulationThreshold, _exposure);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;VoxelRenderer::VoxelRenderer()</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    ispcEquivalent = ispc::VoxelRenderer_create(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;OSP_REGISTER_RENDERER(VoxelRenderer, bio_explorer_voxel);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;} <span class="comment">// namespace rendering</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    _simulationThreshold = getParam1f(<span class="stringliteral">&quot;simulationThreshold&quot;</span>, 0.f);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    ispc::VoxelRenderer_set(getIE(), (_bgMaterial ? _bgMaterial-&gt;getIE() : <span class="keyword">nullptr</span>), spp,</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                            (_simulationData ? (<span class="keywordtype">float</span>*)_simulationData-&gt;data : <span class="keyword">nullptr</span>), _simulationDataSize,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                            _alphaCorrection, _simulationThreshold, _exposure);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer.html#abbae37e6a10b56a132a8b1887cc3a065">   48</a></span>&#160;<a class="code" href="../../d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer.html#abbae37e6a10b56a132a8b1887cc3a065">VoxelRenderer::VoxelRenderer</a>()</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    ispcEquivalent = ispc::VoxelRenderer_create(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<a class="code" href="../../d7/dee/namespacebioexplorer_1_1rendering.html#ab7b46dfbbda7f23be8ff8178aa267523">OSP_REGISTER_RENDERER</a>(<a class="code" href="../../d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer.html">VoxelRenderer</a>, bio_explorer_voxel);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<a class="code" href="../../d7/dee/namespacebioexplorer_1_1rendering.html#ac12d3e251ecfbd885893bfc1bcb4ebdc">OSP_REGISTER_MATERIAL</a>(bio_explorer_voxel, <a class="code" href="../../db/dd9/structcore_1_1AdvancedMaterial.html">AdvancedMaterial</a>, <span class="keywordflow">default</span>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;} <span class="comment">// namespace rendering</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="anamespacebioexplorer_1_1rendering_html_ac12d3e251ecfbd885893bfc1bcb4ebdc"><div class="ttname"><a href="../../d7/dee/namespacebioexplorer_1_1rendering.html#ac12d3e251ecfbd885893bfc1bcb4ebdc">bioexplorer::rendering::OSP_REGISTER_MATERIAL</a></div><div class="ttdeci">OSP_REGISTER_MATERIAL(bio_explorer_golgi_style, AdvancedMaterial, default)</div></div>
+<div class="ttc" id="anamespaceospray_html"><div class="ttname"><a href="../../d1/d51/namespaceospray.html">ospray</a></div><div class="ttdef"><b>Definition:</b> <a href="../../db/da1/FishEyeCamera_8cpp_source.html#l00034">FishEyeCamera.cpp:34</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1VoxelRenderer_html_abbae37e6a10b56a132a8b1887cc3a065"><div class="ttname"><a href="../../d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer.html#abbae37e6a10b56a132a8b1887cc3a065">bioexplorer::rendering::VoxelRenderer::VoxelRenderer</a></div><div class="ttdeci">VoxelRenderer()</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d14/VoxelRenderer_8cpp_source.html#l00048">VoxelRenderer.cpp:48</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1VoxelRenderer_html_a8825389998fc6d41c0f552364216b0ef"><div class="ttname"><a href="../../d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer.html#a8825389998fc6d41c0f552364216b0ef">bioexplorer::rendering::VoxelRenderer::commit</a></div><div class="ttdeci">void commit() final</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d14/VoxelRenderer_8cpp_source.html#l00037">VoxelRenderer.cpp:37</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_1_1rendering_html_ab7b46dfbbda7f23be8ff8178aa267523"><div class="ttname"><a href="../../d7/dee/namespacebioexplorer_1_1rendering.html#ab7b46dfbbda7f23be8ff8178aa267523">bioexplorer::rendering::OSP_REGISTER_RENDERER</a></div><div class="ttdeci">OSP_REGISTER_RENDERER(GolgiStyleRenderer, bio_explorer_golgi_style)</div></div>
+<div class="ttc" id="anamespacebioexplorer_html"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/platform_2plugins_2openDeck_2plugin_2common_2Logs_8h_source.html#l00028">Logs.h:28</a></div></div>
+<div class="ttc" id="aVoxelRenderer_8h_html"><div class="ttname"><a href="../../d5/d86/VoxelRenderer_8h.html">VoxelRenderer.h</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1VoxelRenderer_html"><div class="ttname"><a href="../../d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer.html">bioexplorer::rendering::VoxelRenderer</a></div><div class="ttdoc">The VoxelRenderer class can perform fast transparency and mapping of simulation data on the geometry.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d86/VoxelRenderer_8h_source.html#l00040">VoxelRenderer.h:40</a></div></div>
+<div class="ttc" id="astructcore_1_1AdvancedMaterial_html"><div class="ttname"><a href="../../db/dd9/structcore_1_1AdvancedMaterial.html">core::AdvancedMaterial</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/de1/AdvancedMaterial_8h_source.html#l00038">AdvancedMaterial.h:38</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_a6c5963dc2673946318b15761dd1c98af"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#a6c5963dc2673946318b15761dd1c98af">core::SimulationRenderer::commit</a></div><div class="ttdeci">void commit() override</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d4b/SimulationRenderer_8cpp_source.html#l00058">SimulationRenderer.cpp:58</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_2a00177d73d450c0d29f575ac84bba77.html">module</a></li><li class="navelem"><a class="el" href="../../dir_f5e3bac8fec058024c8e91bab2c99bf2.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_29c355e9d908583ce23ce9ac4901e89e.html">render</a></li><li class="navelem"><b>VoxelRenderer.cpp</b></li>
+    <li class="navelem"><a class="el" href="../../dir_c688dfc80a4dcefb30f317756915084e.html">module</a></li><li class="navelem"><a class="el" href="../../dir_069a0991ae581133e923f6a2203994db.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_86f0b4869ee09c874d23be5e71808b13.html">renderer</a></li><li class="navelem"><a class="el" href="../../db/d14/VoxelRenderer_8cpp.html">VoxelRenderer.cpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

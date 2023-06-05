@@ -1,0 +1,25 @@
+var namespacesonataexplorer_1_1api =
+[
+    [ "AddBox", "d2/d81/structsonataexplorer_1_1api_1_1AddBox.html", "d2/d81/structsonataexplorer_1_1api_1_1AddBox" ],
+    [ "AddColumn", "d5/dca/structsonataexplorer_1_1api_1_1AddColumn.html", "d5/dca/structsonataexplorer_1_1api_1_1AddColumn" ],
+    [ "AddCylinder", "db/dcd/structsonataexplorer_1_1api_1_1AddCylinder.html", "db/dcd/structsonataexplorer_1_1api_1_1AddCylinder" ],
+    [ "AddGrid", "d7/d90/structsonataexplorer_1_1api_1_1AddGrid.html", "d7/d90/structsonataexplorer_1_1api_1_1AddGrid" ],
+    [ "AddPill", "d3/de9/structsonataexplorer_1_1api_1_1AddPill.html", "d3/de9/structsonataexplorer_1_1api_1_1AddPill" ],
+    [ "AddSphere", "d0/da1/structsonataexplorer_1_1api_1_1AddSphere.html", "d0/da1/structsonataexplorer_1_1api_1_1AddSphere" ],
+    [ "AttachCellGrowthHandler", "d5/de4/structsonataexplorer_1_1api_1_1AttachCellGrowthHandler.html", "d5/de4/structsonataexplorer_1_1api_1_1AttachCellGrowthHandler" ],
+    [ "AttachCircuitSimulationHandler", "d7/db5/structsonataexplorer_1_1api_1_1AttachCircuitSimulationHandler.html", "d7/db5/structsonataexplorer_1_1api_1_1AttachCircuitSimulationHandler" ],
+    [ "CircuitBoundingBox", "db/d5d/structsonataexplorer_1_1api_1_1CircuitBoundingBox.html", "db/d5d/structsonataexplorer_1_1api_1_1CircuitBoundingBox" ],
+    [ "ConnectionsPerValue", "d1/db0/structsonataexplorer_1_1api_1_1ConnectionsPerValue.html", "d1/db0/structsonataexplorer_1_1api_1_1ConnectionsPerValue" ],
+    [ "ExportModelToFile", "dd/df2/structsonataexplorer_1_1api_1_1ExportModelToFile.html", "dd/df2/structsonataexplorer_1_1api_1_1ExportModelToFile" ],
+    [ "ExportModelToMesh", "d6/d5f/structsonataexplorer_1_1api_1_1ExportModelToMesh.html", "d6/d5f/structsonataexplorer_1_1api_1_1ExportModelToMesh" ],
+    [ "LoadMEGSettings", "d6/de7/structsonataexplorer_1_1api_1_1LoadMEGSettings.html", "d6/de7/structsonataexplorer_1_1api_1_1LoadMEGSettings" ],
+    [ "MaterialDescriptor", "d7/dbd/structsonataexplorer_1_1api_1_1MaterialDescriptor.html", "d7/dbd/structsonataexplorer_1_1api_1_1MaterialDescriptor" ],
+    [ "MaterialExtraAttributes", "df/d43/structsonataexplorer_1_1api_1_1MaterialExtraAttributes.html", "df/d43/structsonataexplorer_1_1api_1_1MaterialExtraAttributes" ],
+    [ "MaterialIds", "d7/d1a/structsonataexplorer_1_1api_1_1MaterialIds.html", "d7/d1a/structsonataexplorer_1_1api_1_1MaterialIds" ],
+    [ "MaterialRangeDescriptor", "dc/d3c/structsonataexplorer_1_1api_1_1MaterialRangeDescriptor.html", "dc/d3c/structsonataexplorer_1_1api_1_1MaterialRangeDescriptor" ],
+    [ "MaterialsDescriptor", "d9/d26/structsonataexplorer_1_1api_1_1MaterialsDescriptor.html", "d9/d26/structsonataexplorer_1_1api_1_1MaterialsDescriptor" ],
+    [ "ModelId", "d2/d8a/structsonataexplorer_1_1api_1_1ModelId.html", "d2/d8a/structsonataexplorer_1_1api_1_1ModelId" ],
+    [ "Response", "d5/d25/structsonataexplorer_1_1api_1_1Response.html", "d5/d25/structsonataexplorer_1_1api_1_1Response" ],
+    [ "SpikeReportVisualizationSettings", "d5/df4/structsonataexplorer_1_1api_1_1SpikeReportVisualizationSettings.html", "d5/df4/structsonataexplorer_1_1api_1_1SpikeReportVisualizationSettings" ],
+    [ "SynapseAttributes", "df/d31/structsonataexplorer_1_1api_1_1SynapseAttributes.html", "df/d31/structsonataexplorer_1_1api_1_1SynapseAttributes" ]
+];

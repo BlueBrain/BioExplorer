@@ -90,23 +90,23 @@ $(document).ready(function(){initNavTree('da/d6e/classbioexplorer_1_1io_1_1OOCMa
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> classes manager the out-of-core engine of the BioExplorer. The scene is devided into bricks of a given size that are, in the current implementation, stored in a PostgreSQL database. The out-of-core engine is activated via command line parameters only. By settings the &ndash;ooc-enabled command line parameter, the out-of-core engine is enabled and, in order to avoid unnecessary network traffic, the scene contents are not broadcasted anymore to the BioExplorer clients (Python notebook or User Inferface). Note that ENV_ROCKETS_DISABLE_SCENE_BROADCASTING environment variable has to be set to order Brayns not to broadcast the scene changes. The out-of-core mode is a read-only feature and does not allow any modification of the scene. When the camera position changes, the <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> identifies the visible bricks and loads them as a background task. For performance reasons, models are loaded as invisible. This allows the ray-tracing engine to create the BVH before the model is added to the scene. Once all models are loaded, they are added to the scene. Note that the <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> only does work when the frame buffer accumulation is greater than 1, which means that the camera is not moving. If the &ndash;ooc-unload-bricks command line parameter is set, invisible bricks are unloaded from memory and removed from the scene. The &ndash;ooc-update-frequency command line parameters defines (in seconds) at which frequency models should be loaded. The &ndash;ooc-nb-bricks-per-cycle command line parameter defines how many bricks can be loaded at each rendering cycle. The connection to the database is defined by the &ndash;ooc-db-host, &ndash;ooc-db-port, &ndash;ooc-db-name,&ndash;ooc-db-user,&ndash;ooc-db-password and &ndash;ooc-db-schema parameters. If the BioExplorer fails to find the pqxx dependency to connect to the PostgreSQL database, it falls back to a file-based mode where bricks can be stored as BioExplorer cache files, in the folder defined by the &ndash;ooc-bricks-folder command line argument. The &ndash;ooc-show-grid command line parameter can be used to show a grid corresponding the positions of the bricks in the scene.  
+<p>The <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> classes manager the out-of-core engine of the BioExplorer. The scene is devided into bricks of a given size that are, in the current implementation, stored in a PostgreSQL database. The out-of-core engine is activated via command line parameters only. By settings the &ndash;ooc-enabled command line parameter, the out-of-core engine is enabled and, in order to avoid unnecessary network traffic, the scene contents are not broadcasted anymore to the BioExplorer clients (Python notebook or User Inferface). Note that ENV_ROCKETS_DISABLE_SCENE_BROADCASTING environment variable has to be set to order Core not to broadcast the scene changes. The out-of-core mode is a read-only feature and does not allow any modification of the scene. When the camera position changes, the <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> identifies the visible bricks and loads them as a background task. For performance reasons, models are loaded as invisible. This allows the ray-tracing engine to create the BVH before the model is added to the scene. Once all models are loaded, they are added to the scene. Note that the <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> only does work when the frame buffer accumulation is greater than 1, which means that the camera is not moving. If the &ndash;ooc-unload-bricks command line parameter is set, invisible bricks are unloaded from memory and removed from the scene. The &ndash;ooc-update-frequency command line parameters defines (in seconds) at which frequency models should be loaded. The &ndash;ooc-nb-bricks-per-cycle command line parameter defines how many bricks can be loaded at each rendering cycle. The connection to the database is defined by the &ndash;ooc-db-host, &ndash;ooc-db-port, &ndash;ooc-db-name,&ndash;ooc-db-user,&ndash;ooc-db-password and &ndash;ooc-db-schema parameters. If the BioExplorer fails to find the pqxx dependency to connect to the PostgreSQL database, it falls back to a file-based mode where bricks can be stored as BioExplorer cache files, in the folder defined by the &ndash;ooc-bricks-folder command line argument. The &ndash;ooc-show-grid command line parameter can be used to show a grid corresponding the positions of the bricks in the scene.  
  <a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1d53ee9e3121dcf75fe8841d6b5e6a7e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a1d53ee9e3121dcf75fe8841d6b5e6a7e">OOCManager</a> (Scene &amp;scene, const Camera &amp;camera, const CommandLineArguments &amp;arguments)</td></tr>
+<tr class="memitem:a1d53ee9e3121dcf75fe8841d6b5e6a7e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a1d53ee9e3121dcf75fe8841d6b5e6a7e">OOCManager</a> (<a class="el" href="../../d5/d76/classcore_1_1Scene.html">Scene</a> &amp;scene, const <a class="el" href="../../d6/da7/classcore_1_1Camera.html">Camera</a> &amp;camera, const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a0ee54787b38bf9fae7509d74851d9284">CommandLineArguments</a> &amp;arguments)</td></tr>
 <tr class="memdesc:a1d53ee9e3121dcf75fe8841d6b5e6a7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> object.  <a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a1d53ee9e3121dcf75fe8841d6b5e6a7e">More...</a><br /></td></tr>
 <tr class="separator:a1d53ee9e3121dcf75fe8841d6b5e6a7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a145bda1edb34a4aa59e2df05eb5fc2e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a145bda1edb34a4aa59e2df05eb5fc2e6">~OOCManager</a> ()</td></tr>
 <tr class="memdesc:a145bda1edb34a4aa59e2df05eb5fc2e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> object.  <a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a145bda1edb34a4aa59e2df05eb5fc2e6">More...</a><br /></td></tr>
 <tr class="separator:a145bda1edb34a4aa59e2df05eb5fc2e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3efa8762f2f5f6e4ef0664e273d052d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a3efa8762f2f5f6e4ef0664e273d052d9">setFrameBuffer</a> (FrameBuffer *frameBuffer)</td></tr>
+<tr class="memitem:a3efa8762f2f5f6e4ef0664e273d052d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a3efa8762f2f5f6e4ef0664e273d052d9">setFrameBuffer</a> (<a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html">FrameBuffer</a> *frameBuffer)</td></tr>
 <tr class="memdesc:a3efa8762f2f5f6e4ef0664e273d052d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Frame Buffer object.  <a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a3efa8762f2f5f6e4ef0664e273d052d9">More...</a><br /></td></tr>
 <tr class="separator:a3efa8762f2f5f6e4ef0664e273d052d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9d17f6903bc3c8d99ebc8c99752f7c0"><td class="memItemLeft" align="right" valign="top">const FrameBuffer *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab9d17f6903bc3c8d99ebc8c99752f7c0">getFrameBuffer</a> () const</td></tr>
+<tr class="memitem:ab9d17f6903bc3c8d99ebc8c99752f7c0"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html">FrameBuffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab9d17f6903bc3c8d99ebc8c99752f7c0">getFrameBuffer</a> () const</td></tr>
 <tr class="memdesc:ab9d17f6903bc3c8d99ebc8c99752f7c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the frame buffer.  <a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab9d17f6903bc3c8d99ebc8c99752f7c0">More...</a><br /></td></tr>
 <tr class="separator:ab9d17f6903bc3c8d99ebc8c99752f7c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa16c8142c73fa6ce0e61d845749478cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aa16c8142c73fa6ce0e61d845749478cc">loadBricks</a> ()</td></tr>
@@ -128,9 +128,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abe0894d235d38ed6b7cb2790c14d1e32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> classes manager the out-of-core engine of the BioExplorer. The scene is devided into bricks of a given size that are, in the current implementation, stored in a PostgreSQL database. The out-of-core engine is activated via command line parameters only. By settings the &ndash;ooc-enabled command line parameter, the out-of-core engine is enabled and, in order to avoid unnecessary network traffic, the scene contents are not broadcasted anymore to the BioExplorer clients (Python notebook or User Inferface). Note that ENV_ROCKETS_DISABLE_SCENE_BROADCASTING environment variable has to be set to order Brayns not to broadcast the scene changes. The out-of-core mode is a read-only feature and does not allow any modification of the scene. When the camera position changes, the <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> identifies the visible bricks and loads them as a background task. For performance reasons, models are loaded as invisible. This allows the ray-tracing engine to create the BVH before the model is added to the scene. Once all models are loaded, they are added to the scene. Note that the <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> only does work when the frame buffer accumulation is greater than 1, which means that the camera is not moving. If the &ndash;ooc-unload-bricks command line parameter is set, invisible bricks are unloaded from memory and removed from the scene. The &ndash;ooc-update-frequency command line parameters defines (in seconds) at which frequency models should be loaded. The &ndash;ooc-nb-bricks-per-cycle command line parameter defines how many bricks can be loaded at each rendering cycle. The connection to the database is defined by the &ndash;ooc-db-host, &ndash;ooc-db-port, &ndash;ooc-db-name,&ndash;ooc-db-user,&ndash;ooc-db-password and &ndash;ooc-db-schema parameters. If the BioExplorer fails to find the pqxx dependency to connect to the PostgreSQL database, it falls back to a file-based mode where bricks can be stored as BioExplorer cache files, in the folder defined by the &ndash;ooc-bricks-folder command line argument. The &ndash;ooc-show-grid command line parameter can be used to show a grid corresponding the positions of the bricks in the scene. </p>
+<div class="textblock"><p>The <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> classes manager the out-of-core engine of the BioExplorer. The scene is devided into bricks of a given size that are, in the current implementation, stored in a PostgreSQL database. The out-of-core engine is activated via command line parameters only. By settings the &ndash;ooc-enabled command line parameter, the out-of-core engine is enabled and, in order to avoid unnecessary network traffic, the scene contents are not broadcasted anymore to the BioExplorer clients (Python notebook or User Inferface). Note that ENV_ROCKETS_DISABLE_SCENE_BROADCASTING environment variable has to be set to order Core not to broadcast the scene changes. The out-of-core mode is a read-only feature and does not allow any modification of the scene. When the camera position changes, the <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> identifies the visible bricks and loads them as a background task. For performance reasons, models are loaded as invisible. This allows the ray-tracing engine to create the BVH before the model is added to the scene. Once all models are loaded, they are added to the scene. Note that the <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> only does work when the frame buffer accumulation is greater than 1, which means that the camera is not moving. If the &ndash;ooc-unload-bricks command line parameter is set, invisible bricks are unloaded from memory and removed from the scene. The &ndash;ooc-update-frequency command line parameters defines (in seconds) at which frequency models should be loaded. The &ndash;ooc-nb-bricks-per-cycle command line parameter defines how many bricks can be loaded at each rendering cycle. The connection to the database is defined by the &ndash;ooc-db-host, &ndash;ooc-db-port, &ndash;ooc-db-name,&ndash;ooc-db-user,&ndash;ooc-db-password and &ndash;ooc-db-schema parameters. If the BioExplorer fails to find the pqxx dependency to connect to the PostgreSQL database, it falls back to a file-based mode where bricks can be stored as BioExplorer cache files, in the folder defined by the &ndash;ooc-bricks-folder command line argument. The &ndash;ooc-show-grid command line parameter can be used to show a grid corresponding the positions of the bricks in the scene. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00065">65</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00068">68</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1d53ee9e3121dcf75fe8841d6b5e6a7e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1d53ee9e3121dcf75fe8841d6b5e6a7e">&#9670;&nbsp;</a></span>OOCManager()</h2>
@@ -141,19 +141,19 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">bioexplorer::io::OOCManager::OOCManager </td>
           <td>(</td>
-          <td class="paramtype">Scene &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d5/d76/classcore_1_1Scene.html">Scene</a> &amp;&#160;</td>
           <td class="paramname"><em>scene</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Camera &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d6/da7/classcore_1_1Camera.html">Camera</a> &amp;&#160;</td>
           <td class="paramname"><em>camera</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const CommandLineArguments &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a0ee54787b38bf9fae7509d74851d9284">CommandLineArguments</a> &amp;&#160;</td>
           <td class="paramname"><em>arguments</em>&#160;</td>
         </tr>
         <tr>
@@ -174,7 +174,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d91/OOCManager_8cpp_source.html#l00061">61</a> of file <a class="el" href="../../de/d91/OOCManager_8cpp_source.html">OOCManager.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d91/OOCManager_8cpp_source.html#l00064">64</a> of file <a class="el" href="../../de/d91/OOCManager_8cpp_source.html">OOCManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -203,7 +203,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Destroy the <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> object. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00084">84</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00086">86</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -232,7 +232,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Get average loading time (in milliseconds) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00145">145</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00141">141</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -246,7 +246,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const FrameBuffer* bioexplorer::io::OOCManager::getFrameBuffer </td>
+          <td class="memname">const <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html">FrameBuffer</a>* bioexplorer::io::OOCManager::getFrameBuffer </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -262,7 +262,7 @@ Public Member Functions</h2></td></tr>
 <p>Get the frame buffer. </p>
 <dl class="section return"><dt>Returns</dt><dd>const FrameBuffer* A pointer to the frame buffer </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00101">101</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00100">100</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -290,7 +290,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Get current loading progress </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00140">140</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00136">136</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -320,7 +320,7 @@ Public Member Functions</h2></td></tr>
 <p>Get the Scene Configuration object. </p>
 <dl class="section return"><dt>Returns</dt><dd>const std::string&amp; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00115">115</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00114">114</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -350,7 +350,7 @@ Public Member Functions</h2></td></tr>
 <p>Get the Show Grid value, read from the command line parameters. </p>
 <dl class="section return"><dt>Returns</dt><dd>true a grid should be shown, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00125">125</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00121">121</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -378,7 +378,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Get the update frequency (in seconds) of the bricks in the scene </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00135">135</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00131">131</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -406,7 +406,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Get the number of visible bricks surrounding the camera position </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00130">130</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00126">126</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -427,7 +427,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Starts a thread that takes care of loading the bricks according to the current camera position. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d91/OOCManager_8cpp_source.html#l00084">84</a> of file <a class="el" href="../../de/d91/OOCManager_8cpp_source.html">OOCManager.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d91/OOCManager_8cpp_source.html#l00086">86</a> of file <a class="el" href="../../de/d91/OOCManager_8cpp_source.html">OOCManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -443,7 +443,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void bioexplorer::io::OOCManager::setFrameBuffer </td>
           <td>(</td>
-          <td class="paramtype">FrameBuffer *&#160;</td>
+          <td class="paramtype"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html">FrameBuffer</a> *&#160;</td>
           <td class="paramname"><em>frameBuffer</em></td><td>)</td>
           <td></td>
         </tr>
@@ -458,25 +458,25 @@ Public Member Functions</h2></td></tr>
 <p>Set the Frame Buffer object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">frameBuffer</td><td>A reference to the Brayns frame buffer </td></tr>
+    <tr><td class="paramname">frameBuffer</td><td>A reference to the Core frame buffer </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00091">91</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00093">93</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/io/<a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a></li>
-<li>/home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/io/<a class="el" href="../../de/d91/OOCManager_8cpp_source.html">OOCManager.cpp</a></li>
+<li>/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/science/io/<a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a></li>
+<li>/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/science/io/<a class="el" href="../../de/d91/OOCManager_8cpp_source.html">OOCManager.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>bioexplorer</b></li><li class="navelem"><b>io</b></li><li class="navelem"><a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html">OOCManager</a></li>
+    <li class="navelem"><a class="el" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></li><li class="navelem"><a class="el" href="../../d1/d74/namespacebioexplorer_1_1io.html">io</a></li><li class="navelem"><a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html">OOCManager</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

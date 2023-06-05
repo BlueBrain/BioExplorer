@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/io/OOCManager.h Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/backend/science/io/OOCManager.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,109 +86,111 @@ $(document).ready(function(){initNavTree('d2/ddf/OOCManager_8h_source.html','../
 <div class="title">OOCManager.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Types.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>io</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using namespace </span>details;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html">   65</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html">OOCManager</a></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;{</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html">OOCManager</a>(Scene&amp; scene, <span class="keyword">const</span> Camera&amp; camera,</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;               <span class="keyword">const</span> CommandLineArguments&amp; arguments);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a145bda1edb34a4aa59e2df05eb5fc2e6">   84</a></span>&#160;    <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a145bda1edb34a4aa59e2df05eb5fc2e6">~OOCManager</a>() {}</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a3efa8762f2f5f6e4ef0664e273d052d9">   91</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a3efa8762f2f5f6e4ef0664e273d052d9">setFrameBuffer</a>(FrameBuffer* frameBuffer)</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        _frameBuffer = frameBuffer;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    }</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab9d17f6903bc3c8d99ebc8c99752f7c0">  101</a></span>&#160;    <span class="keyword">const</span> FrameBuffer* <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab9d17f6903bc3c8d99ebc8c99752f7c0">getFrameBuffer</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _frameBuffer; }</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">void</span> loadBricks();</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab538fab4651ce13fc496d723e965c55a">  115</a></span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html">OOCSceneConfigurationDetails</a>&amp; <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab538fab4651ce13fc496d723e965c55a">getSceneConfiguration</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">return</span> _sceneConfiguration;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    }</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aede557e0137e5d934ffcae9611267322">  125</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aede557e0137e5d934ffcae9611267322">getShowGrid</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _showGrid; }</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
-<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a99b8cc7b99d6ca3decf6ff87c7a672fb">  130</a></span>&#160;    int32_t <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a99b8cc7b99d6ca3decf6ff87c7a672fb">getVisibleBricks</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _nbVisibleBricks; }</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aac1071f6542a251d45f844de2644dd49">  135</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aac1071f6542a251d45f844de2644dd49">getUpdateFrequency</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _updateFrequency; }</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#af419911b23345e83ecb24a35ae571776">  140</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#af419911b23345e83ecb24a35ae571776">getProgress</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _progress; }</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
-<div class="line"><a name="l00145"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#abe0894d235d38ed6b7cb2790c14d1e32">  145</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#abe0894d235d38ed6b7cb2790c14d1e32">getAverageLoadingTime</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _averageLoadingTime; }</div>
+<a href="../../d2/ddf/OOCManager_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;science/common/Types.h&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>io</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">using namespace </span>details;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html">   68</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html">OOCManager</a></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;{</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html">OOCManager</a>(<a class="code" href="../../d5/d76/classcore_1_1Scene.html">Scene</a>&amp; scene, <span class="keyword">const</span> <a class="code" href="../../d6/da7/classcore_1_1Camera.html">Camera</a>&amp; camera, <span class="keyword">const</span> <a class="code" href="../../d8/d8e/namespacebioexplorer.html#a0ee54787b38bf9fae7509d74851d9284">CommandLineArguments</a>&amp; arguments);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a145bda1edb34a4aa59e2df05eb5fc2e6">   86</a></span>&#160;    <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a145bda1edb34a4aa59e2df05eb5fc2e6">~OOCManager</a>() {}</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a3efa8762f2f5f6e4ef0664e273d052d9">   93</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a3efa8762f2f5f6e4ef0664e273d052d9">setFrameBuffer</a>(<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html">FrameBuffer</a>* frameBuffer) { _frameBuffer = frameBuffer; }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab9d17f6903bc3c8d99ebc8c99752f7c0">  100</a></span>&#160;    <span class="keyword">const</span> <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html">FrameBuffer</a>* <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab9d17f6903bc3c8d99ebc8c99752f7c0">getFrameBuffer</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _frameBuffer; }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordtype">void</span> loadBricks();</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab538fab4651ce13fc496d723e965c55a">  114</a></span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html">OOCSceneConfigurationDetails</a>&amp; <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab538fab4651ce13fc496d723e965c55a">getSceneConfiguration</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _sceneConfiguration; }</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aede557e0137e5d934ffcae9611267322">  121</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aede557e0137e5d934ffcae9611267322">getShowGrid</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _showGrid; }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a99b8cc7b99d6ca3decf6ff87c7a672fb">  126</a></span>&#160;    int32_t <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a99b8cc7b99d6ca3decf6ff87c7a672fb">getVisibleBricks</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _nbVisibleBricks; }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00131"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aac1071f6542a251d45f844de2644dd49">  131</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aac1071f6542a251d45f844de2644dd49">getUpdateFrequency</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _updateFrequency; }</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
+<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#af419911b23345e83ecb24a35ae571776">  136</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#af419911b23345e83ecb24a35ae571776">getProgress</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _progress; }</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno"><a class="line" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#abe0894d235d38ed6b7cb2790c14d1e32">  141</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#abe0894d235d38ed6b7cb2790c14d1e32">getAverageLoadingTime</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _averageLoadingTime; }</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordtype">void</span> _parseArguments(<span class="keyword">const</span> <a class="code" href="../../d8/d8e/namespacebioexplorer.html#a0ee54787b38bf9fae7509d74851d9284">CommandLineArguments</a>&amp; arguments);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordtype">void</span> _loadBricks();</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordtype">void</span> _parseArguments(<span class="keyword">const</span> CommandLineArguments&amp; arguments);</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">void</span> _loadBricks();</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <a class="code" href="../../d5/d76/classcore_1_1Scene.html">Scene</a>&amp; _scene;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d6/da7/classcore_1_1Camera.html">Camera</a>&amp; _camera;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html">FrameBuffer</a>* _frameBuffer{<span class="keyword">nullptr</span>};</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    Scene&amp; _scene;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keyword">const</span> Camera&amp; _camera;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    FrameBuffer* _frameBuffer{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <a class="code" href="../../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html">OOCSceneConfigurationDetails</a> _sceneConfiguration;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordtype">double</span> _updateFrequency{1.f};</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    int32_t _nbVisibleBricks{0};</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordtype">bool</span> _unloadBricks{<span class="keyword">false</span>};</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordtype">bool</span> _showGrid{<span class="keyword">false</span>};</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    uint32_t _nbBricksPerCycle{5};</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordtype">double</span> _progress{0.f};</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordtype">double</span> _averageLoadingTime{0.f};</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="comment">// IO</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    std::string _dbConnectionString;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    std::string _dbSchema;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;};</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;} <span class="comment">// namespace io</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <a class="code" href="../../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html">OOCSceneConfigurationDetails</a> _sceneConfiguration;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordtype">double</span> _updateFrequency{1.f};</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    int32_t _nbVisibleBricks{0};</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordtype">bool</span> _unloadBricks{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordtype">bool</span> _showGrid{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    uint32_t _nbBricksPerCycle{5};</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordtype">double</span> _progress{0.f};</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordtype">double</span> _averageLoadingTime{0.f};</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="comment">// IO</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    std::string _dbConnectionString;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    std::string _dbSchema;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;};</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;} <span class="comment">// namespace io</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_aede557e0137e5d934ffcae9611267322"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aede557e0137e5d934ffcae9611267322">bioexplorer::io::OOCManager::getShowGrid</a></div><div class="ttdeci">bool getShowGrid() const</div><div class="ttdoc">Get the Show Grid value, read from the command line parameters.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00125">OOCManager.h:125</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_ab9d17f6903bc3c8d99ebc8c99752f7c0"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab9d17f6903bc3c8d99ebc8c99752f7c0">bioexplorer::io::OOCManager::getFrameBuffer</a></div><div class="ttdeci">const FrameBuffer * getFrameBuffer() const</div><div class="ttdoc">Get the frame buffer.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00101">OOCManager.h:101</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_ab538fab4651ce13fc496d723e965c55a"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab538fab4651ce13fc496d723e965c55a">bioexplorer::io::OOCManager::getSceneConfiguration</a></div><div class="ttdeci">const OOCSceneConfigurationDetails &amp; getSceneConfiguration() const</div><div class="ttdoc">Get the Scene Configuration object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00115">OOCManager.h:115</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_html"><div class="ttname"><a href="../../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html">bioexplorer::details::OOCSceneConfigurationDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00868">Types.h:868</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_aac1071f6542a251d45f844de2644dd49"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aac1071f6542a251d45f844de2644dd49">bioexplorer::io::OOCManager::getUpdateFrequency</a></div><div class="ttdeci">double getUpdateFrequency() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00135">OOCManager.h:135</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_a145bda1edb34a4aa59e2df05eb5fc2e6"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a145bda1edb34a4aa59e2df05eb5fc2e6">bioexplorer::io::OOCManager::~OOCManager</a></div><div class="ttdeci">~OOCManager()</div><div class="ttdoc">Destroy the OOCManager object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00084">OOCManager.h:84</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_abe0894d235d38ed6b7cb2790c14d1e32"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#abe0894d235d38ed6b7cb2790c14d1e32">bioexplorer::io::OOCManager::getAverageLoadingTime</a></div><div class="ttdeci">double getAverageLoadingTime() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00145">OOCManager.h:145</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_af419911b23345e83ecb24a35ae571776"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#af419911b23345e83ecb24a35ae571776">bioexplorer::io::OOCManager::getProgress</a></div><div class="ttdeci">double getProgress() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00140">OOCManager.h:140</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_a99b8cc7b99d6ca3decf6ff87c7a672fb"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a99b8cc7b99d6ca3decf6ff87c7a672fb">bioexplorer::io::OOCManager::getVisibleBricks</a></div><div class="ttdeci">int32_t getVisibleBricks() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00130">OOCManager.h:130</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html">bioexplorer::io::OOCManager</a></div><div class="ttdoc">The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00065">OOCManager.h:65</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_a3efa8762f2f5f6e4ef0664e273d052d9"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a3efa8762f2f5f6e4ef0664e273d052d9">bioexplorer::io::OOCManager::setFrameBuffer</a></div><div class="ttdeci">void setFrameBuffer(FrameBuffer *frameBuffer)</div><div class="ttdoc">Set the Frame Buffer object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00091">OOCManager.h:91</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_aede557e0137e5d934ffcae9611267322"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aede557e0137e5d934ffcae9611267322">bioexplorer::io::OOCManager::getShowGrid</a></div><div class="ttdeci">bool getShowGrid() const</div><div class="ttdoc">Get the Show Grid value, read from the command line parameters.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00121">OOCManager.h:121</a></div></div>
+<div class="ttc" id="aclasscore_1_1Scene_html"><div class="ttname"><a href="../../d5/d76/classcore_1_1Scene.html">core::Scene</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d2d/Scene_8h_source.html#l00047">Scene.h:47</a></div></div>
+<div class="ttc" id="aclasscore_1_1FrameBuffer_html"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html">core::FrameBuffer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00034">FrameBuffer.h:34</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html_a0ee54787b38bf9fae7509d74851d9284"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html#a0ee54787b38bf9fae7509d74851d9284">bioexplorer::CommandLineArguments</a></div><div class="ttdeci">std::map&lt; std::string, std::string &gt; CommandLineArguments</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00098">Types.h:98</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_ab9d17f6903bc3c8d99ebc8c99752f7c0"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab9d17f6903bc3c8d99ebc8c99752f7c0">bioexplorer::io::OOCManager::getFrameBuffer</a></div><div class="ttdeci">const FrameBuffer * getFrameBuffer() const</div><div class="ttdoc">Get the frame buffer.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00100">OOCManager.h:100</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_ab538fab4651ce13fc496d723e965c55a"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#ab538fab4651ce13fc496d723e965c55a">bioexplorer::io::OOCManager::getSceneConfiguration</a></div><div class="ttdeci">const OOCSceneConfigurationDetails &amp; getSceneConfiguration() const</div><div class="ttdoc">Get the Scene Configuration object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00114">OOCManager.h:114</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1OOCSceneConfigurationDetails_html"><div class="ttname"><a href="../../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html">bioexplorer::details::OOCSceneConfigurationDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00869">Types.h:869</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/platform_2plugins_2openDeck_2plugin_2common_2Logs_8h_source.html#l00028">Logs.h:28</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_aac1071f6542a251d45f844de2644dd49"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#aac1071f6542a251d45f844de2644dd49">bioexplorer::io::OOCManager::getUpdateFrequency</a></div><div class="ttdeci">double getUpdateFrequency() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00131">OOCManager.h:131</a></div></div>
+<div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00055">BaseWindow.cpp:55</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_a145bda1edb34a4aa59e2df05eb5fc2e6"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a145bda1edb34a4aa59e2df05eb5fc2e6">bioexplorer::io::OOCManager::~OOCManager</a></div><div class="ttdeci">~OOCManager()</div><div class="ttdoc">Destroy the OOCManager object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00086">OOCManager.h:86</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_abe0894d235d38ed6b7cb2790c14d1e32"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#abe0894d235d38ed6b7cb2790c14d1e32">bioexplorer::io::OOCManager::getAverageLoadingTime</a></div><div class="ttdeci">double getAverageLoadingTime() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00141">OOCManager.h:141</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_af419911b23345e83ecb24a35ae571776"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#af419911b23345e83ecb24a35ae571776">bioexplorer::io::OOCManager::getProgress</a></div><div class="ttdeci">double getProgress() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00136">OOCManager.h:136</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_a99b8cc7b99d6ca3decf6ff87c7a672fb"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a99b8cc7b99d6ca3decf6ff87c7a672fb">bioexplorer::io::OOCManager::getVisibleBricks</a></div><div class="ttdeci">int32_t getVisibleBricks() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00126">OOCManager.h:126</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html">bioexplorer::io::OOCManager</a></div><div class="ttdoc">The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00068">OOCManager.h:68</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1OOCManager_html_a3efa8762f2f5f6e4ef0664e273d052d9"><div class="ttname"><a href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a3efa8762f2f5f6e4ef0664e273d052d9">bioexplorer::io::OOCManager::setFrameBuffer</a></div><div class="ttdeci">void setFrameBuffer(FrameBuffer *frameBuffer)</div><div class="ttdoc">Set the Frame Buffer object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddf/OOCManager_8h_source.html#l00093">OOCManager.h:93</a></div></div>
+<div class="ttc" id="aclasscore_1_1Camera_html"><div class="ttname"><a href="../../d6/da7/classcore_1_1Camera.html">core::Camera</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de4/Camera_8h_source.html#l00039">Camera.h:39</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_b70eba8f50d8f7315ab2a0128c0ea16a.html">plugin</a></li><li class="navelem"><a class="el" href="../../dir_8e2a6a60b57744da18ff6c6d9e7b1032.html">io</a></li><li class="navelem"><b>OOCManager.h</b></li>
+    <li class="navelem"><a class="el" href="../../dir_14d627cccd023aaf4f18eaf1359097e2.html">science</a></li><li class="navelem"><a class="el" href="../../dir_250f267abadc546ecc00bd4d0ef83277.html">io</a></li><li class="navelem"><a class="el" href="../../d2/ddf/OOCManager_8h.html">OOCManager.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

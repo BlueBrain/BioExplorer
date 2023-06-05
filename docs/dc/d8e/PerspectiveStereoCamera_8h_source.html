@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.h Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/platform/engines/ospray/ispc/camera/PerspectiveStereoCamera.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,74 +86,84 @@ $(document).ready(function(){initNavTree('dc/d8e/PerspectiveStereoCamera_8h_sour
 <div class="title">PerspectiveStereoCamera.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;camera/Camera.h&quot;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;plugin/common/CommonTypes.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>rendering</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using namespace </span>ospray;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html">   33</a></span>&#160;<span class="keyword">struct </span>OSPRAY_SDK_INTERFACE <a class="code" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html">PerspectiveStereoCamera</a> : <span class="keyword">public</span> Camera</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html">PerspectiveStereoCamera</a>();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html#a841e2d57a050b3bfe3a83af7fb374e11">   46</a></span>&#160;    <span class="keyword">virtual</span> std::string <a class="code" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html#a841e2d57a050b3bfe3a83af7fb374e11">toString</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;bioexplorer::PerspectiveStereoCamera&quot;</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> commit();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">double</span> fovy;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">double</span> aspect;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">double</span> apertureRadius;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">double</span> focusDistance;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">bool</span> architectural;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">// Clip planes</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">bool</span> enableClippingPlanes{<span class="keyword">false</span>};</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    Ref&lt;Data&gt; clipPlanes;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">// Stereo</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    CameraStereoMode stereoMode;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">double</span> interpupillaryDistance;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;};</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;} <span class="comment">// namespace rendering</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<a href="../../dc/d8e/PerspectiveStereoCamera_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;camera/Camera.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html">platform/core/common/CommonTypes.h</a>&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d1/d51/namespaceospray.html">ospray</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html">   34</a></span>&#160;<span class="keyword">struct </span>OSPRAY_SDK_INTERFACE <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html">PerspectiveStereoCamera</a> : <span class="keyword">public</span> <a class="code" href="../../d6/da7/classcore_1_1Camera.html">Camera</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html">PerspectiveStereoCamera</a>();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8f26f2031f4e3a1d0f389fec16c27162">   47</a></span>&#160;    <span class="keyword">virtual</span> std::string <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8f26f2031f4e3a1d0f389fec16c27162">toString</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;Perspective&quot;</span>; }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> commit();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8f5efe3a263f21362250388d6d429ad8">   56</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8f5efe3a263f21362250388d6d429ad8">fovy</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aa173f036447c9507cc60eb74835736bd">   57</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aa173f036447c9507cc60eb74835736bd">aspect</a>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a0fd3ec0d6fb3138f81c09f2bdddf75a2">   58</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a0fd3ec0d6fb3138f81c09f2bdddf75a2">apertureRadius</a>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8199e53857b4364de5e563e8be9377ea">   59</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8199e53857b4364de5e563e8be9377ea">focusDistance</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aeb8a7b3134a63c6956b22ecf6ea684d0">   60</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aeb8a7b3134a63c6956b22ecf6ea684d0">architectural</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">// Clip planes</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a64be8f94f9eb837580ae5fcac27703b4">   63</a></span>&#160;    <span class="keywordtype">bool</span> enableClippingPlanes{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ac14f7e64fb47d049745eb3313768c5b8">   64</a></span>&#160;    Ref&lt;Data&gt; <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ac14f7e64fb47d049745eb3313768c5b8">clipPlanes</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">// Stereo</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#adb006a7f908fa53496c0455e22228002">   67</a></span>&#160;    <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86">CameraStereoMode</a> <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#adb006a7f908fa53496c0455e22228002">stereoMode</a>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ab0985631b46313d7bb8d9411e45649c3">   68</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ab0985631b46313d7bb8d9411e45649c3">interpupillaryDistance</a>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;};</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;} <span class="comment">// namespace core</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_html"><div class="ttname"><a href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html">bioexplorer::rendering::PerspectiveStereoCamera</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00033">PerspectiveStereoCamera.h:33</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_html_a841e2d57a050b3bfe3a83af7fb374e11"><div class="ttname"><a href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html#a841e2d57a050b3bfe3a83af7fb374e11">bioexplorer::rendering::PerspectiveStereoCamera::toString</a></div><div class="ttdeci">virtual std::string toString() const</div><div class="ttdoc">Returns the name of the camera.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00046">PerspectiveStereoCamera.h:46</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_adb006a7f908fa53496c0455e22228002"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#adb006a7f908fa53496c0455e22228002">core::PerspectiveStereoCamera::stereoMode</a></div><div class="ttdeci">CameraStereoMode stereoMode</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00067">PerspectiveStereoCamera.h:67</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_a8f26f2031f4e3a1d0f389fec16c27162"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8f26f2031f4e3a1d0f389fec16c27162">core::PerspectiveStereoCamera::toString</a></div><div class="ttdeci">virtual std::string toString() const</div><div class="ttdoc">Returns the name of the camera.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00047">PerspectiveStereoCamera.h:47</a></div></div>
+<div class="ttc" id="aplatform_2core_2common_2CommonTypes_8h_html"><div class="ttname"><a href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html">CommonTypes.h</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html">core::PerspectiveStereoCamera</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00034">PerspectiveStereoCamera.h:34</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_a8f5efe3a263f21362250388d6d429ad8"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8f5efe3a263f21362250388d6d429ad8">core::PerspectiveStereoCamera::fovy</a></div><div class="ttdeci">double fovy</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00056">PerspectiveStereoCamera.h:56</a></div></div>
+<div class="ttc" id="anamespaceospray_html"><div class="ttname"><a href="../../d1/d51/namespaceospray.html">ospray</a></div><div class="ttdef"><b>Definition:</b> <a href="../../db/da1/FishEyeCamera_8cpp_source.html#l00034">FishEyeCamera.cpp:34</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_a8199e53857b4364de5e563e8be9377ea"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8199e53857b4364de5e563e8be9377ea">core::PerspectiveStereoCamera::focusDistance</a></div><div class="ttdeci">double focusDistance</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00059">PerspectiveStereoCamera.h:59</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_ab0985631b46313d7bb8d9411e45649c3"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ab0985631b46313d7bb8d9411e45649c3">core::PerspectiveStereoCamera::interpupillaryDistance</a></div><div class="ttdeci">double interpupillaryDistance</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00068">PerspectiveStereoCamera.h:68</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_ac14f7e64fb47d049745eb3313768c5b8"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ac14f7e64fb47d049745eb3313768c5b8">core::PerspectiveStereoCamera::clipPlanes</a></div><div class="ttdeci">Ref&lt; Data &gt; clipPlanes</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00064">PerspectiveStereoCamera.h:64</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_aeb8a7b3134a63c6956b22ecf6ea684d0"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aeb8a7b3134a63c6956b22ecf6ea684d0">core::PerspectiveStereoCamera::architectural</a></div><div class="ttdeci">bool architectural</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00060">PerspectiveStereoCamera.h:60</a></div></div>
+<div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00055">BaseWindow.cpp:55</a></div></div>
+<div class="ttc" id="aplatform_2core_2common_2CommonTypes_8h_html_ab7b7378c2c192d77fc2b7097708c6e86"><div class="ttname"><a href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86">CameraStereoMode</a></div><div class="ttdeci">CameraStereoMode</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h_source.html#l00056">CommonTypes.h:56</a></div></div>
+<div class="ttc" id="aclasscore_1_1Camera_html"><div class="ttname"><a href="../../d6/da7/classcore_1_1Camera.html">core::Camera</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de4/Camera_8h_source.html#l00039">Camera.h:39</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_aa173f036447c9507cc60eb74835736bd"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aa173f036447c9507cc60eb74835736bd">core::PerspectiveStereoCamera::aspect</a></div><div class="ttdeci">double aspect</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00057">PerspectiveStereoCamera.h:57</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_a0fd3ec0d6fb3138f81c09f2bdddf75a2"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a0fd3ec0d6fb3138f81c09f2bdddf75a2">core::PerspectiveStereoCamera::apertureRadius</a></div><div class="ttdeci">double apertureRadius</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00058">PerspectiveStereoCamera.h:58</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_2a00177d73d450c0d29f575ac84bba77.html">module</a></li><li class="navelem"><a class="el" href="../../dir_f5e3bac8fec058024c8e91bab2c99bf2.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_8a258fd7ac7492118b43d46924b47375.html">camera</a></li><li class="navelem"><b>PerspectiveStereoCamera.h</b></li>
+    <li class="navelem"><a class="el" href="../../dir_c5a52a81292cf9a5167198f4f346d6d9.html">platform</a></li><li class="navelem"><a class="el" href="../../dir_4389f3d2beff546807b6b148625d2759.html">engines</a></li><li class="navelem"><a class="el" href="../../dir_f0df884ce09817da20ab1128f63a79fe.html">ospray</a></li><li class="navelem"><a class="el" href="../../dir_6dfc784f4fc06052f5a0f2da9bf54d9c.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_35132c5744fd380897f0dd5fced7bcf1.html">camera</a></li><li class="navelem"><a class="el" href="../../dc/d8e/PerspectiveStereoCamera_8h.html">PerspectiveStereoCamera.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

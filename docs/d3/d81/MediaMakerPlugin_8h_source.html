@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/extras/MediaMaker/plugin/MediaMakerPlugin.h Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/backend/plugins/MediaMaker/plugin/MediaMakerPlugin.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,79 +86,94 @@ $(document).ready(function(){initNavTree('d3/d81/MediaMakerPlugin_8h_source.html
 <div class="title">MediaMakerPlugin.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/api/Params.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Types.h&gt;</span></div>
+<a href="../../d3/d81/MediaMakerPlugin_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;brayns/pluginapi/ExtensionPlugin.h&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>mediamaker</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html">   35</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html">MediaMakerPlugin</a> : <span class="keyword">public</span> brayns::ExtensionPlugin</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html">MediaMakerPlugin</a>();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> init() <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> preRender() <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> postRender() <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="../../db/df4/structbioexplorer_1_1mediamaker_1_1Response.html">Response</a> _version() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;plugin/api/Params.h&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Types.h&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d8/d85/ExtensionPlugin_8h.html">platform/core/pluginapi/ExtensionPlugin.h</a>&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>mediamaker</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html">MediaMakerPlugin</a> : <span class="keyword">public</span> <a class="code" href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">core::ExtensionPlugin</a></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html#a6ce466022bb7f5a9bf12b52ceda083a6">MediaMakerPlugin</a>();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html#a85485d049aed3f5848dc8d736f50a4e4">init</a>() <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html#ab082943fbac4f8d81703b8b1e7b00ed8">preRender</a>() <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html#a435fd08ca6330caee6f6f85ca8168692">postRender</a>() <span class="keyword">final</span>;</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">// Movie and frames</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">ExportFramesToDisk</a> _exportFramesToDiskPayload;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">bool</span> _exportFramesToDiskDirty{<span class="keyword">false</span>};</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    uint16_t _frameNumber{0};</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    int16_t _accumulationFrameNumber{0};</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    std::string _baseName;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> _setCamera(<span class="keyword">const</span> <a class="code" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> &amp;);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> _getCamera();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> _exportFramesToDisk(<span class="keyword">const</span> <a class="code" href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">ExportFramesToDisk</a> &amp;payload);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">FrameExportProgress</a> _getFrameExportProgress();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">void</span> _exportDepthBuffer() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> _exportColorBuffer() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> _exportFrameToDisk() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../db/df4/structbioexplorer_1_1mediamaker_1_1Response.html">Response</a> _version() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> _createRenderers();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#ifdef USE_OPTIX6</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> _createOptiXRenderers();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">// Movie and frames</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">ExportFramesToDisk</a> _exportFramesToDiskPayload;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">bool</span> _exportFramesToDiskDirty{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    uint16_t _frameNumber{0};</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    int16_t _accumulationFrameNumber{0};</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    std::string _baseName;</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">const</span> std::string _getFileName(<span class="keyword">const</span> std::string &amp;format) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;};</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;} <span class="comment">// namespace mediamaker</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">void</span> _setCamera(<span class="keyword">const</span> <a class="code" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> &amp;);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> _getCamera();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> _exportFramesToDisk(<span class="keyword">const</span> <a class="code" href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">ExportFramesToDisk</a> &amp;payload);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">FrameExportProgress</a> _getFrameExportProgress();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> _exportDepthBuffer() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> _exportColorBuffer() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> _exportFrameToDisk() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">const</span> std::string _getFileName(<span class="keyword">const</span> std::string &amp;format) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;};</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;} <span class="comment">// namespace mediamaker</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1mediamaker_1_1MediaMakerPlugin_html"><div class="ttname"><a href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html">bioexplorer::mediamaker::MediaMakerPlugin</a></div><div class="ttdoc">This class implements the Media Maker plugin for Brayns.</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d81/MediaMakerPlugin_8h_source.html#l00035">MediaMakerPlugin.h:35</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1CameraDefinition_html"><div class="ttname"><a href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">bioexplorer::mediamaker::CameraDefinition</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00044">Params.h:44</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1FrameExportProgress_html"><div class="ttname"><a href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">bioexplorer::mediamaker::FrameExportProgress</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00074">Params.h:74</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1ExportFramesToDisk_html"><div class="ttname"><a href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">bioexplorer::mediamaker::ExportFramesToDisk</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00056">Params.h:56</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1Response_html"><div class="ttname"><a href="../../db/df4/structbioexplorer_1_1mediamaker_1_1Response.html">bioexplorer::mediamaker::Response</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9b/extras_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00036">Params.h:36</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1mediamaker_1_1MediaMakerPlugin_html_a6ce466022bb7f5a9bf12b52ceda083a6"><div class="ttname"><a href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html#a6ce466022bb7f5a9bf12b52ceda083a6">bioexplorer::mediamaker::MediaMakerPlugin::MediaMakerPlugin</a></div><div class="ttdeci">MediaMakerPlugin()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00115">MediaMakerPlugin.cpp:115</a></div></div>
+<div class="ttc" id="aExtensionPlugin_8h_html"><div class="ttname"><a href="../../d8/d85/ExtensionPlugin_8h.html">ExtensionPlugin.h</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1mediamaker_1_1MediaMakerPlugin_html_a85485d049aed3f5848dc8d736f50a4e4"><div class="ttname"><a href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html#a85485d049aed3f5848dc8d736f50a4e4">bioexplorer::mediamaker::MediaMakerPlugin::init</a></div><div class="ttdeci">void init() final</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00120">MediaMakerPlugin.cpp:120</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1mediamaker_1_1MediaMakerPlugin_html"><div class="ttname"><a href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html">bioexplorer::mediamaker::MediaMakerPlugin</a></div><div class="ttdoc">This class implements the Media Maker plugin for Core.</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d81/MediaMakerPlugin_8h_source.html#l00038">MediaMakerPlugin.h:38</a></div></div>
+<div class="ttc" id="aclasscore_1_1ExtensionPlugin_html"><div class="ttname"><a href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">core::ExtensionPlugin</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d85/ExtensionPlugin_8h_source.html#l00052">ExtensionPlugin.h:52</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1CameraDefinition_html"><div class="ttname"><a href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">bioexplorer::mediamaker::CameraDefinition</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5e/plugins_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00047">Params.h:47</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/platform_2plugins_2openDeck_2plugin_2common_2Logs_8h_source.html#l00028">Logs.h:28</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1FrameExportProgress_html"><div class="ttname"><a href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">bioexplorer::mediamaker::FrameExportProgress</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5e/plugins_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00077">Params.h:77</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1mediamaker_1_1MediaMakerPlugin_html_ab082943fbac4f8d81703b8b1e7b00ed8"><div class="ttname"><a href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html#ab082943fbac4f8d81703b8b1e7b00ed8">bioexplorer::mediamaker::MediaMakerPlugin::preRender</a></div><div class="ttdeci">void preRender() final</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00209">MediaMakerPlugin.cpp:209</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1ExportFramesToDisk_html"><div class="ttname"><a href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">bioexplorer::mediamaker::ExportFramesToDisk</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5e/plugins_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00059">Params.h:59</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1mediamaker_1_1Response_html"><div class="ttname"><a href="../../db/df4/structbioexplorer_1_1mediamaker_1_1Response.html">bioexplorer::mediamaker::Response</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5e/plugins_2MediaMaker_2plugin_2api_2Params_8h_source.html#l00039">Params.h:39</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1mediamaker_1_1MediaMakerPlugin_html_a435fd08ca6330caee6f6f85ca8168692"><div class="ttname"><a href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html#a435fd08ca6330caee6f6f85ca8168692">bioexplorer::mediamaker::MediaMakerPlugin::postRender</a></div><div class="ttdeci">void postRender() final</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00232">MediaMakerPlugin.cpp:232</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_1510bd745cd29c20d24c27171ebe5ba5.html">extras</a></li><li class="navelem"><a class="el" href="../../dir_42b338ecc3aa0c433eaa547ce75f5337.html">MediaMaker</a></li><li class="navelem"><a class="el" href="../../dir_3eb0c4f88624b19bd8b0eaa60320cb3e.html">plugin</a></li><li class="navelem"><b>MediaMakerPlugin.h</b></li>
+    <li class="navelem"><a class="el" href="../../dir_f1f9c636edd67c457aa0bf92847eca1a.html">plugins</a></li><li class="navelem"><a class="el" href="../../dir_a8be3529f47ac2b897ecd0e6568fdd15.html">MediaMaker</a></li><li class="navelem"><a class="el" href="../../dir_b52349f5576cfd3d293727016b3a4bfd.html">plugin</a></li><li class="navelem"><a class="el" href="../../d3/d81/MediaMakerPlugin_8h.html">MediaMakerPlugin.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

@@ -1,9 +1,0 @@
-digraph "bioexplorer::molecularsystems::EnzymeReaction"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="bioexplorer::molecularsystems\l::EnzymeReaction",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="An Enzyme reaction is a object that combines an existing enyzme, a list of substrates and a list of p..."];
-  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="bioexplorer::common\l::Node",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d93/classbioexplorer_1_1common_1_1Node.html",tooltip="The Node class."];
-}

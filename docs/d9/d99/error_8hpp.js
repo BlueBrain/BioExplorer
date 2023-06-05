@@ -1,0 +1,25 @@
+var error_8hpp =
+[
+    [ "ErrorBase", "df/dcc/classstaticjson_1_1ErrorBase.html", "df/dcc/classstaticjson_1_1ErrorBase" ],
+    [ "Success", "db/dab/classstaticjson_1_1error_1_1Success.html", "db/dab/classstaticjson_1_1error_1_1Success" ],
+    [ "IntermediateError", "d7/de8/classstaticjson_1_1error_1_1IntermediateError.html", "d7/de8/classstaticjson_1_1error_1_1IntermediateError" ],
+    [ "ObjectMemberError", "d0/d98/classstaticjson_1_1error_1_1ObjectMemberError.html", "d0/d98/classstaticjson_1_1error_1_1ObjectMemberError" ],
+    [ "ArrayElementError", "d7/df1/classstaticjson_1_1error_1_1ArrayElementError.html", "d7/df1/classstaticjson_1_1error_1_1ArrayElementError" ],
+    [ "RequiredFieldMissingError", "d1/da5/classstaticjson_1_1error_1_1RequiredFieldMissingError.html", "d1/da5/classstaticjson_1_1error_1_1RequiredFieldMissingError" ],
+    [ "TypeMismatchError", "d1/d6a/classstaticjson_1_1error_1_1TypeMismatchError.html", "d1/d6a/classstaticjson_1_1error_1_1TypeMismatchError" ],
+    [ "RecursionTooDeepError", "d6/d76/classstaticjson_1_1error_1_1RecursionTooDeepError.html", null ],
+    [ "NumberOutOfRangeError", "d7/d0b/classstaticjson_1_1error_1_1NumberOutOfRangeError.html", "d7/d0b/classstaticjson_1_1error_1_1NumberOutOfRangeError" ],
+    [ "DuplicateKeyError", "d0/d7c/classstaticjson_1_1error_1_1DuplicateKeyError.html", "d0/d7c/classstaticjson_1_1error_1_1DuplicateKeyError" ],
+    [ "UnknownFieldError", "db/d54/classstaticjson_1_1error_1_1UnknownFieldError.html", "db/d54/classstaticjson_1_1error_1_1UnknownFieldError" ],
+    [ "CorruptedDOMError", "db/d84/classstaticjson_1_1error_1_1CorruptedDOMError.html", "db/d84/classstaticjson_1_1error_1_1CorruptedDOMError" ],
+    [ "ArrayLengthMismatchError", "db/dbf/classstaticjson_1_1error_1_1ArrayLengthMismatchError.html", "db/dbf/classstaticjson_1_1error_1_1ArrayLengthMismatchError" ],
+    [ "InvalidEnumError", "d8/dca/classstaticjson_1_1error_1_1InvalidEnumError.html", "d8/dca/classstaticjson_1_1error_1_1InvalidEnumError" ],
+    [ "CustomError", "d8/d3e/classstaticjson_1_1error_1_1CustomError.html", "d8/d3e/classstaticjson_1_1error_1_1CustomError" ],
+    [ "error_stack_const_iterator", "d6/d53/classstaticjson_1_1error_1_1internal_1_1error__stack__const__iterator.html", "d6/d53/classstaticjson_1_1error_1_1internal_1_1error__stack__const__iterator" ],
+    [ "ErrorStack", "dd/d70/classstaticjson_1_1ErrorStack.html", "dd/d70/classstaticjson_1_1ErrorStack" ],
+    [ "ParseStatus", "dd/d20/classstaticjson_1_1ParseStatus.html", "dd/d20/classstaticjson_1_1ParseStatus" ],
+    [ "error_type", "d9/d99/error_8hpp.html#ab090f55c17db72575f30cfb2b98757c9", null ],
+    [ "quote", "d9/d99/error_8hpp.html#a35df0943385c2d529772d4184b5e0635", null ],
+    [ "swap", "d9/d99/error_8hpp.html#a0282b12bb9d011609f808456be83282e", null ],
+    [ "swap", "d9/d99/error_8hpp.html#a03623c6dd180e509ce89391f194d9d24", null ]
+];

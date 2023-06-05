@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/module/ispc/render/utils/SimulationRenderer.cpp Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/platform/engines/ospray/ispc/render/utils/SimulationRenderer.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,105 +86,129 @@ $(document).ready(function(){initNavTree('de/d4b/SimulationRenderer_8cpp_source.
 <div class="title">SimulationRenderer.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/* Copyright (c) 2018, EPFL/Blue Brain Project</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * All rights reserved. Do not distribute without permission.</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Responsible Author: Cyrille Favreau &lt;cyrille.favreau@epfl.ch&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * the terms of the GNU Lesser General Public License version 3.0 as published</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * by the Free Software Foundation.</span></div>
+<a href="../../de/d4b/SimulationRenderer_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright (c) 2018, EPFL/Blue Brain Project</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;SimulationRenderer.h&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;SimulationRenderer_ispc.h&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;brayns/ispc/geometry/Cones.h&gt;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;brayns/ispc/geometry/SDFGeometries.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;brayns/common/geometry/Cone.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;brayns/common/geometry/Cylinder.h&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;brayns/common/geometry/SDFGeometry.h&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;brayns/common/geometry/Sphere.h&gt;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/geometry/Cylinders.h&gt;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/geometry/Geometry.h&gt;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/geometry/Spheres.h&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * the terms of the GNU Lesser General Public License version 3.0 as published</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * by the Free Software Foundation.</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../df/d86/SimulationRenderer_8h.html">SimulationRenderer.h</a>&quot;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;SimulationRenderer_ispc.h&quot;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../da/d86/Cones_8h.html">platform/engines/ospray/ispc/geometry/Cones.h</a>&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d3/d35/platform_2engines_2ospray_2ispc_2geometry_2SDFGeometries_8h.html">platform/engines/ospray/ispc/geometry/SDFGeometries.h</a>&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d1/d9b/Cone_8h.html">platform/core/common/geometry/Cone.h</a>&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d9/d0a/Cylinder_8h.html">platform/core/common/geometry/Cylinder.h</a>&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d2/df3/SDFGeometry_8h.html">platform/core/common/geometry/SDFGeometry.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../de/d15/core_2common_2geometry_2Sphere_8h.html">platform/core/common/geometry/Sphere.h</a>&gt;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/transferFunction/TransferFunction.h&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">int</span> SimulationRenderer_getBytesPerPrimitive(<span class="keyword">const</span> <span class="keywordtype">void</span>* geometry)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">const</span> ospray::Geometry* base =</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keyword">static_cast&lt;</span><span class="keyword">const </span>ospray::Geometry*<span class="keyword">&gt;</span>(geometry);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>ospray::Spheres*<span class="keyword">&gt;</span>(base))</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(brayns::Sphere);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>ospray::Cylinders*<span class="keyword">&gt;</span>(base))</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(brayns::Cylinder);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>ospray::Cones*<span class="keyword">&gt;</span>(base))</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(brayns::Cone);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>ospray::SDFGeometries*<span class="keyword">&gt;</span>(base))</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(brayns::SDFGeometry);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">namespace </span>rendering</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/geometry/Cylinders.h&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/geometry/Geometry.h&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/geometry/Spheres.h&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/transferFunction/TransferFunction.h&gt;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="../../de/d4b/SimulationRenderer_8cpp.html#a5b199771072eb8d85a1975c81e3e0ae5">   41</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../de/d4b/SimulationRenderer_8cpp.html#a5b199771072eb8d85a1975c81e3e0ae5">SimulationRenderer_getBytesPerPrimitive</a>(<span class="keyword">const</span> <span class="keywordtype">void</span>* geometry)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">const</span> ospray::Geometry* base = <span class="keyword">static_cast&lt;</span><span class="keyword">const </span>ospray::Geometry*<span class="keyword">&gt;</span>(geometry);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code" href="../../d9/d0f/namespacecore.html#a97cebbb0789e98d5327c69fbc40cac61">ospray::Spheres</a>*<span class="keyword">&gt;</span>(base))</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(core::Sphere);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code" href="../../d9/d0f/namespacecore.html#a1ba2559a01caa28e2cf537aad0dec173">ospray::Cylinders</a>*<span class="keyword">&gt;</span>(base))</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(core::Cylinder);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code" href="../../d2/d51/structospray_1_1Cones.html">ospray::Cones</a>*<span class="keyword">&gt;</span>(base))</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(core::Cone);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code" href="../../db/dd2/structospray_1_1SDFGeometries.html">ospray::SDFGeometries</a>*<span class="keyword">&gt;</span>(base))</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(<a class="code" href="../../dd/d10/structcore_1_1SDFGeometry.html">core::SDFGeometry</a>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keywordtype">void</span> SimulationRenderer::commit()</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="../../d2/db4/classcore_1_1SimulationRenderer.html#a6c5963dc2673946318b15761dd1c98af">   58</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#a6c5963dc2673946318b15761dd1c98af">SimulationRenderer::commit</a>()</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    Renderer::commit();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="../../d1/d37/classcore_1_1AbstractRenderer.html#a3c77a25d55bdf486045df74ee2b96cf1">AbstractRenderer::commit</a>();</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    _bgMaterial = (AdvancedMaterial*)getParamObject(<span class="stringliteral">&quot;bgMaterial&quot;</span>, <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    _secondaryModel = (ospray::Model*)getParamObject(<span class="stringliteral">&quot;secondaryModel&quot;</span>, <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    _maxDistanceToSecondaryModel =</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        getParam1f(<span class="stringliteral">&quot;maxDistanceToSecondaryModel&quot;</span>, 30.f);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#a4b97f2342228e76ed4086dcd24050a46">_secondaryModel</a> = (ospray::Model*)getParamObject(<span class="stringliteral">&quot;secondaryModel&quot;</span>, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#a3ce18b0babdc9fea30951d49a4815fed">_maxDistanceToSecondaryModel</a> = getParam1f(<span class="stringliteral">&quot;maxDistanceToSecondaryModel&quot;</span>, 30.f);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#a8c3881fdedb80aa330be05f0d8bb00ba">_simulationData</a> = getParamData(<span class="stringliteral">&quot;simulationData&quot;</span>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#aa3acb754dc4f4d6e297062c6abbbdfba">_simulationDataSize</a> = <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#a8c3881fdedb80aa330be05f0d8bb00ba">_simulationData</a> ? <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#a8c3881fdedb80aa330be05f0d8bb00ba">_simulationData</a>-&gt;size() : 0;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    _simulationData = getParamData(<span class="stringliteral">&quot;simulationData&quot;</span>);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    _simulationDataSize = _simulationData ? _simulationData-&gt;size() : 0;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    _alphaCorrection = getParam1f(<span class="stringliteral">&quot;alphaCorrection&quot;</span>, 0.5f);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    _fogThickness = getParam1f(<span class="stringliteral">&quot;fogThickness&quot;</span>, 1e6f);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    _fogStart = getParam1f(<span class="stringliteral">&quot;fogStart&quot;</span>, 0.f);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    _exposure = getParam1f(<span class="stringliteral">&quot;exposure&quot;</span>, 1.f);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    _timestamp = getParam1f(<span class="stringliteral">&quot;timestamp&quot;</span>, 0.f);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    _epsilonFactor = getParam1f(<span class="stringliteral">&quot;epsilonFactor&quot;</span>, 1.f);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#acb32176667047fe37fdf440c2d8466b1">_alphaCorrection</a> = getParam1f(<span class="stringliteral">&quot;alphaCorrection&quot;</span>, 0.5f);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#a20085dfe318bdc135429cf13101bf3f2">_fogThickness</a> = getParam1f(<span class="stringliteral">&quot;fogThickness&quot;</span>, 1e6f);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#a612786129dceef33b35fc9a27ece3ec0">_fogStart</a> = getParam1f(<span class="stringliteral">&quot;fogStart&quot;</span>, 0.f);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#a1f25d8eb53278dc961f89afabcf6b180">_exposure</a> = getParam1f(<span class="stringliteral">&quot;mainExposure&quot;</span>, 1.f);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="../../d1/d37/classcore_1_1AbstractRenderer.html#ad286922ef7da1393a4f3bd88c5f315e0">_timestamp</a> = getParam1f(<span class="stringliteral">&quot;timestamp&quot;</span>, 0.f);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#a5b1d1f5a4514953cbff77590358013c7">_epsilonFactor</a> = getParam1f(<span class="stringliteral">&quot;epsilonFactor&quot;</span>, 1.f);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#ad0812836048083e5f5ddfe4c8a456931">_maxBounces</a> = getParam1i(<span class="stringliteral">&quot;maxBounces&quot;</span>, 3);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#aff71604eca8a33e72ab40ef64be8f7fa">_randomNumber</a> = rand() % 1000;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    _maxBounces = getParam1i(<span class="stringliteral">&quot;maxBounces&quot;</span>, 3);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    _randomNumber = rand() % 1000;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#a184f5fddfd86dfb0be9ac4c63b3fa592">_useHardwareRandomizer</a> = getParam(<span class="stringliteral">&quot;useHardwareRandomizer&quot;</span>, 0);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html#aadcdaf08f8a41db55944e1af4c04a569">_showBackground</a> = getParam(<span class="stringliteral">&quot;showBackground&quot;</span>, 0);</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    _useHardwareRandomizer = getParam(<span class="stringliteral">&quot;useHardwareRandomizer&quot;</span>, 0);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    _showBackground = getParam(<span class="stringliteral">&quot;showBackground&quot;</span>, 0);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="comment">// Transfer function</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    ospray::TransferFunction* transferFunction =</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        (ospray::TransferFunction*)getParamObject(<span class="stringliteral">&quot;transferFunction&quot;</span>, <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">if</span> (transferFunction)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        ispc::SimulationRenderer_setTransferFunction(getIE(),</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                                                     transferFunction-&gt;getIE());</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;} <span class="comment">// namespace rendering</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="comment">// Transfer function</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    ospray::TransferFunction* transferFunction = (ospray::TransferFunction*)getParamObject(<span class="stringliteral">&quot;transferFunction&quot;</span>, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">if</span> (transferFunction)</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        ispc::SimulationRenderer_setTransferFunction(getIE(), transferFunction-&gt;getIE());</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;} <span class="comment">// namespace core</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_a8c3881fdedb80aa330be05f0d8bb00ba"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#a8c3881fdedb80aa330be05f0d8bb00ba">core::SimulationRenderer::_simulationData</a></div><div class="ttdeci">ospray::Ref&lt; ospray::Data &gt; _simulationData</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00048">SimulationRenderer.h:48</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_a3ce18b0babdc9fea30951d49a4815fed"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#a3ce18b0babdc9fea30951d49a4815fed">core::SimulationRenderer::_maxDistanceToSecondaryModel</a></div><div class="ttdeci">float _maxDistanceToSecondaryModel</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00046">SimulationRenderer.h:46</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_aff71604eca8a33e72ab40ef64be8f7fa"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#aff71604eca8a33e72ab40ef64be8f7fa">core::SimulationRenderer::_randomNumber</a></div><div class="ttdeci">ospray::uint32 _randomNumber</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00061">SimulationRenderer.h:61</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_a20085dfe318bdc135429cf13101bf3f2"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#a20085dfe318bdc135429cf13101bf3f2">core::SimulationRenderer::_fogThickness</a></div><div class="ttdeci">double _fogThickness</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00057">SimulationRenderer.h:57</a></div></div>
+<div class="ttc" id="aCylinder_8h_html"><div class="ttname"><a href="../../d9/d0a/Cylinder_8h.html">Cylinder.h</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_aadcdaf08f8a41db55944e1af4c04a569"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#aadcdaf08f8a41db55944e1af4c04a569">core::SimulationRenderer::_showBackground</a></div><div class="ttdeci">bool _showBackground</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00052">SimulationRenderer.h:52</a></div></div>
+<div class="ttc" id="acore_2common_2geometry_2Sphere_8h_html"><div class="ttname"><a href="../../de/d15/core_2common_2geometry_2Sphere_8h.html">Sphere.h</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_a1f25d8eb53278dc961f89afabcf6b180"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#a1f25d8eb53278dc961f89afabcf6b180">core::SimulationRenderer::_exposure</a></div><div class="ttdeci">double _exposure</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00054">SimulationRenderer.h:54</a></div></div>
+<div class="ttc" id="astructcore_1_1SDFGeometry_html"><div class="ttname"><a href="../../dd/d10/structcore_1_1SDFGeometry.html">core::SDFGeometry</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/df3/SDFGeometry_8h_source.html#l00036">SDFGeometry.h:36</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_a5b1d1f5a4514953cbff77590358013c7"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#a5b1d1f5a4514953cbff77590358013c7">core::SimulationRenderer::_epsilonFactor</a></div><div class="ttdeci">double _epsilonFactor</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00055">SimulationRenderer.h:55</a></div></div>
+<div class="ttc" id="aSDFGeometry_8h_html"><div class="ttname"><a href="../../d2/df3/SDFGeometry_8h.html">SDFGeometry.h</a></div></div>
+<div class="ttc" id="astructospray_1_1Cones_html"><div class="ttname"><a href="../../d2/d51/structospray_1_1Cones.html">ospray::Cones</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d86/Cones_8h_source.html#l00028">Cones.h:28</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_a4b97f2342228e76ed4086dcd24050a46"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#a4b97f2342228e76ed4086dcd24050a46">core::SimulationRenderer::_secondaryModel</a></div><div class="ttdeci">ospray::Model * _secondaryModel</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00045">SimulationRenderer.h:45</a></div></div>
+<div class="ttc" id="anamespacecore_html_a1ba2559a01caa28e2cf537aad0dec173"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a1ba2559a01caa28e2cf537aad0dec173">core::Cylinders</a></div><div class="ttdeci">std::vector&lt; Cylinder &gt; Cylinders</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00113">Types.h:113</a></div></div>
+<div class="ttc" id="aCone_8h_html"><div class="ttname"><a href="../../d1/d9b/Cone_8h.html">Cone.h</a></div></div>
+<div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00055">BaseWindow.cpp:55</a></div></div>
+<div class="ttc" id="aCones_8h_html"><div class="ttname"><a href="../../da/d86/Cones_8h.html">Cones.h</a></div></div>
+<div class="ttc" id="aSimulationRenderer_8cpp_html_a5b199771072eb8d85a1975c81e3e0ae5"><div class="ttname"><a href="../../de/d4b/SimulationRenderer_8cpp.html#a5b199771072eb8d85a1975c81e3e0ae5">SimulationRenderer_getBytesPerPrimitive</a></div><div class="ttdeci">int SimulationRenderer_getBytesPerPrimitive(const void *geometry)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d4b/SimulationRenderer_8cpp_source.html#l00041">SimulationRenderer.cpp:41</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_acb32176667047fe37fdf440c2d8466b1"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#acb32176667047fe37fdf440c2d8466b1">core::SimulationRenderer::_alphaCorrection</a></div><div class="ttdeci">float _alphaCorrection</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00063">SimulationRenderer.h:63</a></div></div>
+<div class="ttc" id="astructospray_1_1SDFGeometries_html"><div class="ttname"><a href="../../db/dd2/structospray_1_1SDFGeometries.html">ospray::SDFGeometries</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d35/platform_2engines_2ospray_2ispc_2geometry_2SDFGeometries_8h_source.html#l00028">SDFGeometries.h:28</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_aa3acb754dc4f4d6e297062c6abbbdfba"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#aa3acb754dc4f4d6e297062c6abbbdfba">core::SimulationRenderer::_simulationDataSize</a></div><div class="ttdeci">ospray::uint64 _simulationDataSize</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00049">SimulationRenderer.h:49</a></div></div>
+<div class="ttc" id="aclasscore_1_1AbstractRenderer_html_ad286922ef7da1393a4f3bd88c5f315e0"><div class="ttname"><a href="../../d1/d37/classcore_1_1AbstractRenderer.html#ad286922ef7da1393a4f3bd88c5f315e0">core::AbstractRenderer::_timestamp</a></div><div class="ttdeci">float _timestamp</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df8/AbstractRenderer_8h_source.html#l00058">AbstractRenderer.h:58</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_a612786129dceef33b35fc9a27ece3ec0"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#a612786129dceef33b35fc9a27ece3ec0">core::SimulationRenderer::_fogStart</a></div><div class="ttdeci">double _fogStart</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00058">SimulationRenderer.h:58</a></div></div>
+<div class="ttc" id="aplatform_2engines_2ospray_2ispc_2geometry_2SDFGeometries_8h_html"><div class="ttname"><a href="../../d3/d35/platform_2engines_2ospray_2ispc_2geometry_2SDFGeometries_8h.html">SDFGeometries.h</a></div></div>
+<div class="ttc" id="aSimulationRenderer_8h_html"><div class="ttname"><a href="../../df/d86/SimulationRenderer_8h.html">SimulationRenderer.h</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_a184f5fddfd86dfb0be9ac4c63b3fa592"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#a184f5fddfd86dfb0be9ac4c63b3fa592">core::SimulationRenderer::_useHardwareRandomizer</a></div><div class="ttdeci">bool _useHardwareRandomizer</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00051">SimulationRenderer.h:51</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_a6c5963dc2673946318b15761dd1c98af"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#a6c5963dc2673946318b15761dd1c98af">core::SimulationRenderer::commit</a></div><div class="ttdeci">void commit() override</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d4b/SimulationRenderer_8cpp_source.html#l00058">SimulationRenderer.cpp:58</a></div></div>
+<div class="ttc" id="aclasscore_1_1AbstractRenderer_html_a3c77a25d55bdf486045df74ee2b96cf1"><div class="ttname"><a href="../../d1/d37/classcore_1_1AbstractRenderer.html#a3c77a25d55bdf486045df74ee2b96cf1">core::AbstractRenderer::commit</a></div><div class="ttdeci">void commit() override</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d1f/AbstractRenderer_8cpp_source.html#l00035">AbstractRenderer.cpp:35</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html_ad0812836048083e5f5ddfe4c8a456931"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html#ad0812836048083e5f5ddfe4c8a456931">core::SimulationRenderer::_maxBounces</a></div><div class="ttdeci">ospray::uint32 _maxBounces</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00060">SimulationRenderer.h:60</a></div></div>
+<div class="ttc" id="anamespacecore_html_a97cebbb0789e98d5327c69fbc40cac61"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a97cebbb0789e98d5327c69fbc40cac61">core::Spheres</a></div><div class="ttdeci">std::vector&lt; Sphere &gt; Spheres</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00109">Types.h:109</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_2a00177d73d450c0d29f575ac84bba77.html">module</a></li><li class="navelem"><a class="el" href="../../dir_f5e3bac8fec058024c8e91bab2c99bf2.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_29c355e9d908583ce23ce9ac4901e89e.html">render</a></li><li class="navelem"><a class="el" href="../../dir_603a414cf74abeeb58b26dcb05ce2979.html">utils</a></li><li class="navelem"><b>SimulationRenderer.cpp</b></li>
+    <li class="navelem"><a class="el" href="../../dir_c5a52a81292cf9a5167198f4f346d6d9.html">platform</a></li><li class="navelem"><a class="el" href="../../dir_4389f3d2beff546807b6b148625d2759.html">engines</a></li><li class="navelem"><a class="el" href="../../dir_f0df884ce09817da20ab1128f63a79fe.html">ospray</a></li><li class="navelem"><a class="el" href="../../dir_6dfc784f4fc06052f5a0f2da9bf54d9c.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_21d70d98358f1d3290c79438f1b2a00a.html">render</a></li><li class="navelem"><a class="el" href="../../dir_4b2606a1657530b417d061964a560d66.html">utils</a></li><li class="navelem"><a class="el" href="../../de/d4b/SimulationRenderer_8cpp.html">SimulationRenderer.cpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

@@ -1,0 +1,7 @@
+<map id="core::GeometryData" name="core::GeometryData">
+<area shape="rect" id="node1" title=" " alt="" coords="305,111,460,138"/>
+<area shape="rect" id="node2" href="$d1/d73/structcore_1_1GeometryData_1_1Cone.html" title=" " alt="" coords="5,5,160,47"/>
+<area shape="rect" id="node3" href="$da/dd2/structcore_1_1GeometryData_1_1Sphere.html" title=" " alt="" coords="5,71,160,112"/>
+<area shape="rect" id="node4" href="$db/dee/structcore_1_1GeometryData_1_1TriangleMesh.html" title=" " alt="" coords="5,136,160,177"/>
+<area shape="rect" id="node5" href="$d6/d65/structcore_1_1GeometryData_1_1Cylinder.html" title=" " alt="" coords="5,201,160,243"/>
+</map>

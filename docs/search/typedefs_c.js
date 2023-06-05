@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['materialmap_7329',['MaterialMap',['../d9/d0f/namespacecore.html#a1fa78015d3135478084fb265f9a2a814',1,'core']]],
+  ['materialptr_7330',['MaterialPtr',['../d9/d0f/namespacecore.html#af5556fbdd2a7f8b57ff443d634f24225',1,'core']]],
+  ['materialset_7331',['MaterialSet',['../da/d0b/namespacebioexplorer_1_1common.html#a263dc23af2777145e9265e266390adf4',1,'bioexplorer::common']]],
+  ['matrix4d_7332',['Matrix4d',['../d9/d0f/namespacecore.html#a536f96564dc53ae6888fc22349a03766',1,'core']]],
+  ['matrix4f_7333',['Matrix4f',['../d9/d0f/namespacecore.html#ac43e5b2e7a27eec94a9ffee80b3e0139',1,'core']]],
+  ['matrix4fs_7334',['Matrix4fs',['../de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#a43772e64615e3fd5f3b546b4eb9f8b31',1,'sonataexplorer::neuroscience::common']]],
+  ['meghandlerptr_7335',['MEGHandlerPtr',['../d9/d15/namespacesonataexplorer_1_1neuroscience_1_1neuron.html#a89b6d8c4a55556bdf13a9f47acbaa093',1,'sonataexplorer::neuroscience::neuron']]],
+  ['membraneptr_7336',['MembranePtr',['../d1/dc2/namespacebioexplorer_1_1molecularsystems.html#a6cf84a6b38da1aa033e9d9a3d7b81c80',1,'bioexplorer::molecularsystems']]],
+  ['memorypoolallocator_7337',['MemoryPoolAllocator',['../d7/dd5/namespacestaticjson.html#aaf88b1df965ef8ab27a58d628a6ba6c6',1,'staticjson']]],
+  ['memoryptr_7338',['MemoryPtr',['../da/ded/namespacecore_1_1freeimage.html#ad9d18223c697819344b119d140e844ab',1,'core::freeimage']]],
+  ['metabolismhandlerptr_7339',['MetabolismHandlerPtr',['../d3/d31/namespacebioexplorer_1_1metabolism.html#a614412131d231f2151bcfb24ae4044fc',1,'bioexplorer::metabolism']]],
+  ['missrecord_7340',['MissRecord',['../d9/d0f/namespacecore.html#aa88143e6cb8ddbe5f1247b304b20f89a',1,'core']]],
+  ['modeldescriptorptr_7341',['ModelDescriptorPtr',['../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4',1,'core']]],
+  ['modeldescriptors_7342',['ModelDescriptors',['../d9/d0f/namespacecore.html#a18e38a39743029ea51249f2417e293cd',1,'core::ModelDescriptors()'],['../d1/dc2/namespacebioexplorer_1_1molecularsystems.html#a66e474f1492d66ad06d295dcf212fa68',1,'bioexplorer::molecularsystems::ModelDescriptors()']]],
+  ['modelinstanceid_7343',['ModelInstanceId',['../d1/dc2/namespacebioexplorer_1_1molecularsystems.html#afe954c5bbe38bac77c4cfe17cda6389b',1,'bioexplorer::molecularsystems']]],
+  ['modelinstances_7344',['ModelInstances',['../d9/d0f/namespacecore.html#ae006ed029d239dc0d75b9b5b3453a371',1,'core']]],
+  ['modelmetadata_7345',['ModelMetadata',['../d9/d0f/namespacecore.html#a162a3579a9a09ea8be34a3094b8cb292',1,'core']]],
+  ['modelptr_7346',['ModelPtr',['../d9/d0f/namespacecore.html#aed4c31aa10d4636d323d992762965988',1,'core']]],
+  ['modifiedcallback_7347',['ModifiedCallback',['../d1/dc6/classcore_1_1BaseObject.html#afb156c52a67a3326ec6813e61d609096',1,'core::BaseObject::ModifiedCallback()'],['../d4/d72/structcore_1_1Property.html#a0ec6f9b645a3bb747c94bd61f891d683',1,'core::Property::ModifiedCallback()']]],
+  ['morphologiesptr_7348',['MorphologiesPtr',['../dd/d40/namespacebioexplorer_1_1morphology.html#aba7c55cb03a1d5a60937eb7a09a856a0',1,'bioexplorer::morphology']]],
+  ['morphologyloaderptr_7349',['MorphologyLoaderPtr',['../de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#a4671f1bf33f884e75a4ed1dcb26c98f1',1,'sonataexplorer::neuroscience::common']]]
+];

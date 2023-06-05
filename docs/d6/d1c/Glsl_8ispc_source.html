@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/extras/Metabolism/module/ispc/render/Glsl.ispc Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/backend/plugins/Metabolism/module/ispc/render/Glsl.ispc Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,72 +86,73 @@ $(document).ready(function(){initNavTree('d6/d1c/Glsl_8ispc_source.html','../../
 <div class="title">Glsl.ispc</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;/*</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; * scientific data from visualization</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; *</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; * Copyright 2020-2023 Blue Brain Project / EPFL</div>
+<a href="../../d6/d1c/Glsl_8ispc.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;/*</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; * Copyright 2020-2023 Blue Brain Project / EPFL</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; *</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; * scientific data from visualization</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; *</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; * This program is free software: you can redistribute it and/or modify it under</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; * the terms of the GNU General Public License as published by the Free Software</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; * Foundation, either version 3 of the License, or (at your option) any later</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; * version.</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; *</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; * This program is distributed in the hope that it will be useful, but WITHOUT</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; * details.</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; *</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; * You should have received a copy of the GNU General Public License along with</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; */</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;#include &quot;Glsl.ih&quot;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; *</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; * This program is free software: you can redistribute it and/or modify it under</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; * the terms of the GNU General Public License as published by the Free Software</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; * Foundation, either version 3 of the License, or (at your option) any later</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; * version.</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; *</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; * This program is distributed in the hope that it will be useful, but WITHOUT</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; * details.</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; *</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; * You should have received a copy of the GNU General Public License along with</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; */</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;float mix(const float x, const float y, const float a)</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    return x * (1.f - a) + y * a;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;vec3f mod(const vec3f&amp; v, const int m)</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    return make_vec3f(v.x - m * floor(v.x / m), v.y - m * floor(v.y / m),</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                      v.z - m * floor(v.z / m));</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;vec3f mod(const vec3f&amp; v, const vec3f&amp; u)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    return v - u * floor(v / u);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;float smoothstep(const float edge0, const float edge1, float x)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    float t;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    return t * t * (3.0 - 2.0 * t);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;float sign(const float v)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    return v &gt; 0 ? 1.f : v == 0.f ? 0.f : -1.f;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;vec3f sign(const vec3f&amp; v)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;{</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    return make_vec3f(sign(v.x), sign(v.y), sign(v.z));</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;// hash and noise by iq</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;float hash(float n)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    return frac(sin(n) * 43758.5453123);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;#include &quot;Glsl.ih&quot;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;float mix(const float x, const float y, const float a)</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    return x * (1.f - a) + y * a;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;vec3f mod(const vec3f&amp; v, const int m)</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    return make_vec3f(v.x - m * floor(v.x / m), v.y - m * floor(v.y / m), v.z - m * floor(v.z / m));</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;vec3f mod(const vec3f&amp; v, const vec3f&amp; u)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    return v - u * floor(v / u);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;float smoothstep(const float edge0, const float edge1, float x)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    float t;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    return t * t * (3.0 - 2.0 * t);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;float sign(const float v)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    return v &gt; 0 ? 1.f : v == 0.f ? 0.f : -1.f;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;vec3f sign(const vec3f&amp; v)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    return make_vec3f(sign(v.x), sign(v.y), sign(v.z));</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;// hash and noise by iq</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;float hash(float n)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    return frac(sin(n) * 43758.5453123);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_1510bd745cd29c20d24c27171ebe5ba5.html">extras</a></li><li class="navelem"><a class="el" href="../../dir_ebf235e11fcfd6e4f58b693996a886da.html">Metabolism</a></li><li class="navelem"><a class="el" href="../../dir_fb887b5514a10a3d1c3cd072660fbb64.html">module</a></li><li class="navelem"><a class="el" href="../../dir_d0771ff2cfda6cf3b5c3141e9308ac2b.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_a3660d684d473985ec0f2b82495a15d3.html">render</a></li><li class="navelem"><b>Glsl.ispc</b></li>
+    <li class="navelem"><a class="el" href="../../dir_f1f9c636edd67c457aa0bf92847eca1a.html">plugins</a></li><li class="navelem"><a class="el" href="../../dir_abbfb920f27623ce739e3ac98f05eb00.html">Metabolism</a></li><li class="navelem"><a class="el" href="../../dir_0ad6af54793517655e416bafc9796de3.html">module</a></li><li class="navelem"><a class="el" href="../../dir_05e9676d7aae4bef474e40190bc39637.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_a8f12795206dd0d5411beaae7390081e.html">render</a></li><li class="navelem"><a class="el" href="../../d6/d1c/Glsl_8ispc.html">Glsl.ispc</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

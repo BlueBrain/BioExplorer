@@ -1,0 +1,10 @@
+<map id="core::Volume" name="core::Volume">
+<area shape="rect" id="node1" title=" " alt="" coords="237,80,343,107"/>
+<area shape="rect" id="node3" href="$db/de9/classcore_1_1BrickedVolume.html" title=" " alt="" coords="31,155,186,181"/>
+<area shape="rect" id="node5" href="$df/d82/classcore_1_1OSPRayVolume.html" title=" " alt="" coords="211,155,369,181"/>
+<area shape="rect" id="node7" href="$df/df4/classcore_1_1SharedDataVolume.html" title=" " alt="" coords="393,155,576,181"/>
+<area shape="rect" id="node2" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="224,5,356,32"/>
+<area shape="rect" id="node4" href="$d2/dee/classcore_1_1OSPRayBrickedVolume.html" title=" " alt="" coords="5,229,212,256"/>
+<area shape="rect" id="node6" href="$d8/d1a/classcore_1_1OSPRaySharedDataVolume.html" title=" " alt="" coords="237,229,471,256"/>
+<area shape="rect" id="node8" href="$d6/d9f/classcore_1_1OptiXVolume.html" title=" " alt="" coords="495,229,637,256"/>
+</map>

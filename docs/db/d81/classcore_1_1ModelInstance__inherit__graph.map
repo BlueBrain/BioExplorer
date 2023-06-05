@@ -1,0 +1,7 @@
+<map id="core::ModelInstance" name="core::ModelInstance">
+<area shape="rect" id="node1" title=" " alt="" coords="87,80,241,107"/>
+<area shape="rect" id="node3" href="$d1/df6/classcore_1_1ModelParams.html" title=" " alt="" coords="91,155,237,181"/>
+<area shape="rect" id="node2" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="98,5,230,32"/>
+<area shape="rect" id="node4" href="$d4/d24/structcore_1_1BinaryParam.html" title=" " alt="" coords="5,229,147,256"/>
+<area shape="rect" id="node5" href="$dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model. Model descriptor are exposed via..." alt="" coords="171,229,336,256"/>
+</map>

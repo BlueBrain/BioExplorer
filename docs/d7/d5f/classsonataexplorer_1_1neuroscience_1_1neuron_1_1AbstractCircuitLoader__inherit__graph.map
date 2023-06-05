@@ -1,0 +1,9 @@
+<map id="sonataexplorer::neuroscience::neuron::AbstractCircuitLoader" name="sonataexplorer::neuroscience::neuron::AbstractCircuitLoader">
+<area shape="rect" id="node1" title=" " alt="" coords="156,136,379,177"/>
+<area shape="rect" id="node3" href="$d5/d55/classsonataexplorer_1_1neuroscience_1_1neuron_1_1AdvancedCircuitLoader.html" title=" " alt="" coords="437,5,670,47"/>
+<area shape="rect" id="node4" href="$d0/dd9/classsonataexplorer_1_1neuroscience_1_1neuron_1_1MeshCircuitLoader.html" title=" " alt="" coords="446,71,661,112"/>
+<area shape="rect" id="node5" href="$d5/d04/classsonataexplorer_1_1neuroscience_1_1neuron_1_1MorphologyCollageLoader.html" title=" " alt="" coords="427,136,680,177"/>
+<area shape="rect" id="node6" href="$d7/d7c/classsonataexplorer_1_1neuroscience_1_1neuron_1_1PairSynapsesLoader.html" title=" " alt="" coords="446,201,661,243"/>
+<area shape="rect" id="node7" href="$d6/df1/classsonataexplorer_1_1neuroscience_1_1neuron_1_1SynapseCircuitLoader.html" title=" " alt="" coords="441,267,665,308"/>
+<area shape="rect" id="node2" href="$de/d2b/classcore_1_1Loader.html" title=" " alt="" coords="5,143,108,170"/>
+</map>

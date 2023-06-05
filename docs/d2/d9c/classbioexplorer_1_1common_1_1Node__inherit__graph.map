@@ -1,0 +1,6 @@
+<map id="bioexplorer::common::Node" name="bioexplorer::common::Node">
+<area shape="rect" id="node1" title="The Node class." alt="" coords="5,71,167,112"/>
+<area shape="rect" id="node2" href="$d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html" title="The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si..." alt="" coords="246,5,407,47"/>
+<area shape="rect" id="node3" href="$d4/d07/classbioexplorer_1_1molecularsystems_1_1EnzymeReaction.html" title="An Enzyme reaction is a object that combines an existing enyzme, a list of substrates and a list of p..." alt="" coords="215,71,439,112"/>
+<area shape="rect" id="node4" href="$d0/d53/classbioexplorer_1_1molecularsystems_1_1RNASequence.html" title="The RNASequence class." alt="" coords="215,136,439,177"/>
+</map>

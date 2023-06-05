@@ -100,6 +100,9 @@ $(document).ready(function(){initNavTree('d2/da7/classbioexplorer_1_1common_1_1G
 Collaboration diagram for bioexplorer::common::GeneralSettings:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../da/d7d/classbioexplorer_1_1common_1_1GeneralSettings__coll__graph.png" border="0" usemap="#bioexplorer_1_1common_1_1GeneralSettings_coll__map" alt="Collaboration graph"/></div>
+<map name="bioexplorer_1_1common_1_1GeneralSettings_coll__map" id="bioexplorer_1_1common_1_1GeneralSettings_coll__map">
+<area shape="rect" title="GeneralSettings is a singleton class that holds general settings for the plugin." alt="" coords="5,5,167,47"/>
+</map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -107,9 +110,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a53be3f73259e58f109b22152794b4694"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a53be3f73259e58f109b22152794b4694">GeneralSettings</a> ()</td></tr>
 <tr class="memdesc:a53be3f73259e58f109b22152794b4694"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new General Settings object.  <a href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a53be3f73259e58f109b22152794b4694">More...</a><br /></td></tr>
 <tr class="separator:a53be3f73259e58f109b22152794b4694"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8ea62637029fef1262f4f99cd08af28"><td class="memItemLeft" align="right" valign="top"><a id="aa8ea62637029fef1262f4f99cd08af28"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#aa8ea62637029fef1262f4f99cd08af28">getModelVisibilityOnCreation</a> ()</td></tr>
-<tr class="memdesc:aa8ea62637029fef1262f4f99cd08af28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Model Visibility On Creation object. This is used to optimize the loading of objects in the scene. By default, every addition will require the rendering engine to update the BVH, and that takes time. By making the model invisible, it is created but not added to the scene. The set_models_visibility function can be used to make all models visible at once. <br /></td></tr>
+<tr class="memitem:aa8ea62637029fef1262f4f99cd08af28"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#aa8ea62637029fef1262f4f99cd08af28">getModelVisibilityOnCreation</a> ()</td></tr>
+<tr class="memdesc:aa8ea62637029fef1262f4f99cd08af28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Model Visibility On Creation object. This is used to optimize the loading of objects in the scene. By default, every addition will require the rendering engine to update the BVH, and that takes time. By making the model invisible, it is created but not added to the scene. The set_models_visibility function can be used to make all models visible at once.  <a href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#aa8ea62637029fef1262f4f99cd08af28">More...</a><br /></td></tr>
 <tr class="separator:aa8ea62637029fef1262f4f99cd08af28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a922c9405a28ba50e349c9a3badb829"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a0a922c9405a28ba50e349c9a3badb829">setModelVisibilityOnCreation</a> (const bool value)</td></tr>
 <tr class="memdesc:a0a922c9405a28ba50e349c9a3badb829"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Model Visibility On Creation object. If set to false, models are created but not added to the scene until they become visible.  <a href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a0a922c9405a28ba50e349c9a3badb829">More...</a><br /></td></tr>
@@ -147,17 +149,15 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a32b30046f3c30b8db73704c91b10cadc"><td class="memItemLeft" align="right" valign="top"><a id="a32b30046f3c30b8db73704c91b10cadc"></a>
-static std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>_mutex</b></td></tr>
+<tr class="memitem:a32b30046f3c30b8db73704c91b10cadc"><td class="memItemLeft" align="right" valign="top">static std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a32b30046f3c30b8db73704c91b10cadc">_mutex</a></td></tr>
 <tr class="separator:a32b30046f3c30b8db73704c91b10cadc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae635cff241ac522068d228b89c29e069"><td class="memItemLeft" align="right" valign="top"><a id="ae635cff241ac522068d228b89c29e069"></a>
-static <a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html">GeneralSettings</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_instance</b> = nullptr</td></tr>
+<tr class="memitem:ae635cff241ac522068d228b89c29e069"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html">GeneralSettings</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#ae635cff241ac522068d228b89c29e069">_instance</a> = nullptr</td></tr>
 <tr class="separator:ae635cff241ac522068d228b89c29e069"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html" title="GeneralSettings is a singleton class that holds general settings for the plugin.">GeneralSettings</a> is a singleton class that holds general settings for the plugin. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../df/df6/GeneralSettings_8h_source.html#l00034">34</a> of file <a class="el" href="../../df/df6/GeneralSettings_8h_source.html">GeneralSettings.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/df6/GeneralSettings_8h_source.html#l00037">37</a> of file <a class="el" href="../../df/df6/GeneralSettings_8h_source.html">GeneralSettings.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a53be3f73259e58f109b22152794b4694"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a53be3f73259e58f109b22152794b4694">&#9670;&nbsp;</a></span>GeneralSettings()</h2>
@@ -184,7 +184,7 @@ static <a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSet
 
 <p>Construct a new General Settings object. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../df/df6/GeneralSettings_8h_source.html#l00041">41</a> of file <a class="el" href="../../df/df6/GeneralSettings_8h_source.html">GeneralSettings.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/df6/GeneralSettings_8h_source.html#l00044">44</a> of file <a class="el" href="../../df/df6/GeneralSettings_8h_source.html">GeneralSettings.h</a>.</p>
 
 </div>
 </div>
@@ -245,7 +245,7 @@ static <a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSet
 <p>Get the Instance object. </p>
 <dl class="section return"><dt>Returns</dt><dd>GeneralSettings* Pointer to the object </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../df/df6/GeneralSettings_8h_source.html#l00048">48</a> of file <a class="el" href="../../df/df6/GeneralSettings_8h_source.html">GeneralSettings.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/df6/GeneralSettings_8h_source.html#l00051">51</a> of file <a class="el" href="../../df/df6/GeneralSettings_8h_source.html">GeneralSettings.h</a>.</p>
 
 </div>
 </div>
@@ -306,6 +306,35 @@ static <a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSet
 <dl class="section return"><dt>Returns</dt><dd>The path to the folder </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../df/df6/GeneralSettings_8h_source.html#l00083">83</a> of file <a class="el" href="../../df/df6/GeneralSettings_8h_source.html">GeneralSettings.h</a>.</p>
+
+</div>
+</div>
+<a id="aa8ea62637029fef1262f4f99cd08af28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8ea62637029fef1262f4f99cd08af28">&#9670;&nbsp;</a></span>getModelVisibilityOnCreation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool bioexplorer::common::GeneralSettings::getModelVisibilityOnCreation </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the Model Visibility On Creation object. This is used to optimize the loading of objects in the scene. By default, every addition will require the rendering engine to update the BVH, and that takes time. By making the model invisible, it is created but not added to the scene. The set_models_visibility function can be used to make all models visible at once. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../df/df6/GeneralSettings_8h_source.html#l00067">67</a> of file <a class="el" href="../../df/df6/GeneralSettings_8h_source.html">GeneralSettings.h</a>.</p>
 
 </div>
 </div>
@@ -481,7 +510,7 @@ false V1 compatibility is disabled </dd></dl>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../df/df6/GeneralSettings_8h_source.html#l00072">72</a> of file <a class="el" href="../../df/df6/GeneralSettings_8h_source.html">GeneralSettings.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/df6/GeneralSettings_8h_source.html#l00075">75</a> of file <a class="el" href="../../df/df6/GeneralSettings_8h_source.html">GeneralSettings.h</a>.</p>
 
 </div>
 </div>
@@ -521,16 +550,65 @@ false V1 compatibility is disabled </dd></dl>
 
 </div>
 </div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="ae635cff241ac522068d228b89c29e069"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae635cff241ac522068d228b89c29e069">&#9670;&nbsp;</a></span>_instance</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html">GeneralSettings</a> * bioexplorer::common::GeneralSettings::_instance = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/df6/GeneralSettings_8h_source.html#l00136">136</a> of file <a class="el" href="../../df/df6/GeneralSettings_8h_source.html">GeneralSettings.h</a>.</p>
+
+</div>
+</div>
+<a id="a32b30046f3c30b8db73704c91b10cadc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32b30046f3c30b8db73704c91b10cadc">&#9670;&nbsp;</a></span>_mutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex bioexplorer::common::GeneralSettings::_mutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/df6/GeneralSettings_8h_source.html#l00135">135</a> of file <a class="el" href="../../df/df6/GeneralSettings_8h_source.html">GeneralSettings.h</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/common/<a class="el" href="../../df/df6/GeneralSettings_8h_source.html">GeneralSettings.h</a></li>
-<li>/home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/common/<a class="el" href="../../d6/d4b/GeneralSettings_8cpp_source.html">GeneralSettings.cpp</a></li>
+<li>/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/science/common/<a class="el" href="../../df/df6/GeneralSettings_8h_source.html">GeneralSettings.h</a></li>
+<li>/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/science/common/<a class="el" href="../../d6/d4b/GeneralSettings_8cpp_source.html">GeneralSettings.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>bioexplorer</b></li><li class="navelem"><b>common</b></li><li class="navelem"><a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html">GeneralSettings</a></li>
+    <li class="navelem"><a class="el" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></li><li class="navelem"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html">common</a></li><li class="navelem"><a class="el" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html">GeneralSettings</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

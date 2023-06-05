@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/io/CacheLoader.h Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/backend/science/io/CacheLoader.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,101 +86,110 @@ $(document).ready(function(){initNavTree('d4/d44/CacheLoader_8h_source.html','..
 <div class="title">CacheLoader.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/io/db/DBConnector.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;brayns/parameters/GeometryParameters.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>io</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">using namespace </span>db;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">const</span> int32_t UNDEFINED_BOX_ID = std::numeric_limits&lt;int32_t&gt;::max();</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html">   41</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html">CacheLoader</a> : <span class="keyword">public</span> Loader</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html">CacheLoader</a>(Scene&amp; scene, PropertyMap&amp;&amp; loaderParams = {});</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    std::string getName() <span class="keyword">const</span> <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    std::vector&lt;std::string&gt; getSupportedExtensions() <span class="keyword">const</span> <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">bool</span> isSupported(<span class="keyword">const</span> std::string&amp; filename,</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                     <span class="keyword">const</span> std::string&amp; extension) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">static</span> PropertyMap getCLIProperties();</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    PropertyMap getProperties() <span class="keyword">const</span> <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    ModelDescriptorPtr importFromBlob(</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        Blob&amp;&amp; blob, <span class="keyword">const</span> LoaderProgress&amp; callback,</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keyword">const</span> PropertyMap&amp; properties) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    ModelDescriptorPtr importFromFile(</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keyword">const</span> std::string&amp; filename, <span class="keyword">const</span> LoaderProgress&amp; callback,</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keyword">const</span> PropertyMap&amp; properties) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<a href="../../d4/d44/CacheLoader_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../db/dee/science_2io_2db_2DBConnector_8h.html">science/io/db/DBConnector.h</a>&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../db/db5/GeometryParameters_8h.html">platform/core/parameters/GeometryParameters.h</a>&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">namespace </span>io</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">using namespace </span>db;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../d1/d74/namespacebioexplorer_1_1io.html#a2106cf168cbc0484f2bf29dd6d0faced">   38</a></span>&#160;<span class="keyword">const</span> int32_t <a class="code" href="../../d1/d74/namespacebioexplorer_1_1io.html#a2106cf168cbc0484f2bf29dd6d0faced">UNDEFINED_BOX_ID</a> = std::numeric_limits&lt;int32_t&gt;::max();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html">   44</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html">CacheLoader</a> : <span class="keyword">public</span> <a class="code" href="../../de/d2b/classcore_1_1Loader.html">Loader</a></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html">CacheLoader</a>(<a class="code" href="../../d5/d76/classcore_1_1Scene.html">Scene</a>&amp; scene, <a class="code" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a>&amp;&amp; loaderParams = {});</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    std::string getName() <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    std::vector&lt;std::string&gt; getSupportedExtensions() <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">bool</span> isSupported(<span class="keyword">const</span> std::string&amp; filename, <span class="keyword">const</span> std::string&amp; extension) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">static</span> <a class="code" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> getCLIProperties();</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> getProperties() <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <a class="code" href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">ModelDescriptorPtr</a> importFromBlob(<a class="code" href="../../dd/db2/structcore_1_1Blob.html">Blob</a>&amp;&amp; blob, <span class="keyword">const</span> <a class="code" href="../../d4/de1/classcore_1_1LoaderProgress.html">LoaderProgress</a>&amp; callback,</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                                      <span class="keyword">const</span> <a class="code" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a>&amp; properties) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <a class="code" href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">ModelDescriptorPtr</a> importFromFile(<span class="keyword">const</span> std::string&amp; filename, <span class="keyword">const</span> <a class="code" href="../../d4/de1/classcore_1_1LoaderProgress.html">LoaderProgress</a>&amp; callback,</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                                      <span class="keyword">const</span> <a class="code" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a>&amp; properties) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    std::vector&lt;ModelDescriptorPtr&gt; importModelsFromFile(</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keyword">const</span> std::string&amp; filename, <span class="keyword">const</span> int32_t brickId = UNDEFINED_BOX_ID,</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keyword">const</span> LoaderProgress&amp; callback = LoaderProgress(),</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keyword">const</span> PropertyMap&amp; properties = PropertyMap()) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    std::vector&lt;ModelDescriptorPtr&gt; importModelsFromFile(<span class="keyword">const</span> std::string&amp; filename,</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                                                         <span class="keyword">const</span> int32_t brickId = <a class="code" href="../../d1/d74/namespacebioexplorer_1_1io.html#a2106cf168cbc0484f2bf29dd6d0faced">UNDEFINED_BOX_ID</a>,</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                                                         <span class="keyword">const</span> <a class="code" href="../../d4/de1/classcore_1_1LoaderProgress.html">LoaderProgress</a>&amp; callback = <a class="code" href="../../d4/de1/classcore_1_1LoaderProgress.html">LoaderProgress</a>(),</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                                                         <span class="keyword">const</span> <a class="code" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a>&amp; properties = <a class="code" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a>()) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordtype">void</span> exportToFile(<span class="keyword">const</span> std::string&amp; filename, <span class="keyword">const</span> Boxd&amp; bounds) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordtype">void</span> exportToFile(<span class="keyword">const</span> std::string&amp; filename, <span class="keyword">const</span> <a class="code" href="../../df/d44/classcore_1_1Box.html">Boxd</a>&amp; bounds) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    std::vector&lt;ModelDescriptorPtr&gt; importBrickFromDB(</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keyword">const</span> int32_t brickId) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordtype">void</span> exportBrickToDB(<span class="keyword">const</span> int32_t brickId, <span class="keyword">const</span> Boxd&amp; bounds) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordtype">void</span> exportToXYZ(<span class="keyword">const</span> std::string&amp; filename,</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                     <span class="keyword">const</span> XYZFileFormat format) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    std::string _readString(std::stringstream&amp; f) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    std::vector&lt;ModelDescriptorPtr&gt; importBrickFromDB(<span class="keyword">const</span> int32_t brickId) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">void</span> exportBrickToDB(<span class="keyword">const</span> int32_t brickId, <span class="keyword">const</span> <a class="code" href="../../df/d44/classcore_1_1Box.html">Boxd</a>&amp; bounds) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordtype">void</span> exportToXYZ(<span class="keyword">const</span> std::string&amp; filename, <span class="keyword">const</span> <a class="code" href="../../d0/d1f/namespacebioexplorer_1_1details.html#abc9bc73bc7dd36d78f738158e7dd1e5a">XYZFileFormat</a> format) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    std::string _readString(std::stringstream&amp; f) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <a class="code" href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">ModelDescriptorPtr</a> _importModel(std::stringstream&amp; buffer, <span class="keyword">const</span> int32_t brickId) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    ModelDescriptorPtr _importModel(std::stringstream&amp; buffer,</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                                    <span class="keyword">const</span> int32_t brickId) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordtype">bool</span> _exportModel(<span class="keyword">const</span> ModelDescriptorPtr modelDescriptor,</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                      std::stringstream&amp; buffer, <span class="keyword">const</span> Boxd&amp; bounds) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    PropertyMap _defaults;</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;};</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;} <span class="comment">// namespace io</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordtype">bool</span> _exportModel(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">ModelDescriptorPtr</a> modelDescriptor, std::stringstream&amp; buffer, <span class="keyword">const</span> <a class="code" href="../../df/d44/classcore_1_1Box.html">Boxd</a>&amp; bounds) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <a class="code" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> _defaults;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;};</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;} <span class="comment">// namespace io</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1io_1_1CacheLoader_html"><div class="ttname"><a href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html">bioexplorer::io::CacheLoader</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d44/CacheLoader_8h_source.html#l00041">CacheLoader.h:41</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_1_1details_html_abc9bc73bc7dd36d78f738158e7dd1e5a"><div class="ttname"><a href="../../d0/d1f/namespacebioexplorer_1_1details.html#abc9bc73bc7dd36d78f738158e7dd1e5a">bioexplorer::details::XYZFileFormat</a></div><div class="ttdeci">XYZFileFormat</div><div class="ttdoc">File format for export of atom coordinates, radius and charge.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00804">Types.h:804</a></div></div>
+<div class="ttc" id="aclasscore_1_1Scene_html"><div class="ttname"><a href="../../d5/d76/classcore_1_1Scene.html">core::Scene</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d2d/Scene_8h_source.html#l00047">Scene.h:47</a></div></div>
+<div class="ttc" id="aclasscore_1_1LoaderProgress_html"><div class="ttname"><a href="../../d4/de1/classcore_1_1LoaderProgress.html">core::LoaderProgress</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0b/Loader_8h_source.html#l00038">Loader.h:38</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_1_1io_html_a2106cf168cbc0484f2bf29dd6d0faced"><div class="ttname"><a href="../../d1/d74/namespacebioexplorer_1_1io.html#a2106cf168cbc0484f2bf29dd6d0faced">bioexplorer::io::UNDEFINED_BOX_ID</a></div><div class="ttdeci">const int32_t UNDEFINED_BOX_ID</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d44/CacheLoader_8h_source.html#l00038">CacheLoader.h:38</a></div></div>
+<div class="ttc" id="aGeometryParameters_8h_html"><div class="ttname"><a href="../../db/db5/GeometryParameters_8h.html">GeometryParameters.h</a></div></div>
+<div class="ttc" id="aclasscore_1_1PropertyMap_html"><div class="ttname"><a href="../../d9/daa/classcore_1_1PropertyMap.html">core::PropertyMap</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d04/PropertyMap_8h_source.html#l00262">PropertyMap.h:262</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/platform_2plugins_2openDeck_2plugin_2common_2Logs_8h_source.html#l00028">Logs.h:28</a></div></div>
+<div class="ttc" id="ascience_2io_2db_2DBConnector_8h_html"><div class="ttname"><a href="../../db/dee/science_2io_2db_2DBConnector_8h.html">DBConnector.h</a></div></div>
+<div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00055">BaseWindow.cpp:55</a></div></div>
+<div class="ttc" id="anamespacecore_html_a987cf8f70fb0d4935ca96689d9af77b4"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">core::ModelDescriptorPtr</a></div><div class="ttdeci">std::shared_ptr&lt; ModelDescriptor &gt; ModelDescriptorPtr</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00096">Types.h:96</a></div></div>
+<div class="ttc" id="aclasscore_1_1Box_html"><div class="ttname"><a href="../../df/d44/classcore_1_1Box.html">core::Box&lt; double &gt;</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1io_1_1CacheLoader_html"><div class="ttname"><a href="../../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html">bioexplorer::io::CacheLoader</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d44/CacheLoader_8h_source.html#l00044">CacheLoader.h:44</a></div></div>
+<div class="ttc" id="astructcore_1_1Blob_html"><div class="ttname"><a href="../../dd/db2/structcore_1_1Blob.html">core::Blob</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00302">Types.h:302</a></div></div>
+<div class="ttc" id="aclasscore_1_1Loader_html"><div class="ttname"><a href="../../de/d2b/classcore_1_1Loader.html">core::Loader</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0b/Loader_8h_source.html#l00074">Loader.h:74</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_b70eba8f50d8f7315ab2a0128c0ea16a.html">plugin</a></li><li class="navelem"><a class="el" href="../../dir_8e2a6a60b57744da18ff6c6d9e7b1032.html">io</a></li><li class="navelem"><b>CacheLoader.h</b></li>
+    <li class="navelem"><a class="el" href="../../dir_14d627cccd023aaf4f18eaf1359097e2.html">science</a></li><li class="navelem"><a class="el" href="../../dir_250f267abadc546ecc00bd4d0ef83277.html">io</a></li><li class="navelem"><a class="el" href="../../d4/d44/CacheLoader_8h.html">CacheLoader.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

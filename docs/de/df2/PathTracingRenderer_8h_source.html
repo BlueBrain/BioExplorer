@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/module/ispc/render/PathTracingRenderer.h Source File</title>
+<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/backend/module/ispc/renderer/PathTracingRenderer.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,70 +86,83 @@ $(document).ready(function(){initNavTree('de/df2/PathTracingRenderer_8h_source.h
 <div class="title">PathTracingRenderer.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;render/utils/SimulationRenderer.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>rendering</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html">   33</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html">PathTracingRenderer</a> : <span class="keyword">public</span> <a class="code" href="../../db/dfa/classbioexplorer_1_1rendering_1_1SimulationRenderer.html">SimulationRenderer</a></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="../../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html">PathTracingRenderer</a>();</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html#a5eeba7893ba20606e0ad4fa84c2289a9">   42</a></span>&#160;    std::string <a class="code" href="../../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html#a5eeba7893ba20606e0ad4fa84c2289a9">toString</a>() const final { <span class="keywordflow">return</span> <span class="stringliteral">&quot;bio_explorer_path_tracing&quot;</span>; }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> commit() final;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;private:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">// Shading attributes</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::vector&lt;<span class="keywordtype">void</span>*&gt; _lightArray;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span>** _lightPtr;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    ospray::Data* _lightData;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="../../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html">AdvancedMaterial</a>* _bgMaterial;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">double</span> _exposure{1.f};</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">double</span> _aoStrength{1.f};</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">double</span> _aoDistance{100.f};</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    ospray::uint32 _randomNumber{0};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">double</span> _timestamp{0.f};</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">bool</span> _useHardwareRandomizer{<span class="keyword">false</span>};</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">bool</span> _showBackground{<span class="keyword">false</span>};</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;};</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;} <span class="comment">// namespace rendering</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<a href="../../de/df2/PathTracingRenderer_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">// Platform</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../df/d86/SimulationRenderer_8h.html">platform/engines/ospray/ispc/render/utils/SimulationRenderer.h</a>&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>rendering</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html">   39</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html">PathTracingRenderer</a> : <span class="keyword">public</span> <a class="code" href="../../d2/db4/classcore_1_1SimulationRenderer.html">SimulationRenderer</a></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="../../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html">PathTracingRenderer</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html#a5eeba7893ba20606e0ad4fa84c2289a9">   48</a></span>&#160;    std::string <a class="code" href="../../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html#a5eeba7893ba20606e0ad4fa84c2289a9">toString</a>() const final { <span class="keywordflow">return</span> <span class="stringliteral">&quot;bio_explorer_path_tracing&quot;</span>; }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> commit() final;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;private:</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">// Shading attributes</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="../../d8/dcc/namespacestd.html">std</a>::vector&lt;<span class="keywordtype">void</span>*&gt; _lightArray;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span>** _lightPtr;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="../../d1/d51/namespaceospray.html">ospray</a>::Data* _lightData;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="../../db/dd9/structcore_1_1AdvancedMaterial.html">AdvancedMaterial</a>* _bgMaterial;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">double</span> _exposure{1.f};</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">double</span> _aoStrength{1.f};</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">double</span> _aoDistance{100.f};</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a31c94487ee8a6664e28b0ed71925e99a">ospray::uint32</a> _randomNumber{0};</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">double</span> _timestamp{0.f};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">bool</span> _useHardwareRandomizer{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">bool</span> _showBackground{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;};</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;} <span class="comment">// namespace rendering</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1PathTracingRenderer_html_a5eeba7893ba20606e0ad4fa84c2289a9"><div class="ttname"><a href="../../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html#a5eeba7893ba20606e0ad4fa84c2289a9">bioexplorer::rendering::PathTracingRenderer::toString</a></div><div class="ttdeci">std::string toString() const final</div><div class="ttdef"><b>Definition:</b> <a href="../../de/df2/PathTracingRenderer_8h_source.html#l00042">PathTracingRenderer.h:42</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1rendering_1_1AdvancedMaterial_html"><div class="ttname"><a href="../../d5/d4e/structbioexplorer_1_1rendering_1_1AdvancedMaterial.html">bioexplorer::rendering::AdvancedMaterial</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/de1/AdvancedMaterial_8h_source.html#l00038">AdvancedMaterial.h:38</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1PathTracingRenderer_html"><div class="ttname"><a href="../../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html">bioexplorer::rendering::PathTracingRenderer</a></div><div class="ttdoc">The PathTracingRenderer class is a renderer that processes the rendering of the 3D scene using the pa...</div><div class="ttdef"><b>Definition:</b> <a href="../../de/df2/PathTracingRenderer_8h_source.html#l00033">PathTracingRenderer.h:33</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1SimulationRenderer_html"><div class="ttname"><a href="../../db/dfa/classbioexplorer_1_1rendering_1_1SimulationRenderer.html">bioexplorer::rendering::SimulationRenderer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00036">SimulationRenderer.h:36</a></div></div>
+<div class="ttc" id="aclasscore_1_1SimulationRenderer_html"><div class="ttname"><a href="../../d2/db4/classcore_1_1SimulationRenderer.html">core::SimulationRenderer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00039">SimulationRenderer.h:39</a></div></div>
+<div class="ttc" id="anamespaceospray_html"><div class="ttname"><a href="../../d1/d51/namespaceospray.html">ospray</a></div><div class="ttdef"><b>Definition:</b> <a href="../../db/da1/FishEyeCamera_8cpp_source.html#l00034">FishEyeCamera.cpp:34</a></div></div>
+<div class="ttc" id="aplatform_2core_2common_2Types_8h_html_a31c94487ee8a6664e28b0ed71925e99a"><div class="ttname"><a href="../../de/d53/platform_2core_2common_2Types_8h.html#a31c94487ee8a6664e28b0ed71925e99a">uint32</a></div><div class="ttdeci">::uint32_t uint32</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00041">Types.h:41</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1PathTracingRenderer_html_a5eeba7893ba20606e0ad4fa84c2289a9"><div class="ttname"><a href="../../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html#a5eeba7893ba20606e0ad4fa84c2289a9">bioexplorer::rendering::PathTracingRenderer::toString</a></div><div class="ttdeci">std::string toString() const final</div><div class="ttdef"><b>Definition:</b> <a href="../../de/df2/PathTracingRenderer_8h_source.html#l00048">PathTracingRenderer.h:48</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/platform_2plugins_2openDeck_2plugin_2common_2Logs_8h_source.html#l00028">Logs.h:28</a></div></div>
+<div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00055">BaseWindow.cpp:55</a></div></div>
+<div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/dfe/Any_8hpp_source.html#l00465">Any.hpp:465</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1PathTracingRenderer_html"><div class="ttname"><a href="../../de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html">bioexplorer::rendering::PathTracingRenderer</a></div><div class="ttdoc">The PathTracingRenderer class is a renderer that processes the rendering of the 3D scene using the pa...</div><div class="ttdef"><b>Definition:</b> <a href="../../de/df2/PathTracingRenderer_8h_source.html#l00039">PathTracingRenderer.h:39</a></div></div>
+<div class="ttc" id="aSimulationRenderer_8h_html"><div class="ttname"><a href="../../df/d86/SimulationRenderer_8h.html">SimulationRenderer.h</a></div></div>
+<div class="ttc" id="astructcore_1_1AdvancedMaterial_html"><div class="ttname"><a href="../../db/dd9/structcore_1_1AdvancedMaterial.html">core::AdvancedMaterial</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/de1/AdvancedMaterial_8h_source.html#l00038">AdvancedMaterial.h:38</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_2a00177d73d450c0d29f575ac84bba77.html">module</a></li><li class="navelem"><a class="el" href="../../dir_f5e3bac8fec058024c8e91bab2c99bf2.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_29c355e9d908583ce23ce9ac4901e89e.html">render</a></li><li class="navelem"><b>PathTracingRenderer.h</b></li>
+    <li class="navelem"><a class="el" href="../../dir_c688dfc80a4dcefb30f317756915084e.html">module</a></li><li class="navelem"><a class="el" href="../../dir_069a0991ae581133e923f6a2203994db.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_86f0b4869ee09c874d23be5e71808b13.html">renderer</a></li><li class="navelem"><a class="el" href="../../de/df2/PathTracingRenderer_8h.html">PathTracingRenderer.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
