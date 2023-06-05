@@ -1,9 +1,10 @@
-/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
+/*
+ * Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
  *                     Jafet Villafranca <jafet.villafrancadiaz@epfl.ch>
  *
- * This file is part of Core <https://github.com/BlueBrain/Core>
+ * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -83,13 +84,11 @@ struct Core::Impl : public PluginAPI
         , _pluginManager{argc, argv}
     {
         CORE_INFO("");
-        CORE_INFO(" _|_|_|");
-        CORE_INFO(" _|    _|  _|  _|_|    _|_|_|  _|    _|  _|_|_|      _|_|_| ");
-        CORE_INFO(" _|_|_|    _|_|      _|    _|  _|    _|  _|    _|  _|_|     ");
-        CORE_INFO(" _|    _|  _|        _|    _|  _|    _|  _|    _|      _|_| ");
-        CORE_INFO(" _|_|_|    _|          _|_|_|    _|_|_|  _|    _|  _|_|_|   ");
-        CORE_INFO("                                    _|                      ");
-        CORE_INFO("                                  _|_|                      ");
+        CORE_INFO("   _|_|_|                              ");
+        CORE_INFO(" _|          _|_|    _|  _|_|    _|_|  ");
+        CORE_INFO(" _|        _|    _|  _|_|      _|_|_|_|");
+        CORE_INFO(" _|        _|    _|  _|        _|      ");
+        CORE_INFO("   _|_|_|    _|_|    _|          _|_|_|");
         CORE_INFO("");
 
         // This initialization must happen before plugin intialization.

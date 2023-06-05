@@ -2,7 +2,7 @@
 # All rights reserved. Do not distribute without permission.
 # Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
 #
-# This file is part of Core <https://github.com/BlueBrain/Core>
+# This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
 
 # ==============================================================================
 # Dependencies

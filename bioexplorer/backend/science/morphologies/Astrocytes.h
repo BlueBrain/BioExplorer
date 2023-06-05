@@ -1,6 +1,9 @@
 /*
+ *
  * The Blue Brain BioExplorer is a tool for scientists to extract and analyse
  * scientific data from visualization
+ *
+ * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
  * Copyright 2020-2023 Blue BrainProject / EPFL
  *

@@ -1,8 +1,10 @@
 /*
+ * Copyright 2020-2023 Blue Brain Project / EPFL
+ *
  * The Blue Brain BioExplorer is a tool for scientists to extract and analyse
  * scientific data from visualization
  *
- * Copyright 2020-2023 Blue Brain Project / EPFL
+ * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

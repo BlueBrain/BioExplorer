@@ -1,8 +1,12 @@
-/* Copyright (c) 2015-2023, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+/*
+ * Copyright (c) 2015-2023, EPFL/Blue Brain Project
  *
- * This file is part of Core <https://github.com/BlueBrain/Core>
+ * The Blue Brain BioExplorer is a tool for scientists to extract and analyse
+ * scientific data from visualization
+ *
+ * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
+ *
+ * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
@@ -101,7 +105,7 @@ std::vector<std::string> findSimilarOptions(const std::string& name, const std::
 
 void _printVersion()
 {
-    std::cout << "Core " << PACKAGE_VERSION_STRING << std::endl;
+    CORE_INFO("Core " << PACKAGE_VERSION_STRING);
 }
 } // namespace
 
@@ -133,7 +137,7 @@ void ParametersManager::_parse(int argc, const char** argv)
         po::options_description generalOptions("General options");
         generalOptions.add_options()("help", "Print this help")("version",
                                                                 "Print the Core version")("verbose",
-                                                                                            "Print parsed parameters");
+                                                                                          "Print parsed parameters");
 
         _allOptions.add(generalOptions);
 
