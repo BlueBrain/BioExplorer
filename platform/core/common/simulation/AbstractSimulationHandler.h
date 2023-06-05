@@ -18,8 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef ABSTRACTSIMULATIONHANDLER_H
-#define ABSTRACTSIMULATIONHANDLER_H
+#pragma once
 
 #include <platform/core/common/Api.h>
 #include <platform/core/common/Types.h>
@@ -93,4 +92,3 @@ protected:
     floats _frameData;
 };
 } // namespace core
-#endif // ABSTRACTSIMULATIONHANDLER_H

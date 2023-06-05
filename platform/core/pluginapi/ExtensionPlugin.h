@@ -22,8 +22,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef EXTENSIONPLUGIN_H
-#define EXTENSIONPLUGIN_H
+#pragma once
 
 #include <platform/core/common/Types.h>
 
@@ -71,5 +70,3 @@ protected:
     friend class PluginManager;
 };
 } // namespace core
-
-#endif

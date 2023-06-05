@@ -31,7 +31,7 @@
 #include <platform/core/engineapi/Volume.h>
 
 #include <platform/core/common/simulation/AbstractSimulationHandler.h>
-#include <platform/core/common/utils/filesystem.h>
+#include <platform/core/common/utils/FileSystem.h>
 #include <platform/core/parameters/AnimationParameters.h>
 
 #include <set>

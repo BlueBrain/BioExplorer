@@ -22,8 +22,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef KEYBOARDHANDLER_H
-#define KEYBOARDHANDLER_H
+#pragma once
 
 #include <platform/core/common/Types.h>
 
@@ -73,5 +72,3 @@ private:
     std::vector<std::string> _helpStrings;
 };
 } // namespace core
-
-#endif // KEYBOARDHANDLER_H

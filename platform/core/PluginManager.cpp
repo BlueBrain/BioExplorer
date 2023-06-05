@@ -24,7 +24,7 @@
 #include <Defines.h>
 
 #include <platform/core/common/Logs.h>
-#include <platform/core/common/utils/stringUtils.h>
+#include <platform/core/common/utils/StringUtils.h>
 #include <platform/core/parameters/ParametersManager.h>
 
 #include <platform/core/pluginapi/Plugin.h>

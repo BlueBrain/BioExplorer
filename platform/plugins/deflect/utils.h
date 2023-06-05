@@ -22,7 +22,7 @@
 #pragma once
 
 #include "DeflectParameters.h"
-#include <platform/core/common/utils/enumUtils.h>
+#include <platform/core/common/utils/EnumUtils.h>
 #include <deflect/deflect.h>
 
 #define deflectPixelOp deflectPixelOp

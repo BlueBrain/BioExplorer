@@ -22,9 +22,7 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
-#ifndef BASEWINDOW_H
-#define BASEWINDOW_H
+#pragma once
 
 #ifdef __linux__
 #include <unistd.h>
@@ -169,5 +167,3 @@ private:
     friend void glut3dPassiveMouseFunc(int x, int y);
 };
 } // namespace core
-
-#endif

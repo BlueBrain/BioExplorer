@@ -22,8 +22,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COMMONTYPES_H
-#define COMMONTYPES_H
+#pragma once
 
 /** User data */
 #define NO_USER_DATA -1
@@ -88,5 +87,3 @@ enum MaterialChameleonMode
     emitter = 1,
     receiver = 2
 };
-
-#endif

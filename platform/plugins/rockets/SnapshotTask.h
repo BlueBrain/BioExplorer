@@ -24,7 +24,7 @@
 #include <platform/core/common/tasks/Task.h>
 
 #include "ImageGenerator.h"
-#include <platform/core/common/utils/stringUtils.h>
+#include <platform/core/common/utils/StringUtils.h>
 #include <platform/core/engineapi/Camera.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/FrameBuffer.h>

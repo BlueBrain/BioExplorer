@@ -37,9 +37,9 @@ set(${NAME}_SOURCES
   transferFunction/TransferFunction.cpp
   utils/base64/base64.cpp
   utils/DynamicLib.cpp
-  utils/imageUtils.cpp
-  utils/stringUtils.cpp
-  utils/utils.cpp
+  utils/ImageUtils.cpp
+  utils/StringUtils.cpp
+  utils/Utils.cpp
   Timer.cpp
 )
 
@@ -81,7 +81,7 @@ set(${NAME}_PUBLIC_HEADERS
   Types.h
   utils/enumUtils.h
   utils/imageUtils.h
-  utils/stringUtils.h
+  utils/StringUtils.h
   utils/utils.h
 )
 

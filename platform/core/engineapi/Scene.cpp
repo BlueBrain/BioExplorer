@@ -27,13 +27,13 @@
 #include <platform/core/common/Logs.h>
 #include <platform/core/common/Transformation.h>
 #include <platform/core/common/scene/ClipPlane.h>
-#include <platform/core/common/utils/utils.h>
+#include <platform/core/common/utils/Utils.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Model.h>
 
 #include <platform/core/parameters/GeometryParameters.h>
 
-#include <platform/core/common/utils/filesystem.h>
+#include <platform/core/common/utils/FileSystem.h>
 
 #include <fstream>
 #include <mutex>

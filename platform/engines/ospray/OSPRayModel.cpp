@@ -25,7 +25,7 @@
 #include "OSPRayModel.h"
 #include "OSPRayMaterial.h"
 #include "OSPRayVolume.h"
-#include "utils.h"
+#include "Utils.h"
 
 #include <platform/core/common/simulation/AbstractSimulationHandler.h>
 #include <platform/core/engineapi/Material.h>
@@ -57,7 +57,8 @@ OSPRayModel::~OSPRayModel()
     ospRelease(_ospTransferFunction);
     ospRelease(_ospSimulationData);
 
-    const auto releaseAndClearGeometry = [](auto& geometryMap) {
+    const auto releaseAndClearGeometry = [](auto& geometryMap)
+    {
         for (auto geom : geometryMap)
             ospRelease(geom.second);
         geometryMap.clear();

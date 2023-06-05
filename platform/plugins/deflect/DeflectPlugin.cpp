@@ -26,7 +26,7 @@
 #include <platform/core/common/ActionInterface.h>
 #include <platform/core/common/PropertyMap.h>
 #include <platform/core/common/input/KeyboardHandler.h>
-#include <platform/core/common/utils/utils.h>
+#include <platform/core/common/utils/Utils.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/FrameBuffer.h>
 #include <platform/core/manipulators/AbstractManipulator.h>

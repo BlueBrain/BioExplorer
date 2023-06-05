@@ -22,9 +22,7 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
-#ifndef ABSTRACTMANIPULATOR_H
-#define ABSTRACTMANIPULATOR_H
+#pragma once
 
 #include <platform/core/common/Types.h>
 
@@ -79,5 +77,3 @@ protected:
     void translate(const Vector3d& v);
 };
 } // namespace core
-
-#endif

@@ -20,9 +20,9 @@
  */
 
 #include "OSPRayVolume.h"
+#include "Utils.h"
 
 #include <platform/core/parameters/VolumeParameters.h>
-#include <platform/engines/ospray/utils.h>
 
 namespace core
 {

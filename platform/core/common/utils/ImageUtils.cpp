@@ -18,7 +18,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "imageUtils.h"
+#include "ImageUtils.h"
+
 #include "base64/base64.h"
 
 namespace

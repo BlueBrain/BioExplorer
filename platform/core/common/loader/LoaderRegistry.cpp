@@ -21,8 +21,8 @@
 
 #include "LoaderRegistry.h"
 
-#include <platform/core/common/utils/filesystem.h>
-#include <platform/core/common/utils/utils.h>
+#include <platform/core/common/utils/FileSystem.h>
+#include <platform/core/common/utils/Utils.h>
 
 namespace core
 {

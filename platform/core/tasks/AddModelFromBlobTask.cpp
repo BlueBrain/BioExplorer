@@ -21,8 +21,8 @@
 
 #include "AddModelFromBlobTask.h"
 
+#include "Errors.h"
 #include "LoadModelFunctor.h"
-#include "errors.h"
 
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/Scene.h>
@@ -40,18 +40,19 @@ AddModelFromBlobTask::AddModelFromBlobTask(const BinaryParam& param, Engine& eng
 
     LoadModelFunctor functor{engine, param};
     functor.setCancelToken(_cancelToken);
-    functor.setProgressFunc([&progress = progress, w = CHUNK_PROGRESS_WEIGHT](const auto& msg, auto, auto amount) {
-        progress.update(msg, w + (amount * (1.f - w)));
-    });
+    functor.setProgressFunc([&progress = progress, w = CHUNK_PROGRESS_WEIGHT](const auto& msg, auto, auto amount)
+                            { progress.update(msg, w + (amount * (1.f - w))); });
 
     // load data, return model descriptor or stop if blob receive was invalid
     _finishTasks.emplace_back(_errorEvent.get_task());
     _finishTasks.emplace_back(_chunkEvent.get_task().then(std::move(functor)));
     _task = async::when_any(_finishTasks)
-                .then([&engine](async::when_any_result<std::vector<async::task<ModelDescriptorPtr>>> results) {
-                    engine.triggerRender();
-                    return results.tasks[results.index].get();
-                });
+                .then(
+                    [&engine](async::when_any_result<std::vector<async::task<ModelDescriptorPtr>>> results)
+                    {
+                        engine.triggerRender();
+                        return results.tasks[results.index].get();
+                    });
 }
 
 void AddModelFromBlobTask::appendBlob(const std::string& blob)

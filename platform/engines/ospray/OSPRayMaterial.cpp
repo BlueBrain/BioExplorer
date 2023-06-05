@@ -23,7 +23,7 @@
  */
 
 #include "OSPRayMaterial.h"
-#include "utils.h"
+#include "Utils.h"
 
 #include <platform/core/common/Logs.h>
 
@@ -138,8 +138,8 @@ OSPTexture OSPRayMaterial::_createOSPTexture2D(Texture2DPtr texture)
             type = OSP_TEXTURE_RGBA32F;
     }
 
-    CORE_DEBUG("Creating OSPRay texture from " << texture->filename << ": " << texture->width << "x"
-                                                 << texture->height << "x" << (int)type);
+    CORE_DEBUG("Creating OSPRay texture from " << texture->filename << ": " << texture->width << "x" << texture->height
+                                               << "x" << (int)type);
 
     OSPTexture ospTexture = ospNewTexture("texture2d");
 

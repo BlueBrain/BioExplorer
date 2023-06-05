@@ -22,8 +22,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef ENGINEFACTORY_H
-#define ENGINEFACTORY_H
+#pragma once
 
 #include <platform/core/common/Types.h>
 #include <platform/core/common/utils/DynamicLib.h>
@@ -67,5 +66,3 @@ private:
     Engine* _loadEngine(const std::string& name, int argc, const char* argv[]);
 };
 } // namespace core
-
-#endif // ENGINEFACTORY_H

@@ -22,8 +22,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef ANIMATIONPARAMETERS_H
-#define ANIMATIONPARAMETERS_H
+#pragma once
 
 #include "AbstractParameters.h"
 #include <list>
@@ -109,4 +108,3 @@ private:
     SERIALIZATION_FRIEND(AnimationParameters)
 };
 } // namespace core
-#endif

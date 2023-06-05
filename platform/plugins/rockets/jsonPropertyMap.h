@@ -24,8 +24,8 @@
 #include "jsonSerialization.h"
 
 #include <platform/core/common/PropertyMap.h>
-#include <platform/core/common/utils/stringUtils.h>
-#include <platform/core/common/utils/utils.h>
+#include <platform/core/common/utils/StringUtils.h>
+#include <platform/core/common/utils/Utils.h>
 
 namespace
 {

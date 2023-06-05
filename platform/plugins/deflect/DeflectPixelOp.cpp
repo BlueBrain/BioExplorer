@@ -24,7 +24,7 @@
 
 #include <ospray/SDK/fb/FrameBuffer.h>
 
-#include <platform/engines/ospray/utils.h>
+#include <platform/engines/ospray/Utils.h>
 
 namespace
 {

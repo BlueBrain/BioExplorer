@@ -23,7 +23,7 @@
 
 #include <platform/core/common/Logs.h>
 #include <platform/core/tasks/AddModelFromBlobTask.h>
-#include <platform/core/tasks/errors.h>
+#include <platform/core/tasks/Errors.h>
 
 #include <rockets/jsonrpc/types.h>
 

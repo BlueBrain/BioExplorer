@@ -20,7 +20,7 @@
 #include "PropertyMap.h"
 
 #include "Logs.h"
-#include "utils/stringUtils.h"
+#include "utils/StringUtils.h"
 
 #include <array>
 #include <iomanip>

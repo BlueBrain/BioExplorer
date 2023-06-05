@@ -32,7 +32,7 @@
 #include "OSPRayModel.h"
 #include "OSPRayRenderer.h"
 #include "OSPRayScene.h"
-#include "utils.h"
+#include "Utils.h"
 
 namespace core
 {
@@ -201,9 +201,8 @@ void OSPRayRenderer::_createOSPRenderer()
 
 void OSPRayRenderer::_commitRendererMaterials()
 {
-    _scene->visitModels([&renderer = _currentOSPRenderer](Model& model) {
-        static_cast<OSPRayModel&>(model).commitMaterials(renderer);
-    });
+    _scene->visitModels([&renderer = _currentOSPRenderer](Model& model)
+                        { static_cast<OSPRayModel&>(model).commitMaterials(renderer); });
 }
 
 void OSPRayRenderer::setClipPlanes(const Planes& planes)

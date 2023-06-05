@@ -25,7 +25,7 @@
 #include "ImageGenerator.h"
 
 #include <platform/core/common/utils/base64/base64.h>
-#include <platform/core/common/utils/imageUtils.h>
+#include <platform/core/common/utils/ImageUtils.h>
 #include <platform/core/engineapi/FrameBuffer.h>
 #include <platform/core/parameters/ApplicationParameters.h>
 

@@ -33,7 +33,7 @@
 #include <platform/core/common/input/KeyboardHandler.h>
 #include <platform/core/common/light/Light.h>
 #include <platform/core/common/utils/DynamicLib.h>
-#include <platform/core/common/utils/stringUtils.h>
+#include <platform/core/common/utils/StringUtils.h>
 
 #include <platform/core/engineapi/Camera.h>
 #include <platform/core/engineapi/Engine.h>

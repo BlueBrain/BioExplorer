@@ -22,8 +22,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef PARAMETERSMANAGER_H
-#define PARAMETERSMANAGER_H
+#pragma once
 
 #include <platform/core/common/Api.h>
 #include <platform/core/common/Types.h>
@@ -121,4 +120,3 @@ private:
     VolumeParameters _volumeParameters;
 };
 } // namespace core
-#endif // PARAMETERSMANAGER_H

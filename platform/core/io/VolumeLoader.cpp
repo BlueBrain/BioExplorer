@@ -20,9 +20,9 @@
 
 #include "VolumeLoader.h"
 
-#include <platform/core/common/utils/filesystem.h>
-#include <platform/core/common/utils/stringUtils.h>
-#include <platform/core/common/utils/utils.h>
+#include <platform/core/common/utils/FileSystem.h>
+#include <platform/core/common/utils/StringUtils.h>
+#include <platform/core/common/utils/Utils.h>
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
 #include <platform/core/engineapi/SharedDataVolume.h>

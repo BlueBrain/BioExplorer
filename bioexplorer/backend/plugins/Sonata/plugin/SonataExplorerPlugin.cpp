@@ -45,7 +45,7 @@
 #include <platform/core/common/Progress.h>
 #include <platform/core/common/Timer.h>
 #include <platform/core/common/geometry/Streamline.h>
-#include <platform/core/common/utils/imageUtils.h>
+#include <platform/core/common/utils/ImageUtils.h>
 #include <platform/core/engineapi/Camera.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/FrameBuffer.h>

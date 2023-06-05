@@ -26,12 +26,12 @@
 #include "OSPRayMaterial.h"
 #include "OSPRayModel.h"
 #include "OSPRayVolume.h"
-#include "utils.h"
+#include "Utils.h"
 
 #include <platform/core/common/ImageManager.h>
+#include <platform/core/common/Logs.h>
 #include <platform/core/common/Transformation.h>
 #include <platform/core/common/light/Light.h>
-#include <platform/core/common/Logs.h>
 #include <platform/core/engineapi/Model.h>
 
 #include <platform/core/parameters/GeometryParameters.h>

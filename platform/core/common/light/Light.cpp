@@ -20,7 +20,7 @@
 
 #include "Light.h"
 
-#include <platform/core/common/utils/utils.h>
+#include <platform/core/common/utils/Utils.h>
 
 namespace core
 {

@@ -22,8 +22,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef VOLUMEPARAMETERS_H
-#define VOLUMEPARAMETERS_H
+#pragma once
 
 #include "AbstractParameters.h"
 
@@ -84,4 +83,3 @@ protected:
     SERIALIZATION_FRIEND(VolumeParameters)
 };
 } // namespace core
-#endif // VOLUMEPARAMETERS_H

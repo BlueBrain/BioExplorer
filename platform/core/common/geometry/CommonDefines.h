@@ -19,6 +19,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#pragma once
+
 #if __cplusplus
 #include <platform/core/common/Types.h>
 #define VEC3_TYPE core::Vector3f

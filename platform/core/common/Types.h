@@ -22,11 +22,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef TYPES_H
-#define TYPES_H
+#pragma once
 
 #include <platform/core/common/MathTypes.h>
-#include <platform/core/common/utils/enumUtils.h>
+#include <platform/core/common/utils/EnumUtils.h>
 
 #include <array>
 #include <cstdint>
@@ -394,4 +393,3 @@ inline std::vector<std::pair<std::string, DataType>> enumMap()
             {"int16", DataType::INT16},   {"int32", DataType::INT32}};
 }
 } // namespace core
-#endif // TYPES_H

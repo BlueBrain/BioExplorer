@@ -30,7 +30,7 @@
 
 #include <platform/core/common/light/Light.h>
 #include <platform/core/common/Logs.h>
-#include <platform/core/common/utils/utils.h>
+#include <platform/core/common/utils/Utils.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/parameters/ParametersManager.h>
 

@@ -32,7 +32,7 @@
 
 #include <platform/core/common/Timer.h>
 #include <platform/core/common/tasks/Task.h>
-#include <platform/core/common/utils/stringUtils.h>
+#include <platform/core/common/utils/StringUtils.h>
 #include <platform/core/pluginapi/Plugin.h>
 
 #include <platform/core/tasks/AddModelFromBlobTask.h>

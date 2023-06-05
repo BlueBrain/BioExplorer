@@ -18,6 +18,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#pragma once
+
 // NOTE: replace with std::filesystem when upgrading to c++17
 #include <platform/deps/filesystem.hpp>
 namespace fs = ghc::filesystem;

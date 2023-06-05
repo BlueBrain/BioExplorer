@@ -22,10 +22,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "utils.h"
+#include "Utils.h"
 
 #include <platform/core/common/Logs.h>
-#include <platform/core/common/utils/filesystem.h>
+#include <platform/core/common/utils/FileSystem.h>
 
 #include <algorithm>
 #include <set>

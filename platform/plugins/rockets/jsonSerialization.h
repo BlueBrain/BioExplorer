@@ -29,9 +29,9 @@
 #include <platform/core/common/light/Light.h>
 #include <platform/core/common/scene/ClipPlane.h>
 #include <platform/core/common/transferFunction/TransferFunction.h>
+#include <platform/core/common/utils/StringUtils.h>
+#include <platform/core/common/utils/Utils.h>
 #include <platform/core/common/utils/base64/base64.h>
-#include <platform/core/common/utils/stringUtils.h>
-#include <platform/core/common/utils/utils.h>
 #include <platform/core/engineapi/Camera.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/Material.h>
@@ -43,7 +43,7 @@
 #include <platform/core/parameters/RenderingParameters.h>
 #include <platform/core/parameters/VolumeParameters.h>
 #include <platform/core/tasks/AddModelFromBlobTask.h>
-#include <platform/core/tasks/errors.h>
+#include <platform/core/tasks/Errors.h>
 
 #include "ImageGenerator.h"
 #include "SnapshotTask.h"
@@ -667,7 +667,7 @@ core::PropertyMap jsonToPropertyMap(const std::string& json);
 
 template <typename T>
 inline std::pair<bool, core::PropertyMap> fromJSONWithPropertyMap(T& params, const std::string& json,
-                                                                    const std::string& propertyMapName)
+                                                                  const std::string& propertyMapName)
 {
     using namespace rapidjson;
     Document document;

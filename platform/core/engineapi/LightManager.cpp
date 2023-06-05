@@ -21,7 +21,7 @@
 #include "LightManager.h"
 
 #include <platform/core/common/light/Light.h>
-#include <platform/core/common/utils/utils.h>
+#include <platform/core/common/utils/Utils.h>
 
 #include <algorithm>
 

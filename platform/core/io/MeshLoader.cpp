@@ -35,8 +35,8 @@
 #include <numeric>
 #include <unordered_map>
 
-#include <platform/core/common/utils/filesystem.h>
-#include <platform/core/common/utils/stringUtils.h>
+#include <platform/core/common/utils/FileSystem.h>
+#include <platform/core/common/utils/StringUtils.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>

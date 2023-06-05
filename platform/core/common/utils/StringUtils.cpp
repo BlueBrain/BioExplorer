@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "stringUtils.h"
+#include "StringUtils.h"
 
 #include <algorithm>
 #include <cctype>

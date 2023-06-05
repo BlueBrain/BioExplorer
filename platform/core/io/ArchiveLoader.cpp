@@ -22,8 +22,8 @@
 #include "ArchiveLoader.h"
 
 #include <platform/core/common/Logs.h>
-#include <platform/core/common/utils/filesystem.h>
-#include <platform/core/common/utils/utils.h>
+#include <platform/core/common/utils/FileSystem.h>
+#include <platform/core/common/utils/Utils.h>
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
 

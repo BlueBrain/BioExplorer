@@ -22,8 +22,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef RENDERINGPARAMETERS_H
-#define RENDERINGPARAMETERS_H
+#pragma once
 
 #include <platform/core/common/Types.h>
 
@@ -148,4 +147,3 @@ protected:
     SERIALIZATION_FRIEND(RenderingParameters)
 };
 } // namespace core
-#endif // RENDERINGPARAMETERS_H

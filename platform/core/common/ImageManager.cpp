@@ -25,8 +25,8 @@
 #include "ImageManager.h"
 
 #include <platform/core/common/Logs.h>
-#include <platform/core/common/utils/filesystem.h>
-#include <platform/core/common/utils/imageUtils.h>
+#include <platform/core/common/utils/FileSystem.h>
+#include <platform/core/common/utils/ImageUtils.h>
 
 namespace core
 {

@@ -22,10 +22,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <platform/core/engineapi/Scene.h>
-
 #include "OSPRayCamera.h"
-#include "utils.h"
+#include "Utils.h"
+
+#include <platform/core/engineapi/Scene.h>
 
 namespace core
 {

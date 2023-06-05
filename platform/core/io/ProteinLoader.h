@@ -22,8 +22,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef PROTEINLOADER_H
-#define PROTEINLOADER_H
+#pragma once
 
 #include <platform/core/common/loader/Loader.h>
 #include <platform/core/parameters/GeometryParameters.h>
@@ -56,5 +55,3 @@ private:
     PropertyMap _defaults;
 };
 } // namespace core
-
-#endif // PROTEINLOADER_H

@@ -27,7 +27,7 @@
 #include <platform/core/common/Api.h>
 #include <platform/core/common/BaseObject.h>
 #include <platform/core/common/Types.h>
-#include <platform/core/common/utils/imageUtils.h>
+#include <platform/core/common/utils/ImageUtils.h>
 
 namespace core
 {

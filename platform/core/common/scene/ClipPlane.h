@@ -19,8 +19,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef ClipPlane_H
-#define ClipPlane_H
+#pragma once
 
 #include <platform/core/common/Api.h>
 #include <platform/core/common/Types.h>
@@ -57,4 +56,3 @@ private:
     SERIALIZATION_FRIEND(ClipPlane);
 };
 } // namespace core
-#endif // Model_H

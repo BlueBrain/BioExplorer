@@ -23,10 +23,10 @@
  */
 
 #include "OSPRayFrameBuffer.h"
-#include "utils.h"
+#include "Utils.h"
 
-#include <platform/core/common/Logs.h>
 #include <ospray/SDK/common/OSPCommon.h>
+#include <platform/core/common/Logs.h>
 
 namespace core
 {

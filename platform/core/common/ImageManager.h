@@ -22,11 +22,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef IMAGEMANAGER_H
-#define IMAGEMANAGER_H
+#pragma once
 
-#include <platform/core/common/material/Texture2D.h>
 #include <platform/core/common/Types.h>
+#include <platform/core/common/material/Texture2D.h>
 
 namespace core
 {
@@ -47,4 +46,3 @@ public:
     static Texture2DPtr importTextureFromFile(const std::string& filename, const TextureType type);
 };
 } // namespace core
-#endif // IMAGEMANAGER_H

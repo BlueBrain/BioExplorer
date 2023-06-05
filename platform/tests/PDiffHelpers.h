@@ -24,7 +24,7 @@
 #include <Defines.h>
 
 #include <platform/core/Core.h>
-#include <platform/core/common/utils/imageUtils.h>
+#include <platform/core/common/utils/ImageUtils.h>
 #include <platform/core/engineapi/FrameBuffer.h>
 
 #include <deps/perceptualdiff/metric.h>

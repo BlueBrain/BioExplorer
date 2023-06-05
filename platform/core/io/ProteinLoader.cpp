@@ -26,7 +26,7 @@
 
 #include <platform/core/common/Logs.h>
 #include <platform/core/common/Types.h>
-#include <platform/core/common/utils/utils.h>
+#include <platform/core/common/utils/Utils.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Model.h>
