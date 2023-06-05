@@ -28,7 +28,7 @@ namespace metabolism
 {
 namespace common
 {
-#define PLUGIN_PREFIX "ME"
+#define PLUGIN_PREFIX "METABOLISM      "
 
 #define PLUGIN_ERROR(message) std::cerr << "E [" << PLUGIN_PREFIX << "] " << message << std::endl;
 #define PLUGIN_WARN(message) std::cerr << "W [" << PLUGIN_PREFIX << "] " << message << std::endl;

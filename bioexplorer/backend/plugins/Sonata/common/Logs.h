@@ -30,7 +30,7 @@ namespace sonataexplorer
 {
 namespace common
 {
-#define PLUGIN_PREFIX "SE"
+#define PLUGIN_PREFIX "SONATA_EXPLORER "
 #define PROGRESS_BAR_SIZE 50
 
 #define PLUGIN_ERROR(__msg) std::cerr << "E [" << PLUGIN_PREFIX << "] " << __msg << std::endl;

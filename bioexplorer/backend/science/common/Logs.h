@@ -33,7 +33,7 @@ namespace bioexplorer
 {
 namespace common
 {
-#define PLUGIN_PREFIX "BE"
+#define PLUGIN_PREFIX "BIO_EXPLORER    "
 #define PROGRESS_BAR_SIZE 50
 
 #define PLUGIN_ERROR(__msg) std::cerr << "E [" << PLUGIN_PREFIX << "] " << __msg << std::endl;

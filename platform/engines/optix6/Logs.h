@@ -28,7 +28,7 @@
 
 namespace core
 {
-#define PLUGIN_PREFIX "X6"
+#define PLUGIN_PREFIX "OPTIX_6_ENGINE  "
 #define PROGRESS_BAR_SIZE 50
 
 #define PLUGIN_ERROR(message) std::cerr << "E [" << PLUGIN_PREFIX << "] " << message << std::endl;

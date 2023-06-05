@@ -28,7 +28,7 @@
 
 namespace core
 {
-#define PLUGIN_PREFIX "O1"
+#define PLUGIN_PREFIX "OSPRAY_1_ENGINE "
 #define PROGRESS_BAR_SIZE 50
 
 #define PLUGIN_ERROR(message) std::cerr << "E [" << PLUGIN_PREFIX << "] " << message << std::endl;

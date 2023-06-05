@@ -24,7 +24,8 @@
 
 namespace core
 {
-#define CORE_PREFIX "BR"
+#define CORE_PREFIX "CORE            " // 16 characters
+
 #define PROGRESS_BAR_SIZE 50
 
 #define CORE_ERROR(__msg) std::cerr << "E [" << CORE_PREFIX << "] " << __msg << std::endl;

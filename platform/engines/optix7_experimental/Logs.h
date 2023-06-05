@@ -30,7 +30,7 @@
 
 namespace core
 {
-#define PLUGIN_PREFIX "X7"
+#define PLUGIN_PREFIX "OPTIX_7_ENGINE  "
 #define PROGRESS_BAR_SIZE 50
 
 #define PLUGIN_ERROR(__msg) std::cerr << "E [" << PLUGIN_PREFIX << "] " << __msg << std::endl;
