@@ -54,6 +54,16 @@ set(BIOEXPLORER_SOURCE_DIRS ${PROJECT_SOURCE_DIR} ${CMAKE_BINARY_DIR}/generated/
 # ==============================================================================
 # Options
 # ==============================================================================
+
+# Find the Intel C++ compiler
+find_program(CMAKE_CXX_COMPILER NAMES icpc)
+if(CMAKE_CXX_COMPILER)
+    # If found, set the compiler and related flags
+    message(STATUS "[Core] Building with Intel C++ compiler")
+    # Set the compiler
+    set(CMAKE_CXX_COMPILER ${CMAKE_CXX_COMPILER} CACHE FILEPATH "Intel C++ compiler" FORCE)
+endif()
+
 set(OSPRAY_FOUND 0)
 if(ospray_FOUND)
     include(ispc)
