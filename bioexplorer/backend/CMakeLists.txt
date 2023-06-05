@@ -26,8 +26,6 @@ set(LIBRARY_NAME BioExplorer)
 # ==============================================================================
 option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
 
-add_subdirectory(deps)
-
 # Packages
 find_package(OpenMP)
 find_package(PQXX REQUIRED)
