@@ -58,9 +58,9 @@ RUN apt-get update \
 
 # --------------------------------------------------------------------------------
 # Get ISPC
-# https://github.com/ispc/ispc/releases/download/v1.10.0/ispc-v1.10.0b-linux.tar.gz
+# https://github.com/ispc/ispc/releases/download/v1.12.0/ispc-v1.12.0b-linux.tar.gz
 # --------------------------------------------------------------------------------
-ARG ISPC_VERSION=1.10.0
+ARG ISPC_VERSION=1.12.0
 ARG ISPC_DIR=ispc-v${ISPC_VERSION}b-linux
 ARG ISPC_PATH=/app/$ISPC_DIR
 
@@ -169,11 +169,21 @@ RUN cd ${BIOEXPLORER_SRC} \
    CMAKE_PREFIX_PATH=${DIST_PATH} \
    LDFLAGS="-lCGAL" \
    cmake .. -GNinja \
-   -DCORE_NETWORKING_ENABLED=ON \
-   -DBIOEXPLORER_UNIT_TESTING_ENABLED=OFF \
-   -DBIOEXPLORER_USE_CGAL=ON \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
    -DCMAKE_BUILD_TYPE=Release \
+   -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=ON \
+   -DPLATFORM_USE_CGAL=ON \
+   -DPLATFORM_OPTIX6_ENABLED=OFF \
+   -DPLATFORM_OPTIX7_ENABLED=OFF \
+   -DPLATFORM_NETWORKING_ENABLED=ON \
+   -DPLATFORM_ASSIMP_ENABLED=ON \
+   -DPLATFORM_VRPN_ENABLED=OFF \
+   -DPLATFORM_MULTIVIEW_ENABLED=OFF \
+   -DPLATFORM_OPENDECK_ENABLED=OFF \
+   -DPLATFORM_DEFLECT_ENABLED=OFF \
+   -DBIOEXPLORER_SONATA_ENABLED=OFF \
+   -DBIOEXPLORER_METABOLISM_ENABLED=OFF \
+   -DBIOEXPLORER_MEDIAMAKER_ENABLED=ON \
    && ninja install \
    && ninja clean
 
@@ -226,5 +236,5 @@ EXPOSE 8200
 # `docker run -ti --rm --entrypoint bash -p 8200:8200 bioexplorer`
 # See https://docs.docker.com/engine/reference/run/#entrypoint-default-command-to-execute-at-runtime
 # for more docs
-ENTRYPOINT ["braynsService"]
+ENTRYPOINT ["service"]
 CMD ["--http-server", ":8200", "--plugin", "MediaMaker", "--plugin", "Metabolism", "--plugin", "BioExplorer"]
