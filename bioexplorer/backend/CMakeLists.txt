@@ -44,103 +44,103 @@ include_directories(
 # Sources
 # ==============================================================================
 set(${NAME}_SOURCES
-    plugin/common/GeneralSettings.cpp
-    plugin/common/Utils.cpp
-    plugin/common/UniqueId.cpp
-    plugin/common/Node.cpp
-    plugin/common/SDFGeometries.cpp
-    plugin/common/shapes/Shape.cpp
-    plugin/common/shapes/SphereShape.cpp
-    plugin/common/shapes/SphericalCellDiffusionShape.cpp
-    plugin/common/shapes/HelixShape.cpp
-    plugin/common/shapes/PlaneShape.cpp
-    plugin/common/shapes/CubeShape.cpp
-    plugin/common/shapes/BezierShape.cpp
-    plugin/common/shapes/SinusoidShape.cpp
-    plugin/common/shapes/FanShape.cpp
-    plugin/common/shapes/RNAShape.cpp
-    plugin/common/shapes/PointShape.cpp
-    plugin/common/Assembly.cpp
-    plugin/common/ThreadSafeContainer.cpp
-    plugin/common/Octree.cpp
-    plugin/common/OctreeNode.cpp
-    plugin/fields/FieldsHandler.cpp
-    plugin/io/CacheLoader.cpp
-    plugin/io/OOCManager.cpp
-    plugin/io/db/DBConnector.cpp
-    plugin/molecularsystems/EnzymeReaction.cpp
-    plugin/molecularsystems/Molecule.cpp
-    plugin/molecularsystems/Membrane.cpp
-    plugin/molecularsystems/Glycans.cpp
-    plugin/molecularsystems/Protein.cpp
-    plugin/molecularsystems/RNASequence.cpp
-    plugin/morphologies/Morphologies.cpp
-    plugin/atlas/Atlas.cpp
-    plugin/morphologies/Synapses.cpp
-    plugin/morphologies/Astrocytes.cpp
-    plugin/morphologies/Neurons.cpp
-    plugin/morphologies/SpikeSimulationHandler.cpp
-    plugin/morphologies/SomaSimulationHandler.cpp
-    plugin/morphologies/CompartmentSimulationHandler.cpp
-    plugin/vasculature/VasculatureHandler.cpp
-    plugin/vasculature/Vasculature.cpp
-    plugin/connectomics/whitematter/WhiteMatter.cpp
-    plugin/connectomics/synapses/SynapseEfficacy.cpp
-    plugin/connectomics/synapses/SynapseEfficacySimulationHandler.cpp
-    plugin/meshing/PointCloudMesher.cpp
-    plugin/meshing/SurfaceMesher.cpp
-    plugin/api/Params.cpp
-    plugin/BioExplorerPlugin.cpp
+    science/common/GeneralSettings.cpp
+    science/common/Utils.cpp
+    science/common/UniqueId.cpp
+    science/common/Node.cpp
+    science/common/SDFGeometries.cpp
+    science/common/shapes/Shape.cpp
+    science/common/shapes/SphereShape.cpp
+    science/common/shapes/SphericalCellDiffusionShape.cpp
+    science/common/shapes/HelixShape.cpp
+    science/common/shapes/PlaneShape.cpp
+    science/common/shapes/CubeShape.cpp
+    science/common/shapes/BezierShape.cpp
+    science/common/shapes/SinusoidShape.cpp
+    science/common/shapes/FanShape.cpp
+    science/common/shapes/RNAShape.cpp
+    science/common/shapes/PointShape.cpp
+    science/common/Assembly.cpp
+    science/common/ThreadSafeContainer.cpp
+    science/common/Octree.cpp
+    science/common/OctreeNode.cpp
+    science/fields/FieldsHandler.cpp
+    science/io/CacheLoader.cpp
+    science/io/OOCManager.cpp
+    science/io/db/DBConnector.cpp
+    science/molecularsystems/EnzymeReaction.cpp
+    science/molecularsystems/Molecule.cpp
+    science/molecularsystems/Membrane.cpp
+    science/molecularsystems/Glycans.cpp
+    science/molecularsystems/Protein.cpp
+    science/molecularsystems/RNASequence.cpp
+    science/morphologies/Morphologies.cpp
+    science/atlas/Atlas.cpp
+    science/morphologies/Synapses.cpp
+    science/morphologies/Astrocytes.cpp
+    science/morphologies/Neurons.cpp
+    science/morphologies/SpikeSimulationHandler.cpp
+    science/morphologies/SomaSimulationHandler.cpp
+    science/morphologies/CompartmentSimulationHandler.cpp
+    science/vasculature/VasculatureHandler.cpp
+    science/vasculature/Vasculature.cpp
+    science/connectomics/whitematter/WhiteMatter.cpp
+    science/connectomics/synapses/SynapseEfficacy.cpp
+    science/connectomics/synapses/SynapseEfficacySimulationHandler.cpp
+    science/meshing/PointCloudMesher.cpp
+    science/meshing/SurfaceMesher.cpp
+    science/api/Params.cpp
+    science/BioExplorerPlugin.cpp
 )
 
 set(${NAME}_PUBLIC_HEADERS
-    plugin/io/OOCManager.h
-    plugin/io/CacheLoader.h
-    plugin/io/db/DBConnector.h
-    plugin/common/Assembly.h
-    plugin/common/Node.h
-    plugin/common/SDFGeometries.h
-    plugin/molecularsystems/EnzymeReaction.h
-    plugin/molecularsystems/Molecule.h
-    plugin/molecularsystems/Glycans.h
-    plugin/molecularsystems/Membrane.h
-    plugin/molecularsystems/Protein.h
-    plugin/molecularsystems/RNASequence.h
-    plugin/atlas/Atlas.h
-    plugin/morphologies/Synapses.h
-    plugin/morphologies/Morphologies.h
-    plugin/morphologies/Astrocytes.h
-    plugin/morphologies/Neurons.h
-    plugin/morphologies/SpikeSimulationHandler.h
-    plugin/morphologies/SomaSimulationHandler.h
-    plugin/morphologies/CompartmentSimulationHandler.h
-    plugin/vasculature/VasculatureHandler.h
-    plugin/vasculature/Vasculature.h
-    plugin/connectomics/whitematter/WhiteMatter.h
-    plugin/connectomics/synapses/SynapseEfficacy.h
-    plugin/connectomics/synapses/SynapseEfficacySimulationHandler.h
-    plugin/common/UniqueId.h
-    plugin/common/GeneralSettings.h
-    plugin/common/CommonTypes.h
-    plugin/common/ThreadSafeContainer.h
-    plugin/common/shapes/Shape.h
-    plugin/common/shapes/SphereShape.h
-    plugin/common/shapes/SphericalCellDiffusionShape.h
-    plugin/common/shapes/HelixShape.h
-    plugin/common/shapes/PlaneShape.h
-    plugin/common/shapes/CubeShape.h
-    plugin/common/shapes/BezierShape.h
-    plugin/common/shapes/SinusoidShape.h
-    plugin/common/shapes/FanShape.h
-    plugin/common/shapes/RNAShape.h
-    plugin/common/shapes/PointShape.h
-    plugin/common/Octree.h
-    plugin/common/OctreeNode.h
-    plugin/meshing/PointCloudMesher.h
-    plugin/fields/FieldsHandler.h
-    plugin/meshing/SurfaceMesher.h
-    plugin/api/Params.h
-    plugin/BioExplorerPlugin.h
+    science/io/OOCManager.h
+    science/io/CacheLoader.h
+    science/io/db/DBConnector.h
+    science/common/Assembly.h
+    science/common/Node.h
+    science/common/SDFGeometries.h
+    science/molecularsystems/EnzymeReaction.h
+    science/molecularsystems/Molecule.h
+    science/molecularsystems/Glycans.h
+    science/molecularsystems/Membrane.h
+    science/molecularsystems/Protein.h
+    science/molecularsystems/RNASequence.h
+    science/atlas/Atlas.h
+    science/morphologies/Synapses.h
+    science/morphologies/Morphologies.h
+    science/morphologies/Astrocytes.h
+    science/morphologies/Neurons.h
+    science/morphologies/SpikeSimulationHandler.h
+    science/morphologies/SomaSimulationHandler.h
+    science/morphologies/CompartmentSimulationHandler.h
+    science/vasculature/VasculatureHandler.h
+    science/vasculature/Vasculature.h
+    science/connectomics/whitematter/WhiteMatter.h
+    science/connectomics/synapses/SynapseEfficacy.h
+    science/connectomics/synapses/SynapseEfficacySimulationHandler.h
+    science/common/UniqueId.h
+    science/common/GeneralSettings.h
+    science/common/CommonTypes.h
+    science/common/ThreadSafeContainer.h
+    science/common/shapes/Shape.h
+    science/common/shapes/SphereShape.h
+    science/common/shapes/SphericalCellDiffusionShape.h
+    science/common/shapes/HelixShape.h
+    science/common/shapes/PlaneShape.h
+    science/common/shapes/CubeShape.h
+    science/common/shapes/BezierShape.h
+    science/common/shapes/SinusoidShape.h
+    science/common/shapes/FanShape.h
+    science/common/shapes/RNAShape.h
+    science/common/shapes/PointShape.h
+    science/common/Octree.h
+    science/common/OctreeNode.h
+    science/meshing/PointCloudMesher.h
+    science/fields/FieldsHandler.h
+    science/meshing/SurfaceMesher.h
+    science/api/Params.h
+    science/BioExplorerPlugin.h
 )
 
 if(${CGAL_FOUND} AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -148,8 +148,8 @@ if(${CGAL_FOUND} AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 if(ASSIMP_FOUND)
-    list(APPEND ${NAME}_SOURCES plugin/common/shapes/MeshShape.cpp)
-    list(APPEND ${NAME}_PUBLIC_HEADERS plugin/common/shapes/MeshShape.h)
+    list(APPEND ${NAME}_SOURCES science/common/shapes/MeshShape.cpp)
+    list(APPEND ${NAME}_PUBLIC_HEADERS science/common/shapes/MeshShape.h)
     list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES ${ASSIMP_LIBRARIES})
 endif()
 
@@ -195,7 +195,7 @@ endif()
 # ==============================================================================
 # OptiX 6 module
 # ==============================================================================
-if(CORE_OPTIX6_ENABLED)
+if(PLATFORM_OPTIX6_ENABLED)
     list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIRS}/CMake)
 
     find_package(CUDA REQUIRED)
@@ -276,3 +276,25 @@ INSTALL(TARGETS ${LIBRARY_NAME}
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib)
+
+
+# ==============================================================================
+# Plugins
+# ==============================================================================
+option(BIOEXPLORER_MEDIA_MAKER_ENABLED "Enable media maker plugin" ON)
+if(BIOEXPLORER_MEDIA_MAKER_ENABLED)
+    message(STATUS "[BioExplorer] Building MediaMaker plugin")
+    add_subdirectory(plugins/MediaMaker)
+endif()
+
+option(BIOEXPLORER_METABOLISM_ENABLED "Enable metabolism plugin" ON)
+if(BIOEXPLORER_METABOLISM_ENABLED)
+    message(STATUS "[BioExplorer] Building Metabolism plugin")
+    add_subdirectory(plugins/Metabolism)
+endif()
+
+option(BIOEXPLORER_SONATA_ENABLED "Enable SONATA plugin" OFF)
+if(BIOEXPLORER_SONATA_ENABLED)
+    message(STATUS "[BioExplorer] Building SONATA plugin")
+    add_subdirectory(plugins/Sonata)
+endif()

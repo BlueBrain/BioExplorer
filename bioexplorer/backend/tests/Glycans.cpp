@@ -18,9 +18,9 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <plugin/common/Logs.h>
-#include <plugin/common/Node.h>
-#include <plugin/molecularsystems/Glycans.h>
+#include <science/common/Logs.h>
+#include <science/common/Node.h>
+#include <science/molecularsystems/Glycans.h>
 
 #include <platform/core/Brayns.h>
 #include <platform/core/engineapi/Engine.h>

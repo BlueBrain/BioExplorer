@@ -18,10 +18,10 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <plugin/common/Assembly.h>
-#include <plugin/common/Logs.h>
-#include <plugin/molecularsystems/Membrane.h>
-#include <plugin/molecularsystems/Protein.h>
+#include <science/common/Assembly.h>
+#include <science/common/Logs.h>
+#include <science/molecularsystems/Membrane.h>
+#include <science/molecularsystems/Protein.h>
 
 #include <platform/core/Brayns.h>
 #include <platform/core/engineapi/Engine.h>

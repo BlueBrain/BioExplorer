@@ -7,7 +7,7 @@
 # ==============================================================================
 # Project
 # ==============================================================================
-set(NAME CORE_PLUGIN_MULTIVIEW)
+set(NAME PLATFORM_PLUGIN_MULTIVIEW)
 set(LIBRARY_NAME CorePluginMultiview)
 
 set(${NAME}_HEADERS MultiviewPlugin.h)

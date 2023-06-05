@@ -6,7 +6,7 @@
 # ==============================================================================
 # Project
 # ==============================================================================
-set(NAME CORE_UI)
+set(NAME PLATFORM_UI)
 set(LIBRARY_NAME CoreUI)
 
 set(${NAME}_SOURCES BaseWindow.cpp)

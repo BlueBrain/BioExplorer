@@ -6,7 +6,7 @@
 # ==============================================================================
 # Project
 # ==============================================================================
-set(NAME CORE_IO)
+set(NAME PLATFORM_IO)
 set(LIBRARY_NAME CoreIO)
 
 # ==============================================================================
@@ -30,7 +30,7 @@ if(BRAYNS_LIBARCHIVE_ENABLED)
   list(APPEND ${NAME}_LINK_LIBRARIES PRIVATE ${LibArchive_LIBRARIES})
 endif()
 
-if(CORE_ASSIMP_ENABLED)
+if(PLATFORM_ASSIMP_ENABLED)
   list(
     APPEND ${NAME}_SOURCES
     MeshLoader.cpp
@@ -66,7 +66,7 @@ set(${NAME}_INCLUDE_NAME brayns/io)
 
 add_library(${LIBRARY_NAME} SHARED ${${NAME}_SOURCES})
 
-if(CORE_ASSIMP_ENABLED)
+if(PLATFORM_ASSIMP_ENABLED)
   if(assimp_VERSION VERSION_EQUAL 4.1.0)
     target_compile_definitions(${LIBRARY_NAME} PRIVATE USE_CUSTOM_PLY_IMPORTER)
   endif()

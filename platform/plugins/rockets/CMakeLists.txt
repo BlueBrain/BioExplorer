@@ -7,7 +7,7 @@
 # ==============================================================================
 # Project
 # ==============================================================================
-set(NAME CORE_PLUGIN_ROCKETS)
+set(NAME PLATFORM_PLUGIN_ROCKETS)
 set(LIBRARY_NAME CorePluginRockets)
 
 set(${NAME}_HEADERS

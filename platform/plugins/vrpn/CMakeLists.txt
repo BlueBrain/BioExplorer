@@ -6,7 +6,7 @@
 # ==============================================================================
 # Project
 # ==============================================================================
-set(NAME CORE_PLUGIN_VRPN)
+set(NAME PLATFORM_PLUGIN_VRPN)
 set(LIBRARY_NAME CorePluginVRPN)
 
 find_package(VRPN REQUIRED)

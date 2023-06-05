@@ -21,7 +21,7 @@ set(
   PRIVATE ${GLM_LIBRARIES} Core CoreCommon CoreIO CoreParameters
 )
 
-if(CORE_NETWORKING_ENABLED)
+if(PLATFORM_NETWORKING_ENABLED)
   list(APPEND ${NAME}_LINK_LIBRARIES PRIVATE CorePluginRockets)
 endif()
 

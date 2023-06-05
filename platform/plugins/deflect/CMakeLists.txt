@@ -7,7 +7,7 @@
 # ==============================================================================
 # Project
 # ==============================================================================
-set(NAME CORE_PLUGIN_DEFLECT)
+set(NAME PLATFORM_PLUGIN_DEFLECT)
 set(LIBRARY_NAME CorePluginDeflect)
 
 find_package(Deflect REQUIRED)

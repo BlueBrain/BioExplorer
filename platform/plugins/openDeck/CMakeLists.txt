@@ -6,7 +6,7 @@
 # ==============================================================================
 # Project
 # ==============================================================================
-set(NAME CORE_PLUGIN_OPENDECK)
+set(NAME PLATFORM_PLUGIN_OPENDECK)
 set(LIBRARY_NAME CorePluginOpenDeck)
 
 include_directories(${CMAKE_BINARY_DIR}/generated/opendeck)
