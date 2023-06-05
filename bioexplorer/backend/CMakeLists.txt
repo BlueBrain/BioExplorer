@@ -158,7 +158,7 @@ set(${NAME}_PRIVATE_MODULE_LIBRARIES)
 # ==============================================================================
 # OSPRay module
 # ==============================================================================
-if(BIOEXPLORER_OSPRAY_ENABLED)
+if(PLATFORM_OSPRAY_ENABLED)
     list(APPEND ${NAME}_SOURCES
         module/ispc/renderer/artistic/GolgiStyleRenderer.cpp
         module/ispc/renderer/FieldsRenderer.cpp

@@ -57,7 +57,7 @@ set(${NAME}_PRIVATE_MODULE_LIBRARIES)
 # ==============================================================================
 # OSPRay module
 # ==============================================================================
-if(BIOEXPLORER_OSPRAY_ENABLED)
+if(PLATFORM_OSPRAY_ENABLED)
     message(STATUS "[MediaMaker] Building OSPRay module")
     include(ispc)
 
