@@ -1,26 +1,26 @@
-<map id="/home/favreau/code/favreau/BioExplorer/platform/core/common/light/Light.cpp" name="/home/favreau/code/favreau/BioExplorer/platform/core/common/light/Light.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="443,5,618,76"/>
-<area shape="rect" id="node2" href="$d4/d73/Light_8h.html" title=" " alt="" coords="427,131,493,158"/>
-<area shape="rect" id="node23" href="$d5/d49/core_2common_2utils_2utils_8h.html" title=" " alt="" coords="520,124,691,165"/>
-<area shape="rect" id="node3" href="$de/d53/platform_2core_2common_2Types_8h.html" title=" " alt="" coords="371,213,541,255"/>
-<area shape="rect" id="node4" href="$d5/d55/MathTypes_8h.html" title=" " alt="" coords="685,303,856,344"/>
-<area shape="rect" id="node8" title=" " alt="" coords="187,399,250,426"/>
-<area shape="rect" id="node15" href="$d3/d32/enumUtils_8h.html" title=" " alt="" coords="11,303,181,344"/>
-<area shape="rect" id="node18" title=" " alt="" coords="256,310,312,337"/>
-<area shape="rect" id="node19" title=" " alt="" coords="336,310,403,337"/>
-<area shape="rect" id="node20" title=" " alt="" coords="427,310,485,337"/>
-<area shape="rect" id="node21" title=" " alt="" coords="509,310,560,337"/>
-<area shape="rect" id="node22" title=" " alt="" coords="584,310,661,337"/>
-<area shape="rect" id="node5" title=" " alt="" coords="719,399,823,426"/>
-<area shape="rect" id="node6" title=" " alt="" coords="847,399,947,426"/>
-<area shape="rect" id="node7" title=" " alt="" coords="971,399,1087,426"/>
-<area shape="rect" id="node9" href="$d0/d3f/BaseObject_8h.html" title=" " alt="" coords="329,392,500,433"/>
-<area shape="rect" id="node14" href="$df/d0a/Macros_8h.html" title=" " alt="" coords="524,392,695,433"/>
-<area shape="rect" id="node10" title=" " alt="" coords="243,481,309,508"/>
-<area shape="rect" id="node11" title=" " alt="" coords="334,481,397,508"/>
-<area shape="rect" id="node12" title=" " alt="" coords="421,481,507,508"/>
-<area shape="rect" id="node13" title=" " alt="" coords="531,481,623,508"/>
-<area shape="rect" id="node16" title=" " alt="" coords="5,399,64,426"/>
-<area shape="rect" id="node17" title=" " alt="" coords="89,399,143,426"/>
-<area shape="rect" id="node24" title=" " alt="" coords="565,221,651,247"/>
+<map id="platform/core/common/light/Light.cpp" name="platform/core/common/light/Light.cpp">
+<area shape="rect" id="node1" title=" " alt="" coords="445,5,616,47"/>
+<area shape="rect" id="node2" href="$d4/d73/Light_8h.html" title=" " alt="" coords="427,102,493,129"/>
+<area shape="rect" id="node23" href="$dc/daa/platform_2core_2common_2utils_2Utils_8h.html" title=" " alt="" coords="520,95,691,136"/>
+<area shape="rect" id="node3" href="$de/d53/platform_2core_2common_2Types_8h.html" title=" " alt="" coords="371,184,541,225"/>
+<area shape="rect" id="node4" href="$d5/d55/MathTypes_8h.html" title=" " alt="" coords="685,273,856,315"/>
+<area shape="rect" id="node8" title=" " alt="" coords="187,370,250,397"/>
+<area shape="rect" id="node15" href="$d3/d34/EnumUtils_8h.html" title=" " alt="" coords="11,273,181,315"/>
+<area shape="rect" id="node18" title=" " alt="" coords="256,281,312,307"/>
+<area shape="rect" id="node19" title=" " alt="" coords="336,281,403,307"/>
+<area shape="rect" id="node20" title=" " alt="" coords="427,281,485,307"/>
+<area shape="rect" id="node21" title=" " alt="" coords="509,281,560,307"/>
+<area shape="rect" id="node22" title=" " alt="" coords="584,281,661,307"/>
+<area shape="rect" id="node5" title=" " alt="" coords="719,370,823,397"/>
+<area shape="rect" id="node6" title=" " alt="" coords="847,370,947,397"/>
+<area shape="rect" id="node7" title=" " alt="" coords="971,370,1087,397"/>
+<area shape="rect" id="node9" href="$d0/d3f/BaseObject_8h.html" title=" " alt="" coords="329,363,500,404"/>
+<area shape="rect" id="node14" href="$df/d0a/Macros_8h.html" title=" " alt="" coords="524,363,695,404"/>
+<area shape="rect" id="node10" title=" " alt="" coords="243,452,309,479"/>
+<area shape="rect" id="node11" title=" " alt="" coords="334,452,397,479"/>
+<area shape="rect" id="node12" title=" " alt="" coords="421,452,507,479"/>
+<area shape="rect" id="node13" title=" " alt="" coords="531,452,623,479"/>
+<area shape="rect" id="node16" title=" " alt="" coords="5,370,64,397"/>
+<area shape="rect" id="node17" title=" " alt="" coords="89,370,143,397"/>
+<area shape="rect" id="node24" title=" " alt="" coords="565,191,651,218"/>
 </map>

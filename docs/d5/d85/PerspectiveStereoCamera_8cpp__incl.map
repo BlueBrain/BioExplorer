@@ -1,9 +1,9 @@
-<map id="/home/favreau/code/favreau/BioExplorer/platform/engines/ospray/ispc/camera/PerspectiveStereoCamera.cpp" name="/home/favreau/code/favreau/BioExplorer/platform/engines/ospray/ispc/camera/PerspectiveStereoCamera.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="241,5,546,76"/>
-<area shape="rect" id="node2" href="$dc/d8e/PerspectiveStereoCamera_8h.html" title=" " alt="" coords="63,131,265,158"/>
-<area shape="rect" id="node5" title=" " alt="" coords="289,131,348,158"/>
-<area shape="rect" id="node6" title=" " alt="" coords="373,124,563,165"/>
-<area shape="rect" id="node7" title=" " alt="" coords="588,131,793,158"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,221,144,247"/>
-<area shape="rect" id="node4" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="168,213,339,255"/>
+<map id="platform/engines/ospray/ispc/camera/PerspectiveStereoCamera.cpp" name="platform/engines/ospray/ispc/camera/PerspectiveStereoCamera.cpp">
+<area shape="rect" id="node1" title=" " alt="" coords="280,5,507,61"/>
+<area shape="rect" id="node2" href="$dc/d8e/PerspectiveStereoCamera_8h.html" title=" " alt="" coords="63,117,265,143"/>
+<area shape="rect" id="node5" title=" " alt="" coords="289,117,348,143"/>
+<area shape="rect" id="node6" title=" " alt="" coords="373,109,563,151"/>
+<area shape="rect" id="node7" title=" " alt="" coords="588,117,793,143"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,206,144,233"/>
+<area shape="rect" id="node4" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="168,199,339,240"/>
 </map>

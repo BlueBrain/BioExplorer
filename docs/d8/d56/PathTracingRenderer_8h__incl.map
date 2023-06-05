@@ -1,11 +1,11 @@
-<map id="/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/module/ispc/renderer/PathTracingRenderer.h" name="/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/module/ispc/renderer/PathTracingRenderer.h">
-<area shape="rect" id="node1" title=" " alt="" coords="536,5,707,91"/>
-<area shape="rect" id="node2" href="$df/d86/SimulationRenderer_8h.html" title=" " alt="" coords="519,139,723,195"/>
-<area shape="rect" id="node3" href="$d8/df8/AbstractRenderer_8h.html" title=" " alt="" coords="384,243,531,269"/>
-<area shape="rect" id="node6" title=" " alt="" coords="373,399,601,426"/>
-<area shape="rect" id="node8" title=" " alt="" coords="513,317,730,344"/>
-<area shape="rect" id="node4" href="$d2/de1/AdvancedMaterial_8h.html" title=" " alt="" coords="199,317,351,344"/>
-<area shape="rect" id="node9" title=" " alt="" coords="426,317,489,344"/>
-<area shape="rect" id="node5" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="5,392,176,433"/>
-<area shape="rect" id="node7" title=" " alt="" coords="201,392,349,433"/>
+<map id="bioexplorer/backend/module/ispc/renderer/PathTracingRenderer.h" name="bioexplorer/backend/module/ispc/renderer/PathTracingRenderer.h">
+<area shape="rect" id="node1" title=" " alt="" coords="536,5,707,61"/>
+<area shape="rect" id="node2" href="$df/d86/SimulationRenderer_8h.html" title=" " alt="" coords="519,109,723,165"/>
+<area shape="rect" id="node3" href="$d8/df8/AbstractRenderer_8h.html" title=" " alt="" coords="384,213,531,240"/>
+<area shape="rect" id="node6" title=" " alt="" coords="373,370,601,397"/>
+<area shape="rect" id="node8" title=" " alt="" coords="513,288,730,315"/>
+<area shape="rect" id="node4" href="$d2/de1/AdvancedMaterial_8h.html" title=" " alt="" coords="199,288,351,315"/>
+<area shape="rect" id="node9" title=" " alt="" coords="426,288,489,315"/>
+<area shape="rect" id="node5" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="5,363,176,404"/>
+<area shape="rect" id="node7" title=" " alt="" coords="201,363,349,404"/>
 </map>

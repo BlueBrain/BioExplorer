@@ -1,6 +1,6 @@
-<map id="/home/favreau/code/favreau/BioExplorer/platform/engines/optix7_experimental" name="/home/favreau/code/favreau/BioExplorer/platform/engines/optix7_experimental">
+<map id="platform/engines/optix7_experimental" name="platform/engines/optix7_experimental">
 <area shape="rect" id="node2" href="dir_543ca4d887e927bbe4ecd89a70c2df6c.html" title="cuda" alt="" coords="80,159,152,207"/>
-<area shape="rect" id="edge3-headlabel" href="dir_000069_000080.html" title="1" alt="" coords="120,133,129,148"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000069_000081.html" title="1" alt="" coords="120,133,129,148"/>
 <area shape="rect" id="node3" href="dir_dd545ba873674314ef8abe7626a3e099.html" title="optix6" alt="" coords="227,159,299,207"/>
 <area shape="rect" id="edge1-headlabel" href="dir_000069_000068.html" title="1" alt="" coords="211,134,221,149"/>
 <area shape="rect" id="node4" href="dir_3066efc1f4040d52e90bf8a29ab3f16b.html" title="core" alt="" coords="263,255,335,303"/>

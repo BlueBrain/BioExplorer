@@ -1,7 +1,7 @@
-<map id="/home/favreau/code/favreau/BioExplorer/platform/apps/viewer/ui/BaseWindow.h" name="/home/favreau/code/favreau/BioExplorer/platform/apps/viewer/ui/BaseWindow.h">
-<area shape="rect" id="node1" title=" " alt="" coords="195,5,360,76"/>
-<area shape="rect" id="node2" href="$dc/d05/Viewer_8h.html" title=" " alt="" coords="100,124,265,195"/>
-<area shape="rect" id="node5" href="$de/d43/BaseWindow_8cpp.html" title=" " alt="" coords="289,124,455,195"/>
-<area shape="rect" id="node3" href="$d8/dc7/viewer_2main_8cpp.html" title=" " alt="" coords="5,243,171,313"/>
-<area shape="rect" id="node4" href="$d0/d5b/Viewer_8cpp.html" title=" " alt="" coords="195,243,360,313"/>
+<map id="platform/apps/viewer/ui/BaseWindow.h" name="platform/apps/viewer/ui/BaseWindow.h">
+<area shape="rect" id="node1" title=" " alt="" coords="189,5,351,47"/>
+<area shape="rect" id="node2" href="$dc/d05/Viewer_8h.html" title=" " alt="" coords="97,95,259,136"/>
+<area shape="rect" id="node5" href="$de/d43/BaseWindow_8cpp.html" title=" " alt="" coords="283,95,444,136"/>
+<area shape="rect" id="node3" href="$d8/dc7/viewer_2main_8cpp.html" title=" " alt="" coords="5,184,167,225"/>
+<area shape="rect" id="node4" href="$d0/d5b/Viewer_8cpp.html" title=" " alt="" coords="191,184,352,225"/>
 </map>

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['error_5fstack_5fconst_5fiterator_7743',['error_stack_const_iterator',['../df/dcc/classstaticjson_1_1ErrorBase.html#acdbf0696fb9e71d118806f42d925e277',1,'staticjson::ErrorBase']]],
-  ['errorstack_7744',['ErrorStack',['../df/dcc/classstaticjson_1_1ErrorBase.html#ab81239284c097b7cfc4dbafda33660b0',1,'staticjson::ErrorBase']]]
+  ['pluginmanager_7271',['PluginManager',['../d4/dfc/classcore_1_1ExtensionPlugin.html#ad0ccd35859b04e162412b22bf5200374',1,'core::ExtensionPlugin']]],
+  ['propertymap_7272',['PropertyMap',['../d4/d72/structcore_1_1Property.html#a4c8018a0604445818ecd990fe449a63c',1,'core::Property']]]
 ];

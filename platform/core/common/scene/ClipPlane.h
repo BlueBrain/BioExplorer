@@ -31,28 +31,54 @@ namespace core
 class ClipPlane : public BaseObject
 {
 public:
+    /**
+     * @brief Constructor.
+     * @param plane A constant reference to Plane object.
+     */
     ClipPlane(const Plane& plane)
         : _id(_nextID++)
         , _plane(plane)
     {
     }
 
-    size_t getID() const { return _id; }
-    const Plane& getPlane() const { return _plane; };
-    void setPlane(const Plane& plane) { _updateValue(_plane, plane); }
-    /** @internal */
+    /**
+     * @brief Default constructor defined internally.
+     */
     ClipPlane() = default;
-    /** @internal */
-    ClipPlane(const size_t id, const Plane& plane)
-        : _id(id)
-        , _plane(plane)
-    {
-    }
+
+    /**
+     * @brief Constructor with id and plane defined internally.
+     * @param id A size_t representing the ID of this clip plane object.
+     * @param plane A constant reference to the Plane object.
+     */
+    ClipPlane(const size_t id, const Plane& plane);
+
+    /**
+     * @brief Returns id of this clip plane object.
+     * @return size_t The id of the clip plane object.
+     */
+    size_t getID() const { return _id; }
+
+    /**
+     * @brief Returns the constant reference to the Plane object of this clip plane object.
+     * @return const Plane& A reference to the constant Plane object of this clip plane object.
+     */
+    const Plane& getPlane() const { return _plane; };
+
+    /**
+     * @brief Sets the Plane object of this clip plane object.
+     * @param plane A constant reference to the Plane object to be set.
+     */
+    void setPlane(const Plane& plane) { _updateValue(_plane, plane); }
 
 private:
-    static size_t _nextID;
-    size_t _id = 0;
-    Plane _plane = {{0}};
+    static size_t _nextID; //!< A static variable to get next ID for a clip plane object.
+    size_t _id = 0;        //!< The ID of this clip plane object.
+    Plane _plane = {{0}};  //!< The Plane object of this clip plane object.
+
+    /**
+     * @brief A friend function to help with serialization of ClipPlane objects.
+     */
     SERIALIZATION_FRIEND(ClipPlane);
 };
 } // namespace core

@@ -36,6 +36,6 @@ var dir_f0df884ce09817da20ab1128f63a79fe =
       [ "OSPRayBrickedVolume", "d2/dee/classcore_1_1OSPRayBrickedVolume.html", "d2/dee/classcore_1_1OSPRayBrickedVolume" ],
       [ "OSPRaySharedDataVolume", "d8/d1a/classcore_1_1OSPRaySharedDataVolume.html", "d8/d1a/classcore_1_1OSPRaySharedDataVolume" ]
     ] ],
-    [ "utils.cpp", "db/d78/engines_2ospray_2utils_8cpp.html", "db/d78/engines_2ospray_2utils_8cpp" ],
-    [ "utils.h", "de/dff/engines_2ospray_2utils_8h.html", "de/dff/engines_2ospray_2utils_8h" ]
+    [ "Utils.cpp", "dc/d1b/platform_2engines_2ospray_2Utils_8cpp.html", "dc/d1b/platform_2engines_2ospray_2Utils_8cpp" ],
+    [ "Utils.h", "d6/dba/platform_2engines_2ospray_2Utils_8h.html", "d6/dba/platform_2engines_2ospray_2Utils_8h" ]
 ];

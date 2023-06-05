@@ -46,22 +46,18 @@ var hierarchy =
     [ "bioexplorer::details::AminoAcidInformationDetails", "d6/dda/structbioexplorer_1_1details_1_1AminoAcidInformationDetails.html", null ],
     [ "bioexplorer::details::AminoAcidSequenceAsRangesDetails", "db/de5/structbioexplorer_1_1details_1_1AminoAcidSequenceAsRangesDetails.html", null ],
     [ "bioexplorer::details::AminoAcidSequenceAsStringDetails", "d8/d02/structbioexplorer_1_1details_1_1AminoAcidSequenceAsStringDetails.html", null ],
-    [ "linb::any", "d5/dd2/classlinb_1_1any.html", null ],
     [ "bioexplorer::common::Assembly", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html", null ],
     [ "bioexplorer::details::AssemblyDetails", "d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails.html", null ],
     [ "bioexplorer::details::AssemblyTransformationsDetails", "d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails.html", null ],
     [ "bioexplorer::details::AstrocytesDetails", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html", null ],
     [ "bioexplorer::morphology::AstrocyteSoma", "d6/d17/structbioexplorer_1_1morphology_1_1AstrocyteSoma.html", null ],
     [ "bioexplorer::details::AtlasDetails", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails.html", null ],
-    [ "core::Atom", "da/d9b/structcore_1_1Atom.html", null ],
     [ "bioexplorer::molecularsystems::Atom", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html", null ],
+    [ "core::Atom", "da/d9b/structcore_1_1Atom.html", null ],
     [ "core::AtomicRadius", "d8/d8e/structcore_1_1AtomicRadius.html", null ],
     [ "sonataexplorer::api::AttachCellGrowthHandler", "d5/de4/structsonataexplorer_1_1api_1_1AttachCellGrowthHandler.html", null ],
     [ "sonataexplorer::api::AttachCircuitSimulationHandler", "d7/db5/structsonataexplorer_1_1api_1_1AttachCircuitSimulationHandler.html", null ],
     [ "bioexplorer::metabolism::AttachHandlerDetails", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html", null ],
-    [ "bad_cast", null, [
-      [ "linb::bad_any_cast", "dc/dfa/classlinb_1_1bad__any__cast.html", null ]
-    ] ],
     [ "core::BaseObject", "d1/dc6/classcore_1_1BaseObject.html", [
       [ "core::AbstractParameters", "da/dda/classcore_1_1AbstractParameters.html", [
         [ "core::AnimationParameters", "d4/dfb/classcore_1_1AnimationParameters.html", null ],
@@ -125,8 +121,8 @@ var hierarchy =
     [ "core::BaseWindow", "d5/d7d/classcore_1_1BaseWindow.html", [
       [ "core::Viewer", "d4/dcb/classcore_1_1Viewer.html", null ]
     ] ],
-    [ "BasicLight", "d3/d38/structBasicLight.html", null ],
     [ "core::BasicLight", "d4/d08/structcore_1_1BasicLight.html", null ],
+    [ "BasicLight", "d3/d38/structBasicLight.html", null ],
     [ "core::BinaryRequests", "db/d16/classcore_1_1BinaryRequests.html", null ],
     [ "core::Blob", "dd/db2/structcore_1_1Blob.html", null ],
     [ "core::Box< T >", "df/d44/classcore_1_1Box.html", null ],
@@ -156,18 +152,16 @@ var hierarchy =
     [ "Cone", "d9/d5c/structCone.html", null ],
     [ "core::GeometryData::Cone", "d1/d73/structcore_1_1GeometryData_1_1Cone.html", null ],
     [ "sonataexplorer::api::ConnectionsPerValue", "d1/db0/structsonataexplorer_1_1api_1_1ConnectionsPerValue.html", null ],
-    [ "staticjson::Converter< T >", "d2/dd0/structstaticjson_1_1Converter.html", null ],
     [ "core::Core", "d3/d5e/classcore_1_1Core.html", null ],
     [ "core::Curve", "db/d40/structcore_1_1Curve.html", null ],
     [ "core::GeometryData::Curves", "d1/da6/structcore_1_1GeometryData_1_1Curves.html", null ],
-    [ "Cylinder", "d3/df6/structCylinder.html", null ],
     [ "core::GeometryData::Cylinder", "d6/d65/structcore_1_1GeometryData_1_1Cylinder.html", null ],
+    [ "Cylinder", "d3/df6/structCylinder.html", null ],
     [ "bioexplorer::details::DatabaseAccessDetails", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html", null ],
     [ "bioexplorer::io::db::DBConnector", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html", null ],
     [ "bioexplorer::metabolism::DBConnector", "db/df8/classbioexplorer_1_1metabolism_1_1DBConnector.html", null ],
     [ "core::DirectoryFileList", "d6/d42/structcore_1_1DirectoryFileList.html", null ],
     [ "core::DirectoryFiles", "d9/d44/structcore_1_1DirectoryFiles.html", null ],
-    [ "staticjson::helper::DispatchHandler< T, no_conversion >", "d4/d70/classstaticjson_1_1helper_1_1DispatchHandler.html", null ],
     [ "core::DynamicLib", "d9/d2d/classcore_1_1DynamicLib.html", null ],
     [ "core::Encoder", "de/d28/classcore_1_1Encoder.html", null ],
     [ "bioexplorer::morphology::EndFoot", "d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html", null ],
@@ -179,24 +173,6 @@ var hierarchy =
     [ "core::EnvironmentMapParam", "d2/d85/structcore_1_1EnvironmentMapParam.html", null ],
     [ "bioexplorer::details::EnzymeReactionDetails", "df/dc6/structbioexplorer_1_1details_1_1EnzymeReactionDetails.html", null ],
     [ "bioexplorer::details::EnzymeReactionProgressDetails", "dd/d17/structbioexplorer_1_1details_1_1EnzymeReactionProgressDetails.html", null ],
-    [ "staticjson::ErrorBase", "df/dcc/classstaticjson_1_1ErrorBase.html", [
-      [ "staticjson::error::ArrayLengthMismatchError", "db/dbf/classstaticjson_1_1error_1_1ArrayLengthMismatchError.html", null ],
-      [ "staticjson::error::CorruptedDOMError", "db/d84/classstaticjson_1_1error_1_1CorruptedDOMError.html", null ],
-      [ "staticjson::error::CustomError", "d8/d3e/classstaticjson_1_1error_1_1CustomError.html", null ],
-      [ "staticjson::error::DuplicateKeyError", "d0/d7c/classstaticjson_1_1error_1_1DuplicateKeyError.html", null ],
-      [ "staticjson::error::IntermediateError", "d7/de8/classstaticjson_1_1error_1_1IntermediateError.html", [
-        [ "staticjson::error::ArrayElementError", "d7/df1/classstaticjson_1_1error_1_1ArrayElementError.html", null ],
-        [ "staticjson::error::ObjectMemberError", "d0/d98/classstaticjson_1_1error_1_1ObjectMemberError.html", null ]
-      ] ],
-      [ "staticjson::error::InvalidEnumError", "d8/dca/classstaticjson_1_1error_1_1InvalidEnumError.html", null ],
-      [ "staticjson::error::NumberOutOfRangeError", "d7/d0b/classstaticjson_1_1error_1_1NumberOutOfRangeError.html", null ],
-      [ "staticjson::error::RecursionTooDeepError", "d6/d76/classstaticjson_1_1error_1_1RecursionTooDeepError.html", null ],
-      [ "staticjson::error::RequiredFieldMissingError", "d1/da5/classstaticjson_1_1error_1_1RequiredFieldMissingError.html", null ],
-      [ "staticjson::error::Success", "db/dab/classstaticjson_1_1error_1_1Success.html", null ],
-      [ "staticjson::error::TypeMismatchError", "d1/d6a/classstaticjson_1_1error_1_1TypeMismatchError.html", null ],
-      [ "staticjson::error::UnknownFieldError", "db/d54/classstaticjson_1_1error_1_1UnknownFieldError.html", null ]
-    ] ],
-    [ "staticjson::ErrorStack", "dd/d70/classstaticjson_1_1ErrorStack.html", null ],
     [ "core::ExitLaterSchedule", "d3/da5/structcore_1_1ExitLaterSchedule.html", null ],
     [ "bioexplorer::mediamaker::ExportFramesToDisk", "db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html", null ],
     [ "sonataexplorer::api::ExportModelToFile", "dd/df2/structsonataexplorer_1_1api_1_1ExportModelToFile.html", null ],
@@ -217,8 +193,6 @@ var hierarchy =
     [ "core::FileRoot", "d1/d6f/structcore_1_1FileRoot.html", null ],
     [ "core::FileStats", "dc/d91/structcore_1_1FileStats.html", null ],
     [ "core::FileType", "df/dda/structcore_1_1FileType.html", null ],
-    [ "staticjson::ObjectHandler::FlaggedHandler", "da/d01/structstaticjson_1_1ObjectHandler_1_1FlaggedHandler.html", null ],
-    [ "staticjson::Flags", "de/d68/structstaticjson_1_1Flags.html", null ],
     [ "bioexplorer::details::FocusOnDetails", "d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html", null ],
     [ "bioexplorer::mediamaker::FrameExportProgress", "dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html", null ],
     [ "bioexplorer::common::GeneralSettings", "d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html", null ],
@@ -248,89 +222,8 @@ var hierarchy =
     [ "bioexplorer::common::GeometryNode", "d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html", null ],
     [ "core::GetInstances", "df/d87/structcore_1_1GetInstances.html", null ],
     [ "core::Glass", "df/d5a/structcore_1_1Glass.html", null ],
-    [ "staticjson::Handler< T >", "db/df2/classstaticjson_1_1Handler.html", null ],
-    [ "staticjson::Handler< ElementType >", "db/df2/classstaticjson_1_1Handler.html", null ],
-    [ "staticjson::Handler< shadow_type >", "db/df2/classstaticjson_1_1Handler.html", null ],
     [ "core::HitGroupData", "d3/d2f/structcore_1_1HitGroupData.html", null ],
     [ "bioexplorer::details::IdsDetails", "d1/d91/structbioexplorer_1_1details_1_1IdsDetails.html", null ],
-    [ "staticjson::IHandler", "d0/d59/classstaticjson_1_1IHandler.html", [
-      [ "staticjson::BaseHandler", "d8/d83/classstaticjson_1_1BaseHandler.html", [
-        [ "staticjson::ArrayHandler< std::deque< T > >", "d9/df2/classstaticjson_1_1ArrayHandler.html", [
-          [ "staticjson::Handler< std::deque< T > >", "dd/dd0/classstaticjson_1_1Handler_3_01std_1_1deque_3_01T_01_4_01_4.html", null ]
-        ] ],
-        [ "staticjson::ArrayHandler< std::list< T > >", "d9/df2/classstaticjson_1_1ArrayHandler.html", [
-          [ "staticjson::Handler< std::list< T > >", "d3/d9c/classstaticjson_1_1Handler_3_01std_1_1list_3_01T_01_4_01_4.html", null ]
-        ] ],
-        [ "staticjson::ArrayHandler< std::vector< T > >", "d9/df2/classstaticjson_1_1ArrayHandler.html", [
-          [ "staticjson::Handler< std::vector< T > >", "d8/d01/classstaticjson_1_1Handler_3_01std_1_1vector_3_01T_01_4_01_4.html", null ]
-        ] ],
-        [ "staticjson::IntegerHandler< int >", "da/d8f/classstaticjson_1_1IntegerHandler.html", [
-          [ "staticjson::Handler< int >", "dc/dd5/classstaticjson_1_1Handler_3_01int_01_4.html", null ]
-        ] ],
-        [ "staticjson::IntegerHandler< long >", "da/d8f/classstaticjson_1_1IntegerHandler.html", [
-          [ "staticjson::Handler< long >", "d7/d84/classstaticjson_1_1Handler_3_01long_01_4.html", null ]
-        ] ],
-        [ "staticjson::IntegerHandler< long long >", "da/d8f/classstaticjson_1_1IntegerHandler.html", [
-          [ "staticjson::Handler< long long >", "d3/dbe/classstaticjson_1_1Handler_3_01long_01long_01_4.html", null ]
-        ] ],
-        [ "staticjson::IntegerHandler< unsigned int >", "da/d8f/classstaticjson_1_1IntegerHandler.html", [
-          [ "staticjson::Handler< unsigned int >", "d1/de8/classstaticjson_1_1Handler_3_01unsigned_01int_01_4.html", null ]
-        ] ],
-        [ "staticjson::IntegerHandler< unsigned long >", "da/d8f/classstaticjson_1_1IntegerHandler.html", [
-          [ "staticjson::Handler< unsigned long >", "d9/d35/classstaticjson_1_1Handler_3_01unsigned_01long_01_4.html", null ]
-        ] ],
-        [ "staticjson::IntegerHandler< unsigned long long >", "da/d8f/classstaticjson_1_1IntegerHandler.html", [
-          [ "staticjson::Handler< unsigned long long >", "d2/d3a/classstaticjson_1_1Handler_3_01unsigned_01long_01long_01_4.html", null ]
-        ] ],
-        [ "staticjson::MapHandler< std::map< std::string, T, Hash, Equal > >", "dd/d70/classstaticjson_1_1MapHandler.html", [
-          [ "staticjson::Handler< std::map< std::string, T, Hash, Equal > >", "db/d47/classstaticjson_1_1Handler_3_01std_1_1map_3_01std_1_1string_00_01T_00_01Hash_00_01Equal_01_4_01_4.html", null ]
-        ] ],
-        [ "staticjson::MapHandler< std::multimap< std::string, T, Hash, Equal > >", "dd/d70/classstaticjson_1_1MapHandler.html", [
-          [ "staticjson::Handler< std::multimap< std::string, T, Hash, Equal > >", "de/d1a/classstaticjson_1_1Handler_3_01std_1_1multimap_3_01std_1_1string_00_01T_00_01Hash_00_01Equal_01_4_01_4.html", null ]
-        ] ],
-        [ "staticjson::MapHandler< std::unordered_map< std::string, T, Hash, Equal > >", "dd/d70/classstaticjson_1_1MapHandler.html", [
-          [ "staticjson::Handler< std::unordered_map< std::string, T, Hash, Equal > >", "d2/de8/classstaticjson_1_1Handler_3_01std_1_1unordered__map_3_01std_1_1string_00_01T_00_01Hash_00_01Equal_01_4_01_4.html", null ]
-        ] ],
-        [ "staticjson::MapHandler< std::unordered_multimap< std::string, T, Hash, Equal > >", "dd/d70/classstaticjson_1_1MapHandler.html", [
-          [ "staticjson::Handler< std::unordered_multimap< std::string, T, Hash, Equal > >", "df/d1b/classstaticjson_1_1Handler_3_01std_1_1unordered__multimap_3_01std_1_1string_00_01T_00_01Hash_00_01Equal_01_4_01_4.html", null ]
-        ] ],
-        [ "staticjson::PointerHandler< std::shared_ptr< T > >", "d6/d64/classstaticjson_1_1PointerHandler.html", [
-          [ "staticjson::Handler< std::shared_ptr< T > >", "dc/ddf/classstaticjson_1_1Handler_3_01std_1_1shared__ptr_3_01T_01_4_01_4.html", null ]
-        ] ],
-        [ "staticjson::PointerHandler< std::unique_ptr< T, Deleter > >", "d6/d64/classstaticjson_1_1PointerHandler.html", [
-          [ "staticjson::Handler< std::unique_ptr< T, Deleter > >", "d1/d47/classstaticjson_1_1Handler_3_01std_1_1unique__ptr_3_01T_00_01Deleter_01_4_01_4.html", null ]
-        ] ],
-        [ "staticjson::ArrayHandler< ArrayType >", "d9/df2/classstaticjson_1_1ArrayHandler.html", null ],
-        [ "staticjson::ConversionHandler< T >", "da/d3c/classstaticjson_1_1ConversionHandler.html", [
-          [ "staticjson::helper::DispatchHandler< T, false >", "de/db4/classstaticjson_1_1helper_1_1DispatchHandler_3_01T_00_01false_01_4.html", null ]
-        ] ],
-        [ "staticjson::EnumHandler< Enum, Derived >", "da/da5/classstaticjson_1_1EnumHandler.html", null ],
-        [ "staticjson::Handler< bool >", "d4/d2b/classstaticjson_1_1Handler_3_01bool_01_4.html", null ],
-        [ "staticjson::Handler< char >", "d7/d57/classstaticjson_1_1Handler_3_01char_01_4.html", null ],
-        [ "staticjson::Handler< double >", "d2/d9c/classstaticjson_1_1Handler_3_01double_01_4.html", null ],
-        [ "staticjson::Handler< float >", "d2/dc2/classstaticjson_1_1Handler_3_01float_01_4.html", null ],
-        [ "staticjson::Handler< nonpublic::optional< T > >", "d4/d47/classstaticjson_1_1Handler_3_01nonpublic_1_1optional_3_01T_01_4_01_4.html", null ],
-        [ "staticjson::Handler< std::array< T, N > >", "d5/dae/classstaticjson_1_1Handler_3_01std_1_1array_3_01T_00_01N_01_4_01_4.html", null ],
-        [ "staticjson::Handler< std::nullptr_t >", "dc/df9/classstaticjson_1_1Handler_3_01std_1_1nullptr__t_01_4.html", null ],
-        [ "staticjson::Handler< std::string >", "dc/d78/classstaticjson_1_1Handler_3_01std_1_1string_01_4.html", null ],
-        [ "staticjson::IntegerHandler< IntType >", "da/d8f/classstaticjson_1_1IntegerHandler.html", null ],
-        [ "staticjson::JSONHandler", "dd/db8/classstaticjson_1_1JSONHandler.html", [
-          [ "staticjson::Handler< Document >", "db/d5f/classstaticjson_1_1Handler_3_01Document_01_4.html", null ]
-        ] ],
-        [ "staticjson::MapHandler< MapType >", "dd/d70/classstaticjson_1_1MapHandler.html", null ],
-        [ "staticjson::ObjectHandler", "d5/d9b/classstaticjson_1_1ObjectHandler.html", [
-          [ "staticjson::ObjectTypeHandler< T >", "d2/d9d/classstaticjson_1_1ObjectTypeHandler.html", [
-            [ "staticjson::helper::DispatchHandler< T, true >", "d1/d36/classstaticjson_1_1helper_1_1DispatchHandler_3_01T_00_01true_01_4.html", null ]
-          ] ]
-        ] ],
-        [ "staticjson::PointerHandler< PointerType >", "d6/d64/classstaticjson_1_1PointerHandler.html", null ],
-        [ "staticjson::TupleHander< N >", "d2/d98/classstaticjson_1_1TupleHander.html", null ],
-        [ "staticjson::TupleHander< std::tuple_size< std::tuple< Ts... > >::value >", "d2/d98/classstaticjson_1_1TupleHander.html", [
-          [ "staticjson::Handler< std::tuple< Ts... > >", "dc/dd8/classstaticjson_1_1Handler_3_01std_1_1tuple_3_01Ts_8_8_8_01_4_01_4.html", null ]
-        ] ]
-      ] ],
-      [ "staticjson::nonpublic::IHandlerAdapter< T >", "d5/d97/classstaticjson_1_1nonpublic_1_1IHandlerAdapter.html", null ]
-    ] ],
     [ "core::ImageGenerator::ImageBase64", "d1/ddd/structcore_1_1ImageGenerator_1_1ImageBase64.html", null ],
     [ "core::freeimage::ImageDeleter", "df/de4/structcore_1_1freeimage_1_1ImageDeleter.html", null ],
     [ "core::ImageGenerator", "d3/d33/classcore_1_1ImageGenerator.html", null ],
@@ -342,9 +235,6 @@ var hierarchy =
     [ "bioexplorer::details::InspectionDetails", "dd/dc0/structbioexplorer_1_1details_1_1InspectionDetails.html", null ],
     [ "Instance", null, [
       [ "core::DeflectPixelOp::Instance", "da/dfc/structcore_1_1DeflectPixelOp_1_1Instance.html", null ]
-    ] ],
-    [ "iterator", null, [
-      [ "staticjson::error::internal::error_stack_const_iterator", "d6/d53/classstaticjson_1_1error_1_1internal_1_1error__stack__const__iterator.html", null ]
     ] ],
     [ "core::KeyboardHandler", "d4/d89/classcore_1_1KeyboardHandler.html", null ],
     [ "core::Light", "d5/daa/classcore_1_1Light.html", [
@@ -420,11 +310,6 @@ var hierarchy =
       [ "bioexplorer::molecularsystems::EnzymeReaction", "d4/d07/classbioexplorer_1_1molecularsystems_1_1EnzymeReaction.html", null ],
       [ "bioexplorer::molecularsystems::RNASequence", "d0/d53/classbioexplorer_1_1molecularsystems_1_1RNASequence.html", null ]
     ] ],
-    [ "staticjson::NonMobile", "df/df1/structstaticjson_1_1NonMobile.html", [
-      [ "staticjson::BaseHandler", "d8/d83/classstaticjson_1_1BaseHandler.html", null ],
-      [ "staticjson::nonpublic::FileGuard", "d5/d8c/structstaticjson_1_1nonpublic_1_1FileGuard.html", null ],
-      [ "staticjson::nonpublic::StringOutputStream", "d8/dd8/structstaticjson_1_1nonpublic_1_1StringOutputStream.html", null ]
-    ] ],
     [ "bioexplorer::molecularsystems::Nucleotid", "d6/d5b/structbioexplorer_1_1molecularsystems_1_1Nucleotid.html", null ],
     [ "core::ObjectID", "d9/d00/structcore_1_1ObjectID.html", null ],
     [ "core::OcclusionPRD", "da/dff/structcore_1_1OcclusionPRD.html", null ],
@@ -445,10 +330,9 @@ var hierarchy =
     [ "core::ParametersManager", "dc/d04/classcore_1_1ParametersManager.html", null ],
     [ "core::Params", "d2/dc9/structcore_1_1Params.html", null ],
     [ "Params", "de/db8/structParams.html", null ],
-    [ "staticjson::ParseStatus", "dd/d20/classstaticjson_1_1ParseStatus.html", null ],
     [ "core::PDBCellPositions", "dc/d82/structcore_1_1PDBCellPositions.html", null ],
-    [ "PerRayData_radiance", "d3/db2/structPerRayData__radiance.html", null ],
     [ "core::PerRayData_radiance", "d9/d46/structcore_1_1PerRayData__radiance.html", null ],
+    [ "PerRayData_radiance", "d3/db2/structPerRayData__radiance.html", null ],
     [ "PerRayData_shadow", "d7/dee/structPerRayData__shadow.html", null ],
     [ "core::Phong", "d4/d83/structcore_1_1Phong.html", null ],
     [ "core::Renderer::PickResult", "de/dd3/structcore_1_1Renderer_1_1PickResult.html", null ],
@@ -461,8 +345,8 @@ var hierarchy =
       [ "core::Core::Impl", "d1/d15/structcore_1_1Core_1_1Impl.html", null ]
     ] ],
     [ "core::PluginManager", "d5/d4f/classcore_1_1PluginManager.html", null ],
-    [ "bioexplorer::meshing::PointCloudMesher", "d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html", null ],
     [ "sonataexplorer::meshing::PointCloudMesher", "d3/dce/classsonataexplorer_1_1meshing_1_1PointCloudMesher.html", null ],
+    [ "bioexplorer::meshing::PointCloudMesher", "d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html", null ],
     [ "core::Property", "d4/d72/structcore_1_1Property.html", null ],
     [ "core::PropertyMap", "d9/daa/classcore_1_1PropertyMap.html", null ],
     [ "core::ProteinColorMap", "dc/d47/structcore_1_1ProteinColorMap.html", null ],
@@ -513,8 +397,8 @@ var hierarchy =
     [ "core::SDFBezier", "da/d35/structcore_1_1SDFBezier.html", null ],
     [ "core::SDFGeometry", "dd/d10/structcore_1_1SDFGeometry.html", null ],
     [ "core::SDFGeometryData", "d6/d7a/structcore_1_1SDFGeometryData.html", null ],
-    [ "sonataexplorer::neuroscience::common::SDFMorphologyData", "da/db9/structsonataexplorer_1_1neuroscience_1_1common_1_1SDFMorphologyData.html", null ],
     [ "bioexplorer::common::SDFMorphologyData", "d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html", null ],
+    [ "sonataexplorer::neuroscience::common::SDFMorphologyData", "da/db9/structsonataexplorer_1_1neuroscience_1_1common_1_1SDFMorphologyData.html", null ],
     [ "bioexplorer::morphology::Section", "d4/d08/structbioexplorer_1_1morphology_1_1Section.html", null ],
     [ "bioexplorer::common::Shape", "dc/d78/classbioexplorer_1_1common_1_1Shape.html", [
       [ "bioexplorer::common::BezierShape", "d2/d30/classbioexplorer_1_1common_1_1BezierShape.html", null ],
@@ -561,8 +445,6 @@ var hierarchy =
     [ "core::ImageGenerator::ImageJPEG::tjDeleter", "d5/dff/structcore_1_1ImageGenerator_1_1ImageJPEG_1_1tjDeleter.html", null ],
     [ "core::TriangleMesh", "dd/df0/structcore_1_1TriangleMesh.html", null ],
     [ "core::GeometryData::TriangleMesh", "db/dee/structcore_1_1GeometryData_1_1TriangleMesh.html", null ],
-    [ "staticjson::nonpublic::TupleIniter< index, N, Tuple >", "d3/d42/structstaticjson_1_1nonpublic_1_1TupleIniter.html", null ],
-    [ "staticjson::nonpublic::TupleIniter< N, N, Tuple >", "d7/d3e/structstaticjson_1_1nonpublic_1_1TupleIniter_3_01N_00_01N_00_01Tuple_01_4.html", null ],
     [ "typed_value", null, [
       [ "boost::program_options::fixed_tokens_typed_value< T, charT >", "d8/dce/classboost_1_1program__options_1_1fixed__tokens__typed__value.html", null ]
     ] ],

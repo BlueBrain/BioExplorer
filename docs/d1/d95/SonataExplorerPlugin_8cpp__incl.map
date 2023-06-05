@@ -1,52 +1,52 @@
-<map id="/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/plugins/Sonata/plugin/SonataExplorerPlugin.cpp" name="/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/plugins/Sonata/plugin/SonataExplorerPlugin.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="4573,5,4765,91"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,153,88,180"/>
-<area shape="rect" id="node3" title=" " alt="" coords="112,153,195,180"/>
-<area shape="rect" id="node4" href="$d5/dce/SonataExplorerPlugin_8h.html" title=" " alt="" coords="219,153,392,180"/>
-<area shape="rect" id="node7" title=" " alt="" coords="416,153,541,180"/>
-<area shape="rect" id="node8" href="$de/dcc/BrickLoader_8h.html" title=" " alt="" coords="1040,153,1211,180"/>
-<area shape="rect" id="node9" href="$db/d19/AstrocyteLoader_8h.html" title=" " alt="" coords="808,146,1016,187"/>
-<area shape="rect" id="node10" href="$d1/d79/MorphologyLoader_8h.html" title=" " alt="" coords="565,146,784,187"/>
-<area shape="rect" id="node11" href="$d7/d3e/AdvancedCircuitLoader_8h.html" title=" " alt="" coords="1235,146,1471,187"/>
-<area shape="rect" id="node12" href="$d5/dd4/CellGrowthHandler_8h.html" title=" " alt="" coords="1495,146,1705,187"/>
-<area shape="rect" id="node13" href="$d9/d9c/MEGHandler_8h.html" title=" " alt="" coords="3029,146,3195,187"/>
-<area shape="rect" id="node14" href="$d5/d2d/Scene_8h.html" title=" " alt="" coords="2532,243,2711,284"/>
-<area shape="rect" id="node15" href="$df/dae/MeshCircuitLoader_8h.html" title=" " alt="" coords="2277,146,2483,187"/>
-<area shape="rect" id="node16" href="$d5/d2b/MorphologyCollageLoader_8h.html" title=" " alt="" coords="2508,146,2764,187"/>
-<area shape="rect" id="node17" href="$d4/d2e/PairSynapsesLoader_8h.html" title=" " alt="" coords="2788,146,3004,187"/>
-<area shape="rect" id="node18" href="$d5/d25/plugins_2Sonata_2plugin_2neuroscience_2neuron_2SpikeSimulationHandler_8h.html" title=" " alt="" coords="2009,146,2252,187"/>
-<area shape="rect" id="node19" href="$d9/dae/SynapseCircuitLoader_8h.html" title=" " alt="" coords="3220,146,3447,187"/>
-<area shape="rect" id="node20" href="$d0/d58/VoltageSimulationHandler_8h.html" title=" " alt="" coords="1729,146,1985,187"/>
-<area shape="rect" id="node21" href="$d7/d35/plugins_2Sonata_2plugin_2meshing_2PointCloudMesher_8h.html" title=" " alt="" coords="3522,146,3718,187"/>
-<area shape="rect" id="node22" href="$de/d7a/ActionInterface_8h.html" title=" " alt="" coords="3743,146,3913,187"/>
-<area shape="rect" id="node23" href="$de/df3/Progress_8h.html" title=" " alt="" coords="3937,146,4108,187"/>
-<area shape="rect" id="node24" href="$dd/d27/Timer_8h.html" title=" " alt="" coords="4132,146,4303,187"/>
-<area shape="rect" id="node25" href="$dd/dec/Streamline_8h.html" title=" " alt="" coords="5151,243,5327,284"/>
-<area shape="rect" id="node26" href="$d0/d5d/imageUtils_8h.html" title=" " alt="" coords="4317,243,4488,284"/>
-<area shape="rect" id="node27" href="$dd/de4/Camera_8h.html" title=" " alt="" coords="4580,146,4759,187"/>
-<area shape="rect" id="node28" href="$d1/dd4/Engine_8h.html" title=" " alt="" coords="4783,146,4961,187"/>
-<area shape="rect" id="node29" href="$da/d8a/FrameBuffer_8h.html" title=" " alt="" coords="4377,146,4556,187"/>
-<area shape="rect" id="node30" href="$df/d12/Material_8h.html" title=" " alt="" coords="5188,146,5367,187"/>
-<area shape="rect" id="node31" href="$d3/d5a/Model_8h.html" title=" " alt="" coords="4985,146,5164,187"/>
-<area shape="rect" id="node32" href="$d4/d16/ParametersManager_8h.html" title=" " alt="" coords="5441,146,5631,187"/>
-<area shape="rect" id="node33" href="$de/def/Plugin_8h.html" title=" " alt="" coords="5655,146,5830,187"/>
-<area shape="rect" id="node34" title=" " alt="" coords="5855,153,5916,180"/>
-<area shape="rect" id="node35" title=" " alt="" coords="5940,153,6012,180"/>
-<area shape="rect" id="node36" title=" " alt="" coords="6037,153,6110,180"/>
-<area shape="rect" id="node37" title=" " alt="" coords="6135,153,6207,180"/>
-<area shape="rect" id="node38" title=" " alt="" coords="6231,153,6289,180"/>
-<area shape="rect" id="node39" title=" " alt="" coords="6313,153,6388,180"/>
-<area shape="rect" id="node40" title=" " alt="" coords="6412,153,6508,180"/>
-<area shape="rect" id="node41" title=" " alt="" coords="6532,153,6620,180"/>
-<area shape="rect" id="node42" title=" " alt="" coords="6645,139,6817,195"/>
-<area shape="rect" id="node43" title=" " alt="" coords="6841,146,7074,187"/>
-<area shape="rect" id="node44" title=" " alt="" coords="7098,146,7331,187"/>
-<area shape="rect" id="node45" title=" " alt="" coords="7355,153,7517,180"/>
-<area shape="rect" id="node46" title=" " alt="" coords="7541,153,7712,180"/>
-<area shape="rect" id="node47" title=" " alt="" coords="7736,153,7920,180"/>
-<area shape="rect" id="node48" title=" " alt="" coords="7944,153,8157,180"/>
-<area shape="rect" id="node49" title=" " alt="" coords="8181,146,8341,187"/>
-<area shape="rect" id="node50" title=" " alt="" coords="8366,146,8533,187"/>
-<area shape="rect" id="node5" href="$de/da1/SonataExplorerParams_8h.html" title=" " alt="" coords="805,243,995,284"/>
-<area shape="rect" id="node6" title=" " alt="" coords="277,250,333,277"/>
+<map id="bioexplorer/backend/plugins/Sonata/plugin/SonataExplorerPlugin.cpp" name="bioexplorer/backend/plugins/Sonata/plugin/SonataExplorerPlugin.cpp">
+<area shape="rect" id="node1" title=" " alt="" coords="4573,5,4765,61"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,124,88,151"/>
+<area shape="rect" id="node3" title=" " alt="" coords="112,124,195,151"/>
+<area shape="rect" id="node4" href="$d5/dce/SonataExplorerPlugin_8h.html" title=" " alt="" coords="219,124,392,151"/>
+<area shape="rect" id="node7" title=" " alt="" coords="416,124,541,151"/>
+<area shape="rect" id="node8" href="$de/dcc/BrickLoader_8h.html" title=" " alt="" coords="1040,124,1211,151"/>
+<area shape="rect" id="node9" href="$db/d19/AstrocyteLoader_8h.html" title=" " alt="" coords="808,117,1016,158"/>
+<area shape="rect" id="node10" href="$d1/d79/MorphologyLoader_8h.html" title=" " alt="" coords="565,117,784,158"/>
+<area shape="rect" id="node11" href="$d7/d3e/AdvancedCircuitLoader_8h.html" title=" " alt="" coords="1235,117,1471,158"/>
+<area shape="rect" id="node12" href="$d5/dd4/CellGrowthHandler_8h.html" title=" " alt="" coords="1495,117,1705,158"/>
+<area shape="rect" id="node13" href="$d9/d9c/MEGHandler_8h.html" title=" " alt="" coords="3029,117,3195,158"/>
+<area shape="rect" id="node14" href="$d5/d2d/Scene_8h.html" title=" " alt="" coords="2532,213,2711,255"/>
+<area shape="rect" id="node15" href="$df/dae/MeshCircuitLoader_8h.html" title=" " alt="" coords="2277,117,2483,158"/>
+<area shape="rect" id="node16" href="$d5/d2b/MorphologyCollageLoader_8h.html" title=" " alt="" coords="2508,117,2764,158"/>
+<area shape="rect" id="node17" href="$d4/d2e/PairSynapsesLoader_8h.html" title=" " alt="" coords="2788,117,3004,158"/>
+<area shape="rect" id="node18" href="$d5/d25/plugins_2Sonata_2plugin_2neuroscience_2neuron_2SpikeSimulationHandler_8h.html" title=" " alt="" coords="2009,117,2252,158"/>
+<area shape="rect" id="node19" href="$d9/dae/SynapseCircuitLoader_8h.html" title=" " alt="" coords="3220,117,3447,158"/>
+<area shape="rect" id="node20" href="$d0/d58/VoltageSimulationHandler_8h.html" title=" " alt="" coords="1729,117,1985,158"/>
+<area shape="rect" id="node21" href="$d7/d35/plugins_2Sonata_2plugin_2meshing_2PointCloudMesher_8h.html" title=" " alt="" coords="3522,117,3718,158"/>
+<area shape="rect" id="node22" href="$de/d7a/ActionInterface_8h.html" title=" " alt="" coords="3743,117,3913,158"/>
+<area shape="rect" id="node23" href="$de/df3/Progress_8h.html" title=" " alt="" coords="3937,117,4108,158"/>
+<area shape="rect" id="node24" href="$dd/d27/Timer_8h.html" title=" " alt="" coords="4132,117,4303,158"/>
+<area shape="rect" id="node25" href="$dd/dec/Streamline_8h.html" title=" " alt="" coords="5151,213,5327,255"/>
+<area shape="rect" id="node26" href="$d7/dc9/ImageUtils_8h.html" title=" " alt="" coords="4317,213,4488,255"/>
+<area shape="rect" id="node27" href="$dd/de4/Camera_8h.html" title=" " alt="" coords="4580,117,4759,158"/>
+<area shape="rect" id="node28" href="$d1/dd4/Engine_8h.html" title=" " alt="" coords="4783,117,4961,158"/>
+<area shape="rect" id="node29" href="$da/d8a/FrameBuffer_8h.html" title=" " alt="" coords="4377,117,4556,158"/>
+<area shape="rect" id="node30" href="$df/d12/Material_8h.html" title=" " alt="" coords="5188,117,5367,158"/>
+<area shape="rect" id="node31" href="$d3/d5a/Model_8h.html" title=" " alt="" coords="4985,117,5164,158"/>
+<area shape="rect" id="node32" href="$d4/d16/ParametersManager_8h.html" title=" " alt="" coords="5441,117,5631,158"/>
+<area shape="rect" id="node33" href="$de/def/Plugin_8h.html" title=" " alt="" coords="5655,117,5830,158"/>
+<area shape="rect" id="node34" title=" " alt="" coords="5855,124,5916,151"/>
+<area shape="rect" id="node35" title=" " alt="" coords="5940,124,6012,151"/>
+<area shape="rect" id="node36" title=" " alt="" coords="6037,124,6110,151"/>
+<area shape="rect" id="node37" title=" " alt="" coords="6135,124,6207,151"/>
+<area shape="rect" id="node38" title=" " alt="" coords="6231,124,6289,151"/>
+<area shape="rect" id="node39" title=" " alt="" coords="6313,124,6388,151"/>
+<area shape="rect" id="node40" title=" " alt="" coords="6412,124,6508,151"/>
+<area shape="rect" id="node41" title=" " alt="" coords="6532,124,6620,151"/>
+<area shape="rect" id="node42" title=" " alt="" coords="6645,109,6817,165"/>
+<area shape="rect" id="node43" title=" " alt="" coords="6841,117,7074,158"/>
+<area shape="rect" id="node44" title=" " alt="" coords="7098,117,7331,158"/>
+<area shape="rect" id="node45" title=" " alt="" coords="7355,124,7517,151"/>
+<area shape="rect" id="node46" title=" " alt="" coords="7541,124,7712,151"/>
+<area shape="rect" id="node47" title=" " alt="" coords="7736,124,7920,151"/>
+<area shape="rect" id="node48" title=" " alt="" coords="7944,124,8157,151"/>
+<area shape="rect" id="node49" title=" " alt="" coords="8181,117,8341,158"/>
+<area shape="rect" id="node50" title=" " alt="" coords="8366,117,8533,158"/>
+<area shape="rect" id="node5" href="$de/da1/SonataExplorerParams_8h.html" title=" " alt="" coords="805,213,995,255"/>
+<area shape="rect" id="node6" title=" " alt="" coords="277,221,333,247"/>
 </map>

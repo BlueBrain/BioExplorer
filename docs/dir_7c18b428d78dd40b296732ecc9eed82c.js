@@ -1,6 +1,5 @@
 var dir_7c18b428d78dd40b296732ecc9eed82c =
 [
-    [ "staticjson", "dir_6fea36cf38932e2cabbd05542096a958.html", "dir_6fea36cf38932e2cabbd05542096a958" ],
     [ "BinaryRequests.h", "d1/d8e/BinaryRequests_8h.html", "d1/d8e/BinaryRequests_8h" ],
     [ "encoder.cpp", "db/dbc/encoder_8cpp.html", "db/dbc/encoder_8cpp" ],
     [ "encoder.h", "d1/d79/encoder_8h.html", [

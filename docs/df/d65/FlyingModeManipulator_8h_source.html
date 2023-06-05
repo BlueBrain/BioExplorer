@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/platform/core/manipulators/FlyingModeManipulator.h Source File</title>
+<title>Blue Brain BioExplorer: platform/core/manipulators/FlyingModeManipulator.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -110,40 +110,36 @@ $(document).ready(function(){initNavTree('df/d65/FlyingModeManipulator_8h_source
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#ifndef FLYINGMODEMAINPULATOR_H</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#define FLYINGMODEMAINPULATOR_H</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dc/dd1/AbstractManipulator_8h.html">AbstractManipulator.h</a>&quot;</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dc/dd1/AbstractManipulator_8h.html">AbstractManipulator.h</a>&quot;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="../../d2/d1a/classcore_1_1FlyingModeManipulator.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d1a/classcore_1_1FlyingModeManipulator.html">FlyingModeManipulator</a> : <span class="keyword">public</span> <a class="code" href="../../dc/df9/classcore_1_1AbstractManipulator.html">AbstractManipulator</a></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="../../d2/d1a/classcore_1_1FlyingModeManipulator.html#a2d9e0ccc896d67dfa7c71dcaa41101a6">FlyingModeManipulator</a>(<a class="code" href="../../d6/da7/classcore_1_1Camera.html">Camera</a>&amp; camera, <a class="code" href="../../d4/d89/classcore_1_1KeyboardHandler.html">KeyboardHandler</a>&amp; keyboardHandler);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="../../d2/d1a/classcore_1_1FlyingModeManipulator.html#a2f8a39d701b66eae650ad178fd5062b5">~FlyingModeManipulator</a>();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> dragLeft(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a3b78e7d5d86610505bac8a4fa6e04268">Vector2i</a>&amp; to, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a3b78e7d5d86610505bac8a4fa6e04268">Vector2i</a>&amp; from) <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> dragRight(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a3b78e7d5d86610505bac8a4fa6e04268">Vector2i</a>&amp; to, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a3b78e7d5d86610505bac8a4fa6e04268">Vector2i</a>&amp; from) <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> dragMiddle(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a3b78e7d5d86610505bac8a4fa6e04268">Vector2i</a>&amp; to, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a3b78e7d5d86610505bac8a4fa6e04268">Vector2i</a>&amp; from) <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> wheel(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a3b78e7d5d86610505bac8a4fa6e04268">Vector2i</a>&amp; position, <span class="keywordtype">float</span> delta) <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> _strafeLeft();</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> _strafeRight();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> _flyForward();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> _flyBackwards();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;} <span class="comment">// namespace core</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../d2/d1a/classcore_1_1FlyingModeManipulator.html">   34</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d1a/classcore_1_1FlyingModeManipulator.html">FlyingModeManipulator</a> : <span class="keyword">public</span> <a class="code" href="../../dc/df9/classcore_1_1AbstractManipulator.html">AbstractManipulator</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="../../d2/d1a/classcore_1_1FlyingModeManipulator.html#a2d9e0ccc896d67dfa7c71dcaa41101a6">FlyingModeManipulator</a>(<a class="code" href="../../d6/da7/classcore_1_1Camera.html">Camera</a>&amp; camera, <a class="code" href="../../d4/d89/classcore_1_1KeyboardHandler.html">KeyboardHandler</a>&amp; keyboardHandler);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="../../d2/d1a/classcore_1_1FlyingModeManipulator.html#a2f8a39d701b66eae650ad178fd5062b5">~FlyingModeManipulator</a>();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> dragLeft(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a3b78e7d5d86610505bac8a4fa6e04268">Vector2i</a>&amp; to, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a3b78e7d5d86610505bac8a4fa6e04268">Vector2i</a>&amp; from) <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> dragRight(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a3b78e7d5d86610505bac8a4fa6e04268">Vector2i</a>&amp; to, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a3b78e7d5d86610505bac8a4fa6e04268">Vector2i</a>&amp; from) <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> dragMiddle(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a3b78e7d5d86610505bac8a4fa6e04268">Vector2i</a>&amp; to, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a3b78e7d5d86610505bac8a4fa6e04268">Vector2i</a>&amp; from) <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> wheel(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a3b78e7d5d86610505bac8a4fa6e04268">Vector2i</a>&amp; position, <span class="keywordtype">float</span> delta) <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> _strafeLeft();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> _strafeRight();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> _flyForward();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> _flyBackwards();</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;} <span class="comment">// namespace core</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclasscore_1_1KeyboardHandler_html"><div class="ttname"><a href="../../d4/d89/classcore_1_1KeyboardHandler.html">core::KeyboardHandler</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dec/KeyboardHandler_8h_source.html#l00048">KeyboardHandler.h:48</a></div></div>
+<div class="ttc" id="aclasscore_1_1KeyboardHandler_html"><div class="ttname"><a href="../../d4/d89/classcore_1_1KeyboardHandler.html">core::KeyboardHandler</a></div><div class="ttdoc">The KeyboardHandler class manages keyboard shortcuts and special keys.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dec/KeyboardHandler_8h_source.html#l00050">KeyboardHandler.h:50</a></div></div>
 <div class="ttc" id="aAbstractManipulator_8h_html"><div class="ttname"><a href="../../dc/dd1/AbstractManipulator_8h.html">AbstractManipulator.h</a></div></div>
-<div class="ttc" id="aclasscore_1_1AbstractManipulator_html"><div class="ttname"><a href="../../dc/df9/classcore_1_1AbstractManipulator.html">core::AbstractManipulator</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/dd1/AbstractManipulator_8h_source.html#l00038">AbstractManipulator.h:38</a></div></div>
-<div class="ttc" id="aclasscore_1_1FlyingModeManipulator_html"><div class="ttname"><a href="../../d2/d1a/classcore_1_1FlyingModeManipulator.html">core::FlyingModeManipulator</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d65/FlyingModeManipulator_8h_source.html#l00036">FlyingModeManipulator.h:36</a></div></div>
+<div class="ttc" id="aclasscore_1_1AbstractManipulator_html"><div class="ttname"><a href="../../dc/df9/classcore_1_1AbstractManipulator.html">core::AbstractManipulator</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/dd1/AbstractManipulator_8h_source.html#l00036">AbstractManipulator.h:36</a></div></div>
+<div class="ttc" id="aclasscore_1_1FlyingModeManipulator_html"><div class="ttname"><a href="../../d2/d1a/classcore_1_1FlyingModeManipulator.html">core::FlyingModeManipulator</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d65/FlyingModeManipulator_8h_source.html#l00034">FlyingModeManipulator.h:34</a></div></div>
 <div class="ttc" id="aclasscore_1_1FlyingModeManipulator_html_a2d9e0ccc896d67dfa7c71dcaa41101a6"><div class="ttname"><a href="../../d2/d1a/classcore_1_1FlyingModeManipulator.html#a2d9e0ccc896d67dfa7c71dcaa41101a6">core::FlyingModeManipulator::FlyingModeManipulator</a></div><div class="ttdeci">FlyingModeManipulator(Camera &amp;camera, KeyboardHandler &amp;keyboardHandler)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d27/FlyingModeManipulator_8cpp_source.html#l00035">FlyingModeManipulator.cpp:35</a></div></div>
 <div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00055">BaseWindow.cpp:55</a></div></div>
 <div class="ttc" id="aclasscore_1_1FlyingModeManipulator_html_a2f8a39d701b66eae650ad178fd5062b5"><div class="ttname"><a href="../../d2/d1a/classcore_1_1FlyingModeManipulator.html#a2f8a39d701b66eae650ad178fd5062b5">core::FlyingModeManipulator::~FlyingModeManipulator</a></div><div class="ttdeci">~FlyingModeManipulator()</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d27/FlyingModeManipulator_8cpp_source.html#l00046">FlyingModeManipulator.cpp:46</a></div></div>

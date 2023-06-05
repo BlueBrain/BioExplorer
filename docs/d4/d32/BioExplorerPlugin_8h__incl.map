@@ -1,52 +1,52 @@
-<map id="/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/science/BioExplorerPlugin.h" name="/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/science/BioExplorerPlugin.h">
-<area shape="rect" id="node1" title=" " alt="" coords="1207,5,1413,76"/>
-<area shape="rect" id="node2" href="$d9/d64/science_2api_2Params_8h.html" title=" " alt="" coords="5,213,164,240"/>
-<area shape="rect" id="node4" href="$d9/d68/FieldsHandler_8h.html" title=" " alt="" coords="1469,385,1684,411"/>
-<area shape="rect" id="node36" href="$d2/dc5/Vasculature_8h.html" title=" " alt="" coords="436,124,587,165"/>
-<area shape="rect" id="node50" href="$d8/d85/ExtensionPlugin_8h.html" title=" " alt="" coords="1928,124,2103,165"/>
-<area shape="rect" id="node3" title=" " alt="" coords="200,385,385,411"/>
-<area shape="rect" id="node5" href="$da/da3/AbstractSimulationHandler_8h.html" title=" " alt="" coords="1292,556,1515,612"/>
-<area shape="rect" id="node8" href="$de/d53/platform_2core_2common_2Types_8h.html" title=" " alt="" coords="1107,839,1278,880"/>
-<area shape="rect" id="node28" href="$d5/d2d/Scene_8h.html" title=" " alt="" coords="951,467,1130,508"/>
-<area shape="rect" id="node6" href="$df/d21/Api_8h.html" title=" " alt="" coords="999,660,1170,701"/>
-<area shape="rect" id="node7" title=" " alt="" coords="821,757,903,783"/>
-<area shape="rect" id="node9" href="$d5/d55/MathTypes_8h.html" title=" " alt="" coords="359,928,530,969"/>
-<area shape="rect" id="node13" title=" " alt="" coords="1068,1025,1131,1051"/>
-<area shape="rect" id="node20" href="$d3/d32/enumUtils_8h.html" title=" " alt="" coords="1459,928,1630,969"/>
-<area shape="rect" id="node23" title=" " alt="" coords="1137,935,1193,962"/>
-<area shape="rect" id="node24" title=" " alt="" coords="1217,935,1283,962"/>
-<area shape="rect" id="node25" title=" " alt="" coords="1003,935,1062,962"/>
-<area shape="rect" id="node26" title=" " alt="" coords="605,935,655,962"/>
-<area shape="rect" id="node27" title=" " alt="" coords="1307,935,1385,962"/>
-<area shape="rect" id="node10" title=" " alt="" coords="717,1025,821,1051"/>
-<area shape="rect" id="node11" title=" " alt="" coords="845,1025,945,1051"/>
-<area shape="rect" id="node12" title=" " alt="" coords="381,1025,497,1051"/>
-<area shape="rect" id="node14" href="$d0/d3f/BaseObject_8h.html" title=" " alt="" coords="186,1017,357,1059"/>
-<area shape="rect" id="node19" href="$df/d0a/Macros_8h.html" title=" " alt="" coords="522,1017,693,1059"/>
-<area shape="rect" id="node15" title=" " alt="" coords="342,1107,409,1133"/>
-<area shape="rect" id="node16" title=" " alt="" coords="139,1107,201,1133"/>
-<area shape="rect" id="node17" title=" " alt="" coords="1833,1107,1920,1133"/>
-<area shape="rect" id="node18" title=" " alt="" coords="225,1107,317,1133"/>
-<area shape="rect" id="node21" title=" " alt="" coords="1638,1025,1697,1051"/>
-<area shape="rect" id="node22" title=" " alt="" coords="1517,1025,1572,1051"/>
-<area shape="rect" id="node29" href="$d6/d76/LoaderRegistry_8h.html" title=" " alt="" coords="1690,563,1869,605"/>
-<area shape="rect" id="node33" href="$dd/d9a/LightManager_8h.html" title=" " alt="" coords="799,563,978,605"/>
-<area shape="rect" id="node35" title=" " alt="" coords="1103,571,1218,597"/>
-<area shape="rect" id="node30" href="$dc/d04/PropertyMap_8h.html" title=" " alt="" coords="1791,749,1962,791"/>
-<area shape="rect" id="node31" href="$dc/d0b/Loader_8h.html" title=" " alt="" coords="1807,660,1978,701"/>
-<area shape="rect" id="node32" title=" " alt="" coords="1690,667,1733,694"/>
-<area shape="rect" id="node34" title=" " alt="" coords="800,667,924,694"/>
-<area shape="rect" id="node37" href="$d4/d68/bioexplorer_2backend_2science_2common_2SDFGeometries_8h.html" title=" " alt="" coords="655,213,906,240"/>
-<area shape="rect" id="node48" href="$db/db5/GeometryParameters_8h.html" title=" " alt="" coords="333,660,522,701"/>
-<area shape="rect" id="node38" href="$d6/d21/Displacement_8h.html" title=" " alt="" coords="669,295,793,322"/>
-<area shape="rect" id="node39" href="$db/d92/Node_8h.html" title=" " alt="" coords="331,295,399,322"/>
-<area shape="rect" id="node40" href="$dd/d8f/ThreadSafeContainer_8h.html" title=" " alt="" coords="869,295,1039,322"/>
-<area shape="rect" id="node41" href="$d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html" title=" " alt="" coords="796,385,867,411"/>
-<area shape="rect" id="node43" href="$d1/d9b/Cone_8h.html" title=" " alt="" coords="1114,288,1285,329"/>
-<area shape="rect" id="node44" href="$d9/d0a/Cylinder_8h.html" title=" " alt="" coords="1309,288,1479,329"/>
-<area shape="rect" id="node45" href="$de/d15/core_2common_2geometry_2Sphere_8h.html" title=" " alt="" coords="474,288,645,329"/>
-<area shape="rect" id="node46" href="$dd/dec/Streamline_8h.html" title=" " alt="" coords="1338,467,1514,508"/>
-<area shape="rect" id="node47" href="$df/dfa/TriangleMesh_8h.html" title=" " alt="" coords="412,377,603,419"/>
-<area shape="rect" id="node42" href="$d2/df3/SDFGeometry_8h.html" title=" " alt="" coords="597,467,791,508"/>
-<area shape="rect" id="node49" href="$d6/d75/AbstractParameters_8h.html" title=" " alt="" coords="359,757,522,783"/>
+<map id="bioexplorer/backend/science/BioExplorerPlugin.h" name="bioexplorer/backend/science/BioExplorerPlugin.h">
+<area shape="rect" id="node1" title=" " alt="" coords="1207,5,1413,47"/>
+<area shape="rect" id="node2" href="$d9/d64/science_2api_2Params_8h.html" title=" " alt="" coords="5,184,164,211"/>
+<area shape="rect" id="node4" href="$d9/d68/FieldsHandler_8h.html" title=" " alt="" coords="1469,355,1684,382"/>
+<area shape="rect" id="node36" href="$d2/dc5/Vasculature_8h.html" title=" " alt="" coords="436,95,587,136"/>
+<area shape="rect" id="node50" href="$d8/d85/ExtensionPlugin_8h.html" title=" " alt="" coords="1928,95,2103,136"/>
+<area shape="rect" id="node3" title=" " alt="" coords="200,355,385,382"/>
+<area shape="rect" id="node5" href="$da/da3/AbstractSimulationHandler_8h.html" title=" " alt="" coords="1292,527,1515,583"/>
+<area shape="rect" id="node8" href="$de/d53/platform_2core_2common_2Types_8h.html" title=" " alt="" coords="1107,809,1278,851"/>
+<area shape="rect" id="node28" href="$d5/d2d/Scene_8h.html" title=" " alt="" coords="951,437,1130,479"/>
+<area shape="rect" id="node6" href="$df/d21/Api_8h.html" title=" " alt="" coords="999,631,1170,672"/>
+<area shape="rect" id="node7" title=" " alt="" coords="821,727,903,754"/>
+<area shape="rect" id="node9" href="$d5/d55/MathTypes_8h.html" title=" " alt="" coords="359,899,530,940"/>
+<area shape="rect" id="node13" title=" " alt="" coords="1068,995,1131,1022"/>
+<area shape="rect" id="node20" href="$d3/d34/EnumUtils_8h.html" title=" " alt="" coords="1459,899,1630,940"/>
+<area shape="rect" id="node23" title=" " alt="" coords="1137,906,1193,933"/>
+<area shape="rect" id="node24" title=" " alt="" coords="1217,906,1283,933"/>
+<area shape="rect" id="node25" title=" " alt="" coords="1003,906,1062,933"/>
+<area shape="rect" id="node26" title=" " alt="" coords="605,906,655,933"/>
+<area shape="rect" id="node27" title=" " alt="" coords="1307,906,1385,933"/>
+<area shape="rect" id="node10" title=" " alt="" coords="717,995,821,1022"/>
+<area shape="rect" id="node11" title=" " alt="" coords="845,995,945,1022"/>
+<area shape="rect" id="node12" title=" " alt="" coords="381,995,497,1022"/>
+<area shape="rect" id="node14" href="$d0/d3f/BaseObject_8h.html" title=" " alt="" coords="186,988,357,1029"/>
+<area shape="rect" id="node19" href="$df/d0a/Macros_8h.html" title=" " alt="" coords="522,988,693,1029"/>
+<area shape="rect" id="node15" title=" " alt="" coords="342,1077,409,1104"/>
+<area shape="rect" id="node16" title=" " alt="" coords="139,1077,201,1104"/>
+<area shape="rect" id="node17" title=" " alt="" coords="1833,1077,1920,1104"/>
+<area shape="rect" id="node18" title=" " alt="" coords="225,1077,317,1104"/>
+<area shape="rect" id="node21" title=" " alt="" coords="1638,995,1697,1022"/>
+<area shape="rect" id="node22" title=" " alt="" coords="1517,995,1572,1022"/>
+<area shape="rect" id="node29" href="$d6/d76/LoaderRegistry_8h.html" title=" " alt="" coords="1690,534,1869,575"/>
+<area shape="rect" id="node33" href="$dd/d9a/LightManager_8h.html" title=" " alt="" coords="799,534,978,575"/>
+<area shape="rect" id="node35" title=" " alt="" coords="1103,541,1218,568"/>
+<area shape="rect" id="node30" href="$dc/d04/PropertyMap_8h.html" title=" " alt="" coords="1791,720,1962,761"/>
+<area shape="rect" id="node31" href="$dc/d0b/Loader_8h.html" title=" " alt="" coords="1807,631,1978,672"/>
+<area shape="rect" id="node32" title=" " alt="" coords="1690,638,1733,665"/>
+<area shape="rect" id="node34" title=" " alt="" coords="800,638,924,665"/>
+<area shape="rect" id="node37" href="$d4/d68/bioexplorer_2backend_2science_2common_2SDFGeometries_8h.html" title=" " alt="" coords="655,184,906,211"/>
+<area shape="rect" id="node48" href="$db/db5/GeometryParameters_8h.html" title=" " alt="" coords="333,631,522,672"/>
+<area shape="rect" id="node38" href="$d6/d21/Displacement_8h.html" title=" " alt="" coords="669,266,793,293"/>
+<area shape="rect" id="node39" href="$db/d92/Node_8h.html" title=" " alt="" coords="331,266,399,293"/>
+<area shape="rect" id="node40" href="$dd/d8f/ThreadSafeContainer_8h.html" title=" " alt="" coords="869,266,1039,293"/>
+<area shape="rect" id="node41" href="$d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html" title=" " alt="" coords="796,355,867,382"/>
+<area shape="rect" id="node43" href="$d1/d9b/Cone_8h.html" title=" " alt="" coords="1114,259,1285,300"/>
+<area shape="rect" id="node44" href="$d9/d0a/Cylinder_8h.html" title=" " alt="" coords="1309,259,1479,300"/>
+<area shape="rect" id="node45" href="$de/d15/core_2common_2geometry_2Sphere_8h.html" title=" " alt="" coords="474,259,645,300"/>
+<area shape="rect" id="node46" href="$dd/dec/Streamline_8h.html" title=" " alt="" coords="1338,437,1514,479"/>
+<area shape="rect" id="node47" href="$df/dfa/TriangleMesh_8h.html" title=" " alt="" coords="412,348,603,389"/>
+<area shape="rect" id="node42" href="$d2/df3/SDFGeometry_8h.html" title=" " alt="" coords="597,437,791,479"/>
+<area shape="rect" id="node49" href="$d6/d75/AbstractParameters_8h.html" title=" " alt="" coords="359,727,522,754"/>
 </map>

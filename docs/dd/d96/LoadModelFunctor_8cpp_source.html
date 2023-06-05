@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/platform/core/tasks/LoadModelFunctor.cpp Source File</title>
+<title>Blue Brain BioExplorer: platform/core/tasks/LoadModelFunctor.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -109,9 +109,9 @@ $(document).ready(function(){initNavTree('dd/d96/LoadModelFunctor_8cpp_source.ht
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d8/d5c/LoadModelFunctor_8h.html">LoadModelFunctor.h</a>&quot;</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../de/d45/errors_8h.html">errors.h</a>&quot;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d2/d0e/Errors_8h.html">Errors.h</a>&quot;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d5/d49/core_2common_2utils_2utils_8h.html">platform/core/common/utils/utils.h</a>&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../dc/daa/platform_2core_2common_2utils_2Utils_8h.html">platform/core/common/utils/Utils.h</a>&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../dd/de4/Camera_8h.html">platform/core/engineapi/Camera.h</a>&gt;</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d1/dd4/Engine_8h.html">platform/core/engineapi/Engine.h</a>&gt;</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../da/d8a/FrameBuffer_8h.html">platform/core/engineapi/FrameBuffer.h</a>&gt;</span></div>
@@ -170,33 +170,34 @@ $(document).ready(function(){initNavTree('dd/d96/LoadModelFunctor_8cpp_source.ht
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;std::function&lt;void(std::string, <span class="keywordtype">float</span>)&gt; LoadModelFunctor::_getProgressFunc()</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;{</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">return</span> [<span class="keyword">this</span>](<span class="keyword">const</span> std::string&amp; msg, <span class="keyword">const</span> <span class="keywordtype">float</span> <a class="code" href="../../dd/d67/classcore_1_1TaskFunctor.html#a23fa04622462801ad5edc49cfafa7529">progress</a>) {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <a class="code" href="../../dd/d67/classcore_1_1TaskFunctor.html#a490abe051c9feb0d53fcd91d63b126f4">cancelCheck</a>();</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">size_t</span> newProgress = <a class="code" href="../../dd/d67/classcore_1_1TaskFunctor.html#a23fa04622462801ad5edc49cfafa7529">progress</a> * <a class="code" href="../../d9/d0f/namespacecore.html#ab9fe299e4c97fff9c3ebb0ceb8c6cc9d">TOTAL_PROGRESS</a>;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">if</span> (newProgress == 0 || newProgress % <span class="keywordtype">size_t</span>(<a class="code" href="../../d9/d0f/namespacecore.html#ab9fe299e4c97fff9c3ebb0ceb8c6cc9d">TOTAL_PROGRESS</a>) &gt; _nextTic)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            _updateProgress(msg, newProgress - _nextTic);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            _nextTic = newProgress;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        }</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    };</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;} <span class="comment">// namespace core</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">return</span> [<span class="keyword">this</span>](<span class="keyword">const</span> std::string&amp; msg, <span class="keyword">const</span> <span class="keywordtype">float</span> <a class="code" href="../../dd/d67/classcore_1_1TaskFunctor.html#a23fa04622462801ad5edc49cfafa7529">progress</a>)</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <a class="code" href="../../dd/d67/classcore_1_1TaskFunctor.html#a490abe051c9feb0d53fcd91d63b126f4">cancelCheck</a>();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">size_t</span> newProgress = <a class="code" href="../../dd/d67/classcore_1_1TaskFunctor.html#a23fa04622462801ad5edc49cfafa7529">progress</a> * <a class="code" href="../../d9/d0f/namespacecore.html#ab9fe299e4c97fff9c3ebb0ceb8c6cc9d">TOTAL_PROGRESS</a>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">if</span> (newProgress == 0 || newProgress % <span class="keywordtype">size_t</span>(<a class="code" href="../../d9/d0f/namespacecore.html#ab9fe299e4c97fff9c3ebb0ceb8c6cc9d">TOTAL_PROGRESS</a>) &gt; _nextTic)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            _updateProgress(msg, newProgress - _nextTic);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            _nextTic = newProgress;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    };</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;} <span class="comment">// namespace core</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aplatform_2core_2common_2utils_2Utils_8h_html"><div class="ttname"><a href="../../dc/daa/platform_2core_2common_2utils_2Utils_8h.html">Utils.h</a></div></div>
 <div class="ttc" id="aModel_8h_html"><div class="ttname"><a href="../../d3/d5a/Model_8h.html">Model.h</a></div></div>
 <div class="ttc" id="aclasscore_1_1ModelParams_html_ad9d04a646e56c9cc84b7f2238f7dc00e"><div class="ttname"><a href="../../d1/df6/classcore_1_1ModelParams.html#ad9d04a646e56c9cc84b7f2238f7dc00e">core::ModelParams::getPath</a></div><div class="ttdeci">const std::string &amp; getPath() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/Model_8h_source.html#l00110">Model.h:110</a></div></div>
 <div class="ttc" id="aclasscore_1_1LoadModelFunctor_html_afc4e425c95e4f757105a2e89cd239254"><div class="ttname"><a href="../../d2/d4d/classcore_1_1LoadModelFunctor.html#afc4e425c95e4f757105a2e89cd239254">core::LoadModelFunctor::LoadModelFunctor</a></div><div class="ttdeci">LoadModelFunctor(Engine &amp;engine, const ModelParams &amp;params)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d96/LoadModelFunctor_8cpp_source.html#l00037">LoadModelFunctor.cpp:37</a></div></div>
 <div class="ttc" id="aclasscore_1_1Scene_html_a585044ccebd40b25402fd71a6d712115"><div class="ttname"><a href="../../d5/d76/classcore_1_1Scene.html#a585044ccebd40b25402fd71a6d712115">core::Scene::loadModel</a></div><div class="ttdeci">ModelDescriptorPtr loadModel(Blob &amp;&amp;blob, const ModelParams &amp;params, LoaderProgress cb)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d15/Scene_8cpp_source.html#l00215">Scene.cpp:215</a></div></div>
-<div class="ttc" id="aerrors_8h_html"><div class="ttname"><a href="../../de/d45/errors_8h.html">errors.h</a></div></div>
 <div class="ttc" id="aScene_8h_html"><div class="ttname"><a href="../../d5/d2d/Scene_8h.html">Scene.h</a></div></div>
 <div class="ttc" id="aclasscore_1_1Engine_html_a1032fb06a61915ad1c262decb081bbeb"><div class="ttname"><a href="../../d8/dab/classcore_1_1Engine.html#a1032fb06a61915ad1c262decb081bbeb">core::Engine::getScene</a></div><div class="ttdeci">Scene &amp; getScene()</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/dd4/Engine_8h_source.html#l00086">Engine.h:86</a></div></div>
 <div class="ttc" id="aclasscore_1_1LoadModelFunctor_html_a98a546c0ff205b657be8fc94b2b2ab2d"><div class="ttname"><a href="../../d2/d4d/classcore_1_1LoadModelFunctor.html#a98a546c0ff205b657be8fc94b2b2ab2d">core::LoadModelFunctor::operator()</a></div><div class="ttdeci">ModelDescriptorPtr operator()()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d96/LoadModelFunctor_8cpp_source.html#l00048">LoadModelFunctor.cpp:48</a></div></div>
 <div class="ttc" id="aLoadModelFunctor_8h_html"><div class="ttname"><a href="../../d8/d5c/LoadModelFunctor_8h.html">LoadModelFunctor.h</a></div></div>
 <div class="ttc" id="anamespacecore_html_ab9fe299e4c97fff9c3ebb0ceb8c6cc9d"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#ab9fe299e4c97fff9c3ebb0ceb8c6cc9d">core::TOTAL_PROGRESS</a></div><div class="ttdeci">const float TOTAL_PROGRESS</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d96/LoadModelFunctor_8cpp_source.html#l00035">LoadModelFunctor.cpp:35</a></div></div>
 <div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00055">BaseWindow.cpp:55</a></div></div>
-<div class="ttc" id="anamespacecore_html_a987cf8f70fb0d4935ca96689d9af77b4"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">core::ModelDescriptorPtr</a></div><div class="ttdeci">std::shared_ptr&lt; ModelDescriptor &gt; ModelDescriptorPtr</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00096">Types.h:96</a></div></div>
-<div class="ttc" id="anamespacecore_html_add211eee0eb0e658f04589ab252ff0ec"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#add211eee0eb0e658f04589ab252ff0ec">core::LOADING_BINARY_FAILED</a></div><div class="ttdeci">TaskRuntimeError LOADING_BINARY_FAILED(const std::string &amp;error)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d45/errors_8h_source.html#l00043">errors.h:43</a></div></div>
-<div class="ttc" id="acore_2common_2utils_2utils_8h_html"><div class="ttname"><a href="../../d5/d49/core_2common_2utils_2utils_8h.html">utils.h</a></div></div>
+<div class="ttc" id="anamespacecore_html_a987cf8f70fb0d4935ca96689d9af77b4"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">core::ModelDescriptorPtr</a></div><div class="ttdeci">std::shared_ptr&lt; ModelDescriptor &gt; ModelDescriptorPtr</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00095">Types.h:95</a></div></div>
+<div class="ttc" id="anamespacecore_html_add211eee0eb0e658f04589ab252ff0ec"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#add211eee0eb0e658f04589ab252ff0ec">core::LOADING_BINARY_FAILED</a></div><div class="ttdeci">TaskRuntimeError LOADING_BINARY_FAILED(const std::string &amp;error)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d0e/Errors_8h_source.html#l00043">Errors.h:43</a></div></div>
+<div class="ttc" id="aErrors_8h_html"><div class="ttname"><a href="../../d2/d0e/Errors_8h.html">Errors.h</a></div></div>
 <div class="ttc" id="aEngine_8h_html"><div class="ttname"><a href="../../d1/dd4/Engine_8h.html">Engine.h</a></div></div>
 <div class="ttc" id="aclasscore_1_1Engine_html"><div class="ttname"><a href="../../d8/dab/classcore_1_1Engine.html">core::Engine</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/dd4/Engine_8h_source.html#l00042">Engine.h:42</a></div></div>
 <div class="ttc" id="aclasscore_1_1ModelParams_html"><div class="ttname"><a href="../../d1/df6/classcore_1_1ModelParams.html">core::ModelParams</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/Model_8h_source.html#l00092">Model.h:92</a></div></div>
@@ -204,7 +205,7 @@ $(document).ready(function(){initNavTree('dd/d96/LoadModelFunctor_8cpp_source.ht
 <div class="ttc" id="aCamera_8h_html"><div class="ttname"><a href="../../dd/de4/Camera_8h.html">Camera.h</a></div></div>
 <div class="ttc" id="aFrameBuffer_8h_html"><div class="ttname"><a href="../../da/d8a/FrameBuffer_8h.html">FrameBuffer.h</a></div></div>
 <div class="ttc" id="aclasscore_1_1TaskFunctor_html_a23fa04622462801ad5edc49cfafa7529"><div class="ttname"><a href="../../dd/d67/classcore_1_1TaskFunctor.html#a23fa04622462801ad5edc49cfafa7529">core::TaskFunctor::progress</a></div><div class="ttdeci">void progress(const std::string &amp;message, const float increment, const float amount)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d50/TaskFunctor_8h_source.html#l00058">TaskFunctor.h:58</a></div></div>
-<div class="ttc" id="astructcore_1_1Blob_html"><div class="ttname"><a href="../../dd/db2/structcore_1_1Blob.html">core::Blob</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00302">Types.h:302</a></div></div>
+<div class="ttc" id="astructcore_1_1Blob_html"><div class="ttname"><a href="../../dd/db2/structcore_1_1Blob.html">core::Blob</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00301">Types.h:301</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

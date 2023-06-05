@@ -1,13 +1,13 @@
-<map id="/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/plugins/Sonata/module/ispc/render/ProximityDetectionRenderer.cpp" name="/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/plugins/Sonata/module/ispc/render/ProximityDetectionRenderer.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="336,5,564,105"/>
-<area shape="rect" id="node2" href="$d5/d69/ProximityDetectionRenderer_8h.html" title=" " alt="" coords="130,161,348,187"/>
-<area shape="rect" id="node5" href="$d2/de1/AdvancedMaterial_8h.html" title=" " alt="" coords="410,421,562,448"/>
-<area shape="rect" id="node11" title=" " alt="" coords="488,153,694,195"/>
-<area shape="rect" id="node3" href="$df/d86/SimulationRenderer_8h.html" title=" " alt="" coords="96,243,300,299"/>
-<area shape="rect" id="node4" href="$d8/df8/AbstractRenderer_8h.html" title=" " alt="" coords="230,347,376,373"/>
-<area shape="rect" id="node7" title=" " alt="" coords="160,503,388,530"/>
-<area shape="rect" id="node9" title=" " alt="" coords="30,421,248,448"/>
-<area shape="rect" id="node10" title=" " alt="" coords="272,421,334,448"/>
-<area shape="rect" id="node6" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="584,496,755,537"/>
-<area shape="rect" id="node8" title=" " alt="" coords="412,496,560,537"/>
+<map id="bioexplorer/backend/plugins/Sonata/module/ispc/render/ProximityDetectionRenderer.cpp" name="bioexplorer/backend/plugins/Sonata/module/ispc/render/ProximityDetectionRenderer.cpp">
+<area shape="rect" id="node1" title=" " alt="" coords="336,5,564,76"/>
+<area shape="rect" id="node2" href="$d5/d69/ProximityDetectionRenderer_8h.html" title=" " alt="" coords="130,131,348,158"/>
+<area shape="rect" id="node5" href="$d2/de1/AdvancedMaterial_8h.html" title=" " alt="" coords="410,392,562,419"/>
+<area shape="rect" id="node11" title=" " alt="" coords="488,124,694,165"/>
+<area shape="rect" id="node3" href="$df/d86/SimulationRenderer_8h.html" title=" " alt="" coords="96,213,300,269"/>
+<area shape="rect" id="node4" href="$d8/df8/AbstractRenderer_8h.html" title=" " alt="" coords="230,317,376,344"/>
+<area shape="rect" id="node7" title=" " alt="" coords="160,474,388,501"/>
+<area shape="rect" id="node9" title=" " alt="" coords="30,392,248,419"/>
+<area shape="rect" id="node10" title=" " alt="" coords="272,392,334,419"/>
+<area shape="rect" id="node6" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="584,467,755,508"/>
+<area shape="rect" id="node8" title=" " alt="" coords="412,467,560,508"/>
 </map>

@@ -1,12 +1,12 @@
-<map id="/home/favreau/code/favreau/BioExplorer/platform/engines/ospray/ispc/render/BasicRenderer.cpp" name="/home/favreau/code/favreau/BioExplorer/platform/engines/ospray/ispc/render/BasicRenderer.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="507,5,730,76"/>
-<area shape="rect" id="node2" href="$df/d0b/BasicRenderer_8h.html" title=" " alt="" coords="471,124,598,151"/>
-<area shape="rect" id="node10" title=" " alt="" coords="622,124,783,151"/>
-<area shape="rect" id="node3" href="$d8/df8/AbstractRenderer_8h.html" title=" " alt="" coords="445,199,624,225"/>
-<area shape="rect" id="node4" href="$d2/de1/AdvancedMaterial_8h.html" title=" " alt="" coords="248,273,400,300"/>
-<area shape="rect" id="node6" title=" " alt="" coords="373,355,601,382"/>
-<area shape="rect" id="node8" title=" " alt="" coords="499,273,717,300"/>
-<area shape="rect" id="node9" title=" " alt="" coords="741,273,803,300"/>
-<area shape="rect" id="node5" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="5,348,176,389"/>
-<area shape="rect" id="node7" title=" " alt="" coords="201,348,349,389"/>
+<map id="platform/engines/ospray/ispc/render/BasicRenderer.cpp" name="platform/engines/ospray/ispc/render/BasicRenderer.cpp">
+<area shape="rect" id="node1" title=" " alt="" coords="507,5,730,47"/>
+<area shape="rect" id="node2" href="$df/d0b/BasicRenderer_8h.html" title=" " alt="" coords="471,95,598,121"/>
+<area shape="rect" id="node10" title=" " alt="" coords="622,95,783,121"/>
+<area shape="rect" id="node3" href="$d8/df8/AbstractRenderer_8h.html" title=" " alt="" coords="445,169,624,196"/>
+<area shape="rect" id="node4" href="$d2/de1/AdvancedMaterial_8h.html" title=" " alt="" coords="248,244,400,271"/>
+<area shape="rect" id="node6" title=" " alt="" coords="373,326,601,353"/>
+<area shape="rect" id="node8" title=" " alt="" coords="499,244,717,271"/>
+<area shape="rect" id="node9" title=" " alt="" coords="741,244,803,271"/>
+<area shape="rect" id="node5" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="5,319,176,360"/>
+<area shape="rect" id="node7" title=" " alt="" coords="201,319,349,360"/>
 </map>

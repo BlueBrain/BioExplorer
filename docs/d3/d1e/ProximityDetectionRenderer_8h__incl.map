@@ -1,11 +1,11 @@
-<map id="/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/plugins/Sonata/module/ispc/render/ProximityDetectionRenderer.h" name="/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/plugins/Sonata/module/ispc/render/ProximityDetectionRenderer.h">
-<area shape="rect" id="node1" title=" " alt="" coords="507,5,735,105"/>
-<area shape="rect" id="node2" href="$df/d86/SimulationRenderer_8h.html" title=" " alt="" coords="519,153,723,209"/>
-<area shape="rect" id="node3" href="$d8/df8/AbstractRenderer_8h.html" title=" " alt="" coords="384,257,531,284"/>
-<area shape="rect" id="node6" title=" " alt="" coords="373,414,601,441"/>
-<area shape="rect" id="node8" title=" " alt="" coords="513,332,730,359"/>
-<area shape="rect" id="node4" href="$d2/de1/AdvancedMaterial_8h.html" title=" " alt="" coords="199,332,351,359"/>
-<area shape="rect" id="node9" title=" " alt="" coords="426,332,489,359"/>
-<area shape="rect" id="node5" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="5,407,176,448"/>
-<area shape="rect" id="node7" title=" " alt="" coords="201,407,349,448"/>
+<map id="bioexplorer/backend/plugins/Sonata/module/ispc/render/ProximityDetectionRenderer.h" name="bioexplorer/backend/plugins/Sonata/module/ispc/render/ProximityDetectionRenderer.h">
+<area shape="rect" id="node1" title=" " alt="" coords="507,5,735,76"/>
+<area shape="rect" id="node2" href="$df/d86/SimulationRenderer_8h.html" title=" " alt="" coords="519,124,723,180"/>
+<area shape="rect" id="node3" href="$d8/df8/AbstractRenderer_8h.html" title=" " alt="" coords="384,228,531,255"/>
+<area shape="rect" id="node6" title=" " alt="" coords="373,385,601,411"/>
+<area shape="rect" id="node8" title=" " alt="" coords="513,303,730,329"/>
+<area shape="rect" id="node4" href="$d2/de1/AdvancedMaterial_8h.html" title=" " alt="" coords="199,303,351,329"/>
+<area shape="rect" id="node9" title=" " alt="" coords="426,303,489,329"/>
+<area shape="rect" id="node5" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="5,377,176,419"/>
+<area shape="rect" id="node7" title=" " alt="" coords="201,377,349,419"/>
 </map>

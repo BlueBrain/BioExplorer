@@ -1,9 +1,9 @@
-<map id="/home/favreau/code/favreau/BioExplorer/platform/plugins/rockets/Throttle.cpp" name="/home/favreau/code/favreau/BioExplorer/platform/plugins/rockets/Throttle.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="173,5,357,76"/>
-<area shape="rect" id="node2" href="$df/d39/Throttle_8h.html" title=" " alt="" coords="222,124,307,151"/>
-<area shape="rect" id="node3" href="$dd/d01/Timeout_8h.html" title=" " alt="" coords="221,199,309,225"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,273,148,300"/>
-<area shape="rect" id="node5" title=" " alt="" coords="172,273,259,300"/>
-<area shape="rect" id="node6" title=" " alt="" coords="283,273,345,300"/>
-<area shape="rect" id="node7" title=" " alt="" coords="369,273,433,300"/>
+<map id="platform/plugins/rockets/Throttle.cpp" name="platform/plugins/rockets/Throttle.cpp">
+<area shape="rect" id="node1" title=" " alt="" coords="175,5,355,47"/>
+<area shape="rect" id="node2" href="$df/d39/Throttle_8h.html" title=" " alt="" coords="222,95,307,121"/>
+<area shape="rect" id="node3" href="$dd/d01/Timeout_8h.html" title=" " alt="" coords="221,169,309,196"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,244,148,271"/>
+<area shape="rect" id="node5" title=" " alt="" coords="172,244,259,271"/>
+<area shape="rect" id="node6" title=" " alt="" coords="283,244,345,271"/>
+<area shape="rect" id="node7" title=" " alt="" coords="369,244,433,271"/>
 </map>

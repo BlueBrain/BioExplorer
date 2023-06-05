@@ -1,10 +1,10 @@
-<map id="/home/favreau/code/favreau/BioExplorer/platform/engines/optix6/OptiXCamera.h" name="/home/favreau/code/favreau/BioExplorer/platform/engines/optix6/OptiXCamera.h">
-<area shape="rect" id="node1" title=" " alt="" coords="377,5,560,76"/>
-<area shape="rect" id="node2" href="$da/db8/optix6_2OptiXCamera_8cpp.html" title=" " alt="" coords="5,131,188,202"/>
-<area shape="rect" id="node3" href="$d7/dfd/optix6_2OptiXEngine_8cpp.html" title=" " alt="" coords="135,257,317,328"/>
-<area shape="rect" id="node4" href="$d6/d24/optix6_2OptiXRenderer_8h.html" title=" " alt="" coords="264,131,447,202"/>
-<area shape="rect" id="node6" href="$d9/dee/OptiXOrthographicCamera_8cpp.html" title=" " alt="" coords="471,131,693,202"/>
-<area shape="rect" id="node7" href="$db/d02/optix6_2OptiXPerspectiveCamera_8cpp.html" title=" " alt="" coords="718,131,934,202"/>
-<area shape="rect" id="node8" href="$d5/de3/OptiXCylindricStereoCamera_8cpp.html" title=" " alt="" coords="959,124,1208,209"/>
-<area shape="rect" id="node5" href="$d4/d98/optix6_2OptiXRenderer_8cpp.html" title=" " alt="" coords="341,257,524,328"/>
+<map id="platform/engines/optix6/OptiXCamera.h" name="platform/engines/optix6/OptiXCamera.h">
+<area shape="rect" id="node1" title=" " alt="" coords="371,5,549,47"/>
+<area shape="rect" id="node2" href="$da/db8/optix6_2OptiXCamera_8cpp.html" title=" " alt="" coords="5,102,184,143"/>
+<area shape="rect" id="node3" href="$d7/dfd/optix6_2OptiXEngine_8cpp.html" title=" " alt="" coords="132,199,311,240"/>
+<area shape="rect" id="node4" href="$d6/d24/optix6_2OptiXRenderer_8h.html" title=" " alt="" coords="259,102,437,143"/>
+<area shape="rect" id="node6" href="$d9/dee/OptiXOrthographicCamera_8cpp.html" title=" " alt="" coords="462,102,685,143"/>
+<area shape="rect" id="node7" href="$db/d02/optix6_2OptiXPerspectiveCamera_8cpp.html" title=" " alt="" coords="709,102,925,143"/>
+<area shape="rect" id="node8" href="$d5/de3/OptiXCylindricStereoCamera_8cpp.html" title=" " alt="" coords="950,95,1199,151"/>
+<area shape="rect" id="node5" href="$d4/d98/optix6_2OptiXRenderer_8cpp.html" title=" " alt="" coords="335,199,513,240"/>
 </map>

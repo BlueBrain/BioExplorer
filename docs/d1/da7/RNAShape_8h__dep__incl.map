@@ -1,7 +1,7 @@
-<map id="/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/science/common/shapes/RNAShape.h" name="/home/favreau/code/favreau/BioExplorer/bioexplorer/backend/science/common/shapes/RNAShape.h">
-<area shape="rect" id="node1" title=" " alt="" coords="113,5,300,91"/>
-<area shape="rect" id="node2" href="$d1/d64/RNAShape_8cpp.html" title=" " alt="" coords="5,139,192,224"/>
-<area shape="rect" id="node3" href="$d0/d7d/RNASequence_8h.html" title=" " alt="" coords="217,139,415,224"/>
-<area shape="rect" id="node4" href="$df/d5c/Assembly_8cpp.html" title=" " alt="" coords="81,279,311,350"/>
-<area shape="rect" id="node5" href="$da/d80/RNASequence_8cpp.html" title=" " alt="" coords="335,272,534,357"/>
+<map id="bioexplorer/backend/science/common/shapes/RNAShape.h" name="bioexplorer/backend/science/common/shapes/RNAShape.h">
+<area shape="rect" id="node1" title=" " alt="" coords="113,5,300,61"/>
+<area shape="rect" id="node2" href="$d1/d64/RNAShape_8cpp.html" title=" " alt="" coords="5,109,192,165"/>
+<area shape="rect" id="node3" href="$d0/d7d/RNASequence_8h.html" title=" " alt="" coords="217,109,415,165"/>
+<area shape="rect" id="node4" href="$df/d5c/Assembly_8cpp.html" title=" " alt="" coords="81,221,311,262"/>
+<area shape="rect" id="node5" href="$da/d80/RNASequence_8cpp.html" title=" " alt="" coords="335,213,534,269"/>
 </map>

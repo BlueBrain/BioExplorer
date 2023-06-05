@@ -1,12 +1,12 @@
-<map id="/home/favreau/code/favreau/BioExplorer/platform/engines/ospray/ispc/render/utils/AbstractRenderer.cpp" name="/home/favreau/code/favreau/BioExplorer/platform/engines/ospray/ispc/render/utils/AbstractRenderer.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="598,5,871,76"/>
-<area shape="rect" id="node2" href="$d8/df8/AbstractRenderer_8h.html" title=" " alt="" coords="461,124,608,151"/>
-<area shape="rect" id="node9" title=" " alt="" coords="632,124,837,151"/>
-<area shape="rect" id="node10" title=" " alt="" coords="862,124,1047,151"/>
-<area shape="rect" id="node3" href="$d2/de1/AdvancedMaterial_8h.html" title=" " alt="" coords="248,199,400,225"/>
-<area shape="rect" id="node5" title=" " alt="" coords="373,281,601,307"/>
-<area shape="rect" id="node7" title=" " alt="" coords="499,199,717,225"/>
-<area shape="rect" id="node8" title=" " alt="" coords="741,199,803,225"/>
-<area shape="rect" id="node4" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="5,273,176,315"/>
-<area shape="rect" id="node6" title=" " alt="" coords="201,273,349,315"/>
+<map id="platform/engines/ospray/ispc/render/utils/AbstractRenderer.cpp" name="platform/engines/ospray/ispc/render/utils/AbstractRenderer.cpp">
+<area shape="rect" id="node1" title=" " alt="" coords="598,5,871,47"/>
+<area shape="rect" id="node2" href="$d8/df8/AbstractRenderer_8h.html" title=" " alt="" coords="461,95,608,121"/>
+<area shape="rect" id="node9" title=" " alt="" coords="632,95,837,121"/>
+<area shape="rect" id="node10" title=" " alt="" coords="862,95,1047,121"/>
+<area shape="rect" id="node3" href="$d2/de1/AdvancedMaterial_8h.html" title=" " alt="" coords="248,169,400,196"/>
+<area shape="rect" id="node5" title=" " alt="" coords="373,251,601,278"/>
+<area shape="rect" id="node7" title=" " alt="" coords="499,169,717,196"/>
+<area shape="rect" id="node8" title=" " alt="" coords="741,169,803,196"/>
+<area shape="rect" id="node4" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="5,244,176,285"/>
+<area shape="rect" id="node6" title=" " alt="" coords="201,244,349,285"/>
 </map>

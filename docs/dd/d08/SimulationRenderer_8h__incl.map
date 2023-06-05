@@ -1,10 +1,10 @@
-<map id="/home/favreau/code/favreau/BioExplorer/platform/engines/ospray/ispc/render/utils/SimulationRenderer.h" name="/home/favreau/code/favreau/BioExplorer/platform/engines/ospray/ispc/render/utils/SimulationRenderer.h">
-<area shape="rect" id="node1" title=" " alt="" coords="484,5,759,76"/>
-<area shape="rect" id="node2" href="$d8/df8/AbstractRenderer_8h.html" title=" " alt="" coords="384,124,531,151"/>
-<area shape="rect" id="node5" title=" " alt="" coords="373,281,601,307"/>
-<area shape="rect" id="node7" title=" " alt="" coords="513,199,730,225"/>
-<area shape="rect" id="node3" href="$d2/de1/AdvancedMaterial_8h.html" title=" " alt="" coords="199,199,351,225"/>
-<area shape="rect" id="node8" title=" " alt="" coords="426,199,489,225"/>
-<area shape="rect" id="node4" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="5,273,176,315"/>
-<area shape="rect" id="node6" title=" " alt="" coords="201,273,349,315"/>
+<map id="platform/engines/ospray/ispc/render/utils/SimulationRenderer.h" name="platform/engines/ospray/ispc/render/utils/SimulationRenderer.h">
+<area shape="rect" id="node1" title=" " alt="" coords="519,5,723,61"/>
+<area shape="rect" id="node2" href="$d8/df8/AbstractRenderer_8h.html" title=" " alt="" coords="384,109,531,136"/>
+<area shape="rect" id="node5" title=" " alt="" coords="373,266,601,293"/>
+<area shape="rect" id="node7" title=" " alt="" coords="513,184,730,211"/>
+<area shape="rect" id="node3" href="$d2/de1/AdvancedMaterial_8h.html" title=" " alt="" coords="199,184,351,211"/>
+<area shape="rect" id="node8" title=" " alt="" coords="426,184,489,211"/>
+<area shape="rect" id="node4" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="5,259,176,300"/>
+<area shape="rect" id="node6" title=" " alt="" coords="201,259,349,300"/>
 </map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['jsonhandler_3966',['JSONHandler',['../dd/db8/classstaticjson_1_1JSONHandler.html',1,'staticjson']]]
+  ['keyboardhandler_3685',['KeyboardHandler',['../d4/d89/classcore_1_1KeyboardHandler.html',1,'core']]]
 ];
