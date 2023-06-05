@@ -16,8 +16,8 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# Image where Brayns+BioExplorer plugin is built
-FROM debian:buster-slim as builder
+# Image where BioExplorer plugin is built
+FROM debian:buster-20230522-slim as builder
 LABEL maintainer="cyrille.favreau@epfl.ch"
 ARG DIST_PATH=/app/dist
 
@@ -55,6 +55,33 @@ RUN apt-get update \
    exiv2 \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+
+# --------------------------------------------------------------------------------
+# Get CMake 3.21.1
+# --------------------------------------------------------------------------------
+RUN wget -O cmake-linux.sh https://cmake.org/files/v3.21/cmake-3.21.1-linux-x86_64.sh && \
+   chmod +x cmake-linux.sh && \
+   ./cmake-linux.sh --skip-license --exclude-subdir --prefix=/usr/local
+
+# --------------------------------------------------------------------------------
+# Install Brion
+# https://github.com/BlueBrain/Brion
+# --------------------------------------------------------------------------------
+# ARG BRION_TAG=3.3.9
+# ARG BRION_SRC=/app/brion
+
+# RUN mkdir -p ${BRION_SRC} \
+#    && git clone --recursive https://github.com/BlueBrain/Brion.git ${BRION_SRC} \
+#    && cd ${BRION_SRC} \
+#    && git checkout ${BRION_TAG} \
+#    && git submodule update --init \
+#    && mkdir -p build \
+#    && cd build \
+#    && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
+#    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+#    && ninja install \
+#    && ninja clean
 
 # --------------------------------------------------------------------------------
 # Get ISPC
@@ -237,4 +264,4 @@ EXPOSE 8200
 # See https://docs.docker.com/engine/reference/run/#entrypoint-default-command-to-execute-at-runtime
 # for more docs
 ENTRYPOINT ["service"]
-CMD ["--http-server", ":8200", "--plugin", "MediaMaker", "--plugin", "Metabolism", "--plugin", "BioExplorer"]
+CMD ["--http-server", ":8200", "--plugin", "MediaMaker", "--plugin", "BioExplorer"]
