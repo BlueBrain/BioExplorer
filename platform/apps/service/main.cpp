@@ -22,7 +22,6 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 #include <platform/core/Core.h>
 #include <platform/core/common/Logs.h>
 #include <platform/core/common/Types.h>
@@ -50,10 +49,7 @@ int main(int argc, const char** argv)
             if (fb->numAccumFrames() < rp.getMaxAccumFrames())
                 core.commitAndRender();
             else
-            {
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 core.commit();
-            }
         }
     }
     catch (const std::runtime_error& e)
