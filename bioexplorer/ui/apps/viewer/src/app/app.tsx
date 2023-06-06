@@ -81,7 +81,6 @@ import Cube from './cube';
 import { DataPortal, LoadModel } from './data-portal';
 import ImageStream from './image-stream';
 import Notifications from './notifications';
-import QuitRenderer from './quit-renderer';
 import RendererSettings from './renderer-settings';
 import RequestNotifications from './request-notifications';
 import ResetCamera from './reset-camera';
@@ -701,8 +700,6 @@ class App extends PureComponent<Props, State> {
                                                     <span className={classes.spacer} />
 
                                                     <ResetCamera />
-
-                                                    <QuitRenderer />
 
                                                     <Tooltip title={'App info'} {...TOOLTIP_DELAY}>
                                                         <IconButton
