@@ -29,51 +29,65 @@
 
 namespace core
 {
+/**
+ * @class LightManager
+ * @extends BaseObject
+ * @brief Manages light sources in a scene
+ *
+ * A LightManager object is responsible for managing light sources in a scene.
+ * It provides methods to add, remove, retrieve, and clear light sources.
+ */
 class LightManager : public BaseObject
 {
 public:
     /**
-     * @brief addLight Attaches a light source to the scene
-     * @param light Object representing the light source
+     * @brief addLight
+     * Attaches a light source to the scene.
+     * @param light Pointer to an object representing the light source.
+     * @return The ID assigned to the new light source.
      */
-    size_t addLight(LightPtr light);
+    PLATFORM_API size_t addLight(LightPtr light);
 
     /**
-     * @brief removeLight Removes a light source from the scene for a given id
-     * @param id ID of Light source to be removed
+     * @brief removeLight
+     * Removes a light source from the scene for a given ID.
+     * @param id ID of the light source to be removed.
      */
-    void removeLight(const size_t id);
+    PLATFORM_API void removeLight(const size_t id);
 
     /**
-     * @brief removeLight Removes a light source from the scene for a given
-     * light
-     * @param light Light source to be removed
+     * @brief removeLight
+     * Removes a light source from the scene.
+     * @param light Pointer to the light source to be removed.
      */
-    void removeLight(LightPtr light);
+    PLATFORM_API void removeLight(LightPtr light);
 
     /**
-     * @brief getLight Gets a light source from the scene for a given id.
+     * @brief getLight
+     * Gets a light source from the scene for a given ID.
      * Note: If changing the light then call markModified to propagate the
      * changes.
-     * @param id Id of the light
-     * @return Pointer to the light, nullptr if not found
+     * @param id ID of the light to retrieve.
+     * @return Pointer to the requested light source, or nullptr if not found.
      */
-    LightPtr getLight(const size_t id);
+    PLATFORM_API LightPtr getLight(const size_t id);
 
     /**
-     * @brief getLights Gets the lights
-     * @return Immutable list of all light sources and their id
+     * @brief getLights
+     * Gets all light sources currently managed by the LightManager object.
+     * @return Immutable list of all light sources and their IDs.
      */
-    const std::map<size_t, LightPtr>& getLights() const;
+    PLATFORM_API const std::map<size_t, LightPtr>& getLights() const;
 
     /**
-     * @brief clearLights Removes all light sources
+     * @brief clearLights
+     * Removes all light sources managed by the LightManager object.
      */
-    void clearLights();
+    PLATFORM_API void clearLights();
 
 private:
-    std::map<size_t, LightPtr> _lights;
-    std::unordered_map<LightPtr, size_t> _lightsInverse;
-    size_t _IDctr{0};
+    std::map<size_t, LightPtr> _lights;                  // Map containing all light sources.
+    std::unordered_map<LightPtr, size_t> _lightsInverse; // Inverse mapping of light sources to their IDs.
+    size_t _IDctr{0};                                    // Internal counter for assigning IDs to new light sources.
 };
 } // namespace core

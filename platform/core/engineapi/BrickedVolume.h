@@ -21,20 +21,34 @@
 
 #pragma once
 
+#include <platform/core/common/Api.h>
+
 #include <platform/core/engineapi/Volume.h>
 
 namespace core
 {
-/** A volume type where the voxels are copied for each added brick. */
+/**
+ * @brief A volume type where the voxels are copied for each added brick.
+ * @extends Volume
+ */
 class BrickedVolume : public virtual Volume
 {
 public:
-    /** @name API for engine-specific code */
-    //@{
-    virtual void setBrick(const void* data, const Vector3ui& position, const Vector3ui& size) = 0;
-    //@}
+    /**
+     * @brief Sets a brick of data in the volume.
+     * @param data The data to be set as a void pointer.
+     * @param position The position of the brick as a Vector3ui object.
+     * @param size The size of the brick as a Vector3ui object.
+     */
+    PLATFORM_API virtual void setBrick(const void* data, const Vector3ui& position, const Vector3ui& size) = 0;
 
 protected:
+    /**
+     * @brief Constructs a new BrickedVolume object.
+     * @param dimensions The dimensions of the volume as a Vector3ui object.
+     * @param spacing The spacing between voxels as a Vector3f object.
+     * @param type The data type of the volume.
+     */
     BrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type)
         : Volume(dimensions, spacing, type)
     {

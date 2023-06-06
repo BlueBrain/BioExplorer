@@ -26,37 +26,60 @@
 namespace core
 {
 /**
- * A volume type where the voxels are set once and only referenced from the
- * source location.
+ * @class SharedDataVolume
+ * @extends Volume
+ * A volume type where the voxels are set once and only referenced from the source location.
+ * Inherits from virtual Volume class.
  */
 class SharedDataVolume : public virtual Volume
 {
 public:
-    /** @name API for engine-specific code */
-    //@{
-    virtual void setVoxels(const void* voxels) = 0;
-    //@}
+    /**
+     * @brief Sets the voxels of the volume.
+     * @param voxels A pointer to the location of the voxels to be set.
+     */
+    PLATFORM_API virtual void setVoxels(const void* voxels) = 0;
 
     /**
-     * Convenience functions to use voxels from given file and pass them to
-     * setVoxels().
+     * @brief Convenience function to map data from file.
+     * @param filename The file path to the data.
      */
-    void mapData(const std::string& filename);
-    void mapData(const uint8_ts& buffer);
-    void mapData(uint8_ts&& buffer);
+    PLATFORM_API void mapData(const std::string& filename);
+
+    /**
+     * @brief Convenience function to map data from a buffer.
+     * @param buffer The buffer containing the data.
+     */
+    PLATFORM_API void mapData(const uint8_ts& buffer);
+
+    /**
+     * @brief Convenience function to map data from a movable buffer.
+     * @param buffer The movable buffer containing the data.
+     */
+    PLATFORM_API void mapData(uint8_ts&& buffer);
 
 protected:
+    /**
+     * @brief Constructs a new SharedDataVolume object.
+     * @param dimensions The dimensions of the volume as a Vector3ui object.
+     * @param spacing The spacing between voxels as a Vector3f object.
+     * @param type The data type of the volume.
+     */
     SharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type)
         : Volume(dimensions, spacing, type)
     {
     }
 
+    /**
+     * @brief Destructs the SharedDataVolume object.
+     * Unmaps the data from memory and closes the mapped file.
+     */
     ~SharedDataVolume();
 
 private:
-    uint8_ts _memoryBuffer;
-    void* _memoryMapPtr{nullptr};
-    int _cacheFileDescriptor{-1};
-    size_t _size{0};
+    uint8_ts _memoryBuffer;       // The buffer containing the mapped data
+    void* _memoryMapPtr{nullptr}; // The pointer to the mapped memory
+    int _cacheFileDescriptor{-1}; // The file descriptor of the mapped file
+    size_t _size{0};              // The size of the mapped data
 };
 } // namespace core

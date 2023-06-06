@@ -21,34 +21,56 @@
 
 #pragma once
 
+#include <platform/core/common/Api.h>
 #include <platform/core/common/BaseObject.h>
 #include <platform/core/common/Types.h>
 
 namespace core
 {
-/** A base class for volumes to share common properties. */
+/**
+ * @brief A base class for volumes.
+ */
 class Volume : public BaseObject
 {
 public:
-    /** @name API for engine-specific code */
-    //@{
-    virtual void setDataRange(const Vector2f& range) = 0;
+    /**
+     * @brief Constructs a Volume object.
+     * @param dimensions The dimensions of the volume as a Vector3ui object.
+     * @param spacing The spacing between voxels as a Vector3f object.
+     * @param type The data type of the volume.
+     */
+    PLATFORM_API Volume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type);
 
-    virtual void commit() = 0;
-    //@}
+    /*
+     * @brief Sets the range of data in the volume.
+     * @param range The data range represented as a Vector2f object.
+     */
+    PLATFORM_API virtual void setDataRange(const Vector2f& range) = 0;
 
-    Volume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type);
+    /**
+     * @brief Commits changes to the volume.
+     */
+    PLATFORM_API virtual void commit() = 0;
 
-    size_t getSizeInBytes() const { return _sizeInBytes; }
-    Boxd getBounds() const
+    /**
+     * @brief Gets the size of the volume in bytes.
+     * @return The size of the volume in bytes.
+     */
+    PLATFORM_API size_t getSizeInBytes() const { return _sizeInBytes; }
+
+    /**
+     * @brief Gets the bounding box of the volume.
+     * @return The bounding box of the volume as a Boxd object.
+     */
+    PLATFORM_API Boxd getBounds() const
     {
         return {{0, 0, 0}, {_dimensions.x * _spacing.x, _dimensions.y * _spacing.y, _dimensions.z * _spacing.z}};
     }
 
 protected:
-    std::atomic_size_t _sizeInBytes{0};
-    const Vector3ui _dimensions;
-    const Vector3f _spacing;
-    const DataType _dataType;
+    std::atomic_size_t _sizeInBytes{0}; // The size of the volume in bytes.
+    const Vector3ui _dimensions;        // The dimensions of the volume as a Vector3ui object.
+    const Vector3f _spacing;            // The spacing between voxels as a Vector3f object.
+    const DataType _dataType;           // The data type of the volume.
 };
 } // namespace core
