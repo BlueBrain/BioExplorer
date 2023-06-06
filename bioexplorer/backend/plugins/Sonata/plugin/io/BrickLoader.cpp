@@ -50,8 +50,8 @@ const size_t CACHE_VERSION_2 = 2;
 const size_t CACHE_VERSION_3 = 3;
 const size_t CACHE_VERSION_4 = 4;
 
-const std::string LOADER_NAME = "Cache";
-const std::string SUPPORTED_EXTENTION_BRAYNS = "core";
+const std::string LOADER_NAME = "Brayns cache";
+const std::string SUPPORTED_EXTENTION_BRAYNS = "brayns";
 const std::string SUPPORTED_EXTENTION_BIN = "bin";
 
 const Property PROP_LOAD_SPHERES = {"spheres", true, {"Load spheres"}};

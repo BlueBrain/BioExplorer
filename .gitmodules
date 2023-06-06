@@ -1,9 +1,6 @@
 [submodule "platorm/deps/uvw"]
 path = platorm/deps/uvw
 url = https://github.com/skypjack/uvw.git
-[submodule "platform/deps/async++"]
-path = platform/deps/async++
-url = https://github.com/Amanieu/asyncplusplus.git
 [submodule "platform/deps/perceptualdiff"]
 path = platform/deps/perceptualdiff
 url = https://github.com/myint/perceptualdiff.git
@@ -13,3 +10,6 @@ url = https://github.com/Tencent/rapidjson.git
 [submodule "platform/deps/uvw"]
 path = platform/deps/uvw
 url = https://github.com/skypjack/uvw.git
+[submodule "common/deps/async++"]
+path = common/deps/async++
+url = https://github.com/Amanieu/asyncplusplus.git

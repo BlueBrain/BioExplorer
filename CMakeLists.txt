@@ -145,9 +145,23 @@ configure_file(
 # ==============================================================================
 # Core platform
 # ==============================================================================
-add_subdirectory(platform)
+option(PLATFORM_BUILD_ENABLED "Activate platform build" ON)
 
 # ==============================================================================
 # BioExplorer backend
 # ==============================================================================
-add_subdirectory(bioexplorer/backend)
+option(BIOEXPLORER_BUILD_ENABLED "Activate BioExplorer build" ON)
+
+if(PLATFORM_BUILD_ENABLED OR BIOEXPLORER_BUILD_ENABLED)
+    add_subdirectory(common/deps)
+endif()
+
+if(PLATFORM_BUILD_ENABLED)
+    message(STATUS "[Core] Platform build enabled")
+    add_subdirectory(platform)
+endif()
+
+if(BIOEXPLORER_BUILD_ENABLED)
+    message(STATUS "[Core] BioExplorer build enabled")
+    add_subdirectory(bioexplorer/backend)
+endif()

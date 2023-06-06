@@ -16,11 +16,13 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-if(FreeImage_FOUND)
-  add_subdirectory(perceptualdiff)
-  list(APPEND LCOV_EXCLUDE '${PROJECT_SOURCE_DIR}/deps/perceptualdiff/*')
-endif()
+set(BUILD_SHARED_LIBS ON CACHE BOOL "Build Async++ as a shared library" FORCE)
 
-if(Libuv_FOUND)
-  list(APPEND LCOV_EXCLUDE '${PROJECT_SOURCE_DIR}/deps/uvw/*')
+add_subdirectory(async++)
+if(APPLE)
+  # std::exception derivatives are not catched otherwise, e.g. in unit tests for
+  # testing loading errors; see https://stackoverflow.com/questions/21737201
+  target_compile_options(Async++ PRIVATE -frtti)
 endif()
+list(APPEND LCOV_EXCLUDE '${PROJECT_SOURCE_DIR}/deps/async++/include/async++/*'
+                         '${PROJECT_SOURCE_DIR}/deps/async++/src/*')
