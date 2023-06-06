@@ -1,9 +1,6 @@
 var searchData=
 [
-  ['membrane_741',['Membrane',['../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html#aefb9dddeab45a8ce8de3a9b1638b09a9',1,'bioexplorer::molecularsystems::Membrane']]],
-  ['meshshape_742',['MeshShape',['../df/d25/classbioexplorer_1_1common_1_1MeshShape.html#a63897ad73101812b12f70c3b5425774b',1,'bioexplorer::common::MeshShape']]],
-  ['metabolismhandler_743',['MetabolismHandler',['../d4/dc4/classbioexplorer_1_1metabolism_1_1MetabolismHandler.html#a08ea825bd18d6a9aae99b27ce82b6da7',1,'bioexplorer::metabolism::MetabolismHandler']]],
-  ['metabolismrenderer_744',['MetabolismRenderer',['../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html#a10d4a9bb451bfc3eaabb1933a920d9d4',1,'metabolism::rendering::MetabolismRenderer']]],
-  ['molecule_745',['Molecule',['../da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html#a95966fcc21dea310654bc2c4aedf02f1',1,'bioexplorer::molecularsystems::Molecule']]],
-  ['morphologies_746',['Morphologies',['../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html#a47af5e7666687d7f7c3a917458beaaf5',1,'bioexplorer::morphology::Morphologies']]]
+  ['join_5160',['join',['../dd/da4/namespacecore_1_1string__utils.html#a0a4bfa7d3e1ef749d1f4b34f729afee9',1,'core::string_utils']]],
+  ['jsontopropertymap_5161',['jsonToPropertyMap',['../d7/df7/jsonPropertyMap_8h.html#a9745b5fb7a372a4c37551cae71c09bd9',1,'jsonToPropertyMap(const std::string &amp;json):&#160;jsonPropertyMap.h'],['../d4/d2c/jsonSerialization_8h.html#a9745b5fb7a372a4c37551cae71c09bd9',1,'jsonToPropertyMap(const std::string &amp;json):&#160;jsonPropertyMap.h']]],
+  ['jumpframes_5162',['jumpFrames',['../d4/dfb/classcore_1_1AnimationParameters.html#aa334e0f21c34c0d19e853ec7d4d88ae7',1,'core::AnimationParameters']]]
 ];

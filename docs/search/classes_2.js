@@ -1,9 +1,27 @@
 var searchData=
 [
-  ['cacheloader_492',['CacheLoader',['../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html',1,'bioexplorer::io']]],
-  ['cameradefinition_493',['CameraDefinition',['../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html',1,'bioexplorer::mediamaker']]],
-  ['cell_494',['Cell',['../d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html',1,'bioexplorer::morphology']]],
-  ['cellanimationdetails_495',['CellAnimationDetails',['../d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html',1,'bioexplorer::details']]],
-  ['compartmentsimulationhandler_496',['CompartmentSimulationHandler',['../da/d62/classbioexplorer_1_1morphology_1_1CompartmentSimulationHandler.html',1,'bioexplorer::morphology']]],
-  ['cubeshape_497',['CubeShape',['../d5/dd3/classbioexplorer_1_1common_1_1CubeShape.html',1,'bioexplorer::common']]]
+  ['cacheloader_3598',['CacheLoader',['../d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html',1,'bioexplorer::io']]],
+  ['camera_3599',['Camera',['../d6/da7/classcore_1_1Camera.html',1,'core']]],
+  ['cameradefinition_3600',['CameraDefinition',['../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html',1,'bioexplorer::mediamaker']]],
+  ['cell_3601',['Cell',['../d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html',1,'bioexplorer::morphology']]],
+  ['cellanimationdetails_3602',['CellAnimationDetails',['../d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html',1,'bioexplorer::details']]],
+  ['cellgrowthhandler_3603',['CellGrowthHandler',['../d3/d03/classsonataexplorer_1_1neuroscience_1_1neuron_1_1CellGrowthHandler.html',1,'sonataexplorer::neuroscience::neuron']]],
+  ['cellgrowthrenderer_3604',['CellGrowthRenderer',['../d0/d29/classsonataexplorer_1_1CellGrowthRenderer.html',1,'sonataexplorer']]],
+  ['checkerphong_3605',['CheckerPhong',['../d9/dc3/structcore_1_1CheckerPhong.html',1,'core']]],
+  ['chunk_3606',['Chunk',['../dc/d81/structcore_1_1Chunk.html',1,'core']]],
+  ['circuitboundingbox_3607',['CircuitBoundingBox',['../db/d5d/structsonataexplorer_1_1api_1_1CircuitBoundingBox.html',1,'sonataexplorer::api']]],
+  ['clipplane_3608',['ClipPlane',['../d2/d26/classcore_1_1ClipPlane.html',1,'core']]],
+  ['colormap_3609',['ColorMap',['../d3/d10/structcore_1_1ColorMap.html',1,'core']]],
+  ['compartmentsimulationhandler_3610',['CompartmentSimulationHandler',['../da/d62/classbioexplorer_1_1morphology_1_1CompartmentSimulationHandler.html',1,'bioexplorer::morphology']]],
+  ['cone_3611',['Cone',['../d9/d5c/structCone.html',1,'Cone'],['../d1/d73/structcore_1_1GeometryData_1_1Cone.html',1,'core::GeometryData::Cone']]],
+  ['cones_3612',['Cones',['../d2/d51/structospray_1_1Cones.html',1,'ospray']]],
+  ['connectionspervalue_3613',['ConnectionsPerValue',['../d1/db0/structsonataexplorer_1_1api_1_1ConnectionsPerValue.html',1,'sonataexplorer::api']]],
+  ['core_3614',['Core',['../d3/d5e/classcore_1_1Core.html',1,'core']]],
+  ['cubeshape_3615',['CubeShape',['../d5/dd3/classbioexplorer_1_1common_1_1CubeShape.html',1,'bioexplorer::common']]],
+  ['curve_3616',['Curve',['../db/d40/structcore_1_1Curve.html',1,'core']]],
+  ['curves_3617',['Curves',['../d1/da6/structcore_1_1GeometryData_1_1Curves.html',1,'core::GeometryData']]],
+  ['cylinder_3618',['Cylinder',['../d6/d65/structcore_1_1GeometryData_1_1Cylinder.html',1,'core::GeometryData::Cylinder'],['../d3/df6/structCylinder.html',1,'Cylinder']]],
+  ['cylindriccamera_3619',['CylindricCamera',['../d0/d69/structospray_1_1CylindricCamera.html',1,'ospray']]],
+  ['cylindricstereocamera_3620',['CylindricStereoCamera',['../d3/dc8/structospray_1_1CylindricStereoCamera.html',1,'ospray']]],
+  ['cylindricstereotrackedcamera_3621',['CylindricStereoTrackedCamera',['../d2/d67/structospray_1_1CylindricStereoTrackedCamera.html',1,'ospray']]]
 ];

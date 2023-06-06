@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['user_20guide_976',['User guide',['../d6/d35/md__home_favreau_code_favreau_BioExplorer_bioexplorer_pythonsdk_doc_source_USERGUIDE.html',1,'']]]
+  ['the_20multiview_20core_20plug_2din_7348',['The Multiview core plug-in',['../d6/dc8/md_platform_plugins_multiview_README.html',1,'']]]
 ];

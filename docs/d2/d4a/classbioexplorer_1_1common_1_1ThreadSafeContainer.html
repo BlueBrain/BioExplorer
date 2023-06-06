@@ -90,45 +90,44 @@ $(document).ready(function(){initNavTree('d2/d4a/classbioexplorer_1_1common_1_1T
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html" title="The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is...">ThreadSafeContainer</a> class is used to load large datasets in parallel. Every individual element is loaded in a separate thread and eventualy merged into a single Brayns model.  
+<p>The <a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html" title="The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is...">ThreadSafeContainer</a> class is used to load large datasets in parallel. Every individual element is loaded in a separate thread and eventualy merged into a single Core model.  
  <a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html">ThreadSafeContainer.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aef176a28c822d0b4cec5b438b785eea1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#aef176a28c822d0b4cec5b438b785eea1">ThreadSafeContainer</a> (Model &amp;model, const Vector3d &amp;scale=Vector3d(1.0, 1.0, 1.0))</td></tr>
-<tr class="memdesc:aef176a28c822d0b4cec5b438b785eea1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Thread Safe Model object.  <a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#aef176a28c822d0b4cec5b438b785eea1">More...</a><br /></td></tr>
-<tr class="separator:aef176a28c822d0b4cec5b438b785eea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93555c2afdad40372cae87e79f576b70"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a93555c2afdad40372cae87e79f576b70">ThreadSafeContainer</a> (<a class="el" href="../../d1/d11/classcore_1_1Model.html">Model</a> &amp;model, const double alignToGrid, const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;position, const <a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a> &amp;rotation, const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;scale=<a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>(1.0, 1.0, 1.0))</td></tr>
+<tr class="memdesc:a93555c2afdad40372cae87e79f576b70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Thread Safe Model object.  <a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a93555c2afdad40372cae87e79f576b70">More...</a><br /></td></tr>
+<tr class="separator:a93555c2afdad40372cae87e79f576b70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a330d0a43373cfed99ac8335534aa066d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a330d0a43373cfed99ac8335534aa066d">~ThreadSafeContainer</a> ()</td></tr>
 <tr class="memdesc:a330d0a43373cfed99ac8335534aa066d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the Thread Safe Model object.  <a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a330d0a43373cfed99ac8335534aa066d">More...</a><br /></td></tr>
 <tr class="separator:a330d0a43373cfed99ac8335534aa066d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73ace9ab1baef8b6b8963c207fd8dede"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a73ace9ab1baef8b6b8963c207fd8dede">addSphere</a> (const Vector3f &amp;position, const float radius, const size_t materialId, const bool useSdf, const uint64_t userDataOffset=0, const Neighbours &amp;neighbours={}, const Vector3f displacementRatio=Vector3f())</td></tr>
+<tr class="memitem:a73ace9ab1baef8b6b8963c207fd8dede"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a73ace9ab1baef8b6b8963c207fd8dede">addSphere</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;position, const float radius, const size_t materialId, const bool useSdf, const uint64_t userDataOffset=0, const <a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a1b337a1336e6ff9985dd8465b864aba4">Neighbours</a> &amp;neighbours={}, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> displacementRatio=<a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a>())</td></tr>
 <tr class="memdesc:a73ace9ab1baef8b6b8963c207fd8dede"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a sphere to the thread safe model.  <a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a73ace9ab1baef8b6b8963c207fd8dede">More...</a><br /></td></tr>
 <tr class="separator:a73ace9ab1baef8b6b8963c207fd8dede"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a7490d31d785930df4ef2d68a95de1c"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a6a7490d31d785930df4ef2d68a95de1c">addCone</a> (const Vector3f &amp;sourcePosition, const float sourceRadius, const Vector3f &amp;targetPosition, const float targetRadius, const size_t materialId, const bool useSdf, const uint64_t userDataOffset=0, const Neighbours &amp;neighbours={}, const Vector3f displacementRatio=Vector3f())</td></tr>
+<tr class="memitem:a6a7490d31d785930df4ef2d68a95de1c"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a6a7490d31d785930df4ef2d68a95de1c">addCone</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;sourcePosition, const float sourceRadius, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;targetPosition, const float targetRadius, const size_t materialId, const bool useSdf, const uint64_t userDataOffset=0, const <a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a1b337a1336e6ff9985dd8465b864aba4">Neighbours</a> &amp;neighbours={}, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> displacementRatio=<a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a>())</td></tr>
 <tr class="memdesc:a6a7490d31d785930df4ef2d68a95de1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a cone to the thread safe model. If both radii are identical and signed-distance field technique is not used, a cylinder is add instead of a cone.  <a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a6a7490d31d785930df4ef2d68a95de1c">More...</a><br /></td></tr>
 <tr class="separator:a6a7490d31d785930df4ef2d68a95de1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a000203a210f7575b394e4514ec06e833"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a000203a210f7575b394e4514ec06e833">addMesh</a> (const size_t materialId, const TriangleMesh &amp;mesh)</td></tr>
+<tr class="memitem:a000203a210f7575b394e4514ec06e833"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a000203a210f7575b394e4514ec06e833">addMesh</a> (const size_t materialId, const <a class="el" href="../../dd/df0/structcore_1_1TriangleMesh.html">TriangleMesh</a> &amp;mesh)</td></tr>
 <tr class="memdesc:a000203a210f7575b394e4514ec06e833"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a mesh to the thread safe model.  <a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a000203a210f7575b394e4514ec06e833">More...</a><br /></td></tr>
 <tr class="separator:a000203a210f7575b394e4514ec06e833"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7aed469947087e642c0401a755e075a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#ac7aed469947087e642c0401a755e075a">addStreamline</a> (const size_t materialId, const StreamlinesData &amp;streamline)</td></tr>
+<tr class="memitem:ac7aed469947087e642c0401a755e075a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#ac7aed469947087e642c0401a755e075a">addStreamline</a> (const size_t materialId, const <a class="el" href="../../da/d60/structcore_1_1StreamlinesData.html">StreamlinesData</a> &amp;streamline)</td></tr>
 <tr class="memdesc:ac7aed469947087e642c0401a755e075a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a streamline to the thread safe model.  <a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#ac7aed469947087e642c0401a755e075a">More...</a><br /></td></tr>
 <tr class="separator:ac7aed469947087e642c0401a755e075a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68baca4022e44aaf027458135bfb9b3c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a68baca4022e44aaf027458135bfb9b3c">commitToModel</a> ()</td></tr>
-<tr class="memdesc:a68baca4022e44aaf027458135bfb9b3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Commit geometries and materials to the Brayns model.  <a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a68baca4022e44aaf027458135bfb9b3c">More...</a><br /></td></tr>
+<tr class="memdesc:a68baca4022e44aaf027458135bfb9b3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Commit geometries and materials to the Core model.  <a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#a68baca4022e44aaf027458135bfb9b3c">More...</a><br /></td></tr>
 <tr class="separator:a68baca4022e44aaf027458135bfb9b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa5a783b1e59b447ea591e8612c7a2a9"><td class="memItemLeft" align="right" valign="top"><a id="afa5a783b1e59b447ea591e8612c7a2a9"></a>
-MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMaterialIds</b> ()</td></tr>
+<tr class="memitem:afa5a783b1e59b447ea591e8612c7a2a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a263dc23af2777145e9265e266390adf4">MaterialSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html#afa5a783b1e59b447ea591e8612c7a2a9">getMaterialIds</a> ()</td></tr>
 <tr class="separator:afa5a783b1e59b447ea591e8612c7a2a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html" title="The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is...">ThreadSafeContainer</a> class is used to load large datasets in parallel. Every individual element is loaded in a separate thread and eventualy merged into a single Brayns model. </p>
+<div class="textblock"><p>The <a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html" title="The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is...">ThreadSafeContainer</a> class is used to load large datasets in parallel. Every individual element is loaded in a separate thread and eventualy merged into a single Core model. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00040">40</a> of file <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html">ThreadSafeContainer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00043">43</a> of file <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html">ThreadSafeContainer.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aef176a28c822d0b4cec5b438b785eea1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef176a28c822d0b4cec5b438b785eea1">&#9670;&nbsp;</a></span>ThreadSafeContainer()</h2>
+<a id="a93555c2afdad40372cae87e79f576b70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93555c2afdad40372cae87e79f576b70">&#9670;&nbsp;</a></span>ThreadSafeContainer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -136,14 +135,32 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
         <tr>
           <td class="memname">bioexplorer::common::ThreadSafeContainer::ThreadSafeContainer </td>
           <td>(</td>
-          <td class="paramtype">Model &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d1/d11/classcore_1_1Model.html">Model</a> &amp;&#160;</td>
           <td class="paramname"><em>model</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Vector3d &amp;&#160;</td>
-          <td class="paramname"><em>scale</em> = <code>Vector3d(1.0,&#160;1.0,&#160;1.0)</code>&#160;</td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>alignToGrid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;&#160;</td>
+          <td class="paramname"><em>position</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a> &amp;&#160;</td>
+          <td class="paramname"><em>rotation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;&#160;</td>
+          <td class="paramname"><em>scale</em> = <code><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>(1.0,&#160;1.0,&#160;1.0)</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -156,13 +173,13 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
 <p>Construct a new Thread Safe Model object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">model</td><td>Brayns model for the geometry </td></tr>
+    <tr><td class="paramname">model</td><td>Core model for the geometry </td></tr>
     <tr><td class="paramname">scale</td><td>Scale applied to individual elements </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00039">39</a> of file <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html">ThreadSafeContainer.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00041">41</a> of file <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html">ThreadSafeContainer.cpp</a>.</p>
 
 </div>
 </div>
@@ -191,7 +208,7 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
 
 <p>Destroy the Thread Safe Model object. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00057">57</a> of file <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html">ThreadSafeContainer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00060">60</a> of file <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html">ThreadSafeContainer.h</a>.</p>
 
 </div>
 </div>
@@ -205,7 +222,7 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
         <tr>
           <td class="memname">uint64_t bioexplorer::common::ThreadSafeContainer::addCone </td>
           <td>(</td>
-          <td class="paramtype">const Vector3f &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;&#160;</td>
           <td class="paramname"><em>sourcePosition</em>, </td>
         </tr>
         <tr>
@@ -217,7 +234,7 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Vector3f &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;&#160;</td>
           <td class="paramname"><em>targetPosition</em>, </td>
         </tr>
         <tr>
@@ -247,14 +264,14 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Neighbours &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a1b337a1336e6ff9985dd8465b864aba4">Neighbours</a> &amp;&#160;</td>
           <td class="paramname"><em>neighbours</em> = <code>{}</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Vector3f&#160;</td>
-          <td class="paramname"><em>displacementRatio</em> = <code>Vector3f()</code>&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a>&#160;</td>
+          <td class="paramname"><em>displacementRatio</em> = <code><a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a>()</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -281,7 +298,7 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint64_t Index of the geometry in the model </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00072">72</a> of file <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html">ThreadSafeContainer.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00073">73</a> of file <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html">ThreadSafeContainer.cpp</a>.</p>
 
 </div>
 </div>
@@ -300,7 +317,7 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const TriangleMesh &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../dd/df0/structcore_1_1TriangleMesh.html">TriangleMesh</a> &amp;&#160;</td>
           <td class="paramname"><em>mesh</em>&#160;</td>
         </tr>
         <tr>
@@ -319,7 +336,7 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00133">133</a> of file <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html">ThreadSafeContainer.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00117">117</a> of file <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html">ThreadSafeContainer.cpp</a>.</p>
 
 </div>
 </div>
@@ -332,7 +349,7 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
         <tr>
           <td class="memname">uint64_t bioexplorer::common::ThreadSafeContainer::addSphere </td>
           <td>(</td>
-          <td class="paramtype">const Vector3f &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;&#160;</td>
           <td class="paramname"><em>position</em>, </td>
         </tr>
         <tr>
@@ -362,14 +379,14 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Neighbours &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a1b337a1336e6ff9985dd8465b864aba4">Neighbours</a> &amp;&#160;</td>
           <td class="paramname"><em>neighbours</em> = <code>{}</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Vector3f&#160;</td>
-          <td class="paramname"><em>displacementRatio</em> = <code>Vector3f()</code>&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a>&#160;</td>
+          <td class="paramname"><em>displacementRatio</em> = <code><a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a>()</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -394,7 +411,7 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint64_t Index of the geometry in the model </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00045">45</a> of file <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html">ThreadSafeContainer.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00051">51</a> of file <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html">ThreadSafeContainer.cpp</a>.</p>
 
 </div>
 </div>
@@ -413,7 +430,7 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const StreamlinesData &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../da/d60/structcore_1_1StreamlinesData.html">StreamlinesData</a> &amp;&#160;</td>
           <td class="paramname"><em>streamline</em>&#160;</td>
         </tr>
         <tr>
@@ -432,7 +449,7 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00139">139</a> of file <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html">ThreadSafeContainer.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00122">122</a> of file <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html">ThreadSafeContainer.cpp</a>.</p>
 
 </div>
 </div>
@@ -451,22 +468,49 @@ MaterialSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMater
       </table>
 </div><div class="memdoc">
 
-<p>Commit geometries and materials to the Brayns model. </p>
+<p>Commit geometries and materials to the Core model. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00177">177</a> of file <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html">ThreadSafeContainer.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html#l00155">155</a> of file <a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html">ThreadSafeContainer.cpp</a>.</p>
+
+</div>
+</div>
+<a id="afa5a783b1e59b447ea591e8612c7a2a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa5a783b1e59b447ea591e8612c7a2a9">&#9670;&nbsp;</a></span>getMaterialIds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a263dc23af2777145e9265e266390adf4">MaterialSet</a>&amp; bioexplorer::common::ThreadSafeContainer::getMaterialIds </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00123">123</a> of file <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html">ThreadSafeContainer.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/common/<a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html">ThreadSafeContainer.h</a></li>
-<li>/home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/common/<a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html">ThreadSafeContainer.cpp</a></li>
+<li>bioexplorer/backend/science/common/<a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html">ThreadSafeContainer.h</a></li>
+<li>bioexplorer/backend/science/common/<a class="el" href="../../d2/d48/ThreadSafeContainer_8cpp_source.html">ThreadSafeContainer.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>bioexplorer</b></li><li class="navelem"><b>common</b></li><li class="navelem"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a></li>
+    <li class="navelem"><a class="el" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></li><li class="navelem"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html">common</a></li><li class="navelem"><a class="el" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

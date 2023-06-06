@@ -1,5 +1,6 @@
 var structbioexplorer_1_1details_1_1VasculatureDetails =
 [
+    [ "alignToGrid", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a9109b6f627504741d66eb8be0c873a04", null ],
     [ "animationParams", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a377a05c368507455beaff27c68d7e57f", null ],
     [ "assemblyName", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#abf4b6e1f7454277f6c620ac3e61ad655", null ],
     [ "colorScheme", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a4e85c0aa741815d5786dbd0a76412996", null ],

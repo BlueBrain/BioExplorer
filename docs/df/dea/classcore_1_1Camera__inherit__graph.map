@@ -1,0 +1,8 @@
+<map id="core::Camera" name="core::Camera">
+<area shape="rect" id="node1" title="The Camera class is an abstract interface for a camera in a 3D graphics application...." alt="" coords="199,155,308,181"/>
+<area shape="rect" id="node4" href="$d7/d8e/classcore_1_1OptiXCamera.html" title=" " alt="" coords="5,229,149,256"/>
+<area shape="rect" id="node5" href="$da/df9/classcore_1_1OSPRayCamera.html" title=" " alt="" coords="173,229,333,256"/>
+<area shape="rect" id="node6" href="$da/d4e/structcore_1_1PerspectiveStereoCamera.html" title=" " alt="" coords="357,229,584,256"/>
+<area shape="rect" id="node2" href="$d7/d67/classcore_1_1PropertyObject.html" title=" " alt="" coords="176,80,331,107"/>
+<area shape="rect" id="node3" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="187,5,319,32"/>
+</map>

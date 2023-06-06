@@ -1,0 +1,12 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$d4/dfc/classcore_1_1ExtensionPlugin.html" title=" " alt="" coords="5,253,168,279"/>
+<area shape="rect" id="node2" href="$d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html" title="This class implements the BioExplorer plugin." alt="" coords="240,5,419,47"/>
+<area shape="rect" id="node3" href="$d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html" title="This class implements the Media Maker plugin for Core." alt="" coords="236,71,423,112"/>
+<area shape="rect" id="node4" href="$d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html" title="This class implements the MetabolismPlugin plugin." alt="" coords="238,136,421,177"/>
+<area shape="rect" id="node5" href="$da/d23/classcore_1_1DeflectPlugin.html" title=" " alt="" coords="257,202,401,229"/>
+<area shape="rect" id="node6" href="$d8/d2e/classcore_1_1MultiviewPlugin.html" title=" " alt="" coords="248,253,411,279"/>
+<area shape="rect" id="node7" href="$d9/d72/classcore_1_1OpenDeckPlugin.html" title=" " alt="" coords="247,303,412,330"/>
+<area shape="rect" id="node8" href="$d1/dfb/classcore_1_1RocketsPlugin.html" title=" " alt="" coords="255,354,404,381"/>
+<area shape="rect" id="node9" href="$d5/d90/classcore_1_1VRPNPlugin.html" title=" " alt="" coords="262,405,397,431"/>
+<area shape="rect" id="node10" href="$d6/d43/classsonataexplorer_1_1SonataExplorerPlugin.html" title="The SonataExplorerPlugin class manages the loading and visualization of the Blue Brain Project micro&#45;..." alt="" coords="216,456,443,497"/>
+</map>

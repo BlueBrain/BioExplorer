@@ -1,5 +1,6 @@
 var structbioexplorer_1_1details_1_1AstrocytesDetails =
 [
+    [ "alignToGrid", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#a1181da2b4b8dad371a9039637fdfd925", null ],
     [ "animationParams", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#accdefbb04b041a400418f1982f90f2e3", null ],
     [ "assemblyName", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#ad0f7dcb815ac72ee63cd0ee2a4ee5726", null ],
     [ "displacementParams", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#a8ea05cecd0c2cb3f0e5b1108f92239db", null ],

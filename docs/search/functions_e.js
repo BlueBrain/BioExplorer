@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['rnasequence_757',['RNASequence',['../d0/d53/classbioexplorer_1_1molecularsystems_1_1RNASequence.html#a2f591c455f45494fa41dae976ef8e2ad',1,'bioexplorer::molecularsystems::RNASequence']]],
-  ['rnashape_758',['RNAShape',['../d4/dc3/classbioexplorer_1_1common_1_1RNAShape.html#a855ea3331c4f3a3b09358b564189d816',1,'bioexplorer::common::RNAShape']]]
+  ['needsreset_5225',['needsReset',['../dc/d4c/namespacecore_1_1utils.html#aa9627c80f5c9abd2b2f16611ada55207',1,'core::utils']]],
+  ['neurons_5226',['Neurons',['../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html#a1cc3c331f6bfa92a39fb5571a2d70ff4',1,'bioexplorer::morphology::Neurons']]],
+  ['node_5227',['Node',['../d7/d93/classbioexplorer_1_1common_1_1Node.html#a3c552fd05b8c1f2fb38cd2d8a63e57f4',1,'bioexplorer::common::Node']]],
+  ['noise_5228',['noise',['../da/d0b/namespacebioexplorer_1_1common.html#a669951d76234baae1ea478dc7dd93462',1,'bioexplorer::common']]],
+  ['numaccumframes_5229',['numAccumFrames',['../db/ddf/classcore_1_1FrameBuffer.html#acf3111fcabf79aae984a342dca615a8b',1,'core::FrameBuffer']]]
 ];

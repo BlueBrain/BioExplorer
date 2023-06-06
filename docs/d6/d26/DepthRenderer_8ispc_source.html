@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/extras/MediaMaker/module/ispc/render/DepthRenderer.ispc Source File</title>
+<title>Blue Brain BioExplorer: bioexplorer/backend/plugins/MediaMaker/module/ispc/renderer/DepthRenderer.ispc Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,32 +86,32 @@ $(document).ready(function(){initNavTree('d6/d26/DepthRenderer_8ispc_source.html
 <div class="title">DepthRenderer.ispc</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;/*</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; * scientific data from visualization</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; *</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; * Copyright 2020-2023 Blue BrainProject / EPFL</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; *</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; * This program is free software: you can redistribute it and/or modify it under</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; * the terms of the GNU General Public License as published by the Free Software</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; * Foundation, either version 3 of the License, or (at your option) any later</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; * version.</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; *</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; * This program is distributed in the hope that it will be useful, but WITHOUT</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; * details.</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; *</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; * You should have received a copy of the GNU General Public License along with</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; */</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;#include &quot;DepthRenderer.ih&quot;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;#include &lt;ospray/SDK/common/Material.ih&gt;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;inline vec3f DepthRenderer_shadeRay(const uniform DepthRenderer* uniform self,</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                                    varying ScreenSample&amp; sample)</div>
+<a href="../../d6/d26/DepthRenderer_8ispc.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;/*</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; *</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; * scientific data from visualization</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; *</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; *</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; * Copyright 2020-2023 Blue BrainProject / EPFL</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; *</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; * This program is free software: you can redistribute it and/or modify it under</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; * the terms of the GNU General Public License as published by the Free Software</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; * Foundation, either version 3 of the License, or (at your option) any later</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; * version.</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; *</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; * This program is distributed in the hope that it will be useful, but WITHOUT</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; * details.</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; *</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; * You should have received a copy of the GNU General Public License along with</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; */</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;#include &quot;DepthRenderer.ih&quot;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;inline vec3f DepthRenderer_shadeRay(const uniform DepthRenderer* uniform self, varying ScreenSample&amp; sample)</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    Ray ray = sample.ray;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    sample.z = inf;</div>
@@ -129,40 +129,36 @@ $(document).ready(function(){initNavTree('d6/d26/DepthRenderer_8ispc_source.html
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    return make_vec3f(ray.t / self-&gt;infinity);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;void DepthRenderer_renderSample(uniform Renderer* uniform _self,</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                                void* uniform perFrameData,</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                                varying ScreenSample&amp; sample)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    uniform DepthRenderer* uniform self =</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        (uniform DepthRenderer * uniform) _self;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    sample.ray.time = inf;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    sample.rgb = DepthRenderer_shadeRay(self, sample);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;// Exports (called from C++)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;export void* uniform DepthRenderer_create(void* uniform cppE)</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;{</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    uniform DepthRenderer* uniform self = uniform new uniform DepthRenderer;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    Renderer_Constructor(&amp;self-&gt;super, cppE);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    self-&gt;super.renderSample = DepthRenderer_renderSample;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    return self;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;export void DepthRenderer_set(void* uniform _self, const uniform int spp,</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                              const uniform float infinity)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    uniform DepthRenderer* uniform self =</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        (uniform DepthRenderer * uniform) _self;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    self-&gt;super.spp = spp;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    self-&gt;infinity = infinity;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;void DepthRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                                varying ScreenSample&amp; sample)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    uniform DepthRenderer* uniform self = (uniform DepthRenderer * uniform) _self;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    sample.ray.time = inf;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    sample.rgb = DepthRenderer_shadeRay(self, sample);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;// Exports (called from C++)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;export void* uniform DepthRenderer_create(void* uniform cppE)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    uniform DepthRenderer* uniform self = uniform new uniform DepthRenderer;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    Renderer_Constructor(&amp;self-&gt;super, cppE);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    self-&gt;super.renderSample = DepthRenderer_renderSample;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    return self;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;export void DepthRenderer_set(void* uniform _self, const uniform int spp, const uniform float infinity)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;{</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    uniform DepthRenderer* uniform self = (uniform DepthRenderer * uniform) _self;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    self-&gt;super.spp = spp;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    self-&gt;infinity = infinity;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_1510bd745cd29c20d24c27171ebe5ba5.html">extras</a></li><li class="navelem"><a class="el" href="../../dir_42b338ecc3aa0c433eaa547ce75f5337.html">MediaMaker</a></li><li class="navelem"><a class="el" href="../../dir_ed35261eeb53cafcbdda43e40938292c.html">module</a></li><li class="navelem"><a class="el" href="../../dir_91c4c16afb8b38e754803932f784f673.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_81f96e02da0c899dd723e80aa26619ac.html">render</a></li><li class="navelem"><b>DepthRenderer.ispc</b></li>
+    <li class="navelem"><a class="el" href="../../dir_4bd53072b0b58f9d0c210577ee1224eb.html">bioexplorer</a></li><li class="navelem"><a class="el" href="../../dir_cdbbbf3321683c1efcc0d976dd1498c7.html">backend</a></li><li class="navelem"><a class="el" href="../../dir_f1f9c636edd67c457aa0bf92847eca1a.html">plugins</a></li><li class="navelem"><a class="el" href="../../dir_a8be3529f47ac2b897ecd0e6568fdd15.html">MediaMaker</a></li><li class="navelem"><a class="el" href="../../dir_e03123f27d9aa4e105763c81dcd1a12d.html">module</a></li><li class="navelem"><a class="el" href="../../dir_1ec2d5b7d2b22ab2ad5468b780dda495.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_43275072a869970425f50086a06499ae.html">renderer</a></li><li class="navelem"><a class="el" href="../../d6/d26/DepthRenderer_8ispc.html">DepthRenderer.ispc</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

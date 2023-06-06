@@ -1,17 +1,14 @@
 var searchData=
 [
-  ['materialsdetails_525',['MaterialsDetails',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html',1,'bioexplorer::details']]],
-  ['mediamakerplugin_526',['MediaMakerPlugin',['../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html',1,'bioexplorer::mediamaker']]],
-  ['membrane_527',['Membrane',['../d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html',1,'bioexplorer::molecularsystems']]],
-  ['membranedetails_528',['MembraneDetails',['../d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html',1,'bioexplorer::details']]],
-  ['meshshape_529',['MeshShape',['../df/d25/classbioexplorer_1_1common_1_1MeshShape.html',1,'bioexplorer::common']]],
-  ['metabolismhandler_530',['MetabolismHandler',['../d4/dc4/classbioexplorer_1_1metabolism_1_1MetabolismHandler.html',1,'bioexplorer::metabolism']]],
-  ['metabolismplugin_531',['MetabolismPlugin',['../d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html',1,'bioexplorer::metabolism']]],
-  ['metabolismrenderer_532',['MetabolismRenderer',['../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html',1,'metabolism::rendering']]],
-  ['modeliddetails_533',['ModelIdDetails',['../d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails.html',1,'bioexplorer::details']]],
-  ['modelidfileaccessdetails_534',['ModelIdFileAccessDetails',['../d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails.html',1,'bioexplorer::details']]],
-  ['modelsvisibilitydetails_535',['ModelsVisibilityDetails',['../d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails.html',1,'bioexplorer::details']]],
-  ['molecularsystemanimationdetails_536',['MolecularSystemAnimationDetails',['../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html',1,'bioexplorer::details']]],
-  ['molecule_537',['Molecule',['../da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html',1,'bioexplorer::molecularsystems']]],
-  ['morphologies_538',['Morphologies',['../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html',1,'bioexplorer::morphology']]]
+  ['light_3686',['Light',['../d5/daa/classcore_1_1Light.html',1,'core']]],
+  ['lightmanager_3687',['LightManager',['../d0/dc8/classcore_1_1LightManager.html',1,'core']]],
+  ['loader_3688',['Loader',['../de/d2b/classcore_1_1Loader.html',1,'core']]],
+  ['loaderinfo_3689',['LoaderInfo',['../d1/dad/structcore_1_1LoaderInfo.html',1,'core']]],
+  ['loaderprogress_3690',['LoaderProgress',['../d4/de1/classcore_1_1LoaderProgress.html',1,'core']]],
+  ['loaderregistry_3691',['LoaderRegistry',['../dc/d97/classcore_1_1LoaderRegistry.html',1,'core']]],
+  ['loadmegsettings_3692',['LoadMEGSettings',['../d6/de7/structsonataexplorer_1_1api_1_1LoadMEGSettings.html',1,'sonataexplorer::api']]],
+  ['loadmodelfunctor_3693',['LoadModelFunctor',['../d2/d4d/classcore_1_1LoadModelFunctor.html',1,'core']]],
+  ['location_3694',['Location',['../df/d9e/structbioexplorer_1_1metabolism_1_1Location.html',1,'bioexplorer::metabolism']]],
+  ['lookatdetails_3695',['LookAtDetails',['../dd/d4c/structbioexplorer_1_1details_1_1LookAtDetails.html',1,'bioexplorer::details']]],
+  ['lookatresponsedetails_3696',['LookAtResponseDetails',['../d6/d4b/structbioexplorer_1_1details_1_1LookAtResponseDetails.html',1,'bioexplorer::details']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/extras/Metabolism/module/ispc/render/MetabolismRenderer.h Source File</title>
+<title>Blue Brain BioExplorer: bioexplorer/backend/plugins/Metabolism/module/ispc/render/MetabolismRenderer.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,77 +86,84 @@ $(document).ready(function(){initNavTree('d7/d57/MetabolismRenderer_8h_source.ht
 <div class="title">MetabolismRenderer.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue Brain Project / EPFL</span></div>
+<a href="../../d7/d57/MetabolismRenderer_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue Brain Project / EPFL</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/render/Renderer.h&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">namespace </span>metabolism</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>rendering</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/render/Renderer.h&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df8/namespacemetabolism.html">metabolism</a></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using namespace </span>ospray;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html">   35</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html">MetabolismRenderer</a> : <span class="keyword">public</span> ospray::Renderer</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html">MetabolismRenderer</a>();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html#add7392b7920b412e332675eaea6adcfa">   49</a></span>&#160;    std::string <a class="code" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html#add7392b7920b412e332675eaea6adcfa">toString</a>() const final { <span class="keywordflow">return</span> <span class="stringliteral">&quot;bio_explorer_Metabolism&quot;</span>; }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> commit() final;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;private:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">// Shading attributes</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    std::vector&lt;<span class="keywordtype">void</span>*&gt; _lightArray;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span>** _lightPtr;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    ospray::Data* _lightData;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    Material* _bgMaterial;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>rendering</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d1/d51/namespaceospray.html">ospray</a>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html">MetabolismRenderer</a> : <span class="keyword">public</span> ospray::Renderer</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html">MetabolismRenderer</a>();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html#add7392b7920b412e332675eaea6adcfa">   51</a></span>&#160;    std::string <a class="code" href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html#add7392b7920b412e332675eaea6adcfa">toString</a>() const final { <span class="keywordflow">return</span> <span class="stringliteral">&quot;bio_explorer_Metabolism&quot;</span>; }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> commit() final;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;private:</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">// Shading attributes</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    std::vector&lt;<span class="keywordtype">void</span>*&gt; _lightArray;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">void</span>** _lightPtr;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="../../d1/d51/namespaceospray.html">ospray</a>::Data* _lightData;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">float</span> _exposure{1.f};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="../../d3/d69/classcore_1_1Material.html">Material</a>* _bgMaterial;</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">float</span> _nearPlane{100.f};</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">float</span> _farPlane{1.f};</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">float</span> _rayStep{0.1f};</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    ospray::uint32 _refinementSteps;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">float</span> _alphaCorrection{1.f};</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">float</span> _noiseFrequency{1.f};</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">float</span> _noiseAmplitude{1.f};</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">bool</span> _colorMapPerRegion{<span class="keyword">false</span>};</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    ospray::Ref&lt;ospray::Data&gt; _userData;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    ospray::uint64 _userDataSize;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;};</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;} <span class="comment">// namespace rendering</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;} <span class="comment">// namespace metabolism</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">float</span> _exposure{1.f};</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">float</span> _nearPlane{100.f};</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">float</span> _farPlane{1.f};</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">float</span> _rayStep{0.1f};</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a31c94487ee8a6664e28b0ed71925e99a">ospray::uint32</a> _refinementSteps;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">float</span> _alphaCorrection{1.f};</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">float</span> _noiseFrequency{1.f};</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">float</span> _noiseAmplitude{1.f};</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">bool</span> _colorMapPerRegion{<span class="keyword">false</span>};</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    ospray::Ref&lt;ospray::Data&gt; _userData;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#abc7751786d5eb8df07adbf9b8ed279fc">ospray::uint64</a> _userDataSize;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;};</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;} <span class="comment">// namespace rendering</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;} <span class="comment">// namespace metabolism</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassmetabolism_1_1rendering_1_1MetabolismRenderer_html"><div class="ttname"><a href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html">metabolism::rendering::MetabolismRenderer</a></div><div class="ttdoc">The MetabolismRenderer class allows visualization of atom Metabolism in the 3D scene.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d57/MetabolismRenderer_8h_source.html#l00035">MetabolismRenderer.h:35</a></div></div>
-<div class="ttc" id="aclassmetabolism_1_1rendering_1_1MetabolismRenderer_html_add7392b7920b412e332675eaea6adcfa"><div class="ttname"><a href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html#add7392b7920b412e332675eaea6adcfa">metabolism::rendering::MetabolismRenderer::toString</a></div><div class="ttdeci">std::string toString() const final</div><div class="ttdoc">Returns the class name as a string.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d57/MetabolismRenderer_8h_source.html#l00049">MetabolismRenderer.h:49</a></div></div>
+<div class="ttc" id="aplatform_2core_2common_2Types_8h_html_abc7751786d5eb8df07adbf9b8ed279fc"><div class="ttname"><a href="../../de/d53/platform_2core_2common_2Types_8h.html#abc7751786d5eb8df07adbf9b8ed279fc">uint64</a></div><div class="ttdeci">::uint64_t uint64</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00038">Types.h:38</a></div></div>
+<div class="ttc" id="anamespaceospray_html"><div class="ttname"><a href="../../d1/d51/namespaceospray.html">ospray</a></div><div class="ttdef"><b>Definition:</b> <a href="../../db/da1/FishEyeCamera_8cpp_source.html#l00034">FishEyeCamera.cpp:34</a></div></div>
+<div class="ttc" id="anamespacemetabolism_html"><div class="ttname"><a href="../../db/df8/namespacemetabolism.html">metabolism</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/db6/MetabolismRenderer_8cpp_source.html#l00036">MetabolismRenderer.cpp:36</a></div></div>
+<div class="ttc" id="aplatform_2core_2common_2Types_8h_html_a31c94487ee8a6664e28b0ed71925e99a"><div class="ttname"><a href="../../de/d53/platform_2core_2common_2Types_8h.html#a31c94487ee8a6664e28b0ed71925e99a">uint32</a></div><div class="ttdeci">::uint32_t uint32</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00040">Types.h:40</a></div></div>
+<div class="ttc" id="aclassmetabolism_1_1rendering_1_1MetabolismRenderer_html"><div class="ttname"><a href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html">metabolism::rendering::MetabolismRenderer</a></div><div class="ttdoc">The MetabolismRenderer class allows visualization of atom Metabolism in the 3D scene.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d57/MetabolismRenderer_8h_source.html#l00037">MetabolismRenderer.h:37</a></div></div>
+<div class="ttc" id="aclassmetabolism_1_1rendering_1_1MetabolismRenderer_html_add7392b7920b412e332675eaea6adcfa"><div class="ttname"><a href="../../d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html#add7392b7920b412e332675eaea6adcfa">metabolism::rendering::MetabolismRenderer::toString</a></div><div class="ttdeci">std::string toString() const final</div><div class="ttdoc">Returns the class name as a string.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d57/MetabolismRenderer_8h_source.html#l00051">MetabolismRenderer.h:51</a></div></div>
+<div class="ttc" id="aclasscore_1_1Material_html"><div class="ttname"><a href="../../d3/d69/classcore_1_1Material.html">core::Material</a></div><div class="ttdoc">The class that represents the material object. This class is derived from PropertyObject and provides...</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d12/Material_8h_source.html#l00048">Material.h:48</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_1510bd745cd29c20d24c27171ebe5ba5.html">extras</a></li><li class="navelem"><a class="el" href="../../dir_ebf235e11fcfd6e4f58b693996a886da.html">Metabolism</a></li><li class="navelem"><a class="el" href="../../dir_fb887b5514a10a3d1c3cd072660fbb64.html">module</a></li><li class="navelem"><a class="el" href="../../dir_d0771ff2cfda6cf3b5c3141e9308ac2b.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_a3660d684d473985ec0f2b82495a15d3.html">render</a></li><li class="navelem"><b>MetabolismRenderer.h</b></li>
+    <li class="navelem"><a class="el" href="../../dir_4bd53072b0b58f9d0c210577ee1224eb.html">bioexplorer</a></li><li class="navelem"><a class="el" href="../../dir_cdbbbf3321683c1efcc0d976dd1498c7.html">backend</a></li><li class="navelem"><a class="el" href="../../dir_f1f9c636edd67c457aa0bf92847eca1a.html">plugins</a></li><li class="navelem"><a class="el" href="../../dir_abbfb920f27623ce739e3ac98f05eb00.html">Metabolism</a></li><li class="navelem"><a class="el" href="../../dir_0ad6af54793517655e416bafc9796de3.html">module</a></li><li class="navelem"><a class="el" href="../../dir_05e9676d7aae4bef474e40190bc39637.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_a8f12795206dd0d5411beaae7390081e.html">render</a></li><li class="navelem"><a class="el" href="../../d7/d57/MetabolismRenderer_8h.html">MetabolismRenderer.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

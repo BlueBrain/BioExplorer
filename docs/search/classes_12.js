@@ -1,9 +1,17 @@
 var searchData=
 [
-  ['vasculature_591',['Vasculature',['../d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html',1,'bioexplorer::vasculature']]],
-  ['vasculaturedetails_592',['VasculatureDetails',['../dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html',1,'bioexplorer::details']]],
-  ['vasculaturehandler_593',['VasculatureHandler',['../d3/d3e/classbioexplorer_1_1vasculature_1_1VasculatureHandler.html',1,'bioexplorer::vasculature']]],
-  ['vasculatureradiusreportdetails_594',['VasculatureRadiusReportDetails',['../de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html',1,'bioexplorer::details']]],
-  ['vasculaturereportdetails_595',['VasculatureReportDetails',['../d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html',1,'bioexplorer::details']]],
-  ['voxelrenderer_596',['VoxelRenderer',['../d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer.html',1,'bioexplorer::rendering']]]
+  ['task_3883',['Task',['../dd/d57/classcore_1_1Task.html',1,'core']]],
+  ['task_3c_20modeldescriptorptr_20_3e_3884',['Task&lt; ModelDescriptorPtr &gt;',['../dd/d57/classcore_1_1Task.html',1,'core']]],
+  ['taskfunctor_3885',['TaskFunctor',['../dd/d67/classcore_1_1TaskFunctor.html',1,'core']]],
+  ['taskruntimeerror_3886',['TaskRuntimeError',['../d1/dee/classcore_1_1TaskRuntimeError.html',1,'core']]],
+  ['texture2d_3887',['Texture2D',['../d3/dff/classcore_1_1Texture2D.html',1,'core']]],
+  ['texturetypematerialattribute_3888',['TextureTypeMaterialAttribute',['../dc/d00/structcore_1_1TextureTypeMaterialAttribute.html',1,'core']]],
+  ['threadsafecontainer_3889',['ThreadSafeContainer',['../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html',1,'bioexplorer::common']]],
+  ['throttle_3890',['Throttle',['../de/d8c/structcore_1_1Throttle.html',1,'core']]],
+  ['timeout_3891',['Timeout',['../d6/d8d/structcore_1_1Timeout.html',1,'core']]],
+  ['timer_3892',['Timer',['../de/d75/classcore_1_1Timer.html',1,'core']]],
+  ['tjdeleter_3893',['tjDeleter',['../d5/dff/structcore_1_1ImageGenerator_1_1ImageJPEG_1_1tjDeleter.html',1,'core::ImageGenerator::ImageJPEG']]],
+  ['transferfunction_3894',['TransferFunction',['../d3/ded/classcore_1_1TransferFunction.html',1,'core']]],
+  ['transformation_3895',['Transformation',['../d0/dcd/classcore_1_1Transformation.html',1,'core']]],
+  ['trianglemesh_3896',['TriangleMesh',['../dd/df0/structcore_1_1TriangleMesh.html',1,'core::TriangleMesh'],['../db/dee/structcore_1_1GeometryData_1_1TriangleMesh.html',1,'core::GeometryData::TriangleMesh']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/meshing/SurfaceMesher.cpp Source File</title>
+<title>Blue Brain BioExplorer: bioexplorer/backend/science/meshing/SurfaceMesher.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,162 +86,196 @@ $(document).ready(function(){initNavTree('d8/de3/SurfaceMesher_8cpp_source.html'
 <div class="title">SurfaceMesher.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;SurfaceMesher.h&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/common/CommonTypes.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;plugin/common/GeneralSettings.h&gt;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Logs.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Material.h&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Model.h&gt;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;brayns/engineapi/Scene.h&gt;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;brayns/io/MeshLoader.h&gt;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#if !defined(DOXYGEN_SHOULD_SKIP_THIS)</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;CGAL/Exact_predicates_inexact_constructions_kernel.h&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;CGAL/Polygon_mesh_processing/compute_normal.h&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;CGAL/Polygon_mesh_processing/triangulate_faces.h&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;CGAL/Polyhedron_3.h&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;CGAL/Skin_surface_3.h&gt;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &lt;CGAL/Union_of_balls_3.h&gt;</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &lt;CGAL/mesh_skin_surface_3.h&gt;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#include &lt;CGAL/mesh_union_of_balls_3.h&gt;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &lt;CGAL/subdivide_union_of_balls_mesh_3.h&gt;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">typedef</span> CGAL::Exact_predicates_inexact_constructions_kernel K;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">typedef</span> CGAL::Skin_surface_traits_3&lt;K&gt; Traits;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">typedef</span> K::Point_3 Point_3;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">typedef</span> K::Weighted_point_3 Weighted_point;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">typedef</span> CGAL::Polyhedron_3&lt;K&gt; Polyhedron;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">typedef</span> CGAL::Skin_surface_traits_3&lt;K&gt; Traits;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">typedef</span> CGAL::Skin_surface_3&lt;Traits&gt; Skin_surface_3;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">typedef</span> CGAL::Union_of_balls_3&lt;Traits&gt; Union_of_balls_3;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;{</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">namespace </span>meshing</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">using namespace </span>common;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;SurfaceMesher::SurfaceMesher(<span class="keyword">const</span> uint32_t uuid)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    : _uuid(uuid)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;{</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#aeb41b4507cdb32ae33421fc395b7e6d0">   66</a></span>&#160;ModelDescriptorPtr <a class="code" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#aeb41b4507cdb32ae33421fc395b7e6d0">SurfaceMesher::generateSurface</a>(brayns::Scene&amp; scene,</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                                                  <span class="keyword">const</span> std::string&amp; pdbId,</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                                                  <span class="keyword">const</span> Vector4ds&amp; atoms,</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                                                  <span class="keyword">const</span> <span class="keywordtype">double</span> shrinkfactor)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;{</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    ModelDescriptorPtr modelDescriptor{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    MeshLoader meshLoader(scene);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">const</span> std::string filename =</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <a class="code" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a596198a4745a7eef5e8788a4d9b5c8f5">GeneralSettings::getInstance</a>()-&gt;<a class="code" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#aadc622c916686fd3a39b417deae277b9">getMeshFolder</a>() + pdbId + <span class="stringliteral">&quot;.off&quot;</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        PLUGIN_INFO(3, <span class="stringliteral">&quot;Trying to load surface from cache &quot;</span> &lt;&lt; filename);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        modelDescriptor =</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            meshLoader.importFromFile(filename, LoaderProgress(), {});</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        PLUGIN_INFO(3, <span class="stringliteral">&quot;Surface loaded from cache &quot;</span> &lt;&lt; filename);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">return</span> modelDescriptor;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::runtime_error&amp; e)</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        PLUGIN_INFO(3, <span class="stringliteral">&quot;Failed to load surface from cache (&quot;</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                           &lt;&lt; e.what() &lt;&lt; <span class="stringliteral">&quot;), constructing it...&quot;</span>);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    std::list&lt;Weighted_point&gt; l;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; atom : atoms)</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        l.push_front(Weighted_point(Point_3(atom.x, atom.y, atom.z), atom.w));</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    PLUGIN_INFO(3, <span class="stringliteral">&quot;Constructing skin surface from &quot;</span> &lt;&lt; l.size() &lt;&lt; <span class="stringliteral">&quot; atoms&quot;</span>);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    Polyhedron polyhedron;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    Skin_surface_3 skinSurface(l.begin(), l.end(), shrinkfactor);</div>
+<a href="../../d8/de3/SurfaceMesher_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d2/dd7/SurfaceMesher_8h.html">SurfaceMesher.h</a>&quot;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;Defines.h&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../df/df6/GeneralSettings_8h.html">science/common/GeneralSettings.h</a>&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d8/d04/bioexplorer_2backend_2science_2common_2Logs_8h.html">science/common/Logs.h</a>&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../df/d12/Material_8h.html">platform/core/engineapi/Material.h</a>&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d3/d5a/Model_8h.html">platform/core/engineapi/Model.h</a>&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d5/d2d/Scene_8h.html">platform/core/engineapi/Scene.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifdef USE_ASSIMP</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../da/d96/MeshLoader_8h.html">platform/core/io/MeshLoader.h</a>&gt;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#ifdef USE_CGAL</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#if !defined(DOXYGEN_SHOULD_SKIP_THIS)</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &lt;CGAL/Exact_predicates_inexact_constructions_kernel.h&gt;</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#include &lt;CGAL/Polygon_mesh_processing/compute_normal.h&gt;</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#include &lt;CGAL/Polygon_mesh_processing/triangulate_faces.h&gt;</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#include &lt;CGAL/Polyhedron_3.h&gt;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#include &lt;CGAL/Skin_surface_3.h&gt;</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#include &lt;CGAL/Union_of_balls_3.h&gt;</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#include &lt;CGAL/mesh_skin_surface_3.h&gt;</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#include &lt;CGAL/mesh_union_of_balls_3.h&gt;</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#include &lt;CGAL/subdivide_union_of_balls_mesh_3.h&gt;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">typedef</span> CGAL::Exact_predicates_inexact_constructions_kernel <a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a891e241aa245ae63618f03737efba309">K</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">typedef</span> CGAL::Skin_surface_traits_3&lt;K&gt; <a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#ad71296531765d4fe8591935e6845e187">Traits</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">typedef</span> <a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a3b1c5d871c30906958e707f93dab3340">K::Point_3</a> <a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a3b1c5d871c30906958e707f93dab3340">Point_3</a>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">typedef</span> K::Weighted_point_3 <a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a571820a2e176ff9a38dce9cd65af995b">Weighted_point</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">typedef</span> CGAL::Polyhedron_3&lt;K&gt; <a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#ad4cfacb312f7dcee28dafb637dbfd355">Polyhedron</a>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">typedef</span> CGAL::Skin_surface_traits_3&lt;K&gt; <a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#ad71296531765d4fe8591935e6845e187">Traits</a>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">typedef</span> CGAL::Skin_surface_3&lt;Traits&gt; <a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a322b2f6024061ea264e3b3e6308aa657">Skin_surface_3</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">typedef</span> CGAL::Union_of_balls_3&lt;Traits&gt; <a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a60e1c8366ef803d7e4c8c96634199317">Union_of_balls_3</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">namespace </span>meshing</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;{</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword">using namespace </span>common;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a8b99241376e73f1cac6f35653177babd">   70</a></span>&#160;<a class="code" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a8b99241376e73f1cac6f35653177babd">SurfaceMesher::SurfaceMesher</a>(<span class="keyword">const</span> uint32_t uuid)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    : _uuid(uuid)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a7f4cbede099510cba684800514c442d5">   75</a></span>&#160;<a class="code" href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">ModelDescriptorPtr</a> <a class="code" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a7f4cbede099510cba684800514c442d5">SurfaceMesher::generateSurface</a>(<a class="code" href="../../d5/d76/classcore_1_1Scene.html">core::Scene</a>&amp; scene, <span class="keyword">const</span> std::string&amp; pdbId,</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                                                  <span class="keyword">const</span> <a class="code" href="../../d8/d8e/namespacebioexplorer.html#a4200c06cfe8f2933097acc193e376617">Vector4ds</a>&amp; atoms, <span class="keyword">const</span> <span class="keywordtype">double</span> shrinkfactor)</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#ifdef USE_CGAL</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">ModelDescriptorPtr</a> modelDescriptor{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="../../df/d21/classcore_1_1MeshLoader.html">MeshLoader</a> meshLoader(scene);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">const</span> std::string filename = <a class="code" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a596198a4745a7eef5e8788a4d9b5c8f5">GeneralSettings::getInstance</a>()-&gt;<a class="code" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#aadc622c916686fd3a39b417deae277b9">getMeshFolder</a>() + pdbId + <span class="stringliteral">&quot;.off&quot;</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <a class="code" href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#a65704c473dacab683ed3e853058fef2b">PLUGIN_INFO</a>(3, <span class="stringliteral">&quot;Trying to load surface from cache &quot;</span> &lt;&lt; filename);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        modelDescriptor = meshLoader.<a class="code" href="../../df/d21/classcore_1_1MeshLoader.html#a06e9823d1269b76b9a35ffc1ae947608">importFromFile</a>(filename, <a class="code" href="../../d4/de1/classcore_1_1LoaderProgress.html">LoaderProgress</a>(), {});</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <a class="code" href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#a65704c473dacab683ed3e853058fef2b">PLUGIN_INFO</a>(3, <span class="stringliteral">&quot;Surface loaded from cache &quot;</span> &lt;&lt; filename);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">return</span> modelDescriptor;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::runtime_error&amp; e)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <a class="code" href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#a65704c473dacab683ed3e853058fef2b">PLUGIN_INFO</a>(3, <span class="stringliteral">&quot;Failed to load surface from cache (&quot;</span> &lt;&lt; e.what() &lt;&lt; <span class="stringliteral">&quot;), constructing it...&quot;</span>);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    std::list&lt;Weighted_point&gt; l;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; atom : <a class="code" href="../../d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5a2bb8d809d871a7c1a392fec36563a8f7">atoms</a>)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        l.push_front(<a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a571820a2e176ff9a38dce9cd65af995b">Weighted_point</a>(<a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a3b1c5d871c30906958e707f93dab3340">Point_3</a>(atom.x, atom.y, atom.z), atom.w));</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    PLUGIN_INFO(3, <span class="stringliteral">&quot;Meshing skin surface...&quot;</span>);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    CGAL::mesh_skin_surface_3(skinSurface, polyhedron);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    CGAL::Polygon_mesh_processing::triangulate_faces(polyhedron);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    PLUGIN_INFO(3, <span class="stringliteral">&quot;Adding mesh to model&quot;</span>);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    std::ofstream out(filename);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    out &lt;&lt; polyhedron;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">return</span> meshLoader.importFromFile(filename, LoaderProgress(), {});</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;}</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a504311b3a39ff91ed2e165bdaf4e2eb3">  108</a></span>&#160;ModelDescriptorPtr <a class="code" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a504311b3a39ff91ed2e165bdaf4e2eb3">SurfaceMesher::generateUnionOfBalls</a>(brayns::Scene&amp; scene,</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                                                       <span class="keyword">const</span> std::string&amp; pdbId,</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                                                       <span class="keyword">const</span> Vector4ds&amp; atoms)</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;{</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    std::list&lt;Weighted_point&gt; l;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; atom : atoms)</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        l.push_front(Weighted_point(Point_3(atom.x, atom.y, atom.z), atom.w));</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <a class="code" href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#a65704c473dacab683ed3e853058fef2b">PLUGIN_INFO</a>(3, <span class="stringliteral">&quot;Constructing skin surface from &quot;</span> &lt;&lt; l.size() &lt;&lt; <span class="stringliteral">&quot; atoms&quot;</span>);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#ad4cfacb312f7dcee28dafb637dbfd355">Polyhedron</a> polyhedron;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a322b2f6024061ea264e3b3e6308aa657">Skin_surface_3</a> skinSurface(l.begin(), l.end(), shrinkfactor);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <a class="code" href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#a65704c473dacab683ed3e853058fef2b">PLUGIN_INFO</a>(3, <span class="stringliteral">&quot;Meshing skin surface...&quot;</span>);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    CGAL::mesh_skin_surface_3(skinSurface, polyhedron);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    CGAL::Polygon_mesh_processing::triangulate_faces(polyhedron);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#a65704c473dacab683ed3e853058fef2b">PLUGIN_INFO</a>(3, <span class="stringliteral">&quot;Adding mesh to model&quot;</span>);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    std::ofstream out(filename);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    out &lt;&lt; polyhedron;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">return</span> meshLoader.<a class="code" href="../../df/d21/classcore_1_1MeshLoader.html#a06e9823d1269b76b9a35ffc1ae947608">importFromFile</a>(filename, <a class="code" href="../../d4/de1/classcore_1_1LoaderProgress.html">LoaderProgress</a>(), {});</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <a class="code" href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#aa86254127a35ff11437083dd05f2d141">PLUGIN_THROW</a>(<span class="stringliteral">&quot;The BioExplorer was not compiled with the CGAL library&quot;</span>)</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    ModelDescriptorPtr modelDescriptor{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    MeshLoader meshLoader(scene);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keyword">const</span> std::string filename =</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <a class="code" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a596198a4745a7eef5e8788a4d9b5c8f5">GeneralSettings::getInstance</a>()-&gt;<a class="code" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#aadc622c916686fd3a39b417deae277b9">getMeshFolder</a>() + pdbId + <span class="stringliteral">&quot;.off&quot;</span>;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    {</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        PLUGIN_INFO(3, <span class="stringliteral">&quot;Trying to load union of balls from cache &quot;</span> &lt;&lt; filename);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        modelDescriptor =</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            meshLoader.importFromFile(filename, LoaderProgress(), {});</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        PLUGIN_INFO(3, <span class="stringliteral">&quot;Surface loaded from cache &quot;</span> &lt;&lt; filename);</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordflow">return</span> modelDescriptor;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    }</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::runtime_error&amp; e)</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        PLUGIN_INFO(3, <span class="stringliteral">&quot;Failed to load union of balls from cache (&quot;</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                           &lt;&lt; e.what() &lt;&lt; <span class="stringliteral">&quot;), constructing it...&quot;</span>);</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    }</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    PLUGIN_INFO(3, <span class="stringliteral">&quot;Constructing union of balls from &quot;</span> &lt;&lt; l.size() &lt;&lt; <span class="stringliteral">&quot; atoms&quot;</span>);</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    Polyhedron polyhedron;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    Union_of_balls_3 union_of_balls(l.begin(), l.end());</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    CGAL::mesh_union_of_balls_3(union_of_balls, polyhedron);</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    PLUGIN_INFO(3, <span class="stringliteral">&quot;Adding mesh to model&quot;</span>);</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    std::ofstream out(filename);</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    out &lt;&lt; polyhedron;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordflow">return</span> meshLoader.importFromFile(filename, LoaderProgress(), {});</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;}</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;} <span class="comment">// namespace meshing</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a042c3936016eeabf224f045ab2158d81">  116</a></span>&#160;<a class="code" href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">ModelDescriptorPtr</a> <a class="code" href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a042c3936016eeabf224f045ab2158d81">SurfaceMesher::generateUnionOfBalls</a>(<a class="code" href="../../d5/d76/classcore_1_1Scene.html">core::Scene</a>&amp; scene, <span class="keyword">const</span> std::string&amp; pdbId,</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                                                       <span class="keyword">const</span> <a class="code" href="../../d8/d8e/namespacebioexplorer.html#a4200c06cfe8f2933097acc193e376617">Vector4ds</a>&amp; atoms)</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;{</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor">#ifdef USE_CGAL</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    std::list&lt;Weighted_point&gt; l;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; atom : <a class="code" href="../../d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5a2bb8d809d871a7c1a392fec36563a8f7">atoms</a>)</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        l.push_front(<a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a571820a2e176ff9a38dce9cd65af995b">Weighted_point</a>(<a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a3b1c5d871c30906958e707f93dab3340">Point_3</a>(atom.x, atom.y, atom.z), atom.w));</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <a class="code" href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">ModelDescriptorPtr</a> modelDescriptor{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <a class="code" href="../../df/d21/classcore_1_1MeshLoader.html">MeshLoader</a> meshLoader(scene);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keyword">const</span> std::string filename = <a class="code" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a596198a4745a7eef5e8788a4d9b5c8f5">GeneralSettings::getInstance</a>()-&gt;<a class="code" href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#aadc622c916686fd3a39b417deae277b9">getMeshFolder</a>() + pdbId + <span class="stringliteral">&quot;.off&quot;</span>;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <a class="code" href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#a65704c473dacab683ed3e853058fef2b">PLUGIN_INFO</a>(3, <span class="stringliteral">&quot;Trying to load union of balls from cache &quot;</span> &lt;&lt; filename);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        modelDescriptor = meshLoader.<a class="code" href="../../df/d21/classcore_1_1MeshLoader.html#a06e9823d1269b76b9a35ffc1ae947608">importFromFile</a>(filename, <a class="code" href="../../d4/de1/classcore_1_1LoaderProgress.html">LoaderProgress</a>(), {});</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <a class="code" href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#a65704c473dacab683ed3e853058fef2b">PLUGIN_INFO</a>(3, <span class="stringliteral">&quot;Surface loaded from cache &quot;</span> &lt;&lt; filename);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <span class="keywordflow">return</span> modelDescriptor;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    }</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::runtime_error&amp; e)</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    {</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <a class="code" href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#a65704c473dacab683ed3e853058fef2b">PLUGIN_INFO</a>(3, <span class="stringliteral">&quot;Failed to load union of balls from cache (&quot;</span> &lt;&lt; e.what() &lt;&lt; <span class="stringliteral">&quot;), constructing it...&quot;</span>);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    }</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <a class="code" href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#a65704c473dacab683ed3e853058fef2b">PLUGIN_INFO</a>(3, <span class="stringliteral">&quot;Constructing union of balls from &quot;</span> &lt;&lt; l.size() &lt;&lt; <span class="stringliteral">&quot; atoms&quot;</span>);</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#ad4cfacb312f7dcee28dafb637dbfd355">Polyhedron</a> polyhedron;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <a class="code" href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a60e1c8366ef803d7e4c8c96634199317">Union_of_balls_3</a> <a class="code" href="../../d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5a49b002b2a7b50ba019a5924a29584c0f">union_of_balls</a>(l.begin(), l.end());</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    CGAL::mesh_union_of_balls_3(<a class="code" href="../../d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5a49b002b2a7b50ba019a5924a29584c0f">union_of_balls</a>, polyhedron);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <a class="code" href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#a65704c473dacab683ed3e853058fef2b">PLUGIN_INFO</a>(3, <span class="stringliteral">&quot;Adding mesh to model&quot;</span>);</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    std::ofstream out(filename);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    out &lt;&lt; polyhedron;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordflow">return</span> meshLoader.<a class="code" href="../../df/d21/classcore_1_1MeshLoader.html#a06e9823d1269b76b9a35ffc1ae947608">importFromFile</a>(filename, <a class="code" href="../../d4/de1/classcore_1_1LoaderProgress.html">LoaderProgress</a>(), {});</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <a class="code" href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#aa86254127a35ff11437083dd05f2d141">PLUGIN_THROW</a>(<span class="stringliteral">&quot;The BioExplorer was not compiled with the CGAL library&quot;</span>)</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;}</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;} <span class="comment">// namespace meshing</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1GeneralSettings_html_a596198a4745a7eef5e8788a4d9b5c8f5"><div class="ttname"><a href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a596198a4745a7eef5e8788a4d9b5c8f5">bioexplorer::common::GeneralSettings::getInstance</a></div><div class="ttdeci">static GeneralSettings * getInstance()</div><div class="ttdoc">Get the Instance object.</div><div class="ttdef"><b>Definition:</b> <a href="../../df/df6/GeneralSettings_8h_source.html#l00048">GeneralSettings.h:48</a></div></div>
+<div class="ttc" id="aSonataExplorerPlugin_8cpp_html_a891e241aa245ae63618f03737efba309"><div class="ttname"><a href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a891e241aa245ae63618f03737efba309">K</a></div><div class="ttdeci">CGAL::Exact_predicates_inexact_constructions_kernel K</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d2c/SonataExplorerPlugin_8cpp_source.html#l00078">SonataExplorerPlugin.cpp:78</a></div></div>
+<div class="ttc" id="aSonataExplorerPlugin_8cpp_html_a571820a2e176ff9a38dce9cd65af995b"><div class="ttname"><a href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a571820a2e176ff9a38dce9cd65af995b">Weighted_point</a></div><div class="ttdeci">K::Weighted_point_3 Weighted_point</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d2c/SonataExplorerPlugin_8cpp_source.html#l00081">SonataExplorerPlugin.cpp:81</a></div></div>
+<div class="ttc" id="aModel_8h_html"><div class="ttname"><a href="../../d3/d5a/Model_8h.html">Model.h</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1GeneralSettings_html_a596198a4745a7eef5e8788a4d9b5c8f5"><div class="ttname"><a href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#a596198a4745a7eef5e8788a4d9b5c8f5">bioexplorer::common::GeneralSettings::getInstance</a></div><div class="ttdeci">static GeneralSettings * getInstance()</div><div class="ttdoc">Get the Instance object.</div><div class="ttdef"><b>Definition:</b> <a href="../../df/df6/GeneralSettings_8h_source.html#l00051">GeneralSettings.h:51</a></div></div>
+<div class="ttc" id="aclasscore_1_1Scene_html"><div class="ttname"><a href="../../d5/d76/classcore_1_1Scene.html">core::Scene</a></div><div class="ttdoc">Scene object This object contains collections of geometries, materials and light sources that are use...</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d2d/Scene_8h_source.html#l00044">Scene.h:44</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_1_1details_html_aad9e1645c632a352d331a058fa332cc5a49b002b2a7b50ba019a5924a29584c0f"><div class="ttname"><a href="../../d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5a49b002b2a7b50ba019a5924a29584c0f">bioexplorer::details::ProteinRepresentation::union_of_balls</a></div><div class="ttdeci">@ union_of_balls</div></div>
+<div class="ttc" id="aclasscore_1_1LoaderProgress_html"><div class="ttname"><a href="../../d4/de1/classcore_1_1LoaderProgress.html">core::LoaderProgress</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0b/Loader_8h_source.html#l00038">Loader.h:38</a></div></div>
 <div class="ttc" id="aclassbioexplorer_1_1common_1_1GeneralSettings_html_aadc622c916686fd3a39b417deae277b9"><div class="ttname"><a href="../../d2/da7/classbioexplorer_1_1common_1_1GeneralSettings.html#aadc622c916686fd3a39b417deae277b9">bioexplorer::common::GeneralSettings::getMeshFolder</a></div><div class="ttdeci">std::string getMeshFolder()</div><div class="ttdoc">Get the Off Folder object. The off folder is the cache where Off files are stored when using the Surf...</div><div class="ttdef"><b>Definition:</b> <a href="../../df/df6/GeneralSettings_8h_source.html#l00083">GeneralSettings.h:83</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1meshing_1_1SurfaceMesher_html_a504311b3a39ff91ed2e165bdaf4e2eb3"><div class="ttname"><a href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a504311b3a39ff91ed2e165bdaf4e2eb3">bioexplorer::meshing::SurfaceMesher::generateUnionOfBalls</a></div><div class="ttdeci">ModelDescriptorPtr generateUnionOfBalls(brayns::Scene &amp;scene, const std::string &amp;pdbId, const Vector4ds &amp;atoms)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de3/SurfaceMesher_8cpp_source.html#l00108">SurfaceMesher.cpp:108</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1meshing_1_1SurfaceMesher_html_aeb41b4507cdb32ae33421fc395b7e6d0"><div class="ttname"><a href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#aeb41b4507cdb32ae33421fc395b7e6d0">bioexplorer::meshing::SurfaceMesher::generateSurface</a></div><div class="ttdeci">ModelDescriptorPtr generateSurface(brayns::Scene &amp;scene, const std::string &amp;pdbId, const Vector4ds &amp;atoms, const double shrinkfactor=0.5)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de3/SurfaceMesher_8cpp_source.html#l00066">SurfaceMesher.cpp:66</a></div></div>
+<div class="ttc" id="abioexplorer_2backend_2science_2common_2Logs_8h_html"><div class="ttname"><a href="../../d8/d04/bioexplorer_2backend_2science_2common_2Logs_8h.html">Logs.h</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1meshing_1_1SurfaceMesher_html_a042c3936016eeabf224f045ab2158d81"><div class="ttname"><a href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a042c3936016eeabf224f045ab2158d81">bioexplorer::meshing::SurfaceMesher::generateUnionOfBalls</a></div><div class="ttdeci">ModelDescriptorPtr generateUnionOfBalls(core::Scene &amp;scene, const std::string &amp;pdbId, const Vector4ds &amp;atoms)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de3/SurfaceMesher_8cpp_source.html#l00116">SurfaceMesher.cpp:116</a></div></div>
+<div class="ttc" id="aplatform_2engines_2optix6_2Logs_8h_html_a65704c473dacab683ed3e853058fef2b"><div class="ttname"><a href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#a65704c473dacab683ed3e853058fef2b">PLUGIN_INFO</a></div><div class="ttdeci">#define PLUGIN_INFO(message)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dc3/platform_2engines_2optix6_2Logs_8h_source.html#l00036">Logs.h:36</a></div></div>
+<div class="ttc" id="aSonataExplorerPlugin_8cpp_html_a3b1c5d871c30906958e707f93dab3340"><div class="ttname"><a href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a3b1c5d871c30906958e707f93dab3340">Point_3</a></div><div class="ttdeci">K::Point_3 Point_3</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d2c/SonataExplorerPlugin_8cpp_source.html#l00080">SonataExplorerPlugin.cpp:80</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1meshing_1_1SurfaceMesher_html_a8b99241376e73f1cac6f35653177babd"><div class="ttname"><a href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a8b99241376e73f1cac6f35653177babd">bioexplorer::meshing::SurfaceMesher::SurfaceMesher</a></div><div class="ttdeci">SurfaceMesher(const uint32_t uuid)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de3/SurfaceMesher_8cpp_source.html#l00070">SurfaceMesher.cpp:70</a></div></div>
+<div class="ttc" id="aSurfaceMesher_8h_html"><div class="ttname"><a href="../../d2/dd7/SurfaceMesher_8h.html">SurfaceMesher.h</a></div></div>
+<div class="ttc" id="aGeneralSettings_8h_html"><div class="ttname"><a href="../../df/df6/GeneralSettings_8h.html">GeneralSettings.h</a></div></div>
+<div class="ttc" id="aSonataExplorerPlugin_8cpp_html_ad4cfacb312f7dcee28dafb637dbfd355"><div class="ttname"><a href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#ad4cfacb312f7dcee28dafb637dbfd355">Polyhedron</a></div><div class="ttdeci">CGAL::Polyhedron_3&lt; K &gt; Polyhedron</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d2c/SonataExplorerPlugin_8cpp_source.html#l00082">SonataExplorerPlugin.cpp:82</a></div></div>
+<div class="ttc" id="aSonataExplorerPlugin_8cpp_html_ad71296531765d4fe8591935e6845e187"><div class="ttname"><a href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#ad71296531765d4fe8591935e6845e187">Traits</a></div><div class="ttdeci">CGAL::Skin_surface_traits_3&lt; K &gt; Traits</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d2c/SonataExplorerPlugin_8cpp_source.html#l00079">SonataExplorerPlugin.cpp:79</a></div></div>
+<div class="ttc" id="aScene_8h_html"><div class="ttname"><a href="../../d5/d2d/Scene_8h.html">Scene.h</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/platform_2plugins_2openDeck_2plugin_2common_2Logs_8h_source.html#l00028">Logs.h:28</a></div></div>
+<div class="ttc" id="anamespacecore_html_a987cf8f70fb0d4935ca96689d9af77b4"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">core::ModelDescriptorPtr</a></div><div class="ttdeci">std::shared_ptr&lt; ModelDescriptor &gt; ModelDescriptorPtr</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00095">Types.h:95</a></div></div>
+<div class="ttc" id="aclasscore_1_1MeshLoader_html"><div class="ttname"><a href="../../df/d21/classcore_1_1MeshLoader.html">core::MeshLoader</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d96/MeshLoader_8h_source.html#l00037">MeshLoader.h:37</a></div></div>
+<div class="ttc" id="aclasscore_1_1MeshLoader_html_a06e9823d1269b76b9a35ffc1ae947608"><div class="ttname"><a href="../../df/d21/classcore_1_1MeshLoader.html#a06e9823d1269b76b9a35ffc1ae947608">core::MeshLoader::importFromFile</a></div><div class="ttdeci">ModelDescriptorPtr importFromFile(const std::string &amp;fileName, const LoaderProgress &amp;callback, const PropertyMap &amp;properties) const final</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d87/MeshLoader_8cpp_source.html#l00144">MeshLoader.cpp:144</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1meshing_1_1SurfaceMesher_html_a7f4cbede099510cba684800514c442d5"><div class="ttname"><a href="../../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html#a7f4cbede099510cba684800514c442d5">bioexplorer::meshing::SurfaceMesher::generateSurface</a></div><div class="ttdeci">ModelDescriptorPtr generateSurface(core::Scene &amp;scene, const std::string &amp;pdbId, const Vector4ds &amp;atoms, const double shrinkfactor=0.5)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de3/SurfaceMesher_8cpp_source.html#l00075">SurfaceMesher.cpp:75</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html_a4200c06cfe8f2933097acc193e376617"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html#a4200c06cfe8f2933097acc193e376617">bioexplorer::Vector4ds</a></div><div class="ttdeci">std::vector&lt; Vector4d &gt; Vector4ds</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00090">Types.h:90</a></div></div>
+<div class="ttc" id="aMeshLoader_8h_html"><div class="ttname"><a href="../../da/d96/MeshLoader_8h.html">MeshLoader.h</a></div></div>
+<div class="ttc" id="aSonataExplorerPlugin_8cpp_html_a322b2f6024061ea264e3b3e6308aa657"><div class="ttname"><a href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a322b2f6024061ea264e3b3e6308aa657">Skin_surface_3</a></div><div class="ttdeci">CGAL::Skin_surface_3&lt; Traits &gt; Skin_surface_3</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d2c/SonataExplorerPlugin_8cpp_source.html#l00084">SonataExplorerPlugin.cpp:84</a></div></div>
+<div class="ttc" id="aSonataExplorerPlugin_8cpp_html_a60e1c8366ef803d7e4c8c96634199317"><div class="ttname"><a href="../../d4/d2c/SonataExplorerPlugin_8cpp.html#a60e1c8366ef803d7e4c8c96634199317">Union_of_balls_3</a></div><div class="ttdeci">CGAL::Union_of_balls_3&lt; Traits &gt; Union_of_balls_3</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d2c/SonataExplorerPlugin_8cpp_source.html#l00085">SonataExplorerPlugin.cpp:85</a></div></div>
+<div class="ttc" id="aplatform_2engines_2optix6_2Logs_8h_html_aa86254127a35ff11437083dd05f2d141"><div class="ttname"><a href="../../de/dc3/platform_2engines_2optix6_2Logs_8h.html#aa86254127a35ff11437083dd05f2d141">PLUGIN_THROW</a></div><div class="ttdeci">#define PLUGIN_THROW(message)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dc3/platform_2engines_2optix6_2Logs_8h_source.html#l00047">Logs.h:47</a></div></div>
+<div class="ttc" id="aMaterial_8h_html"><div class="ttname"><a href="../../df/d12/Material_8h.html">Material.h</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_1_1details_html_aad9e1645c632a352d331a058fa332cc5a2bb8d809d871a7c1a392fec36563a8f7"><div class="ttname"><a href="../../d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5a2bb8d809d871a7c1a392fec36563a8f7">bioexplorer::details::ProteinRepresentation::atoms</a></div><div class="ttdeci">@ atoms</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_b70eba8f50d8f7315ab2a0128c0ea16a.html">plugin</a></li><li class="navelem"><a class="el" href="../../dir_259d830460222c7d8f30faf1ab6bae85.html">meshing</a></li><li class="navelem"><b>SurfaceMesher.cpp</b></li>
+    <li class="navelem"><a class="el" href="../../dir_4bd53072b0b58f9d0c210577ee1224eb.html">bioexplorer</a></li><li class="navelem"><a class="el" href="../../dir_cdbbbf3321683c1efcc0d976dd1498c7.html">backend</a></li><li class="navelem"><a class="el" href="../../dir_14d627cccd023aaf4f18eaf1359097e2.html">science</a></li><li class="navelem"><a class="el" href="../../dir_ce7c53f7ae7b05cd876b756753a17bbc.html">meshing</a></li><li class="navelem"><a class="el" href="../../d8/de3/SurfaceMesher_8cpp.html">SurfaceMesher.cpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

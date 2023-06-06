@@ -1,7 +1,5 @@
 var files_dup =
 [
-    [ "extras", "dir_1510bd745cd29c20d24c27171ebe5ba5.html", "dir_1510bd745cd29c20d24c27171ebe5ba5" ],
-    [ "module", "dir_2a00177d73d450c0d29f575ac84bba77.html", "dir_2a00177d73d450c0d29f575ac84bba77" ],
-    [ "plugin", "dir_b70eba8f50d8f7315ab2a0128c0ea16a.html", "dir_b70eba8f50d8f7315ab2a0128c0ea16a" ],
-    [ "tests", "dir_dd04afd5f12baec36e89f91229f2c9f6.html", "dir_dd04afd5f12baec36e89f91229f2c9f6" ]
+    [ "bioexplorer", "dir_4bd53072b0b58f9d0c210577ee1224eb.html", "dir_4bd53072b0b58f9d0c210577ee1224eb" ],
+    [ "platform", "dir_c5a52a81292cf9a5167198f4f346d6d9.html", "dir_c5a52a81292cf9a5167198f4f346d6d9" ]
 ];

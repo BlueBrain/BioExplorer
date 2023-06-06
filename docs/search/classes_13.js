@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['whitematter_597',['WhiteMatter',['../d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html',1,'bioexplorer::connectomics']]],
-  ['whitematterdetails_598',['WhiteMatterDetails',['../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html',1,'bioexplorer::details']]]
+  ['uniqueid_3897',['UniqueId',['../d0/dbd/classbioexplorer_1_1common_1_1UniqueId.html',1,'bioexplorer::common']]]
 ];

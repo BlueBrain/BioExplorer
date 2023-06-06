@@ -1,7 +1,12 @@
 var searchData=
 [
-  ['octree_548',['Octree',['../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html',1,'bioexplorer::fields']]],
-  ['octreenode_549',['OctreeNode',['../d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html',1,'bioexplorer::fields']]],
-  ['oocmanager_550',['OOCManager',['../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html',1,'bioexplorer::io']]],
-  ['oocsceneconfigurationdetails_551',['OOCSceneConfigurationDetails',['../d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html',1,'bioexplorer::details']]]
+  ['namedetails_3740',['NameDetails',['../d8/d70/structbioexplorer_1_1details_1_1NameDetails.html',1,'bioexplorer::details']]],
+  ['neuroniddetails_3741',['NeuronIdDetails',['../da/dc3/structbioexplorer_1_1details_1_1NeuronIdDetails.html',1,'bioexplorer::details']]],
+  ['neuronidsectioniddetails_3742',['NeuronIdSectionIdDetails',['../d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails.html',1,'bioexplorer::details']]],
+  ['neuronpointsdetails_3743',['NeuronPointsDetails',['../d0/d6e/structbioexplorer_1_1details_1_1NeuronPointsDetails.html',1,'bioexplorer::details']]],
+  ['neurons_3744',['Neurons',['../d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html',1,'bioexplorer::morphology']]],
+  ['neuronsdetails_3745',['NeuronsDetails',['../dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html',1,'bioexplorer::details']]],
+  ['neuronsoma_3746',['NeuronSoma',['../d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html',1,'bioexplorer::morphology']]],
+  ['node_3747',['Node',['../d7/d93/classbioexplorer_1_1common_1_1Node.html',1,'bioexplorer::common']]],
+  ['nucleotid_3748',['Nucleotid',['../d6/d5b/structbioexplorer_1_1molecularsystems_1_1Nucleotid.html',1,'bioexplorer::molecularsystems']]]
 ];

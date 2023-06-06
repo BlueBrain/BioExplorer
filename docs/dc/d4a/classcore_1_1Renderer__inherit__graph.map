@@ -1,0 +1,8 @@
+<map id="core::Renderer" name="core::Renderer">
+<area shape="rect" id="node1" title="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf..." alt="" coords="388,71,505,98"/>
+<area shape="rect" id="node4" href="$d5/df2/classbioexplorer_1_1rendering_1_1GolgiStyleRenderer.html" title=" " alt="" coords="554,5,721,47"/>
+<area shape="rect" id="node5" href="$d4/d9b/classcore_1_1OptiXRenderer.html" title=" " alt="" coords="561,71,714,98"/>
+<area shape="rect" id="node6" href="$db/d67/classcore_1_1OSPRayRenderer.html" title=" " alt="" coords="553,122,721,149"/>
+<area shape="rect" id="node2" href="$d7/d67/classcore_1_1PropertyObject.html" title=" " alt="" coords="185,71,340,98"/>
+<area shape="rect" id="node3" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="5,71,137,98"/>
+</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/morphologies/Astrocytes.h Source File</title>
+<title>Blue Brain BioExplorer: bioexplorer/backend/science/morphologies/Astrocytes.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,77 +86,90 @@ $(document).ready(function(){initNavTree('df/d88/Astrocytes_8h_source.html','../
 <div class="title">Astrocytes.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;Morphologies.h&quot;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;plugin/api/Params.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;plugin/common/Types.h&gt;</span></div>
+<a href="../../df/d88/Astrocytes_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d6/dab/Morphologies_8h.html">Morphologies.h</a>&quot;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>morphology</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using namespace </span>brayns;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">using namespace </span>common;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">   39</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">Astrocytes</a> : <span class="keyword">public</span> <a class="code" href="../../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html">Morphologies</a></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">Astrocytes</a>(Scene&amp; scene, <span class="keyword">const</span> <a class="code" href="../../df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html">AstrocytesDetails</a>&amp; details);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> setVasculatureRadiusReport(</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">const</span> <a class="code" href="../../de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html">VasculatureRadiusReportDetails</a>&amp; details);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">double</span> _getDisplacementValue(<span class="keyword">const</span> DisplacementElement&amp; element) <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d9/d64/science_2api_2Params_8h.html">science/api/Params.h</a>&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;science/common/Types.h&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>morphology</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">using namespace </span>common;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">   42</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">Astrocytes</a> : <span class="keyword">public</span> <a class="code" href="../../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html">Morphologies</a></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">Astrocytes</a>(<a class="code" href="../../d5/d76/classcore_1_1Scene.html">Scene</a>&amp; scene, <span class="keyword">const</span> <a class="code" href="../../df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html">AstrocytesDetails</a>&amp; details, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>&amp; assemblyPosition,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;               <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a>&amp; assemblyRotation);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> setVasculatureRadiusReport(<span class="keyword">const</span> <a class="code" href="../../de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html">VasculatureRadiusReportDetails</a>&amp; details);</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> _logRealismParams();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> _buildModel(<span class="keyword">const</span> doubles&amp; radii = doubles());</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> _addEndFoot(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container, <span class="keyword">const</span> Vector3d&amp; somaCenter,</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                     <span class="keyword">const</span> EndFootMap&amp; endFeet, <span class="keyword">const</span> doubles&amp; radii,</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                     <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> _addMicroDomain(TriangleMesh&amp; mesh, <span class="keyword">const</span> uint64_t astrocyteId);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">void</span> _buildMicroDomain(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container,</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                           <span class="keyword">const</span> uint64_t astrocyteId, <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html">AstrocytesDetails</a> _details;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">double</span> _maxDistanceToSoma{0.0};</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    Scene&amp; _scene;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;};</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;} <span class="comment">// namespace morphology</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">double</span> _getDisplacementValue(<span class="keyword">const</span> <a class="code" href="../../d6/d21/Displacement_8h.html#a1ba04439b3f8a6247644090e4fd60b92">DisplacementElement</a>&amp; element) <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> _logRealismParams();</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> _buildModel(<span class="keyword">const</span> <a class="code" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a>&amp; radii = <a class="code" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a>());</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> _addEndFoot(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>&amp; somaCenter, <span class="keyword">const</span> <a class="code" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a4c39da6470d0929ae5fde57f8ed36293">EndFootMap</a>&amp; endFeet,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                     <span class="keyword">const</span> <a class="code" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a>&amp; radii, <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">void</span> _addMicroDomain(<a class="code" href="../../dd/df0/structcore_1_1TriangleMesh.html">TriangleMesh</a>&amp; <a class="code" href="../../d0/d1f/namespacebioexplorer_1_1details.html#af608e48ca83174d68456a1069a6f07a1a09bc81c3aa886b690f84c5aba4109e20">mesh</a>, <span class="keyword">const</span> uint64_t astrocyteId);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">void</span> _buildMicroDomain(<a class="code" href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">ThreadSafeContainer</a>&amp; container, <span class="keyword">const</span> uint64_t astrocyteId, <span class="keyword">const</span> <span class="keywordtype">size_t</span> materialId);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">const</span> <a class="code" href="../../df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html">AstrocytesDetails</a> _details;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">double</span> _maxDistanceToSoma{0.0};</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="../../d5/d76/classcore_1_1Scene.html">Scene</a>&amp; _scene;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;} <span class="comment">// namespace morphology</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1details_1_1AstrocytesDetails_html"><div class="ttname"><a href="../../df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html">bioexplorer::details::AstrocytesDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01104">Types.h:1104</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1common_1_1ThreadSafeContainer_html"><div class="ttname"><a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">bioexplorer::common::ThreadSafeContainer</a></div><div class="ttdoc">The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is...</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00040">ThreadSafeContainer.h:40</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1VasculatureRadiusReportDetails_html"><div class="ttname"><a href="../../de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html">bioexplorer::details::VasculatureRadiusReportDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l01019">Types.h:1019</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Astrocytes_html"><div class="ttname"><a href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">bioexplorer::morphology::Astrocytes</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d88/Astrocytes_8h_source.html#l00039">Astrocytes.h:39</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Morphologies_html"><div class="ttname"><a href="../../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html">bioexplorer::morphology::Morphologies</a></div><div class="ttdoc">The Morphologies class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dab/Morphologies_8h_source.html#l00052">Morphologies.h:52</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_1_1morphology_html_a4c39da6470d0929ae5fde57f8ed36293"><div class="ttname"><a href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a4c39da6470d0929ae5fde57f8ed36293">bioexplorer::morphology::EndFootMap</a></div><div class="ttdeci">std::map&lt; uint64_t, EndFoot &gt; EndFootMap</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01636">Types.h:1636</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1AstrocytesDetails_html"><div class="ttname"><a href="../../df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html">bioexplorer::details::AstrocytesDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01106">Types.h:1106</a></div></div>
+<div class="ttc" id="aclasscore_1_1Scene_html"><div class="ttname"><a href="../../d5/d76/classcore_1_1Scene.html">core::Scene</a></div><div class="ttdoc">Scene object This object contains collections of geometries, materials and light sources that are use...</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d2d/Scene_8h_source.html#l00044">Scene.h:44</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1ThreadSafeContainer_html"><div class="ttname"><a href="../../d2/d4a/classbioexplorer_1_1common_1_1ThreadSafeContainer.html">bioexplorer::common::ThreadSafeContainer</a></div><div class="ttdoc">The ThreadSafeContainer class is used to load large datasets in parallel. Every individual element is...</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00043">ThreadSafeContainer.h:43</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_1_1details_html_af608e48ca83174d68456a1069a6f07a1a09bc81c3aa886b690f84c5aba4109e20"><div class="ttname"><a href="../../d0/d1f/namespacebioexplorer_1_1details.html#af608e48ca83174d68456a1069a6f07a1a09bc81c3aa886b690f84c5aba4109e20">bioexplorer::details::AssemblyShape::mesh</a></div><div class="ttdeci">@ mesh</div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1VasculatureRadiusReportDetails_html"><div class="ttname"><a href="../../de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html">bioexplorer::details::VasculatureRadiusReportDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01021">Types.h:1021</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Astrocytes_html"><div class="ttname"><a href="../../d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html">bioexplorer::morphology::Astrocytes</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d88/Astrocytes_8h_source.html#l00042">Astrocytes.h:42</a></div></div>
+<div class="ttc" id="anamespacecore_html_ab48ce26bcc63ada2dfa20f21f18c2c9a"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">core::Quaterniond</a></div><div class="ttdeci">glm::tquat&lt; double, glm::highp &gt; Quaterniond</div><div class="ttdoc">Double quaternion.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00155">MathTypes.h:155</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/platform_2plugins_2openDeck_2plugin_2common_2Logs_8h_source.html#l00028">Logs.h:28</a></div></div>
+<div class="ttc" id="aDisplacement_8h_html_a1ba04439b3f8a6247644090e4fd60b92"><div class="ttname"><a href="../../d6/d21/Displacement_8h.html#a1ba04439b3f8a6247644090e4fd60b92">DisplacementElement</a></div><div class="ttdeci">DisplacementElement</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d21/Displacement_8h_source.html#l00026">Displacement.h:26</a></div></div>
+<div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00055">BaseWindow.cpp:55</a></div></div>
+<div class="ttc" id="astructcore_1_1TriangleMesh_html"><div class="ttname"><a href="../../dd/df0/structcore_1_1TriangleMesh.html">core::TriangleMesh</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/dfa/TriangleMesh_8h_source.html#l00031">TriangleMesh.h:31</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html_a1c15d089306191219946f1f6768fb2f4"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">bioexplorer::doubles</a></div><div class="ttdeci">std::vector&lt; double &gt; doubles</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00086">Types.h:86</a></div></div>
+<div class="ttc" id="ascience_2api_2Params_8h_html"><div class="ttname"><a href="../../d9/d64/science_2api_2Params_8h.html">Params.h</a></div></div>
+<div class="ttc" id="anamespacecore_html_a543194cfde06c97da6eeb09c4b36917f"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a></div><div class="ttdeci">glm::vec&lt; 3, double &gt; Vector3d</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00145">MathTypes.h:145</a></div></div>
+<div class="ttc" id="aMorphologies_8h_html"><div class="ttname"><a href="../../d6/dab/Morphologies_8h.html">Morphologies.h</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1morphology_1_1Morphologies_html"><div class="ttname"><a href="../../dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html">bioexplorer::morphology::Morphologies</a></div><div class="ttdoc">The Morphologies class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dab/Morphologies_8h_source.html#l00055">Morphologies.h:55</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_b70eba8f50d8f7315ab2a0128c0ea16a.html">plugin</a></li><li class="navelem"><a class="el" href="../../dir_fab7aaf0e213ba606ec01850554c2878.html">morphologies</a></li><li class="navelem"><b>Astrocytes.h</b></li>
+    <li class="navelem"><a class="el" href="../../dir_4bd53072b0b58f9d0c210577ee1224eb.html">bioexplorer</a></li><li class="navelem"><a class="el" href="../../dir_cdbbbf3321683c1efcc0d976dd1498c7.html">backend</a></li><li class="navelem"><a class="el" href="../../dir_14d627cccd023aaf4f18eaf1359097e2.html">science</a></li><li class="navelem"><a class="el" href="../../dir_ac510bb85938e3edc94804e9730a0cfc.html">morphologies</a></li><li class="navelem"><a class="el" href="../../df/d88/Astrocytes_8h.html">Astrocytes.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

@@ -1,4 +1,31 @@
 var searchData=
 [
-  ['frame_841',['frame',['../de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html#afedbd7d1fa408005b7a6cff7b8f074dc',1,'bioexplorer::details::VasculatureRadiusReportDetails']]]
+  ['efferentsynapses_6198',['efferentSynapses',['../d1/dfe/structsonataexplorer_1_1neuroscience_1_1common_1_1SynapsesInfo.html#a5460b22768bc984abb0e3404cd932868',1,'sonataexplorer::neuroscience::common::SynapsesInfo']]],
+  ['element_6199',['element',['../df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#ae4ae6a4a5ef14ade449ad1c06555d126',1,'bioexplorer::molecularsystems::Atom']]],
+  ['emission_6200',['emission',['../d7/dbd/structsonataexplorer_1_1api_1_1MaterialDescriptor.html#a5a95d0ab2ddf8b55f2a5a44ac813f1d8',1,'sonataexplorer::api::MaterialDescriptor::emission()'],['../dc/d3c/structsonataexplorer_1_1api_1_1MaterialRangeDescriptor.html#a92c1ad2e262526fd7a05664b2eedcbee',1,'sonataexplorer::api::MaterialRangeDescriptor::emission()']]],
+  ['emissions_6201',['emissions',['../d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#acd1fd0706367e326a6016289dc12723f',1,'bioexplorer::details::MaterialsDetails::emissions()'],['../d9/d26/structsonataexplorer_1_1api_1_1MaterialsDescriptor.html#a430b3ca55845b21e9fbb452cdeb68956',1,'sonataexplorer::api::MaterialsDescriptor::emissions()']]],
+  ['enableclippingplanes_6202',['enableClippingPlanes',['../d1/dfb/structospray_1_1FishEyeCamera.html#ab528e978e566846a4cd477eeb5c0c1d8',1,'ospray::FishEyeCamera::enableClippingPlanes()'],['../d9/d3f/structospray_1_1OrthographicCamera.html#afc57a428937ee3d07beec83c80fc385b',1,'ospray::OrthographicCamera::enableClippingPlanes()'],['../d0/d5b/structospray_1_1PanoramicCamera.html#a783e06270969230906c4c8a9e27175ab',1,'ospray::PanoramicCamera::enableClippingPlanes()'],['../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a64be8f94f9eb837580ae5fcac27703b4',1,'core::PerspectiveStereoCamera::enableClippingPlanes()'],['../d8/d2e/structospray_1_1SphereClippingPerspectiveCamera.html#ab7ce00f963045d7bf19453eac6b3e512',1,'ospray::SphereClippingPerspectiveCamera::enableClippingPlanes()']]],
+  ['enabled_6203',['enabled',['../dd/d66/structcore_1_1VideoStreamParam.html#a380b7a2d8c1d47adf4ac2312dc2fa5c0',1,'core::VideoStreamParam']]],
+  ['endframe_6204',['endFrame',['../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html#ae97cf30e3e887e95c34324e1d226fb14',1,'bioexplorer::mediamaker::ExportFramesToDisk']]],
+  ['endpoint_6205',['endpoint',['../d3/d13/structcore_1_1SchemaParam.html#a5f0c0e416b0c03047aa9209becce5cd0',1,'core::SchemaParam']]],
+  ['endtime_6206',['endTime',['../da/d89/structbioexplorer_1_1common_1_1SimulationReport.html#acb4cadbcfe631062fd81ed5ab0d36499',1,'bioexplorer::common::SimulationReport']]],
+  ['engine_5foptix_5f6_6207',['ENGINE_OPTIX_6',['../d9/d0f/namespacecore.html#ad5c1b0c8ea55624ae8233736c008e9fa',1,'core']]],
+  ['engine_5foptix_5f7_6208',['ENGINE_OPTIX_7',['../d9/d0f/namespacecore.html#a3209455cb70411cb316d6f171395d979',1,'core']]],
+  ['engine_5fospray_6209',['ENGINE_OSPRAY',['../d9/d0f/namespacecore.html#abfa87dd08abd6415c375a4886bfaefbf',1,'core']]],
+  ['entrynodeid_6210',['entryNodeId',['../d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html#a8b8cafbaa1fba0fb2edae42301c398a7',1,'bioexplorer::common::GeometryNode']]],
+  ['enums_6211',['enums',['../d4/d72/structcore_1_1Property.html#a1403d409f393202e38861760485b7093',1,'core::Property']]],
+  ['env_5frockets_5fdisable_5fscene_5fbroadcasting_6212',['ENV_ROCKETS_DISABLE_SCENE_BROADCASTING',['../d8/d8e/namespacebioexplorer.html#adb49b3db9e712dae6771709fe4cfab53',1,'bioexplorer']]],
+  ['enzymename_6213',['enzymeName',['../df/dc6/structbioexplorer_1_1details_1_1EnzymeReactionDetails.html#aebb2daeb469913056aa2e55160ffcc21',1,'bioexplorer::details::EnzymeReactionDetails']]],
+  ['epsilon_6214',['epsilon',['../d1/db0/structsonataexplorer_1_1api_1_1ConnectionsPerValue.html#ab9dbf356ba45006dab0882cb70424f8b',1,'sonataexplorer::api::ConnectionsPerValue::epsilon()'],['../d9/d0f/namespacecore.html#a49c6e01fbd8905740993109a36f65c11',1,'core::EPSILON()']]],
+  ['equalityepsilon_6215',['equalityEpsilon',['../da/d0b/namespacebioexplorer_1_1common.html#a0b8f57ee3cd2ed621e5179fc97af7c7c',1,'bioexplorer::common']]],
+  ['error_6216',['error',['../dc/d91/structcore_1_1FileStats.html#a3e559f8509b18b329a2c51cb507626f5',1,'core::FileStats::error()'],['../df/dda/structcore_1_1FileType.html#a48acee3b505c4853550f53ac3b21affd',1,'core::FileType::error()'],['../d2/de7/structcore_1_1FileContent.html#ad7ca76eb4c9dec57a3f024fb16b921f3',1,'core::FileContent::error()'],['../d6/d42/structcore_1_1DirectoryFileList.html#a9b813ec2b2abcf5bd78e5398766648e9',1,'core::DirectoryFileList::error()']]],
+  ['error_5fid_5finvalid_5fbinary_5freceive_6217',['ERROR_ID_INVALID_BINARY_RECEIVE',['../d9/d0f/namespacecore.html#a82d2d256af3510c644b84c0681ff7c79',1,'core']]],
+  ['error_5fid_5floading_5fbinary_5ffailed_6218',['ERROR_ID_LOADING_BINARY_FAILED',['../d9/d0f/namespacecore.html#a7e06cee01d2102eb2afd8646aaaa1c90',1,'core']]],
+  ['error_5fid_5fmissing_5fparams_6219',['ERROR_ID_MISSING_PARAMS',['../d9/d0f/namespacecore.html#af789ae93a1bc58124a8614558ea0c181',1,'core']]],
+  ['error_5fid_5funsupported_5ftype_6220',['ERROR_ID_UNSUPPORTED_TYPE',['../d9/d0f/namespacecore.html#a3abf7f45e4e54048f293c59073299a6f',1,'core']]],
+  ['etype_6221',['eType',['../d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html#a7cb1d940c538b8addd320906dadf8945',1,'bioexplorer::morphology::NeuronSoma::eType()'],['../d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html#abfc1fb60080b7a8671c10ad553696d89',1,'bioexplorer::morphology::Cell::eType()']]],
+  ['exception_5fprogram_6222',['exception_program',['../d0/d31/structcore_1_1OptixShaderProgram.html#abfd70b33254476db89a90304e3c94b5f',1,'core::OptixShaderProgram']]],
+  ['exportintermediateframes_6223',['exportIntermediateFrames',['../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html#a348e35df07c8c7936bce9f00166962a4',1,'bioexplorer::mediamaker::ExportFramesToDisk']]],
+  ['extensions_6224',['extensions',['../d1/dad/structcore_1_1LoaderInfo.html#a40eb348a00c8b92aa62ea3649000bba1',1,'core::LoaderInfo']]],
+  ['extinction_5fconstant_6225',['extinction_constant',['../df/d5a/structcore_1_1Glass.html#a173817fd2007f05aac22aac6f3782aac',1,'core::Glass']]]
 ];

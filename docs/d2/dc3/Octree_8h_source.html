@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/plugin/fields/Octree.h Source File</title>
+<title>Blue Brain BioExplorer: bioexplorer/backend/science/common/Octree.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,94 +86,106 @@ $(document).ready(function(){initNavTree('d2/dc3/Octree_8h_source.html','../../'
 <div class="title">Octree.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;brayns/common/types.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;OctreeNode.h&quot;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>fields</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html">Octree</a></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a69d235ce47251ed617cb992b2a3a3c2c">Octree</a>(<span class="keyword">const</span> floats &amp;events, <span class="keywordtype">double</span> voxelSize, <span class="keyword">const</span> glm::vec3 &amp;minAABB,</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;           <span class="keyword">const</span> glm::vec3 &amp;maxAABB);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#aa112587bf8fe2d11bcfd58c4c93a4969">~Octree</a>();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">const</span> glm::uvec3 &amp;<a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#adecc4835cd7993aff4b5fb27aed27e6f">getVolumeDim</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    uint64_t <a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a4fceed482aa4cc31b281608a6fcd2aed">getVolumeSize</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    uint32_t <a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a8e02f58f917d88233949254a5594867e">getOctreeSize</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">const</span> uint32_ts &amp;<a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a1028fc61fd5800990f65048877587150">getFlatIndexes</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">const</span> floats &amp;<a class="code" href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#af07110e7d89a336cee162e3f68b74f29">getFlatData</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">void</span> _flattenChildren(<span class="keyword">const</span> <a class="code" href="../../d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html">OctreeNode</a> *node, uint32_t level);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keyword">inline</span> uint32_t _pow2roundup(uint32_t x)</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    {</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        --x;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        x |= x &gt;&gt; 1;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        x |= x &gt;&gt; 2;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        x |= x &gt;&gt; 4;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        x |= x &gt;&gt; 8;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        x |= x &gt;&gt; 16;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordflow">return</span> x + 1;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    glm::uvec3 _volumeDim;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    uint64_t _volumeSize;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    uint32_t _octreeSize;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    uint32_t *_offsetPerLevel;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    uint32_ts _flatIndexes;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    floats _flatData;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;};</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;} <span class="comment">// namespace fields</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<a href="../../d2/dc3/Octree_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html">platform/core/common/Types.h</a>&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d9/dde/OctreeNode_8h.html">OctreeNode.h</a>&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>common</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html">   39</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html">Octree</a></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#af4b9fe4244a96d5f17635162e6781efd">Octree</a>(<span class="keyword">const</span> <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a75572897a1facc0f8e806f0e8ea1bd5e">floats</a> &amp;events, <span class="keywordtype">double</span> voxelSize, <span class="keyword">const</span> glm::vec3 &amp;minAABB, <span class="keyword">const</span> glm::vec3 &amp;maxAABB);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a8c0a49e0fdb4743024ebec213322fac7">~Octree</a>();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#ad0efe23e1145b97a402ec130979013c2">   64</a></span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> &amp;<a class="code" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#ad0efe23e1145b97a402ec130979013c2">getVolumeDimensions</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _volumeDimensions; }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a13b437ecd4f16ef4f6ff81f2d4c3a8a7">   71</a></span>&#160;    uint32_t <a class="code" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a13b437ecd4f16ef4f6ff81f2d4c3a8a7">getVolumeSize</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _volumeSize; }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#af4be65e27a85ae273268dc8d0ed5683a">   78</a></span>&#160;    uint32_t <a class="code" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#af4be65e27a85ae273268dc8d0ed5683a">getOctreeSize</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _octreeSize; }</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a44cff5f18beedaa2ab92e84dcd0d89f5">   85</a></span>&#160;    uint32_t <a class="code" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a44cff5f18beedaa2ab92e84dcd0d89f5">getOctreeDepth</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _depth; }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a96de385c76f87b32430105e51779d9e1">   92</a></span>&#160;    <span class="keyword">const</span> <a class="code" href="../../d8/d8e/namespacebioexplorer.html#ac2aeafc41bc2c831be51835788de4f36">uint32_ts</a> &amp;<a class="code" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a96de385c76f87b32430105e51779d9e1">getFlatIndices</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _flatIndices; }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#ac9610bce0526d99686cba4985c0b0d22">   99</a></span>&#160;    <span class="keyword">const</span> <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a75572897a1facc0f8e806f0e8ea1bd5e">floats</a> &amp;<a class="code" href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#ac9610bce0526d99686cba4985c0b0d22">getFlatData</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> _flatData; }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">void</span> _flattenChildren(<a class="code" href="../../d9/da1/classbioexplorer_1_1common_1_1OctreeNode.html">OctreeNode</a> *node, uint32_t level);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keyword">inline</span> uint32_t _pow2roundup(uint32_t x)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        --x;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        x |= x &gt;&gt; 1;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        x |= x &gt;&gt; 2;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        x |= x &gt;&gt; 4;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        x |= x &gt;&gt; 8;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        x |= x &gt;&gt; 16;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keywordflow">return</span> x + 1;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    }</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <a class="code" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> _volumeDimensions;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    uint32_t _volumeSize;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    uint32_t _octreeSize;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    uint32_t _depth;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <a class="code" href="../../d8/d8e/namespacebioexplorer.html#ac2aeafc41bc2c831be51835788de4f36">uint32_ts</a> _offsetPerLevel;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <a class="code" href="../../d8/d8e/namespacebioexplorer.html#ac2aeafc41bc2c831be51835788de4f36">uint32_ts</a> _flatIndices;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a75572897a1facc0f8e806f0e8ea1bd5e">floats</a> _flatData;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;};</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;} <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_adecc4835cd7993aff4b5fb27aed27e6f"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#adecc4835cd7993aff4b5fb27aed27e6f">bioexplorer::fields::Octree::getVolumeDim</a></div><div class="ttdeci">const glm::uvec3 &amp; getVolumeDim() const</div><div class="ttdoc">Get the volume dimentions defined by the scene and the voxel sizes.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00211">Octree.cpp:211</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_af07110e7d89a336cee162e3f68b74f29"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#af07110e7d89a336cee162e3f68b74f29">bioexplorer::fields::Octree::getFlatData</a></div><div class="ttdeci">const floats &amp; getFlatData() const</div><div class="ttdoc">Get a flattened representation of the Octree data (node values)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00206">Octree.cpp:206</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_a1028fc61fd5800990f65048877587150"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a1028fc61fd5800990f65048877587150">bioexplorer::fields::Octree::getFlatIndexes</a></div><div class="ttdeci">const uint32_ts &amp; getFlatIndexes() const</div><div class="ttdoc">Get a flattened representation of the Octree indices.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00201">Octree.cpp:201</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_aa112587bf8fe2d11bcfd58c4c93a4969"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#aa112587bf8fe2d11bcfd58c4c93a4969">bioexplorer::fields::Octree::~Octree</a></div><div class="ttdeci">~Octree()</div><div class="ttdoc">Destroy the Octree object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00163">Octree.cpp:163</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_a8e02f58f917d88233949254a5594867e"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a8e02f58f917d88233949254a5594867e">bioexplorer::fields::Octree::getOctreeSize</a></div><div class="ttdeci">uint32_t getOctreeSize() const</div><div class="ttdoc">Get the size of the Octree.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00196">Octree.cpp:196</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1OctreeNode_html"><div class="ttname"><a href="../../d1/d60/classbioexplorer_1_1fields_1_1OctreeNode.html">bioexplorer::fields::OctreeNode</a></div><div class="ttdoc">The OctreeNode class implement a spherical node of the Octree acceleration structure used by the Fiel...</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dde/OctreeNode_8h_source.html#l00034">OctreeNode.h:34</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html">bioexplorer::fields::Octree</a></div><div class="ttdoc">The Octree class implements the Octree acceleration structure used by the FieldsRenderer class to ren...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/Octree_8h_source.html#l00036">Octree.h:36</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_a4fceed482aa4cc31b281608a6fcd2aed"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a4fceed482aa4cc31b281608a6fcd2aed">bioexplorer::fields::Octree::getVolumeSize</a></div><div class="ttdeci">uint64_t getVolumeSize() const</div><div class="ttdoc">Get the size of the volume.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00216">Octree.cpp:216</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1fields_1_1Octree_html_a69d235ce47251ed617cb992b2a3a3c2c"><div class="ttname"><a href="../../dc/d5a/classbioexplorer_1_1fields_1_1Octree.html#a69d235ce47251ed617cb992b2a3a3c2c">bioexplorer::fields::Octree::Octree</a></div><div class="ttdeci">Octree(const floats &amp;events, double voxelSize, const glm::vec3 &amp;minAABB, const glm::vec3 &amp;maxAABB)</div><div class="ttdoc">Construct a new Octree object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00033">Octree.cpp:33</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1Octree_html_a13b437ecd4f16ef4f6ff81f2d4c3a8a7"><div class="ttname"><a href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a13b437ecd4f16ef4f6ff81f2d4c3a8a7">bioexplorer::common::Octree::getVolumeSize</a></div><div class="ttdeci">uint32_t getVolumeSize() const</div><div class="ttdoc">Get the size of the volume.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/Octree_8h_source.html#l00071">Octree.h:71</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html_ac2aeafc41bc2c831be51835788de4f36"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html#ac2aeafc41bc2c831be51835788de4f36">bioexplorer::uint32_ts</a></div><div class="ttdeci">std::vector&lt; uint32_t &gt; uint32_ts</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00095">Types.h:95</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1Octree_html_a8c0a49e0fdb4743024ebec213322fac7"><div class="ttname"><a href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a8c0a49e0fdb4743024ebec213322fac7">bioexplorer::common::Octree::~Octree</a></div><div class="ttdeci">~Octree()</div><div class="ttdoc">Destroy the Octree object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00153">Octree.cpp:153</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1Octree_html_af4b9fe4244a96d5f17635162e6781efd"><div class="ttname"><a href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#af4b9fe4244a96d5f17635162e6781efd">bioexplorer::common::Octree::Octree</a></div><div class="ttdeci">Octree(const floats &amp;events, double voxelSize, const glm::vec3 &amp;minAABB, const glm::vec3 &amp;maxAABB)</div><div class="ttdoc">Construct a new Octree object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4a/Octree_8cpp_source.html#l00036">Octree.cpp:36</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/platform_2plugins_2openDeck_2plugin_2common_2Logs_8h_source.html#l00028">Logs.h:28</a></div></div>
+<div class="ttc" id="anamespacecore_html_a28c002de495fc0eab81417cb8ee03dec"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">core::Vector3ui</a></div><div class="ttdeci">glm::vec&lt; 3, uint32_t &gt; Vector3ui</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00136">MathTypes.h:136</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1Octree_html_a96de385c76f87b32430105e51779d9e1"><div class="ttname"><a href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a96de385c76f87b32430105e51779d9e1">bioexplorer::common::Octree::getFlatIndices</a></div><div class="ttdeci">const uint32_ts &amp; getFlatIndices() const</div><div class="ttdoc">Get a flattened representation of the Octree indices.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/Octree_8h_source.html#l00092">Octree.h:92</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1Octree_html"><div class="ttname"><a href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html">bioexplorer::common::Octree</a></div><div class="ttdoc">The Octree class implements the Octree acceleration structure used by the FieldsRenderer class to ren...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/Octree_8h_source.html#l00039">Octree.h:39</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1Octree_html_a44cff5f18beedaa2ab92e84dcd0d89f5"><div class="ttname"><a href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a44cff5f18beedaa2ab92e84dcd0d89f5">bioexplorer::common::Octree::getOctreeDepth</a></div><div class="ttdeci">uint32_t getOctreeDepth() const</div><div class="ttdoc">Get the depth of the Octree.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/Octree_8h_source.html#l00085">Octree.h:85</a></div></div>
+<div class="ttc" id="aplatform_2core_2common_2Types_8h_html_a75572897a1facc0f8e806f0e8ea1bd5e"><div class="ttname"><a href="../../de/d53/platform_2core_2common_2Types_8h.html#a75572897a1facc0f8e806f0e8ea1bd5e">floats</a></div><div class="ttdeci">std::vector&lt; float &gt; floats</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00048">Types.h:48</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1OctreeNode_html"><div class="ttname"><a href="../../d9/da1/classbioexplorer_1_1common_1_1OctreeNode.html">bioexplorer::common::OctreeNode</a></div><div class="ttdoc">The OctreeNode class implement a spherical node of the Octree acceleration structure used by the Fiel...</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dde/OctreeNode_8h_source.html#l00039">OctreeNode.h:39</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1Octree_html_ad0efe23e1145b97a402ec130979013c2"><div class="ttname"><a href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#ad0efe23e1145b97a402ec130979013c2">bioexplorer::common::Octree::getVolumeDimensions</a></div><div class="ttdeci">const Vector3ui &amp; getVolumeDimensions() const</div><div class="ttdoc">Get the volume dimentions defined by the scene and the voxel sizes.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/Octree_8h_source.html#l00064">Octree.h:64</a></div></div>
+<div class="ttc" id="aOctreeNode_8h_html"><div class="ttname"><a href="../../d9/dde/OctreeNode_8h.html">OctreeNode.h</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1Octree_html_af4be65e27a85ae273268dc8d0ed5683a"><div class="ttname"><a href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#af4be65e27a85ae273268dc8d0ed5683a">bioexplorer::common::Octree::getOctreeSize</a></div><div class="ttdeci">uint32_t getOctreeSize() const</div><div class="ttdoc">Get the size of the Octree.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/Octree_8h_source.html#l00078">Octree.h:78</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1common_1_1Octree_html_ac9610bce0526d99686cba4985c0b0d22"><div class="ttname"><a href="../../d8/d8a/classbioexplorer_1_1common_1_1Octree.html#ac9610bce0526d99686cba4985c0b0d22">bioexplorer::common::Octree::getFlatData</a></div><div class="ttdeci">const floats &amp; getFlatData() const</div><div class="ttdoc">Get a flattened representation of the Octree data (node values)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/Octree_8h_source.html#l00099">Octree.h:99</a></div></div>
+<div class="ttc" id="aplatform_2core_2common_2Types_8h_html"><div class="ttname"><a href="../../de/d53/platform_2core_2common_2Types_8h.html">Types.h</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_b70eba8f50d8f7315ab2a0128c0ea16a.html">plugin</a></li><li class="navelem"><a class="el" href="../../dir_387fa419a52106cda1835c092069cd1d.html">fields</a></li><li class="navelem"><b>Octree.h</b></li>
+    <li class="navelem"><a class="el" href="../../dir_4bd53072b0b58f9d0c210577ee1224eb.html">bioexplorer</a></li><li class="navelem"><a class="el" href="../../dir_cdbbbf3321683c1efcc0d976dd1498c7.html">backend</a></li><li class="navelem"><a class="el" href="../../dir_14d627cccd023aaf4f18eaf1359097e2.html">science</a></li><li class="navelem"><a class="el" href="../../dir_5e35986c19ea419782b8bbaa2dbf7d22.html">common</a></li><li class="navelem"><a class="el" href="../../d2/dc3/Octree_8h.html">Octree.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

@@ -1,24 +1,4 @@
 var searchData=
 [
-  ['sceneinformationdetails_568',['SceneInformationDetails',['../d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html',1,'bioexplorer::details']]],
-  ['sdfgeometries_569',['SDFGeometries',['../d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html',1,'bioexplorer::common']]],
-  ['sdfmorphologydata_570',['SDFMorphologyData',['../d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html',1,'bioexplorer::common']]],
-  ['section_571',['Section',['../d4/d08/structbioexplorer_1_1morphology_1_1Section.html',1,'bioexplorer::morphology']]],
-  ['shadowrenderer_572',['ShadowRenderer',['../d3/d1a/classbioexplorer_1_1mediamaker_1_1rendering_1_1ShadowRenderer.html',1,'bioexplorer::mediamaker::rendering']]],
-  ['shape_573',['Shape',['../dc/d78/classbioexplorer_1_1common_1_1Shape.html',1,'bioexplorer::common']]],
-  ['simulationrenderer_574',['SimulationRenderer',['../db/dfa/classbioexplorer_1_1rendering_1_1SimulationRenderer.html',1,'bioexplorer::rendering']]],
-  ['simulationreport_575',['SimulationReport',['../da/d89/structbioexplorer_1_1common_1_1SimulationReport.html',1,'bioexplorer::common']]],
-  ['sinusoidshape_576',['SinusoidShape',['../d4/d37/classbioexplorer_1_1common_1_1SinusoidShape.html',1,'bioexplorer::common']]],
-  ['somasimulationhandler_577',['SomaSimulationHandler',['../df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html',1,'bioexplorer::morphology']]],
-  ['sphereshape_578',['SphereShape',['../d5/d1a/classbioexplorer_1_1common_1_1SphereShape.html',1,'bioexplorer::common']]],
-  ['sphericalcelldiffusionshape_579',['SphericalCellDiffusionShape',['../d6/d08/classbioexplorer_1_1common_1_1SphericalCellDiffusionShape.html',1,'bioexplorer::common']]],
-  ['spikesimulationhandler_580',['SpikeSimulationHandler',['../d0/daf/classbioexplorer_1_1morphology_1_1SpikeSimulationHandler.html',1,'bioexplorer::morphology']]],
-  ['sugardetails_581',['SugarDetails',['../d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html',1,'bioexplorer::details']]],
-  ['surfacemesher_582',['SurfaceMesher',['../d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html',1,'bioexplorer::meshing']]],
-  ['synapse_583',['Synapse',['../d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html',1,'bioexplorer::morphology']]],
-  ['synapseefficacy_584',['SynapseEfficacy',['../da/daf/classbioexplorer_1_1connectomics_1_1SynapseEfficacy.html',1,'bioexplorer::connectomics']]],
-  ['synapseefficacydetails_585',['SynapseEfficacyDetails',['../d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html',1,'bioexplorer::details']]],
-  ['synapseefficacysimulationhandler_586',['SynapseEfficacySimulationHandler',['../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html',1,'bioexplorer::connectomics']]],
-  ['synapses_587',['Synapses',['../da/d10/classbioexplorer_1_1morphology_1_1Synapses.html',1,'bioexplorer::morphology']]],
-  ['synapsesdetails_588',['SynapsesDetails',['../d5/ddf/structbioexplorer_1_1details_1_1SynapsesDetails.html',1,'bioexplorer::details']]]
+  ['quadlight_3816',['QuadLight',['../de/d4d/classcore_1_1QuadLight.html',1,'core']]]
 ];

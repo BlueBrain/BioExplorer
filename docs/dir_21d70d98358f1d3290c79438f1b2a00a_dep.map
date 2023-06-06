@@ -1,0 +1,13 @@
+<map id="platform/engines/ospray/ispc/render" name="platform/engines/ospray/ispc/render">
+<area shape="rect" id="node2" href="dir_4b2606a1657530b417d061964a560d66.html" title="utils" alt="" coords="77,159,149,207"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000103_000104.html" title="2" alt="" coords="117,133,126,148"/>
+<area shape="rect" id="node3" href="dir_dcd983c6950eb27cd4bec618fc5fcccd.html" title="geometry" alt="" coords="5,255,91,303"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000103_000101.html" title="4" alt="" coords="53,229,62,244"/>
+<area shape="rect" id="node4" href="dir_3066efc1f4040d52e90bf8a29ab3f16b.html" title="core" alt="" coords="92,351,164,399"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000103_000059.html" title="9" alt="" coords="148,329,157,344"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000104_000101.html" title="2" alt="" coords="77,237,86,252"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000104_000059.html" title="5" alt="" coords="129,324,138,339"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000101_000059.html" title="4" alt="" coords="98,324,108,339"/>
+<area shape="rect" id="clust2" href="dir_21d70d98358f1d3290c79438f1b2a00a.html" alt="" coords="67,52,160,217"/>
+<area shape="rect" id="clust1" href="dir_6dfc784f4fc06052f5a0f2da9bf54d9c.html" title="ispc" alt="" coords="56,16,171,228"/>
+</map>

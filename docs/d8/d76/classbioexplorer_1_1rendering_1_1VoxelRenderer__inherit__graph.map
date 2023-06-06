@@ -1,0 +1,6 @@
+<map id="bioexplorer::rendering::VoxelRenderer" name="bioexplorer::rendering::VoxelRenderer">
+<area shape="rect" id="node1" title="The VoxelRenderer class can perform fast transparency and mapping of simulation data on the geometry." alt="" coords="15,229,182,271"/>
+<area shape="rect" id="node2" href="$d2/db4/classcore_1_1SimulationRenderer.html" title=" " alt="" coords="5,155,192,181"/>
+<area shape="rect" id="node3" href="$d1/d37/classcore_1_1AbstractRenderer.html" title=" " alt="" coords="13,80,184,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="58,5,139,32"/>
+</map>

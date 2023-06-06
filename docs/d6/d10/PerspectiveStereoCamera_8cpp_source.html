@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/bioexplorer/core/module/ispc/camera/PerspectiveStereoCamera.cpp Source File</title>
+<title>Blue Brain BioExplorer: platform/engines/ospray/ispc/camera/PerspectiveStereoCamera.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,124 +86,137 @@ $(document).ready(function(){initNavTree('d6/d10/PerspectiveStereoCamera_8cpp_so
 <div class="title">PerspectiveStereoCamera.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;PerspectiveStereoCamera.h&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;limits&gt;</span></div>
+<a href="../../d6/d10/PerspectiveStereoCamera_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;PerspectiveStereoCamera_ispc.h&quot;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/common/Data.h&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#define _USE_MATH_DEFINES</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span> <span class="comment">// M_PI</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">namespace </span>rendering</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html#a4d78780c9e9c64a8203ed33625d53194">   37</a></span>&#160;<a class="code" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html#a4d78780c9e9c64a8203ed33625d53194">PerspectiveStereoCamera::PerspectiveStereoCamera</a>()</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    ispcEquivalent = ispc::PerspectiveStereoCamera_create(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html#aec0b92857c673fba74585cd347274bfa">   42</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html#aec0b92857c673fba74585cd347274bfa">PerspectiveStereoCamera::commit</a>()</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    Camera::commit();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    fovy = getParamf(<span class="stringliteral">&quot;fovy&quot;</span>, 60.f);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    aspect = getParamf(<span class="stringliteral">&quot;aspect&quot;</span>, 1.f);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    apertureRadius = getParamf(<span class="stringliteral">&quot;apertureRadius&quot;</span>, 0.f);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    focusDistance = getParamf(<span class="stringliteral">&quot;focusDistance&quot;</span>, 1.f);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    nearClip = getParamf(<span class="stringliteral">&quot;nearClip&quot;</span>, 0.f);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    stereoMode = getParam(<span class="stringliteral">&quot;stereo&quot;</span>, 0) ? CameraStereoMode::side_by_side</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                       : CameraStereoMode::mono;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    interpupillaryDistance = getParamf(<span class="stringliteral">&quot;interpupillaryDistance&quot;</span>, 0.0635f);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    enableClippingPlanes = getParam(<span class="stringliteral">&quot;enableClippingPlanes&quot;</span>, 0);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    clipPlanes =</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        enableClippingPlanes ? getParamData(<span class="stringliteral">&quot;clipPlanes&quot;</span>, <span class="keyword">nullptr</span>) : <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    dir = normalize(dir);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    vec3f dir_du = normalize(cross(dir, up));</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    vec3f dir_dv = cross(dir_du, dir);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    vec3f org = pos;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">const</span> vec3f ipd_offset = 0.5f * interpupillaryDistance * dir_du;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">switch</span> (stereoMode)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">case</span> CameraStereoMode::left:</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        org -= ipd_offset;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">case</span> CameraStereoMode::right:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        org += ipd_offset;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">case</span> CameraStereoMode::side_by_side:</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        aspect *= 0.5f;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">case</span> CameraStereoMode::mono:</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">double</span> imgPlane_size_y = 2.f * tanf(deg2rad(0.5f * fovy));</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">double</span> imgPlane_size_x = imgPlane_size_y * aspect;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    dir_du *= imgPlane_size_x;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    dir_dv *= imgPlane_size_y;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    vec3f dir_00 = dir - 0.5f * dir_du - 0.5f * dir_dv;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">double</span> scaledAperture = 0.f;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">if</span> (apertureRadius &gt; 0.f)</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    {</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        dir_du *= focusDistance;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        dir_dv *= focusDistance;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        dir_00 *= focusDistance;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        scaledAperture = apertureRadius / imgPlane_size_x;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    }</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> clipPlaneData = clipPlanes ? clipPlanes-&gt;data : <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> numClipPlanes = clipPlanes ? clipPlanes-&gt;numItems : 0;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    ispc::PerspectiveStereoCamera_set(</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        getIE(), (<span class="keyword">const</span> ispc::vec3f&amp;)org, (<span class="keyword">const</span> ispc::vec3f&amp;)dir_00,</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        (<span class="keyword">const</span> ispc::vec3f&amp;)dir_du, (<span class="keyword">const</span> ispc::vec3f&amp;)dir_dv, scaledAperture,</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        aspect, (<span class="keyword">const</span> ispc::vec3f&amp;)ipd_offset, stereoMode,</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        (<span class="keyword">const</span> ispc::vec4f*)clipPlaneData, numClipPlanes, nearClip);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;}</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;OSP_REGISTER_CAMERA(<a class="code" href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html">PerspectiveStereoCamera</a>, bio_explorer_perspective);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;} <span class="comment">// namespace rendering</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dc/d8e/PerspectiveStereoCamera_8h.html">PerspectiveStereoCamera.h</a>&quot;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;limits&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;PerspectiveStereoCamera_ispc.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/common/Data.h&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#define _USE_MATH_DEFINES</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span> <span class="comment">// M_PI</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aa1ebed2e418ad2eb99b5dda7b1c2a844">   38</a></span>&#160;<a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aa1ebed2e418ad2eb99b5dda7b1c2a844">PerspectiveStereoCamera::PerspectiveStereoCamera</a>()</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ispcEquivalent = ispc::PerspectiveStereoCamera_create(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aeb7591a3614ec876552ef764227729a7">   43</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aeb7591a3614ec876552ef764227729a7">PerspectiveStereoCamera::commit</a>()</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="../../d6/da7/classcore_1_1Camera.html#ac8ec055d87f7f4579252d0653cb13b00">Camera::commit</a>();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8f5efe3a263f21362250388d6d429ad8">fovy</a> = getParamf(<span class="stringliteral">&quot;fovy&quot;</span>, 60.f);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aa173f036447c9507cc60eb74835736bd">aspect</a> = getParamf(<span class="stringliteral">&quot;aspect&quot;</span>, 1.f);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a0fd3ec0d6fb3138f81c09f2bdddf75a2">apertureRadius</a> = getParamf(<span class="stringliteral">&quot;apertureRadius&quot;</span>, 0.f);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8199e53857b4364de5e563e8be9377ea">focusDistance</a> = getParamf(<span class="stringliteral">&quot;focusDistance&quot;</span>, 1.f);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    nearClip = getParamf(<span class="stringliteral">&quot;nearClip&quot;</span>, 0.f);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#adb006a7f908fa53496c0455e22228002">stereoMode</a> = getParam(<span class="stringliteral">&quot;stereo&quot;</span>, 0) ? <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86ac1dd67f062859d763998dbec0a22f947">CameraStereoMode::side_by_side</a> : <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86a105c91f33f6b7468e7e85e2524586aa8">CameraStereoMode::mono</a>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ab0985631b46313d7bb8d9411e45649c3">interpupillaryDistance</a> = getParamf(<span class="stringliteral">&quot;interpupillaryDistance&quot;</span>, 0.0635f);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a64be8f94f9eb837580ae5fcac27703b4">enableClippingPlanes</a> = getParam(<span class="stringliteral">&quot;enableClippingPlanes&quot;</span>, 0);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ac14f7e64fb47d049745eb3313768c5b8">clipPlanes</a> = <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a64be8f94f9eb837580ae5fcac27703b4">enableClippingPlanes</a> ? getParamData(<span class="stringliteral">&quot;clipPlanes&quot;</span>, <span class="keyword">nullptr</span>) : <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    dir = normalize(dir);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    vec3f dir_du = normalize(cross(dir, up));</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    vec3f dir_dv = cross(dir_du, dir);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    vec3f org = pos;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">const</span> vec3f ipd_offset = 0.5f * <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ab0985631b46313d7bb8d9411e45649c3">interpupillaryDistance</a> * dir_du;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">switch</span> (<a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#adb006a7f908fa53496c0455e22228002">stereoMode</a>)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86ab0ac36b187aa60c167ffcead3d5a03c0">CameraStereoMode::left</a>:</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        org -= ipd_offset;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86af763d610923b0c4614e8ecd65212666a">CameraStereoMode::right</a>:</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        org += ipd_offset;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86ac1dd67f062859d763998dbec0a22f947">CameraStereoMode::side_by_side</a>:</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aa173f036447c9507cc60eb74835736bd">aspect</a> *= 0.5f;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86a105c91f33f6b7468e7e85e2524586aa8">CameraStereoMode::mono</a>:</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">double</span> imgPlane_size_y = 2.f * tanf(deg2rad(0.5f * <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8f5efe3a263f21362250388d6d429ad8">fovy</a>));</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">double</span> imgPlane_size_x = imgPlane_size_y * <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aa173f036447c9507cc60eb74835736bd">aspect</a>;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    dir_du *= imgPlane_size_x;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    dir_dv *= imgPlane_size_y;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    vec3f dir_00 = dir - 0.5f * dir_du - 0.5f * dir_dv;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">double</span> scaledAperture = 0.f;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a0fd3ec0d6fb3138f81c09f2bdddf75a2">apertureRadius</a> &gt; 0.f)</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        dir_du *= <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8199e53857b4364de5e563e8be9377ea">focusDistance</a>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        dir_dv *= <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8199e53857b4364de5e563e8be9377ea">focusDistance</a>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        dir_00 *= <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8199e53857b4364de5e563e8be9377ea">focusDistance</a>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        scaledAperture = <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a0fd3ec0d6fb3138f81c09f2bdddf75a2">apertureRadius</a> / imgPlane_size_x;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> clipPlaneData = <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ac14f7e64fb47d049745eb3313768c5b8">clipPlanes</a> ? <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ac14f7e64fb47d049745eb3313768c5b8">clipPlanes</a>-&gt;data : <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> numClipPlanes = <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ac14f7e64fb47d049745eb3313768c5b8">clipPlanes</a> ? <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ac14f7e64fb47d049745eb3313768c5b8">clipPlanes</a>-&gt;numItems : 0;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    ispc::PerspectiveStereoCamera_set(getIE(), (<span class="keyword">const</span> ispc::vec3f&amp;)org, (<span class="keyword">const</span> ispc::vec3f&amp;)dir_00,</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                                      (<span class="keyword">const</span> ispc::vec3f&amp;)dir_du, (<span class="keyword">const</span> ispc::vec3f&amp;)dir_dv, scaledAperture, <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aa173f036447c9507cc60eb74835736bd">aspect</a>,</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                                      (<span class="keyword">const</span> ispc::vec3f&amp;)ipd_offset, <a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#adb006a7f908fa53496c0455e22228002">stereoMode</a>, (<span class="keyword">const</span> ispc::vec4f*)clipPlaneData,</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                                      numClipPlanes, nearClip);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<a class="code" href="../../d9/d0f/namespacecore.html#a6a4ae5608e892d096d78a82c9e514451">OSP_REGISTER_CAMERA</a>(<a class="code" href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html">PerspectiveStereoCamera</a>, perspective);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;} <span class="comment">// namespace core</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_html_a4d78780c9e9c64a8203ed33625d53194"><div class="ttname"><a href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html#a4d78780c9e9c64a8203ed33625d53194">bioexplorer::rendering::PerspectiveStereoCamera::PerspectiveStereoCamera</a></div><div class="ttdeci">PerspectiveStereoCamera()</div><div class="ttdoc">Construct a new Perspective Stereo Camera object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d10/PerspectiveStereoCamera_8cpp_source.html#l00037">PerspectiveStereoCamera.cpp:37</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_html"><div class="ttname"><a href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html">bioexplorer::rendering::PerspectiveStereoCamera</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00033">PerspectiveStereoCamera.h:33</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1rendering_1_1PerspectiveStereoCamera_html_aec0b92857c673fba74585cd347274bfa"><div class="ttname"><a href="../../d8/d50/structbioexplorer_1_1rendering_1_1PerspectiveStereoCamera.html#aec0b92857c673fba74585cd347274bfa">bioexplorer::rendering::PerspectiveStereoCamera::commit</a></div><div class="ttdeci">virtual void commit()</div><div class="ttdoc">Commit the changes to the OSPRay engine.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d10/PerspectiveStereoCamera_8cpp_source.html#l00042">PerspectiveStereoCamera.cpp:42</a></div></div>
+<div class="ttc" id="aplatform_2core_2common_2CommonTypes_8h_html_ab7b7378c2c192d77fc2b7097708c6e86ab0ac36b187aa60c167ffcead3d5a03c0"><div class="ttname"><a href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86ab0ac36b187aa60c167ffcead3d5a03c0">left</a></div><div class="ttdeci">@ left</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h_source.html#l00058">CommonTypes.h:58</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_adb006a7f908fa53496c0455e22228002"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#adb006a7f908fa53496c0455e22228002">core::PerspectiveStereoCamera::stereoMode</a></div><div class="ttdeci">CameraStereoMode stereoMode</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00067">PerspectiveStereoCamera.h:67</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html">core::PerspectiveStereoCamera</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00034">PerspectiveStereoCamera.h:34</a></div></div>
+<div class="ttc" id="anamespacecore_html_a6a4ae5608e892d096d78a82c9e514451"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a6a4ae5608e892d096d78a82c9e514451">core::OSP_REGISTER_CAMERA</a></div><div class="ttdeci">OSP_REGISTER_CAMERA(PerspectiveStereoCamera, perspective)</div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_a8f5efe3a263f21362250388d6d429ad8"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8f5efe3a263f21362250388d6d429ad8">core::PerspectiveStereoCamera::fovy</a></div><div class="ttdeci">double fovy</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00056">PerspectiveStereoCamera.h:56</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_aeb7591a3614ec876552ef764227729a7"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aeb7591a3614ec876552ef764227729a7">core::PerspectiveStereoCamera::commit</a></div><div class="ttdeci">virtual void commit()</div><div class="ttdoc">Commit the changes to the OSPRay engine.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d10/PerspectiveStereoCamera_8cpp_source.html#l00043">PerspectiveStereoCamera.cpp:43</a></div></div>
+<div class="ttc" id="aPerspectiveStereoCamera_8h_html"><div class="ttname"><a href="../../dc/d8e/PerspectiveStereoCamera_8h.html">PerspectiveStereoCamera.h</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_a8199e53857b4364de5e563e8be9377ea"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a8199e53857b4364de5e563e8be9377ea">core::PerspectiveStereoCamera::focusDistance</a></div><div class="ttdeci">double focusDistance</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00059">PerspectiveStereoCamera.h:59</a></div></div>
+<div class="ttc" id="aplatform_2core_2common_2CommonTypes_8h_html_ab7b7378c2c192d77fc2b7097708c6e86af763d610923b0c4614e8ecd65212666a"><div class="ttname"><a href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86af763d610923b0c4614e8ecd65212666a">right</a></div><div class="ttdeci">@ right</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h_source.html#l00059">CommonTypes.h:59</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_ab0985631b46313d7bb8d9411e45649c3"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ab0985631b46313d7bb8d9411e45649c3">core::PerspectiveStereoCamera::interpupillaryDistance</a></div><div class="ttdeci">double interpupillaryDistance</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00068">PerspectiveStereoCamera.h:68</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_ac14f7e64fb47d049745eb3313768c5b8"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#ac14f7e64fb47d049745eb3313768c5b8">core::PerspectiveStereoCamera::clipPlanes</a></div><div class="ttdeci">Ref&lt; Data &gt; clipPlanes</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00064">PerspectiveStereoCamera.h:64</a></div></div>
+<div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00055">BaseWindow.cpp:55</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_aa1ebed2e418ad2eb99b5dda7b1c2a844"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aa1ebed2e418ad2eb99b5dda7b1c2a844">core::PerspectiveStereoCamera::PerspectiveStereoCamera</a></div><div class="ttdeci">PerspectiveStereoCamera()</div><div class="ttdoc">Construct a new Perspective Stereo Camera object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d10/PerspectiveStereoCamera_8cpp_source.html#l00038">PerspectiveStereoCamera.cpp:38</a></div></div>
+<div class="ttc" id="aplatform_2core_2common_2CommonTypes_8h_html_ab7b7378c2c192d77fc2b7097708c6e86ac1dd67f062859d763998dbec0a22f947"><div class="ttname"><a href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86ac1dd67f062859d763998dbec0a22f947">side_by_side</a></div><div class="ttdeci">@ side_by_side</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h_source.html#l00060">CommonTypes.h:60</a></div></div>
+<div class="ttc" id="aclasscore_1_1Camera_html_ac8ec055d87f7f4579252d0653cb13b00"><div class="ttname"><a href="../../d6/da7/classcore_1_1Camera.html#ac8ec055d87f7f4579252d0653cb13b00">core::Camera::commit</a></div><div class="ttdeci">virtual PLATFORM_API void commit()</div><div class="ttdoc">Commits any changes made to the camera object so that attributes become available to the rendering en...</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de4/Camera_8h_source.html#l00056">Camera.h:56</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_a64be8f94f9eb837580ae5fcac27703b4"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a64be8f94f9eb837580ae5fcac27703b4">core::PerspectiveStereoCamera::enableClippingPlanes</a></div><div class="ttdeci">bool enableClippingPlanes</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00063">PerspectiveStereoCamera.h:63</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_aa173f036447c9507cc60eb74835736bd"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#aa173f036447c9507cc60eb74835736bd">core::PerspectiveStereoCamera::aspect</a></div><div class="ttdeci">double aspect</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00057">PerspectiveStereoCamera.h:57</a></div></div>
+<div class="ttc" id="astructcore_1_1PerspectiveStereoCamera_html_a0fd3ec0d6fb3138f81c09f2bdddf75a2"><div class="ttname"><a href="../../da/d4e/structcore_1_1PerspectiveStereoCamera.html#a0fd3ec0d6fb3138f81c09f2bdddf75a2">core::PerspectiveStereoCamera::apertureRadius</a></div><div class="ttdeci">double apertureRadius</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8e/PerspectiveStereoCamera_8h_source.html#l00058">PerspectiveStereoCamera.h:58</a></div></div>
+<div class="ttc" id="aplatform_2core_2common_2CommonTypes_8h_html_ab7b7378c2c192d77fc2b7097708c6e86a105c91f33f6b7468e7e85e2524586aa8"><div class="ttname"><a href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86a105c91f33f6b7468e7e85e2524586aa8">mono</a></div><div class="ttdeci">@ mono</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h_source.html#l00057">CommonTypes.h:57</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_2a00177d73d450c0d29f575ac84bba77.html">module</a></li><li class="navelem"><a class="el" href="../../dir_f5e3bac8fec058024c8e91bab2c99bf2.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_8a258fd7ac7492118b43d46924b47375.html">camera</a></li><li class="navelem"><b>PerspectiveStereoCamera.cpp</b></li>
+    <li class="navelem"><a class="el" href="../../dir_c5a52a81292cf9a5167198f4f346d6d9.html">platform</a></li><li class="navelem"><a class="el" href="../../dir_4389f3d2beff546807b6b148625d2759.html">engines</a></li><li class="navelem"><a class="el" href="../../dir_f0df884ce09817da20ab1128f63a79fe.html">ospray</a></li><li class="navelem"><a class="el" href="../../dir_6dfc784f4fc06052f5a0f2da9bf54d9c.html">ispc</a></li><li class="navelem"><a class="el" href="../../dir_35132c5744fd380897f0dd5fced7bcf1.html">camera</a></li><li class="navelem"><a class="el" href="../../d6/d10/PerspectiveStereoCamera_8cpp.html">PerspectiveStereoCamera.cpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

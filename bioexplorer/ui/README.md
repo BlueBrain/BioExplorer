@@ -7,12 +7,12 @@
 
 - [Blue Brain BioExplorer UI](#blue-brain-bioexplorer-ui)
 - [Table of Contents](#table-of-contents)
-  - [### Prerequisites](#-prerequisites)
-  - [### Setup](#-setup)
-  - [### Development](#-development)
-  - [### Contribute](#-contribute)
-  - [### Release](#-release)
-  - [### Learning Material](#-learning-material)
+    - [Prerequisites](#prerequisites)
+    - [Setup](#setup)
+    - [Development](#development)
+    - [Contribute](#contribute)
+    - [Release](#release)
+    - [Learning Material](#learning-material)
 
 
 ### Prerequisites
@@ -28,7 +28,7 @@ In order to run or develop this project you need the following tools installed:
 Set up the app:
 
 1. Clone this repository;
-2. From the root of workspace (the `js` folder), install dependencies with `yarn install`;
+2. From the root of workspace (the `ui` folder), install dependencies with `yarn install`;
 
 
 ### Development

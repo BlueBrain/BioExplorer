@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Blue Brain BioExplorer: /home/favreau/code/favreau/BioExplorer/extras/Metabolism/plugin/MetabolismPlugin.h Source File</title>
+<title>Blue Brain BioExplorer: bioexplorer/backend/plugins/Metabolism/plugin/MetabolismPlugin.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -86,66 +86,75 @@ $(document).ready(function(){initNavTree('d9/db6/MetabolismPlugin_8h_source.html
 <div class="title">MetabolismPlugin.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue Brain Project / EPFL</span></div>
+<a href="../../d9/db6/MetabolismPlugin_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue Brain Project / EPFL</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;plugin/api/Params.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;plugin/io/handlers/MetabolismHandler.h&gt;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;brayns/pluginapi/ExtensionPlugin.h&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;plugin/api/Params.h&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../df/d94/MetabolismHandler_8h.html">plugin/io/handlers/MetabolismHandler.h</a>&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>bioexplorer</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>metabolism</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d8/d85/ExtensionPlugin_8h.html">platform/core/pluginapi/ExtensionPlugin.h</a>&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using namespace </span>details;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html">MetabolismPlugin</a> : <span class="keyword">public</span> brayns::ExtensionPlugin</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="../../d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html">MetabolismPlugin</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> init() <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../db/df8/namespacemetabolism.html">metabolism</a></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">using namespace </span>details;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html">   39</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html">MetabolismPlugin</a> : <span class="keyword">public</span> <a class="code" href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">core::ExtensionPlugin</a></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="../../d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html">MetabolismPlugin</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> _parseCommandLineArguments(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">// Metabolism</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../d6/d45/structbioexplorer_1_1details_1_1Response.html">Response</a> _attachHandler(<span class="keyword">const</span> <a class="code" href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">AttachHandlerDetails</a> &amp;payload);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">// Command line arguments</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    CommandLineArguments _commandLineArguments;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;} <span class="comment">// namespace metabolism</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/dd5/namespacestaticjson.html#adf31f4f3851ca0ae5b9a2b9972d88066">init</a>() <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> _parseCommandLineArguments(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">// Metabolism</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="../../d6/d45/structbioexplorer_1_1details_1_1Response.html">Response</a> _attachHandler(<span class="keyword">const</span> <a class="code" href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">AttachHandlerDetails</a> &amp;payload);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">// Command line arguments</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="../../d8/d8e/namespacebioexplorer.html#a0ee54787b38bf9fae7509d74851d9284">CommandLineArguments</a> _commandLineArguments;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;} <span class="comment">// namespace metabolism</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassbioexplorer_1_1metabolism_1_1MetabolismPlugin_html"><div class="ttname"><a href="../../d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html">bioexplorer::metabolism::MetabolismPlugin</a></div><div class="ttdoc">This class implements the MetabolismPlugin plugin.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/db6/MetabolismPlugin_8h_source.html#l00037">MetabolismPlugin.h:37</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1metabolism_1_1AttachHandlerDetails_html"><div class="ttname"><a href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">bioexplorer::metabolism::AttachHandlerDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/extras_2Metabolism_2plugin_2common_2Types_8h_source.html#l00050">Types.h:50</a></div></div>
-<div class="ttc" id="astructbioexplorer_1_1details_1_1Response_html"><div class="ttname"><a href="../../d6/d45/structbioexplorer_1_1details_1_1Response.html">bioexplorer::details::Response</a></div><div class="ttdoc">Structure defining the entry point response of the remote API.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dde/bioexplorer_2core_2plugin_2common_2Types_8h_source.html#l00116">Types.h:116</a></div></div>
+<div class="ttc" id="aExtensionPlugin_8h_html"><div class="ttname"><a href="../../d8/d85/ExtensionPlugin_8h.html">ExtensionPlugin.h</a></div></div>
+<div class="ttc" id="aMetabolismHandler_8h_html"><div class="ttname"><a href="../../df/d94/MetabolismHandler_8h.html">MetabolismHandler.h</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1metabolism_1_1MetabolismPlugin_html"><div class="ttname"><a href="../../d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html">bioexplorer::metabolism::MetabolismPlugin</a></div><div class="ttdoc">This class implements the MetabolismPlugin plugin.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/db6/MetabolismPlugin_8h_source.html#l00039">MetabolismPlugin.h:39</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html_a0ee54787b38bf9fae7509d74851d9284"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html#a0ee54787b38bf9fae7509d74851d9284">bioexplorer::CommandLineArguments</a></div><div class="ttdeci">std::map&lt; std::string, std::string &gt; CommandLineArguments</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00098">Types.h:98</a></div></div>
+<div class="ttc" id="aclasscore_1_1ExtensionPlugin_html"><div class="ttname"><a href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">core::ExtensionPlugin</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d85/ExtensionPlugin_8h_source.html#l00051">ExtensionPlugin.h:51</a></div></div>
+<div class="ttc" id="anamespacemetabolism_html"><div class="ttname"><a href="../../db/df8/namespacemetabolism.html">metabolism</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/db6/MetabolismRenderer_8cpp_source.html#l00036">MetabolismRenderer.cpp:36</a></div></div>
+<div class="ttc" id="anamespacestaticjson_html_adf31f4f3851ca0ae5b9a2b9972d88066"><div class="ttname"><a href="../../d7/dd5/namespacestaticjson.html#adf31f4f3851ca0ae5b9a2b9972d88066">staticjson::init</a></div><div class="ttdeci">void init(core::Box&lt; U &gt; *, ObjectHandler *)</div></div>
+<div class="ttc" id="astructbioexplorer_1_1metabolism_1_1AttachHandlerDetails_html"><div class="ttname"><a href="../../dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html">bioexplorer::metabolism::AttachHandlerDetails</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d68/bioexplorer_2backend_2plugins_2Metabolism_2plugin_2common_2Types_8h_source.html#l00052">Types.h:52</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/platform_2plugins_2openDeck_2plugin_2common_2Logs_8h_source.html#l00028">Logs.h:28</a></div></div>
+<div class="ttc" id="astructbioexplorer_1_1details_1_1Response_html"><div class="ttname"><a href="../../d6/d45/structbioexplorer_1_1details_1_1Response.html">bioexplorer::details::Response</a></div><div class="ttdoc">Structure defining the entry point response of the remote API.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00117">Types.h:117</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_1510bd745cd29c20d24c27171ebe5ba5.html">extras</a></li><li class="navelem"><a class="el" href="../../dir_ebf235e11fcfd6e4f58b693996a886da.html">Metabolism</a></li><li class="navelem"><a class="el" href="../../dir_bbc912a0a31329f53ce82eed9af6dfbb.html">plugin</a></li><li class="navelem"><b>MetabolismPlugin.h</b></li>
+    <li class="navelem"><a class="el" href="../../dir_4bd53072b0b58f9d0c210577ee1224eb.html">bioexplorer</a></li><li class="navelem"><a class="el" href="../../dir_cdbbbf3321683c1efcc0d976dd1498c7.html">backend</a></li><li class="navelem"><a class="el" href="../../dir_f1f9c636edd67c457aa0bf92847eca1a.html">plugins</a></li><li class="navelem"><a class="el" href="../../dir_abbfb920f27623ce739e3ac98f05eb00.html">Metabolism</a></li><li class="navelem"><a class="el" href="../../dir_6ca321a7dcb70fc74a18e8569f0858b0.html">plugin</a></li><li class="navelem"><a class="el" href="../../d9/db6/MetabolismPlugin_8h.html">MetabolismPlugin.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
