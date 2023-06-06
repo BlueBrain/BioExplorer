@@ -85,7 +85,7 @@ static AtomicRadii atomicRadii = {
     {{"MC"}, {25.0}},  {{"LV"}, {25.0}},  {{"TS"}, {25.0}},  {{"OG"}, {25.0}}};
 
 Molecule::Molecule(Scene& scene, const size_ts& chainIds)
-    : SDFGeometries(NO_GRID_ALIGNMENT, Vector3d(), Quaterniond())
+    : SDFGeometries(NO_GRID_ALIGNMENT)
     , _aminoAcidRange(std::numeric_limits<size_t>::max(), std::numeric_limits<size_t>::min())
     , _scene(scene)
     , _chainIds(chainIds)

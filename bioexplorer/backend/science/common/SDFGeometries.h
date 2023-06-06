@@ -52,7 +52,8 @@ public:
      * @brief Construct a new SDFGeometries object
      *
      */
-    SDFGeometries(const double alignToGrid, const Vector3d& position, const Quaterniond& rotation,
+    SDFGeometries(const double alignToGrid, const Vector3d& position = Vector3d(0.0, 0.0, 0.0),
+                  const Quaterniond& rotation = Quaterniond(0.0, 0.0, 0.0, 1.0),
                   const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
 
     /**
