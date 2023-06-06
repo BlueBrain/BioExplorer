@@ -97,7 +97,7 @@ Inheritance diagram for core::OSPRayRenderer:</div>
 <div class="center"><img src="../../d1/d46/classcore_1_1OSPRayRenderer__inherit__graph.png" border="0" usemap="#core_1_1OSPRayRenderer_inherit__map" alt="Inheritance graph"/></div>
 <map name="core_1_1OSPRayRenderer_inherit__map" id="core_1_1OSPRayRenderer_inherit__map">
 <area shape="rect" title=" " alt="" coords="5,229,173,256"/>
-<area shape="rect" href="../../dd/d5b/classcore_1_1Renderer.html" title=" " alt="" coords="31,155,148,181"/>
+<area shape="rect" href="../../dd/d5b/classcore_1_1Renderer.html" title="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf..." alt="" coords="31,155,148,181"/>
 <area shape="rect" href="../../d7/d67/classcore_1_1PropertyObject.html" title=" " alt="" coords="12,80,167,107"/>
 <area shape="rect" href="../../d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="23,5,155,32"/>
 </map>
@@ -108,7 +108,7 @@ Collaboration diagram for core::OSPRayRenderer:</div>
 <div class="center"><img src="../../d4/d03/classcore_1_1OSPRayRenderer__coll__graph.png" border="0" usemap="#core_1_1OSPRayRenderer_coll__map" alt="Collaboration graph"/></div>
 <map name="core_1_1OSPRayRenderer_coll__map" id="core_1_1OSPRayRenderer_coll__map">
 <area shape="rect" title=" " alt="" coords="133,348,301,375"/>
-<area shape="rect" href="../../dd/d5b/classcore_1_1Renderer.html" title=" " alt="" coords="159,272,276,299"/>
+<area shape="rect" href="../../dd/d5b/classcore_1_1Renderer.html" title="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf..." alt="" coords="159,272,276,299"/>
 <area shape="rect" href="../../d7/d67/classcore_1_1PropertyObject.html" title=" " alt="" coords="5,132,160,159"/>
 <area shape="rect" href="../../d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="35,5,167,32"/>
 <area shape="rect" href="../../da/dda/classcore_1_1AbstractParameters.html" title=" " alt="" coords="124,81,311,108"/>
@@ -124,21 +124,28 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa61b2f85068ae407673dbd9406754565"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#aa61b2f85068ae407673dbd9406754565">~OSPRayRenderer</a> ()</td></tr>
 <tr class="separator:aa61b2f85068ae407673dbd9406754565"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56d15ec75317263cec97dc959ff5abdf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#a56d15ec75317263cec97dc959ff5abdf">render</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a5d8120691cd70cf84654555673e1dcd7">FrameBufferPtr</a> frameBuffer) final</td></tr>
+<tr class="memdesc:a56d15ec75317263cec97dc959ff5abdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual method to render a <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a> This method is implemented in specific engine renderers to draw the <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a>.  <a href="../../db/d67/classcore_1_1OSPRayRenderer.html#a56d15ec75317263cec97dc959ff5abdf">More...</a><br /></td></tr>
 <tr class="separator:a56d15ec75317263cec97dc959ff5abdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73eb8f9212003dd6f53e557add38585c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#a73eb8f9212003dd6f53e557add38585c">commit</a> () final</td></tr>
+<tr class="memdesc:a73eb8f9212003dd6f53e557add38585c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This virtual method is implemented in specific engine renderers to signal that rendering is complete.  <a href="../../db/d67/classcore_1_1OSPRayRenderer.html#a73eb8f9212003dd6f53e557add38585c">More...</a><br /></td></tr>
 <tr class="separator:a73eb8f9212003dd6f53e557add38585c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab216bf33c3cee422dc02e1c94aac75b7"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#ab216bf33c3cee422dc02e1c94aac75b7">getVariance</a> () const final</td></tr>
+<tr class="memdesc:ab216bf33c3cee422dc02e1c94aac75b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get variance from previous <a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#a56d15ec75317263cec97dc959ff5abdf" title="Virtual method to render a FrameBuffer This method is implemented in specific engine renderers to dra...">render()</a> This method returns the variance from the previous <a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#a56d15ec75317263cec97dc959ff5abdf" title="Virtual method to render a FrameBuffer This method is implemented in specific engine renderers to dra...">render()</a> call.  <a href="../../db/d67/classcore_1_1OSPRayRenderer.html#ab216bf33c3cee422dc02e1c94aac75b7">More...</a><br /></td></tr>
 <tr class="separator:ab216bf33c3cee422dc02e1c94aac75b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a899f2a32ca3c9c45f42ac76c8e7805c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#a899f2a32ca3c9c45f42ac76c8e7805c8">setCamera</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a0ca7e27fac9b09a3bb599abc2746648e">CameraPtr</a> camera) final</td></tr>
+<tr class="memdesc:a899f2a32ca3c9c45f42ac76c8e7805c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set camera for renderer This virtual method is implemented in specific engine renderers to set the camera for rendering.  <a href="../../db/d67/classcore_1_1OSPRayRenderer.html#a899f2a32ca3c9c45f42ac76c8e7805c8">More...</a><br /></td></tr>
 <tr class="separator:a899f2a32ca3c9c45f42ac76c8e7805c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefb2f2696883637f9e2bea5902c9f624"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/dd3/structcore_1_1Renderer_1_1PickResult.html">PickResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#aefb2f2696883637f9e2bea5902c9f624">pick</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a36240155dcb08412de3fd5d53e5d312e">Vector2f</a> &amp;pickPos) final</td></tr>
+<tr class="memdesc:aefb2f2696883637f9e2bea5902c9f624"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pick method This method is used to pick a point on the scene and returns PickResult struct with hit boolean value and position.  <a href="../../db/d67/classcore_1_1OSPRayRenderer.html#aefb2f2696883637f9e2bea5902c9f624">More...</a><br /></td></tr>
 <tr class="separator:aefb2f2696883637f9e2bea5902c9f624"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe1e9baadc1d68c5b24b006d36bdf230"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#abe1e9baadc1d68c5b24b006d36bdf230">setClipPlanes</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a9b3f970fa1a23c4bc509c119da6e2981">Planes</a> &amp;planes)</td></tr>
 <tr class="separator:abe1e9baadc1d68c5b24b006d36bdf230"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcore_1_1Renderer"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcore_1_1Renderer')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html">core::Renderer</a></td></tr>
 <tr class="memitem:a8182b4456a8873a4927ae9eaf81109e0 inherit pub_methods_classcore_1_1Renderer"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#a8182b4456a8873a4927ae9eaf81109e0">Renderer</a> (const <a class="el" href="../../d4/dfb/classcore_1_1AnimationParameters.html">AnimationParameters</a> &amp;animationParameters, const <a class="el" href="../../d4/d34/classcore_1_1RenderingParameters.html">RenderingParameters</a> &amp;renderingParameters)</td></tr>
+<tr class="memdesc:a8182b4456a8873a4927ae9eaf81109e0 inherit pub_methods_classcore_1_1Renderer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs the <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html" title="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf...">Renderer</a> object with animationParameters and renderingParameters.  <a href="../../dd/d5b/classcore_1_1Renderer.html#a8182b4456a8873a4927ae9eaf81109e0">More...</a><br /></td></tr>
 <tr class="separator:a8182b4456a8873a4927ae9eaf81109e0 inherit pub_methods_classcore_1_1Renderer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace126ce38bd6dcf487bd877e243028b1 inherit pub_methods_classcore_1_1Renderer"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#ace126ce38bd6dcf487bd877e243028b1">setScene</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a7ddbdfa16725b7bd2d34a2e1fad4ee62">ScenePtr</a> scene)</td></tr>
+<tr class="memdesc:ace126ce38bd6dcf487bd877e243028b1 inherit pub_methods_classcore_1_1Renderer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the _scene pointer to a specified ScenePtr.  <a href="../../dd/d5b/classcore_1_1Renderer.html#ace126ce38bd6dcf487bd877e243028b1">More...</a><br /></td></tr>
 <tr class="separator:ace126ce38bd6dcf487bd877e243028b1 inherit pub_methods_classcore_1_1Renderer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcore_1_1PropertyObject"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcore_1_1PropertyObject')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d7/d67/classcore_1_1PropertyObject.html">core::PropertyObject</a></td></tr>
 <tr class="memitem:a0c7530006a2f8bf85d1d572844ccd98f inherit pub_methods_classcore_1_1PropertyObject"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d67/classcore_1_1PropertyObject.html#a0c7530006a2f8bf85d1d572844ccd98f">setCurrentType</a> (const std::string &amp;type)</td></tr>
@@ -295,6 +302,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>This virtual method is implemented in specific engine renderers to signal that rendering is complete. </p>
+
 <p>Implements <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#ac0d33c18f79cd470968ce4216483f598">core::Renderer</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/dec/OSPRayRenderer_8cpp_source.html#l00067">67</a> of file <a class="el" href="../../d4/dec/OSPRayRenderer_8cpp_source.html">OSPRayRenderer.cpp</a>.</p>
@@ -323,7 +332,9 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>the variance from the previous <a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#a56d15ec75317263cec97dc959ff5abdf">render()</a>. </dd></dl>
+
+<p>Get variance from previous <a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#a56d15ec75317263cec97dc959ff5abdf" title="Virtual method to render a FrameBuffer This method is implemented in specific engine renderers to dra...">render()</a> This method returns the variance from the previous <a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#a56d15ec75317263cec97dc959ff5abdf" title="Virtual method to render a FrameBuffer This method is implemented in specific engine renderers to dra...">render()</a> call. </p>
+<dl class="section return"><dt>Returns</dt><dd>float Variance value </dd></dl>
 
 <p>Reimplemented from <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#aca16eff80dbc70e4b16346e7ad5649ed">core::Renderer</a>.</p>
 
@@ -344,7 +355,7 @@ Additional Inherited Members</h2></td></tr>
           <td class="memname"><a class="el" href="../../de/dd3/structcore_1_1Renderer_1_1PickResult.html">Renderer::PickResult</a> core::OSPRayRenderer::pick </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a36240155dcb08412de3fd5d53e5d312e">Vector2f</a> &amp;&#160;</td>
-          <td class="paramname"><em>pickPos</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -354,6 +365,15 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Pick method This method is used to pick a point on the scene and returns PickResult struct with hit boolean value and position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pickPos</td><td>Vector2f with pick position coordinates </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>PickResult returns PickResult struct that contains boolean hit value and vector position </dd></dl>
 
 <p>Reimplemented from <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#a98d2ddd8da284b4845b99a70cdf1199d">core::Renderer</a>.</p>
 
@@ -385,6 +405,14 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Virtual method to render a <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a> This method is implemented in specific engine renderers to draw the <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frameBuffer</td><td>Ptr to <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a> that will be drawn </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p>Implements <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#aec9d77674f6b3cd345ef073a619379d7">core::Renderer</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/dec/OSPRayRenderer_8cpp_source.html#l00057">57</a> of file <a class="el" href="../../d4/dec/OSPRayRenderer_8cpp_source.html">OSPRayRenderer.cpp</a>.</p>
@@ -414,6 +442,14 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set camera for renderer This virtual method is implemented in specific engine renderers to set the camera for rendering. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">camera</td><td>CameraPtr of a camera object to set </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implements <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#a41749582cfd803d873f743a062688554">core::Renderer</a>.</p>
 

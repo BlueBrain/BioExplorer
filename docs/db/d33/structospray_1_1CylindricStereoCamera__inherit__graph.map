@@ -1,5 +1,7 @@
 <map id="ospray::CylindricStereoCamera" name="ospray::CylindricStereoCamera">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,228,107"/>
-<area shape="rect" id="node3" href="$d2/d67/structospray_1_1CylindricStereoTrackedCamera.html" title=" " alt="" coords="6,155,227,196"/>
-<area shape="rect" id="node2" title=" " alt="" coords="80,5,153,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,229,228,256"/>
+<area shape="rect" id="node5" href="$d2/d67/structospray_1_1CylindricStereoTrackedCamera.html" title=" " alt="" coords="6,304,227,345"/>
+<area shape="rect" id="node2" title=" " alt="" coords="80,155,153,181"/>
+<area shape="rect" id="node3" href="$d7/d67/classcore_1_1PropertyObject.html" title=" " alt="" coords="39,80,194,107"/>
+<area shape="rect" id="node4" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="51,5,183,32"/>
 </map>

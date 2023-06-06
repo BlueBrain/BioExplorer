@@ -93,6 +93,7 @@ $(document).ready(function(){initNavTree('d3/d5a/Model_8h.html','../../'); initR
 <code>#include &lt;<a class="el" href="../../d0/d3f/BaseObject_8h_source.html">platform/core/common/BaseObject.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../dc/d04/PropertyMap_8h_source.html">platform/core/common/PropertyMap.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../df/d1e/Transformation_8h_source.html">platform/core/common/Transformation.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="../../de/d53/platform_2core_2common_2Types_8h_source.html">platform/core/common/Types.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../d1/d9b/Cone_8h_source.html">platform/core/common/geometry/Cone.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../d8/de7/Curve_8h_source.html">platform/core/common/geometry/Curve.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../d9/d0a/Cylinder_8h_source.html">platform/core/common/geometry/Cylinder.h</a>&gt;</code><br />
@@ -102,7 +103,6 @@ $(document).ready(function(){initNavTree('d3/d5a/Model_8h.html','../../'); initR
 <code>#include &lt;<a class="el" href="../../dd/dec/Streamline_8h_source.html">platform/core/common/geometry/Streamline.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../df/dfa/TriangleMesh_8h_source.html">platform/core/common/geometry/TriangleMesh.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../d7/d10/core_2common_2transferFunction_2TransferFunction_8h_source.html">platform/core/common/transferFunction/TransferFunction.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="../../de/d53/platform_2core_2common_2Types_8h_source.html">platform/core/common/Types.h</a>&gt;</code><br />
 <code>#include &lt;set&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Model.h:</div>
@@ -155,15 +155,19 @@ Include dependency graph for Model.h:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d7a/structcore_1_1SDFGeometryData.html">core::SDFGeometryData</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A struct that holds data for Signed Distance Field (SDF) calculations. Since this struct holds data for SDF calculations, it is assumed that the geometries have been converted to Signed Distance Fields beforehand.  <a href="../../d6/d7a/structcore_1_1SDFGeometryData.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html">core::ModelInstance</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A class representing an instance of a 3D model.  <a href="../../d9/d63/classcore_1_1ModelInstance.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html">core::ModelParams</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="../../d1/df6/classcore_1_1ModelParams.html" title="The ModelParams class represents the parameters needed for initializing a model instance.">ModelParams</a> class represents the parameters needed for initializing a model instance.  <a href="../../d1/df6/classcore_1_1ModelParams.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html">core::ModelDescriptor</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model. Model descriptor are exposed via...">ModelDescriptor</a> struct defines the metadata attached to a model. <a class="el" href="../../d1/d11/classcore_1_1Model.html">Model</a> descriptor are exposed via the HTTP/WS interface.  <a href="../../dc/d7f/classcore_1_1ModelDescriptor.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model.">ModelDescriptor</a> struct defines the metadata attached to a model.  <a href="../../dc/d7f/classcore_1_1ModelDescriptor.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html">core::Model</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The abstract <a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a> class holds the geometry attached to an asset of the scene (mesh, circuit, volume, etc). The model handles resources attached to the geometry such as implementation specific classes, and acceleration structures). Models provide a simple API to manipulate primitives (spheres, cylinders, triangle meshes, etc).  <a href="../../d1/d11/classcore_1_1Model.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d10/structcore_1_1Model_1_1Geometries.html">core::Model::Geometries</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>

@@ -83,11 +83,16 @@ $(document).ready(function(){initNavTree('db/ddf/classcore_1_1FrameBuffer.html',
 
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="../../da/dcb/classcore_1_1FrameBuffer-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">core::FrameBuffer Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>This class represents a frame buffer for an engine specific code. It provides an API for utilizing and manipulating the frame buffer in various ways.  
+ <a href="../../db/ddf/classcore_1_1FrameBuffer.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>&gt;</code></p>
 <div class="dynheader">
@@ -95,7 +100,7 @@ Inheritance diagram for core::FrameBuffer:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d3/d11/classcore_1_1FrameBuffer__inherit__graph.png" border="0" usemap="#core_1_1FrameBuffer_inherit__map" alt="Inheritance graph"/></div>
 <map name="core_1_1FrameBuffer_inherit__map" id="core_1_1FrameBuffer_inherit__map">
-<area shape="rect" title=" " alt="" coords="126,80,265,107"/>
+<area shape="rect" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an..." alt="" coords="126,80,265,107"/>
 <area shape="rect" href="../../d6/d1c/classcore_1_1OptiXFrameBuffer.html" title=" " alt="" coords="5,155,180,181"/>
 <area shape="rect" href="../../d7/dcd/classcore_1_1OSPRayFrameBuffer.html" title=" " alt="" coords="205,155,394,181"/>
 <area shape="rect" href="../../d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="129,5,261,32"/>
@@ -106,77 +111,82 @@ Collaboration diagram for core::FrameBuffer:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d6/db7/classcore_1_1FrameBuffer__coll__graph.png" border="0" usemap="#core_1_1FrameBuffer_coll__map" alt="Collaboration graph"/></div>
 <map name="core_1_1FrameBuffer_coll__map" id="core_1_1FrameBuffer_coll__map">
-<area shape="rect" title=" " alt="" coords="5,80,144,107"/>
+<area shape="rect" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an..." alt="" coords="5,80,144,107"/>
 <area shape="rect" href="../../d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="9,5,141,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
-API for engine-specific code</h2></td></tr>
-<tr class="memitem:a304ee2c7eec5172bc03b5ab2520a43c5"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a304ee2c7eec5172bc03b5ab2520a43c5">_name</a></td></tr>
-<tr class="separator:a304ee2c7eec5172bc03b5ab2520a43c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12e9a1c259e35e33d8f3a06669775fbb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">_frameSize</a></td></tr>
-<tr class="separator:a12e9a1c259e35e33d8f3a06669775fbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89678edc361ece5cb0fd959139f2d497"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a89678edc361ece5cb0fd959139f2d497">_frameBufferFormat</a></td></tr>
-<tr class="separator:a89678edc361ece5cb0fd959139f2d497"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe2825b3362696a859275309dbec4384"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#afe2825b3362696a859275309dbec4384">_accumulation</a> {true}</td></tr>
-<tr class="separator:afe2825b3362696a859275309dbec4384"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1835f1836a0a11809144433966874a46"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#ad43c1b0a03df44f7b1026c1325ce6de3">AccumulationType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a1835f1836a0a11809144433966874a46">_accumulationType</a> {<a class="el" href="../../d9/d0f/namespacecore.html#ad43c1b0a03df44f7b1026c1325ce6de3a9a932b3cb396238423eb2f33ec17d6aa">AccumulationType::linear</a>}</td></tr>
-<tr class="separator:a1835f1836a0a11809144433966874a46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3142a5cbabc2635b01ee49722a190e34"><td class="memItemLeft" align="right" valign="top">std::atomic_size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a3142a5cbabc2635b01ee49722a190e34">_accumFrames</a> {0}</td></tr>
-<tr class="separator:a3142a5cbabc2635b01ee49722a190e34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a437171438c221e98c07f229641f5891f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a437171438c221e98c07f229641f5891f">map</a> ()=0</td></tr>
-<tr class="separator:a437171438c221e98c07f229641f5891f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21fb52a7e56ec37614d7095572efd315"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a21fb52a7e56ec37614d7095572efd315">unmap</a> ()=0</td></tr>
-<tr class="separator:a21fb52a7e56ec37614d7095572efd315"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5d28894f7dc91d178a89289d5972442"><td class="memItemLeft" align="right" valign="top">virtual const uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#ad5d28894f7dc91d178a89289d5972442">getColorBuffer</a> () const =0</td></tr>
-<tr class="separator:ad5d28894f7dc91d178a89289d5972442"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a863152dbd0b8cfe8e4194170cd010808"><td class="memItemLeft" align="right" valign="top">virtual const float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a863152dbd0b8cfe8e4194170cd010808">getFloatBuffer</a> () const =0</td></tr>
-<tr class="separator:a863152dbd0b8cfe8e4194170cd010808"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a619882a3463bf0f538487caad3d70d70"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a619882a3463bf0f538487caad3d70d70">resize</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a> &amp;frameSize)=0</td></tr>
-<tr class="separator:a619882a3463bf0f538487caad3d70d70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a385a72a27a4187beaa9b463a184446c8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a385a72a27a4187beaa9b463a184446c8">clear</a> ()</td></tr>
-<tr class="separator:a385a72a27a4187beaa9b463a184446c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a737c9f94c7ec0e82abc0afc145fb1c8d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a737c9f94c7ec0e82abc0afc145fb1c8d">getSize</a> () const</td></tr>
-<tr class="separator:a737c9f94c7ec0e82abc0afc145fb1c8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a320adfcc56ceb6ad1d6a80578d4344"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a6a320adfcc56ceb6ad1d6a80578d4344">setAccumulation</a> (const bool accumulation)</td></tr>
-<tr class="separator:a6a320adfcc56ceb6ad1d6a80578d4344"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef1c12dab1bc99b5545744be11deda39"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#aef1c12dab1bc99b5545744be11deda39">setFormat</a> (<a class="el" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a> frameBufferFormat)</td></tr>
-<tr class="separator:aef1c12dab1bc99b5545744be11deda39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1b9fe5e5169572bce4077ffd8123844"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#ab1b9fe5e5169572bce4077ffd8123844">setSubsampling</a> (const size_t)</td></tr>
-<tr class="separator:ab1b9fe5e5169572bce4077ffd8123844"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9acf119bbc57a7bb873d35c67ddf619"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#ae9acf119bbc57a7bb873d35c67ddf619">createPixelOp</a> (const std::string &amp;)</td></tr>
-<tr class="separator:ae9acf119bbc57a7bb873d35c67ddf619"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2aa9b28efe5bf2a2f785204557c920c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#af2aa9b28efe5bf2a2f785204557c920c">updatePixelOp</a> (const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;)</td></tr>
-<tr class="separator:af2aa9b28efe5bf2a2f785204557c920c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
 <tr class="memitem:a5bd3299bfd5c072feb167c1e4e688798"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a5bd3299bfd5c072feb167c1e4e688798">FrameBuffer</a> (const std::string &amp;name, const <a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a> &amp;frameSize, <a class="el" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a> frameBufferFormat)</td></tr>
+<tr class="memdesc:a5bd3299bfd5c072feb167c1e4e688798"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a> constructor.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a5bd3299bfd5c072feb167c1e4e688798">More...</a><br /></td></tr>
 <tr class="separator:a5bd3299bfd5c072feb167c1e4e688798"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95fdf23407b538e1912b8f60f90f1edd"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a95fdf23407b538e1912b8f60f90f1edd">getColorDepth</a> () const</td></tr>
+<tr class="memitem:a76d0511d1b090cf614066ca8544b728d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a76d0511d1b090cf614066ca8544b728d">map</a> ()=0</td></tr>
+<tr class="memdesc:a76d0511d1b090cf614066ca8544b728d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map the buffer for reading with get*Buffer().  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a76d0511d1b090cf614066ca8544b728d">More...</a><br /></td></tr>
+<tr class="separator:a76d0511d1b090cf614066ca8544b728d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec46d425c55dc79bfb91c70ffbde84d8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#aec46d425c55dc79bfb91c70ffbde84d8">unmap</a> ()=0</td></tr>
+<tr class="memdesc:aec46d425c55dc79bfb91c70ffbde84d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unmap the buffer for reading with get*Buffer().  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#aec46d425c55dc79bfb91c70ffbde84d8">More...</a><br /></td></tr>
+<tr class="separator:aec46d425c55dc79bfb91c70ffbde84d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a914a67aea42397fa7687b58354657da2"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a914a67aea42397fa7687b58354657da2">getColorBuffer</a> () const =0</td></tr>
+<tr class="memdesc:a914a67aea42397fa7687b58354657da2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Color Buffer object.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a914a67aea42397fa7687b58354657da2">More...</a><br /></td></tr>
+<tr class="separator:a914a67aea42397fa7687b58354657da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a832de6c0b96b9f7d15e627e02e7abdb8"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a832de6c0b96b9f7d15e627e02e7abdb8">getFloatBuffer</a> () const =0</td></tr>
+<tr class="memdesc:a832de6c0b96b9f7d15e627e02e7abdb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Float Buffer object.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a832de6c0b96b9f7d15e627e02e7abdb8">More...</a><br /></td></tr>
+<tr class="separator:a832de6c0b96b9f7d15e627e02e7abdb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9587b6037c4a82c3ea6ba79ebbf8825"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#ae9587b6037c4a82c3ea6ba79ebbf8825">resize</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a> &amp;frameSize)=0</td></tr>
+<tr class="memdesc:ae9587b6037c4a82c3ea6ba79ebbf8825"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resize the framebuffer to the new size.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#ae9587b6037c4a82c3ea6ba79ebbf8825">More...</a><br /></td></tr>
+<tr class="separator:ae9587b6037c4a82c3ea6ba79ebbf8825"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a621025ce427119495747671f93f818e6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a621025ce427119495747671f93f818e6">clear</a> ()</td></tr>
+<tr class="memdesc:a621025ce427119495747671f93f818e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the framebuffer.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a621025ce427119495747671f93f818e6">More...</a><br /></td></tr>
+<tr class="separator:a621025ce427119495747671f93f818e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe0abbbb002374d7eddcd721ea02e556"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#abe0abbbb002374d7eddcd721ea02e556">getSize</a> () const</td></tr>
+<tr class="memdesc:abe0abbbb002374d7eddcd721ea02e556"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Size object.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#abe0abbbb002374d7eddcd721ea02e556">More...</a><br /></td></tr>
+<tr class="separator:abe0abbbb002374d7eddcd721ea02e556"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b49da4be6750fda47a883537a8b9c70"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a4b49da4be6750fda47a883537a8b9c70">setAccumulation</a> (const bool accumulation)</td></tr>
+<tr class="memdesc:a4b49da4be6750fda47a883537a8b9c70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/disable accumulation state on the framebuffer.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a4b49da4be6750fda47a883537a8b9c70">More...</a><br /></td></tr>
+<tr class="separator:a4b49da4be6750fda47a883537a8b9c70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f0ede8bc2ad01e7f10743bcec07e381"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a3f0ede8bc2ad01e7f10743bcec07e381">setFormat</a> (<a class="el" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a> frameBufferFormat)</td></tr>
+<tr class="memdesc:a3f0ede8bc2ad01e7f10743bcec07e381"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a new framebuffer format.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a3f0ede8bc2ad01e7f10743bcec07e381">More...</a><br /></td></tr>
+<tr class="separator:a3f0ede8bc2ad01e7f10743bcec07e381"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2145631deeb607525831e34458841404"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a2145631deeb607525831e34458841404">setSubsampling</a> (const size_t)</td></tr>
+<tr class="memdesc:a2145631deeb607525831e34458841404"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a new subsampling with a factor from 1 to x of the current size.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a2145631deeb607525831e34458841404">More...</a><br /></td></tr>
+<tr class="separator:a2145631deeb607525831e34458841404"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15a4ea8e7ccd6d6f1dbb204528d58de0"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a15a4ea8e7ccd6d6f1dbb204528d58de0">createPixelOp</a> (const std::string &amp;)</td></tr>
+<tr class="memdesc:a15a4ea8e7ccd6d6f1dbb204528d58de0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and set a pixelop (pre/post filter) on the framebuffer.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a15a4ea8e7ccd6d6f1dbb204528d58de0">More...</a><br /></td></tr>
+<tr class="separator:a15a4ea8e7ccd6d6f1dbb204528d58de0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a600c3f03a8f11baa29b1208ed61d50b6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a600c3f03a8f11baa29b1208ed61d50b6">updatePixelOp</a> (const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;)</td></tr>
+<tr class="memdesc:a600c3f03a8f11baa29b1208ed61d50b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the current pixelop with the given properties.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a600c3f03a8f11baa29b1208ed61d50b6">More...</a><br /></td></tr>
+<tr class="separator:a600c3f03a8f11baa29b1208ed61d50b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95fdf23407b538e1912b8f60f90f1edd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a95fdf23407b538e1912b8f60f90f1edd">getColorDepth</a> () const</td></tr>
+<tr class="memdesc:a95fdf23407b538e1912b8f60f90f1edd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Color Depth object.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a95fdf23407b538e1912b8f60f90f1edd">More...</a><br /></td></tr>
 <tr class="separator:a95fdf23407b538e1912b8f60f90f1edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc189173d4b8eb7d5d9372bf6027fd20"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#adc189173d4b8eb7d5d9372bf6027fd20">getFrameSize</a> () const</td></tr>
-<tr class="separator:adc189173d4b8eb7d5d9372bf6027fd20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3c1b1d824ee42fbbeebab0b60e67460"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#ac3c1b1d824ee42fbbeebab0b60e67460">getAccumulation</a> () const</td></tr>
-<tr class="separator:ac3c1b1d824ee42fbbeebab0b60e67460"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a040ed4ad929843fa3bf8383efcb32cb8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a040ed4ad929843fa3bf8383efcb32cb8">getFrameBufferFormat</a> () const</td></tr>
-<tr class="separator:a040ed4ad929843fa3bf8383efcb32cb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e19c1291f7e1aca894855a18bedd997"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a5e19c1291f7e1aca894855a18bedd997">getName</a> () const</td></tr>
-<tr class="separator:a5e19c1291f7e1aca894855a18bedd997"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73e42e7b29b2aa2ce075437c1241f557"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a73e42e7b29b2aa2ce075437c1241f557">incrementAccumFrames</a> ()</td></tr>
-<tr class="separator:a73e42e7b29b2aa2ce075437c1241f557"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a659355fe65c13b1d08d98e0a7535e8be"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a659355fe65c13b1d08d98e0a7535e8be">numAccumFrames</a> () const</td></tr>
-<tr class="separator:a659355fe65c13b1d08d98e0a7535e8be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8e12097892806a51ab417b9856ec8ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/ded/namespacecore_1_1freeimage.html#a104c9dc39302e0ac56e87d99a9ba58ea">freeimage::ImagePtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#ab8e12097892806a51ab417b9856ec8ff">getImage</a> ()</td></tr>
+<tr class="memitem:abce6834280822dbd6c0ca9e67248456e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#abce6834280822dbd6c0ca9e67248456e">getFrameSize</a> () const</td></tr>
+<tr class="memdesc:abce6834280822dbd6c0ca9e67248456e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Frame Size object.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#abce6834280822dbd6c0ca9e67248456e">More...</a><br /></td></tr>
+<tr class="separator:abce6834280822dbd6c0ca9e67248456e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a308b0e929cb931085776919c0fe9dbf1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a308b0e929cb931085776919c0fe9dbf1">getAccumulation</a> () const</td></tr>
+<tr class="memdesc:a308b0e929cb931085776919c0fe9dbf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Accumulation object.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a308b0e929cb931085776919c0fe9dbf1">More...</a><br /></td></tr>
+<tr class="separator:a308b0e929cb931085776919c0fe9dbf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d4265d8415c2366570ebfca28a5286d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a4d4265d8415c2366570ebfca28a5286d">getFrameBufferFormat</a> () const</td></tr>
+<tr class="memdesc:a4d4265d8415c2366570ebfca28a5286d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Frame Buffer Format object.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a4d4265d8415c2366570ebfca28a5286d">More...</a><br /></td></tr>
+<tr class="separator:a4d4265d8415c2366570ebfca28a5286d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ae41608ec7c6e9383b28914ae5f42a5"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a5ae41608ec7c6e9383b28914ae5f42a5">getName</a> () const</td></tr>
+<tr class="memdesc:a5ae41608ec7c6e9383b28914ae5f42a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Name object.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a5ae41608ec7c6e9383b28914ae5f42a5">More...</a><br /></td></tr>
+<tr class="separator:a5ae41608ec7c6e9383b28914ae5f42a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae64d0b3d8f1c6498da56d45cf793e5b3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#ae64d0b3d8f1c6498da56d45cf793e5b3">incrementAccumFrames</a> ()</td></tr>
+<tr class="memdesc:ae64d0b3d8f1c6498da56d45cf793e5b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Increment the accumulation frames.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#ae64d0b3d8f1c6498da56d45cf793e5b3">More...</a><br /></td></tr>
+<tr class="separator:ae64d0b3d8f1c6498da56d45cf793e5b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf3111fcabf79aae984a342dca615a8b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#acf3111fcabf79aae984a342dca615a8b">numAccumFrames</a> () const</td></tr>
+<tr class="memdesc:acf3111fcabf79aae984a342dca615a8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of accumulation frames.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#acf3111fcabf79aae984a342dca615a8b">More...</a><br /></td></tr>
+<tr class="separator:acf3111fcabf79aae984a342dca615a8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8e12097892806a51ab417b9856ec8ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../da/ded/namespacecore_1_1freeimage.html#a104c9dc39302e0ac56e87d99a9ba58ea">freeimage::ImagePtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#ab8e12097892806a51ab417b9856ec8ff">getImage</a> ()</td></tr>
+<tr class="memdesc:ab8e12097892806a51ab417b9856ec8ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Image object.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#ab8e12097892806a51ab417b9856ec8ff">More...</a><br /></td></tr>
 <tr class="separator:ab8e12097892806a51ab417b9856ec8ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac97cd4fba1fcb85f8021c1a214b9449b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#ac97cd4fba1fcb85f8021c1a214b9449b">setAccumulationType</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#ad43c1b0a03df44f7b1026c1325ce6de3">AccumulationType</a> accumulationType)</td></tr>
-<tr class="separator:ac97cd4fba1fcb85f8021c1a214b9449b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae20bd96c2822072cc761d9787747a2d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#ad43c1b0a03df44f7b1026c1325ce6de3">AccumulationType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#ae20bd96c2822072cc761d9787747a2d2">getAccumulationType</a> () const</td></tr>
-<tr class="separator:ae20bd96c2822072cc761d9787747a2d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_types_classcore_1_1BaseObject"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classcore_1_1BaseObject')"><img src="../../closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">core::BaseObject</a></td></tr>
-<tr class="memitem:afb156c52a67a3326ec6813e61d609096 inherit pub_types_classcore_1_1BaseObject"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#afb156c52a67a3326ec6813e61d609096">ModifiedCallback</a> = std::function&lt; void(const <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">BaseObject</a> &amp;)&gt;</td></tr>
-<tr class="separator:afb156c52a67a3326ec6813e61d609096 inherit pub_types_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71656993b2721c63131fb09a50204dd9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a71656993b2721c63131fb09a50204dd9">setAccumulationType</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#ad43c1b0a03df44f7b1026c1325ce6de3">AccumulationType</a> accumulationType)</td></tr>
+<tr class="memdesc:a71656993b2721c63131fb09a50204dd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Accumulation Type object.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#a71656993b2721c63131fb09a50204dd9">More...</a><br /></td></tr>
+<tr class="separator:a71656993b2721c63131fb09a50204dd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7f9aa75a76a8540a8abdcc65b5fc96a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#ad43c1b0a03df44f7b1026c1325ce6de3">AccumulationType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#ad7f9aa75a76a8540a8abdcc65b5fc96a">getAccumulationType</a> () const</td></tr>
+<tr class="memdesc:ad7f9aa75a76a8540a8abdcc65b5fc96a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Accumulation Type object.  <a href="../../db/ddf/classcore_1_1FrameBuffer.html#ad7f9aa75a76a8540a8abdcc65b5fc96a">More...</a><br /></td></tr>
+<tr class="separator:ad7f9aa75a76a8540a8abdcc65b5fc96a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcore_1_1BaseObject"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcore_1_1BaseObject')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">core::BaseObject</a></td></tr>
 <tr class="memitem:a24c7d4cdaf387fec70d9087cd811a2c7 inherit pub_methods_classcore_1_1BaseObject"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#a24c7d4cdaf387fec70d9087cd811a2c7">BaseObject</a> ()=default</td></tr>
 <tr class="separator:a24c7d4cdaf387fec70d9087cd811a2c7 inherit pub_methods_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -196,6 +206,27 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:ae1f5c89c15c0ead6aa485ca4cb0e7ab4 inherit pub_methods_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8fcc8c4dd46a0c25039228b60a739331 inherit pub_methods_classcore_1_1BaseObject"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#a8fcc8c4dd46a0c25039228b60a739331">clearModifiedCallback</a> ()</td></tr>
 <tr class="separator:a8fcc8c4dd46a0c25039228b60a739331 inherit pub_methods_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a304ee2c7eec5172bc03b5ab2520a43c5"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a304ee2c7eec5172bc03b5ab2520a43c5">_name</a></td></tr>
+<tr class="separator:a304ee2c7eec5172bc03b5ab2520a43c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12e9a1c259e35e33d8f3a06669775fbb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">_frameSize</a></td></tr>
+<tr class="separator:a12e9a1c259e35e33d8f3a06669775fbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89678edc361ece5cb0fd959139f2d497"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a89678edc361ece5cb0fd959139f2d497">_frameBufferFormat</a></td></tr>
+<tr class="separator:a89678edc361ece5cb0fd959139f2d497"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe2825b3362696a859275309dbec4384"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#afe2825b3362696a859275309dbec4384">_accumulation</a> {true}</td></tr>
+<tr class="separator:afe2825b3362696a859275309dbec4384"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1835f1836a0a11809144433966874a46"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#ad43c1b0a03df44f7b1026c1325ce6de3">AccumulationType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a1835f1836a0a11809144433966874a46">_accumulationType</a> {<a class="el" href="../../d9/d0f/namespacecore.html#ad43c1b0a03df44f7b1026c1325ce6de3a9a932b3cb396238423eb2f33ec17d6aa">AccumulationType::linear</a>}</td></tr>
+<tr class="separator:a1835f1836a0a11809144433966874a46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3142a5cbabc2635b01ee49722a190e34"><td class="memItemLeft" align="right" valign="top">std::atomic_size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a3142a5cbabc2635b01ee49722a190e34">_accumFrames</a> {0}</td></tr>
+<tr class="separator:a3142a5cbabc2635b01ee49722a190e34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_classcore_1_1BaseObject"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classcore_1_1BaseObject')"><img src="../../closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">core::BaseObject</a></td></tr>
+<tr class="memitem:afb156c52a67a3326ec6813e61d609096 inherit pub_types_classcore_1_1BaseObject"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#afb156c52a67a3326ec6813e61d609096">ModifiedCallback</a> = std::function&lt; void(const <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">BaseObject</a> &amp;)&gt;</td></tr>
+<tr class="separator:afb156c52a67a3326ec6813e61d609096 inherit pub_types_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classcore_1_1BaseObject"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classcore_1_1BaseObject')"><img src="../../closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">core::BaseObject</a></td></tr>
 <tr class="memitem:a0e8912f5618d6b55eb0be41461f58cf0 inherit pro_methods_classcore_1_1BaseObject"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a0e8912f5618d6b55eb0be41461f58cf0 inherit pro_methods_classcore_1_1BaseObject"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#a0e8912f5618d6b55eb0be41461f58cf0">_updateValue</a> (T &amp;member, const T &amp;newValue, const bool triggerCallback=true)</td></tr>
@@ -208,8 +239,9 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:ad3fdd96dd7e7ce3267775ebebca17b2e inherit pro_methods_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00034">34</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<div class="textblock"><p>This class represents a frame buffer for an engine specific code. It provides an API for utilizing and manipulating the frame buffer in various ways. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00040">40</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5bd3299bfd5c072feb167c1e4e688798"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5bd3299bfd5c072feb167c1e4e688798">&#9670;&nbsp;</a></span>FrameBuffer()</h2>
@@ -243,13 +275,24 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a> constructor. </p>
+<p>Construct a new <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a> object</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the frame buffer. </td></tr>
+    <tr><td class="paramname">frameSize</td><td>The initial size of the frame buffer. </td></tr>
+    <tr><td class="paramname">frameBufferFormat</td><td>The format of the frame buffer. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="../../dd/db9/FrameBuffer_8cpp_source.html#l00029">29</a> of file <a class="el" href="../../dd/db9/FrameBuffer_8cpp_source.html">FrameBuffer.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a385a72a27a4187beaa9b463a184446c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a385a72a27a4187beaa9b463a184446c8">&#9670;&nbsp;</a></span>clear()</h2>
+<a id="a621025ce427119495747671f93f818e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a621025ce427119495747671f93f818e6">&#9670;&nbsp;</a></span>clear()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -258,7 +301,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void core::FrameBuffer::clear </td>
+          <td class="memname">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::FrameBuffer::clear </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -270,16 +313,17 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
 <p>Clear the framebuffer. </p>
 
 <p>Reimplemented in <a class="el" href="../../d7/dcd/classcore_1_1OSPRayFrameBuffer.html#a82245cbbe6f6c98947894c7329c88186">core::OSPRayFrameBuffer</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00050">50</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00092">92</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
-<a id="ae9acf119bbc57a7bb873d35c67ddf619"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9acf119bbc57a7bb873d35c67ddf619">&#9670;&nbsp;</a></span>createPixelOp()</h2>
+<a id="a15a4ea8e7ccd6d6f1dbb204528d58de0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15a4ea8e7ccd6d6f1dbb204528d58de0">&#9670;&nbsp;</a></span>createPixelOp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -288,7 +332,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void core::FrameBuffer::createPixelOp </td>
+          <td class="memname">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::FrameBuffer::createPixelOp </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -301,16 +345,23 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
 <p>Create and set a pixelop (pre/post filter) on the framebuffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the pixelOp. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Reimplemented in <a class="el" href="../../d7/dcd/classcore_1_1OSPRayFrameBuffer.html#a1bfe93b16f9f83037b259b012cf051d4">core::OSPRayFrameBuffer</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00061">61</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00127">127</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
-<a id="ac3c1b1d824ee42fbbeebab0b60e67460"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3c1b1d824ee42fbbeebab0b60e67460">&#9670;&nbsp;</a></span>getAccumulation()</h2>
+<a id="a308b0e929cb931085776919c0fe9dbf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a308b0e929cb931085776919c0fe9dbf1">&#9670;&nbsp;</a></span>getAccumulation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -319,7 +370,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool core::FrameBuffer::getAccumulation </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> bool core::FrameBuffer::getAccumulation </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -332,12 +383,15 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00070">70</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p>Get the Accumulation object. </p>
+<dl class="section return"><dt>Returns</dt><dd>bool The current accumulation state. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00155">155</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
-<a id="ae20bd96c2822072cc761d9787747a2d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae20bd96c2822072cc761d9787747a2d2">&#9670;&nbsp;</a></span>getAccumulationType()</h2>
+<a id="ad7f9aa75a76a8540a8abdcc65b5fc96a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7f9aa75a76a8540a8abdcc65b5fc96a">&#9670;&nbsp;</a></span>getAccumulationType()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -346,7 +400,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#ad43c1b0a03df44f7b1026c1325ce6de3">AccumulationType</a> core::FrameBuffer::getAccumulationType </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#ad43c1b0a03df44f7b1026c1325ce6de3">AccumulationType</a> core::FrameBuffer::getAccumulationType </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -359,12 +413,15 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00077">77</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p>Get the Accumulation Type object. </p>
+<dl class="section return"><dt>Returns</dt><dd>AccumulationType The current accumulation type. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00206">206</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
-<a id="ad5d28894f7dc91d178a89289d5972442"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad5d28894f7dc91d178a89289d5972442">&#9670;&nbsp;</a></span>getColorBuffer()</h2>
+<a id="a914a67aea42397fa7687b58354657da2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a914a67aea42397fa7687b58354657da2">&#9670;&nbsp;</a></span>getColorBuffer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -373,7 +430,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const uint8_t* core::FrameBuffer::getColorBuffer </td>
+          <td class="memname">virtual const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> uint8_t* core::FrameBuffer::getColorBuffer </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -385,7 +442,9 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>the color buffer, valid only after <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a437171438c221e98c07f229641f5891f">map()</a>. </dd></dl>
+
+<p>Get the Color Buffer object. </p>
+<dl class="section return"><dt>Returns</dt><dd>const uint8_t* The color buffer. </dd></dl>
 
 <p>Implemented in <a class="el" href="../../d6/d1c/classcore_1_1OptiXFrameBuffer.html#ab3bf758b3e549acb48ffef16ec4f24a8">core::OptiXFrameBuffer</a>, <a class="el" href="../../d6/d1c/classcore_1_1OptiXFrameBuffer.html#ab3bf758b3e549acb48ffef16ec4f24a8">core::OptiXFrameBuffer</a>, and <a class="el" href="../../d7/dcd/classcore_1_1OSPRayFrameBuffer.html#a9662ee63799284eecec4912521d52db9">core::OSPRayFrameBuffer</a>.</p>
 
@@ -406,12 +465,15 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Get the Color Depth object. </p>
+<dl class="section return"><dt>Returns</dt><dd>size_t The color depth. </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="../../dd/db9/FrameBuffer_8cpp_source.html#l00036">36</a> of file <a class="el" href="../../dd/db9/FrameBuffer_8cpp_source.html">FrameBuffer.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a863152dbd0b8cfe8e4194170cd010808"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a863152dbd0b8cfe8e4194170cd010808">&#9670;&nbsp;</a></span>getFloatBuffer()</h2>
+<a id="a832de6c0b96b9f7d15e627e02e7abdb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a832de6c0b96b9f7d15e627e02e7abdb8">&#9670;&nbsp;</a></span>getFloatBuffer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -420,7 +482,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const float* core::FrameBuffer::getFloatBuffer </td>
+          <td class="memname">virtual const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> float* core::FrameBuffer::getFloatBuffer </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -432,14 +494,16 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>the depth buffer, valid only after <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html#a437171438c221e98c07f229641f5891f">map()</a>. </dd></dl>
+
+<p>Get the Float Buffer object. </p>
+<dl class="section return"><dt>Returns</dt><dd>const float* The depth buffer. </dd></dl>
 
 <p>Implemented in <a class="el" href="../../d6/d1c/classcore_1_1OptiXFrameBuffer.html#a011be94803e3279323f724938c9d6ee5">core::OptiXFrameBuffer</a>, <a class="el" href="../../d6/d1c/classcore_1_1OptiXFrameBuffer.html#a011be94803e3279323f724938c9d6ee5">core::OptiXFrameBuffer</a>, and <a class="el" href="../../d7/dcd/classcore_1_1OSPRayFrameBuffer.html#a725e1c0e30f8846fcd996d6eb6a6007f">core::OSPRayFrameBuffer</a>.</p>
 
 </div>
 </div>
-<a id="a040ed4ad929843fa3bf8383efcb32cb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a040ed4ad929843fa3bf8383efcb32cb8">&#9670;&nbsp;</a></span>getFrameBufferFormat()</h2>
+<a id="a4d4265d8415c2366570ebfca28a5286d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d4265d8415c2366570ebfca28a5286d">&#9670;&nbsp;</a></span>getFrameBufferFormat()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -448,7 +512,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a> core::FrameBuffer::getFrameBufferFormat </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a> core::FrameBuffer::getFrameBufferFormat </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -461,12 +525,15 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00071">71</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p>Get the Frame Buffer Format object. </p>
+<dl class="section return"><dt>Returns</dt><dd>FrameBufferFormat The current frame buffer format. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00162">162</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
-<a id="adc189173d4b8eb7d5d9372bf6027fd20"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc189173d4b8eb7d5d9372bf6027fd20">&#9670;&nbsp;</a></span>getFrameSize()</h2>
+<a id="abce6834280822dbd6c0ca9e67248456e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abce6834280822dbd6c0ca9e67248456e">&#9670;&nbsp;</a></span>getFrameSize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -475,7 +542,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a>&amp; core::FrameBuffer::getFrameSize </td>
+          <td class="memname">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a>&amp; core::FrameBuffer::getFrameSize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -488,7 +555,10 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00069">69</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p>Get the Frame Size object. </p>
+<dl class="section return"><dt>Returns</dt><dd>const Vector2ui&amp; The current frame size. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00148">148</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
@@ -507,12 +577,15 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Get the Image object. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../da/ded/namespacecore_1_1freeimage.html#a104c9dc39302e0ac56e87d99a9ba58ea">freeimage::ImagePtr</a> The freeimage object. </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="../../dd/db9/FrameBuffer_8cpp_source.html#l00051">51</a> of file <a class="el" href="../../dd/db9/FrameBuffer_8cpp_source.html">FrameBuffer.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a5e19c1291f7e1aca894855a18bedd997"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e19c1291f7e1aca894855a18bedd997">&#9670;&nbsp;</a></span>getName()</h2>
+<a id="a5ae41608ec7c6e9383b28914ae5f42a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ae41608ec7c6e9383b28914ae5f42a5">&#9670;&nbsp;</a></span>getName()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -521,7 +594,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::string&amp; core::FrameBuffer::getName </td>
+          <td class="memname">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> std::string&amp; core::FrameBuffer::getName </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -534,12 +607,15 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00072">72</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p>Get the Name object. </p>
+<dl class="section return"><dt>Returns</dt><dd>const std::string&amp; The name of the frame buffer. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00169">169</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
-<a id="a737c9f94c7ec0e82abc0afc145fb1c8d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a737c9f94c7ec0e82abc0afc145fb1c8d">&#9670;&nbsp;</a></span>getSize()</h2>
+<a id="abe0abbbb002374d7eddcd721ea02e556"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe0abbbb002374d7eddcd721ea02e556">&#9670;&nbsp;</a></span>getSize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -548,7 +624,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a> core::FrameBuffer::getSize </td>
+          <td class="memname">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a> core::FrameBuffer::getSize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -560,16 +636,18 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>the current framebuffer size. </dd></dl>
+
+<p>Get the Size object. </p>
+<dl class="section return"><dt>Returns</dt><dd>Vector2ui The current framebuffer size. </dd></dl>
 
 <p>Reimplemented in <a class="el" href="../../d7/dcd/classcore_1_1OSPRayFrameBuffer.html#ab83d8e86e309994cf0e4d947b4e437df">core::OSPRayFrameBuffer</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00052">52</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00099">99</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
-<a id="a73e42e7b29b2aa2ce075437c1241f557"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a73e42e7b29b2aa2ce075437c1241f557">&#9670;&nbsp;</a></span>incrementAccumFrames()</h2>
+<a id="ae64d0b3d8f1c6498da56d45cf793e5b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae64d0b3d8f1c6498da56d45cf793e5b3">&#9670;&nbsp;</a></span>incrementAccumFrames()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -578,7 +656,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void core::FrameBuffer::incrementAccumFrames </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::FrameBuffer::incrementAccumFrames </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -591,12 +669,14 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00073">73</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p>Increment the accumulation frames. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00175">175</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
-<a id="a437171438c221e98c07f229641f5891f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a437171438c221e98c07f229641f5891f">&#9670;&nbsp;</a></span>map()</h2>
+<a id="a76d0511d1b090cf614066ca8544b728d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76d0511d1b090cf614066ca8544b728d">&#9670;&nbsp;</a></span>map()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -605,7 +685,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void core::FrameBuffer::map </td>
+          <td class="memname">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::FrameBuffer::map </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -617,14 +697,15 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
 <p>Map the buffer for reading with get*Buffer(). </p>
 
 <p>Implemented in <a class="el" href="../../d6/d1c/classcore_1_1OptiXFrameBuffer.html#a4ede7d1be2b687dd4bb51db41b6bdf94">core::OptiXFrameBuffer</a>, <a class="el" href="../../d6/d1c/classcore_1_1OptiXFrameBuffer.html#a4ede7d1be2b687dd4bb51db41b6bdf94">core::OptiXFrameBuffer</a>, and <a class="el" href="../../d7/dcd/classcore_1_1OSPRayFrameBuffer.html#a0c2a640720faef4f5a9a504ce7be32dc">core::OSPRayFrameBuffer</a>.</p>
 
 </div>
 </div>
-<a id="a659355fe65c13b1d08d98e0a7535e8be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a659355fe65c13b1d08d98e0a7535e8be">&#9670;&nbsp;</a></span>numAccumFrames()</h2>
+<a id="acf3111fcabf79aae984a342dca615a8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf3111fcabf79aae984a342dca615a8b">&#9670;&nbsp;</a></span>numAccumFrames()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -633,7 +714,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t core::FrameBuffer::numAccumFrames </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> size_t core::FrameBuffer::numAccumFrames </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -646,12 +727,15 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00074">74</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p>Get the number of accumulation frames. </p>
+<dl class="section return"><dt>Returns</dt><dd>size_t The number of accumulated frames. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00182">182</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
-<a id="a619882a3463bf0f538487caad3d70d70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a619882a3463bf0f538487caad3d70d70">&#9670;&nbsp;</a></span>resize()</h2>
+<a id="ae9587b6037c4a82c3ea6ba79ebbf8825"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9587b6037c4a82c3ea6ba79ebbf8825">&#9670;&nbsp;</a></span>resize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -660,7 +744,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void core::FrameBuffer::resize </td>
+          <td class="memname">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::FrameBuffer::resize </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a> &amp;&#160;</td>
           <td class="paramname"><em>frameSize</em></td><td>)</td>
@@ -673,14 +757,21 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
 <p>Resize the framebuffer to the new size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frameSize</td><td>The frame buffer size to be set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="../../d6/d1c/classcore_1_1OptiXFrameBuffer.html#ad2b3a766d6aec9d3490957c252d76b82">core::OptiXFrameBuffer</a>, <a class="el" href="../../d6/d1c/classcore_1_1OptiXFrameBuffer.html#ad2b3a766d6aec9d3490957c252d76b82">core::OptiXFrameBuffer</a>, and <a class="el" href="../../d7/dcd/classcore_1_1OSPRayFrameBuffer.html#ad582c7043b5ea32d61e191b7f44b298c">core::OSPRayFrameBuffer</a>.</p>
 
 </div>
 </div>
-<a id="a6a320adfcc56ceb6ad1d6a80578d4344"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a320adfcc56ceb6ad1d6a80578d4344">&#9670;&nbsp;</a></span>setAccumulation()</h2>
+<a id="a4b49da4be6750fda47a883537a8b9c70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b49da4be6750fda47a883537a8b9c70">&#9670;&nbsp;</a></span>setAccumulation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -689,7 +780,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void core::FrameBuffer::setAccumulation </td>
+          <td class="memname">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::FrameBuffer::setAccumulation </td>
           <td>(</td>
           <td class="paramtype">const bool&#160;</td>
           <td class="paramname"><em>accumulation</em></td><td>)</td>
@@ -702,16 +793,23 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
 <p>Enable/disable accumulation state on the framebuffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">accumulation</td><td>The accumulation state to be set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Reimplemented in <a class="el" href="../../d6/d1c/classcore_1_1OptiXFrameBuffer.html#aefd8e7c1ab6725d322908f0753515dfc">core::OptiXFrameBuffer</a>, <a class="el" href="../../d6/d1c/classcore_1_1OptiXFrameBuffer.html#aefd8e7c1ab6725d322908f0753515dfc">core::OptiXFrameBuffer</a>, and <a class="el" href="../../d7/dcd/classcore_1_1OSPRayFrameBuffer.html#a3abcd9b7b3bb688d452f2893fa386dac">core::OSPRayFrameBuffer</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00054">54</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00106">106</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
-<a id="ac97cd4fba1fcb85f8021c1a214b9449b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac97cd4fba1fcb85f8021c1a214b9449b">&#9670;&nbsp;</a></span>setAccumulationType()</h2>
+<a id="a71656993b2721c63131fb09a50204dd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71656993b2721c63131fb09a50204dd9">&#9670;&nbsp;</a></span>setAccumulationType()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -720,7 +818,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void core::FrameBuffer::setAccumulationType </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::FrameBuffer::setAccumulationType </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#ad43c1b0a03df44f7b1026c1325ce6de3">AccumulationType</a>&#160;</td>
           <td class="paramname"><em>accumulationType</em></td><td>)</td>
@@ -734,12 +832,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00076">76</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p>Set the Accumulation Type object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">accumulationType</td><td>The accumulation type to be set. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00196">196</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
-<a id="aef1c12dab1bc99b5545744be11deda39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef1c12dab1bc99b5545744be11deda39">&#9670;&nbsp;</a></span>setFormat()</h2>
+<a id="a3f0ede8bc2ad01e7f10743bcec07e381"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f0ede8bc2ad01e7f10743bcec07e381">&#9670;&nbsp;</a></span>setFormat()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -748,7 +854,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void core::FrameBuffer::setFormat </td>
+          <td class="memname">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::FrameBuffer::setFormat </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a>&#160;</td>
           <td class="paramname"><em>frameBufferFormat</em></td><td>)</td>
@@ -761,16 +867,23 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
 <p>Set a new framebuffer format. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frameBufferFormat</td><td>The new frame buffer format to be set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Reimplemented in <a class="el" href="../../d7/dcd/classcore_1_1OSPRayFrameBuffer.html#a1b598645f03b157be1ed29e490f3492d">core::OSPRayFrameBuffer</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00056">56</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00113">113</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
-<a id="ab1b9fe5e5169572bce4077ffd8123844"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab1b9fe5e5169572bce4077ffd8123844">&#9670;&nbsp;</a></span>setSubsampling()</h2>
+<a id="a2145631deeb607525831e34458841404"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2145631deeb607525831e34458841404">&#9670;&nbsp;</a></span>setSubsampling()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -779,7 +892,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void core::FrameBuffer::setSubsampling </td>
+          <td class="memname">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::FrameBuffer::setSubsampling </td>
           <td>(</td>
           <td class="paramtype">const&#160;</td>
           <td class="paramname"><em>size_t</em></td><td>)</td>
@@ -792,16 +905,23 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
 <p>Set a new subsampling with a factor from 1 to x of the current size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size_t</td><td>The size to be set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Reimplemented in <a class="el" href="../../d7/dcd/classcore_1_1OSPRayFrameBuffer.html#acd9459e6585216f8913870e04ead0e80">core::OSPRayFrameBuffer</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00059">59</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00120">120</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
-<a id="a21fb52a7e56ec37614d7095572efd315"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21fb52a7e56ec37614d7095572efd315">&#9670;&nbsp;</a></span>unmap()</h2>
+<a id="aec46d425c55dc79bfb91c70ffbde84d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec46d425c55dc79bfb91c70ffbde84d8">&#9670;&nbsp;</a></span>unmap()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -810,7 +930,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void core::FrameBuffer::unmap </td>
+          <td class="memname">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::FrameBuffer::unmap </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -822,14 +942,15 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
 <p>Unmap the buffer for reading with get*Buffer(). </p>
 
 <p>Implemented in <a class="el" href="../../d6/d1c/classcore_1_1OptiXFrameBuffer.html#adb3f20e7cac4e3f1cbedc975709ab8ab">core::OptiXFrameBuffer</a>, <a class="el" href="../../d6/d1c/classcore_1_1OptiXFrameBuffer.html#adb3f20e7cac4e3f1cbedc975709ab8ab">core::OptiXFrameBuffer</a>, and <a class="el" href="../../d7/dcd/classcore_1_1OSPRayFrameBuffer.html#a3425620c9ffe74895ccb482c62934712">core::OSPRayFrameBuffer</a>.</p>
 
 </div>
 </div>
-<a id="af2aa9b28efe5bf2a2f785204557c920c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2aa9b28efe5bf2a2f785204557c920c">&#9670;&nbsp;</a></span>updatePixelOp()</h2>
+<a id="a600c3f03a8f11baa29b1208ed61d50b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a600c3f03a8f11baa29b1208ed61d50b6">&#9670;&nbsp;</a></span>updatePixelOp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -838,7 +959,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void core::FrameBuffer::updatePixelOp </td>
+          <td class="memname">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::FrameBuffer::updatePixelOp </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -851,11 +972,18 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
 <p>Update the current pixelop with the given properties. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">properties</td><td>The properties to be updated. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Reimplemented in <a class="el" href="../../d7/dcd/classcore_1_1OSPRayFrameBuffer.html#abc3e015fda929badf800c05f55300095">core::OSPRayFrameBuffer</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00063">63</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00134">134</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
@@ -880,7 +1008,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00085">85</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00214">214</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
@@ -904,7 +1032,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00083">83</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00212">212</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
@@ -928,7 +1056,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00084">84</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00213">213</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
@@ -952,7 +1080,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00082">82</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00211">211</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
@@ -976,7 +1104,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00081">81</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00210">210</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>
@@ -1000,7 +1128,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00080">80</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html#l00209">209</a> of file <a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">FrameBuffer.h</a>.</p>
 
 </div>
 </div>

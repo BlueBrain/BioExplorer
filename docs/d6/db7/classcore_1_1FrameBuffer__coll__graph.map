@@ -1,4 +1,4 @@
 <map id="core::FrameBuffer" name="core::FrameBuffer">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,144,107"/>
+<area shape="rect" id="node1" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an..." alt="" coords="5,80,144,107"/>
 <area shape="rect" id="node2" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="9,5,141,32"/>
 </map>

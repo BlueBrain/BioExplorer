@@ -97,7 +97,7 @@ Inheritance diagram for core::OSPRayEngine:</div>
 <div class="center"><img src="../../d4/d7d/classcore_1_1OSPRayEngine__inherit__graph.png" border="0" usemap="#core_1_1OSPRayEngine_inherit__map" alt="Inheritance graph"/></div>
 <map name="core_1_1OSPRayEngine_inherit__map" id="core_1_1OSPRayEngine_inherit__map">
 <area shape="rect" title=" " alt="" coords="5,80,159,107"/>
-<area shape="rect" href="../../d8/dab/classcore_1_1Engine.html" title=" " alt="" coords="31,5,133,32"/>
+<area shape="rect" href="../../d8/dab/classcore_1_1Engine.html" title="Provides an abstract implementation of a ray&#45;tracing engine." alt="" coords="31,5,133,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -106,7 +106,7 @@ Collaboration diagram for core::OSPRayEngine:</div>
 <div class="center"><img src="../../d6/d15/classcore_1_1OSPRayEngine__coll__graph.png" border="0" usemap="#core_1_1OSPRayEngine_coll__map" alt="Collaboration graph"/></div>
 <map name="core_1_1OSPRayEngine_coll__map" id="core_1_1OSPRayEngine_coll__map">
 <area shape="rect" title=" " alt="" coords="110,247,263,273"/>
-<area shape="rect" href="../../d8/dab/classcore_1_1Engine.html" title=" " alt="" coords="135,171,238,197"/>
+<area shape="rect" href="../../d8/dab/classcore_1_1Engine.html" title="Provides an abstract implementation of a ray&#45;tracing engine." alt="" coords="135,171,238,197"/>
 <area shape="rect" href="../../dc/d04/classcore_1_1ParametersManager.html" title=" " alt="" coords="5,81,195,108"/>
 <area shape="rect" href="../../d6/d7e/classcore_1_1Statistics.html" title=" " alt="" coords="219,81,338,108"/>
 <area shape="rect" href="../../d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="213,5,345,32"/>
@@ -120,71 +120,98 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8c1848dbf6129a0741e44b399cb50f01"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d64/classcore_1_1OSPRayEngine.html#a8c1848dbf6129a0741e44b399cb50f01">~OSPRayEngine</a> ()</td></tr>
 <tr class="separator:a8c1848dbf6129a0741e44b399cb50f01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7ff31571f549b718e65cbe4c1940f2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d64/classcore_1_1OSPRayEngine.html#ac7ff31571f549b718e65cbe4c1940f2d">commit</a> () final</td></tr>
+<tr class="memdesc:ac7ff31571f549b718e65cbe4c1940f2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Commits changes to the engine. This includes scene modifications, camera modifications and renderer modifications.  <a href="../../d9/d64/classcore_1_1OSPRayEngine.html#ac7ff31571f549b718e65cbe4c1940f2d">More...</a><br /></td></tr>
 <tr class="separator:ac7ff31571f549b718e65cbe4c1940f2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfc43dd08acfe2473de33bfe3c55f897"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d64/classcore_1_1OSPRayEngine.html#adfc43dd08acfe2473de33bfe3c55f897">getMinimumFrameSize</a> () const final</td></tr>
+<tr class="memdesc:adfc43dd08acfe2473de33bfe3c55f897"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the minimum frame size in pixels supported by this engine.  <a href="../../d9/d64/classcore_1_1OSPRayEngine.html#adfc43dd08acfe2473de33bfe3c55f897">More...</a><br /></td></tr>
 <tr class="separator:adfc43dd08acfe2473de33bfe3c55f897"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1aa8dec24942ece2926a9b9381a915f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a5d8120691cd70cf84654555673e1dcd7">FrameBufferPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d64/classcore_1_1OSPRayEngine.html#a1aa8dec24942ece2926a9b9381a915f6">createFrameBuffer</a> (const std::string &amp;name, const <a class="el" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a> &amp;frameSize, <a class="el" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a> frameBufferFormat) const final</td></tr>
+<tr class="memdesc:a1aa8dec24942ece2926a9b9381a915f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an engine-specific framebuffer.  <a href="../../d9/d64/classcore_1_1OSPRayEngine.html#a1aa8dec24942ece2926a9b9381a915f6">More...</a><br /></td></tr>
 <tr class="separator:a1aa8dec24942ece2926a9b9381a915f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff8b1c23b28ee44548b9b6d947f41750"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a7ddbdfa16725b7bd2d34a2e1fad4ee62">ScenePtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d64/classcore_1_1OSPRayEngine.html#aff8b1c23b28ee44548b9b6d947f41750">createScene</a> (<a class="el" href="../../d4/dfb/classcore_1_1AnimationParameters.html">AnimationParameters</a> &amp;animationParameters, <a class="el" href="../../d8/d43/classcore_1_1GeometryParameters.html">GeometryParameters</a> &amp;geometryParameters, <a class="el" href="../../df/da5/classcore_1_1VolumeParameters.html">VolumeParameters</a> &amp;volumeParameters) const final</td></tr>
+<tr class="memdesc:aff8b1c23b28ee44548b9b6d947f41750"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an engine-specific scene.  <a href="../../d9/d64/classcore_1_1OSPRayEngine.html#aff8b1c23b28ee44548b9b6d947f41750">More...</a><br /></td></tr>
 <tr class="separator:aff8b1c23b28ee44548b9b6d947f41750"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17ed59a70ca8914093f025728a4cef0e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a0ca7e27fac9b09a3bb599abc2746648e">CameraPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d64/classcore_1_1OSPRayEngine.html#a17ed59a70ca8914093f025728a4cef0e">createCamera</a> () const final</td></tr>
+<tr class="memdesc:a17ed59a70ca8914093f025728a4cef0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an engine-specific camera.  <a href="../../d9/d64/classcore_1_1OSPRayEngine.html#a17ed59a70ca8914093f025728a4cef0e">More...</a><br /></td></tr>
 <tr class="separator:a17ed59a70ca8914093f025728a4cef0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a706053746a13599a7455ae8ed9859af9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a5873bb7d057c637cd3961989e4f5cc59">RendererPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d64/classcore_1_1OSPRayEngine.html#a706053746a13599a7455ae8ed9859af9">createRenderer</a> (const <a class="el" href="../../d4/dfb/classcore_1_1AnimationParameters.html">AnimationParameters</a> &amp;animationParameters, const <a class="el" href="../../d4/d34/classcore_1_1RenderingParameters.html">RenderingParameters</a> &amp;renderingParameters) const final</td></tr>
+<tr class="memdesc:a706053746a13599a7455ae8ed9859af9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an engine-specific renderer.  <a href="../../d9/d64/classcore_1_1OSPRayEngine.html#a706053746a13599a7455ae8ed9859af9">More...</a><br /></td></tr>
 <tr class="separator:a706053746a13599a7455ae8ed9859af9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcore_1_1Engine"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcore_1_1Engine')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d8/dab/classcore_1_1Engine.html">core::Engine</a></td></tr>
-<tr class="memitem:aa143afd0c55e4602d4bc81f3e133995a inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#aa143afd0c55e4602d4bc81f3e133995a">preRender</a> ()</td></tr>
+<tr class="memitem:aa143afd0c55e4602d4bc81f3e133995a inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#aa143afd0c55e4602d4bc81f3e133995a">preRender</a> ()</td></tr>
+<tr class="memdesc:aa143afd0c55e4602d4bc81f3e133995a inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes engine-specific pre-render operations.  <a href="../../d8/dab/classcore_1_1Engine.html#aa143afd0c55e4602d4bc81f3e133995a">More...</a><br /></td></tr>
 <tr class="separator:aa143afd0c55e4602d4bc81f3e133995a inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeacea6542928220a9a2d2754d09901d6 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#aeacea6542928220a9a2d2754d09901d6">postRender</a> ()</td></tr>
+<tr class="memitem:aeacea6542928220a9a2d2754d09901d6 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#aeacea6542928220a9a2d2754d09901d6">postRender</a> ()</td></tr>
+<tr class="memdesc:aeacea6542928220a9a2d2754d09901d6 inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes engine-specific post-render operations.  <a href="../../d8/dab/classcore_1_1Engine.html#aeacea6542928220a9a2d2754d09901d6">More...</a><br /></td></tr>
 <tr class="separator:aeacea6542928220a9a2d2754d09901d6 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb8a1f975d6d3e3912339d47da8a9523 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#afb8a1f975d6d3e3912339d47da8a9523">Engine</a> (<a class="el" href="../../dc/d04/classcore_1_1ParametersManager.html">ParametersManager</a> &amp;parametersManager)</td></tr>
-<tr class="memdesc:afb8a1f975d6d3e3912339d47da8a9523 inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d8/dab/classcore_1_1Engine.html">Engine</a> constructor.  <a href="../../d8/dab/classcore_1_1Engine.html#afb8a1f975d6d3e3912339d47da8a9523">More...</a><br /></td></tr>
+<tr class="memitem:afb8a1f975d6d3e3912339d47da8a9523 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#afb8a1f975d6d3e3912339d47da8a9523">Engine</a> (<a class="el" href="../../dc/d04/classcore_1_1ParametersManager.html">ParametersManager</a> &amp;parametersManager)</td></tr>
+<tr class="memdesc:afb8a1f975d6d3e3912339d47da8a9523 inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d8/dab/classcore_1_1Engine.html" title="Provides an abstract implementation of a ray-tracing engine.">Engine</a> Constructor.  <a href="../../d8/dab/classcore_1_1Engine.html#afb8a1f975d6d3e3912339d47da8a9523">More...</a><br /></td></tr>
 <tr class="separator:afb8a1f975d6d3e3912339d47da8a9523 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2fb44feb6598ed9d527f8fecb8c92bdc inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a2fb44feb6598ed9d527f8fecb8c92bdc">~Engine</a> ()=default</td></tr>
-<tr class="separator:a2fb44feb6598ed9d527f8fecb8c92bdc inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0146c399ae561fbfe074eef3f3ba5ff inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#ab0146c399ae561fbfe074eef3f3ba5ff">render</a> ()</td></tr>
+<tr class="memitem:ab6988d30fac7f62146d2d54031eb3d75 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#ab6988d30fac7f62146d2d54031eb3d75">~Engine</a> ()=default</td></tr>
+<tr class="separator:ab6988d30fac7f62146d2d54031eb3d75 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0146c399ae561fbfe074eef3f3ba5ff inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#ab0146c399ae561fbfe074eef3f3ba5ff">render</a> ()</td></tr>
+<tr class="memdesc:ab0146c399ae561fbfe074eef3f3ba5ff inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the current scene and populates the frame buffer accordingly.  <a href="../../d8/dab/classcore_1_1Engine.html#ab0146c399ae561fbfe074eef3f3ba5ff">More...</a><br /></td></tr>
 <tr class="separator:ab0146c399ae561fbfe074eef3f3ba5ff inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1032fb06a61915ad1c262decb081bbeb inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d76/classcore_1_1Scene.html">Scene</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a1032fb06a61915ad1c262decb081bbeb">getScene</a> ()</td></tr>
-<tr class="separator:a1032fb06a61915ad1c262decb081bbeb inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59ae5117b635d2aefc476c55c7a11888 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html">FrameBuffer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a59ae5117b635d2aefc476c55c7a11888">getFrameBuffer</a> ()</td></tr>
-<tr class="separator:a59ae5117b635d2aefc476c55c7a11888 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae33e7f683bc16fa58edf8d902e05345b inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d6/da7/classcore_1_1Camera.html">Camera</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#ae33e7f683bc16fa58edf8d902e05345b">getCamera</a> () const</td></tr>
-<tr class="separator:ae33e7f683bc16fa58edf8d902e05345b inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8342c334e42a1eb5a917e4029b306eb8 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/da7/classcore_1_1Camera.html">Camera</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a8342c334e42a1eb5a917e4029b306eb8">getCamera</a> ()</td></tr>
-<tr class="separator:a8342c334e42a1eb5a917e4029b306eb8 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a675a0b4da0665fd3286a3ec23a451a0c inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html">Renderer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a675a0b4da0665fd3286a3ec23a451a0c">getRenderer</a> ()</td></tr>
+<tr class="memitem:a7bbfaa6a40f819e806b458669c281bdd inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d5/d76/classcore_1_1Scene.html">Scene</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a7bbfaa6a40f819e806b458669c281bdd">getScene</a> ()</td></tr>
+<tr class="memdesc:a7bbfaa6a40f819e806b458669c281bdd inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the scene.  <a href="../../d8/dab/classcore_1_1Engine.html#a7bbfaa6a40f819e806b458669c281bdd">More...</a><br /></td></tr>
+<tr class="separator:a7bbfaa6a40f819e806b458669c281bdd inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20c6d01fc48c1c55611c83492454c02c inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html">FrameBuffer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a20c6d01fc48c1c55611c83492454c02c">getFrameBuffer</a> ()</td></tr>
+<tr class="memdesc:a20c6d01fc48c1c55611c83492454c02c inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the frame buffer.  <a href="../../d8/dab/classcore_1_1Engine.html#a20c6d01fc48c1c55611c83492454c02c">More...</a><br /></td></tr>
+<tr class="separator:a20c6d01fc48c1c55611c83492454c02c inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0060608a28610747a3d882289189e142 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d6/da7/classcore_1_1Camera.html">Camera</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a0060608a28610747a3d882289189e142">getCamera</a> () const</td></tr>
+<tr class="memdesc:a0060608a28610747a3d882289189e142 inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the camera.  <a href="../../d8/dab/classcore_1_1Engine.html#a0060608a28610747a3d882289189e142">More...</a><br /></td></tr>
+<tr class="separator:a0060608a28610747a3d882289189e142 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8959c36c211e6aefaf385f3f3c890ed4 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d6/da7/classcore_1_1Camera.html">Camera</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a8959c36c211e6aefaf385f3f3c890ed4">getCamera</a> ()</td></tr>
+<tr class="separator:a8959c36c211e6aefaf385f3f3c890ed4 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a675a0b4da0665fd3286a3ec23a451a0c inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html">Renderer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a675a0b4da0665fd3286a3ec23a451a0c">getRenderer</a> ()</td></tr>
+<tr class="memdesc:a675a0b4da0665fd3286a3ec23a451a0c inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the renderer.  <a href="../../d8/dab/classcore_1_1Engine.html#a675a0b4da0665fd3286a3ec23a451a0c">More...</a><br /></td></tr>
 <tr class="separator:a675a0b4da0665fd3286a3ec23a451a0c inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af900cea4599ff79048b8f4d4f27182b3 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#af900cea4599ff79048b8f4d4f27182b3">setKeepRunning</a> (bool keepRunning)</td></tr>
-<tr class="separator:af900cea4599ff79048b8f4d4f27182b3 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a569b7500d13446b9e1cb77a48d18a4ce inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a569b7500d13446b9e1cb77a48d18a4ce">getKeepRunning</a> () const</td></tr>
-<tr class="separator:a569b7500d13446b9e1cb77a48d18a4ce inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af602f21187a536080d2daa1b7677f171 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d7e/classcore_1_1Statistics.html">Statistics</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#af602f21187a536080d2daa1b7677f171">getStatistics</a> ()</td></tr>
-<tr class="separator:af602f21187a536080d2daa1b7677f171 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fe57965b3b9bdae41941bfdc28a5a32 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a3fe57965b3b9bdae41941bfdc28a5a32">continueRendering</a> () const</td></tr>
+<tr class="memitem:ad745949657194241c65a82b72abd7899 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#ad745949657194241c65a82b72abd7899">setKeepRunning</a> (bool keepRunning)</td></tr>
+<tr class="memdesc:ad745949657194241c65a82b72abd7899 inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a flag to continue or stop rendering.  <a href="../../d8/dab/classcore_1_1Engine.html#ad745949657194241c65a82b72abd7899">More...</a><br /></td></tr>
+<tr class="separator:ad745949657194241c65a82b72abd7899 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02dd7ada4c8b178ce26a1fd6b8375449 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a02dd7ada4c8b178ce26a1fd6b8375449">getKeepRunning</a> () const</td></tr>
+<tr class="memdesc:a02dd7ada4c8b178ce26a1fd6b8375449 inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a boolean indicating whether the user wants to continue rendering.  <a href="../../d8/dab/classcore_1_1Engine.html#a02dd7ada4c8b178ce26a1fd6b8375449">More...</a><br /></td></tr>
+<tr class="separator:a02dd7ada4c8b178ce26a1fd6b8375449 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a732ea428601f7f2a230f06b8f0c49685 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d6/d7e/classcore_1_1Statistics.html">Statistics</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a732ea428601f7f2a230f06b8f0c49685">getStatistics</a> ()</td></tr>
+<tr class="memdesc:a732ea428601f7f2a230f06b8f0c49685 inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns statistics information.  <a href="../../d8/dab/classcore_1_1Engine.html#a732ea428601f7f2a230f06b8f0c49685">More...</a><br /></td></tr>
+<tr class="separator:a732ea428601f7f2a230f06b8f0c49685 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fe57965b3b9bdae41941bfdc28a5a32 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a3fe57965b3b9bdae41941bfdc28a5a32">continueRendering</a> () const</td></tr>
+<tr class="memdesc:a3fe57965b3b9bdae41941bfdc28a5a32 inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a boolean indicating whether render calls shall be continued based on current accumulation settings.  <a href="../../d8/dab/classcore_1_1Engine.html#a3fe57965b3b9bdae41941bfdc28a5a32">More...</a><br /></td></tr>
 <tr class="separator:a3fe57965b3b9bdae41941bfdc28a5a32 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e07ba69b15784f8314e767c670b8eb7 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a5e07ba69b15784f8314e767c670b8eb7">getParametersManager</a> () const</td></tr>
-<tr class="separator:a5e07ba69b15784f8314e767c670b8eb7 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad30d99ab6f93622366c32314094200fd inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#ad30d99ab6f93622366c32314094200fd">addFrameBuffer</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a5d8120691cd70cf84654555673e1dcd7">FrameBufferPtr</a> frameBuffer)</td></tr>
+<tr class="memitem:ac07ff6b4b459cd017d98983964369b76 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#ac07ff6b4b459cd017d98983964369b76">getParametersManager</a> () const</td></tr>
+<tr class="memdesc:ac07ff6b4b459cd017d98983964369b76 inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the parameter manager.  <a href="../../d8/dab/classcore_1_1Engine.html#ac07ff6b4b459cd017d98983964369b76">More...</a><br /></td></tr>
+<tr class="separator:ac07ff6b4b459cd017d98983964369b76 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad30d99ab6f93622366c32314094200fd inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#ad30d99ab6f93622366c32314094200fd">addFrameBuffer</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a5d8120691cd70cf84654555673e1dcd7">FrameBufferPtr</a> frameBuffer)</td></tr>
+<tr class="memdesc:ad30d99ab6f93622366c32314094200fd inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a frame buffer to the list to be filled during rendering.  <a href="../../d8/dab/classcore_1_1Engine.html#ad30d99ab6f93622366c32314094200fd">More...</a><br /></td></tr>
 <tr class="separator:ad30d99ab6f93622366c32314094200fd inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04d4fce5181f6f055c7214ccfd69fece inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a04d4fce5181f6f055c7214ccfd69fece">removeFrameBuffer</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a5d8120691cd70cf84654555673e1dcd7">FrameBufferPtr</a> frameBuffer)</td></tr>
+<tr class="memitem:a04d4fce5181f6f055c7214ccfd69fece inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a04d4fce5181f6f055c7214ccfd69fece">removeFrameBuffer</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a5d8120691cd70cf84654555673e1dcd7">FrameBufferPtr</a> frameBuffer)</td></tr>
+<tr class="memdesc:a04d4fce5181f6f055c7214ccfd69fece inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a frame buffer from the list of buffers that are filled during rendering.  <a href="../../d8/dab/classcore_1_1Engine.html#a04d4fce5181f6f055c7214ccfd69fece">More...</a><br /></td></tr>
 <tr class="separator:a04d4fce5181f6f055c7214ccfd69fece inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acaceaf94664a29ca874669517eaf6a66 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../d9/d0f/namespacecore.html#a5d8120691cd70cf84654555673e1dcd7">FrameBufferPtr</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#acaceaf94664a29ca874669517eaf6a66">getFrameBuffers</a> () const</td></tr>
-<tr class="separator:acaceaf94664a29ca874669517eaf6a66 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa290b16175ccb6b1d03b59fb244df783 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#aa290b16175ccb6b1d03b59fb244df783">clearFrameBuffers</a> ()</td></tr>
+<tr class="memitem:a090852f551fe318949ccd761b799d9ca inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> std::vector&lt; <a class="el" href="../../d9/d0f/namespacecore.html#a5d8120691cd70cf84654555673e1dcd7">FrameBufferPtr</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a090852f551fe318949ccd761b799d9ca">getFrameBuffers</a> () const</td></tr>
+<tr class="memdesc:a090852f551fe318949ccd761b799d9ca inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all registered frame buffers that are used during rendering.  <a href="../../d8/dab/classcore_1_1Engine.html#a090852f551fe318949ccd761b799d9ca">More...</a><br /></td></tr>
+<tr class="separator:a090852f551fe318949ccd761b799d9ca inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa290b16175ccb6b1d03b59fb244df783 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#aa290b16175ccb6b1d03b59fb244df783">clearFrameBuffers</a> ()</td></tr>
+<tr class="memdesc:aa290b16175ccb6b1d03b59fb244df783 inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all frame buffers.  <a href="../../d8/dab/classcore_1_1Engine.html#aa290b16175ccb6b1d03b59fb244df783">More...</a><br /></td></tr>
 <tr class="separator:aa290b16175ccb6b1d03b59fb244df783 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af297a397e4310f88550dd96200c7779f inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#af297a397e4310f88550dd96200c7779f">resetFrameBuffers</a> ()</td></tr>
+<tr class="memitem:af297a397e4310f88550dd96200c7779f inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#af297a397e4310f88550dd96200c7779f">resetFrameBuffers</a> ()</td></tr>
+<tr class="memdesc:af297a397e4310f88550dd96200c7779f inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets all frame buffers.  <a href="../../d8/dab/classcore_1_1Engine.html#af297a397e4310f88550dd96200c7779f">More...</a><br /></td></tr>
 <tr class="separator:af297a397e4310f88550dd96200c7779f inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07053ff6090ed91c84914273df612378 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a07053ff6090ed91c84914273df612378">addRendererType</a> (const std::string &amp;name, const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;properties={})</td></tr>
+<tr class="memitem:a07053ff6090ed91c84914273df612378 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a07053ff6090ed91c84914273df612378">addRendererType</a> (const std::string &amp;name, const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;properties={})</td></tr>
+<tr class="memdesc:a07053ff6090ed91c84914273df612378 inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a new renderer type with optional properties.  <a href="../../d8/dab/classcore_1_1Engine.html#a07053ff6090ed91c84914273df612378">More...</a><br /></td></tr>
 <tr class="separator:a07053ff6090ed91c84914273df612378 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa04a9d8f3f2f40f093899e06a5ff9eec inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../de/d53/platform_2core_2common_2Types_8h.html#ae1edb59d72f24660ef2132c1812d2340">strings</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#aa04a9d8f3f2f40f093899e06a5ff9eec">getRendererTypes</a> () const</td></tr>
-<tr class="separator:aa04a9d8f3f2f40f093899e06a5ff9eec inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef59c928159dbf37912eca8cc277b65d inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#aef59c928159dbf37912eca8cc277b65d">addCameraType</a> (const std::string &amp;name, const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;properties={})</td></tr>
+<tr class="memitem:a5f5c1e1c256c946118f57800a514c825 inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../de/d53/platform_2core_2common_2Types_8h.html#ae1edb59d72f24660ef2132c1812d2340">strings</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a5f5c1e1c256c946118f57800a514c825">getRendererTypes</a> () const</td></tr>
+<tr class="memdesc:a5f5c1e1c256c946118f57800a514c825 inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all renderer types.  <a href="../../d8/dab/classcore_1_1Engine.html#a5f5c1e1c256c946118f57800a514c825">More...</a><br /></td></tr>
+<tr class="separator:a5f5c1e1c256c946118f57800a514c825 inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef59c928159dbf37912eca8cc277b65d inherit pub_methods_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#aef59c928159dbf37912eca8cc277b65d">addCameraType</a> (const std::string &amp;name, const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;properties={})</td></tr>
+<tr class="memdesc:aef59c928159dbf37912eca8cc277b65d inherit pub_methods_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a new camera type with optional properties.  <a href="../../d8/dab/classcore_1_1Engine.html#aef59c928159dbf37912eca8cc277b65d">More...</a><br /></td></tr>
 <tr class="separator:aef59c928159dbf37912eca8cc277b65d inherit pub_methods_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_attribs_classcore_1_1Engine"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classcore_1_1Engine')"><img src="../../closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="../../d8/dab/classcore_1_1Engine.html">core::Engine</a></td></tr>
-<tr class="memitem:a22d7aee5d147a757e49ca9f832468425 inherit pub_attribs_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top">std::function&lt; void()&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a22d7aee5d147a757e49ca9f832468425">triggerRender</a> {[] {}}</td></tr>
-<tr class="separator:a22d7aee5d147a757e49ca9f832468425 inherit pub_attribs_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72edec5edf34a6745aff26f06e57b4c9 inherit pub_attribs_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> std::function&lt; void()&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a72edec5edf34a6745aff26f06e57b4c9">triggerRender</a> {[] {}}</td></tr>
+<tr class="memdesc:a72edec5edf34a6745aff26f06e57b4c9 inherit pub_attribs_classcore_1_1Engine"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback when a new frame shall be triggered. Currently called by event plugins Deflect and Rockets.  <a href="../../d8/dab/classcore_1_1Engine.html#a72edec5edf34a6745aff26f06e57b4c9">More...</a><br /></td></tr>
+<tr class="separator:a72edec5edf34a6745aff26f06e57b4c9 inherit pub_attribs_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classcore_1_1Engine"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classcore_1_1Engine')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d8/dab/classcore_1_1Engine.html">core::Engine</a></td></tr>
 <tr class="memitem:a49db9f86538ca95dfd3630bc8fc757ed inherit pro_attribs_classcore_1_1Engine"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d04/classcore_1_1ParametersManager.html">ParametersManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classcore_1_1Engine.html#a49db9f86538ca95dfd3630bc8fc757ed">_parametersManager</a></td></tr>
 <tr class="separator:a49db9f86538ca95dfd3630bc8fc757ed inherit pro_attribs_classcore_1_1Engine"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -271,8 +298,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p></p>
-<p>Commits changes to the engine. This include scene, camera and renderer modifications </p>
+<p>Commits changes to the engine. This includes scene modifications, camera modifications and renderer modifications. </p>
 
 <p>Reimplemented from <a class="el" href="../../d8/dab/classcore_1_1Engine.html#a735e17de372702dc7bee4106bf82fd80">core::Engine</a>.</p>
 
@@ -302,9 +328,11 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Factory method to create an engine-specific camera. </p>
 
-<p>Implements <a class="el" href="../../d8/dab/classcore_1_1Engine.html#a8fcf8a283ee80f5d4cdf51f3cb3f7f58">core::Engine</a>.</p>
+<p>Factory method to create an engine-specific camera. </p>
+<dl class="section return"><dt>Returns</dt><dd>CameraPtr The created camera. </dd></dl>
+
+<p>Implements <a class="el" href="../../d8/dab/classcore_1_1Engine.html#ad6af7c3e449c5f77324c36bf1977c4eb">core::Engine</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../db/dcc/OSPRayEngine_8cpp_source.html#l00191">191</a> of file <a class="el" href="../../db/dcc/OSPRayEngine_8cpp_source.html">OSPRayEngine.cpp</a>.</p>
 
@@ -349,9 +377,19 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Factory method to create an engine-specific framebuffer. </p>
 
-<p>Implements <a class="el" href="../../d8/dab/classcore_1_1Engine.html#a5e2fc7ba0a22ba186b87bdd7b9c17b36">core::Engine</a>.</p>
+<p>Factory method to create an engine-specific framebuffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the frame buffer. </td></tr>
+    <tr><td class="paramname">frameSize</td><td>The size of the frame buffer. </td></tr>
+    <tr><td class="paramname">frameBufferFormat</td><td>The frame buffer format.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>FrameBufferPtr The created frame buffer. </dd></dl>
+
+<p>Implements <a class="el" href="../../d8/dab/classcore_1_1Engine.html#a05446f0e4f953fad3d4ef493ab43a161">core::Engine</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../db/dcc/OSPRayEngine_8cpp_source.html#l00179">179</a> of file <a class="el" href="../../db/dcc/OSPRayEngine_8cpp_source.html">OSPRayEngine.cpp</a>.</p>
 
@@ -390,9 +428,18 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Factory method to create an engine-specific renderer. </p>
 
-<p>Implements <a class="el" href="../../d8/dab/classcore_1_1Engine.html#af974ff28021733df16bb164408e3b2a0">core::Engine</a>.</p>
+<p>Factory method to create an engine-specific renderer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animationParameters</td><td>The animation parameters. </td></tr>
+    <tr><td class="paramname">renderingParameters</td><td>The rendering parameters.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>RendererPtr The created renderer. </dd></dl>
+
+<p>Implements <a class="el" href="../../d8/dab/classcore_1_1Engine.html#aa82294c4692da1b9ee7e6649f19ead3f">core::Engine</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../db/dcc/OSPRayEngine_8cpp_source.html#l00196">196</a> of file <a class="el" href="../../db/dcc/OSPRayEngine_8cpp_source.html">OSPRayEngine.cpp</a>.</p>
 
@@ -437,9 +484,19 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Factory method to create an engine-specific scene. </p>
 
-<p>Implements <a class="el" href="../../d8/dab/classcore_1_1Engine.html#a66850677cf6e80c0dd3781cc16cea23f">core::Engine</a>.</p>
+<p>Factory method to create an engine-specific scene. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animationParameters</td><td>The animation parameters. </td></tr>
+    <tr><td class="paramname">geometryParameters</td><td>The geometry parameters. </td></tr>
+    <tr><td class="paramname">volumeParameters</td><td>The volume parameters.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ScenePtr The created scene. </dd></dl>
+
+<p>Implements <a class="el" href="../../d8/dab/classcore_1_1Engine.html#a5df78c31a493171386562178104b7bdc">core::Engine</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../db/dcc/OSPRayEngine_8cpp_source.html#l00185">185</a> of file <a class="el" href="../../db/dcc/OSPRayEngine_8cpp_source.html">OSPRayEngine.cpp</a>.</p>
 
@@ -468,10 +525,10 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p></p>
-<dl class="section return"><dt>Returns</dt><dd>the minimum frame size in pixels supported by this engine. </dd></dl>
+<p>Returns the minimum frame size in pixels supported by this engine. </p>
+<dl class="section return"><dt>Returns</dt><dd>Vector2ui The minimum frame size. </dd></dl>
 
-<p>Implements <a class="el" href="../../d8/dab/classcore_1_1Engine.html#abe21c76e131eeb5940c9e59f56b914b1">core::Engine</a>.</p>
+<p>Implements <a class="el" href="../../d8/dab/classcore_1_1Engine.html#afcec9fff4fd961c0fe4d194d10f7a018">core::Engine</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../db/dcc/OSPRayEngine_8cpp_source.html#l00131">131</a> of file <a class="el" href="../../db/dcc/OSPRayEngine_8cpp_source.html">OSPRayEngine.cpp</a>.</p>
 

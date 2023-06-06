@@ -1,5 +1,5 @@
 <map id="core::Model::Geometries" name="core::Model::Geometries">
 <area shape="rect" id="node1" title=" " alt="" coords="89,212,271,239"/>
 <area shape="rect" id="node2" href="$df/d44/classcore_1_1Box.html" title=" " alt="" coords="5,5,163,32"/>
-<area shape="rect" id="node3" href="$d6/d7a/structcore_1_1SDFGeometryData.html" title=" " alt="" coords="187,5,367,32"/>
+<area shape="rect" id="node3" href="$d6/d7a/structcore_1_1SDFGeometryData.html" title="A struct that holds data for Signed Distance Field (SDF) calculations. Since this struct holds data f..." alt="" coords="187,5,367,32"/>
 </map>

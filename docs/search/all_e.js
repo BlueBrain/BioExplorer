@@ -59,7 +59,7 @@ var searchData=
   ['nucleotid_2250',['Nucleotid',['../d6/d5b/structbioexplorer_1_1molecularsystems_1_1Nucleotid.html',1,'bioexplorer::molecularsystems']]],
   ['nucleotidmap_2251',['NucleotidMap',['../d1/dc2/namespacebioexplorer_1_1molecularsystems.html#a852fd83164bd5d1b33d6cf0ddd1c70fb',1,'bioexplorer::molecularsystems::NucleotidMap()'],['../d1/dc2/namespacebioexplorer_1_1molecularsystems.html#a8ec2e65fd6ebf99575b97b264de30a45',1,'bioexplorer::molecularsystems::nucleotidMap()']]],
   ['num_5ftexcoords_2252',['num_texcoords',['../d1/d83/structcore_1_1GeometryData.html#acbfd4d8ae2f2114534ee1b3905818051',1,'core::GeometryData']]],
-  ['numaccumframes_2253',['numAccumFrames',['../db/ddf/classcore_1_1FrameBuffer.html#a659355fe65c13b1d08d98e0a7535e8be',1,'core::FrameBuffer']]],
+  ['numaccumframes_2253',['numAccumFrames',['../db/ddf/classcore_1_1FrameBuffer.html#acf3111fcabf79aae984a342dca615a8b',1,'core::FrameBuffer']]],
   ['numattributevalues_2254',['numAttributeValues',['../d9/d0f/namespacecore.html#a3f2cd4a77ccb7ee9b97a2d62849222fa',1,'core']]],
   ['numneighbours_2255',['numNeighbours',['../dd/d10/structcore_1_1SDFGeometry.html#a793f5137df5dfa662ef354f76b9e720f',1,'core::SDFGeometry']]],
   ['numpayloadvalues_2256',['numPayloadValues',['../d9/d0f/namespacecore.html#a21f172681eaa2cd887b6583e68a92487',1,'core']]],

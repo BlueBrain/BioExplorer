@@ -1,4 +1,6 @@
 <map id="ospray::FishEyeCamera" name="ospray::FishEyeCamera">
-<area shape="rect" id="node1" title="Implements a clipped FishEye camera." alt="" coords="5,80,180,107"/>
-<area shape="rect" id="node2" title=" " alt="" coords="56,5,129,32"/>
+<area shape="rect" id="node1" title="Implements a clipped FishEye camera." alt="" coords="5,229,180,256"/>
+<area shape="rect" id="node2" title=" " alt="" coords="56,155,129,181"/>
+<area shape="rect" id="node3" href="$d7/d67/classcore_1_1PropertyObject.html" title=" " alt="" coords="15,80,170,107"/>
+<area shape="rect" id="node4" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="27,5,159,32"/>
 </map>

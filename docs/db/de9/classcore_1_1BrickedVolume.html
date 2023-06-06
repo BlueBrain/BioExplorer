@@ -83,11 +83,16 @@ $(document).ready(function(){initNavTree('db/de9/classcore_1_1BrickedVolume.html
 
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="../../d6/daa/classcore_1_1BrickedVolume-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">core::BrickedVolume Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>A volume type where the voxels are copied for each added brick.  
+ <a href="../../db/de9/classcore_1_1BrickedVolume.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="../../d4/d71/BrickedVolume_8h_source.html">BrickedVolume.h</a>&gt;</code></p>
 <div class="dynheader">
@@ -95,9 +100,9 @@ Inheritance diagram for core::BrickedVolume:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../dd/d3b/classcore_1_1BrickedVolume__inherit__graph.png" border="0" usemap="#core_1_1BrickedVolume_inherit__map" alt="Inheritance graph"/></div>
 <map name="core_1_1BrickedVolume_inherit__map" id="core_1_1BrickedVolume_inherit__map">
-<area shape="rect" title=" " alt="" coords="31,155,186,181"/>
+<area shape="rect" title="A volume type where the voxels are copied for each added brick." alt="" coords="31,155,186,181"/>
 <area shape="rect" href="../../d2/dee/classcore_1_1OSPRayBrickedVolume.html" title=" " alt="" coords="5,229,212,256"/>
-<area shape="rect" href="../../d9/d2b/classcore_1_1Volume.html" title=" " alt="" coords="55,80,162,107"/>
+<area shape="rect" href="../../d9/d2b/classcore_1_1Volume.html" title="A base class for volumes." alt="" coords="55,80,162,107"/>
 <area shape="rect" href="../../d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="43,5,175,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
@@ -106,35 +111,32 @@ Collaboration diagram for core::BrickedVolume:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d8/db5/classcore_1_1BrickedVolume__coll__graph.png" border="0" usemap="#core_1_1BrickedVolume_coll__map" alt="Collaboration graph"/></div>
 <map name="core_1_1BrickedVolume_coll__map" id="core_1_1BrickedVolume_coll__map">
-<area shape="rect" title=" " alt="" coords="5,155,160,181"/>
-<area shape="rect" href="../../d9/d2b/classcore_1_1Volume.html" title=" " alt="" coords="29,80,136,107"/>
+<area shape="rect" title="A volume type where the voxels are copied for each added brick." alt="" coords="5,155,160,181"/>
+<area shape="rect" href="../../d9/d2b/classcore_1_1Volume.html" title="A base class for volumes." alt="" coords="29,80,136,107"/>
 <area shape="rect" href="../../d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="17,5,149,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
-API for engine-specific code</h2></td></tr>
-<tr class="memitem:a4a0dbfe91b264be91097da6c6ac48828"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/de9/classcore_1_1BrickedVolume.html#a4a0dbfe91b264be91097da6c6ac48828">setBrick</a> (const void *data, const <a class="el" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> &amp;position, const <a class="el" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> &amp;size)=0</td></tr>
-<tr class="separator:a4a0dbfe91b264be91097da6c6ac48828"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5d895ff48e33fe6d7d452eafde88443"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/de9/classcore_1_1BrickedVolume.html#ab5d895ff48e33fe6d7d452eafde88443">BrickedVolume</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> &amp;dimensions, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;spacing, const <a class="el" href="../../d9/d0f/namespacecore.html#a5f3273b25e834b08ca52b42611a66e4e">DataType</a> type)</td></tr>
-<tr class="separator:ab5d895ff48e33fe6d7d452eafde88443"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_types_classcore_1_1BaseObject"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classcore_1_1BaseObject')"><img src="../../closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">core::BaseObject</a></td></tr>
-<tr class="memitem:afb156c52a67a3326ec6813e61d609096 inherit pub_types_classcore_1_1BaseObject"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#afb156c52a67a3326ec6813e61d609096">ModifiedCallback</a> = std::function&lt; void(const <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">BaseObject</a> &amp;)&gt;</td></tr>
-<tr class="separator:afb156c52a67a3326ec6813e61d609096 inherit pub_types_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:adaf393d247b1698f8ea91b6a2adeed2b"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/de9/classcore_1_1BrickedVolume.html#adaf393d247b1698f8ea91b6a2adeed2b">setBrick</a> (const void *data, const <a class="el" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> &amp;position, const <a class="el" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> &amp;size)=0</td></tr>
+<tr class="memdesc:adaf393d247b1698f8ea91b6a2adeed2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a brick of data in the volume.  <a href="../../db/de9/classcore_1_1BrickedVolume.html#adaf393d247b1698f8ea91b6a2adeed2b">More...</a><br /></td></tr>
+<tr class="separator:adaf393d247b1698f8ea91b6a2adeed2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcore_1_1Volume"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcore_1_1Volume')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d9/d2b/classcore_1_1Volume.html">core::Volume</a></td></tr>
-<tr class="memitem:aedee3ee52621363c2900b6addad09907 inherit pub_methods_classcore_1_1Volume"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2b/classcore_1_1Volume.html#aedee3ee52621363c2900b6addad09907">setDataRange</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a36240155dcb08412de3fd5d53e5d312e">Vector2f</a> &amp;range)=0</td></tr>
-<tr class="separator:aedee3ee52621363c2900b6addad09907 inherit pub_methods_classcore_1_1Volume"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae286ca091456abd8b9cab22f0c008a6d inherit pub_methods_classcore_1_1Volume"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2b/classcore_1_1Volume.html#ae286ca091456abd8b9cab22f0c008a6d">commit</a> ()=0</td></tr>
-<tr class="separator:ae286ca091456abd8b9cab22f0c008a6d inherit pub_methods_classcore_1_1Volume"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6793dcdfe0acaae8f9c6daaf50a36e2e inherit pub_methods_classcore_1_1Volume"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2b/classcore_1_1Volume.html#a6793dcdfe0acaae8f9c6daaf50a36e2e">Volume</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> &amp;dimensions, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;spacing, const <a class="el" href="../../d9/d0f/namespacecore.html#a5f3273b25e834b08ca52b42611a66e4e">DataType</a> type)</td></tr>
+<tr class="memitem:a6793dcdfe0acaae8f9c6daaf50a36e2e inherit pub_methods_classcore_1_1Volume"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2b/classcore_1_1Volume.html#a6793dcdfe0acaae8f9c6daaf50a36e2e">Volume</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> &amp;dimensions, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;spacing, const <a class="el" href="../../d9/d0f/namespacecore.html#a5f3273b25e834b08ca52b42611a66e4e">DataType</a> type)</td></tr>
+<tr class="memdesc:a6793dcdfe0acaae8f9c6daaf50a36e2e inherit pub_methods_classcore_1_1Volume"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="../../d9/d2b/classcore_1_1Volume.html" title="A base class for volumes.">Volume</a> object.  <a href="../../d9/d2b/classcore_1_1Volume.html#a6793dcdfe0acaae8f9c6daaf50a36e2e">More...</a><br /></td></tr>
 <tr class="separator:a6793dcdfe0acaae8f9c6daaf50a36e2e inherit pub_methods_classcore_1_1Volume"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd0b2a9b9fcde92a3b1cb4c9f0a9d91f inherit pub_methods_classcore_1_1Volume"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2b/classcore_1_1Volume.html#abd0b2a9b9fcde92a3b1cb4c9f0a9d91f">getSizeInBytes</a> () const</td></tr>
-<tr class="separator:abd0b2a9b9fcde92a3b1cb4c9f0a9d91f inherit pub_methods_classcore_1_1Volume"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fa459edcb8315d3971eb1edeb8c1d87 inherit pub_methods_classcore_1_1Volume"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#af8525fbf2d49b92c0f085bf707f1fdf8">Boxd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2b/classcore_1_1Volume.html#a4fa459edcb8315d3971eb1edeb8c1d87">getBounds</a> () const</td></tr>
-<tr class="separator:a4fa459edcb8315d3971eb1edeb8c1d87 inherit pub_methods_classcore_1_1Volume"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bed7e8d71311dc1079825309387a5ee inherit pub_methods_classcore_1_1Volume"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2b/classcore_1_1Volume.html#a8bed7e8d71311dc1079825309387a5ee">setDataRange</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a36240155dcb08412de3fd5d53e5d312e">Vector2f</a> &amp;range)=0</td></tr>
+<tr class="separator:a8bed7e8d71311dc1079825309387a5ee inherit pub_methods_classcore_1_1Volume"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c62ec575ee6648cae04238f6d91c9cb inherit pub_methods_classcore_1_1Volume"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2b/classcore_1_1Volume.html#a1c62ec575ee6648cae04238f6d91c9cb">commit</a> ()=0</td></tr>
+<tr class="memdesc:a1c62ec575ee6648cae04238f6d91c9cb inherit pub_methods_classcore_1_1Volume"><td class="mdescLeft">&#160;</td><td class="mdescRight">Commits changes to the volume.  <a href="../../d9/d2b/classcore_1_1Volume.html#a1c62ec575ee6648cae04238f6d91c9cb">More...</a><br /></td></tr>
+<tr class="separator:a1c62ec575ee6648cae04238f6d91c9cb inherit pub_methods_classcore_1_1Volume"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcba9d197adccb379708953f66146f51 inherit pub_methods_classcore_1_1Volume"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2b/classcore_1_1Volume.html#adcba9d197adccb379708953f66146f51">getSizeInBytes</a> () const</td></tr>
+<tr class="memdesc:adcba9d197adccb379708953f66146f51 inherit pub_methods_classcore_1_1Volume"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the size of the volume in bytes.  <a href="../../d9/d2b/classcore_1_1Volume.html#adcba9d197adccb379708953f66146f51">More...</a><br /></td></tr>
+<tr class="separator:adcba9d197adccb379708953f66146f51 inherit pub_methods_classcore_1_1Volume"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8dd36f9a418dad1c110df9befe29f3c inherit pub_methods_classcore_1_1Volume"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#af8525fbf2d49b92c0f085bf707f1fdf8">Boxd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2b/classcore_1_1Volume.html#aa8dd36f9a418dad1c110df9befe29f3c">getBounds</a> () const</td></tr>
+<tr class="memdesc:aa8dd36f9a418dad1c110df9befe29f3c inherit pub_methods_classcore_1_1Volume"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the bounding box of the volume.  <a href="../../d9/d2b/classcore_1_1Volume.html#aa8dd36f9a418dad1c110df9befe29f3c">More...</a><br /></td></tr>
+<tr class="separator:aa8dd36f9a418dad1c110df9befe29f3c inherit pub_methods_classcore_1_1Volume"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcore_1_1BaseObject"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcore_1_1BaseObject')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">core::BaseObject</a></td></tr>
 <tr class="memitem:a24c7d4cdaf387fec70d9087cd811a2c7 inherit pub_methods_classcore_1_1BaseObject"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#a24c7d4cdaf387fec70d9087cd811a2c7">BaseObject</a> ()=default</td></tr>
 <tr class="separator:a24c7d4cdaf387fec70d9087cd811a2c7 inherit pub_methods_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,6 +156,12 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:ae1f5c89c15c0ead6aa485ca4cb0e7ab4 inherit pub_methods_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8fcc8c4dd46a0c25039228b60a739331 inherit pub_methods_classcore_1_1BaseObject"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#a8fcc8c4dd46a0c25039228b60a739331">clearModifiedCallback</a> ()</td></tr>
 <tr class="separator:a8fcc8c4dd46a0c25039228b60a739331 inherit pub_methods_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:ab5d895ff48e33fe6d7d452eafde88443"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/de9/classcore_1_1BrickedVolume.html#ab5d895ff48e33fe6d7d452eafde88443">BrickedVolume</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> &amp;dimensions, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;spacing, const <a class="el" href="../../d9/d0f/namespacecore.html#a5f3273b25e834b08ca52b42611a66e4e">DataType</a> type)</td></tr>
+<tr class="memdesc:ab5d895ff48e33fe6d7d452eafde88443"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new <a class="el" href="../../db/de9/classcore_1_1BrickedVolume.html" title="A volume type where the voxels are copied for each added brick.">BrickedVolume</a> object.  <a href="../../db/de9/classcore_1_1BrickedVolume.html#ab5d895ff48e33fe6d7d452eafde88443">More...</a><br /></td></tr>
+<tr class="separator:ab5d895ff48e33fe6d7d452eafde88443"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classcore_1_1BaseObject"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classcore_1_1BaseObject')"><img src="../../closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">core::BaseObject</a></td></tr>
 <tr class="memitem:a0e8912f5618d6b55eb0be41461f58cf0 inherit pro_methods_classcore_1_1BaseObject"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a0e8912f5618d6b55eb0be41461f58cf0 inherit pro_methods_classcore_1_1BaseObject"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#a0e8912f5618d6b55eb0be41461f58cf0">_updateValue</a> (T &amp;member, const T &amp;newValue, const bool triggerCallback=true)</td></tr>
@@ -164,6 +172,12 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:ad3fdd96dd7e7ce3267775ebebca17b2e inherit pro_methods_classcore_1_1BaseObject"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:ad3fdd96dd7e7ce3267775ebebca17b2e inherit pro_methods_classcore_1_1BaseObject"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#ad3fdd96dd7e7ce3267775ebebca17b2e">_isEqual</a> (const T &amp;a, const T &amp;b, typename std::enable_if&lt;!std::is_floating_point&lt; T &gt;::value &gt;::type *=0)</td></tr>
 <tr class="separator:ad3fdd96dd7e7ce3267775ebebca17b2e inherit pro_methods_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_classcore_1_1BaseObject"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classcore_1_1BaseObject')"><img src="../../closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">core::BaseObject</a></td></tr>
+<tr class="memitem:afb156c52a67a3326ec6813e61d609096 inherit pub_types_classcore_1_1BaseObject"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#afb156c52a67a3326ec6813e61d609096">ModifiedCallback</a> = std::function&lt; void(const <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">BaseObject</a> &amp;)&gt;</td></tr>
+<tr class="separator:afb156c52a67a3326ec6813e61d609096 inherit pub_types_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classcore_1_1Volume"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classcore_1_1Volume')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d9/d2b/classcore_1_1Volume.html">core::Volume</a></td></tr>
 <tr class="memitem:af12e0e767fb69f83a45a50038d317cc2 inherit pro_attribs_classcore_1_1Volume"><td class="memItemLeft" align="right" valign="top">std::atomic_size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2b/classcore_1_1Volume.html#af12e0e767fb69f83a45a50038d317cc2">_sizeInBytes</a> {0}</td></tr>
 <tr class="separator:af12e0e767fb69f83a45a50038d317cc2 inherit pro_attribs_classcore_1_1Volume"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,7 +191,7 @@ Additional Inherited Members</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A volume type where the voxels are copied for each added brick. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d71/BrickedVolume_8h_source.html#l00029">29</a> of file <a class="el" href="../../d4/d71/BrickedVolume_8h_source.html">BrickedVolume.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d71/BrickedVolume_8h_source.html#l00034">34</a> of file <a class="el" href="../../d4/d71/BrickedVolume_8h_source.html">BrickedVolume.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab5d895ff48e33fe6d7d452eafde88443"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab5d895ff48e33fe6d7d452eafde88443">&#9670;&nbsp;</a></span>BrickedVolume()</h2>
@@ -219,13 +233,23 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d71/BrickedVolume_8h_source.html#l00038">38</a> of file <a class="el" href="../../d4/d71/BrickedVolume_8h_source.html">BrickedVolume.h</a>.</p>
+<p>Constructs a new <a class="el" href="../../db/de9/classcore_1_1BrickedVolume.html" title="A volume type where the voxels are copied for each added brick.">BrickedVolume</a> object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dimensions</td><td>The dimensions of the volume as a Vector3ui object. </td></tr>
+    <tr><td class="paramname">spacing</td><td>The spacing between voxels as a Vector3f object. </td></tr>
+    <tr><td class="paramname">type</td><td>The data type of the volume. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d4/d71/BrickedVolume_8h_source.html#l00052">52</a> of file <a class="el" href="../../d4/d71/BrickedVolume_8h_source.html">BrickedVolume.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4a0dbfe91b264be91097da6c6ac48828"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a0dbfe91b264be91097da6c6ac48828">&#9670;&nbsp;</a></span>setBrick()</h2>
+<a id="adaf393d247b1698f8ea91b6a2adeed2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adaf393d247b1698f8ea91b6a2adeed2b">&#9670;&nbsp;</a></span>setBrick()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -234,7 +258,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void core::BrickedVolume::setBrick </td>
+          <td class="memname">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::BrickedVolume::setBrick </td>
           <td>(</td>
           <td class="paramtype">const void *&#160;</td>
           <td class="paramname"><em>data</em>, </td>
@@ -263,6 +287,16 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Sets a brick of data in the volume. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>The data to be set as a void pointer. </td></tr>
+    <tr><td class="paramname">position</td><td>The position of the brick as a Vector3ui object. </td></tr>
+    <tr><td class="paramname">size</td><td>The size of the brick as a Vector3ui object. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="../../d2/dee/classcore_1_1OSPRayBrickedVolume.html#af57f8ec05b97f9641a4e3f9c28f39921">core::OSPRayBrickedVolume</a>.</p>
 

@@ -1,52 +1,52 @@
 <map id="platform/plugins/rockets/jsonSerialization.h" name="platform/plugins/rockets/jsonSerialization.h">
-<area shape="rect" id="node1" title=" " alt="" coords="3055,5,3235,47"/>
-<area shape="rect" id="node2" title=" " alt="" coords="119,459,201,486"/>
-<area shape="rect" id="node3" title=" " alt="" coords="4331,102,4413,129"/>
-<area shape="rect" id="node4" href="$d1/dd6/Statistics_8h.html" title=" " alt="" coords="4147,363,4317,404"/>
-<area shape="rect" id="node10" href="$df/d1e/Transformation_8h.html" title=" " alt="" coords="3240,363,3411,404"/>
-<area shape="rect" id="node11" href="$d4/d73/Light_8h.html" title=" " alt="" coords="1476,95,1647,136"/>
-<area shape="rect" id="node12" href="$d5/db5/ClipPlane_8h.html" title=" " alt="" coords="43,273,213,315"/>
-<area shape="rect" id="node14" href="$d7/d10/core_2common_2transferFunction_2TransferFunction_8h.html" title=" " alt="" coords="2590,363,2845,404"/>
-<area shape="rect" id="node15" href="$d4/d8f/StringUtils_8h.html" title=" " alt="" coords="3612,184,3783,225"/>
-<area shape="rect" id="node17" href="$dc/daa/platform_2core_2common_2utils_2Utils_8h.html" title=" " alt="" coords="4341,363,4512,404"/>
-<area shape="rect" id="node19" href="$d2/d6f/base64_8h.html" title=" " alt="" coords="4136,95,4307,136"/>
-<area shape="rect" id="node20" href="$dd/de4/Camera_8h.html" title=" " alt="" coords="2677,184,2856,225"/>
-<area shape="rect" id="node23" href="$d1/dd4/Engine_8h.html" title=" " alt="" coords="3731,273,3909,315"/>
-<area shape="rect" id="node24" href="$df/d12/Material_8h.html" title=" " alt="" coords="457,184,636,225"/>
-<area shape="rect" id="node27" href="$d3/d5a/Model_8h.html" title=" " alt="" coords="2163,273,2341,315"/>
-<area shape="rect" id="node37" href="$d8/db2/Renderer_8h.html" title=" " alt="" coords="2475,184,2653,225"/>
-<area shape="rect" id="node38" href="$d5/d60/AnimationParameters_8h.html" title=" " alt="" coords="2720,273,2909,315"/>
-<area shape="rect" id="node39" href="$d3/d48/RenderingParameters_8h.html" title=" " alt="" coords="779,273,968,315"/>
-<area shape="rect" id="node40" href="$d5/d2d/Scene_8h.html" title=" " alt="" coords="3155,184,3333,225"/>
-<area shape="rect" id="node44" href="$d6/d4c/ApplicationParameters_8h.html" title=" " alt="" coords="3933,363,4123,404"/>
-<area shape="rect" id="node45" href="$de/d1b/VolumeParameters_8h.html" title=" " alt="" coords="4437,95,4627,136"/>
-<area shape="rect" id="node46" href="$dc/d14/AddModelFromBlobTask_8h.html" title=" " alt="" coords="2155,95,2349,136"/>
-<area shape="rect" id="node47" href="$d2/d0e/Errors_8h.html" title=" " alt="" coords="4651,95,4800,136"/>
-<area shape="rect" id="node48" href="$dc/d27/ImageGenerator_8h.html" title=" " alt="" coords="2977,191,3116,218"/>
-<area shape="rect" id="node49" href="$d4/de5/SnapshotTask_8h.html" title=" " alt="" coords="3084,102,3207,129"/>
-<area shape="rect" id="node50" href="$d0/da8/jsonUtils_8h.html" title=" " alt="" coords="4824,102,4915,129"/>
-<area shape="rect" id="node5" href="$d0/d3f/BaseObject_8h.html" title=" " alt="" coords="3492,631,3663,672"/>
-<area shape="rect" id="node7" href="$de/d53/platform_2core_2common_2Types_8h.html" title=" " alt="" coords="2699,452,2869,493"/>
-<area shape="rect" id="node6" title=" " alt="" coords="3802,720,3889,747"/>
-<area shape="rect" id="node8" href="$d5/d55/MathTypes_8h.html" title=" " alt="" coords="3021,541,3192,583"/>
-<area shape="rect" id="node9" title=" " alt="" coords="3137,638,3199,665"/>
-<area shape="rect" id="node13" href="$df/d21/Api_8h.html" title=" " alt="" coords="736,363,907,404"/>
-<area shape="rect" id="node16" title=" " alt="" coords="3883,459,3941,486"/>
-<area shape="rect" id="node18" title=" " alt="" coords="3621,459,3707,486"/>
-<area shape="rect" id="node21" href="$d4/d17/PropertyObject_8h.html" title=" " alt="" coords="2475,273,2645,315"/>
-<area shape="rect" id="node22" href="$dc/d04/PropertyMap_8h.html" title=" " alt="" coords="3485,363,3656,404"/>
-<area shape="rect" id="node25" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="288,273,459,315"/>
-<area shape="rect" id="node26" href="$d5/d6f/Texture2D_8h.html" title=" " alt="" coords="584,273,755,315"/>
-<area shape="rect" id="node28" href="$d1/d9b/Cone_8h.html" title=" " alt="" coords="931,363,1101,404"/>
-<area shape="rect" id="node29" href="$d8/de7/Curve_8h.html" title=" " alt="" coords="2200,363,2371,404"/>
-<area shape="rect" id="node30" href="$d9/d0a/Cylinder_8h.html" title=" " alt="" coords="1125,363,1296,404"/>
-<area shape="rect" id="node31" href="$db/d88/SDFBezier_8h.html" title=" " alt="" coords="2395,363,2565,404"/>
-<area shape="rect" id="node32" href="$d2/df3/SDFGeometry_8h.html" title=" " alt="" coords="1515,363,1709,404"/>
-<area shape="rect" id="node33" href="$de/d15/core_2common_2geometry_2Sphere_8h.html" title=" " alt="" coords="1320,363,1491,404"/>
-<area shape="rect" id="node34" href="$dd/dec/Streamline_8h.html" title=" " alt="" coords="1733,363,1909,404"/>
-<area shape="rect" id="node35" href="$df/dfa/TriangleMesh_8h.html" title=" " alt="" coords="1934,363,2125,404"/>
-<area shape="rect" id="node36" title=" " alt="" coords="3021,370,3064,397"/>
-<area shape="rect" id="node41" href="$d6/d76/LoaderRegistry_8h.html" title=" " alt="" coords="2984,273,3163,315"/>
-<area shape="rect" id="node42" href="$dd/d9a/LightManager_8h.html" title=" " alt="" coords="3376,273,3555,315"/>
-<area shape="rect" id="node43" title=" " alt="" coords="3187,281,3301,307"/>
+<area shape="rect" id="node1" title=" " alt="" coords="2620,5,2800,47"/>
+<area shape="rect" id="node2" title=" " alt="" coords="790,459,873,486"/>
+<area shape="rect" id="node3" title=" " alt="" coords="4065,102,4148,129"/>
+<area shape="rect" id="node4" href="$d1/dd6/Statistics_8h.html" title=" " alt="" coords="3617,363,3788,404"/>
+<area shape="rect" id="node10" href="$df/d1e/Transformation_8h.html" title=" " alt="" coords="3862,363,4033,404"/>
+<area shape="rect" id="node11" href="$d4/d73/Light_8h.html" title=" " alt="" coords="3113,95,3284,136"/>
+<area shape="rect" id="node12" href="$d5/db5/ClipPlane_8h.html" title=" " alt="" coords="814,273,985,315"/>
+<area shape="rect" id="node14" href="$d7/d10/core_2common_2transferFunction_2TransferFunction_8h.html" title=" " alt="" coords="3287,363,3542,404"/>
+<area shape="rect" id="node15" href="$d4/d8f/StringUtils_8h.html" title=" " alt="" coords="3866,184,4037,225"/>
+<area shape="rect" id="node17" href="$dc/daa/platform_2core_2common_2utils_2Utils_8h.html" title=" " alt="" coords="4057,363,4228,404"/>
+<area shape="rect" id="node19" href="$d2/d6f/base64_8h.html" title=" " alt="" coords="3870,95,4041,136"/>
+<area shape="rect" id="node20" href="$dd/de4/Camera_8h.html" title=" " alt="" coords="933,184,1112,225"/>
+<area shape="rect" id="node23" href="$d1/dd4/Engine_8h.html" title=" " alt="" coords="2284,273,2462,315"/>
+<area shape="rect" id="node24" href="$df/d12/Material_8h.html" title=" " alt="" coords="392,184,570,225"/>
+<area shape="rect" id="node27" href="$d3/d5a/Model_8h.html" title=" " alt="" coords="2486,273,2665,315"/>
+<area shape="rect" id="node37" href="$d8/db2/Renderer_8h.html" title=" " alt="" coords="1293,184,1472,225"/>
+<area shape="rect" id="node38" href="$d5/d60/AnimationParameters_8h.html" title=" " alt="" coords="1324,273,1513,315"/>
+<area shape="rect" id="node39" href="$d3/d48/RenderingParameters_8h.html" title=" " alt="" coords="1110,273,1300,315"/>
+<area shape="rect" id="node40" href="$d5/d2d/Scene_8h.html" title=" " alt="" coords="2024,184,2202,225"/>
+<area shape="rect" id="node44" href="$d6/d4c/ApplicationParameters_8h.html" title=" " alt="" coords="4353,363,4542,404"/>
+<area shape="rect" id="node45" href="$de/d1b/VolumeParameters_8h.html" title=" " alt="" coords="4172,95,4361,136"/>
+<area shape="rect" id="node46" href="$dc/d14/AddModelFromBlobTask_8h.html" title=" " alt="" coords="2478,95,2673,136"/>
+<area shape="rect" id="node47" href="$d2/d0e/Errors_8h.html" title=" " alt="" coords="4385,95,4534,136"/>
+<area shape="rect" id="node48" href="$dc/d27/ImageGenerator_8h.html" title=" " alt="" coords="1720,191,1858,218"/>
+<area shape="rect" id="node49" href="$d4/de5/SnapshotTask_8h.html" title=" " alt="" coords="1826,102,1949,129"/>
+<area shape="rect" id="node50" href="$d0/da8/jsonUtils_8h.html" title=" " alt="" coords="4558,102,4649,129"/>
+<area shape="rect" id="node5" href="$d0/d3f/BaseObject_8h.html" title=" " alt="" coords="1470,631,1641,672"/>
+<area shape="rect" id="node7" href="$de/d53/platform_2core_2common_2Types_8h.html" title=" " alt="" coords="1716,452,1886,493"/>
+<area shape="rect" id="node6" title=" " alt="" coords="1512,720,1599,747"/>
+<area shape="rect" id="node8" href="$d5/d55/MathTypes_8h.html" title=" " alt="" coords="1470,541,1641,583"/>
+<area shape="rect" id="node9" title=" " alt="" coords="1699,638,1762,665"/>
+<area shape="rect" id="node13" href="$df/d21/Api_8h.html" title=" " alt="" coords="818,363,989,404"/>
+<area shape="rect" id="node16" title=" " alt="" coords="4244,459,4302,486"/>
+<area shape="rect" id="node18" title=" " alt="" coords="3913,459,3998,486"/>
+<area shape="rect" id="node21" href="$d4/d17/PropertyObject_8h.html" title=" " alt="" coords="620,273,790,315"/>
+<area shape="rect" id="node22" href="$dc/d04/PropertyMap_8h.html" title=" " alt="" coords="1216,363,1386,404"/>
+<area shape="rect" id="node25" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="273,273,444,315"/>
+<area shape="rect" id="node26" href="$d5/d6f/Texture2D_8h.html" title=" " alt="" coords="28,273,198,315"/>
+<area shape="rect" id="node28" href="$d1/d9b/Cone_8h.html" title=" " alt="" coords="2069,363,2240,404"/>
+<area shape="rect" id="node29" href="$d8/de7/Curve_8h.html" title=" " alt="" coords="1874,363,2045,404"/>
+<area shape="rect" id="node30" href="$d9/d0a/Cylinder_8h.html" title=" " alt="" coords="2264,363,2434,404"/>
+<area shape="rect" id="node31" href="$db/d88/SDFBezier_8h.html" title=" " alt="" coords="2458,363,2629,404"/>
+<area shape="rect" id="node32" href="$d2/df3/SDFGeometry_8h.html" title=" " alt="" coords="2653,363,2848,404"/>
+<area shape="rect" id="node33" href="$de/d15/core_2common_2geometry_2Sphere_8h.html" title=" " alt="" coords="1680,363,1850,404"/>
+<area shape="rect" id="node34" href="$dd/dec/Streamline_8h.html" title=" " alt="" coords="2872,363,3048,404"/>
+<area shape="rect" id="node35" href="$df/dfa/TriangleMesh_8h.html" title=" " alt="" coords="3072,363,3263,404"/>
+<area shape="rect" id="node36" title=" " alt="" coords="1410,370,1453,397"/>
+<area shape="rect" id="node41" href="$d6/d76/LoaderRegistry_8h.html" title=" " alt="" coords="1638,273,1817,315"/>
+<area shape="rect" id="node42" href="$dd/d9a/LightManager_8h.html" title=" " alt="" coords="1980,273,2158,315"/>
+<area shape="rect" id="node43" title=" " alt="" coords="1841,281,1956,307"/>
 </map>

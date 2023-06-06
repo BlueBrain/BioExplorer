@@ -84,11 +84,16 @@ $(document).ready(function(){initNavTree('dd/d5b/classcore_1_1Renderer.html','..
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="../../df/d27/classcore_1_1Renderer-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">core::Renderer Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html" title="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf...">Renderer</a> class inherits from <a class="el" href="../../d7/d67/classcore_1_1PropertyObject.html">PropertyObject</a> class The <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html" title="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf...">Renderer</a> class has methods to render a <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a>, get variance, commit, and pick a point as well as virtual methods to set camera and render frames in specific engines. It also contains a protected ScenePtr _scene variable.  
+ <a href="../../dd/d5b/classcore_1_1Renderer.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>&gt;</code></p>
 <div class="dynheader">
@@ -96,7 +101,7 @@ Inheritance diagram for core::Renderer:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../dc/d4a/classcore_1_1Renderer__inherit__graph.png" border="0" usemap="#core_1_1Renderer_inherit__map" alt="Inheritance graph"/></div>
 <map name="core_1_1Renderer_inherit__map" id="core_1_1Renderer_inherit__map">
-<area shape="rect" title=" " alt="" coords="388,71,505,98"/>
+<area shape="rect" title="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf..." alt="" coords="388,71,505,98"/>
 <area shape="rect" href="../../d5/df2/classbioexplorer_1_1rendering_1_1GolgiStyleRenderer.html" title=" " alt="" coords="554,5,721,47"/>
 <area shape="rect" href="../../d4/d9b/classcore_1_1OptiXRenderer.html" title=" " alt="" coords="561,71,714,98"/>
 <area shape="rect" href="../../db/d67/classcore_1_1OSPRayRenderer.html" title=" " alt="" coords="553,122,721,149"/>
@@ -109,7 +114,7 @@ Collaboration diagram for core::Renderer:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../de/d31/classcore_1_1Renderer__coll__graph.png" border="0" usemap="#core_1_1Renderer_coll__map" alt="Collaboration graph"/></div>
 <map name="core_1_1Renderer_coll__map" id="core_1_1Renderer_coll__map">
-<area shape="rect" title=" " alt="" coords="159,272,276,299"/>
+<area shape="rect" title="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf..." alt="" coords="159,272,276,299"/>
 <area shape="rect" href="../../d7/d67/classcore_1_1PropertyObject.html" title=" " alt="" coords="5,132,160,159"/>
 <area shape="rect" href="../../d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="35,5,167,32"/>
 <area shape="rect" href="../../da/dda/classcore_1_1AbstractParameters.html" title=" " alt="" coords="124,81,311,108"/>
@@ -121,36 +126,32 @@ Collaboration diagram for core::Renderer:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dd3/structcore_1_1Renderer_1_1PickResult.html">PickResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../de/dd3/structcore_1_1Renderer_1_1PickResult.html" title="PickResult Struct containing hit boolean value and Vector3d pos PickResult struct is used to retrieve...">PickResult</a> Struct containing hit boolean value and Vector3d pos <a class="el" href="../../de/dd3/structcore_1_1Renderer_1_1PickResult.html" title="PickResult Struct containing hit boolean value and Vector3d pos PickResult struct is used to retrieve...">PickResult</a> struct is used to retrieve information about whether the pick ray hit anything and if so the vector position.  <a href="../../de/dd3/structcore_1_1Renderer_1_1PickResult.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
-API for engine-specific code</h2></td></tr>
-<tr class="memitem:abad23d544590548679d34c88017bd928"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d4/dfb/classcore_1_1AnimationParameters.html">AnimationParameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#abad23d544590548679d34c88017bd928">_animationParameters</a></td></tr>
-<tr class="separator:abad23d544590548679d34c88017bd928"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4dc3aa8e780ecc13d442d65e6c4ea6f4"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d4/d34/classcore_1_1RenderingParameters.html">RenderingParameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#a4dc3aa8e780ecc13d442d65e6c4ea6f4">_renderingParameters</a></td></tr>
-<tr class="separator:a4dc3aa8e780ecc13d442d65e6c4ea6f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b98d6c98330885726960c90419478c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a7ddbdfa16725b7bd2d34a2e1fad4ee62">ScenePtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#a6b98d6c98330885726960c90419478c0">_scene</a></td></tr>
-<tr class="separator:a6b98d6c98330885726960c90419478c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
 <tr class="memitem:aec9d77674f6b3cd345ef073a619379d7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#aec9d77674f6b3cd345ef073a619379d7">render</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a5d8120691cd70cf84654555673e1dcd7">FrameBufferPtr</a> frameBuffer)=0</td></tr>
+<tr class="memdesc:aec9d77674f6b3cd345ef073a619379d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual method to render a <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a> This method is implemented in specific engine renderers to draw the <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a>.  <a href="../../dd/d5b/classcore_1_1Renderer.html#aec9d77674f6b3cd345ef073a619379d7">More...</a><br /></td></tr>
 <tr class="separator:aec9d77674f6b3cd345ef073a619379d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca16eff80dbc70e4b16346e7ad5649ed"><td class="memItemLeft" align="right" valign="top">virtual float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#aca16eff80dbc70e4b16346e7ad5649ed">getVariance</a> () const</td></tr>
+<tr class="memdesc:aca16eff80dbc70e4b16346e7ad5649ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get variance from previous <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#aec9d77674f6b3cd345ef073a619379d7" title="Virtual method to render a FrameBuffer This method is implemented in specific engine renderers to dra...">render()</a> This method returns the variance from the previous <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#aec9d77674f6b3cd345ef073a619379d7" title="Virtual method to render a FrameBuffer This method is implemented in specific engine renderers to dra...">render()</a> call.  <a href="../../dd/d5b/classcore_1_1Renderer.html#aca16eff80dbc70e4b16346e7ad5649ed">More...</a><br /></td></tr>
 <tr class="separator:aca16eff80dbc70e4b16346e7ad5649ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0d33c18f79cd470968ce4216483f598"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#ac0d33c18f79cd470968ce4216483f598">commit</a> ()=0</td></tr>
+<tr class="memdesc:ac0d33c18f79cd470968ce4216483f598"><td class="mdescLeft">&#160;</td><td class="mdescRight">This virtual method is implemented in specific engine renderers to signal that rendering is complete.  <a href="../../dd/d5b/classcore_1_1Renderer.html#ac0d33c18f79cd470968ce4216483f598">More...</a><br /></td></tr>
 <tr class="separator:ac0d33c18f79cd470968ce4216483f598"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41749582cfd803d873f743a062688554"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#a41749582cfd803d873f743a062688554">setCamera</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a0ca7e27fac9b09a3bb599abc2746648e">CameraPtr</a> camera)=0</td></tr>
+<tr class="memdesc:a41749582cfd803d873f743a062688554"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set camera for renderer This virtual method is implemented in specific engine renderers to set the camera for rendering.  <a href="../../dd/d5b/classcore_1_1Renderer.html#a41749582cfd803d873f743a062688554">More...</a><br /></td></tr>
 <tr class="separator:a41749582cfd803d873f743a062688554"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98d2ddd8da284b4845b99a70cdf1199d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../de/dd3/structcore_1_1Renderer_1_1PickResult.html">PickResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#a98d2ddd8da284b4845b99a70cdf1199d">pick</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a36240155dcb08412de3fd5d53e5d312e">Vector2f</a> &amp;)</td></tr>
+<tr class="memdesc:a98d2ddd8da284b4845b99a70cdf1199d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pick method This method is used to pick a point on the scene and returns <a class="el" href="../../de/dd3/structcore_1_1Renderer_1_1PickResult.html" title="PickResult Struct containing hit boolean value and Vector3d pos PickResult struct is used to retrieve...">PickResult</a> struct with hit boolean value and position.  <a href="../../dd/d5b/classcore_1_1Renderer.html#a98d2ddd8da284b4845b99a70cdf1199d">More...</a><br /></td></tr>
 <tr class="separator:a98d2ddd8da284b4845b99a70cdf1199d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8182b4456a8873a4927ae9eaf81109e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#a8182b4456a8873a4927ae9eaf81109e0">Renderer</a> (const <a class="el" href="../../d4/dfb/classcore_1_1AnimationParameters.html">AnimationParameters</a> &amp;animationParameters, const <a class="el" href="../../d4/d34/classcore_1_1RenderingParameters.html">RenderingParameters</a> &amp;renderingParameters)</td></tr>
+<tr class="memdesc:a8182b4456a8873a4927ae9eaf81109e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs the <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html" title="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf...">Renderer</a> object with animationParameters and renderingParameters.  <a href="../../dd/d5b/classcore_1_1Renderer.html#a8182b4456a8873a4927ae9eaf81109e0">More...</a><br /></td></tr>
 <tr class="separator:a8182b4456a8873a4927ae9eaf81109e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace126ce38bd6dcf487bd877e243028b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#ace126ce38bd6dcf487bd877e243028b1">setScene</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a7ddbdfa16725b7bd2d34a2e1fad4ee62">ScenePtr</a> scene)</td></tr>
+<tr class="memdesc:ace126ce38bd6dcf487bd877e243028b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the _scene pointer to a specified ScenePtr.  <a href="../../dd/d5b/classcore_1_1Renderer.html#ace126ce38bd6dcf487bd877e243028b1">More...</a><br /></td></tr>
 <tr class="separator:ace126ce38bd6dcf487bd877e243028b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_types_classcore_1_1BaseObject"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classcore_1_1BaseObject')"><img src="../../closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">core::BaseObject</a></td></tr>
-<tr class="memitem:afb156c52a67a3326ec6813e61d609096 inherit pub_types_classcore_1_1BaseObject"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#afb156c52a67a3326ec6813e61d609096">ModifiedCallback</a> = std::function&lt; void(const <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">BaseObject</a> &amp;)&gt;</td></tr>
-<tr class="separator:afb156c52a67a3326ec6813e61d609096 inherit pub_types_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcore_1_1PropertyObject"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcore_1_1PropertyObject')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d7/d67/classcore_1_1PropertyObject.html">core::PropertyObject</a></td></tr>
 <tr class="memitem:a0c7530006a2f8bf85d1d572844ccd98f inherit pub_methods_classcore_1_1PropertyObject"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d67/classcore_1_1PropertyObject.html#a0c7530006a2f8bf85d1d572844ccd98f">setCurrentType</a> (const std::string &amp;type)</td></tr>
 <tr class="separator:a0c7530006a2f8bf85d1d572844ccd98f inherit pub_methods_classcore_1_1PropertyObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -200,6 +201,26 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:ae1f5c89c15c0ead6aa485ca4cb0e7ab4 inherit pub_methods_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8fcc8c4dd46a0c25039228b60a739331 inherit pub_methods_classcore_1_1BaseObject"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#a8fcc8c4dd46a0c25039228b60a739331">clearModifiedCallback</a> ()</td></tr>
 <tr class="separator:a8fcc8c4dd46a0c25039228b60a739331 inherit pub_methods_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:abad23d544590548679d34c88017bd928"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d4/dfb/classcore_1_1AnimationParameters.html">AnimationParameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#abad23d544590548679d34c88017bd928">_animationParameters</a></td></tr>
+<tr class="separator:abad23d544590548679d34c88017bd928"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dc3aa8e780ecc13d442d65e6c4ea6f4"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d4/d34/classcore_1_1RenderingParameters.html">RenderingParameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#a4dc3aa8e780ecc13d442d65e6c4ea6f4">_renderingParameters</a></td></tr>
+<tr class="separator:a4dc3aa8e780ecc13d442d65e6c4ea6f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b98d6c98330885726960c90419478c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a7ddbdfa16725b7bd2d34a2e1fad4ee62">ScenePtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#a6b98d6c98330885726960c90419478c0">_scene</a></td></tr>
+<tr class="separator:a6b98d6c98330885726960c90419478c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classcore_1_1PropertyObject"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classcore_1_1PropertyObject')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d7/d67/classcore_1_1PropertyObject.html">core::PropertyObject</a></td></tr>
+<tr class="memitem:a4e6d87d00dd619d6d2999f7a3eff85f1 inherit pro_attribs_classcore_1_1PropertyObject"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d67/classcore_1_1PropertyObject.html#a4e6d87d00dd619d6d2999f7a3eff85f1">_currentType</a></td></tr>
+<tr class="separator:a4e6d87d00dd619d6d2999f7a3eff85f1 inherit pro_attribs_classcore_1_1PropertyObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6e39ce3e31312807ee706a8eafcd1e0 inherit pro_attribs_classcore_1_1PropertyObject"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d67/classcore_1_1PropertyObject.html#af6e39ce3e31312807ee706a8eafcd1e0">_properties</a></td></tr>
+<tr class="separator:af6e39ce3e31312807ee706a8eafcd1e0 inherit pro_attribs_classcore_1_1PropertyObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_classcore_1_1BaseObject"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classcore_1_1BaseObject')"><img src="../../closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">core::BaseObject</a></td></tr>
+<tr class="memitem:afb156c52a67a3326ec6813e61d609096 inherit pub_types_classcore_1_1BaseObject"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#afb156c52a67a3326ec6813e61d609096">ModifiedCallback</a> = std::function&lt; void(const <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">BaseObject</a> &amp;)&gt;</td></tr>
+<tr class="separator:afb156c52a67a3326ec6813e61d609096 inherit pub_types_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classcore_1_1BaseObject"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classcore_1_1BaseObject')"><img src="../../closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">core::BaseObject</a></td></tr>
 <tr class="memitem:a0e8912f5618d6b55eb0be41461f58cf0 inherit pro_methods_classcore_1_1BaseObject"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a0e8912f5618d6b55eb0be41461f58cf0 inherit pro_methods_classcore_1_1BaseObject"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#a0e8912f5618d6b55eb0be41461f58cf0">_updateValue</a> (T &amp;member, const T &amp;newValue, const bool triggerCallback=true)</td></tr>
@@ -210,15 +231,11 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:ad3fdd96dd7e7ce3267775ebebca17b2e inherit pro_methods_classcore_1_1BaseObject"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:ad3fdd96dd7e7ce3267775ebebca17b2e inherit pro_methods_classcore_1_1BaseObject"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#ad3fdd96dd7e7ce3267775ebebca17b2e">_isEqual</a> (const T &amp;a, const T &amp;b, typename std::enable_if&lt;!std::is_floating_point&lt; T &gt;::value &gt;::type *=0)</td></tr>
 <tr class="separator:ad3fdd96dd7e7ce3267775ebebca17b2e inherit pro_methods_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_classcore_1_1PropertyObject"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classcore_1_1PropertyObject')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d7/d67/classcore_1_1PropertyObject.html">core::PropertyObject</a></td></tr>
-<tr class="memitem:a4e6d87d00dd619d6d2999f7a3eff85f1 inherit pro_attribs_classcore_1_1PropertyObject"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d67/classcore_1_1PropertyObject.html#a4e6d87d00dd619d6d2999f7a3eff85f1">_currentType</a></td></tr>
-<tr class="separator:a4e6d87d00dd619d6d2999f7a3eff85f1 inherit pro_attribs_classcore_1_1PropertyObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6e39ce3e31312807ee706a8eafcd1e0 inherit pro_attribs_classcore_1_1PropertyObject"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d67/classcore_1_1PropertyObject.html#af6e39ce3e31312807ee706a8eafcd1e0">_properties</a></td></tr>
-<tr class="separator:af6e39ce3e31312807ee706a8eafcd1e0 inherit pro_attribs_classcore_1_1PropertyObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d8/db2/Renderer_8h_source.html#l00034">34</a> of file <a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>.</p>
+<div class="textblock"><p><a class="el" href="../../dd/d5b/classcore_1_1Renderer.html" title="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf...">Renderer</a> class inherits from <a class="el" href="../../d7/d67/classcore_1_1PropertyObject.html">PropertyObject</a> class The <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html" title="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf...">Renderer</a> class has methods to render a <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a>, get variance, commit, and pick a point as well as virtual methods to set camera and render frames in specific engines. It also contains a protected ScenePtr _scene variable. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d8/db2/Renderer_8h_source.html#l00041">41</a> of file <a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a8182b4456a8873a4927ae9eaf81109e0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8182b4456a8873a4927ae9eaf81109e0">&#9670;&nbsp;</a></span>Renderer()</h2>
@@ -245,6 +262,15 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Constructs the <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html" title="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf...">Renderer</a> object with animationParameters and renderingParameters. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animationParameters</td><td>const reference to <a class="el" href="../../d4/dfb/classcore_1_1AnimationParameters.html">AnimationParameters</a> struct containing parameters for animation </td></tr>
+    <tr><td class="paramname">renderingParameters</td><td>const reference to <a class="el" href="../../d4/d34/classcore_1_1RenderingParameters.html">RenderingParameters</a> struct containing parameters for rendering </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/d28/Renderer_8cpp_source.html#l00031">31</a> of file <a class="el" href="../../d3/d28/Renderer_8cpp_source.html">Renderer.cpp</a>.</p>
 
@@ -274,6 +300,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>This virtual method is implemented in specific engine renderers to signal that rendering is complete. </p>
+
 <p>Implemented in <a class="el" href="../../d5/df2/classbioexplorer_1_1rendering_1_1GolgiStyleRenderer.html#ab9639eeecb1fee60ddf323994d402f6d">bioexplorer::rendering::GolgiStyleRenderer</a>, <a class="el" href="../../d4/d9b/classcore_1_1OptiXRenderer.html#a35970d29006da0ff94225667b71eaea5">core::OptiXRenderer</a>, <a class="el" href="../../d4/d9b/classcore_1_1OptiXRenderer.html#a35970d29006da0ff94225667b71eaea5">core::OptiXRenderer</a>, and <a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#a73eb8f9212003dd6f53e557add38585c">core::OSPRayRenderer</a>.</p>
 
 </div>
@@ -300,11 +328,13 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>the variance from the previous <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#aec9d77674f6b3cd345ef073a619379d7">render()</a>. </dd></dl>
+
+<p>Get variance from previous <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#aec9d77674f6b3cd345ef073a619379d7" title="Virtual method to render a FrameBuffer This method is implemented in specific engine renderers to dra...">render()</a> This method returns the variance from the previous <a class="el" href="../../dd/d5b/classcore_1_1Renderer.html#aec9d77674f6b3cd345ef073a619379d7" title="Virtual method to render a FrameBuffer This method is implemented in specific engine renderers to dra...">render()</a> call. </p>
+<dl class="section return"><dt>Returns</dt><dd>float Variance value </dd></dl>
 
 <p>Reimplemented in <a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#ab216bf33c3cee422dc02e1c94aac75b7">core::OSPRayRenderer</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/db2/Renderer_8h_source.html#l00048">48</a> of file <a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/db2/Renderer_8h_source.html#l00068">68</a> of file <a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>.</p>
 
 </div>
 </div>
@@ -332,9 +362,18 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Pick method This method is used to pick a point on the scene and returns <a class="el" href="../../de/dd3/structcore_1_1Renderer_1_1PickResult.html" title="PickResult Struct containing hit boolean value and Vector3d pos PickResult struct is used to retrieve...">PickResult</a> struct with hit boolean value and position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pickPos</td><td>Vector2f with pick position coordinates </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../de/dd3/structcore_1_1Renderer_1_1PickResult.html" title="PickResult Struct containing hit boolean value and Vector3d pos PickResult struct is used to retrieve...">PickResult</a> returns <a class="el" href="../../de/dd3/structcore_1_1Renderer_1_1PickResult.html" title="PickResult Struct containing hit boolean value and Vector3d pos PickResult struct is used to retrieve...">PickResult</a> struct that contains boolean hit value and vector position </dd></dl>
+
 <p>Reimplemented in <a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#aefb2f2696883637f9e2bea5902c9f624">core::OSPRayRenderer</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/db2/Renderer_8h_source.html#l00051">51</a> of file <a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/db2/Renderer_8h_source.html#l00089">89</a> of file <a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>.</p>
 
 </div>
 </div>
@@ -361,6 +400,14 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Virtual method to render a <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a> This method is implemented in specific engine renderers to draw the <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frameBuffer</td><td>Ptr to <a class="el" href="../../db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...">FrameBuffer</a> that will be drawn </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="../../d4/d9b/classcore_1_1OptiXRenderer.html#ad4bb0cb5bd7eecbb4679fe08453b0858">core::OptiXRenderer</a>, <a class="el" href="../../d4/d9b/classcore_1_1OptiXRenderer.html#ad4bb0cb5bd7eecbb4679fe08453b0858">core::OptiXRenderer</a>, and <a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#a56d15ec75317263cec97dc959ff5abdf">core::OSPRayRenderer</a>.</p>
 
@@ -390,6 +437,14 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set camera for renderer This virtual method is implemented in specific engine renderers to set the camera for rendering. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">camera</td><td>CameraPtr of a camera object to set </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p>Implemented in <a class="el" href="../../d4/d9b/classcore_1_1OptiXRenderer.html#a0919c6420fbb97d8f658300834a7b89a">core::OptiXRenderer</a>, <a class="el" href="../../d4/d9b/classcore_1_1OptiXRenderer.html#a0919c6420fbb97d8f658300834a7b89a">core::OptiXRenderer</a>, and <a class="el" href="../../db/d67/classcore_1_1OSPRayRenderer.html#a899f2a32ca3c9c45f42ac76c8e7805c8">core::OSPRayRenderer</a>.</p>
 
 </div>
@@ -418,7 +473,15 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/db2/Renderer_8h_source.html#l00056">56</a> of file <a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>.</p>
+<p>Sets the _scene pointer to a specified ScenePtr. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scene</td><td>ScenePtr of the scene object to set </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d8/db2/Renderer_8h_source.html#l00102">102</a> of file <a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>.</p>
 
 </div>
 </div>
@@ -443,7 +506,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/db2/Renderer_8h_source.html#l00056">56</a> of file <a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/db2/Renderer_8h_source.html#l00102">102</a> of file <a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>.</p>
 
 </div>
 </div>
@@ -467,7 +530,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/db2/Renderer_8h_source.html#l00060">60</a> of file <a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/db2/Renderer_8h_source.html#l00106">106</a> of file <a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>.</p>
 
 </div>
 </div>
@@ -491,7 +554,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/db2/Renderer_8h_source.html#l00061">61</a> of file <a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/db2/Renderer_8h_source.html#l00107">107</a> of file <a class="el" href="../../d8/db2/Renderer_8h_source.html">Renderer.h</a>.</p>
 
 </div>
 </div>

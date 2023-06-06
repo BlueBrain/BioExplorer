@@ -1,4 +1,6 @@
 <map id="ospray::MultiviewCamera" name="ospray::MultiviewCamera">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,193,107"/>
-<area shape="rect" id="node2" title=" " alt="" coords="63,5,136,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,229,193,256"/>
+<area shape="rect" id="node2" title=" " alt="" coords="63,155,136,181"/>
+<area shape="rect" id="node3" href="$d7/d67/classcore_1_1PropertyObject.html" title=" " alt="" coords="22,80,177,107"/>
+<area shape="rect" id="node4" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="33,5,165,32"/>
 </map>

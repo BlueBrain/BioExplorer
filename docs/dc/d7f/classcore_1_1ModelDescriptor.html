@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('dc/d7f/classcore_1_1ModelDescriptor.ht
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model. Model descriptor are exposed via...">ModelDescriptor</a> struct defines the metadata attached to a model. <a class="el" href="../../d1/d11/classcore_1_1Model.html">Model</a> descriptor are exposed via the HTTP/WS interface.  
+<p>The <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model.">ModelDescriptor</a> struct defines the metadata attached to a model.  
  <a href="../../dc/d7f/classcore_1_1ModelDescriptor.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>&gt;</code></p>
@@ -100,9 +100,9 @@ Inheritance diagram for core::ModelDescriptor:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d3/dd3/classcore_1_1ModelDescriptor__inherit__graph.png" border="0" usemap="#core_1_1ModelDescriptor_inherit__map" alt="Inheritance graph"/></div>
 <map name="core_1_1ModelDescriptor_inherit__map" id="core_1_1ModelDescriptor_inherit__map">
-<area shape="rect" title="The ModelDescriptor struct defines the metadata attached to a model. Model descriptor are exposed via..." alt="" coords="5,229,171,256"/>
-<area shape="rect" href="../../d1/df6/classcore_1_1ModelParams.html" title=" " alt="" coords="15,155,161,181"/>
-<area shape="rect" href="../../d9/d63/classcore_1_1ModelInstance.html" title=" " alt="" coords="11,80,165,107"/>
+<area shape="rect" title="The ModelDescriptor struct defines the metadata attached to a model." alt="" coords="5,229,171,256"/>
+<area shape="rect" href="../../d1/df6/classcore_1_1ModelParams.html" title="The ModelParams class represents the parameters needed for initializing a model instance." alt="" coords="15,155,161,181"/>
+<area shape="rect" href="../../d9/d63/classcore_1_1ModelInstance.html" title="A class representing an instance of a 3D model." alt="" coords="11,80,165,107"/>
 <area shape="rect" href="../../d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="22,5,154,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
@@ -111,12 +111,12 @@ Collaboration diagram for core::ModelDescriptor:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d8/d30/classcore_1_1ModelDescriptor__coll__graph.png" border="0" usemap="#core_1_1ModelDescriptor_coll__map" alt="Collaboration graph"/></div>
 <map name="core_1_1ModelDescriptor_coll__map" id="core_1_1ModelDescriptor_coll__map">
-<area shape="rect" title="The ModelDescriptor struct defines the metadata attached to a model. Model descriptor are exposed via..." alt="" coords="85,336,250,363"/>
-<area shape="rect" href="../../d1/df6/classcore_1_1ModelParams.html" title=" " alt="" coords="94,260,241,287"/>
-<area shape="rect" href="../../d9/d63/classcore_1_1ModelInstance.html" title=" " alt="" coords="5,171,159,197"/>
-<area shape="rect" href="../../d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="11,5,143,32"/>
-<area shape="rect" href="../../d0/dcd/classcore_1_1Transformation.html" title="Defines the translation, rotation and scale parameters to be applied to a scene asset." alt="" coords="99,81,255,108"/>
-<area shape="rect" href="../../d9/daa/classcore_1_1PropertyMap.html" title=" " alt="" coords="183,171,325,197"/>
+<area shape="rect" title="The ModelDescriptor struct defines the metadata attached to a model." alt="" coords="5,336,171,363"/>
+<area shape="rect" href="../../d1/df6/classcore_1_1ModelParams.html" title="The ModelParams class represents the parameters needed for initializing a model instance." alt="" coords="15,260,161,287"/>
+<area shape="rect" href="../../d9/d63/classcore_1_1ModelInstance.html" title="A class representing an instance of a 3D model." alt="" coords="11,171,165,197"/>
+<area shape="rect" href="../../d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="22,5,154,32"/>
+<area shape="rect" href="../../d0/dcd/classcore_1_1Transformation.html" title="Defines the translation, rotation and scale parameters to be applied to a scene asset." alt="" coords="138,81,294,108"/>
+<area shape="rect" href="../../d9/daa/classcore_1_1PropertyMap.html" title=" " alt="" coords="189,171,331,197"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -181,63 +181,86 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac14014653eca1fa4044bb4e6692fc1b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a987cf8f70fb0d4935ca96689d9af77b4">ModelDescriptorPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html#ac14014653eca1fa4044bb4e6692fc1b8">clone</a> (<a class="el" href="../../d9/d0f/namespacecore.html#aed4c31aa10d4636d323d992762965988">ModelPtr</a> model) const</td></tr>
 <tr class="separator:ac14014653eca1fa4044bb4e6692fc1b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcore_1_1ModelParams"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcore_1_1ModelParams')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d1/df6/classcore_1_1ModelParams.html">core::ModelParams</a></td></tr>
-<tr class="memitem:a94e94fa01127d3a23ba3103c5a13264c inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a94e94fa01127d3a23ba3103c5a13264c">ModelParams</a> ()=default</td></tr>
-<tr class="separator:a94e94fa01127d3a23ba3103c5a13264c inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a447d93f04084184b589907241ea40a80 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a447d93f04084184b589907241ea40a80">ModelParams</a> (const std::string &amp;path)</td></tr>
+<tr class="memitem:a22cf257a189b631ef08b7ded7dae6b6a inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a22cf257a189b631ef08b7ded7dae6b6a">ModelParams</a> ()=default</td></tr>
+<tr class="separator:a22cf257a189b631ef08b7ded7dae6b6a inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a447d93f04084184b589907241ea40a80 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a447d93f04084184b589907241ea40a80">ModelParams</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:a447d93f04084184b589907241ea40a80 inherit pub_methods_classcore_1_1ModelParams"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor to create <a class="el" href="../../d1/df6/classcore_1_1ModelParams.html" title="The ModelParams class represents the parameters needed for initializing a model instance.">ModelParams</a> object from a given path.  <a href="../../d1/df6/classcore_1_1ModelParams.html#a447d93f04084184b589907241ea40a80">More...</a><br /></td></tr>
 <tr class="separator:a447d93f04084184b589907241ea40a80 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30f23d4c7a1aabce41df1d9aac5dac08 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a30f23d4c7a1aabce41df1d9aac5dac08">ModelParams</a> (const std::string &amp;name, const std::string &amp;path)</td></tr>
+<tr class="memitem:a30f23d4c7a1aabce41df1d9aac5dac08 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a30f23d4c7a1aabce41df1d9aac5dac08">ModelParams</a> (const std::string &amp;name, const std::string &amp;path)</td></tr>
+<tr class="memdesc:a30f23d4c7a1aabce41df1d9aac5dac08 inherit pub_methods_classcore_1_1ModelParams"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor to create <a class="el" href="../../d1/df6/classcore_1_1ModelParams.html" title="The ModelParams class represents the parameters needed for initializing a model instance.">ModelParams</a> object with a given name and path.  <a href="../../d1/df6/classcore_1_1ModelParams.html#a30f23d4c7a1aabce41df1d9aac5dac08">More...</a><br /></td></tr>
 <tr class="separator:a30f23d4c7a1aabce41df1d9aac5dac08 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abda5635e43dbdc61e8ac92ac47f3f1e5 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#abda5635e43dbdc61e8ac92ac47f3f1e5">ModelParams</a> (const std::string &amp;name, const std::string &amp;path, const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;loaderProperties)</td></tr>
+<tr class="memitem:abda5635e43dbdc61e8ac92ac47f3f1e5 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#abda5635e43dbdc61e8ac92ac47f3f1e5">ModelParams</a> (const std::string &amp;name, const std::string &amp;path, const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;loaderProperties)</td></tr>
+<tr class="memdesc:abda5635e43dbdc61e8ac92ac47f3f1e5 inherit pub_methods_classcore_1_1ModelParams"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor to create <a class="el" href="../../d1/df6/classcore_1_1ModelParams.html" title="The ModelParams class represents the parameters needed for initializing a model instance.">ModelParams</a> object with a given name, path and loader properties.  <a href="../../d1/df6/classcore_1_1ModelParams.html#abda5635e43dbdc61e8ac92ac47f3f1e5">More...</a><br /></td></tr>
 <tr class="separator:abda5635e43dbdc61e8ac92ac47f3f1e5 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad57bece333976ab570c25c3a1da561c7 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#ad57bece333976ab570c25c3a1da561c7">ModelParams</a> (<a class="el" href="../../d1/df6/classcore_1_1ModelParams.html">ModelParams</a> &amp;&amp;rhs)=default</td></tr>
-<tr class="separator:ad57bece333976ab570c25c3a1da561c7 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dcc6bcc549a5ba03cc5c4c8bac4b97d inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html">ModelParams</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a3dcc6bcc549a5ba03cc5c4c8bac4b97d">operator=</a> (<a class="el" href="../../d1/df6/classcore_1_1ModelParams.html">ModelParams</a> &amp;&amp;rhs)=default</td></tr>
-<tr class="separator:a3dcc6bcc549a5ba03cc5c4c8bac4b97d inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6ce38f6cdfd6f169b7dc401f8f3bc84 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#ab6ce38f6cdfd6f169b7dc401f8f3bc84">ModelParams</a> (const <a class="el" href="../../d1/df6/classcore_1_1ModelParams.html">ModelParams</a> &amp;rhs)=default</td></tr>
-<tr class="separator:ab6ce38f6cdfd6f169b7dc401f8f3bc84 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f189075c7b2892c4c90902a2662a276 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html">ModelParams</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a7f189075c7b2892c4c90902a2662a276">operator=</a> (const <a class="el" href="../../d1/df6/classcore_1_1ModelParams.html">ModelParams</a> &amp;rhs)=default</td></tr>
-<tr class="separator:a7f189075c7b2892c4c90902a2662a276 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a080ad46a2d65757aea97ec0c8c6926ab inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a080ad46a2d65757aea97ec0c8c6926ab">setName</a> (const std::string &amp;name)</td></tr>
-<tr class="separator:a080ad46a2d65757aea97ec0c8c6926ab inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9627f37ae452e7ff7e31045845d793c6 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a9627f37ae452e7ff7e31045845d793c6">getName</a> () const</td></tr>
-<tr class="separator:a9627f37ae452e7ff7e31045845d793c6 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f566f2cb29a706597caa669060683f2 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a0f566f2cb29a706597caa669060683f2">setPath</a> (const std::string &amp;path)</td></tr>
-<tr class="separator:a0f566f2cb29a706597caa669060683f2 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9d04a646e56c9cc84b7f2238f7dc00e inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#ad9d04a646e56c9cc84b7f2238f7dc00e">getPath</a> () const</td></tr>
-<tr class="separator:ad9d04a646e56c9cc84b7f2238f7dc00e inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ed47261df7430f0c0c6a6cf5224b3d8 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a0ed47261df7430f0c0c6a6cf5224b3d8">setLoaderName</a> (const std::string &amp;loaderName)</td></tr>
-<tr class="separator:a0ed47261df7430f0c0c6a6cf5224b3d8 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7cdf3bac2dc2d6da11f77af16cfaf4c inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#ad7cdf3bac2dc2d6da11f77af16cfaf4c">getLoaderName</a> () const</td></tr>
-<tr class="separator:ad7cdf3bac2dc2d6da11f77af16cfaf4c inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9335f9aefaa7a2a64eaa3de40f15c04 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#ad9335f9aefaa7a2a64eaa3de40f15c04">getLoaderProperties</a> () const</td></tr>
-<tr class="separator:ad9335f9aefaa7a2a64eaa3de40f15c04 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61c2d0998ff1ed669a3311440cd88d0c inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a61c2d0998ff1ed669a3311440cd88d0c">setLoaderProperties</a> (const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;pm)</td></tr>
-<tr class="separator:a61c2d0998ff1ed669a3311440cd88d0c inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cb0d02effbb1cf37f0fcb2a3a356d32 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a6cb0d02effbb1cf37f0fcb2a3a356d32">ModelParams</a> (<a class="el" href="../../d1/df6/classcore_1_1ModelParams.html">ModelParams</a> &amp;&amp;rhs)=default</td></tr>
+<tr class="separator:a6cb0d02effbb1cf37f0fcb2a3a356d32 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a449edcfd923bd1dec6ee1e7dfc78f3a6 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d1/df6/classcore_1_1ModelParams.html">ModelParams</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a449edcfd923bd1dec6ee1e7dfc78f3a6">operator=</a> (<a class="el" href="../../d1/df6/classcore_1_1ModelParams.html">ModelParams</a> &amp;&amp;rhs)=default</td></tr>
+<tr class="separator:a449edcfd923bd1dec6ee1e7dfc78f3a6 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab21ddb814d2e1ec08c79fb797c47c32 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#aab21ddb814d2e1ec08c79fb797c47c32">ModelParams</a> (const <a class="el" href="../../d1/df6/classcore_1_1ModelParams.html">ModelParams</a> &amp;rhs)=default</td></tr>
+<tr class="separator:aab21ddb814d2e1ec08c79fb797c47c32 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2740b060b08e9ba117719dc9850a37cf inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d1/df6/classcore_1_1ModelParams.html">ModelParams</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a2740b060b08e9ba117719dc9850a37cf">operator=</a> (const <a class="el" href="../../d1/df6/classcore_1_1ModelParams.html">ModelParams</a> &amp;rhs)=default</td></tr>
+<tr class="separator:a2740b060b08e9ba117719dc9850a37cf inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc63bfe0beb7e13a9c9d0caf866f8625 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#adc63bfe0beb7e13a9c9d0caf866f8625">setName</a> (const std::string &amp;name)</td></tr>
+<tr class="memdesc:adc63bfe0beb7e13a9c9d0caf866f8625 inherit pub_methods_classcore_1_1ModelParams"><td class="mdescLeft">&#160;</td><td class="mdescRight">setName sets the name of the model  <a href="../../d1/df6/classcore_1_1ModelParams.html#adc63bfe0beb7e13a9c9d0caf866f8625">More...</a><br /></td></tr>
+<tr class="separator:adc63bfe0beb7e13a9c9d0caf866f8625 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a737e7929116422ec7d1f31fb66465cb1 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a737e7929116422ec7d1f31fb66465cb1">getName</a> () const</td></tr>
+<tr class="memdesc:a737e7929116422ec7d1f31fb66465cb1 inherit pub_methods_classcore_1_1ModelParams"><td class="mdescLeft">&#160;</td><td class="mdescRight">getName gets the name of the model  <a href="../../d1/df6/classcore_1_1ModelParams.html#a737e7929116422ec7d1f31fb66465cb1">More...</a><br /></td></tr>
+<tr class="separator:a737e7929116422ec7d1f31fb66465cb1 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8094da8cbdbf70c5e376378252f532fd inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a8094da8cbdbf70c5e376378252f532fd">setPath</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:a8094da8cbdbf70c5e376378252f532fd inherit pub_methods_classcore_1_1ModelParams"><td class="mdescLeft">&#160;</td><td class="mdescRight">setPath sets the path of the model  <a href="../../d1/df6/classcore_1_1ModelParams.html#a8094da8cbdbf70c5e376378252f532fd">More...</a><br /></td></tr>
+<tr class="separator:a8094da8cbdbf70c5e376378252f532fd inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c869109cdff548e09c9122077e0eab5 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a4c869109cdff548e09c9122077e0eab5">getPath</a> () const</td></tr>
+<tr class="memdesc:a4c869109cdff548e09c9122077e0eab5 inherit pub_methods_classcore_1_1ModelParams"><td class="mdescLeft">&#160;</td><td class="mdescRight">getPath gets the path of the model  <a href="../../d1/df6/classcore_1_1ModelParams.html#a4c869109cdff548e09c9122077e0eab5">More...</a><br /></td></tr>
+<tr class="separator:a4c869109cdff548e09c9122077e0eab5 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a840180599882263b3046c6374f53640c inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a840180599882263b3046c6374f53640c">setLoaderName</a> (const std::string &amp;loaderName)</td></tr>
+<tr class="memdesc:a840180599882263b3046c6374f53640c inherit pub_methods_classcore_1_1ModelParams"><td class="mdescLeft">&#160;</td><td class="mdescRight">setLoaderName sets the loader name of the model  <a href="../../d1/df6/classcore_1_1ModelParams.html#a840180599882263b3046c6374f53640c">More...</a><br /></td></tr>
+<tr class="separator:a840180599882263b3046c6374f53640c inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81d4646a4b1ff17ac2c615964a8ae553 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a81d4646a4b1ff17ac2c615964a8ae553">getLoaderName</a> () const</td></tr>
+<tr class="memdesc:a81d4646a4b1ff17ac2c615964a8ae553 inherit pub_methods_classcore_1_1ModelParams"><td class="mdescLeft">&#160;</td><td class="mdescRight">getLoaderName gets the loader name of the model  <a href="../../d1/df6/classcore_1_1ModelParams.html#a81d4646a4b1ff17ac2c615964a8ae553">More...</a><br /></td></tr>
+<tr class="separator:a81d4646a4b1ff17ac2c615964a8ae553 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b3b5833e9bfd79dd4303336b0cb4a83 inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a2b3b5833e9bfd79dd4303336b0cb4a83">getLoaderProperties</a> () const</td></tr>
+<tr class="memdesc:a2b3b5833e9bfd79dd4303336b0cb4a83 inherit pub_methods_classcore_1_1ModelParams"><td class="mdescLeft">&#160;</td><td class="mdescRight">getLoaderProperties gets the loader properties of the model  <a href="../../d1/df6/classcore_1_1ModelParams.html#a2b3b5833e9bfd79dd4303336b0cb4a83">More...</a><br /></td></tr>
+<tr class="separator:a2b3b5833e9bfd79dd4303336b0cb4a83 inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4eace6cc750dc1d0a84cf4fbaa1290cc inherit pub_methods_classcore_1_1ModelParams"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df6/classcore_1_1ModelParams.html#a4eace6cc750dc1d0a84cf4fbaa1290cc">setLoaderProperties</a> (const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;pm)</td></tr>
+<tr class="memdesc:a4eace6cc750dc1d0a84cf4fbaa1290cc inherit pub_methods_classcore_1_1ModelParams"><td class="mdescLeft">&#160;</td><td class="mdescRight">setLoaderProperties sets the loader properties of the model  <a href="../../d1/df6/classcore_1_1ModelParams.html#a4eace6cc750dc1d0a84cf4fbaa1290cc">More...</a><br /></td></tr>
+<tr class="separator:a4eace6cc750dc1d0a84cf4fbaa1290cc inherit pub_methods_classcore_1_1ModelParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcore_1_1ModelInstance"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcore_1_1ModelInstance')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html">core::ModelInstance</a></td></tr>
-<tr class="memitem:a04cd9f4f42e8d76042016f9947c0691a inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a04cd9f4f42e8d76042016f9947c0691a">ModelInstance</a> ()=default</td></tr>
-<tr class="separator:a04cd9f4f42e8d76042016f9947c0691a inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a706d647d75dce90f87d2c800345b3f15 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a706d647d75dce90f87d2c800345b3f15">ModelInstance</a> (const bool visible, const bool boundingBox, const <a class="el" href="../../d0/dcd/classcore_1_1Transformation.html">Transformation</a> &amp;transformation)</td></tr>
-<tr class="separator:a706d647d75dce90f87d2c800345b3f15 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2824668dc7eac12dcc67993dfbacd121 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a2824668dc7eac12dcc67993dfbacd121">getVisible</a> () const</td></tr>
-<tr class="separator:a2824668dc7eac12dcc67993dfbacd121 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee3094e7f4fa879407b867d62dba9dfe inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#aee3094e7f4fa879407b867d62dba9dfe">setVisible</a> (const bool visible)</td></tr>
-<tr class="separator:aee3094e7f4fa879407b867d62dba9dfe inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ce61fdbcc02b305a338ed263e357d45 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a6ce61fdbcc02b305a338ed263e357d45">getBoundingBox</a> () const</td></tr>
-<tr class="separator:a6ce61fdbcc02b305a338ed263e357d45 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30ea078162aea3229df2b6dbea986b9c inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a30ea078162aea3229df2b6dbea986b9c">setBoundingBox</a> (const bool enabled)</td></tr>
-<tr class="separator:a30ea078162aea3229df2b6dbea986b9c inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52e2e6328b09043d5b7740950e2c5dd0 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d0/dcd/classcore_1_1Transformation.html">Transformation</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a52e2e6328b09043d5b7740950e2c5dd0">getTransformation</a> () const</td></tr>
-<tr class="separator:a52e2e6328b09043d5b7740950e2c5dd0 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa686066b042853f5f6b5c4f8425dd06f inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#aa686066b042853f5f6b5c4f8425dd06f">setTransformation</a> (const <a class="el" href="../../d0/dcd/classcore_1_1Transformation.html">Transformation</a> &amp;transformation)</td></tr>
-<tr class="separator:aa686066b042853f5f6b5c4f8425dd06f inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f3ff4ab075424128454da990c26d603 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a1f3ff4ab075424128454da990c26d603">setModelID</a> (const size_t id)</td></tr>
-<tr class="separator:a1f3ff4ab075424128454da990c26d603 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c3a2a2de40394805a152b3b707d7965 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a5c3a2a2de40394805a152b3b707d7965">getModelID</a> () const</td></tr>
-<tr class="separator:a5c3a2a2de40394805a152b3b707d7965 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a860b90622f1e40623826f14d34adde22 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a860b90622f1e40623826f14d34adde22">setInstanceID</a> (const size_t id)</td></tr>
-<tr class="separator:a860b90622f1e40623826f14d34adde22 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52f909a0478d050441361d5f584bafe4 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a52f909a0478d050441361d5f584bafe4">getInstanceID</a> () const</td></tr>
-<tr class="separator:a52f909a0478d050441361d5f584bafe4 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a385a46d993df90db1f6b4320bd67e38c inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a385a46d993df90db1f6b4320bd67e38c">ModelInstance</a> ()=default</td></tr>
+<tr class="memdesc:a385a46d993df90db1f6b4320bd67e38c inherit pub_methods_classcore_1_1ModelInstance"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="../../d9/d63/classcore_1_1ModelInstance.html#a385a46d993df90db1f6b4320bd67e38c">More...</a><br /></td></tr>
+<tr class="separator:a385a46d993df90db1f6b4320bd67e38c inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeecc492db5192de7b468ca665a8e3649 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#aeecc492db5192de7b468ca665a8e3649">ModelInstance</a> (const bool visible, const bool boundingBox, const <a class="el" href="../../d0/dcd/classcore_1_1Transformation.html">Transformation</a> &amp;transformation)</td></tr>
+<tr class="memdesc:aeecc492db5192de7b468ca665a8e3649 inherit pub_methods_classcore_1_1ModelInstance"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor with parameters.  <a href="../../d9/d63/classcore_1_1ModelInstance.html#aeecc492db5192de7b468ca665a8e3649">More...</a><br /></td></tr>
+<tr class="separator:aeecc492db5192de7b468ca665a8e3649 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41dc2e926171ace528757f2d0b4bbca7 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a41dc2e926171ace528757f2d0b4bbca7">getVisible</a> () const</td></tr>
+<tr class="memdesc:a41dc2e926171ace528757f2d0b4bbca7 inherit pub_methods_classcore_1_1ModelInstance"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of _visible.  <a href="../../d9/d63/classcore_1_1ModelInstance.html#a41dc2e926171ace528757f2d0b4bbca7">More...</a><br /></td></tr>
+<tr class="separator:a41dc2e926171ace528757f2d0b4bbca7 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a495ba3da2100f6d0ec0bfae0d508250a inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a495ba3da2100f6d0ec0bfae0d508250a">setVisible</a> (const bool visible)</td></tr>
+<tr class="memdesc:a495ba3da2100f6d0ec0bfae0d508250a inherit pub_methods_classcore_1_1ModelInstance"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of _visible.  <a href="../../d9/d63/classcore_1_1ModelInstance.html#a495ba3da2100f6d0ec0bfae0d508250a">More...</a><br /></td></tr>
+<tr class="separator:a495ba3da2100f6d0ec0bfae0d508250a inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a12522d89f13f733033bc1b408ae1e5 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a3a12522d89f13f733033bc1b408ae1e5">getBoundingBox</a> () const</td></tr>
+<tr class="memdesc:a3a12522d89f13f733033bc1b408ae1e5 inherit pub_methods_classcore_1_1ModelInstance"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of _boundingBox.  <a href="../../d9/d63/classcore_1_1ModelInstance.html#a3a12522d89f13f733033bc1b408ae1e5">More...</a><br /></td></tr>
+<tr class="separator:a3a12522d89f13f733033bc1b408ae1e5 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeb7fd92e0536797364074e43b73e7b0 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#aeeb7fd92e0536797364074e43b73e7b0">setBoundingBox</a> (const bool enabled)</td></tr>
+<tr class="memdesc:aeeb7fd92e0536797364074e43b73e7b0 inherit pub_methods_classcore_1_1ModelInstance"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of _boundingBox.  <a href="../../d9/d63/classcore_1_1ModelInstance.html#aeeb7fd92e0536797364074e43b73e7b0">More...</a><br /></td></tr>
+<tr class="separator:aeeb7fd92e0536797364074e43b73e7b0 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb34768a906221f4edcb70fb9a91ef30 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d0/dcd/classcore_1_1Transformation.html">Transformation</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#aeb34768a906221f4edcb70fb9a91ef30">getTransformation</a> () const</td></tr>
+<tr class="memdesc:aeb34768a906221f4edcb70fb9a91ef30 inherit pub_methods_classcore_1_1ModelInstance"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of _transformation.  <a href="../../d9/d63/classcore_1_1ModelInstance.html#aeb34768a906221f4edcb70fb9a91ef30">More...</a><br /></td></tr>
+<tr class="separator:aeb34768a906221f4edcb70fb9a91ef30 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9603793631c0555e9ed0ad578c9ce60c inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#a9603793631c0555e9ed0ad578c9ce60c">setTransformation</a> (const <a class="el" href="../../d0/dcd/classcore_1_1Transformation.html">Transformation</a> &amp;transformation)</td></tr>
+<tr class="memdesc:a9603793631c0555e9ed0ad578c9ce60c inherit pub_methods_classcore_1_1ModelInstance"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of _transformation.  <a href="../../d9/d63/classcore_1_1ModelInstance.html#a9603793631c0555e9ed0ad578c9ce60c">More...</a><br /></td></tr>
+<tr class="separator:a9603793631c0555e9ed0ad578c9ce60c inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adae2261f3864a6d48d105ce622347618 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#adae2261f3864a6d48d105ce622347618">setModelID</a> (const size_t id)</td></tr>
+<tr class="memdesc:adae2261f3864a6d48d105ce622347618 inherit pub_methods_classcore_1_1ModelInstance"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of _modelID.  <a href="../../d9/d63/classcore_1_1ModelInstance.html#adae2261f3864a6d48d105ce622347618">More...</a><br /></td></tr>
+<tr class="separator:adae2261f3864a6d48d105ce622347618 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1ea4ce8a1d861b2b4888d327b2a7b4a inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#ae1ea4ce8a1d861b2b4888d327b2a7b4a">getModelID</a> () const</td></tr>
+<tr class="memdesc:ae1ea4ce8a1d861b2b4888d327b2a7b4a inherit pub_methods_classcore_1_1ModelInstance"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of _modelID.  <a href="../../d9/d63/classcore_1_1ModelInstance.html#ae1ea4ce8a1d861b2b4888d327b2a7b4a">More...</a><br /></td></tr>
+<tr class="separator:ae1ea4ce8a1d861b2b4888d327b2a7b4a inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1b2e4697b72c917029df47d43bf05f8 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#ab1b2e4697b72c917029df47d43bf05f8">setInstanceID</a> (const size_t id)</td></tr>
+<tr class="memdesc:ab1b2e4697b72c917029df47d43bf05f8 inherit pub_methods_classcore_1_1ModelInstance"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of _instanceID.  <a href="../../d9/d63/classcore_1_1ModelInstance.html#ab1b2e4697b72c917029df47d43bf05f8">More...</a><br /></td></tr>
+<tr class="separator:ab1b2e4697b72c917029df47d43bf05f8 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab784cda4343666e9c0763a9afacb47b8 inherit pub_methods_classcore_1_1ModelInstance"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d63/classcore_1_1ModelInstance.html#ab784cda4343666e9c0763a9afacb47b8">getInstanceID</a> () const</td></tr>
+<tr class="memdesc:ab784cda4343666e9c0763a9afacb47b8 inherit pub_methods_classcore_1_1ModelInstance"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of _instanceID.  <a href="../../d9/d63/classcore_1_1ModelInstance.html#ab784cda4343666e9c0763a9afacb47b8">More...</a><br /></td></tr>
+<tr class="separator:ab784cda4343666e9c0763a9afacb47b8 inherit pub_methods_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcore_1_1BaseObject"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcore_1_1BaseObject')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html">core::BaseObject</a></td></tr>
 <tr class="memitem:a24c7d4cdaf387fec70d9087cd811a2c7 inherit pub_methods_classcore_1_1BaseObject"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc6/classcore_1_1BaseObject.html#a24c7d4cdaf387fec70d9087cd811a2c7">BaseObject</a> ()=default</td></tr>
 <tr class="separator:a24c7d4cdaf387fec70d9087cd811a2c7 inherit pub_methods_classcore_1_1BaseObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -292,14 +315,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a76371b0f8273bacc43252fd55c291084 inherit pro_attribs_classcore_1_1ModelInstance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model. Model descriptor are exposed via...">ModelDescriptor</a> struct defines the metadata attached to a model. <a class="el" href="../../d1/d11/classcore_1_1Model.html">Model</a> descriptor are exposed via the HTTP/WS interface. </p>
-<ul>
-<li>Enabling a model means that the model is part of scene. If disabled, the model still exists in <a class="el" href="../../d3/d5e/classcore_1_1Core.html">Core</a>, but is removed from the rendered scene.</li>
-<li>The visible attribute defines if the model should be visible or not. If invisible, the model is removed from the BVH.</li>
-<li>If set to true, the bounding box attribute displays a bounding box for the current model </li>
-</ul>
+<div class="textblock"><p>The <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model.">ModelDescriptor</a> struct defines the metadata attached to a model. </p>
+<p><a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a> descriptor are exposed via the HTTP/WS interface. Enabling a model means that the model is part of scene. If disabled, the model still exists in <a class="el" href="../../d3/d5e/classcore_1_1Core.html">Core</a>, but is removed from the rendered scene. The visible attribute defines if the model should be visible or not. If invisible, the model is removed from the BVH. If set to true, the bounding box attribute displays a bounding box for the current model </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00135">135</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00278">278</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a2a6bffcb419c9173a880ec2308197f64"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2a6bffcb419c9173a880ec2308197f64">&#9670;&nbsp;</a></span>RemovedCallback</h2>
@@ -312,8 +331,14 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Set a function that is called when this model is about to be removed. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callback</td><td>The callback function. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00172">172</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00418">418</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -340,6 +365,9 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<ul>
+<li>Default constructor for a <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model.">ModelDescriptor</a>. </li>
+</ul>
 
 </div>
 </div>
@@ -366,6 +394,12 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Default move constructor for a <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model.">ModelDescriptor</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rhs</td><td>The r-value reference of the <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model.">ModelDescriptor</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -394,6 +428,13 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Constructor for a <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model.">ModelDescriptor</a> with a given model and path. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">model</td><td>The model pointer. </td></tr>
+    <tr><td class="paramname">path</td><td>The path of the model. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00078">78</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -430,6 +471,14 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Constructor for a <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model.">ModelDescriptor</a> with a given model, path and metadata. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">model</td><td>The model pointer. </td></tr>
+    <tr><td class="paramname">path</td><td>The path of the model. </td></tr>
+    <tr><td class="paramname">metadata</td><td>The metadata of the model. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00084">84</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -472,6 +521,15 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Constructor for a <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model.">ModelDescriptor</a> with a given model, name, path and metadata. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">model</td><td>The model pointer. </td></tr>
+    <tr><td class="paramname">name</td><td>The name of the model. </td></tr>
+    <tr><td class="paramname">path</td><td>The path of the model. </td></tr>
+    <tr><td class="paramname">metadata</td><td>The metadata of the model. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00091">91</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -493,6 +551,12 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Adds an instance of the model. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instance</td><td>The instance to add. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00125">125</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -521,7 +585,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00180">180</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00422">422</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -559,6 +623,7 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Computes the bounding box of the model. </p>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00153">153</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -586,8 +651,9 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Gets the bounding box of the model. </p><dl class="section return"><dt>Returns</dt><dd>The bounding box of the model. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00162">162</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00391">391</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -613,8 +679,9 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Checks if the model is enabled. </p><dl class="section return"><dt>Returns</dt><dd>True if the model is visible or has a bounding box. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00149">149</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00332">332</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -633,6 +700,13 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Gets the instance of the model with the given id. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The id of the instance to get. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The instance of the model with the given id. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00146">146</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -660,8 +734,9 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Gets all instances of the model. </p><dl class="section return"><dt>Returns</dt><dd>All instances of the model. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00161">161</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00385">385</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -687,8 +762,9 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Gets the metadata of this model. </p><dl class="section return"><dt>Returns</dt><dd>The metadata of the model. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00155">155</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00348">348</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -714,8 +790,9 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Gets the reference to the model. </p><dl class="section return"><dt>Returns</dt><dd>The model reference. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00157">157</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00360">360</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -741,8 +818,9 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Gets the const reference to the model. </p><dl class="section return"><dt>Returns</dt><dd>The model reference. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00156">156</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00354">354</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -768,8 +846,9 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Gets the properties of this model. </p><dl class="section return"><dt>Returns</dt><dd>The properties of the model. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00171">171</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00412">412</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -796,7 +875,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00188">188</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00432">432</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -823,7 +902,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00186">186</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00429">429</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -850,9 +929,8 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Set a function that is called when this model is about to be removed. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00177">177</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00419">419</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -871,6 +949,13 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Copy assignment operator for a <a class="el" href="../../d1/df6/classcore_1_1ModelParams.html" title="The ModelParams class represents the parameters needed for initializing a model instance.">ModelParams</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rhs</td><td>The <a class="el" href="../../d1/df6/classcore_1_1ModelParams.html" title="The ModelParams class represents the parameters needed for initializing a model instance.">ModelParams</a> to copy from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to this <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model.">ModelDescriptor</a>. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00099">99</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -899,6 +984,13 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Default move operator for a <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model.">ModelDescriptor</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rhs</td><td>The r-value reference of the <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model.">ModelDescriptor</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to this <a class="el" href="../../dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model.">ModelDescriptor</a>. </dd></dl>
 
 </div>
 </div>
@@ -917,6 +1009,12 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Removes an instance of the model. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The id of the instance to remove. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00133">133</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -945,8 +1043,14 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Sets the metadata of this model. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">metadata</td><td>The metadata of the model. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00150">150</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00338">338</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -973,8 +1077,14 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Sets the properties of this model. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">properties</td><td>The properties of the model. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00165">165</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00402">402</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>

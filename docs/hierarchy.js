@@ -76,12 +76,27 @@ var hierarchy =
       [ "core::ModelInstance", "d9/d63/classcore_1_1ModelInstance.html", [
         [ "core::ModelParams", "d1/df6/classcore_1_1ModelParams.html", [
           [ "core::BinaryParam", "d4/d24/structcore_1_1BinaryParam.html", null ],
+          [ "core::ModelDescriptor", "dc/d7f/classcore_1_1ModelDescriptor.html", null ],
           [ "core::ModelDescriptor", "dc/d7f/classcore_1_1ModelDescriptor.html", null ]
-        ] ]
+        ] ],
+        [ "core::ModelParams", "d1/df6/classcore_1_1ModelParams.html", null ]
       ] ],
+      [ "core::ModelInstance", "d9/d63/classcore_1_1ModelInstance.html", null ],
       [ "core::OpenDeckParameters", "de/dfc/classcore_1_1OpenDeckParameters.html", null ],
       [ "core::Progress", "dc/d0d/classcore_1_1Progress.html", null ],
       [ "core::PropertyObject", "d7/d67/classcore_1_1PropertyObject.html", [
+        [ "Camera", null, [
+          [ "ospray::CylindricCamera", "d0/d69/structospray_1_1CylindricCamera.html", null ],
+          [ "ospray::CylindricStereoCamera", "d3/dc8/structospray_1_1CylindricStereoCamera.html", [
+            [ "ospray::CylindricStereoTrackedCamera", "d2/d67/structospray_1_1CylindricStereoTrackedCamera.html", null ]
+          ] ],
+          [ "ospray::FishEyeCamera", "d1/dfb/structospray_1_1FishEyeCamera.html", null ],
+          [ "ospray::MultiviewCamera", "da/d7c/structospray_1_1MultiviewCamera.html", null ],
+          [ "ospray::OrthographicCamera", "d9/d3f/structospray_1_1OrthographicCamera.html", null ],
+          [ "ospray::PanoramicCamera", "d0/d5b/structospray_1_1PanoramicCamera.html", null ],
+          [ "ospray::PerspectiveParallaxCamera", "d1/d3f/structospray_1_1PerspectiveParallaxCamera.html", null ],
+          [ "ospray::SphereClippingPerspectiveCamera", "d8/d2e/structospray_1_1SphereClippingPerspectiveCamera.html", null ]
+        ] ],
         [ "core::Camera", "d6/da7/classcore_1_1Camera.html", [
           [ "core::OptiXCamera", "d7/d8e/classcore_1_1OptiXCamera.html", null ],
           [ "core::OSPRayCamera", "da/df9/classcore_1_1OSPRayCamera.html", null ],
@@ -108,6 +123,7 @@ var hierarchy =
         [ "core::BrickedVolume", "db/de9/classcore_1_1BrickedVolume.html", [
           [ "core::OSPRayBrickedVolume", "d2/dee/classcore_1_1OSPRayBrickedVolume.html", null ]
         ] ],
+        [ "core::BrickedVolume", "db/de9/classcore_1_1BrickedVolume.html", null ],
         [ "core::OSPRayVolume", "df/d82/classcore_1_1OSPRayVolume.html", [
           [ "core::OSPRayBrickedVolume", "d2/dee/classcore_1_1OSPRayBrickedVolume.html", null ],
           [ "core::OSPRaySharedDataVolume", "d8/d1a/classcore_1_1OSPRaySharedDataVolume.html", null ]
@@ -130,18 +146,6 @@ var hierarchy =
     [ "core::Box< float >", "df/d44/classcore_1_1Box.html", null ],
     [ "bioexplorer::details::BuildFieldsDetails", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html", null ],
     [ "bioexplorer::details::BuildPointCloudDetails", "d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails.html", null ],
-    [ "Camera", null, [
-      [ "ospray::CylindricCamera", "d0/d69/structospray_1_1CylindricCamera.html", null ],
-      [ "ospray::CylindricStereoCamera", "d3/dc8/structospray_1_1CylindricStereoCamera.html", [
-        [ "ospray::CylindricStereoTrackedCamera", "d2/d67/structospray_1_1CylindricStereoTrackedCamera.html", null ]
-      ] ],
-      [ "ospray::FishEyeCamera", "d1/dfb/structospray_1_1FishEyeCamera.html", null ],
-      [ "ospray::MultiviewCamera", "da/d7c/structospray_1_1MultiviewCamera.html", null ],
-      [ "ospray::OrthographicCamera", "d9/d3f/structospray_1_1OrthographicCamera.html", null ],
-      [ "ospray::PanoramicCamera", "d0/d5b/structospray_1_1PanoramicCamera.html", null ],
-      [ "ospray::PerspectiveParallaxCamera", "d1/d3f/structospray_1_1PerspectiveParallaxCamera.html", null ],
-      [ "ospray::SphereClippingPerspectiveCamera", "d8/d2e/structospray_1_1SphereClippingPerspectiveCamera.html", null ]
-    ] ],
     [ "bioexplorer::mediamaker::CameraDefinition", "dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html", null ],
     [ "bioexplorer::morphology::Cell", "d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html", null ],
     [ "bioexplorer::details::CellAnimationDetails", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html", null ],

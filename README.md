@@ -47,7 +47,7 @@
 ## Description
 
 Exploration relies on building software that combines data integration, analysis and interactive visualization to build, modify and navigate through large scientific datasets. For this, Blue Brain built and open-sourced the Blue Brain BioExplorer. The Blue Brain BioExplorer (BBBE), which started as an internal project, is now open source. It
-was originally developed to answer key scientific questions related to the Coronavirus as a use case and to deliver a visualization tool. Today, the BioExplorer allows to reconstruct, visualize, explore and describe in detail the structure and function of highly-detailed biological structures such as molecular systems, neurons, astrocytes, blood vessels, and more. You can see the first application of the BioExplorer in '[A Machine-Generated View of the Role of Blood Glucose Levels in the Severity of COVID-19](https://www.frontiersin.org/articles/10.3389/fpubh.2021.695139/full?utm_source=fweb&utm_medium=nblog&utm_campaign=ba-sci-fpubh-covid-19-elevated-blood-glucose-blue-brain)' study, and see the SARS-COV-2 coronavirus as you have never seen it before by clicking on the following image!
+was originally developed to answer key scientific questions related to the Coronavirus as a use case and to deliver a visualization tool. Today, the _BBBE_ allows to reconstruct, visualize, explore and describe in detail the structure and function of highly-detailed biological structures such as molecular systems, neurons, astrocytes, blood vessels, and more. You can see the first application of the _BBBE_ in '[A Machine-Generated View of the Role of Blood Glucose Levels in the Severity of COVID-19](https://www.frontiersin.org/articles/10.3389/fpubh.2021.695139/full?utm_source=fweb&utm_medium=nblog&utm_campaign=ba-sci-fpubh-covid-19-elevated-blood-glucose-blue-brain)' study, and see the SARS-COV-2 coronavirus as you have never seen it before by clicking on the following image!
 
 <div align="center">
       <a href="https://youtu.be/Czn-YGLGfiA"/>
@@ -76,14 +76,14 @@ On the third anniversary of the first lock-down, we look back at how #MachineLea
 
 BioExplorer now benefits from [NVIDIA OptiX](https://developer.nvidia.com/rtx/ray-tracing/optix) backend compatibility, allowing it to fully utilize the NVIDIA RTX acceleration hardware capabilities for fast and high-quality rendering of scientific datasets. This advanced feature, along with the new stereo perspective camera, enables virtual reality use-cases with pure ray-tracing. Additionally, an AI-powered denoiser has been incorporated to enhance the real-time rendering quality.
 
-Simply add the OptiX engine command line argument when starting the BioExplorer.
+Simply add the OptiX engine command line argument when starting the _BBBE_.
 ```bash
-braynsService --engine optix6 --plugin BioExplorer
+service --engine optix6 --plugin BioExplorer
 ```
 
-Note that, in order to offer the best experience on local desktops, the BioExplorer now also has a native viewer.
+Note that, in order to offer the best experience on local desktops, the _BBBE_ now also has a native viewer.
 ```bash
-braynsViewer --engine optix6 --plugin BioExplorer
+viewer --engine optix6 --plugin BioExplorer
 ```
 
 ## At the museum
@@ -97,7 +97,7 @@ The Blue Brain images on show were created with the _BBBE_. Checkout the [news a
 
 ## Architecture
 
-The _BBBE_ application is built on top of a fork of [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) 1.0.0 , the Blue Brain rendering platform. The _BBBE_ uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.
+The _BBBE_ application is built on top of a fork of [Blue Brain Brayns](https://github.com/BlueBrain/Brayns/releases/tag/1.0.0) 1.0.0 , the Blue Brain rendering platform. The _BBBE_ uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.
 
 ![___](./bioexplorer/pythonsdk/doc/source/images/architecture.png)
 
@@ -334,18 +334,14 @@ A PostgreSQL Database can be created as a Docker image and used by the _BBBE_ as
 
 ## Building from Source
 
-### Blue Brain Brayns
-
-In order to run the BioExplorer, it is necessary to build [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) first.
-
 ### BioExplorer
 
 #### Compile
 
-With [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns) compiled and installed in the <brayns_installation_folder>, run the statements to build the BioExplorer.
+Run the following statements to build the _BBBE_.
 
 ```bash
-git clone https://github.com/BlueBrain/BioExplorer.git
+git clone --recursive https://github.com/BlueBrain/BioExplorer.git
 mkdir build
 cd build
 CMAKE_PREFIX_PATH=<brayns_installation_folder> cmake .. -DCMAKE_INSTALL_PREFIX=<brayns_installation_folder>
@@ -354,12 +350,10 @@ make install
 
 #### Run
 
-The BioExplorer being a plug-in for [Blue Brain Brayns](https://github.com/BlueBrain/BioExplorer/tree/Brayns), the following commands can be used to start the backend:
+Run the _BBBE_  with the following command to start the backend:
 
 ```bash
-export LD_LIBRARY_PATH=<brayns_installation_folder>/lib:${LD_LIBRARY_PATH}
-export PATH=<brayns_installation_folder>/bin:${PATH}
-braynsService --http-server localhost:5000 --plugin BioExplorer
+service --http-server localhost:5000 --plugin BioExplorer
 ```
 
 ## Simple example

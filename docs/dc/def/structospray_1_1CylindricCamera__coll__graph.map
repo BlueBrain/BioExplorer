@@ -1,4 +1,6 @@
 <map id="ospray::CylindricCamera" name="ospray::CylindricCamera">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,187,107"/>
-<area shape="rect" id="node2" title=" " alt="" coords="59,5,133,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,229,187,256"/>
+<area shape="rect" id="node2" title=" " alt="" coords="59,155,133,181"/>
+<area shape="rect" id="node3" href="$d7/d67/classcore_1_1PropertyObject.html" title=" " alt="" coords="19,80,173,107"/>
+<area shape="rect" id="node4" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="30,5,162,32"/>
 </map>

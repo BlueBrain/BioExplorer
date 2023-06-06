@@ -90,128 +90,128 @@ $(document).ready(function(){initNavTree('d1/dbc/md_ARCHITECTURE.html','../../')
 <img src="../../bioexplorer_banner.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <h1><a class="anchor" id="autotoc_md55"></a>
+   <h1><a class="anchor" id="autotoc_md54"></a>
 Motivation</h1>
 <p>One of the keys towards seeing how the brain functions is representation of how the individual cells work. Specifically, the more morphologically precise the representation can be, the simpler it is for specialists in the organic field to approve cell structures; photograph reasonable rendering is accordingly significant.</p>
-<p>The <em>BBBE</em> is built as a plug-in of the <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> platform, that can intelligently perform high-quality and high-fidelity rendering of large neuroscience datasets. Thanks to its client/server architecture, <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> can be run in the cloud as well as on a supercomputer, and stream the rendering to any browser, either in a web UI or a Jupyter notebook. The challenges of neuroscience are numerous, but in the context of visualization at the Blue Brain Project, four objectives have to be reached: Large data sets, large displays, rendering performance and image quality.</p>
+<p>The <em>BBBE</em> is built as a plug-in of a fork of version 1.0.0 of the <a href="https://github.com/BlueBrain/Brayns/releases/tag/1.0.0">Blue Brain Brayns</a> platform, that can intelligently perform high-quality and high-fidelity rendering of large neuroscience datasets. Thanks to its client/server architecture, <em>BBBE</em> can be run in the cloud as well as on a supercomputer, and stream the rendering to any browser, either in a web UI or a Jupyter notebook. The challenges of neuroscience are numerous, but in the context of visualization at the Blue Brain Project, four objectives have to be reached: Large data sets, large displays, rendering performance and image quality.</p>
 <div class="image">
 <img src="../../bioexplorer_axis.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <p>As an academic institution, we also want to provide free software that can be run on virtually any type of architecture: CPUs, GPUs or virtual machines hosted in the cloud. In order to be used by a community as large possible, the target audience for <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> includes developers, scientists, digital artists, and media designers.</p>
-<h1><a class="anchor" id="autotoc_md56"></a>
+   <p>As an academic institution, we also want to provide free software that can be run on virtually any type of architecture: CPUs, GPUs or virtual machines hosted in the cloud. In order to be used by a community as large possible, the target audience for <em>BBBE</em> includes developers, scientists, digital artists, and media designers.</p>
+<h1><a class="anchor" id="autotoc_md55"></a>
 Design goals</h1>
-<p><a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> is designed to address the challenges of visualizing large scale neuroscientific data (hundreds of thousands up to few millions of highly detailed neurons and Terabytes of simulation data). It has a research-oriented modular architecture that uses plug-ins, which makes it easy to experiment with novel rendering techniques, for instance trying to visualize neural electrical activity with signed distance fields.</p>
-<p>This architecture is well-suited to address new use cases that are requested by scientists on a regular basis. <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> has a client-server architecture allowing to run on a desktop PC, in the cloud or on a supercomputer. The core of <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> currently provides two rendering engines, a CPU implementation built on top of Intel <a href="https://github.com/ospray/ospray">OSPRay</a>, and a GPU one based on <a href="https://developer.nvidia.com/rtx/ray-tracing/optix">OptiX</a>. <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> provides an engine API that facilitates the integration of additional rendering engines.</p>
-<p><a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> has custom virtual cameras to support any type of display, for example cylindrical, omni-stereo panoramic and virtual reality setups. The rendered images can be streamed either to web browsers or large curved display walls. <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> aims to be a platform for scientific visualization that makes it easy to add new scientific use-cases without having to worry about the complexity of the large scale rendering challenges. In the context of the Blue Brain Project:</p>
+<p><em>BBBE</em> is designed to address the challenges of visualizing large scale neuroscientific data (hundreds of thousands up to few millions of highly detailed neurons and Terabytes of simulation data). It has a research-oriented modular architecture that uses plug-ins, which makes it easy to experiment with novel rendering techniques, for instance trying to visualize neural electrical activity with signed distance fields.</p>
+<p>This architecture is well-suited to address new use cases that are requested by scientists on a regular basis. <em>BBBE</em> has a client-server architecture allowing to run on a desktop PC, in the cloud or on a supercomputer. The core of <em>BBBE</em> currently provides two rendering engines, a CPU implementation built on top of Intel <a href="https://github.com/ospray/ospray">OSPRay</a>, and a GPU one based on <a href="https://developer.nvidia.com/rtx/ray-tracing/optix">OptiX</a>. <em>BBBE</em> provides an engine API that facilitates the integration of additional rendering engines.</p>
+<p><em>BBBE</em> has custom virtual cameras to support any type of display, for example cylindrical, omni-stereo panoramic and virtual reality setups. The rendered images can be streamed either to web browsers or large curved display walls. <em>BBBE</em> aims to be a platform for scientific visualization that makes it easy to add new scientific use-cases without having to worry about the complexity of the large scale rendering challenges. In the context of the Blue Brain Project:</p>
 <ul>
 <li>Unified engine/platform as separate tools/applications increase the maintenance complexity</li>
 <li>Unify common features like the loading of the data, and the building of the 3D scene</li>
 <li>Focus on the the science, not on the engineering</li>
 </ul>
 <p>As a general rule, engines do not need to have a similar set of functionalities, but implement what is necessary to serve the use-cases they are used for. Typically, the <a href="https://github.com/ospray/ospray">OSPRay</a> implementation is used to render very large data sets, and the <a href="https://developer.nvidia.com/rtx/ray-tracing/optix">OptiX</a> one runs the realtime immersive use-cases.</p>
-<h1><a class="anchor" id="autotoc_md57"></a>
+<h1><a class="anchor" id="autotoc_md56"></a>
 Software Architecture</h1>
-<h2><a class="anchor" id="autotoc_md58"></a>
+<h2><a class="anchor" id="autotoc_md57"></a>
 Modular design</h2>
-<p>Modular design is a methodology that subdivides a framework into littler parts called modules, which can be freely made, changed, supplanted or traded between various frameworks. In the case of <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a>, the philosophy is "Write code that is easy to replace, not easy to extend". In that context, modularity is at the component level. <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> makes extensive use of the class factory pattern to create objects for the selected implementations.</p>
+<p>Modular design is a methodology that subdivides a framework into littler parts called modules, which can be freely made, changed, supplanted or traded between various frameworks. In the case of <em>BBBE</em>, the philosophy is "Write code that is easy to replace, not easy to extend". In that context, modularity is at the component level. <em>BBBE</em> makes extensive use of the class factory pattern to create objects for the selected implementations.</p>
 <p>The design was initially inspired by the <a href="https://github.com/favreau/Sol-R">Sol-R</a> rendering engine that allows multiple engines (<a href="https://developer.nvidia.com/cuda-toolkit">CUDA</a> and <a href="https://www.khronos.org/opencl/">OpenCL</a>) to deliver interactive visualization of scientific data using the ray-tracing technique.</p>
-<h2><a class="anchor" id="autotoc_md59"></a>
+<h2><a class="anchor" id="autotoc_md58"></a>
 Distributed architecture</h2>
-<p>In the context of large scale rendering, computation is usually distributed on many nodes, when the visualization and interaction with the system still has to be performed from a single machine. For that reason, <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> is built upon a distributed architecture that allows all client components (python scripts, UI widgets, etc) to be run on separate machines.</p>
-<h2><a class="anchor" id="autotoc_md60"></a>
+<p>In the context of large scale rendering, computation is usually distributed on many nodes, when the visualization and interaction with the system still has to be performed from a single machine. For that reason, <em>BBBE</em> is built upon a distributed architecture that allows all client components (python scripts, UI widgets, etc) to be run on separate machines.</p>
+<h2><a class="anchor" id="autotoc_md59"></a>
 Abstraction</h2>
-<p>The abstraction layer defines the interface to every element that can be used by the various engines in the system. The abstraction was put at the lowest possible level where the compromise between execution speed and code duplication was found acceptable. Regarding the geometry, and for the sake of memory consumption, <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> currently uses abstract data structures that are identical to the ones used by the underlying rendering engines (<a href="https://github.com/ospray/ospray">OSPRay</a> and <a href="https://developer.nvidia.com/rtx/ray-tracing/optix">OptiX</a>). This could vary in the future as new engines are added, but in this particular case of the geometry, and since it can be massive in the context of the Blue Brain project, the design decision was to force the engines to adapt to the definition of the abstract objects used by <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a>.</p>
-<h2><a class="anchor" id="autotoc_md61"></a>
+<p>The abstraction layer defines the interface to every element that can be used by the various engines in the system. The abstraction was put at the lowest possible level where the compromise between execution speed and code duplication was found acceptable. Regarding the geometry, and for the sake of memory consumption, <em>BBBE</em> currently uses abstract data structures that are identical to the ones used by the underlying rendering engines (<a href="https://github.com/ospray/ospray">OSPRay</a> and <a href="https://developer.nvidia.com/rtx/ray-tracing/optix">OptiX</a>). This could vary in the future as new engines are added, but in this particular case of the geometry, and since it can be massive in the context of the Blue Brain project, the design decision was to force the engines to adapt to the definition of the abstract objects used by <em>BBBE</em>.</p>
+<h2><a class="anchor" id="autotoc_md60"></a>
 Properties</h2>
-<p><a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> objects holding a list of properties that are mapped by name to a supported C++ type. This mechanism is used at every level of the software in order to facilitate the exposure of internal objects to the external API.</p>
-<h2><a class="anchor" id="autotoc_md62"></a>
+<p><em>BBBE</em> objects holding a list of properties that are mapped by name to a supported C++ type. This mechanism is used at every level of the software in order to facilitate the exposure of internal objects to the external API.</p>
+<h2><a class="anchor" id="autotoc_md61"></a>
 Core components</h2>
-<h3><a class="anchor" id="autotoc_md63"></a>
+<h3><a class="anchor" id="autotoc_md62"></a>
 Blue Brain Brayns</h3>
-<p>The initialization of the system involves command line parsing, engine creation, plug-in loading, data loading and setup of input devices. Command line parameters provide options about the application itself, the geometry and the renderer. <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> creates the scene using built-in and plug-in provided loaders.</p>
-<h3><a class="anchor" id="autotoc_md64"></a>
+<p>The initialization of the system involves command line parsing, engine creation, plug-in loading, data loading and setup of input devices. Command line parameters provide options about the application itself, the geometry and the renderer. <em>BBBE</em> creates the scene using built-in and plug-in provided loaders.</p>
+<h3><a class="anchor" id="autotoc_md63"></a>
 Parameter manager</h3>
 <p>The parameter manager manages all parameters registered by the application. By default, an instance of application, rendering, geometry and volume parameters are registered. The parameters managers offer the necessary methods to register any additional custom types of parameters.</p>
-<h3><a class="anchor" id="autotoc_md65"></a>
+<h3><a class="anchor" id="autotoc_md64"></a>
 Camera manipulators</h3>
 <p>Blue Brain Brayns provides two types of camera manipulators: Inspect and Fly. Inspect is the default, and allows the user to orbit around a target. The fly manipulator allows navigation in a flight simulator way.</p>
-<h3><a class="anchor" id="autotoc_md66"></a>
+<h3><a class="anchor" id="autotoc_md65"></a>
 Engine factory</h3>
 <p>The engine factory is in charge of instantiating engines according to their name.</p>
-<h3><a class="anchor" id="autotoc_md67"></a>
+<h3><a class="anchor" id="autotoc_md66"></a>
 Plug-ins</h3>
-<p>A plug-in is a set a functionalities that are not provided by the core of the application. For example, exposing a REST interface via HTTP, or streaming images to an distant display. Plug-ins are components external to the core that are dynamically loaded during the initialization process. <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> accepts multiple iterations of the <code>plug-in</code> command line argument, followed by the name of the plug-in. The plug-in manager is in charge of loading and keeping track of the plug-ins for the lifetime of the application. At every iteration of the rendering loop, the <code>preRender</code> and <code>postRender</code> methods are respectively invoked before and after the rendering of the current frame, and this for every plug-in.</p>
-<h3><a class="anchor" id="autotoc_md68"></a>
+<p>A plug-in is a set a functionalities that are not provided by the core of the application. For example, exposing a REST interface via HTTP, or streaming images to an distant display. Plug-ins are components external to the core that are dynamically loaded during the initialization process. <em>BBBE</em> accepts multiple iterations of the <code>plug-in</code> command line argument, followed by the name of the plug-in. The plug-in manager is in charge of loading and keeping track of the plug-ins for the lifetime of the application. At every iteration of the rendering loop, the <code>preRender</code> and <code>postRender</code> methods are respectively invoked before and after the rendering of the current frame, and this for every plug-in.</p>
+<h3><a class="anchor" id="autotoc_md67"></a>
 Data loaders</h3>
-<p><a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> provides a default loader for meshes, proteins, volumes and point clouds.</p>
-<h3><a class="anchor" id="autotoc_md69"></a>
+<p><em>BBBE</em> provides a default loader for meshes, proteins, volumes and point clouds.</p>
+<h3><a class="anchor" id="autotoc_md68"></a>
 Engine</h3>
 <p>The engine abstraction is a container for all components that make a rendering engine: A scene, a renderer, a set of lights, and a list of frame buffers. When adding a new engine to Blue Brain Brayns, those components have to be linked to the underlying corresponding ones provided by the 3rd party acceleration library, typically <a href="https://github.com/ospray/ospray">OSPRay</a> or <a href="https://developer.nvidia.com/rtx/ray-tracing/optix">OptiX</a>, that provides the ray-tracing implementation.</p>
 <p>An engine can have several renderers, cameras and frame buffers but only has one single scene. The engine is responsible for the creation of the components that it contains. For this, the engine provides a set of methods that have to be called by the individual implementations. Typically, <code>createCamera</code> creates the camera for the current engine, <code>createRenderer</code> creates the renderer and so on for every other component. The engine also provides statistics about the rendering speed of a frame via <code>getStatistics</code>.</p>
-<h3><a class="anchor" id="autotoc_md70"></a>
+<h3><a class="anchor" id="autotoc_md69"></a>
 Scene</h3>
 <p>A scene contains collections of geometries, materials and light sources that are used to describe the 3D scene to be rendered.</p>
-<h3><a class="anchor" id="autotoc_md71"></a>
+<h3><a class="anchor" id="autotoc_md70"></a>
 Model descriptor</h3>
-<p>The model descriptor defines the metadata attached to a model. Enabling a model means that the model is part of scene. If disabled, the model still exists in <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a>, but is removed from the rendered scene. The visible attribute defines if the model should be visible or not. If invisible, the model is removed from the BVH. If set to true, the bounding box attribute displays a bounding box for the current model. Model descriptor are exposed via the HTTP/WS interface. The metadata structure is a simple map of strings that contains the name of a property and its value. This can be used to describe the model, with any piece of information that is relevant to the end user. The model descriptor manages instances of the model it contains via a list of transformations. The model descriptor provides functions to manage the metadata and the instances, to compute the bounds of the geometry, and access to the underlying model object.</p>
-<h3><a class="anchor" id="autotoc_md72"></a>
+<p>The model descriptor defines the metadata attached to a model. Enabling a model means that the model is part of scene. If disabled, the model still exists in <em>BBBE</em>, but is removed from the rendered scene. The visible attribute defines if the model should be visible or not. If invisible, the model is removed from the BVH. If set to true, the bounding box attribute displays a bounding box for the current model. Model descriptor are exposed via the HTTP/WS interface. The metadata structure is a simple map of strings that contains the name of a property and its value. This can be used to describe the model, with any piece of information that is relevant to the end user. The model descriptor manages instances of the model it contains via a list of transformations. The model descriptor provides functions to manage the metadata and the instances, to compute the bounds of the geometry, and access to the underlying model object.</p>
+<h3><a class="anchor" id="autotoc_md71"></a>
 Model</h3>
 <p>The model class holds the geometry attached to an asset of the scene (mesh, circuit, volume, etc). The model handles resources attached to the geometry such as implementation specific classes, and acceleration structures). Models provide a simple API to manipulate geometries (spheres, cylinders, cones, signed distance fields, triangle meshes, streamlines, etc), materials, a unique simulation handler, volumes and a unique transfer function. An <a href="https://github.com/ospray/ospray">OSPRay</a> model holds two internal sets of geometries, a primary and a secondary one. The model is responsible for creating the materials attached to the geometry that it contains.</p>
-<h2><a class="anchor" id="autotoc_md73"></a>
+<h2><a class="anchor" id="autotoc_md72"></a>
 Application Programming Interface</h2>
-<h3><a class="anchor" id="autotoc_md74"></a>
+<h3><a class="anchor" id="autotoc_md73"></a>
 Action interface</h3>
 <p>The Action Interface allows developer to extend the API exposed via the network interface. It can register notifications, which have no return values with an optional parameter, and requests, which return a value after processing. The encoding of the parameter and return value is restricted to JSON.</p>
-<h3><a class="anchor" id="autotoc_md75"></a>
+<h3><a class="anchor" id="autotoc_md74"></a>
 plug-in</h3>
-<p>The plug-in interface defines the methods that need to be implemented by any new plug-in added to the list of components that <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> can dynamically load. using the <code>--plug-in</code> command line argument, the name of the plug-in can be specified and <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> will load the corresponding library at startup. A plug-in can access the engine, the action interface, the keyboard handler, and the camera manipulator provided by <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a>.</p>
-<p>Plug-ins can expose new external API, implement new data loaders, as well as shaders, cameras, geometries, materials, etc. plug-ins are also the place where use-case specific implementations are required. <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> aims to remain agnostic to what it renders, plug-ins are responsible for giving a meaning to what is rendered.</p>
-<h3><a class="anchor" id="autotoc_md76"></a>
+<p>The plug-in interface defines the methods that need to be implemented by any new plug-in added to the list of components that <em>BBBE</em> can dynamically load. using the <code>--plug-in</code> command line argument, the name of the plug-in can be specified and <em>BBBE</em> will load the corresponding library at startup. A plug-in can access the engine, the action interface, the keyboard handler, and the camera manipulator provided by <em>BBBE</em>.</p>
+<p>Plug-ins can expose new external API, implement new data loaders, as well as shaders, cameras, geometries, materials, etc. plug-ins are also the place where use-case specific implementations are required. <em>BBBE</em> aims to remain agnostic to what it renders, plug-ins are responsible for giving a meaning to what is rendered.</p>
+<h3><a class="anchor" id="autotoc_md75"></a>
 Loader</h3>
-<p>In a research environment, new datasets appear on a daily basis, and being able to visualize them in a fast and easy way is crucial. <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> offers an interface to data loaders so that custom implementations can easily be added to the system. Loaders are in charge of reading the data from external sources (IO, Databases, etc) and build the corresponding 3D scene via the creation of models. Loaders are asynchronous and run in a dedicated thread.</p>
-<p>Loaders can define custom attributes via the property registration mechanism. <code>importFromBlob</code> and <code>importFromFile</code> are the two methods that need to be implemented in order for <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> to accept the new loader. At runtime, the choice of the loaded is automatically determined by the extensions that it supports. If two loaders register the same extension, the priority matches to the loading order.</p>
-<h1><a class="anchor" id="autotoc_md77"></a>
+<p>In a research environment, new datasets appear on a daily basis, and being able to visualize them in a fast and easy way is crucial. <em>BBBE</em> offers an interface to data loaders so that custom implementations can easily be added to the system. Loaders are in charge of reading the data from external sources (IO, Databases, etc) and build the corresponding 3D scene via the creation of models. Loaders are asynchronous and run in a dedicated thread.</p>
+<p>Loaders can define custom attributes via the property registration mechanism. <code>importFromBlob</code> and <code>importFromFile</code> are the two methods that need to be implemented in order for <em>BBBE</em> to accept the new loader. At runtime, the choice of the loaded is automatically determined by the extensions that it supports. If two loaders register the same extension, the priority matches to the loading order.</p>
+<h1><a class="anchor" id="autotoc_md76"></a>
 Client software development kits</h1>
-<h2><a class="anchor" id="autotoc_md78"></a>
+<h2><a class="anchor" id="autotoc_md77"></a>
 Introduction</h2>
-<p><a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> client SDKs are build on a dynamic approach, meaning that they are constructed according to the API exposed by the server, at runtime. Whenever a new end point is added to Blue Brain Brayns, the client SDK does not need to be adapted. Methods and data structures are automatically interpreted by the SDK and appear to the client application as Python or Javascript native objects. Client SDKs use the registry and schema end-points to list and define native and language-specific methods and data structures. As an example, the camera object appears in the registry (<code>/registry</code>) as follows:</p>
+<p><em>BBBE</em> client SDKs are build on a dynamic approach, meaning that they are constructed according to the API exposed by the server, at runtime. Whenever a new end point is added to Blue Brain Brayns, the client SDK does not need to be adapted. Methods and data structures are automatically interpreted by the SDK and appear to the client application as Python or Javascript native objects. Client SDKs use the registry and schema end-points to list and define native and language-specific methods and data structures. As an example, the camera object appears in the registry (<code>/registry</code>) as follows:</p>
 <div class="fragment"><div class="line">{&quot;camera&quot;: [&quot;PUT&quot;, &quot;GET&quot;]}</div>
 </div><!-- fragment --><p>And the corresponding schema (<code>/camera/schema</code>):</p>
 <div class="fragment"><div class="line">{&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;current&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;orientation&quot;:{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;type&quot;:&quot;number&quot;},&quot;minItems&quot;:4,&quot;maxItems&quot;:4},&quot;position&quot;:{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;type&quot;:&quot;number&quot;},&quot;minItems&quot;:3,&quot;maxItems&quot;:3},&quot;target&quot;:{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;type&quot;:&quot;number&quot;},&quot;minItems&quot;:3,&quot;maxItems&quot;:3},&quot;types&quot;:{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;type&quot;:&quot;string&quot;}}},&quot;additionalProperties&quot;:false,&quot;title&quot;:&quot;Camera&quot;}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md79"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md78"></a>
 Python SDK</h2>
-<p>The Python SDK offers a simple and easy way to connect to <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a>, using the following API:</p>
+<p>The Python SDK offers a simple and easy way to connect to <em>BBBE</em>, using the following API:</p>
 <div class="fragment"><div class="line">from brayns import Client</div>
 <div class="line">brayns = Client(&#39;host:port&#39;)</div>
-</div><!-- fragment --><p>When this command is executed, and the SDK connected to a running instance of <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a>, the end-point registry is parsed, and Python classes are built using an object wrapper for <a href="https://python-jsonschema.readthedocs.io/en/stable/">JSON schema</a> definitions library. Methods of generated classes are JSON-RPC based. The Python call is no more than an invocation of a piece of code executed server-side.</p>
-<p>This architecture allows the Python scripts to be run on light weight clients (mobile devices, laptop computers, etc) regardless of the size of the 3D scene which is handled by the server part of <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a>. This also allows the server to be run in distributed mode. The generated Client class has a getter/setter method for every end points exposed by the <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> server hat respectively has a GET/PUT method defined in the schema. For instance, the following code snippet illustrates how to manipulate a camera:</p>
+</div><!-- fragment --><p>When this command is executed, and the SDK connected to a running instance of <em>BBBE</em>, the end-point registry is parsed, and Python classes are built using an object wrapper for <a href="https://python-jsonschema.readthedocs.io/en/stable/">JSON schema</a> definitions library. Methods of generated classes are JSON-RPC based. The Python call is no more than an invocation of a piece of code executed server-side.</p>
+<p>This architecture allows the Python scripts to be run on light weight clients (mobile devices, laptop computers, etc) regardless of the size of the 3D scene which is handled by the server part of <em>BBBE</em>. This also allows the server to be run in distributed mode. The generated Client class has a getter/setter method for every end points exposed by the <em>BBBE</em> server hat respectively has a GET/PUT method defined in the schema. For instance, the following code snippet illustrates how to manipulate a camera:</p>
 <div class="fragment"><div class="line">camera = brayns.get_camera()</div>
 <div class="line">brayns.set_camera(position=(0,0,0), orientation=camera[&#39;orientation&#39;])</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md80"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md79"></a>
 Javascript SDK</h2>
-<p>The Javascript SDK is collection of web apps and JavaScript packages for the C++ rendering service <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a>.</p>
-<h2><a class="anchor" id="autotoc_md81"></a>
+<p>The Javascript SDK is collection of web apps and JavaScript packages for the C++ rendering service <em>BBBE</em>.</p>
+<h2><a class="anchor" id="autotoc_md80"></a>
 Deflect</h2>
 <p>Based on the data-parallel rendering feature provided by the <a href="https://github.com/ospray/ospray">OSPRay</a> engine, the Deflect plug-in extends the <code>PixelOp</code> implementation to stream tiles from multiple nodes to <a href="https://github.com/BlueBrain/Tide">Tide</a>. Individual tiles are computed by rendering nodes, and sent to <a href="https://github.com/BlueBrain/Tide">Tide</a> that is in charge of reconstructing the full frame and displaying it on the large screens. The deflect plug-in also processes input messages such as touches provided by Tide and implements the corresponding actions. Typically camera movements and the rendering options that are mapped to keyboard entries.</p>
-<h2><a class="anchor" id="autotoc_md82"></a>
+<h2><a class="anchor" id="autotoc_md81"></a>
 Rockets</h2>
 <p><a href="https://github.com/BlueBrain/Rockets">Rockets</a> is a library for easy HTTP and websockets messaging in C++ applications. It provides HTTP server with integrated websockets support, HTTP client for making simple asynchronous requests, websocket client for sending, broadcasting and receiving text and binary messages, support for JSON-RPC as a communication protocol over HTTP and websockets. Rockets extends the 2.0 specification by providing support for cancellation and progress notifications of pending requests.</p>
-<p>The Rockets plug-in allows <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> to expose core and use-case specific API via HTTP or websocket protocols. The loading of the plug-in is initiated at startup time with the <code>http-server</code> command line argument where an optional host (default is localhost) and a mandatory port are specified. End-points are registered in the c++ code using the <code>registerNotification</code> or <code>registerRequest</code> method of the <code>ActionInterface</code> component. The list of registered end-points can be accessed via the <code>registry</code> end-point.</p>
-<h2><a class="anchor" id="autotoc_md83"></a>
+<p>The Rockets plug-in allows <em>BBBE</em> to expose core and use-case specific API via HTTP or websocket protocols. The loading of the plug-in is initiated at startup time with the <code>http-server</code> command line argument where an optional host (default is localhost) and a mandatory port are specified. End-points are registered in the c++ code using the <code>registerNotification</code> or <code>registerRequest</code> method of the <code>ActionInterface</code> component. The list of registered end-points can be accessed via the <code>registry</code> end-point.</p>
+<h2><a class="anchor" id="autotoc_md82"></a>
 VRPN</h2>
-<p>The VRPN plug-in receives events from input devices and transform them into <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> usable information: Camera position and orientation, and fly stick interactions (position, orientation, joystick and buttons). This plug-in is mainly use for immersive setups.</p>
-<h1><a class="anchor" id="autotoc_md84"></a>
+<p>The VRPN plug-in receives events from input devices and transform them into <em>BBBE</em> usable information: Camera position and orientation, and fly stick interactions (position, orientation, joystick and buttons). This plug-in is mainly use for immersive setups.</p>
+<h1><a class="anchor" id="autotoc_md83"></a>
 Applications</h1>
-<h2><a class="anchor" id="autotoc_md85"></a>
+<h2><a class="anchor" id="autotoc_md84"></a>
 Service</h2>
-<p>The service is an off-screen application that is typically used when running <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> as a service in the cloud or in a supercomputer. This application does not require any kind of graphics acceleration when run with the <a href="https://github.com/ospray/ospray">OSPRay</a> engine.</p>
-<h2><a class="anchor" id="autotoc_md86"></a>
+<p>The service is an off-screen application that is typically used when running <em>BBBE</em> as a service in the cloud or in a supercomputer. This application does not require any kind of graphics acceleration when run with the <a href="https://github.com/ospray/ospray">OSPRay</a> engine.</p>
+<h2><a class="anchor" id="autotoc_md85"></a>
 Viewer</h2>
-<p>The viewer is an OpenGL based application that is used to run <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> as a heavy client on a consumer PC.</p>
-<h1><a class="anchor" id="autotoc_md87"></a>
+<p>The viewer is an OpenGL based application that is used to run <em>BBBE</em> as a heavy client on a consumer PC.</p>
+<h1><a class="anchor" id="autotoc_md86"></a>
 Use-cases</h1>
-<h2><a class="anchor" id="autotoc_md88"></a>
+<h2><a class="anchor" id="autotoc_md87"></a>
 Visualization of Blue Brain / Sonata datasets</h2>
 <p>The visualization of Blue Brain datasets requires a specific plug-in called the <em>BBBE</em>. This components allows the loading of the neuron , glial cells, or vasculatures, with a placement and orientation defined in the microcircuit description.</p>
 <div class="image">
@@ -223,27 +223,27 @@ ___</div></div>
 <img src="../../blue_brain_sonata_circuits.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <h2><a class="anchor" id="autotoc_md89"></a>
+   <h2><a class="anchor" id="autotoc_md88"></a>
 MOOC</h2>
 <p>The Blue Brain Project provides a number of massive online courses in which students want to visualize micro-circuit structures and corresponding simulations. Since datasets can be large, running the visualization using client hardware and software resources is likely to give unacceptable results. Thanks to its client/server architecture, visualization can be processed server side on a virtual machine running in the cloud. Computed images are then streamed to the end client in real-time, allowing smooth navigation at a constant rate, regardless of the size of the dataset.</p>
 <div class="image">
 <img src="../../targets_mooc.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <p><a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> offers a CPU based renderer via its <a href="https://github.com/ospray/ospray">OSPRay</a> engine that allows it to run efficiently on a GPU-free machine. Components used in this setup are the following:</p>
-<p>The current version of <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> provides Docker images for the <a href="https://hub.docker.com/r/bluebrain/brayns-ui">user interface</a> and <a href="https://hub.docker.com/r/bluebrain/brayns">server-side components</a>.</p>
+   <p><em>BBBE</em> offers a CPU based renderer via its <a href="https://github.com/ospray/ospray">OSPRay</a> engine that allows it to run efficiently on a GPU-free machine. Components used in this setup are the following:</p>
+<p>The current version of <em>BBBE</em> provides Docker images for the <a href="https://hub.docker.com/r/bluebrain/brayns-ui">user interface</a> and <a href="https://hub.docker.com/r/bluebrain/brayns">server-side components</a>.</p>
 <div class="image">
 <img src="../../mooc.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <h2><a class="anchor" id="autotoc_md90"></a>
+   <h2><a class="anchor" id="autotoc_md89"></a>
 OpenDeck</h2>
 <p>The OpenDeck is the Blue Brain visualization display for presentations and immersive exploration of scientific data in 3D.</p>
 <div class="image">
 <img src="../../opendeck.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <h3><a class="anchor" id="autotoc_md91"></a>
+   <h3><a class="anchor" id="autotoc_md90"></a>
 Native rendering</h3>
 <p>The system consists of a semi-cylindrical screen measuring 8 by 3 meters, with a total pixel count of about 35 megapixels, 8 high-end Sony laser projectors (7 for the screen projection + 1 for the floor projection), 4 surround speakers, a microphone, 2 video conferencing cameras, 6 infrared LED tracking cameras to track user's head motion, an infrared touch interface, a cooling system to cool down the projectors, a Windows 10 PC from which the projectors, speakers, a microphone and a display cluster of 8 nodes, each one connected to a projector.</p>
 <p>That immersive setup requires images to be delivered at a high frame rate (60 frames per seconds) and at a very high resolution (7x4K). Naturally, the choice of the engine goes in favor of the GPU implementation. Recent updates in the hardware such as NVIDIA's RTX technology dramatically improve the rendering speed. The drawback of such a setup being the size of the data that can be rendered, and advanced software solutions such as out-of-core and geometry streaming have to be implemented.</p>
@@ -251,14 +251,14 @@ Native rendering</h3>
 <img src="../../targets_opendeck_native_rendering.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <p><a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> uses the GPU engine to achieve the performance required to avoid motion sickness. Three plug-ins are used on the server side: VRPN for position tracking and flight stick management, OpenDeck for stereoscopic cylindrical projection, and BioExplorer the loading and visualization of Blue Brain datasets.</p>
+   <p><em>BBBE</em> uses the GPU engine to achieve the performance required to avoid motion sickness. Three plug-ins are used on the server side: VRPN for position tracking and flight stick management, OpenDeck for stereoscopic cylindrical projection, and BioExplorer the loading and visualization of Blue Brain datasets.</p>
 <div class="image">
 <img src="../../opendeck_native_rendering.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <h3><a class="anchor" id="autotoc_md92"></a>
+   <h3><a class="anchor" id="autotoc_md91"></a>
 Remote rendering</h3>
-<p><a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> uses the CPU engine, and runs in distributed mode to visualize Blue Brain large datasets. Three plug-ins are used on the server side:</p><ul>
+<p><em>BBBE</em> uses the CPU engine, and runs in distributed mode to visualize Blue Brain large datasets. Three plug-ins are used on the server side:</p><ul>
 <li>VRPN for position tracking and flight stick management</li>
 <li>OpenDeck for stereoscopic cylindrical projection</li>
 <li>BioExplorer the loading and visualization of Blue Brain datasets.</li>
@@ -267,16 +267,16 @@ Remote rendering</h3>
 <img src="../../targets_opendeck_remote_rendering.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <p>Remote rendering focus gives more priority to size the dataset, and allows a lower frame rate than the native rendering setup. Visualization still has to be interactive, but does not have to be immersive. Thanks to <a href="https://github.com/ospray/ospray">OSPRay</a>'s distributed mode <a href="https://github.com/ospray/ospray">OSPRay</a>, the CPU engine allows the rendering to be performed on multiple nodes. Each node is in charge of rendering a tile that is by default of size 64x64 pixels. Each node sends its tiles to <a href="https://github.com/BlueBrain/Tide">Tide</a> using the <a href="https://github.com/BlueBrain/Deflect">Deflect</a> library. <a href="https://github.com/BlueBrain/Tide">Tide</a> is in charge of recomposing the final frame buffer and insures the synchronization of the display, which is usually driver by a cluster of several machines. <a href="https://github.com/BlueBrain/Tide">Tide</a> offers two different surfaces, one for the main cylindrical screen and the other one for the floor projection. <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> uses a specific camera that takes advantage of those surfaces to create a fully immersive visual experience.</p>
+   <p>Remote rendering focus gives more priority to size the dataset, and allows a lower frame rate than the native rendering setup. Visualization still has to be interactive, but does not have to be immersive. Thanks to <a href="https://github.com/ospray/ospray">OSPRay</a>'s distributed mode <a href="https://github.com/ospray/ospray">OSPRay</a>, the CPU engine allows the rendering to be performed on multiple nodes. Each node is in charge of rendering a tile that is by default of size 64x64 pixels. Each node sends its tiles to <a href="https://github.com/BlueBrain/Tide">Tide</a> using the <a href="https://github.com/BlueBrain/Deflect">Deflect</a> library. <a href="https://github.com/BlueBrain/Tide">Tide</a> is in charge of recomposing the final frame buffer and insures the synchronization of the display, which is usually driver by a cluster of several machines. <a href="https://github.com/BlueBrain/Tide">Tide</a> offers two different surfaces, one for the main cylindrical screen and the other one for the floor projection. <em>BBBE</em> uses a specific camera that takes advantage of those surfaces to create a fully immersive visual experience.</p>
 <p>The CPU engine uses the MPI distributed mode to render tiles on multiple nodes. Those tiles are sent to Tide via the Deflect client library <a href="https://github.com/BlueBrain/Deflect">Deflect</a>. <a href="https://github.com/BlueBrain/Tide">Tide</a> is in charge of reconstructing the full frame and displaying the final image on the display.</p>
 <div class="image">
 <img src="../../opendeck_remote_rendering.png" alt=""/>
 <div class="caption">
 ___</div></div>
-   <h1><a class="anchor" id="autotoc_md93"></a>
+   <h1><a class="anchor" id="autotoc_md92"></a>
 What next?</h1>
-<p><a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> is currently the main platform used by the Blue Brain Project to visualize different types of data including morphologies, surface meshes and volumes. Currently, <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> has plug-ins for visualizing simulated electro-physiological activity of point neuron and full compartmental models of large scale circuits up to the size of a mouse isocortex, diffusion tensor imaging data, large volumes.</p>
-<p>The <em>BBBE</em> application is built on top of a fork of <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> 1.0.0 , the Blue Brain rendering platform. The <em>BBBE</em> uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.</p>
+<p><em>BBBE</em> is currently the main platform used by the Blue Brain Project to visualize different types of data including morphologies, surface meshes and volumes. Currently, <em>BBBE</em> has plug-ins for visualizing simulated electro-physiological activity of point neuron and full compartmental models of large scale circuits up to the size of a mouse isocortex, diffusion tensor imaging data, large volumes.</p>
+<p>The <em>BBBE</em> application is built on top of a fork of <em>BBBE</em> 1.0.0 , the Blue Brain rendering platform. The <em>BBBE</em> uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.</p>
 <p>New developments will now focus on additional scientific use-cases, and new rendering engines (<a href="https://github.com/google/filament">Filament</a> and <a href="https://developer.nvidia.com/rtx/ray-tracing/optix">OptiX</a> 7.0). </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

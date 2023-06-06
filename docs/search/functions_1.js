@@ -3,7 +3,7 @@ var searchData=
   ['abstractcircuitloader_4555',['AbstractCircuitLoader',['../d2/d5b/classsonataexplorer_1_1neuroscience_1_1neuron_1_1AbstractCircuitLoader.html#a88248c88ef4a2d8d598d01d4c10c31b5',1,'sonataexplorer::neuroscience::neuron::AbstractCircuitLoader']]],
   ['abstractmanipulator_4556',['AbstractManipulator',['../dc/df9/classcore_1_1AbstractManipulator.html#a29446503e70aee2d0b938c8bdba1ebed',1,'core::AbstractManipulator']]],
   ['abstractparameters_4557',['AbstractParameters',['../da/dda/classcore_1_1AbstractParameters.html#a4a6fc3575b71797c53c141b215349687',1,'core::AbstractParameters']]],
-  ['acquirereadaccess_4558',['acquireReadAccess',['../d5/d76/classcore_1_1Scene.html#aa37037804e4e9c1fce5e739496d360ac',1,'core::Scene']]],
+  ['acquirereadaccess_4558',['acquireReadAccess',['../d5/d76/classcore_1_1Scene.html#acc0cb250f1e3a24ed4a85f0d2b7ca8f6',1,'core::Scene']]],
   ['activate_4559',['activate',['../d5/d7d/classcore_1_1BaseWindow.html#a831ab44621b12ff6485c9bbd4c7201b9',1,'core::BaseWindow']]],
   ['add_5fdefinitions_4560',['add_definitions',['../d2/da6/platform_2CMakeLists_8txt.html#a649c48d173eefac9c2ad1763e45a28c5',1,'CMakeLists.txt']]],
   ['add_5flibrary_4561',['add_library',['../db/d62/platform_2core_2engineapi_2CMakeLists_8txt.html#aa169f55dc589b435f5d73c32c80b13a6',1,'CMakeLists.txt']]],

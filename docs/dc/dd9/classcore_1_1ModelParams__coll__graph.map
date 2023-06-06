@@ -1,7 +1,7 @@
 <map id="core::ModelParams" name="core::ModelParams">
-<area shape="rect" id="node1" title=" " alt="" coords="94,260,241,287"/>
-<area shape="rect" id="node2" href="$d9/d63/classcore_1_1ModelInstance.html" title=" " alt="" coords="5,171,159,197"/>
-<area shape="rect" id="node3" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="11,5,143,32"/>
-<area shape="rect" id="node4" href="$d0/dcd/classcore_1_1Transformation.html" title="Defines the translation, rotation and scale parameters to be applied to a scene asset." alt="" coords="99,81,255,108"/>
+<area shape="rect" id="node1" title="The ModelParams class represents the parameters needed for initializing a model instance." alt="" coords="9,260,155,287"/>
+<area shape="rect" id="node2" href="$d9/d63/classcore_1_1ModelInstance.html" title="A class representing an instance of a 3D model." alt="" coords="5,171,159,197"/>
+<area shape="rect" id="node3" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="16,5,148,32"/>
+<area shape="rect" id="node4" href="$d0/dcd/classcore_1_1Transformation.html" title="Defines the translation, rotation and scale parameters to be applied to a scene asset." alt="" coords="132,81,288,108"/>
 <area shape="rect" id="node5" href="$d9/daa/classcore_1_1PropertyMap.html" title=" " alt="" coords="183,171,325,197"/>
 </map>

@@ -7,7 +7,7 @@ var searchData=
   ['hash_1705',['hash',['../da/d0b/namespacebioexplorer_1_1common.html#a48a80e5e5ddcfb93db5ab00e5a48f5a3',1,'bioexplorer::common']]],
   ['hasisreadycallback_1706',['hasIsReadyCallback',['../d4/dfb/classcore_1_1AnimationParameters.html#af1b571b9c760d133c1480b7cc66a9f2c',1,'core::AnimationParameters']]],
   ['hasproperty_1707',['hasProperty',['../d9/daa/classcore_1_1PropertyMap.html#a3d1f4b4aa3bd4beedd403eb3f2053905',1,'core::PropertyMap::hasProperty()'],['../d7/d67/classcore_1_1PropertyObject.html#a742e1c5f58d44d31b256615bb496d938',1,'core::PropertyObject::hasProperty()']]],
-  ['hastexture_1708',['hasTexture',['../d3/d69/classcore_1_1Material.html#a13a9253b9b35c8cd29019788f0707c96',1,'core::Material']]],
+  ['hastexture_1708',['hasTexture',['../d3/d69/classcore_1_1Material.html#a67038f9bf4d2ba9e651d5071aafd312e',1,'core::Material']]],
   ['heart_1709',['heart',['../d0/d1f/namespacebioexplorer_1_1details.html#a7d711d6fc24e2fd35dd22551ca714290a3189934774aa880fa7fbf8da8f9e446d',1,'bioexplorer::details']]],
   ['height_1710',['height',['../d3/dff/classcore_1_1Texture2D.html#ad2c1cae297dfe0b92cec845451a3e521',1,'core::Texture2D::height()'],['../d2/dc9/structcore_1_1Params.html#a915078b1d816ad822ad32e23ef2b9568',1,'core::Params::height()'],['../d9/d3f/structospray_1_1OrthographicCamera.html#a8de94ffabf58029bf63a1c463bdd643c',1,'ospray::OrthographicCamera::height()'],['../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761',1,'core::Encoder::height()']]],
   ['helix_1711',['helix',['../d0/d1f/namespacebioexplorer_1_1details.html#af608e48ca83174d68456a1069a6f07a1a7c2ab87a34395892f10413db233c6420',1,'bioexplorer::details']]],

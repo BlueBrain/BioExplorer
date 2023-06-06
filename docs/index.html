@@ -98,7 +98,7 @@ Blue Brain BioExplorer</h1>
 ___</div></div>
    <h2><a class="anchor" id="autotoc_md2"></a>
 Description</h2>
-<p>Exploration relies on building software that combines data integration, analysis and interactive visualization to build, modify and navigate through large scientific datasets. For this, Blue Brain built and open-sourced the Blue Brain BioExplorer. The Blue Brain BioExplorer (BBBE), which started as an internal project, is now open source. It was originally developed to answer key scientific questions related to the Coronavirus as a use case and to deliver a visualization tool. Today, the BioExplorer allows to reconstruct, visualize, explore and describe in detail the structure and function of highly-detailed biological structures such as molecular systems, neurons, astrocytes, blood vessels, and more. You can see the first application of the BioExplorer in '<a href="https://www.frontiersin.org/articles/10.3389/fpubh.2021.695139/full?utm_source=fweb&amp;utm_medium=nblog&amp;utm_campaign=ba-sci-fpubh-covid-19-elevated-blood-glucose-blue-brain">A Machine-Generated View of the Role of Blood Glucose Levels in the Severity of COVID-19</a>' study, and see the SARS-COV-2 coronavirus as you have never seen it before by clicking on the following image!</p>
+<p>Exploration relies on building software that combines data integration, analysis and interactive visualization to build, modify and navigate through large scientific datasets. For this, Blue Brain built and open-sourced the Blue Brain BioExplorer. The Blue Brain BioExplorer (BBBE), which started as an internal project, is now open source. It was originally developed to answer key scientific questions related to the Coronavirus as a use case and to deliver a visualization tool. Today, the <em>BBBE</em> allows to reconstruct, visualize, explore and describe in detail the structure and function of highly-detailed biological structures such as molecular systems, neurons, astrocytes, blood vessels, and more. You can see the first application of the <em>BBBE</em> in '<a href="https://www.frontiersin.org/articles/10.3389/fpubh.2021.695139/full?utm_source=fweb&amp;utm_medium=nblog&amp;utm_campaign=ba-sci-fpubh-covid-19-elevated-blood-glucose-blue-brain">A Machine-Generated View of the Role of Blood Glucose Levels in the Severity of COVID-19</a>' study, and see the SARS-COV-2 coronavirus as you have never seen it before by clicking on the following image!</p>
 <div align="center"> <a href="https://youtu.be/Czn-YGLGfiA"><img src="https://github.com/BlueBrain/BioExplorer/blob/master/bioexplorer/pythonsdk/doc/source/images/covid19_movie_preview.png" alt="" style="width:50%;" class="inline"/> </a> </div><p>On the third anniversary of the first lock-down, we look back at how #MachineLearning helped reveal the role of blood glucose levels in the severity of COVID-19. Imagine what else could be tackled with OpenScience.</p>
 <div align="center"> <a href="https://lnkd.in/e57vqgcq"><img src="https://github.com/BlueBrain/BioExplorer/blob/master/bioexplorer/pythonsdk/doc/source/images/covid19_documentary_preview.png" alt="" style="width:50%;" class="inline"/> </a> </div><h2><a class="anchor" id="autotoc_md3"></a>
 Social Media</h2>
@@ -112,8 +112,8 @@ Social Media</h2>
 <h2><a class="anchor" id="autotoc_md4"></a>
 BioExplorer goes RTX!</h2>
 <p>BioExplorer now benefits from <a href="https://developer.nvidia.com/rtx/ray-tracing/optix">NVIDIA OptiX</a> backend compatibility, allowing it to fully utilize the NVIDIA RTX acceleration hardware capabilities for fast and high-quality rendering of scientific datasets. This advanced feature, along with the new stereo perspective camera, enables virtual reality use-cases with pure ray-tracing. Additionally, an AI-powered denoiser has been incorporated to enhance the real-time rendering quality.</p>
-<p>Simply add the OptiX engine command line argument when starting the BioExplorer. </p><div class="fragment"><div class="line">braynsService --engine optix6 --plugin BioExplorer</div>
-</div><!-- fragment --><p>Note that, in order to offer the best experience on local desktops, the BioExplorer now also has a native viewer. </p><div class="fragment"><div class="line">braynsViewer --engine optix6 --plugin BioExplorer</div>
+<p>Simply add the OptiX engine command line argument when starting the <em>BBBE</em>. </p><div class="fragment"><div class="line">service --engine optix6 --plugin BioExplorer</div>
+</div><!-- fragment --><p>Note that, in order to offer the best experience on local desktops, the <em>BBBE</em> now also has a native viewer. </p><div class="fragment"><div class="line">viewer --engine optix6 --plugin BioExplorer</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md5"></a>
 At the museum</h2>
 <p>July 2022: The EPFL Blue Brain Project is featuring in the exciting <a href="https://www.cccb.org/en/exhibitions/file/brains/237851">Brain(s) exhibition</a> at the Barcelona Centre of Contemporary Culture at the Fundación Telefónica Madrid.</p>
@@ -121,7 +121,7 @@ At the museum</h2>
 <p>The Blue Brain images on show were created with the <em>BBBE</em>. Checkout the <a href="https://actu.epfl.ch/news/blue-brain-images-on-show-at-the-brains-exhibition/">news article</a> for more information.</p>
 <h2><a class="anchor" id="autotoc_md6"></a>
 Architecture</h2>
-<p>The <em>BBBE</em> application is built on top of a fork of <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> 1.0.0 , the Blue Brain rendering platform. The <em>BBBE</em> uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.</p>
+<p>The <em>BBBE</em> application is built on top of a fork of <a href="https://github.com/BlueBrain/Brayns/releases/tag/1.0.0">Blue Brain Brayns</a> 1.0.0 , the Blue Brain rendering platform. The <em>BBBE</em> uses the underlying technical capabilities of the rendering platform to create large scale and accurate 3D scenes from Jupyter notebooks.</p>
 <div class="image">
 <img src="architecture.png" alt=""/>
 <div class="caption">
@@ -319,35 +319,30 @@ ___</div></div>
    <h2><a class="anchor" id="autotoc_md31"></a>
 Building from Source</h2>
 <h3><a class="anchor" id="autotoc_md32"></a>
-Blue Brain Brayns</h3>
-<p>In order to run the BioExplorer, it is necessary to build <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> first.</p>
-<h3><a class="anchor" id="autotoc_md33"></a>
 BioExplorer</h3>
-<h4><a class="anchor" id="autotoc_md34"></a>
+<h4><a class="anchor" id="autotoc_md33"></a>
 Compile</h4>
-<p>With <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a> compiled and installed in the &lt;brayns_installation_folder&gt;, run the statements to build the BioExplorer.</p>
-<div class="fragment"><div class="line">git clone https://github.com/BlueBrain/BioExplorer.git</div>
+<p>Run the following statements to build the <em>BBBE</em>.</p>
+<div class="fragment"><div class="line">git clone --recursive https://github.com/BlueBrain/BioExplorer.git</div>
 <div class="line">mkdir build</div>
 <div class="line">cd build</div>
 <div class="line">CMAKE_PREFIX_PATH=&lt;brayns_installation_folder&gt; cmake .. -DCMAKE_INSTALL_PREFIX=&lt;brayns_installation_folder&gt;</div>
 <div class="line">make install</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md35"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md34"></a>
 Run</h4>
-<p>The BioExplorer being a plug-in for <a href="https://github.com/BlueBrain/BioExplorer/tree/Brayns">Blue Brain Brayns</a>, the following commands can be used to start the backend:</p>
-<div class="fragment"><div class="line">export LD_LIBRARY_PATH=&lt;brayns_installation_folder&gt;/lib:${LD_LIBRARY_PATH}</div>
-<div class="line">export PATH=&lt;brayns_installation_folder&gt;/bin:${PATH}</div>
-<div class="line">braynsService --http-server localhost:5000 --plugin BioExplorer</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md36"></a>
+<p>Run the <em>BBBE</em> with the following command to start the backend:</p>
+<div class="fragment"><div class="line">service --http-server localhost:5000 --plugin BioExplorer</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md35"></a>
 Simple example</h2>
 <p>Considering that the <em>BBBE</em> server is running on the local host, on port 5000, the simplest example to visualize a SARS-COV-2 coronavirus is: </p><div class="fragment"><div class="line">from bioexplorer import BioExplorer</div>
 <div class="line">be = BioExplorer(&#39;localhost:5000&#39;)</div>
 <div class="line">resource_folder = &#39;../../tests/test_files/&#39;</div>
 <div class="line">name=&#39;Coronavirus&#39;</div>
 <div class="line">be.add_sars_cov_2(name=name, resource_folder=resource_folder)</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md37"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md36"></a>
 License</h1>
 <p><em>BBBE</em> is available to download and use under the GNU General Public License (<a href="https://www.gnu.org/licenses/gpl.html">GPL</a>, or “free software”). The code is open sourced with approval from the open sourcing committee and principal coordinators of the Blue Brain Project in February 2022.</p>
-<h1><a class="anchor" id="autotoc_md38"></a>
+<h1><a class="anchor" id="autotoc_md37"></a>
 Contact</h1>
 <p>For more information on <em>BBBE</em>, please contact:</p>
 <ul>
@@ -355,7 +350,7 @@ Contact</h1>
 <li><a href="https://www.epfl.ch/research/domains/bluebrain/blue-brain/people/our-people/simulation-neuroscience-division/emmanuelle-logette/"><b>Emmanuelle Logette</b></a> - Scientific collaborator - Blue Brain Project (<a href="emmanuelle.logette@epfl.ch">emmanuelle.logette@epfl.ch</a>)</li>
 <li><a href="https://www.epfl.ch/research/domains/bluebrain/blue-brain/people/our-people/operations-division/evelyne-schmid-osborne/"><b>Evelyne Schmid Osborne</b></a> - Communications - Blue Brain Project (<a href="evelyne.schmidosborne@epfl.ch">evelyne.schmidosborne@epfl.ch</a>)</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md39"></a>
+<h1><a class="anchor" id="autotoc_md38"></a>
 Funding &amp; Acknowledgment</h1>
 <p>The development of this software was supported by funding to the Blue Brain Project, a research center of the École polytechnique fédérale de Lausanne (EPFL), from the Swiss government’s ETH Board of the Swiss Federal Institutes of Technology.</p>
 <p>COPYRIGHT 2020–2023 Blue Brain Project/EPFL </p>

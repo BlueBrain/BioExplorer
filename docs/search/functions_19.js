@@ -14,7 +14,7 @@ var searchData=
   ['_7edbconnector_5608',['~DBConnector',['../db/df8/classbioexplorer_1_1metabolism_1_1DBConnector.html#a8b627ec22faa2c99ba6107ea2ee2457b',1,'bioexplorer::metabolism::DBConnector']]],
   ['_7edynamiclib_5609',['~DynamicLib',['../d9/d2d/classcore_1_1DynamicLib.html#aa8ab0ec7e02d21e7bbe740c35e7fede8',1,'core::DynamicLib']]],
   ['_7eencoder_5610',['~Encoder',['../de/d28/classcore_1_1Encoder.html#a9cb7e799d3fc4c136b729de62ead97fd',1,'core::Encoder']]],
-  ['_7eengine_5611',['~Engine',['../d8/dab/classcore_1_1Engine.html#a2fb44feb6598ed9d527f8fecb8c92bdc',1,'core::Engine']]],
+  ['_7eengine_5611',['~Engine',['../d8/dab/classcore_1_1Engine.html#ab6988d30fac7f62146d2d54031eb3d75',1,'core::Engine']]],
   ['_7eextensionplugin_5612',['~ExtensionPlugin',['../d4/dfc/classcore_1_1ExtensionPlugin.html#a72ad4520aab9d77d67c7088b39b4de01',1,'core::ExtensionPlugin']]],
   ['_7efieldshandler_5613',['~FieldsHandler',['../d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html#a128d90979aa7c28c963b2e222388d498',1,'bioexplorer::fields::FieldsHandler']]],
   ['_7eflyingmodemanipulator_5614',['~FlyingModeManipulator',['../d2/d1a/classcore_1_1FlyingModeManipulator.html#a2f8a39d701b66eae650ad178fd5062b5',1,'core::FlyingModeManipulator']]],

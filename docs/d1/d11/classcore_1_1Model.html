@@ -85,11 +85,16 @@ $(document).ready(function(){initNavTree('d1/d11/classcore_1_1Model.html','../..
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="../../d9/d0c/classcore_1_1Model-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">core::Model Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>The abstract <a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a> class holds the geometry attached to an asset of the scene (mesh, circuit, volume, etc). The model handles resources attached to the geometry such as implementation specific classes, and acceleration structures). Models provide a simple API to manipulate primitives (spheres, cylinders, triangle meshes, etc).  
+ <a href="../../d1/d11/classcore_1_1Model.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>&gt;</code></p>
 <div class="dynheader">
@@ -97,7 +102,7 @@ Inheritance diagram for core::Model:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d0/d0f/classcore_1_1Model__inherit__graph.png" border="0" usemap="#core_1_1Model_inherit__map" alt="Inheritance graph"/></div>
 <map name="core_1_1Model_inherit__map" id="core_1_1Model_inherit__map">
-<area shape="rect" title=" " alt="" coords="106,5,205,32"/>
+<area shape="rect" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,..." alt="" coords="106,5,205,32"/>
 <area shape="rect" href="../../d8/d72/classcore_1_1OptiXModel.html" title=" " alt="" coords="5,80,140,107"/>
 <area shape="rect" href="../../de/d4c/classcore_1_1OSPRayModel.html" title=" " alt="" coords="165,80,314,107"/>
 </map>
@@ -107,7 +112,7 @@ Collaboration diagram for core::Model:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d9/d90/classcore_1_1Model__coll__graph.png" border="0" usemap="#core_1_1Model_coll__map" alt="Collaboration graph"/></div>
 <map name="core_1_1Model_coll__map" id="core_1_1Model_coll__map">
-<area shape="rect" title=" " alt="" coords="985,91,1084,117"/>
+<area shape="rect" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,..." alt="" coords="985,91,1084,117"/>
 <area shape="rect" href="../../df/da5/classcore_1_1VolumeParameters.html" title=" " alt="" coords="595,116,777,143"/>
 <area shape="rect" href="../../da/dda/classcore_1_1AbstractParameters.html" title=" " alt="" coords="187,56,373,83"/>
 <area shape="rect" href="../../d4/dfb/classcore_1_1AnimationParameters.html" title=" " alt="" coords="587,65,785,92"/>
@@ -124,13 +129,184 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:adf65e3eb77d91df2b53bd9cc0d86e0c3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#adf65e3eb77d91df2b53bd9cc0d86e0c3">Model</a> (<a class="el" href="../../d4/dfb/classcore_1_1AnimationParameters.html">AnimationParameters</a> &amp;animationParameters, <a class="el" href="../../df/da5/classcore_1_1VolumeParameters.html">VolumeParameters</a> &amp;volumeParameters)</td></tr>
+<tr class="memitem:adf65e3eb77d91df2b53bd9cc0d86e0c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#adf65e3eb77d91df2b53bd9cc0d86e0c3">Model</a> (<a class="el" href="../../d4/dfb/classcore_1_1AnimationParameters.html">AnimationParameters</a> &amp;animationParameters, <a class="el" href="../../df/da5/classcore_1_1VolumeParameters.html">VolumeParameters</a> &amp;volumeParameters)</td></tr>
+<tr class="memdesc:adf65e3eb77d91df2b53bd9cc0d86e0c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a> class.  <a href="../../d1/d11/classcore_1_1Model.html#adf65e3eb77d91df2b53bd9cc0d86e0c3">More...</a><br /></td></tr>
 <tr class="separator:adf65e3eb77d91df2b53bd9cc0d86e0c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00174e1113da761b0f173a58bc1198f3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a00174e1113da761b0f173a58bc1198f3">~Model</a> ()</td></tr>
+<tr class="memdesc:a00174e1113da761b0f173a58bc1198f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor for <a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a> class.  <a href="../../d1/d11/classcore_1_1Model.html#a00174e1113da761b0f173a58bc1198f3">More...</a><br /></td></tr>
 <tr class="separator:a00174e1113da761b0f173a58bc1198f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc93740cb95e07ed50ed2fdaad3df01a"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#afc93740cb95e07ed50ed2fdaad3df01a">commitGeometry</a> ()=0</td></tr>
+<tr class="memdesc:afc93740cb95e07ed50ed2fdaad3df01a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure virtual function to commit geometry.  <a href="../../d1/d11/classcore_1_1Model.html#afc93740cb95e07ed50ed2fdaad3df01a">More...</a><br /></td></tr>
+<tr class="separator:afc93740cb95e07ed50ed2fdaad3df01a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd3147503f644e33aaeb8d3ce50501a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#acd3147503f644e33aaeb8d3ce50501a4">commitTransferFunction</a> ()</td></tr>
+<tr class="memdesc:acd3147503f644e33aaeb8d3ce50501a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to commit transfer function.  <a href="../../d1/d11/classcore_1_1Model.html#acd3147503f644e33aaeb8d3ce50501a4">More...</a><br /></td></tr>
+<tr class="separator:acd3147503f644e33aaeb8d3ce50501a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a630fab91457b5ad327557f8993f41473"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a630fab91457b5ad327557f8993f41473">commitSimulationData</a> ()</td></tr>
+<tr class="memdesc:a630fab91457b5ad327557f8993f41473"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to commit simulation data.  <a href="../../d1/d11/classcore_1_1Model.html#a630fab91457b5ad327557f8993f41473">More...</a><br /></td></tr>
+<tr class="separator:a630fab91457b5ad327557f8993f41473"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a765f2a911b6cc85cbbdff298e5c474af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#af5556fbdd2a7f8b57ff443d634f24225">MaterialPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a765f2a911b6cc85cbbdff298e5c474af">createMaterial</a> (const size_t materialId, const std::string &amp;name, const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;properties={})</td></tr>
+<tr class="memdesc:a765f2a911b6cc85cbbdff298e5c474af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method to create an engine-specific material.  <a href="../../d1/d11/classcore_1_1Model.html#a765f2a911b6cc85cbbdff298e5c474af">More...</a><br /></td></tr>
+<tr class="separator:a765f2a911b6cc85cbbdff298e5c474af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5812aa7ec40b22f0ac5b9251dd1a85d1"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a4002b2e868b2019f07a0e23c69e7e605">SharedDataVolumePtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a5812aa7ec40b22f0ac5b9251dd1a85d1">createSharedDataVolume</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> &amp;dimensions, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;spacing, const <a class="el" href="../../d9/d0f/namespacecore.html#a5f3273b25e834b08ca52b42611a66e4e">DataType</a> type)=0</td></tr>
+<tr class="memdesc:a5812aa7ec40b22f0ac5b9251dd1a85d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a volume with the given dimensions, voxel spacing and data type where the voxels are set via setVoxels() from any memory location.  <a href="../../d1/d11/classcore_1_1Model.html#a5812aa7ec40b22f0ac5b9251dd1a85d1">More...</a><br /></td></tr>
+<tr class="separator:a5812aa7ec40b22f0ac5b9251dd1a85d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae689bdb99ca6d4836a8dbe7c5be814fb"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a20a44af4e95ba32e02511cd3f90e2809">BrickedVolumePtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ae689bdb99ca6d4836a8dbe7c5be814fb">createBrickedVolume</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> &amp;dimensions, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;spacing, const <a class="el" href="../../d9/d0f/namespacecore.html#a5f3273b25e834b08ca52b42611a66e4e">DataType</a> type)=0</td></tr>
+<tr class="memdesc:ae689bdb99ca6d4836a8dbe7c5be814fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a volume with the given dimensions, voxel spacing and data type where the voxels are copied via setBrick() into an optimized internal storage.  <a href="../../d1/d11/classcore_1_1Model.html#ae689bdb99ca6d4836a8dbe7c5be814fb">More...</a><br /></td></tr>
+<tr class="separator:ae689bdb99ca6d4836a8dbe7c5be814fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ad5d819fd1c26edbc5e78105e23ca9f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a2ad5d819fd1c26edbc5e78105e23ca9f">buildBoundingBox</a> ()=0</td></tr>
+<tr class="memdesc:a2ad5d819fd1c26edbc5e78105e23ca9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure virtual function to build bounding box.  <a href="../../d1/d11/classcore_1_1Model.html#a2ad5d819fd1c26edbc5e78105e23ca9f">More...</a><br /></td></tr>
+<tr class="separator:a2ad5d819fd1c26edbc5e78105e23ca9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0396813c0bc1f926f30bffccc37bdc39"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a0396813c0bc1f926f30bffccc37bdc39">empty</a> () const</td></tr>
+<tr class="separator:a0396813c0bc1f926f30bffccc37bdc39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad95303b5db106572e5b9f5f467d8a57e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ad95303b5db106572e5b9f5f467d8a57e">isDirty</a> () const</td></tr>
+<tr class="separator:ad95303b5db106572e5b9f5f467d8a57e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eda3009465409735be5a0d89f6fa1b1"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#af8525fbf2d49b92c0f085bf707f1fdf8">Boxd</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a0eda3009465409735be5a0d89f6fa1b1">getBounds</a> () const</td></tr>
+<tr class="memdesc:a0eda3009465409735be5a0d89f6fa1b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the bounds for the <a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a>.  <a href="../../d1/d11/classcore_1_1Model.html#a0eda3009465409735be5a0d89f6fa1b1">More...</a><br /></td></tr>
+<tr class="separator:a0eda3009465409735be5a0d89f6fa1b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eb11b8e42a6c235294d49a14838d1cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a0eb11b8e42a6c235294d49a14838d1cf">mergeBounds</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#af8525fbf2d49b92c0f085bf707f1fdf8">Boxd</a> &amp;bounds)</td></tr>
+<tr class="memdesc:a0eb11b8e42a6c235294d49a14838d1cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Merges model bounds with the given bounds.  <a href="../../d1/d11/classcore_1_1Model.html#a0eb11b8e42a6c235294d49a14838d1cf">More...</a><br /></td></tr>
+<tr class="separator:a0eb11b8e42a6c235294d49a14838d1cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a857b91d7a474d32d6579f4d877717588"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#aa4b2826cd1fc64b98688f8be5cce5adc">SpheresMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a857b91d7a474d32d6579f4d877717588">getSpheres</a> () const</td></tr>
+<tr class="memdesc:a857b91d7a474d32d6579f4d877717588"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns spheres handled by the <a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a>.  <a href="../../d1/d11/classcore_1_1Model.html#a857b91d7a474d32d6579f4d877717588">More...</a><br /></td></tr>
+<tr class="separator:a857b91d7a474d32d6579f4d877717588"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78a1086fbcc343eec457e0f79703709d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#aa4b2826cd1fc64b98688f8be5cce5adc">SpheresMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a78a1086fbcc343eec457e0f79703709d">getSpheres</a> ()</td></tr>
+<tr class="separator:a78a1086fbcc343eec457e0f79703709d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6405be442904ec86ef7d60a057e4e12d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a6405be442904ec86ef7d60a057e4e12d">addSphere</a> (const size_t materialId, const <a class="el" href="../../d8/d0f/structSphere.html">Sphere</a> &amp;sphere)</td></tr>
+<tr class="memdesc:a6405be442904ec86ef7d60a057e4e12d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a sphere to the model.  <a href="../../d1/d11/classcore_1_1Model.html#a6405be442904ec86ef7d60a057e4e12d">More...</a><br /></td></tr>
+<tr class="separator:a6405be442904ec86ef7d60a057e4e12d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7bb0a611ac9a684f62997c88c13449c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a7ae9d422b1064493e5ce8636c0461640">CylindersMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#aa7bb0a611ac9a684f62997c88c13449c">getCylinders</a> () const</td></tr>
+<tr class="memdesc:aa7bb0a611ac9a684f62997c88c13449c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns cylinders handled by the model.  <a href="../../d1/d11/classcore_1_1Model.html#aa7bb0a611ac9a684f62997c88c13449c">More...</a><br /></td></tr>
+<tr class="separator:aa7bb0a611ac9a684f62997c88c13449c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28733bb06864a12d4cc4d16a34bfd1a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a7ae9d422b1064493e5ce8636c0461640">CylindersMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a28733bb06864a12d4cc4d16a34bfd1a7">getCylinders</a> ()</td></tr>
+<tr class="separator:a28733bb06864a12d4cc4d16a34bfd1a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69707a407b2d84f9c8c18f889063a622"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a69707a407b2d84f9c8c18f889063a622">addCylinder</a> (const size_t materialId, const <a class="el" href="../../d3/df6/structCylinder.html">Cylinder</a> &amp;cylinder)</td></tr>
+<tr class="memdesc:a69707a407b2d84f9c8c18f889063a622"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a cylinder to the model.  <a href="../../d1/d11/classcore_1_1Model.html#a69707a407b2d84f9c8c18f889063a622">More...</a><br /></td></tr>
+<tr class="separator:a69707a407b2d84f9c8c18f889063a622"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0087997721ba5575b8cf63d25fa4f5b6"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a0f775755f90d8a3f9f1dea02d49e36cd">ConesMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a0087997721ba5575b8cf63d25fa4f5b6">getCones</a> () const</td></tr>
+<tr class="memdesc:a0087997721ba5575b8cf63d25fa4f5b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns cones handled by the model.  <a href="../../d1/d11/classcore_1_1Model.html#a0087997721ba5575b8cf63d25fa4f5b6">More...</a><br /></td></tr>
+<tr class="separator:a0087997721ba5575b8cf63d25fa4f5b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac481ce4243572080f29408722d704157"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a0f775755f90d8a3f9f1dea02d49e36cd">ConesMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ac481ce4243572080f29408722d704157">getCones</a> ()</td></tr>
+<tr class="separator:ac481ce4243572080f29408722d704157"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dfc152e027e59587a59c1567666e269"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a8dfc152e027e59587a59c1567666e269">addCone</a> (const size_t materialId, const <a class="el" href="../../d9/d5c/structCone.html">Cone</a> &amp;cone)</td></tr>
+<tr class="memdesc:a8dfc152e027e59587a59c1567666e269"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a cone to the model.  <a href="../../d1/d11/classcore_1_1Model.html#a8dfc152e027e59587a59c1567666e269">More...</a><br /></td></tr>
+<tr class="separator:a8dfc152e027e59587a59c1567666e269"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a529ccd83b8b2fa2465ff98c93f4d39c9"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#ac2f667ae08f24d7aa5b86e8e1c224741">SDFBeziersMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a529ccd83b8b2fa2465ff98c93f4d39c9">getSDFBeziers</a> () const</td></tr>
+<tr class="memdesc:a529ccd83b8b2fa2465ff98c93f4d39c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <a class="el" href="../../da/d35/structcore_1_1SDFBezier.html">SDFBezier</a> handled by the model.  <a href="../../d1/d11/classcore_1_1Model.html#a529ccd83b8b2fa2465ff98c93f4d39c9">More...</a><br /></td></tr>
+<tr class="separator:a529ccd83b8b2fa2465ff98c93f4d39c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab58e4b30ebf28228e5c034568ee0eb1b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#ac2f667ae08f24d7aa5b86e8e1c224741">SDFBeziersMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ab58e4b30ebf28228e5c034568ee0eb1b">getSDFBeziers</a> ()</td></tr>
+<tr class="separator:ab58e4b30ebf28228e5c034568ee0eb1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ae283953cb4cf951153d20e479ea479"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a2ae283953cb4cf951153d20e479ea479">addSDFBezier</a> (const size_t materialId, const <a class="el" href="../../da/d35/structcore_1_1SDFBezier.html">SDFBezier</a> &amp;sdfBezier)</td></tr>
+<tr class="memdesc:a2ae283953cb4cf951153d20e479ea479"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds an <a class="el" href="../../da/d35/structcore_1_1SDFBezier.html">SDFBezier</a> to the model.  <a href="../../d1/d11/classcore_1_1Model.html#a2ae283953cb4cf951153d20e479ea479">More...</a><br /></td></tr>
+<tr class="separator:a2ae283953cb4cf951153d20e479ea479"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3a869bf887e8db92061409f9a4d342e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ae3a869bf887e8db92061409f9a4d342e">addStreamline</a> (const size_t materialId, const <a class="el" href="../../df/da1/structcore_1_1Streamline.html">Streamline</a> &amp;streamline)</td></tr>
+<tr class="memdesc:ae3a869bf887e8db92061409f9a4d342e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a streamline to the model.  <a href="../../d1/d11/classcore_1_1Model.html#ae3a869bf887e8db92061409f9a4d342e">More...</a><br /></td></tr>
+<tr class="separator:ae3a869bf887e8db92061409f9a4d342e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08559c8092376637bab1534c3355192c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a14edf6fdd9eebdc69586297d76f5a542">StreamlinesDataMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a08559c8092376637bab1534c3355192c">getStreamlines</a> () const</td></tr>
+<tr class="memdesc:a08559c8092376637bab1534c3355192c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns streamlines handled by the model.  <a href="../../d1/d11/classcore_1_1Model.html#a08559c8092376637bab1534c3355192c">More...</a><br /></td></tr>
+<tr class="separator:a08559c8092376637bab1534c3355192c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a214f8ed335e605e0f694aef7b77a4890"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a14edf6fdd9eebdc69586297d76f5a542">StreamlinesDataMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a214f8ed335e605e0f694aef7b77a4890">getStreamlines</a> ()</td></tr>
+<tr class="separator:a214f8ed335e605e0f694aef7b77a4890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf2a0ed42b2899ff7fd0e671142a961f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#abf2a0ed42b2899ff7fd0e671142a961f">addCurve</a> (const size_t materialId, const <a class="el" href="../../db/d40/structcore_1_1Curve.html">Curve</a> &amp;curve)</td></tr>
+<tr class="memdesc:abf2a0ed42b2899ff7fd0e671142a961f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a curve to the model.  <a href="../../d1/d11/classcore_1_1Model.html#abf2a0ed42b2899ff7fd0e671142a961f">More...</a><br /></td></tr>
+<tr class="separator:abf2a0ed42b2899ff7fd0e671142a961f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12ea1be5c2b0361e604c73533fceb868"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a39916c052270b3d918c0a4c9a8601622">CurvesMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a12ea1be5c2b0361e604c73533fceb868">getCurves</a> () const</td></tr>
+<tr class="memdesc:a12ea1be5c2b0361e604c73533fceb868"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns curves handled by the model.  <a href="../../d1/d11/classcore_1_1Model.html#a12ea1be5c2b0361e604c73533fceb868">More...</a><br /></td></tr>
+<tr class="separator:a12ea1be5c2b0361e604c73533fceb868"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcb5d0b9c8cd900ecbb283ffc9039878"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a39916c052270b3d918c0a4c9a8601622">CurvesMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#adcb5d0b9c8cd900ecbb283ffc9039878">getCurves</a> ()</td></tr>
+<tr class="separator:adcb5d0b9c8cd900ecbb283ffc9039878"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64a8ba9bb5cd7bfab65298d7fa5c789f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a64a8ba9bb5cd7bfab65298d7fa5c789f">addSDFGeometry</a> (const size_t materialId, const <a class="el" href="../../dd/d10/structcore_1_1SDFGeometry.html">SDFGeometry</a> &amp;geom, const <a class="el" href="../../de/d53/platform_2core_2common_2Types_8h.html#a4e8d21d366671e51f435f24d9eb3ca01">uint64_ts</a> &amp;neighbourIndices)</td></tr>
+<tr class="memdesc:a64a8ba9bb5cd7bfab65298d7fa5c789f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds an <a class="el" href="../../dd/d10/structcore_1_1SDFGeometry.html">SDFGeometry</a> to the scene.  <a href="../../d1/d11/classcore_1_1Model.html#a64a8ba9bb5cd7bfab65298d7fa5c789f">More...</a><br /></td></tr>
+<tr class="separator:a64a8ba9bb5cd7bfab65298d7fa5c789f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f24c0a7c0b68af94038ce099fe94ef9"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d6/d7a/structcore_1_1SDFGeometryData.html">SDFGeometryData</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a7f24c0a7c0b68af94038ce099fe94ef9">getSDFGeometryData</a> () const</td></tr>
+<tr class="memdesc:a7f24c0a7c0b68af94038ce099fe94ef9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns SDF geometry data handled by the model.  <a href="../../d1/d11/classcore_1_1Model.html#a7f24c0a7c0b68af94038ce099fe94ef9">More...</a><br /></td></tr>
+<tr class="separator:a7f24c0a7c0b68af94038ce099fe94ef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa91643a7ea483bde2ec67049c28fad02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d6/d7a/structcore_1_1SDFGeometryData.html">SDFGeometryData</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#aa91643a7ea483bde2ec67049c28fad02">getSDFGeometryData</a> ()</td></tr>
+<tr class="separator:aa91643a7ea483bde2ec67049c28fad02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a393f5891b662247ab24e956e21c59402"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a393f5891b662247ab24e956e21c59402">updateSDFGeometryNeighbours</a> (size_t geometryIdx, const <a class="el" href="../../de/d53/platform_2core_2common_2Types_8h.html#a4e8d21d366671e51f435f24d9eb3ca01">uint64_ts</a> &amp;neighbourIndices)</td></tr>
+<tr class="memdesc:a393f5891b662247ab24e956e21c59402"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the list of neighbours for an SDF geometry.  <a href="../../d1/d11/classcore_1_1Model.html#a393f5891b662247ab24e956e21c59402">More...</a><br /></td></tr>
+<tr class="separator:a393f5891b662247ab24e956e21c59402"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41c5e4608e76895952fa79c30a5863a7"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0">TriangleMeshMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a41c5e4608e76895952fa79c30a5863a7">getTriangleMeshes</a> () const</td></tr>
+<tr class="separator:a41c5e4608e76895952fa79c30a5863a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a135586aa883efb4115df029d6f19a864"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0">TriangleMeshMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a135586aa883efb4115df029d6f19a864">getTriangleMeshes</a> ()</td></tr>
+<tr class="separator:a135586aa883efb4115df029d6f19a864"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a724a3cf273ff3272f55123562a723530"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a724a3cf273ff3272f55123562a723530">addVolume</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a1821d76907dac8b71deaca0e55f47688">VolumePtr</a>)</td></tr>
+<tr class="memdesc:a724a3cf273ff3272f55123562a723530"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a volume to the model.  <a href="../../d1/d11/classcore_1_1Model.html#a724a3cf273ff3272f55123562a723530">More...</a><br /></td></tr>
+<tr class="separator:a724a3cf273ff3272f55123562a723530"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a284b164a8ea8da1f72c694f128915da2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a284b164a8ea8da1f72c694f128915da2">removeVolume</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a1821d76907dac8b71deaca0e55f47688">VolumePtr</a> ptr)</td></tr>
+<tr class="memdesc:a284b164a8ea8da1f72c694f128915da2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a volume from the model.  <a href="../../d1/d11/classcore_1_1Model.html#a284b164a8ea8da1f72c694f128915da2">More...</a><br /></td></tr>
+<tr class="separator:a284b164a8ea8da1f72c694f128915da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5e7bf66d4a0e315c759d361454a3749"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ac5e7bf66d4a0e315c759d361454a3749">logInformation</a> ()</td></tr>
+<tr class="memdesc:ac5e7bf66d4a0e315c759d361454a3749"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logs information about the model, like the number of primitives, and the associated memory footprint.  <a href="../../d1/d11/classcore_1_1Model.html#ac5e7bf66d4a0e315c759d361454a3749">More...</a><br /></td></tr>
+<tr class="separator:ac5e7bf66d4a0e315c759d361454a3749"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2616d0c58f2a3d99e96c3839d09a2ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#af2616d0c58f2a3d99e96c3839d09a2ce">setMaterialsColorMap</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a3c907bcd31d842fb78443083c73456c9">MaterialsColorMap</a> colorMap)</td></tr>
+<tr class="memdesc:af2616d0c58f2a3d99e96c3839d09a2ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the materials handled by the model, and available to the geometry.  <a href="../../d1/d11/classcore_1_1Model.html#af2616d0c58f2a3d99e96c3839d09a2ce">More...</a><br /></td></tr>
+<tr class="separator:af2616d0c58f2a3d99e96c3839d09a2ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a962baa444721566bbc84a1b77c42a729"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a1fa78015d3135478084fb265f9a2a814">MaterialMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a962baa444721566bbc84a1b77c42a729">getMaterials</a> () const</td></tr>
+<tr class="memdesc:a962baa444721566bbc84a1b77c42a729"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reference to the map of materials handled by the model.  <a href="../../d1/d11/classcore_1_1Model.html#a962baa444721566bbc84a1b77c42a729">More...</a><br /></td></tr>
+<tr class="separator:a962baa444721566bbc84a1b77c42a729"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3c5f97bc94b7b1b340f6af55c6786b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#af5556fbdd2a7f8b57ff443d634f24225">MaterialPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ae3c5f97bc94b7b1b340f6af55c6786b1">getMaterial</a> (const size_t materialId) const</td></tr>
+<tr class="memdesc:ae3c5f97bc94b7b1b340f6af55c6786b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to a specific material.  <a href="../../d1/d11/classcore_1_1Model.html#ae3c5f97bc94b7b1b340f6af55c6786b1">More...</a><br /></td></tr>
+<tr class="separator:ae3c5f97bc94b7b1b340f6af55c6786b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace6b40c5c3dae5652629d3387cc9f9cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d3/ded/classcore_1_1TransferFunction.html">TransferFunction</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ace6b40c5c3dae5652629d3387cc9f9cb">getTransferFunction</a> ()</td></tr>
+<tr class="memdesc:ace6b40c5c3dae5652629d3387cc9f9cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the transfer function used for volumes and simulations.  <a href="../../d1/d11/classcore_1_1Model.html#ace6b40c5c3dae5652629d3387cc9f9cb">More...</a><br /></td></tr>
+<tr class="separator:ace6b40c5c3dae5652629d3387cc9f9cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e841a7bd67fc94351e74cba1e0d10a8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d3/ded/classcore_1_1TransferFunction.html">TransferFunction</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a3e841a7bd67fc94351e74cba1e0d10a8">getTransferFunction</a> () const</td></tr>
+<tr class="memdesc:a3e841a7bd67fc94351e74cba1e0d10a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the transfer function used for volumes and simulations.  <a href="../../d1/d11/classcore_1_1Model.html#a3e841a7bd67fc94351e74cba1e0d10a8">More...</a><br /></td></tr>
+<tr class="separator:a3e841a7bd67fc94351e74cba1e0d10a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cdf75a6beb436b45fd3d9e2f93b0c52"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a3a8441e175ecfc3a82c853f0ab788094">AbstractSimulationHandlerPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a2cdf75a6beb436b45fd3d9e2f93b0c52">getSimulationHandler</a> () const</td></tr>
+<tr class="memdesc:a2cdf75a6beb436b45fd3d9e2f93b0c52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the simulation handler.  <a href="../../d1/d11/classcore_1_1Model.html#a2cdf75a6beb436b45fd3d9e2f93b0c52">More...</a><br /></td></tr>
+<tr class="separator:a2cdf75a6beb436b45fd3d9e2f93b0c52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca1fe826ebdeacba9445cc80865b55f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#aca1fe826ebdeacba9445cc80865b55f3">setSimulationHandler</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a3a8441e175ecfc3a82c853f0ab788094">AbstractSimulationHandlerPtr</a> handler)</td></tr>
+<tr class="memdesc:aca1fe826ebdeacba9445cc80865b55f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the simulation handler.  <a href="../../d1/d11/classcore_1_1Model.html#aca1fe826ebdeacba9445cc80865b55f3">More...</a><br /></td></tr>
+<tr class="separator:aca1fe826ebdeacba9445cc80865b55f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefc5d36b16b38d72f147a26a7ae4b1d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#aefc5d36b16b38d72f147a26a7ae4b1d5">getSizeInBytes</a> () const</td></tr>
+<tr class="memdesc:aefc5d36b16b38d72f147a26a7ae4b1d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size in bytes of all geometries.  <a href="../../d1/d11/classcore_1_1Model.html#aefc5d36b16b38d72f147a26a7ae4b1d5">More...</a><br /></td></tr>
+<tr class="separator:aefc5d36b16b38d72f147a26a7ae4b1d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdc2c55a088a67fba53e07f344b6e79b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#abdc2c55a088a67fba53e07f344b6e79b">markInstancesDirty</a> ()</td></tr>
+<tr class="memdesc:abdc2c55a088a67fba53e07f344b6e79b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks the instances as dirty.  <a href="../../d1/d11/classcore_1_1Model.html#abdc2c55a088a67fba53e07f344b6e79b">More...</a><br /></td></tr>
+<tr class="separator:abdc2c55a088a67fba53e07f344b6e79b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a41fabd30202b631e9d5b2dfae975cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a7a41fabd30202b631e9d5b2dfae975cf">markInstancesClean</a> ()</td></tr>
+<tr class="memdesc:a7a41fabd30202b631e9d5b2dfae975cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks the instances as clean.  <a href="../../d1/d11/classcore_1_1Model.html#a7a41fabd30202b631e9d5b2dfae975cf">More...</a><br /></td></tr>
+<tr class="separator:a7a41fabd30202b631e9d5b2dfae975cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a280a8d91277d388e3ef71393706e11b3"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a2308339bc63c98774276aa3b9f2675eb">Volumes</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a280a8d91277d388e3ef71393706e11b3">getVolumes</a> () const</td></tr>
+<tr class="memdesc:a280a8d91277d388e3ef71393706e11b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reference to the list of volumes.  <a href="../../d1/d11/classcore_1_1Model.html#a280a8d91277d388e3ef71393706e11b3">More...</a><br /></td></tr>
+<tr class="separator:a280a8d91277d388e3ef71393706e11b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fc8af58d18a095b3ab5ef127d49c1ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a3fc8af58d18a095b3ab5ef127d49c1ca">isVolumesDirty</a> () const</td></tr>
+<tr class="memdesc:a3fc8af58d18a095b3ab5ef127d49c1ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the volumes are dirty.  <a href="../../d1/d11/classcore_1_1Model.html#a3fc8af58d18a095b3ab5ef127d49c1ca">More...</a><br /></td></tr>
+<tr class="separator:a3fc8af58d18a095b3ab5ef127d49c1ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4db02795844710976791fc7f5d712cb9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a4db02795844710976791fc7f5d712cb9">resetVolumesDirty</a> ()</td></tr>
+<tr class="memdesc:a4db02795844710976791fc7f5d712cb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the dirty status of the volumes.  <a href="../../d1/d11/classcore_1_1Model.html#a4db02795844710976791fc7f5d712cb9">More...</a><br /></td></tr>
+<tr class="separator:a4db02795844710976791fc7f5d712cb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ba155bcc3fdd0de7d5df2f9fc7b19f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a7ba155bcc3fdd0de7d5df2f9fc7b19f4">setBVHFlags</a> (<a class="el" href="../../d4/d55/bioexplorer_2backend_2plugins_2Sonata_2CMakeLists_8txt.html#a6cda8e68bd67fb358d0261445b85fc0a">std::set</a>&lt; <a class="el" href="../../d9/d0f/namespacecore.html#abd723b102d21298f1756ff1e8e0b7c1e">BVHFlag</a> &gt; bvhFlags)</td></tr>
+<tr class="memdesc:a7ba155bcc3fdd0de7d5df2f9fc7b19f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the BVH flags.  <a href="../../d1/d11/classcore_1_1Model.html#a7ba155bcc3fdd0de7d5df2f9fc7b19f4">More...</a><br /></td></tr>
+<tr class="separator:a7ba155bcc3fdd0de7d5df2f9fc7b19f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac675c1ca44247032d0c7eb820a689640"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d4/d55/bioexplorer_2backend_2plugins_2Sonata_2CMakeLists_8txt.html#a6cda8e68bd67fb358d0261445b85fc0a">std::set</a>&lt; <a class="el" href="../../d9/d0f/namespacecore.html#abd723b102d21298f1756ff1e8e0b7c1e">BVHFlag</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ac675c1ca44247032d0c7eb820a689640">getBVHFlags</a> () const</td></tr>
+<tr class="memdesc:ac675c1ca44247032d0c7eb820a689640"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the BVH flags.  <a href="../../d1/d11/classcore_1_1Model.html#ac675c1ca44247032d0c7eb820a689640">More...</a><br /></td></tr>
+<tr class="separator:ac675c1ca44247032d0c7eb820a689640"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a245ee6418154c48f70fd6b47d595cb98"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a245ee6418154c48f70fd6b47d595cb98">updateBounds</a> ()</td></tr>
+<tr class="memdesc:a245ee6418154c48f70fd6b47d595cb98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the bounds of the geometries.  <a href="../../d1/d11/classcore_1_1Model.html#a245ee6418154c48f70fd6b47d595cb98">More...</a><br /></td></tr>
+<tr class="separator:a245ee6418154c48f70fd6b47d595cb98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0225195e4c37fd907f75b1d591e6bc5b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a0225195e4c37fd907f75b1d591e6bc5b">copyFrom</a> (const <a class="el" href="../../d1/d11/classcore_1_1Model.html">Model</a> &amp;rhs)</td></tr>
+<tr class="memdesc:a0225195e4c37fd907f75b1d591e6bc5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the model data from another model.  <a href="../../d1/d11/classcore_1_1Model.html#a0225195e4c37fd907f75b1d591e6bc5b">More...</a><br /></td></tr>
+<tr class="separator:a0225195e4c37fd907f75b1d591e6bc5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
-API for engine-specific code</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a7abcaaa0abf0f862f0122ced1e7af494"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a7abcaaa0abf0f862f0122ced1e7af494">_updateSizeInBytes</a> ()</td></tr>
+<tr class="separator:a7abcaaa0abf0f862f0122ced1e7af494"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c247e578d5e72ab989f9db1d1f3d75f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#af5556fbdd2a7f8b57ff443d634f24225">MaterialPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a1c247e578d5e72ab989f9db1d1f3d75f">createMaterialImpl</a> (const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;properties={})=0</td></tr>
+<tr class="separator:a1c247e578d5e72ab989f9db1d1f3d75f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25855e2773616d288da2a753ae9349ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a25855e2773616d288da2a753ae9349ce">_markGeometriesClean</a> ()</td></tr>
+<tr class="separator:a25855e2773616d288da2a753ae9349ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af19fe9a61be81358f212c4941018940a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#af19fe9a61be81358f212c4941018940a">_commitTransferFunctionImpl</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#af7947d4c8d26eaaae25772ac66d1aaf1">Vector3fs</a> &amp;colors, const <a class="el" href="../../de/d53/platform_2core_2common_2Types_8h.html#a75572897a1facc0f8e806f0e8ea1bd5e">floats</a> &amp;opacities, const <a class="el" href="../../d9/d0f/namespacecore.html#a8f279975d6e5e34c03c8ccf909f88719">Vector2d</a> valueRange)=0</td></tr>
+<tr class="separator:af19fe9a61be81358f212c4941018940a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81828a19add88023374933f7de206920"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a81828a19add88023374933f7de206920">_commitSimulationDataImpl</a> (const float *frameData, const size_t frameSize)=0</td></tr>
+<tr class="separator:a81828a19add88023374933f7de206920"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37da9b15926c3d17f8c4cfe9a68ee143"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a37da9b15926c3d17f8c4cfe9a68ee143">_areGeometriesDirty</a> () const</td></tr>
+<tr class="separator:a37da9b15926c3d17f8c4cfe9a68ee143"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
 <tr class="memitem:aaffe44cd3ae4a3cb6da8d6d7060d8580"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/dfb/classcore_1_1AnimationParameters.html">AnimationParameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#aaffe44cd3ae4a3cb6da8d6d7060d8580">_animationParameters</a></td></tr>
 <tr class="separator:aaffe44cd3ae4a3cb6da8d6d7060d8580"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a643cf2432208bc88cebe18b717368418"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/da5/classcore_1_1VolumeParameters.html">VolumeParameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a643cf2432208bc88cebe18b717368418">_volumeParameters</a></td></tr>
@@ -171,137 +347,11 @@ API for engine-specific code</h2></td></tr>
 <tr class="separator:a3b11a2a901c615219c7c0d6734888969"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afca625383efe5297f78b4bcca7e8dba7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#afca625383efe5297f78b4bcca7e8dba7">_isReadyCallbackSet</a> {false}</td></tr>
 <tr class="separator:afca625383efe5297f78b4bcca7e8dba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e6b6dbde812b1872cbe0d9f8747fc2c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a3e6b6dbde812b1872cbe0d9f8747fc2c">commitGeometry</a> ()=0</td></tr>
-<tr class="separator:a3e6b6dbde812b1872cbe0d9f8747fc2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd3147503f644e33aaeb8d3ce50501a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#acd3147503f644e33aaeb8d3ce50501a4">commitTransferFunction</a> ()</td></tr>
-<tr class="separator:acd3147503f644e33aaeb8d3ce50501a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a630fab91457b5ad327557f8993f41473"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a630fab91457b5ad327557f8993f41473">commitSimulationData</a> ()</td></tr>
-<tr class="separator:a630fab91457b5ad327557f8993f41473"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a765f2a911b6cc85cbbdff298e5c474af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#af5556fbdd2a7f8b57ff443d634f24225">MaterialPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a765f2a911b6cc85cbbdff298e5c474af">createMaterial</a> (const size_t materialId, const std::string &amp;name, const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;properties={})</td></tr>
-<tr class="separator:a765f2a911b6cc85cbbdff298e5c474af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5812aa7ec40b22f0ac5b9251dd1a85d1"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a4002b2e868b2019f07a0e23c69e7e605">SharedDataVolumePtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a5812aa7ec40b22f0ac5b9251dd1a85d1">createSharedDataVolume</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> &amp;dimensions, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;spacing, const <a class="el" href="../../d9/d0f/namespacecore.html#a5f3273b25e834b08ca52b42611a66e4e">DataType</a> type)=0</td></tr>
-<tr class="separator:a5812aa7ec40b22f0ac5b9251dd1a85d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae689bdb99ca6d4836a8dbe7c5be814fb"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a20a44af4e95ba32e02511cd3f90e2809">BrickedVolumePtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ae689bdb99ca6d4836a8dbe7c5be814fb">createBrickedVolume</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> &amp;dimensions, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;spacing, const <a class="el" href="../../d9/d0f/namespacecore.html#a5f3273b25e834b08ca52b42611a66e4e">DataType</a> type)=0</td></tr>
-<tr class="separator:ae689bdb99ca6d4836a8dbe7c5be814fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ad5d819fd1c26edbc5e78105e23ca9f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a2ad5d819fd1c26edbc5e78105e23ca9f">buildBoundingBox</a> ()=0</td></tr>
-<tr class="separator:a2ad5d819fd1c26edbc5e78105e23ca9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0396813c0bc1f926f30bffccc37bdc39"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a0396813c0bc1f926f30bffccc37bdc39">empty</a> () const</td></tr>
-<tr class="separator:a0396813c0bc1f926f30bffccc37bdc39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad95303b5db106572e5b9f5f467d8a57e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ad95303b5db106572e5b9f5f467d8a57e">isDirty</a> () const</td></tr>
-<tr class="separator:ad95303b5db106572e5b9f5f467d8a57e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b96035fac20aa09b223631f9edcd405"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d9/d0f/namespacecore.html#af8525fbf2d49b92c0f085bf707f1fdf8">Boxd</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a2b96035fac20aa09b223631f9edcd405">getBounds</a> () const</td></tr>
-<tr class="separator:a2b96035fac20aa09b223631f9edcd405"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0eb11b8e42a6c235294d49a14838d1cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a0eb11b8e42a6c235294d49a14838d1cf">mergeBounds</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#af8525fbf2d49b92c0f085bf707f1fdf8">Boxd</a> &amp;bounds)</td></tr>
-<tr class="memdesc:a0eb11b8e42a6c235294d49a14838d1cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Merges model bounds with the given bounds.  <a href="../../d1/d11/classcore_1_1Model.html#a0eb11b8e42a6c235294d49a14838d1cf">More...</a><br /></td></tr>
-<tr class="separator:a0eb11b8e42a6c235294d49a14838d1cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aece94a39356e2d1548ac10ee89f84e68"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d9/d0f/namespacecore.html#aa4b2826cd1fc64b98688f8be5cce5adc">SpheresMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#aece94a39356e2d1548ac10ee89f84e68">getSpheres</a> () const</td></tr>
-<tr class="separator:aece94a39356e2d1548ac10ee89f84e68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41e71cbb7d4b4d3fe66edab0d2bad66d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#aa4b2826cd1fc64b98688f8be5cce5adc">SpheresMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a41e71cbb7d4b4d3fe66edab0d2bad66d">getSpheres</a> ()</td></tr>
-<tr class="separator:a41e71cbb7d4b4d3fe66edab0d2bad66d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6405be442904ec86ef7d60a057e4e12d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a6405be442904ec86ef7d60a057e4e12d">addSphere</a> (const size_t materialId, const <a class="el" href="../../d8/d0f/structSphere.html">Sphere</a> &amp;sphere)</td></tr>
-<tr class="separator:a6405be442904ec86ef7d60a057e4e12d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa38aadba85148484997add4bb0b0fba5"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d9/d0f/namespacecore.html#a7ae9d422b1064493e5ce8636c0461640">CylindersMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#aa38aadba85148484997add4bb0b0fba5">getCylinders</a> () const</td></tr>
-<tr class="separator:aa38aadba85148484997add4bb0b0fba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3de4c83a8e7e0d2f31cceeee22f082e3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a7ae9d422b1064493e5ce8636c0461640">CylindersMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a3de4c83a8e7e0d2f31cceeee22f082e3">getCylinders</a> ()</td></tr>
-<tr class="separator:a3de4c83a8e7e0d2f31cceeee22f082e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69707a407b2d84f9c8c18f889063a622"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a69707a407b2d84f9c8c18f889063a622">addCylinder</a> (const size_t materialId, const <a class="el" href="../../d3/df6/structCylinder.html">Cylinder</a> &amp;cylinder)</td></tr>
-<tr class="separator:a69707a407b2d84f9c8c18f889063a622"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abaf2717a0ac7bbe14b7dbf8dfdc7034c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d9/d0f/namespacecore.html#a0f775755f90d8a3f9f1dea02d49e36cd">ConesMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#abaf2717a0ac7bbe14b7dbf8dfdc7034c">getCones</a> () const</td></tr>
-<tr class="separator:abaf2717a0ac7bbe14b7dbf8dfdc7034c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1af3b2ce5d99f03eedb93ac59824901"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a0f775755f90d8a3f9f1dea02d49e36cd">ConesMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#af1af3b2ce5d99f03eedb93ac59824901">getCones</a> ()</td></tr>
-<tr class="separator:af1af3b2ce5d99f03eedb93ac59824901"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8dfc152e027e59587a59c1567666e269"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a8dfc152e027e59587a59c1567666e269">addCone</a> (const size_t materialId, const <a class="el" href="../../d9/d5c/structCone.html">Cone</a> &amp;cone)</td></tr>
-<tr class="separator:a8dfc152e027e59587a59c1567666e269"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad98cef907089f0e7d8e26ce6d5de553a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d9/d0f/namespacecore.html#ac2f667ae08f24d7aa5b86e8e1c224741">SDFBeziersMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ad98cef907089f0e7d8e26ce6d5de553a">getSDFBeziers</a> () const</td></tr>
-<tr class="separator:ad98cef907089f0e7d8e26ce6d5de553a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39590db4974237372b3296fc2e59252a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#ac2f667ae08f24d7aa5b86e8e1c224741">SDFBeziersMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a39590db4974237372b3296fc2e59252a">getSDFBeziers</a> ()</td></tr>
-<tr class="separator:a39590db4974237372b3296fc2e59252a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ae283953cb4cf951153d20e479ea479"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a2ae283953cb4cf951153d20e479ea479">addSDFBezier</a> (const size_t materialId, const <a class="el" href="../../da/d35/structcore_1_1SDFBezier.html">SDFBezier</a> &amp;sdfBezier)</td></tr>
-<tr class="separator:a2ae283953cb4cf951153d20e479ea479"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3a869bf887e8db92061409f9a4d342e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ae3a869bf887e8db92061409f9a4d342e">addStreamline</a> (const size_t materialId, const <a class="el" href="../../df/da1/structcore_1_1Streamline.html">Streamline</a> &amp;streamline)</td></tr>
-<tr class="separator:ae3a869bf887e8db92061409f9a4d342e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c1ef2981e8786df5b214686c3bf68af"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d9/d0f/namespacecore.html#a14edf6fdd9eebdc69586297d76f5a542">StreamlinesDataMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a8c1ef2981e8786df5b214686c3bf68af">getStreamlines</a> () const</td></tr>
-<tr class="separator:a8c1ef2981e8786df5b214686c3bf68af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a716f2e58a823f5f83342b743b06d320d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a14edf6fdd9eebdc69586297d76f5a542">StreamlinesDataMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a716f2e58a823f5f83342b743b06d320d">getStreamlines</a> ()</td></tr>
-<tr class="separator:a716f2e58a823f5f83342b743b06d320d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf2a0ed42b2899ff7fd0e671142a961f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#abf2a0ed42b2899ff7fd0e671142a961f">addCurve</a> (const size_t materialId, const <a class="el" href="../../db/d40/structcore_1_1Curve.html">Curve</a> &amp;curve)</td></tr>
-<tr class="separator:abf2a0ed42b2899ff7fd0e671142a961f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac861a4544884c7f4c0cecef008c2e89a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d9/d0f/namespacecore.html#a39916c052270b3d918c0a4c9a8601622">CurvesMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ac861a4544884c7f4c0cecef008c2e89a">getCurves</a> () const</td></tr>
-<tr class="separator:ac861a4544884c7f4c0cecef008c2e89a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27e71cb07a2257ad6e2c31c7169a5131"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a39916c052270b3d918c0a4c9a8601622">CurvesMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a27e71cb07a2257ad6e2c31c7169a5131">getCurves</a> ()</td></tr>
-<tr class="separator:a27e71cb07a2257ad6e2c31c7169a5131"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64a8ba9bb5cd7bfab65298d7fa5c789f"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a64a8ba9bb5cd7bfab65298d7fa5c789f">addSDFGeometry</a> (const size_t materialId, const <a class="el" href="../../dd/d10/structcore_1_1SDFGeometry.html">SDFGeometry</a> &amp;geom, const <a class="el" href="../../de/d53/platform_2core_2common_2Types_8h.html#a4e8d21d366671e51f435f24d9eb3ca01">uint64_ts</a> &amp;neighbourIndices)</td></tr>
-<tr class="separator:a64a8ba9bb5cd7bfab65298d7fa5c789f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2925466ef0e0ae145ecf2ecca31175fa"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d6/d7a/structcore_1_1SDFGeometryData.html">SDFGeometryData</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a2925466ef0e0ae145ecf2ecca31175fa">getSDFGeometryData</a> () const</td></tr>
-<tr class="separator:a2925466ef0e0ae145ecf2ecca31175fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afff7ac75588f1e84e920bbc37d78da44"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d7a/structcore_1_1SDFGeometryData.html">SDFGeometryData</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#afff7ac75588f1e84e920bbc37d78da44">getSDFGeometryData</a> ()</td></tr>
-<tr class="separator:afff7ac75588f1e84e920bbc37d78da44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a393f5891b662247ab24e956e21c59402"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a393f5891b662247ab24e956e21c59402">updateSDFGeometryNeighbours</a> (size_t geometryIdx, const <a class="el" href="../../de/d53/platform_2core_2common_2Types_8h.html#a4e8d21d366671e51f435f24d9eb3ca01">uint64_ts</a> &amp;neighbourIndices)</td></tr>
-<tr class="separator:a393f5891b662247ab24e956e21c59402"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30f5e718c75e32f677a37c166632a71c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0">TriangleMeshMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a30f5e718c75e32f677a37c166632a71c">getTriangleMeshes</a> () const</td></tr>
-<tr class="separator:a30f5e718c75e32f677a37c166632a71c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a493ce9cc4015e2b5a2a80f293384c707"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0">TriangleMeshMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a493ce9cc4015e2b5a2a80f293384c707">getTriangleMeshes</a> ()</td></tr>
-<tr class="separator:a493ce9cc4015e2b5a2a80f293384c707"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a724a3cf273ff3272f55123562a723530"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a724a3cf273ff3272f55123562a723530">addVolume</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a1821d76907dac8b71deaca0e55f47688">VolumePtr</a>)</td></tr>
-<tr class="separator:a724a3cf273ff3272f55123562a723530"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5a56d10ba0f0ab0d59f90ac529231a8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#af5a56d10ba0f0ab0d59f90ac529231a8">removeVolume</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a1821d76907dac8b71deaca0e55f47688">VolumePtr</a>)</td></tr>
-<tr class="separator:af5a56d10ba0f0ab0d59f90ac529231a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5e7bf66d4a0e315c759d361454a3749"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ac5e7bf66d4a0e315c759d361454a3749">logInformation</a> ()</td></tr>
-<tr class="memdesc:ac5e7bf66d4a0e315c759d361454a3749"><td class="mdescLeft">&#160;</td><td class="mdescRight">logInformation Logs information about the model, like the number of primitives, and the associated memory footprint.  <a href="../../d1/d11/classcore_1_1Model.html#ac5e7bf66d4a0e315c759d361454a3749">More...</a><br /></td></tr>
-<tr class="separator:ac5e7bf66d4a0e315c759d361454a3749"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2616d0c58f2a3d99e96c3839d09a2ce"><td class="memItemLeft" align="right" valign="top">void <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#af2616d0c58f2a3d99e96c3839d09a2ce">setMaterialsColorMap</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a3c907bcd31d842fb78443083c73456c9">MaterialsColorMap</a> colorMap)</td></tr>
-<tr class="separator:af2616d0c58f2a3d99e96c3839d09a2ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a962baa444721566bbc84a1b77c42a729"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a1fa78015d3135478084fb265f9a2a814">MaterialMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a962baa444721566bbc84a1b77c42a729">getMaterials</a> () const</td></tr>
-<tr class="memdesc:a962baa444721566bbc84a1b77c42a729"><td class="mdescLeft">&#160;</td><td class="mdescRight">getMaterials Returns a reference to the map of materials handled by the model  <a href="../../d1/d11/classcore_1_1Model.html#a962baa444721566bbc84a1b77c42a729">More...</a><br /></td></tr>
-<tr class="separator:a962baa444721566bbc84a1b77c42a729"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3c5f97bc94b7b1b340f6af55c6786b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#af5556fbdd2a7f8b57ff443d634f24225">MaterialPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ae3c5f97bc94b7b1b340f6af55c6786b1">getMaterial</a> (const size_t materialId) const</td></tr>
-<tr class="memdesc:ae3c5f97bc94b7b1b340f6af55c6786b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">getMaterial Returns a pointer to a specific material  <a href="../../d1/d11/classcore_1_1Model.html#ae3c5f97bc94b7b1b340f6af55c6786b1">More...</a><br /></td></tr>
-<tr class="separator:ae3c5f97bc94b7b1b340f6af55c6786b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ec2dfec7833bdd409ca909ad02ebe89"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/ded/classcore_1_1TransferFunction.html">TransferFunction</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a4ec2dfec7833bdd409ca909ad02ebe89">getTransferFunction</a> ()</td></tr>
-<tr class="separator:a4ec2dfec7833bdd409ca909ad02ebe89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b44eacc4379be8a4d55439d8adcf2e8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d3/ded/classcore_1_1TransferFunction.html">TransferFunction</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a7b44eacc4379be8a4d55439d8adcf2e8">getTransferFunction</a> () const</td></tr>
-<tr class="separator:a7b44eacc4379be8a4d55439d8adcf2e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cdf75a6beb436b45fd3d9e2f93b0c52"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a3a8441e175ecfc3a82c853f0ab788094">AbstractSimulationHandlerPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a2cdf75a6beb436b45fd3d9e2f93b0c52">getSimulationHandler</a> () const</td></tr>
-<tr class="separator:a2cdf75a6beb436b45fd3d9e2f93b0c52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca1fe826ebdeacba9445cc80865b55f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#aca1fe826ebdeacba9445cc80865b55f3">setSimulationHandler</a> (<a class="el" href="../../d9/d0f/namespacecore.html#a3a8441e175ecfc3a82c853f0ab788094">AbstractSimulationHandlerPtr</a> handler)</td></tr>
-<tr class="separator:aca1fe826ebdeacba9445cc80865b55f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefc5d36b16b38d72f147a26a7ae4b1d5"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#aefc5d36b16b38d72f147a26a7ae4b1d5">getSizeInBytes</a> () const</td></tr>
-<tr class="separator:aefc5d36b16b38d72f147a26a7ae4b1d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5de31ce26d00b346e9cc180baa28b15b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a5de31ce26d00b346e9cc180baa28b15b">markInstancesDirty</a> ()</td></tr>
-<tr class="separator:a5de31ce26d00b346e9cc180baa28b15b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e85b0a20363e72f60de96fca39e1f7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a5e85b0a20363e72f60de96fca39e1f7f">markInstancesClean</a> ()</td></tr>
-<tr class="separator:a5e85b0a20363e72f60de96fca39e1f7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3b16fe1ba9cfacd7d89930abcae99c6"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d9/d0f/namespacecore.html#a2308339bc63c98774276aa3b9f2675eb">Volumes</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#ad3b16fe1ba9cfacd7d89930abcae99c6">getVolumes</a> () const</td></tr>
-<tr class="separator:ad3b16fe1ba9cfacd7d89930abcae99c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a346e765994748894816816a6a83bcdc7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a346e765994748894816816a6a83bcdc7">isVolumesDirty</a> () const</td></tr>
-<tr class="separator:a346e765994748894816816a6a83bcdc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cca6063999af58f04ca53979fb7d935"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a6cca6063999af58f04ca53979fb7d935">resetVolumesDirty</a> ()</td></tr>
-<tr class="separator:a6cca6063999af58f04ca53979fb7d935"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ffe98dd1c3c1e939a5e8f34e03b42d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a7ffe98dd1c3c1e939a5e8f34e03b42d2">setBVHFlags</a> (<a class="el" href="../../d4/d55/bioexplorer_2backend_2plugins_2Sonata_2CMakeLists_8txt.html#a6cda8e68bd67fb358d0261445b85fc0a">std::set</a>&lt; <a class="el" href="../../d9/d0f/namespacecore.html#abd723b102d21298f1756ff1e8e0b7c1e">BVHFlag</a> &gt; bvhFlags)</td></tr>
-<tr class="separator:a7ffe98dd1c3c1e939a5e8f34e03b42d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefa535b3d82722f495d1d900267a9f28"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d4/d55/bioexplorer_2backend_2plugins_2Sonata_2CMakeLists_8txt.html#a6cda8e68bd67fb358d0261445b85fc0a">std::set</a>&lt; <a class="el" href="../../d9/d0f/namespacecore.html#abd723b102d21298f1756ff1e8e0b7c1e">BVHFlag</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#aefa535b3d82722f495d1d900267a9f28">getBVHFlags</a> () const</td></tr>
-<tr class="separator:aefa535b3d82722f495d1d900267a9f28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a245ee6418154c48f70fd6b47d595cb98"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a245ee6418154c48f70fd6b47d595cb98">updateBounds</a> ()</td></tr>
-<tr class="separator:a245ee6418154c48f70fd6b47d595cb98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0225195e4c37fd907f75b1d591e6bc5b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a0225195e4c37fd907f75b1d591e6bc5b">copyFrom</a> (const <a class="el" href="../../d1/d11/classcore_1_1Model.html">Model</a> &amp;rhs)</td></tr>
-<tr class="separator:a0225195e4c37fd907f75b1d591e6bc5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7abcaaa0abf0f862f0122ced1e7af494"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a7abcaaa0abf0f862f0122ced1e7af494">_updateSizeInBytes</a> ()</td></tr>
-<tr class="separator:a7abcaaa0abf0f862f0122ced1e7af494"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c247e578d5e72ab989f9db1d1f3d75f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#af5556fbdd2a7f8b57ff443d634f24225">MaterialPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a1c247e578d5e72ab989f9db1d1f3d75f">createMaterialImpl</a> (const <a class="el" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> &amp;properties={})=0</td></tr>
-<tr class="separator:a1c247e578d5e72ab989f9db1d1f3d75f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25855e2773616d288da2a753ae9349ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a25855e2773616d288da2a753ae9349ce">_markGeometriesClean</a> ()</td></tr>
-<tr class="separator:a25855e2773616d288da2a753ae9349ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af19fe9a61be81358f212c4941018940a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#af19fe9a61be81358f212c4941018940a">_commitTransferFunctionImpl</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#af7947d4c8d26eaaae25772ac66d1aaf1">Vector3fs</a> &amp;colors, const <a class="el" href="../../de/d53/platform_2core_2common_2Types_8h.html#a75572897a1facc0f8e806f0e8ea1bd5e">floats</a> &amp;opacities, const <a class="el" href="../../d9/d0f/namespacecore.html#a8f279975d6e5e34c03c8ccf909f88719">Vector2d</a> valueRange)=0</td></tr>
-<tr class="separator:af19fe9a61be81358f212c4941018940a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81828a19add88023374933f7de206920"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a81828a19add88023374933f7de206920">_commitSimulationDataImpl</a> (const float *frameData, const size_t frameSize)=0</td></tr>
-<tr class="separator:a81828a19add88023374933f7de206920"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37da9b15926c3d17f8c4cfe9a68ee143"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d11/classcore_1_1Model.html#a37da9b15926c3d17f8c4cfe9a68ee143">_areGeometriesDirty</a> () const</td></tr>
-<tr class="separator:a37da9b15926c3d17f8c4cfe9a68ee143"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The abstract <a class="el" href="../../d1/d11/classcore_1_1Model.html">Model</a> class holds the geometry attached to an asset of the scene (mesh, circuit, volume, etc). The model handles resources attached to the geometry such as implementation specific classes, and acceleration structures). Models provide a simple API to manipulate primitives (spheres, cylinders, triangle meshes, etc). </p>
+<div class="textblock"><p>The abstract <a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a> class holds the geometry attached to an asset of the scene (mesh, circuit, volume, etc). The model handles resources attached to the geometry such as implementation specific classes, and acceleration structures). Models provide a simple API to manipulate primitives (spheres, cylinders, triangle meshes, etc). </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00212">212</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00457">457</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="adf65e3eb77d91df2b53bd9cc0d86e0c3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adf65e3eb77d91df2b53bd9cc0d86e0c3">&#9670;&nbsp;</a></span>Model()</h2>
@@ -329,6 +379,15 @@ API for engine-specific code</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructor for <a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a> class. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animationParameters</td><td>Parameters for animation </td></tr>
+    <tr><td class="paramname">volumeParameters</td><td>Parameters for volume </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00183">183</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
 </div>
@@ -355,6 +414,8 @@ API for engine-specific code</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Virtual destructor for <a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a> class. </p>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00189">189</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -384,7 +445,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00539">539</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00881">881</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -550,14 +611,16 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Adds a cone to the model </p><dl class="params"><dt>Parameters</dt><dd>
+
+<p>Adds a cone to the model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">materialId</td><td>Id of the material for the cone </td></tr>
+    <tr><td class="paramname">materialId</td><td>ID of material </td></tr>
     <tr><td class="paramname">cone</td><td><a class="el" href="../../d9/d5c/structCone.html">Cone</a> to add </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Index of the sphere for the specified material </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Index of cone for the specified material </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00214">214</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -588,9 +651,11 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Adds a curve to the model </p><dl class="params"><dt>Parameters</dt><dd>
+
+<p>Adds a curve to the model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">materialId</td><td>Id of the material for the curve </td></tr>
+    <tr><td class="paramname">materialId</td><td>ID of material </td></tr>
     <tr><td class="paramname">curve</td><td><a class="el" href="../../db/d40/structcore_1_1Curve.html">Curve</a> to add </td></tr>
   </table>
   </dd>
@@ -625,14 +690,16 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Adds a cylinder to the model </p><dl class="params"><dt>Parameters</dt><dd>
+
+<p>Adds a cylinder to the model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">materialId</td><td>Id of the material for the cylinder </td></tr>
+    <tr><td class="paramname">materialId</td><td>ID of material </td></tr>
     <tr><td class="paramname">cylinder</td><td><a class="el" href="../../d3/df6/structCylinder.html">Cylinder</a> to add </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Index of the sphere for the specified material </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Index of cylinder for the specified material </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00207">207</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -663,14 +730,16 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Adds a <a class="el" href="../../da/d35/structcore_1_1SDFBezier.html">SDFBezier</a> to the model </p><dl class="params"><dt>Parameters</dt><dd>
+
+<p>Adds an <a class="el" href="../../da/d35/structcore_1_1SDFBezier.html">SDFBezier</a> to the model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">materialId</td><td>Id of the material for the sdfBezier </td></tr>
+    <tr><td class="paramname">materialId</td><td>ID of material </td></tr>
     <tr><td class="paramname">sdfBezier</td><td><a class="el" href="../../da/d35/structcore_1_1SDFBezier.html">SDFBezier</a> to add </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Index of the bezier for the specified material </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Index of bezier for the specified material </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00221">221</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -707,9 +776,11 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Adds a <a class="el" href="../../dd/d10/structcore_1_1SDFGeometry.html">SDFGeometry</a> to the scene </p><dl class="params"><dt>Parameters</dt><dd>
+
+<p>Adds an <a class="el" href="../../dd/d10/structcore_1_1SDFGeometry.html">SDFGeometry</a> to the scene. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">materialId</td><td><a class="el" href="../../d3/d69/classcore_1_1Material.html">Material</a> of the geometry </td></tr>
+    <tr><td class="paramname">materialId</td><td>ID of material </td></tr>
     <tr><td class="paramname">geom</td><td>Geometry to add </td></tr>
     <tr><td class="paramname">neighbourIndices</td><td>Global indices of the geometries to smoothly blend together with </td></tr>
   </table>
@@ -746,14 +817,16 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Adds a sphere to the model </p><dl class="params"><dt>Parameters</dt><dd>
+
+<p>Adds a sphere to the model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">materialId</td><td>Id of the material for the sphere </td></tr>
+    <tr><td class="paramname">materialId</td><td>ID of material </td></tr>
     <tr><td class="paramname">sphere</td><td><a class="el" href="../../d8/d0f/structSphere.html">Sphere</a> to add </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Index of the sphere for the specified material </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Index of sphere for the specified material </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00200">200</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -784,9 +857,11 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Adds a streamline to the model </p><dl class="params"><dt>Parameters</dt><dd>
+
+<p>Adds a streamline to the model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">materialId</td><td>Id of the material for the streamline </td></tr>
+    <tr><td class="paramname">materialId</td><td>ID of material </td></tr>
     <tr><td class="paramname">streamline</td><td><a class="el" href="../../df/da1/structcore_1_1Streamline.html">Streamline</a> to add </td></tr>
   </table>
   </dd>
@@ -811,7 +886,14 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Add a volume to the model </p>
+
+<p>Add a volume to the model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">volume</td><td>Pointer to volume to add </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00294">294</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -840,12 +922,14 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Pure virtual function to build bounding box. </p>
+
 <p>Implemented in <a class="el" href="../../de/d4c/classcore_1_1OSPRayModel.html#a7c1f3a0337268f5fffe49cb5b9b9db6e">core::OSPRayModel</a>, <a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#acbc2b69bc30d99903f2faf073c7a0da2">core::OptiXModel</a>, and <a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#acbc2b69bc30d99903f2faf073c7a0da2">core::OptiXModel</a>.</p>
 
 </div>
 </div>
-<a id="a3e6b6dbde812b1872cbe0d9f8747fc2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e6b6dbde812b1872cbe0d9f8747fc2c">&#9670;&nbsp;</a></span>commitGeometry()</h2>
+<a id="afc93740cb95e07ed50ed2fdaad3df01a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc93740cb95e07ed50ed2fdaad3df01a">&#9670;&nbsp;</a></span>commitGeometry()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -854,7 +938,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void core::Model::commitGeometry </td>
+          <td class="memname">virtual <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::Model::commitGeometry </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -866,6 +950,8 @@ API for engine-specific code</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Pure virtual function to commit geometry. </p>
 
 <p>Implemented in <a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#a7d97247b00ea12b2a8cef704e70367e1">core::OptiXModel</a>, <a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#a7d97247b00ea12b2a8cef704e70367e1">core::OptiXModel</a>, and <a class="el" href="../../de/d4c/classcore_1_1OSPRayModel.html#a58924e52dbd5845d66e786e7506d5537">core::OSPRayModel</a>.</p>
 
@@ -885,7 +971,9 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Commit simulation data </p>
+
+<p>Function to commit simulation data. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if successful, false otherwise </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00657">657</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -905,7 +993,9 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Commit transfer function </p>
+
+<p>Function to commit transfer function. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if successful, false otherwise </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00645">645</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -926,6 +1016,14 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Copies the model data from another model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rhs</td><td>The model to copy the data from </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00463">463</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -970,7 +1068,17 @@ API for engine-specific code</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
 <p>Create a volume with the given dimensions, voxel spacing and data type where the voxels are copied via setBrick() into an optimized internal storage. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dimensions</td><td>Dimensions of volume </td></tr>
+    <tr><td class="paramname">spacing</td><td>Spacing of volume </td></tr>
+    <tr><td class="paramname">type</td><td>Data type of volume </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to created <a class="el" href="../../db/de9/classcore_1_1BrickedVolume.html" title="A volume type where the voxels are copied for each added brick.">BrickedVolume</a> </dd></dl>
 
 <p>Implemented in <a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#a3b0f7d2b4dd1b954b1de7824f1f0ed32">core::OptiXModel</a>, <a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#ace77b64bc8d16024be8a83131e6e4249">core::OptiXModel</a>, and <a class="el" href="../../de/d4c/classcore_1_1OSPRayModel.html#ac9d4f55d3cd60901817c648a2c91acf4">core::OSPRayModel</a>.</p>
 
@@ -1007,7 +1115,17 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
 <p>Factory method to create an engine-specific material. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">materialId</td><td>ID of material </td></tr>
+    <tr><td class="paramname">name</td><td>Name of material </td></tr>
+    <tr><td class="paramname">properties</td><td>Properties of material </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to created material </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00615">615</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -1081,7 +1199,17 @@ API for engine-specific code</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
 <p>Create a volume with the given dimensions, voxel spacing and data type where the voxels are set via setVoxels() from any memory location. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dimensions</td><td>Dimensions of volume </td></tr>
+    <tr><td class="paramname">spacing</td><td>Spacing of volume </td></tr>
+    <tr><td class="paramname">type</td><td>Data type of volume </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to created <a class="el" href="../../df/df4/classcore_1_1SharedDataVolume.html">SharedDataVolume</a> </dd></dl>
 
 <p>Implemented in <a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#a9ae7871da40be19d8826d98a712b2832">core::OptiXModel</a>, <a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#a41e2c308f4709aa54f104f85c203fa25">core::OptiXModel</a>, and <a class="el" href="../../de/d4c/classcore_1_1OSPRayModel.html#aaee5f5dea23cda1b4138c8842a947de5">core::OSPRayModel</a>.</p>
 
@@ -1101,14 +1229,14 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>true if the geometry <a class="el" href="../../d1/d11/classcore_1_1Model.html">Model</a> does not contain any geometry, false otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the geometry <a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a> does not contain any geometry, false otherwise </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00195">195</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a2b96035fac20aa09b223631f9edcd405"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b96035fac20aa09b223631f9edcd405">&#9670;&nbsp;</a></span>getBounds()</h2>
+<a id="a0eda3009465409735be5a0d89f6fa1b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0eda3009465409735be5a0d89f6fa1b1">&#9670;&nbsp;</a></span>getBounds()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1117,35 +1245,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="../../d9/d0f/namespacecore.html#af8525fbf2d49b92c0f085bf707f1fdf8">Boxd</a>&amp; core::Model::getBounds </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Returns the bounds for the <a class="el" href="../../d1/d11/classcore_1_1Model.html">Model</a> </p>
-
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00263">263</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
-
-</div>
-</div>
-<a id="aefa535b3d82722f495d1d900267a9f28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aefa535b3d82722f495d1d900267a9f28">&#9670;&nbsp;</a></span>getBVHFlags()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="../../d4/d55/bioexplorer_2backend_2plugins_2Sonata_2CMakeLists_8txt.html#a6cda8e68bd67fb358d0261445b85fc0a">std::set</a>&lt;<a class="el" href="../../d9/d0f/namespacecore.html#abd723b102d21298f1756ff1e8e0b7c1e">BVHFlag</a>&gt;&amp; core::Model::getBVHFlags </td>
+          <td class="memname">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#af8525fbf2d49b92c0f085bf707f1fdf8">Boxd</a>&amp; core::Model::getBounds </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1158,12 +1258,15 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00468">468</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Returns the bounds for the <a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>Bounds of <a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00540">540</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="af1af3b2ce5d99f03eedb93ac59824901"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1af3b2ce5d99f03eedb93ac59824901">&#9670;&nbsp;</a></span>getCones() <span class="overload">[1/2]</span></h2>
+<a id="ac675c1ca44247032d0c7eb820a689640"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac675c1ca44247032d0c7eb820a689640">&#9670;&nbsp;</a></span>getBVHFlags()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1172,7 +1275,37 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a0f775755f90d8a3f9f1dea02d49e36cd">ConesMap</a>&amp; core::Model::getCones </td>
+          <td class="memname">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d4/d55/bioexplorer_2backend_2plugins_2Sonata_2CMakeLists_8txt.html#a6cda8e68bd67fb358d0261445b85fc0a">std::set</a>&lt;<a class="el" href="../../d9/d0f/namespacecore.html#abd723b102d21298f1756ff1e8e0b7c1e">BVHFlag</a>&gt;&amp; core::Model::getBVHFlags </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the BVH flags. </p>
+<dl class="section return"><dt>Returns</dt><dd>const std::set&lt;BVHFlag&gt;&amp; The BVH flags </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00802">802</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+
+</div>
+</div>
+<a id="ac481ce4243572080f29408722d704157"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac481ce4243572080f29408722d704157">&#9670;&nbsp;</a></span>getCones() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a0f775755f90d8a3f9f1dea02d49e36cd">ConesMap</a>&amp; core::Model::getCones </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1185,12 +1318,12 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00309">309</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00591">591</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="abaf2717a0ac7bbe14b7dbf8dfdc7034c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abaf2717a0ac7bbe14b7dbf8dfdc7034c">&#9670;&nbsp;</a></span>getCones() <span class="overload">[2/2]</span></h2>
+<a id="a0087997721ba5575b8cf63d25fa4f5b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0087997721ba5575b8cf63d25fa4f5b6">&#9670;&nbsp;</a></span>getCones() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1199,7 +1332,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="../../d9/d0f/namespacecore.html#a0f775755f90d8a3f9f1dea02d49e36cd">ConesMap</a>&amp; core::Model::getCones </td>
+          <td class="memname">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a0f775755f90d8a3f9f1dea02d49e36cd">ConesMap</a>&amp; core::Model::getCones </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1211,14 +1344,16 @@ API for engine-specific code</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Returns cones handled by the model </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00308">308</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Returns cones handled by the model. </p>
+<dl class="section return"><dt>Returns</dt><dd>Map of Cones </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00590">590</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="a27e71cb07a2257ad6e2c31c7169a5131"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27e71cb07a2257ad6e2c31c7169a5131">&#9670;&nbsp;</a></span>getCurves() <span class="overload">[1/2]</span></h2>
+<a id="adcb5d0b9c8cd900ecbb283ffc9039878"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcb5d0b9c8cd900ecbb283ffc9039878">&#9670;&nbsp;</a></span>getCurves() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1227,7 +1362,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a39916c052270b3d918c0a4c9a8601622">CurvesMap</a>&amp; core::Model::getCurves </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a39916c052270b3d918c0a4c9a8601622">CurvesMap</a>&amp; core::Model::getCurves </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1240,12 +1375,12 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00368">368</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00655">655</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="ac861a4544884c7f4c0cecef008c2e89a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac861a4544884c7f4c0cecef008c2e89a">&#9670;&nbsp;</a></span>getCurves() <span class="overload">[2/2]</span></h2>
+<a id="a12ea1be5c2b0361e604c73533fceb868"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12ea1be5c2b0361e604c73533fceb868">&#9670;&nbsp;</a></span>getCurves() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1254,7 +1389,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="../../d9/d0f/namespacecore.html#a39916c052270b3d918c0a4c9a8601622">CurvesMap</a>&amp; core::Model::getCurves </td>
+          <td class="memname">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a39916c052270b3d918c0a4c9a8601622">CurvesMap</a>&amp; core::Model::getCurves </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1266,14 +1401,16 @@ API for engine-specific code</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Returns curves handled by the model </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00367">367</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Returns curves handled by the model. </p>
+<dl class="section return"><dt>Returns</dt><dd>Map of Curves </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00654">654</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="a3de4c83a8e7e0d2f31cceeee22f082e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3de4c83a8e7e0d2f31cceeee22f082e3">&#9670;&nbsp;</a></span>getCylinders() <span class="overload">[1/2]</span></h2>
+<a id="a28733bb06864a12d4cc4d16a34bfd1a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28733bb06864a12d4cc4d16a34bfd1a7">&#9670;&nbsp;</a></span>getCylinders() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1282,7 +1419,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a7ae9d422b1064493e5ce8636c0461640">CylindersMap</a>&amp; core::Model::getCylinders </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a7ae9d422b1064493e5ce8636c0461640">CylindersMap</a>&amp; core::Model::getCylinders </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1295,12 +1432,12 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00293">293</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00572">572</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="aa38aadba85148484997add4bb0b0fba5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa38aadba85148484997add4bb0b0fba5">&#9670;&nbsp;</a></span>getCylinders() <span class="overload">[2/2]</span></h2>
+<a id="aa7bb0a611ac9a684f62997c88c13449c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7bb0a611ac9a684f62997c88c13449c">&#9670;&nbsp;</a></span>getCylinders() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1309,7 +1446,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="../../d9/d0f/namespacecore.html#a7ae9d422b1064493e5ce8636c0461640">CylindersMap</a>&amp; core::Model::getCylinders </td>
+          <td class="memname">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a7ae9d422b1064493e5ce8636c0461640">CylindersMap</a>&amp; core::Model::getCylinders </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1321,9 +1458,11 @@ API for engine-specific code</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Returns cylinders handled by the model </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00292">292</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Returns cylinders handled by the model. </p>
+<dl class="section return"><dt>Returns</dt><dd>Map of Cylinders </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00571">571</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -1343,14 +1482,14 @@ API for engine-specific code</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>getMaterial Returns a pointer to a specific material </p>
+<p>Returns a pointer to a specific material. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">materialId</td><td>Id of the material </td></tr>
+    <tr><td class="paramname">materialId</td><td>The ID of the material </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the material or an exception if the material is not registered in the model </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>MaterialPtr A pointer to the material </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00420">420</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -1379,15 +1518,15 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>getMaterials Returns a reference to the map of materials handled by the model </p>
-<dl class="section return"><dt>Returns</dt><dd>The map of materials handled by the model </dd></dl>
+<p>Returns a reference to the map of materials handled by the model. </p>
+<dl class="section return"><dt>Returns</dt><dd>const MaterialMap&amp; The map of materials handled by the model </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00436">436</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00727">727</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="a39590db4974237372b3296fc2e59252a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39590db4974237372b3296fc2e59252a">&#9670;&nbsp;</a></span>getSDFBeziers() <span class="overload">[1/2]</span></h2>
+<a id="ab58e4b30ebf28228e5c034568ee0eb1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab58e4b30ebf28228e5c034568ee0eb1b">&#9670;&nbsp;</a></span>getSDFBeziers() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1396,7 +1535,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#ac2f667ae08f24d7aa5b86e8e1c224741">SDFBeziersMap</a>&amp; core::Model::getSDFBeziers </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#ac2f667ae08f24d7aa5b86e8e1c224741">SDFBeziersMap</a>&amp; core::Model::getSDFBeziers </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1409,12 +1548,12 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00327">327</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00611">611</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="ad98cef907089f0e7d8e26ce6d5de553a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad98cef907089f0e7d8e26ce6d5de553a">&#9670;&nbsp;</a></span>getSDFBeziers() <span class="overload">[2/2]</span></h2>
+<a id="a529ccd83b8b2fa2465ff98c93f4d39c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a529ccd83b8b2fa2465ff98c93f4d39c9">&#9670;&nbsp;</a></span>getSDFBeziers() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1423,7 +1562,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="../../d9/d0f/namespacecore.html#ac2f667ae08f24d7aa5b86e8e1c224741">SDFBeziersMap</a>&amp; core::Model::getSDFBeziers </td>
+          <td class="memname">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#ac2f667ae08f24d7aa5b86e8e1c224741">SDFBeziersMap</a>&amp; core::Model::getSDFBeziers </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1435,14 +1574,16 @@ API for engine-specific code</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Returns <a class="el" href="../../da/d35/structcore_1_1SDFBezier.html">SDFBezier</a> handled by the model </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00325">325</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Returns <a class="el" href="../../da/d35/structcore_1_1SDFBezier.html">SDFBezier</a> handled by the model. </p>
+<dl class="section return"><dt>Returns</dt><dd>Map of SDFBeziers </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00609">609</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="afff7ac75588f1e84e920bbc37d78da44"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afff7ac75588f1e84e920bbc37d78da44">&#9670;&nbsp;</a></span>getSDFGeometryData() <span class="overload">[1/2]</span></h2>
+<a id="aa91643a7ea483bde2ec67049c28fad02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa91643a7ea483bde2ec67049c28fad02">&#9670;&nbsp;</a></span>getSDFGeometryData() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1451,7 +1592,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d6/d7a/structcore_1_1SDFGeometryData.html">SDFGeometryData</a>&amp; core::Model::getSDFGeometryData </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d6/d7a/structcore_1_1SDFGeometryData.html">SDFGeometryData</a>&amp; core::Model::getSDFGeometryData </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1464,12 +1605,12 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00388">388</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00676">676</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="a2925466ef0e0ae145ecf2ecca31175fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2925466ef0e0ae145ecf2ecca31175fa">&#9670;&nbsp;</a></span>getSDFGeometryData() <span class="overload">[2/2]</span></h2>
+<a id="a7f24c0a7c0b68af94038ce099fe94ef9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f24c0a7c0b68af94038ce099fe94ef9">&#9670;&nbsp;</a></span>getSDFGeometryData() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1478,7 +1619,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="../../d6/d7a/structcore_1_1SDFGeometryData.html">SDFGeometryData</a>&amp; core::Model::getSDFGeometryData </td>
+          <td class="memname">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d6/d7a/structcore_1_1SDFGeometryData.html">SDFGeometryData</a>&amp; core::Model::getSDFGeometryData </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1490,9 +1631,11 @@ API for engine-specific code</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Returns SDF geometry data handled by the model </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00387">387</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Returns SDF geometry data handled by the model. </p>
+<dl class="section return"><dt>Returns</dt><dd>SDF geometry data </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00675">675</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -1510,7 +1653,9 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Returns the simulutation handler </p>
+
+<p>Returns the simulation handler. </p>
+<dl class="section return"><dt>Returns</dt><dd>AbstractSimulationHandlerPtr The simulation handler </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00640">640</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -1530,14 +1675,16 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>the size in bytes of all geometries. </dd></dl>
+
+<p>Returns the size in bytes of all geometries. </p>
+<dl class="section return"><dt>Returns</dt><dd>size_t The size in bytes of all geometries </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00632">632</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a41e71cbb7d4b4d3fe66edab0d2bad66d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41e71cbb7d4b4d3fe66edab0d2bad66d">&#9670;&nbsp;</a></span>getSpheres() <span class="overload">[1/2]</span></h2>
+<a id="a78a1086fbcc343eec457e0f79703709d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78a1086fbcc343eec457e0f79703709d">&#9670;&nbsp;</a></span>getSpheres() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1546,7 +1693,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#aa4b2826cd1fc64b98688f8be5cce5adc">SpheresMap</a>&amp; core::Model::getSpheres </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#aa4b2826cd1fc64b98688f8be5cce5adc">SpheresMap</a>&amp; core::Model::getSpheres </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1559,12 +1706,12 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00276">276</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00553">553</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="aece94a39356e2d1548ac10ee89f84e68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aece94a39356e2d1548ac10ee89f84e68">&#9670;&nbsp;</a></span>getSpheres() <span class="overload">[2/2]</span></h2>
+<a id="a857b91d7a474d32d6579f4d877717588"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a857b91d7a474d32d6579f4d877717588">&#9670;&nbsp;</a></span>getSpheres() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1573,7 +1720,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="../../d9/d0f/namespacecore.html#aa4b2826cd1fc64b98688f8be5cce5adc">SpheresMap</a>&amp; core::Model::getSpheres </td>
+          <td class="memname">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#aa4b2826cd1fc64b98688f8be5cce5adc">SpheresMap</a>&amp; core::Model::getSpheres </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1585,14 +1732,16 @@ API for engine-specific code</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Returns spheres handled by the <a class="el" href="../../d1/d11/classcore_1_1Model.html">Model</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00275">275</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Returns spheres handled by the <a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>Map of Spheres </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00552">552</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="a716f2e58a823f5f83342b743b06d320d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a716f2e58a823f5f83342b743b06d320d">&#9670;&nbsp;</a></span>getStreamlines() <span class="overload">[1/2]</span></h2>
+<a id="a214f8ed335e605e0f694aef7b77a4890"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a214f8ed335e605e0f694aef7b77a4890">&#9670;&nbsp;</a></span>getStreamlines() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1601,7 +1750,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a14edf6fdd9eebdc69586297d76f5a542">StreamlinesDataMap</a>&amp; core::Model::getStreamlines </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a14edf6fdd9eebdc69586297d76f5a542">StreamlinesDataMap</a>&amp; core::Model::getStreamlines </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1614,12 +1763,12 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00351">351</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00637">637</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="a8c1ef2981e8786df5b214686c3bf68af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c1ef2981e8786df5b214686c3bf68af">&#9670;&nbsp;</a></span>getStreamlines() <span class="overload">[2/2]</span></h2>
+<a id="a08559c8092376637bab1534c3355192c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08559c8092376637bab1534c3355192c">&#9670;&nbsp;</a></span>getStreamlines() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1628,7 +1777,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="../../d9/d0f/namespacecore.html#a14edf6fdd9eebdc69586297d76f5a542">StreamlinesDataMap</a>&amp; core::Model::getStreamlines </td>
+          <td class="memname">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a14edf6fdd9eebdc69586297d76f5a542">StreamlinesDataMap</a>&amp; core::Model::getStreamlines </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1640,14 +1789,16 @@ API for engine-specific code</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Returns streamlines handled by the model </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00350">350</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Returns streamlines handled by the model. </p>
+<dl class="section return"><dt>Returns</dt><dd>Map of Streamlines </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00636">636</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="a4ec2dfec7833bdd409ca909ad02ebe89"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ec2dfec7833bdd409ca909ad02ebe89">&#9670;&nbsp;</a></span>getTransferFunction() <span class="overload">[1/2]</span></h2>
+<a id="ace6b40c5c3dae5652629d3387cc9f9cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace6b40c5c3dae5652629d3387cc9f9cb">&#9670;&nbsp;</a></span>getTransferFunction() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1656,63 +1807,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d3/ded/classcore_1_1TransferFunction.html">TransferFunction</a>&amp; core::Model::getTransferFunction </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>the transfer function used for volumes and simulations. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00446">446</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
-
-</div>
-</div>
-<a id="a7b44eacc4379be8a4d55439d8adcf2e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b44eacc4379be8a4d55439d8adcf2e8">&#9670;&nbsp;</a></span>getTransferFunction() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="../../d3/ded/classcore_1_1TransferFunction.html">TransferFunction</a>&amp; core::Model::getTransferFunction </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>the transfer function used for volumes and simulations. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00448">448</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
-
-</div>
-</div>
-<a id="a493ce9cc4015e2b5a2a80f293384c707"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a493ce9cc4015e2b5a2a80f293384c707">&#9670;&nbsp;</a></span>getTriangleMeshes() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0">TriangleMeshMap</a>&amp; core::Model::getTriangleMeshes </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d3/ded/classcore_1_1TransferFunction.html">TransferFunction</a>&amp; core::Model::getTransferFunction </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1725,12 +1820,15 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00405">405</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Returns the transfer function used for volumes and simulations. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../d3/ded/classcore_1_1TransferFunction.html">TransferFunction</a>&amp; The transfer function used for volumes and simulations </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00740">740</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="a30f5e718c75e32f677a37c166632a71c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30f5e718c75e32f677a37c166632a71c">&#9670;&nbsp;</a></span>getTriangleMeshes() <span class="overload">[2/2]</span></h2>
+<a id="a3e841a7bd67fc94351e74cba1e0d10a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e841a7bd67fc94351e74cba1e0d10a8">&#9670;&nbsp;</a></span>getTransferFunction() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1739,35 +1837,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="../../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0">TriangleMeshMap</a>&amp; core::Model::getTriangleMeshes </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Returns triangle meshes handled by the model </p>
-
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00404">404</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
-
-</div>
-</div>
-<a id="ad3b16fe1ba9cfacd7d89930abcae99c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3b16fe1ba9cfacd7d89930abcae99c6">&#9670;&nbsp;</a></span>getVolumes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="../../d9/d0f/namespacecore.html#a2308339bc63c98774276aa3b9f2675eb">Volumes</a>&amp; core::Model::getVolumes </td>
+          <td class="memname">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d3/ded/classcore_1_1TransferFunction.html">TransferFunction</a>&amp; core::Model::getTransferFunction </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1780,7 +1850,95 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00464">464</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Returns the transfer function used for volumes and simulations. </p>
+<dl class="section return"><dt>Returns</dt><dd>const <a class="el" href="../../d3/ded/classcore_1_1TransferFunction.html">TransferFunction</a>&amp; The transfer function used for volumes and simulations </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00745">745</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+
+</div>
+</div>
+<a id="a135586aa883efb4115df029d6f19a864"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a135586aa883efb4115df029d6f19a864">&#9670;&nbsp;</a></span>getTriangleMeshes() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0">TriangleMeshMap</a>&amp; core::Model::getTriangleMeshes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00694">694</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+
+</div>
+</div>
+<a id="a41c5e4608e76895952fa79c30a5863a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41c5e4608e76895952fa79c30a5863a7">&#9670;&nbsp;</a></span>getTriangleMeshes() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0">TriangleMeshMap</a>&amp; core::Model::getTriangleMeshes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns triangle meshes handled by the model </p><dl class="section return"><dt>Returns</dt><dd>Map of TriangleMeshes </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00693">693</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+
+</div>
+</div>
+<a id="a280a8d91277d388e3ef71393706e11b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a280a8d91277d388e3ef71393706e11b3">&#9670;&nbsp;</a></span>getVolumes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d9/d0f/namespacecore.html#a2308339bc63c98774276aa3b9f2675eb">Volumes</a>&amp; core::Model::getVolumes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a const reference to the list of volumes. </p>
+<dl class="section return"><dt>Returns</dt><dd>const Volumes&amp; The list of volumes </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00779">779</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -1798,14 +1956,14 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>true if the geometry <a class="el" href="../../d1/d11/classcore_1_1Model.html">Model</a> is dirty, false otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the geometry <a class="el" href="../../d1/d11/classcore_1_1Model.html" title="The abstract Model class holds the geometry attached to an asset of the scene (mesh,...">Model</a> is dirty, false otherwise </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00310">310</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a346e765994748894816816a6a83bcdc7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a346e765994748894816816a6a83bcdc7">&#9670;&nbsp;</a></span>isVolumesDirty()</h2>
+<a id="a3fc8af58d18a095b3ab5ef127d49c1ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fc8af58d18a095b3ab5ef127d49c1ca">&#9670;&nbsp;</a></span>isVolumesDirty()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1814,7 +1972,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool core::Model::isVolumesDirty </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> bool core::Model::isVolumesDirty </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1827,7 +1985,10 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00465">465</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Returns whether the volumes are dirty. </p>
+<dl class="section return"><dt>Returns</dt><dd>bool Whether the volumes are dirty </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00785">785</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -1846,14 +2007,14 @@ API for engine-specific code</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>logInformation Logs information about the model, like the number of primitives, and the associated memory footprint. </p>
+<p>Logs information about the model, like the number of primitives, and the associated memory footprint. </p>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00395">395</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a5e85b0a20363e72f60de96fca39e1f7f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e85b0a20363e72f60de96fca39e1f7f">&#9670;&nbsp;</a></span>markInstancesClean()</h2>
+<a id="a7a41fabd30202b631e9d5b2dfae975cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a41fabd30202b631e9d5b2dfae975cf">&#9670;&nbsp;</a></span>markInstancesClean()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1862,7 +2023,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void core::Model::markInstancesClean </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::Model::markInstancesClean </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1875,12 +2036,14 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00463">463</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Marks the instances as clean. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00773">773</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="a5de31ce26d00b346e9cc180baa28b15b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5de31ce26d00b346e9cc180baa28b15b">&#9670;&nbsp;</a></span>markInstancesDirty()</h2>
+<a id="abdc2c55a088a67fba53e07f344b6e79b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdc2c55a088a67fba53e07f344b6e79b">&#9670;&nbsp;</a></span>markInstancesDirty()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1889,7 +2052,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void core::Model::markInstancesDirty </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::Model::markInstancesDirty </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1902,7 +2065,9 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00462">462</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Marks the instances as dirty. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00768">768</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -1938,12 +2103,12 @@ API for engine-specific code</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00270">270</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00546">546</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="af5a56d10ba0f0ab0d59f90ac529231a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5a56d10ba0f0ab0d59f90ac529231a8">&#9670;&nbsp;</a></span>removeVolume()</h2>
+<a id="a284b164a8ea8da1f72c694f128915da2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a284b164a8ea8da1f72c694f128915da2">&#9670;&nbsp;</a></span>removeVolume()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1952,19 +2117,26 @@ API for engine-specific code</h2></td></tr>
           <td class="memname">void core::Model::removeVolume </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d9/d0f/namespacecore.html#a1821d76907dac8b71deaca0e55f47688">VolumePtr</a>&#160;</td>
-          <td class="paramname"><em>volume</em></td><td>)</td>
+          <td class="paramname"><em>ptr</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Remove a volume from the model </p>
+
+<p>Remove a volume from the model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr</td><td>The volume to remove </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00300">300</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a6cca6063999af58f04ca53979fb7d935"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6cca6063999af58f04ca53979fb7d935">&#9670;&nbsp;</a></span>resetVolumesDirty()</h2>
+<a id="a4db02795844710976791fc7f5d712cb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4db02795844710976791fc7f5d712cb9">&#9670;&nbsp;</a></span>resetVolumesDirty()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1973,7 +2145,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void core::Model::resetVolumesDirty </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::Model::resetVolumesDirty </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1986,12 +2158,14 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00466">466</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Resets the dirty status of the volumes. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00790">790</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
-<a id="a7ffe98dd1c3c1e939a5e8f34e03b42d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ffe98dd1c3c1e939a5e8f34e03b42d2">&#9670;&nbsp;</a></span>setBVHFlags()</h2>
+<a id="a7ba155bcc3fdd0de7d5df2f9fc7b19f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ba155bcc3fdd0de7d5df2f9fc7b19f4">&#9670;&nbsp;</a></span>setBVHFlags()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2000,7 +2174,7 @@ API for engine-specific code</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void core::Model::setBVHFlags </td>
+          <td class="memname"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> void core::Model::setBVHFlags </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d4/d55/bioexplorer_2backend_2plugins_2Sonata_2CMakeLists_8txt.html#a6cda8e68bd67fb358d0261445b85fc0a">std::set</a>&lt; <a class="el" href="../../d9/d0f/namespacecore.html#abd723b102d21298f1756ff1e8e0b7c1e">BVHFlag</a> &gt;&#160;</td>
           <td class="paramname"><em>bvhFlags</em></td><td>)</td>
@@ -2014,7 +2188,15 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00467">467</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p>Sets the BVH flags. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bvhFlags</td><td>The BVH flags to set </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00796">796</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2033,9 +2215,11 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Sets the materials handled by the model, and available to the geometry </p><dl class="params"><dt>Parameters</dt><dd>
+
+<p>Sets the materials handled by the model, and available to the geometry. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">colorMap</td><td>Specifies the algorithm that is used to create the materials. For instance MT_RANDOM creates materials with random colors, transparency, reflection, and light emission </td></tr>
+    <tr><td class="paramname">colorMap</td><td>Specifies the algorithm that is used to create the materials </td></tr>
   </table>
   </dd>
 </dl>
@@ -2059,7 +2243,14 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Sets the simulation handler </p>
+
+<p>Sets the simulation handler. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handler</td><td>The simulation handler </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00624">624</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -2079,6 +2270,8 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Updates the bounds of the geometries. </p>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d2e/Model_8cpp_source.html#l00497">497</a> of file <a class="el" href="../../dd/d2e/Model_8cpp_source.html">Model.cpp</a>.</p>
 
@@ -2109,7 +2302,9 @@ API for engine-specific code</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Update the list of neighbours for a SDF geometry </p><dl class="params"><dt>Parameters</dt><dd>
+
+<p>Update the list of neighbours for an SDF geometry. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">geometryIdx</td><td>Index of the geometry </td></tr>
     <tr><td class="paramname">neighbourIndices</td><td>Global indices of the geometries to smoothly blend together with </td></tr>
@@ -2142,7 +2337,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00486">486</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00828">828</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2166,7 +2361,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00545">545</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00887">887</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2190,7 +2385,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00547">547</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00889">889</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2214,7 +2409,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00531">531</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00873">873</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2238,7 +2433,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00537">537</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00879">879</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2262,7 +2457,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00530">530</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00872">872</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2286,7 +2481,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00527">527</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00869">869</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2310,7 +2505,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00546">546</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00888">888</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2334,7 +2529,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00551">551</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00893">893</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2358,7 +2553,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00492">492</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00834">834</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2382,7 +2577,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00532">532</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00874">874</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2406,7 +2601,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00535">535</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00877">877</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2430,7 +2625,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00489">489</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00831">831</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2454,7 +2649,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00548">548</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00890">890</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2478,7 +2673,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00529">529</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00871">871</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2502,7 +2697,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00534">534</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00876">876</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2526,7 +2721,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00490">490</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00832">832</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2550,7 +2745,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00533">533</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00875">875</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2574,7 +2769,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00487">487</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00829">829</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
@@ -2598,7 +2793,7 @@ API for engine-specific code</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00536">536</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/Model_8h_source.html#l00878">878</a> of file <a class="el" href="../../d3/d5a/Model_8h_source.html">Model.h</a>.</p>
 
 </div>
 </div>
