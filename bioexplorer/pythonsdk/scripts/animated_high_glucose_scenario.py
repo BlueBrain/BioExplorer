@@ -621,7 +621,7 @@ class HighGlucoseScenario(MovieScenario):
             self._set_materials()
 
             self._log(2, '- Showing models...')
-            self._check(self._be.set_models_visibility(True))
+            self._check(self._be.commit_model_loading_transaction())
             self._core.set_renderer()
 
     def render_movie(self, start_frame=0, end_frame=0, frame_step=1, frame_list=list()):

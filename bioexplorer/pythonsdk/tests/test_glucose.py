@@ -35,7 +35,7 @@ def test_glucose():
 
     bio_explorer = BioExplorer('localhost:5000')
     bio_explorer.reset_scene()
-    bio_explorer.set_general_settings(model_visibility_on_creation=False)
+    bio_explorer.start_model_loading_transaction()
     print('BioExplorer version ' + bio_explorer.version())
 
     # Suspend image streaming

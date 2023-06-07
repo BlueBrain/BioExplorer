@@ -362,7 +362,7 @@ class NeuromodulationScenario(MovieScenario):
             self._core.set_renderer_params(params)
 
     def setup_scene(self):
-        self._check(self._be.set_general_settings(model_visibility_on_creation=False))
+        self._check(self._be.start_model_loading_transaction))
         self._check(self._be.reset_scene())
         self._log(1, 'Loading presynaptic_neuron...')
         self._add_presynaptic_neuron()
@@ -377,7 +377,7 @@ class NeuromodulationScenario(MovieScenario):
         self._log(1, 'Applying materials...')
         self._set_materials()
         self._log(1, 'Building geometry...')
-        self._check(self._be.set_models_visibility(True))
+        self._check(self._be.commit_model_loading_transaction())
         self._log(1, 'Diffusion 1: %d -> %d' % (
             self._diffusion_1_start_frame,
             self._diffusion_1_start_frame + self._diffusion_1_nb_frames))
@@ -387,12 +387,6 @@ class NeuromodulationScenario(MovieScenario):
         self._log(1, 'Done')
 
     def build_frame(self, frame):
-        # self._log(1, 'Apply radii report...')
-        # self._apply_vasculature_report(frame)
-        # self._log(1, 'Applying materials...')
-        # self._set_materials()
-        # self._log(1, 'Building geometry...')
-        # self._check(self._be.set_models_visibility(True))
         if frame >= self._diffusion_1_start_frame and \
             frame<self._diffusion_1_start_frame + self._diffusion_1_nb_frames:
             radius = 0.1 + 3.0 * float(frame - self._diffusion_1_start_frame) / float(self._diffusion_1_nb_frames)
@@ -401,7 +395,7 @@ class NeuromodulationScenario(MovieScenario):
                 self._varicosity, radius,
                 self._diffusion_1_nb_molecules, 
                 frame)
-            self._check(self._be.set_models_visibility(True))
+            self._check(self._be.commit_model_loading_transaction())
         elif frame >= self._diffusion_1_start_frame + self._diffusion_1_nb_frames and \
             frame < self._diffusion_2_start_frame:
             self._add_acetylcholin(self._synapse, 0.0, 0, 0)
@@ -413,7 +407,7 @@ class NeuromodulationScenario(MovieScenario):
                 self._synapse, radius,
                 self._diffusion_2_nb_molecules,
                 frame)
-            self._check(self._be.set_models_visibility(True))
+            self._check(self._be.commit_model_loading_transaction())
         self._log(1, 'Done')
 
     def render_movie(self, start_frame=0, end_frame=0, frame_step=1, frame_list=list()):

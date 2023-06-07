@@ -80,9 +80,8 @@ class MovieScenario:
         self._gi_length = gi_length
         self._draft = draft
         self._prepare_movie(projection, image_k)
-        self._be.set_general_settings(
-            model_visibility_on_creation=False, v1_compatibility=v1_compatibility
-        )
+        self._be.set_general_settings(v1_compatibility=v1_compatibility)
+        self._be.start_model_loading_transaction()
         self._log(
             1,
             "============================================================================",

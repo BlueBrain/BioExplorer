@@ -693,7 +693,7 @@ class GlucoseMetabolismScenario(MovieScenario):
 
     def build_frame(self, frame):
         self._check(self._be.reset_scene())
-        self._check(self._be.set_general_settings(model_visibility_on_creation=False))
+        self._check(self._be.status = be.start_model_loading_transaction())
         self._log(1, 'Scene bounding box...')
         self._add_aabb()
         self._log(1, 'Loading metabolites...')
@@ -713,7 +713,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                                user_parameter=0.001, specular_exponent=50.0)
         self._set_materials_to_transmembrane_proteins()
         self._log(1, 'Building geometry...')
-        self._check(self._be.set_models_visibility(True))
+        self._check(self._be.commit_model_loading_transaction())
         self._log(1, 'Done')
 
     def render_movie(self, start_frame=0, end_frame=0, frame_step=1, frame_list=list()):

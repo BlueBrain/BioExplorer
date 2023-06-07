@@ -145,7 +145,6 @@ typedef struct
  */
 typedef struct
 {
-    bool modelVisibilityOnCreation;
     std::string meshFolder;
     uint32_t loggingLevel;
     uint32_t databaseLoggingLevel;
@@ -857,14 +856,20 @@ typedef struct
     double radius;
 } BuildPointCloudDetails;
 
+enum class ModelLoadingTransactionAction
+{
+    start = 0,
+    commit = 1
+};
+
 /**
  * @brief Structure defining how visible models are in the scene
  *
  */
 typedef struct
 {
-    bool visible;
-} ModelsVisibilityDetails;
+    ModelLoadingTransactionAction action;
+} ModelLoadingTransactionDetails;
 
 typedef struct
 {

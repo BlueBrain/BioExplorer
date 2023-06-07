@@ -96,7 +96,7 @@ bool from_json(ModelIdFileAccessDetails &param, const std::string &payload);
 bool from_json(BuildPointCloudDetails &param, const std::string &payload);
 
 // Models and instances
-bool from_json(ModelsVisibilityDetails &param, const std::string &payload);
+bool from_json(ModelLoadingTransactionDetails &param, const std::string &payload);
 bool from_json(ProteinInstanceTransformationDetails &param, const std::string &payload);
 
 // Protein inspection
