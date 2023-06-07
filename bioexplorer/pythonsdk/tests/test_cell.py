@@ -37,7 +37,7 @@ def test_cell():
 
     bio_explorer = BioExplorer('localhost:5000')
     bio_explorer.reset_scene()
-    bio_explorer.set_general_settings(model_visibility_on_creation=False)
+    bio_explorer.start_model_loading_transaction()
 
     # Suspend image streaming
     bio_explorer.core_api().set_application_parameters(image_stream_fps=0)

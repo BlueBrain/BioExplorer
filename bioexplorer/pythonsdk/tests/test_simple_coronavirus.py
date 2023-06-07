@@ -28,7 +28,7 @@ import os
 def test_sars_cov_2():
     bio_explorer = BioExplorer('localhost:5000')
     bio_explorer.reset_scene()
-    bio_explorer.set_general_settings(model_visibility_on_creation=False)
+    bio_explorer.start_model_loading_transaction()
     bio_explorer.add_sars_cov_2(
         name='sars-cov-2',
         resource_folder=os.path.abspath('./tests/test_files'),

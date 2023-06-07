@@ -86,7 +86,6 @@ bool from_json(GeneralSettingsDetails &param, const std::string &payload)
     try
     {
         auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, modelVisibilityOnCreation);
         FROM_JSON(param, js, meshFolder);
         FROM_JSON(param, js, loggingLevel);
         FROM_JSON(param, js, databaseLoggingLevel);
@@ -707,12 +706,12 @@ bool from_json(BuildPointCloudDetails &param, const std::string &payload)
     return true;
 }
 
-bool from_json(ModelsVisibilityDetails &param, const std::string &payload)
+bool from_json(ModelLoadingTransactionDetails &param, const std::string &payload)
 {
     try
     {
         auto js = nlohmann::json::parse(payload);
-        FROM_JSON(param, js, visible);
+        FROM_JSON(param, js, action);
     }
     catch (...)
     {

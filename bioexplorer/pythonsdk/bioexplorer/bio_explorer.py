@@ -406,6 +406,9 @@ class BioExplorer:
     PLUGIN_API_PREFIX = "be-"
     CONTENTS_DELIMITER = "||||"
 
+    MODEL_LOADING_TRANSACTION_START = 0
+    MODEL_LOADING_TRANSACTION_COMMIT = 1
+
     COLOR_SCHEME_NONE = 0
     COLOR_SCHEME_ATOMS = 1
     COLOR_SCHEME_CHAINS = 2
@@ -2830,7 +2833,6 @@ class BioExplorer:
 
     def set_general_settings(
         self,
-        model_visibility_on_creation=True,
         mesh_folder="/tmp",
         logging_level=1,
         database_logging_level=1,
@@ -2839,7 +2841,6 @@ class BioExplorer:
         """
         Set general settings for the plugin
 
-        :model_visibility_on_creation: Visibility of the model on creation
         :off_folder: Folder where off files are stored (to avoid recomputation of molecular surface)
         :logging_level: Back-end logging level (0=no information logs, 3=full logging)
         :database_logging_level: Back-end logging level for database (0=no information logs, 3=full
@@ -2848,7 +2849,6 @@ class BioExplorer:
         """
         self._v1_compatibility = v1_compatibility
         params = dict()
-        params["modelVisibilityOnCreation"] = model_visibility_on_creation
         params["meshFolder"] = mesh_folder
         params["loggingLevel"] = logging_level
         params["databaseLoggingLevel"] = database_logging_level
@@ -2856,16 +2856,26 @@ class BioExplorer:
         response = self._invoke_and_check("set-general-settings", params)
         return response
 
-    def set_models_visibility(self, visible):
+    def start_model_loading_transaction(self):
         """
-        Set the visibility of all models in the scene
+        Starts the loading of models. All models loaded from this point will only appear in the
+        scene once the commit_model_loading_transaction function is invoked
 
-        :visible: Visibility of the models
         :return: Result of the request submission
         """
         params = dict()
-        params["visible"] = visible
-        return self._invoke("set-models-visibility", params)
+        params["action"] = BioExplorer.MODEL_LOADING_TRANSACTION_START
+        return self._invoke("model-loading-transaction", params)
+
+    def commit_model_loading_transaction(self):
+        """
+        Commits the loading of models
+
+        :return: Result of the request submission
+        """
+        params = dict()
+        params["action"] = BioExplorer.MODEL_LOADING_TRANSACTION_COMMIT
+        return self._invoke("model-loading-transaction", params)
 
     def get_out_of_core_configuration(self):
         """

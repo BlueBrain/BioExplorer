@@ -131,7 +131,7 @@ private:
     Response _importFieldsFromFile(const FileAccessDetails &payload);
 
     // Models
-    Response _setModelsVisibility(const ModelsVisibilityDetails &payload);
+    Response _setModelLoadingTransactionAction(const ModelLoadingTransactionDetails &payload);
 
     // Out-Of-Core
     Response _getOOCConfiguration() const;

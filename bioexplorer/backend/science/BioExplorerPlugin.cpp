@@ -417,11 +417,11 @@ void BioExplorerPlugin::init()
                                                                            [&](const BuildPointCloudDetails &payload)
                                                                            { return _buildPointCloud(payload); });
 
-        endPoint = PLUGIN_API_PREFIX + "set-models-visibility";
+        endPoint = PLUGIN_API_PREFIX + "model-loading-transaction";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        actionInterface->registerRequest<ModelsVisibilityDetails, Response>(endPoint,
-                                                                            [&](const ModelsVisibilityDetails &payload)
-                                                                            { return _setModelsVisibility(payload); });
+        actionInterface->registerRequest<ModelLoadingTransactionDetails, Response>(
+            endPoint,
+            [&](const ModelLoadingTransactionDetails &payload) { return _setModelLoadingTransactionAction(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "get-out-of-core-configuration";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
@@ -782,7 +782,6 @@ Response BioExplorerPlugin::_setGeneralSettings(const GeneralSettingsDetails &pa
     try
     {
         auto instance = GeneralSettings::getInstance();
-        instance->setModelVisibilityOnCreation(payload.modelVisibilityOnCreation);
         instance->setMeshFolder(payload.meshFolder);
         instance->setLoggingLevel(payload.loggingLevel);
         instance->setDBLoggingLevel(payload.databaseLoggingLevel);
@@ -1693,18 +1692,34 @@ Response BioExplorerPlugin::_buildPointCloud(const BuildPointCloudDetails &paylo
     return response;
 }
 
-Response BioExplorerPlugin::_setModelsVisibility(const ModelsVisibilityDetails &payload)
+Response BioExplorerPlugin::_setModelLoadingTransactionAction(const ModelLoadingTransactionDetails &payload)
 {
     Response response;
     try
     {
-        PLUGIN_INFO(3, "Setting all models visibility to " << (payload.visible ? "On" : "Off"));
-        auto &scene = _api->getScene();
-        auto &modelDescriptors = scene.getModelDescriptors();
-        for (auto modelDescriptor : modelDescriptors)
-            modelDescriptor->setVisible(payload.visible);
-        scene.markModified();
-        response.contents = "OK";
+        auto generalSettings = GeneralSettings::getInstance();
+        switch (payload.action)
+        {
+        case ModelLoadingTransactionAction::start:
+        {
+            PLUGIN_INFO(3, "Starting model loading transaction");
+            generalSettings->setModelVisibilityOnCreation(false);
+            break;
+        }
+        case ModelLoadingTransactionAction::commit:
+        {
+            PLUGIN_INFO(3, "Committing model loading transaction");
+            auto &scene = _api->getScene();
+            auto &modelDescriptors = scene.getModelDescriptors();
+            for (auto modelDescriptor : modelDescriptors)
+                modelDescriptor->setVisible(true);
+            scene.markModified();
+            generalSettings->setModelVisibilityOnCreation(true);
+            break;
+        }
+        default:
+            PLUGIN_THROW("Unexpected action for model loading transaction");
+        }
     }
     CATCH_STD_EXCEPTION()
     return response;
