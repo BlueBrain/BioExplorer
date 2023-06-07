@@ -290,7 +290,7 @@ class Widgets:
                         ),
                     )
 
-                params = self._client.BioExplorerPerspectiveCameraParams()
+                params = self._client.PerspectiveCameraParams()
                 params.focus_distance = self._focus_distance
                 params.aperture_radius = self._aperture
                 params.enable_clipping_planes = True
