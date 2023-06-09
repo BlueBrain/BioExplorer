@@ -16,9 +16,11 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-if(FreeImage_FOUND)
-  add_subdirectory(perceptualdiff)
-  list(APPEND LCOV_EXCLUDE '${PROJECT_SOURCE_DIR}/deps/perceptualdiff/*')
+if(PLATFORM_UNIT_TESTING_ENABLED)
+  if(FreeImage_FOUND)
+    add_subdirectory(perceptualdiff)
+    list(APPEND LCOV_EXCLUDE '${PROJECT_SOURCE_DIR}/deps/perceptualdiff/*')
+  endif()
 endif()
 
 if(Libuv_FOUND)
