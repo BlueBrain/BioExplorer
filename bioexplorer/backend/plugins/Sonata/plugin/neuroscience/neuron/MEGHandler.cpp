@@ -140,7 +140,11 @@ ModelMetadata MEGHandler::buildModel(Model& model, const double voxelSize, const
 
 void MEGHandler::_buildOctree()
 {
-    const auto voltages = std::move(*_currentFrameFuture.get().data);
+    const brion::Frame frame = _currentFrameFuture.get();
+    if (!frame.data)
+        return;
+
+    const auto voltages = std::move(*frame.data);
     if (voltages.size() != _transformations.size())
         PLUGIN_ERROR("Invalid number of values: " << voltages.size() << " instead of " << _transformations.size());
     uint64_t index = 0;
