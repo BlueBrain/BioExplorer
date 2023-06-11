@@ -63,6 +63,10 @@ On the third anniversary of the first lock-down, we look back at how #MachineLea
       </a>
 </div>
 
+## The Harvard Brain
+
+Do you want want to know more about the full story? Read the [Studies In Silico: An Interview With Cyrille Favreau On EPFL’s Blue Brain Project](http://www.theharvardbrain.com/spring-2023-8203lara-ota-buse-toksoumlz-and-kei-hayashi.html).
+
 ## Social Media
 
 * [Blue Brain BioExplorer 1.6 goes RTX!](https://www.linkedin.com/feed/update/urn:li:activity:7057015980253696000/)
