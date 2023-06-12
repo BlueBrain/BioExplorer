@@ -184,7 +184,8 @@ References:
 * [A Model of Rat Non-barrel Somatosensory Cortex Anatomy](https://www.biorxiv.org/content/10.1101/2022.08.11.503144v1)
 * [A simplified morphological classification scheme for pyramidal cells in six layers of primary somatosensory cortex of juvenile rats](https://www.sciencedirect.com/science/article/pii/S2451830118300293)
 * [Age and sex do not affect the volume, cell numbers, or cell size of the suprachiasmatic nucleus of the rat: An unbiased stereological](https://doi.org/10.1002/cne.903610404)
-
+* [Community-based Reconstruction and Simulation of a Full-scale Model of Region CA1 of Rat Hippocampus](https://www.biorxiv.org/content/10.1101/2023.05.17.541167v1)
+* [Modeling and Simulation of Neocortical Micro- and Mesocircuitry. Part II: Physiology and Experimentation](https://www.biorxiv.org/content/10.1101/2023.05.17.541168v2)
 
 ### Astrocytes
 
