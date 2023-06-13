@@ -58,7 +58,7 @@ class MovieScenario:
         :hostname: Host name where BioExplorer is running
         :port: Port of the BioExplorer WebSocket
         :projection: Camera projection (Perspective, Orthographic, etc)
-        :output_folder: Folder where frame are savec
+        :output_folder: Folder where frame are saved
         :image_k: Number of 'k' defining the frame resolution. Defaults to 4.
         :image_samples_per_pixel: Number of samples per pixel. Defaults to 64.
         :log_level: Logging level. Defaults to 1
@@ -163,7 +163,7 @@ class MovieScenario:
             # Set camera
             self._mm.set_current_frame(
                 frame=frame,
-                camera_params=self._core.BioExplorerPerspectiveCameraParams(),
+                camera_params=self._core.PerspectiveCameraParams(),
             )
 
             # Frame setup
