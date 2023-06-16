@@ -113,6 +113,7 @@ private:
 
     // Models
     NameDetails _getModelName(const ModelIdDetails &payload) const;
+    ModelBoundsDetails _getModelBounds(const ModelIdDetails &payload) const;
     IdsDetails _getModelIds() const;
     IdsDetails _getModelInstances(const ModelIdDetails &payload) const;
 

@@ -385,6 +385,11 @@ void BioExplorerPlugin::init()
                                                                       [&](const ModelIdDetails &payload) -> NameDetails
                                                                       { return _getModelName(payload); });
 
+        endPoint = PLUGIN_API_PREFIX + "get-model-bounds";
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
+        actionInterface->registerRequest<ModelIdDetails, ModelBoundsDetails>(
+            endPoint, [&](const ModelIdDetails &payload) -> ModelBoundsDetails { return _getModelBounds(payload); });
+
         endPoint = PLUGIN_API_PREFIX + "set-materials";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
         actionInterface->registerRequest<MaterialsDetails, Response>(endPoint, [&](const MaterialsDetails &payload)
@@ -1455,6 +1460,22 @@ NameDetails BioExplorerPlugin::_getModelName(const ModelIdDetails &payload) cons
     if (modelDescriptor)
         modelName.name = modelDescriptor->getName();
     return modelName;
+}
+
+ModelBoundsDetails BioExplorerPlugin::_getModelBounds(const ModelIdDetails &payload) const
+{
+    ModelBoundsDetails modelBounds;
+    auto &scene = _api->getScene();
+    auto modelDescriptor = scene.getModel(payload.modelId);
+    if (modelDescriptor)
+    {
+        auto &bounds = modelDescriptor->getModel().getBounds();
+        modelBounds.minAABB = vector3dToDoubles(bounds.getMin());
+        modelBounds.maxAABB = vector3dToDoubles(bounds.getMax());
+        modelBounds.center = vector3dToDoubles(bounds.getCenter());
+        modelBounds.size = vector3dToDoubles(bounds.getSize());
+    }
+    return modelBounds;
 }
 
 IdsDetails BioExplorerPlugin::_getMaterialIds(const ModelIdDetails &payload)

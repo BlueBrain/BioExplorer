@@ -100,6 +100,14 @@ Vector2d doublesToVector2d(const doubles& value);
 Vector3d doublesToVector3d(const doubles& value);
 
 /**
+ * @brief Converts a 3D vector to a vector of doubles
+ *
+ * @param value A 3D vector
+ * @return Vector3d Vector of doubles
+ */
+doubles vector3dToDoubles(const Vector3d& value);
+
+/**
  * @brief Converts a vector of doubles into a 4D vector
  *
  * @param value Vector of doubles
