@@ -69,6 +69,10 @@ class Vector3:
             self.y = args[1]
             self.z = args[2]
 
+    def __str__(self):
+        """Returns a stringified representation of the object"""
+        return '[%f, %f, %f]' % (self.x, self.y, self.z)
+
     def to_list(self):
         """
         A list containing the values of x, y and z attributes
@@ -105,6 +109,10 @@ class Vector2:
         if len(args) == 2:
             self.x = args[0]
             self.y = args[1]
+
+    def __str__(self):
+        """Returns a stringified representation of the object"""
+        return '[%f, %f]' % (self.x, self.y)
 
     def to_list(self):
         """:return: A list containing the values of x and y attributes"""
@@ -185,6 +193,41 @@ class MolecularSystemAnimationParams:
             self.rotation_strength,
             self.morphing_step,
         )
+
+
+class Bounds:
+    """Bounds of a 3D object"""
+
+    def __init__(self, min_aabb, max_aabb, center, size):
+        """
+        Class describing a bounding box
+
+        :min_aabb: Bounding box min coordinates
+        :max_aabb: Bounding box max coordinates
+        :center: Bodel bounding box center
+        :size: Bounding box size
+        """
+        assert isinstance(min_aabb, Vector3)
+        assert isinstance(max_aabb, Vector3)
+        assert isinstance(center, Vector3)
+        assert isinstance(size, Vector3)
+        self.min_aabb = min_aabb
+        self.max_aabb = max_aabb
+        self.center = center
+        self.size = size
+
+    def __str__(self):
+        """Returns a stringified representation of the object"""
+        return 'min_aabb=%s, max_aabb=%s, center=%s, size=%s' % (
+            self.min_aabb, self.max_aabb, self.center, self.size)
+
+    def copy(self):
+        """
+        Copy the current object
+
+        :return: Bounds: A copy of the object
+        """
+        return Bounds(self.min_aabb, self.max_aabb, self.center, self.size)
 
 
 class CellAnimationParams:
@@ -2107,9 +2150,9 @@ class BioExplorer:
 
     def get_model_name(self, model_id):
         """
-        Return the list of model ids in the current scene
+        Return the name of a model in the current scene
 
-        :return: List of model Ids
+        :return: Name of a model in the current scene
         """
         assert isinstance(model_id, int)
 
@@ -2117,6 +2160,28 @@ class BioExplorer:
         params["modelId"] = model_id
         params["maxNbInstances"] = 0
         return self._invoke("get-model-name", params)
+
+    def get_model_bounds(self, model_id):
+        """
+        Return the bounds of a model
+
+        :return: Bounds of a model
+        """
+        assert isinstance(model_id, int)
+
+        params = dict()
+        params["modelId"] = model_id
+        params["maxNbInstances"] = 0
+        model_bounds = self._invoke("get-model-bounds", params)
+        value = model_bounds['minAABB']
+        min_aabb = Vector3(value[0], value[1], value[2])
+        value = model_bounds['maxAABB']
+        max_aabb = Vector3(value[0], value[1], value[2])
+        value = model_bounds['center']
+        center = Vector3(value[0], value[1], value[2])
+        value = model_bounds['size']
+        size = Vector3(value[0], value[1], value[2])
+        return Bounds(min_aabb, max_aabb, center, size)
 
     def get_model_ids(self):
         """
@@ -2858,8 +2923,9 @@ class BioExplorer:
 
     def start_model_loading_transaction(self):
         """
-        Starts the loading of models. All models loaded from this point will only appear in the
-        scene once the commit_model_loading_transaction function is invoked
+        Starts the loading of models
+
+        All models loaded from this point will only appear in the scene once the commit_model_loading_transaction function is invoked
 
         :return: Result of the request submission
         """
@@ -3280,7 +3346,8 @@ class BioExplorer:
 
     def set_spike_report_visualization_settings(
             self, model_id, rest_voltage=-65, spiking_voltage=-10, decay_speed=5.0):
-        """Set visualization settings for spike report
+        """
+        Set visualization settings for spike report
 
         :model_id: Id of the model holding the spike report
         :rest_voltage: Rest voltage. Defaults to -65.

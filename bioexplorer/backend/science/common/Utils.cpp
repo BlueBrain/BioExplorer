@@ -262,6 +262,11 @@ Vector3d doublesToVector3d(const doubles& value)
     return Vector3d(value[0], value[1], value[2]);
 }
 
+doubles vector3dToDoubles(const Vector3d& value)
+{
+    return {value.x, value.y, value.z};
+}
+
 Vector4d doublesToVector4d(const doubles& value)
 {
     if (value.empty())

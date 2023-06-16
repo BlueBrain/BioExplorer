@@ -556,6 +556,24 @@ bool from_json(ModelIdDetails &param, const std::string &payload)
     return true;
 }
 
+std::string to_json(const ModelBoundsDetails &param)
+{
+    try
+    {
+        nlohmann::json js;
+        TO_JSON(param, js, minAABB);
+        TO_JSON(param, js, maxAABB);
+        TO_JSON(param, js, center);
+        TO_JSON(param, js, size);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
+
 bool from_json(MaterialsDetails &param, const std::string &payload)
 {
     try

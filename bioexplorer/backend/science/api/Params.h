@@ -83,6 +83,7 @@ bool from_json(DatabaseAccessDetails &param, const std::string &payload);
 // Models, Color schemes and materials
 bool from_json(ProteinColorSchemeDetails &param, const std::string &payload);
 bool from_json(ModelIdDetails &modelId, const std::string &payload);
+std::string to_json(const ModelBoundsDetails &param);
 bool from_json(MaterialsDetails &materialsDetails, const std::string &payload);
 std::string to_json(const IdsDetails &param);
 bool from_json(NameDetails &param, const std::string &payload);

@@ -739,6 +739,22 @@ typedef struct
 } ModelIdDetails;
 
 /**
+ * @brief Model identifier
+ *
+ */
+typedef struct
+{
+    /** Model min bounding box coordinates */
+    doubles minAABB;
+    /** Model max bounding box coordinates */
+    doubles maxAABB;
+    /** Model bounding box center */
+    doubles center;
+    /** Model bounding box size */
+    doubles size;
+} ModelBoundsDetails;
+
+/**
  * @brief Structure containing attributes of materials attached to one or
  several Core models
  */
