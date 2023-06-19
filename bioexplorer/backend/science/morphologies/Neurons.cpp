@@ -49,6 +49,7 @@ using namespace db;
 
 const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
 const double DEFAULT_ARROW_RADIUS_RATIO = 10.0;
+const double MAX_SOMA_RADIUS = 10.0;
 const Vector2d DEFAULT_SIMULATION_VALUE_RANGE = {-80.0, -10.0};
 
 std::map<ReportType, std::string> reportTypeAsString = {{ReportType::undefined, "undefined"},
@@ -203,7 +204,9 @@ void Neurons::_buildNeurons()
                               {"Number of Spines", std::to_string(_nbSpines)},
                               {"SQL node filter", _details.sqlNodeFilter},
                               {"SQL section filter", _details.sqlSectionFilter},
-                              {"Max distance to soma", std::to_string(_maxDistanceToSoma)}};
+                              {"Max distance to soma", std::to_string(_maxDistanceToSoma)},
+                              {"Min soma radius", std::to_string(_minMaxSomaRadius.x)},
+                              {"Max soma radius", std::to_string(_minMaxSomaRadius.y)}};
 
     if (!_simulationReport.description.empty())
         metadata["Simulation " + reportTypeAsString[_simulationReport.type] + " report"] =
@@ -222,6 +225,7 @@ void Neurons::_buildNeurons()
 void Neurons::_buildSomasOnly(ThreadSafeContainer& container, const NeuronSomaMap& somas, const size_t baseMaterialId)
 {
     uint64_t progress = 0;
+    _minMaxSomaRadius = Vector2d(_details.radiusMultiplier, _details.radiusMultiplier);
     for (const auto soma : somas)
     {
         PLUGIN_PROGRESS("Loading somas", progress, somas.size());
@@ -302,16 +306,19 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
     if (_details.loadAxon || _details.loadApicalDendrites || _details.loadBasalDendrites)
     {
         sections = connector.getNeuronSections(_details.populationName, neuronId, _details.sqlSectionFilter);
-        uint64_t count = 0;
+        double count = 0.0;
         for (const auto& section : sections)
             if (section.second.parentId == SOMA_AS_PARENT)
             {
-                const auto point = section.second.points[0];
+                const Vector3d point = section.second.points[0];
                 somaRadius += 0.5 * length(point);
-                ++count;
+                count += 1.0;
             }
-        if (count > 0)
-            somaRadius = _getCorrectedRadius(somaRadius, _details.radiusMultiplier) / count;
+        if (count > 0.0)
+            somaRadius /= count;
+        _minMaxSomaRadius.x = std::min(_minMaxSomaRadius.x, somaRadius);
+        _minMaxSomaRadius.y = std::max(_minMaxSomaRadius.y, somaRadius);
+        somaRadius = _getCorrectedRadius(std::min(somaRadius, MAX_SOMA_RADIUS), _details.radiusMultiplier);
     }
     const auto somaPosition = _animatedPosition(Vector4d(soma.position, somaRadius), neuronId);
 
@@ -431,7 +438,12 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
         // Sections connected to the soma
         if (_details.showMembrane && _details.loadSomas && section.second.parentId == SOMA_AS_PARENT)
         {
-            const auto& point = section.second.points[0];
+            const auto& points = section.second.points;
+            const auto& firstPoint = points[0];
+            const auto& lastPoint = points[points.size() - 1];
+            auto point = firstPoint;
+            if (length(lastPoint) < length(firstPoint))
+                point = lastPoint;
 
             useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
                               static_cast<uint32_t>(MorphologyRealismLevel::soma));
