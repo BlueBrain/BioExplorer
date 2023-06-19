@@ -116,6 +116,7 @@ private:
     Varicosities _varicosities;
     uint64_t _nbSpines{0};
     double _maxDistanceToSoma{0.0};
+    Vector2d _minMaxSomaRadius{1e6, -1e6};
     SimulationReport _simulationReport;
 };
 } // namespace morphology
