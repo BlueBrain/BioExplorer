@@ -75,6 +75,14 @@ Do you want want to know more about the full story? Read the [Studies In Silico:
 * [The BlueBrainBioExplorer 1.4 is now out and ready to explore additional bio assemblies from neurons and astrocytes to vasculatures and more!](https://www.linkedin.com/posts/blue-brain-project_openscience-neuroscience-scientificvisualization-activity-6980420229633867776-ViVr?utm_source=share&utm_medium=member_desktop)
 * [The EPFL Blue Brain Project will be featuring in the exciting Brain(s) exhibition at the Barcelona Centre of Contemporary Culture starting tomorrow!](https://www.linkedin.com/posts/blue-brain-project_cervellscccb-cerebroscccb-brainscccb-activity-6957702754731450369-gsLV?utm_source=share&utm_medium=member_desktop)
   
+## BioExplorer at PASC 2023
+
+<div align="center">
+<img src="https://www.pasc-conference.org/wp-content/uploads/2022/07/PASC_23_2.jpg" width="25%" height="25%" alt="Image" />
+</div>
+On the 27th of June 2023, the Blue Brain BioExplorer was presented at the PASC23 conference in Davos (Switzerland), as part of the *MS4E - Scientific Visualization of Big Data*
+ minisymposium: [Visual Scientific Exploration at Blue Brain, and Beyond](https://pasc23.pasc-conference.org/presentation/?id=msa164&sess=sess168)
+
 
 ## BioExplorer goes RTX!
 
@@ -94,7 +102,9 @@ viewer --engine optix6 --plugin BioExplorer
 
 July 2022: The EPFL Blue Brain Project is featuring in the exciting [Brain(s) exhibition](https://www.cccb.org/en/exhibitions/file/brains/237851) at the Barcelona Centre of Contemporary Culture at the Fundación Telefónica Madrid.
 
-![___](https://actu.epfl.ch/image/121700/1108x622.jpg)
+<div align="center">
+<img src="https://actu.epfl.ch/image/121700/1108x622.jpg" width="50%" height="50%" alt="Image" />
+</div>
 
 The Blue Brain images on show were created with the _BBBE_. Checkout the [news article](https://actu.epfl.ch/news/blue-brain-images-on-show-at-the-brains-exhibition/) for more information.
 
