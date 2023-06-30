@@ -54,3 +54,10 @@ install(
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
 )
+
+# ==============================================================================
+# Packaging and configuration
+# ==============================================================================
+list(APPEND PLATFORM_TARGETS ${LIBRARY_NAME})  
+
+install(FILES ${${NAME}_PUBLIC_HEADERS} DESTINATION include/${PACKAGE_NAME}/core/pluginapi)

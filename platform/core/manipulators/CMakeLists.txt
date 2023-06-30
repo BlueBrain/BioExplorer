@@ -66,3 +66,21 @@ install(
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
 )
+
+# ==============================================================================
+# Packaging and configuration
+# ==============================================================================
+list(APPEND PLATFORM_TARGETS ${LIBRARY_NAME})  
+
+set_target_properties(${LIBRARY_NAME}
+    PROPERTIES
+    VERSION ${PACKAGE_VERSION_MAJOR}
+    SOVERSION ${PACKAGE_VERSION_MAJOR}.${PACKAGE_VERSION_MINOR}
+)
+
+install(TARGETS ${LIBRARY_NAME}
+    EXPORT ${PACKAGE_NAME}-targets
+    LIBRARY DESTINATION lib
+    INCLUDES DESTINATION include)
+
+install(FILES ${${NAME}_PUBLIC_HEADERS} DESTINATION include/${PACKAGE_NAME}/core/manipulators)

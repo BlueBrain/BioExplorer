@@ -18,6 +18,10 @@
 
 set(NAME Core)
 
+# Define the package and version
+set(PACKAGE_NAME platform)
+set(PACKAGE_VERSION 1.0.0)
+
 # Unit testing
 option(${NAME}_UNIT_TESTING_ENABLED "Unit testing" ON)
 
@@ -114,3 +118,27 @@ add_subdirectory(core)
 if(PLATFORM_UNIT_TESTING_ENABLED)
   add_subdirectory(tests)
 endif()
+
+# ==============================================================================
+# Packaging and configuration
+# ==============================================================================
+list(APPEND PLATFORM_TARGETS Async++)
+
+set_target_properties(${PLATFORM_TARGETS}
+    PROPERTIES
+    VERSION ${PACKAGE_VERSION_MAJOR}
+    SOVERSION ${PACKAGE_VERSION_MAJOR}.${PACKAGE_VERSION_MINOR}
+)
+
+install(TARGETS ${PLATFORM_TARGETS}
+    EXPORT ${PACKAGE_NAME}-targets
+    LIBRARY DESTINATION lib
+    INCLUDES DESTINATION include)
+
+install(EXPORT ${PACKAGE_NAME}-targets
+    DESTINATION share/${PACKAGE_NAME}/CMake
+)
+
+install(FILES ${PACKAGE_NAME}-config.cmake
+    DESTINATION share/${PACKAGE_NAME}/CMake
+)

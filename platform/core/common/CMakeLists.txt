@@ -44,7 +44,8 @@ set(${NAME}_SOURCES
 )
 
 set(${NAME}_PUBLIC_HEADERS
-  any.hpp
+  Api.h
+  Any.hpp
   ActionInterface.h
   BaseObject.h
   ImageManager.h
@@ -54,6 +55,11 @@ set(${NAME}_PUBLIC_HEADERS
   Statistics.h
   Timer.h
   Transformation.h
+  Logs.h
+  MathTypes.h
+  Macros.h
+  CommonTypes.h
+  Types.h
   geometry/CommonDefines.h
   geometry/Cone.h
   geometry/Cylinder.h
@@ -67,22 +73,17 @@ set(${NAME}_PUBLIC_HEADERS
   light/Light.h
   loader/Loader.h
   loader/LoaderRegistry.h
-  Logs.h
   material/Texture2D.h
-  MathTypes.h
-  Macros.h
   scene/ClipPlane.h
   simulation/AbstractSimulationHandler.h
   tasks/Task.h
   tasks/TaskFunctor.h
   tasks/TaskRuntimeError.h
   transferFunction/TransferFunction.h
-  CommonTypes.h
-  Types.h
-  utils/enumUtils.h
-  utils/imageUtils.h
+  utils/EnumUtils.h
+  utils/ImageUtils.h
   utils/StringUtils.h
-  utils/utils.h
+  utils/Utils.h
 )
 
 set(${NAME}_HEADERS
@@ -114,3 +115,24 @@ INSTALL(TARGETS ${LIBRARY_NAME}
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib)
+
+# ==============================================================================
+# Packaging and configuration
+# ==============================================================================
+list(APPEND PLATFORM_TARGETS ${LIBRARY_NAME})  
+
+set_target_properties(${LIBRARY_NAME}
+    PROPERTIES
+    VERSION ${PACKAGE_VERSION_MAJOR}
+    SOVERSION ${PACKAGE_VERSION_MAJOR}.${PACKAGE_VERSION_MINOR}
+)
+
+install(TARGETS ${LIBRARY_NAME}
+    EXPORT ${PACKAGE_NAME}-targets
+    LIBRARY DESTINATION lib
+    INCLUDES DESTINATION include)
+
+foreach ( file ${${NAME}_PUBLIC_HEADERS} )
+  get_filename_component( dir ${file} DIRECTORY )
+  install( FILES ${file} DESTINATION include/${PACKAGE_NAME}/core/common/${dir} )
+endforeach()
