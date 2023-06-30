@@ -23,8 +23,6 @@
 set(NAME PLATFORM_PLUGIN_OPENDECK)
 set(LIBRARY_NAME CorePluginOpenDeck)
 
-include_directories(${CMAKE_BINARY_DIR}/generated/opendeck)
-
 set(
   ${NAME}_HEADERS
   plugin/common/OpenDeckParameters.h
@@ -114,14 +112,6 @@ if(OPTIX6_FOUND)
     include_directories(${OptiX6_INCLUDE_DIRS} ${CUDA_INCLUDE_DIRS})
     list(APPEND ${NAME}_LINK_LIBRARIES ${OptiX6_LIBRARIES} OptiX6Engine)
 endif()
-
-# ==============================================================================
-# Compile c++ code
-# ==============================================================================
-configure_file(
-    plugin/common/Defines.h.in
-    ${CMAKE_BINARY_DIR}/generated/opendeck/Defines.h
-)
 
 # ==============================================================================
 # Compile c++ code

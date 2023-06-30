@@ -49,7 +49,7 @@ find_package(assimp)
 find_package(LibJpegTurbo)
 find_package(Rockets)
 
-set(BIOEXPLORER_SOURCE_DIRS ${PROJECT_SOURCE_DIR} ${CMAKE_BINARY_DIR}/generated/common)
+set(BIOEXPLORER_SOURCE_DIRS ${PROJECT_SOURCE_DIR} ${CMAKE_BINARY_DIR}/generated)
 
 # ==============================================================================
 # Options
@@ -134,12 +134,12 @@ endif()
 # ==============================================================================
 configure_file(
     common/Defines.h.in
-    ${CMAKE_BINARY_DIR}/generated/common/Defines.h
+    ${CMAKE_BINARY_DIR}/generated/Defines.h
 )
 
 configure_file(
     common/Version.h.in
-    ${CMAKE_BINARY_DIR}/generated/common/Version.h
+    ${CMAKE_BINARY_DIR}/generated/Version.h
 )
 
 # ==============================================================================

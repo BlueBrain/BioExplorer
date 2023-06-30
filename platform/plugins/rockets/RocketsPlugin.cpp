@@ -28,6 +28,7 @@
 
 #include "RocketsPlugin.h"
 
+#include <Defines.h>
 #include <Version.h>
 
 #include <platform/core/common/Timer.h>
@@ -39,7 +40,7 @@
 #include <platform/core/tasks/AddModelTask.h>
 #include <platform/core/tasks/LoadModelFunctor.h>
 
-#ifdef BRAYNS_USE_LIBUV
+#ifdef USE_NETWORKING
 #include <uvw.hpp>
 #endif
 
@@ -235,7 +236,7 @@ public:
         , _parametersManager(api->getParametersManager())
     {
         _setupRocketsServer();
-#ifdef BRAYNS_USE_LIBUV
+#ifdef USE_NETWORKING
         if (uvw::Loop::getDefault()->alive())
         {
             _processDelayedNotifies = uvw::Loop::getDefault()->resource<uvw::AsyncHandle>();
@@ -259,7 +260,7 @@ public:
             entry.second->wait();
         }
 
-#ifdef BRAYNS_USE_LIBUV
+#ifdef USE_NETWORKING
         if (_processDelayedNotifies)
             _processDelayedNotifies->close();
 #endif
@@ -424,7 +425,7 @@ public:
         try
         {
             const auto& appParams = _parametersManager.getApplicationParameters();
-#ifdef BRAYNS_USE_LIBUV
+#ifdef USE_NETWORKING
             if (uvw::Loop::getDefault()->alive())
             {
                 _rocketsServer =
@@ -471,7 +472,7 @@ public:
             _delayedNotifies.push_back(notify);
         }
 
-#ifdef BRAYNS_USE_LIBUV
+#ifdef USE_NETWORKING
         if (_processDelayedNotifies)
         {
             // dispatch delayed notify from throttle thread to main thread
@@ -823,8 +824,8 @@ public:
 
                 std::function<void()> finishProgress = [task] { task->progress.update("Done", 1.f); };
 
-// setup periodic progress reporting if we have libuv running
-#ifdef BRAYNS_USE_LIBUV
+#ifdef USE_NETWORKING
+                // setup periodic progress reporting if we have libuv running
                 if (uvw::Loop::getDefault()->alive())
                 {
                     auto progressUpdate = uvw::Loop::getDefault()->resource<uvw::TimerHandle>();
@@ -869,7 +870,7 @@ public:
                             task->finishCancel();
                         }
 
-#ifdef BRAYNS_USE_LIBUV
+#ifdef USE_NETWORKING
                         if (_processDelayedNotifies)
                             _processDelayedNotifies->send();
 #endif
@@ -1121,8 +1122,7 @@ public:
                                { return make_ready_response(Code::OK, version.getSchema(), JSON_TYPE); });
 
         _jsonrpcServer->bind(
-            getRequestEndpointName(ENDPOINT_VERSION),
-            (std::function<core::Version()>)[] { return core::Version(); });
+            getRequestEndpointName(ENDPOINT_VERSION), (std::function<core::Version()>)[] { return core::Version(); });
 
         _handleSchema(ENDPOINT_VERSION, version.getSchema());
     }
@@ -1211,9 +1211,8 @@ public:
 
     void _handleExitLater()
     {
-        _handleRPC<ExitLaterSchedule>({METHOD_EXIT_LATER,
-                                       "Schedules Core to shutdown after a given amount of minutes", "minutes",
-                                       "Number of minutes after which Core will shut down"},
+        _handleRPC<ExitLaterSchedule>({METHOD_EXIT_LATER, "Schedules Core to shutdown after a given amount of minutes",
+                                       "minutes", "Number of minutes after which Core will shut down"},
                                       [&](const ExitLaterSchedule& schedule)
                                       {
                                           std::lock_guard<std::mutex> lock(_scheduleMutex);
@@ -2147,7 +2146,7 @@ public:
     static constexpr uintptr_t NO_CURRENT_CLIENT{0};
     uintptr_t _currentClientID{NO_CURRENT_CLIENT};
 
-#ifdef BRAYNS_USE_LIBUV
+#ifdef USE_NETWORKING
     std::shared_ptr<uvw::AsyncHandle> _processDelayedNotifies;
 #endif
 
