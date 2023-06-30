@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include <Defines.h>
-
 #if defined(_MSC_VER) || defined(__declspec)
 #define CORE_DLLEXPORT __declspec(dllexport)
 #define CORE_DLLIMPORT __declspec(dllimport)
