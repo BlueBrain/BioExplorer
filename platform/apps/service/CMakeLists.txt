@@ -18,6 +18,8 @@
 
 set(NAME service)
 
+set(CMAKE_CXX_STANDARD 17)
+
 # ==============================================================================
 # Sources
 # ==============================================================================
@@ -28,7 +30,7 @@ set(${NAME}_SOURCES main.cpp)
 # ==============================================================================
 include_directories(${BIOEXPLORER_SOURCE_DIRS})
 
-set(${NAME}_LINK_LIBRARIES PUBLIC Core)
+set(${NAME}_LINK_LIBRARIES PUBLIC Core uv)
 
 if(PLATFORM_NETWORKING_ENABLED)
   list(APPEND ${NAME}_LINK_LIBRARIES PRIVATE CorePluginRockets)

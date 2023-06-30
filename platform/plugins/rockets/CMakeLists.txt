@@ -10,6 +10,8 @@
 set(NAME PLATFORM_PLUGIN_ROCKETS)
 set(LIBRARY_NAME CorePluginRockets)
 
+set(CMAKE_CXX_STANDARD 17)
+
 set(${NAME}_HEADERS
   BinaryRequests.h
   ImageGenerator.h

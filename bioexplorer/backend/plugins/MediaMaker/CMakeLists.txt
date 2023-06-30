@@ -143,11 +143,6 @@ include_directories(
     ${CMAKE_BINARY_DIR}/extras/${LIBRARY_NAME}
 )
 
-configure_file(
-    plugin/common/Defines.h.in
-    ${CMAKE_BINARY_DIR}/generated/mediamaker/Defines.h
-)
-
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${${NAME}_PUBLIC_MODULE_LIBRARIES} ${TIFF_LIBRARIES} exiv2
     PRIVATE CoreParameters CoreCommon CoreEngine CoreIO ${${NAME}_PRIVATE_MODULE_LIBRARIES}

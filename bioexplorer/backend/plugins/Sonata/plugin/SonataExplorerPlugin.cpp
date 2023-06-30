@@ -20,10 +20,11 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include "SonataExplorerPlugin.h"
+
 #include <Defines.h>
 #include <Version.h>
 
-#include "SonataExplorerPlugin.h"
 #include <common/Logs.h>
 
 #include <plugin/io/BrickLoader.h>

@@ -35,7 +35,7 @@
 
 #include <platform/core/pluginapi/Plugin.h>
 
-#ifdef BRAYNS_USE_LIBUV
+#ifdef USE_NETWORKING
 #include <uvw.hpp>
 #endif
 
@@ -155,7 +155,7 @@ private:
 
         _waitOnFutures();
         _lastImages.clear();
-#ifdef BRAYNS_USE_LIBUV
+#ifdef USE_NETWORKING
         if (_pollHandle)
         {
             _pollHandle->stop();
@@ -167,7 +167,7 @@ private:
 
     void _setupSocketListener()
     {
-#ifdef BRAYNS_USE_LIBUV
+#ifdef USE_NETWORKING
         assert(_stream->isConnected());
 
         auto loop = uvw::Loop::getDefault();
@@ -400,7 +400,7 @@ private:
     std::vector<Image> _lastImages;
     std::vector<deflect::Stream::Future> _futures;
 
-#ifdef BRAYNS_USE_LIBUV
+#ifdef USE_NETWORKING
     std::shared_ptr<uvw::PollHandle> _pollHandle;
 #endif
 };

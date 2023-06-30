@@ -72,8 +72,8 @@ SurfaceMesher::SurfaceMesher(const uint32_t uuid)
 {
 }
 
-ModelDescriptorPtr SurfaceMesher::generateSurface(core::Scene& scene, const std::string& pdbId,
-                                                  const Vector4ds& atoms, const double shrinkfactor)
+ModelDescriptorPtr SurfaceMesher::generateSurface(core::Scene& scene, const std::string& pdbId, const Vector4ds& atoms,
+                                                  const double shrinkfactor)
 {
 #ifdef USE_CGAL
     ModelDescriptorPtr modelDescriptor{nullptr};

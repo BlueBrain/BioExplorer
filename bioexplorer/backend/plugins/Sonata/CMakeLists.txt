@@ -42,7 +42,7 @@ if(OPENMP_FOUND)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
-# Optional packages (managed by Defines.h.in)
+# Optional packages
 set(CGAL_FOUND 0)
 option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
 
@@ -50,7 +50,6 @@ if(${${NAME}_USE_CGAL})
     find_package(CGAL REQUIRED)
 endif()
 
-configure_file(common/Defines.h.in ${CMAKE_BINARY_DIR}/generated/circuitexplorer/Defines.h)
 include_directories(${PROJECT_SOURCE_DIR}/backend ${CMAKE_BINARY_DIR}/generated/circuitexplorer)
 
 # ==============================================================================
