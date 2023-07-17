@@ -23,6 +23,8 @@
 
 #pragma once
 
+#include <Defines.h>
+
 #include <plugin/api/Params.h>
 
 #include <platform/core/pluginapi/ExtensionPlugin.h>
@@ -42,6 +44,12 @@ public:
     void init() final;
 
 private:
+    void _createRenderers();
+#ifdef USE_OPTIX6
+    void _createOptiXRenderers();
+#endif
+    void _createBoundingBox();
+
     Response _version() const;
 };
 } // namespace blackhole

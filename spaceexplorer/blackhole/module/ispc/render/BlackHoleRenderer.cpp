@@ -31,15 +31,15 @@ void BlackHoleRenderer::commit()
 {
     AbstractRenderer::commit();
 
-    _exposure = getParam1f("exposure", 1.f);
+    _exposure = getParam1f("mainExposure", 1.f);
     _grid = getParam("grid", false);
     _nbDisks = getParam1i("nbDisks", 20);
     _diskRotationSpeed = getParam1f("diskRotationSpeed", 3.f);
     _diskTextureLayers = getParam1i("diskTextureLayers", 12);
     _blackHoleSize = getParam1f("blackHoleSize", 0.3f);
 
-    ispc::BlackHoleRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _exposure, _nbDisks, _grid,
-                                _diskRotationSpeed, _diskTextureLayers, _blackHoleSize);
+    ispc::BlackHoleRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _exposure,
+                                _nbDisks, _grid, _diskRotationSpeed, _diskTextureLayers, _blackHoleSize);
 }
 
 BlackHoleRenderer::BlackHoleRenderer()
@@ -47,8 +47,8 @@ BlackHoleRenderer::BlackHoleRenderer()
     ispcEquivalent = ispc::BlackHoleRenderer_create(this);
 }
 
-OSP_REGISTER_RENDERER(BlackHoleRenderer, black_hole_renderer);
-OSP_REGISTER_MATERIAL(black_hole_renderer, core::AdvancedMaterial, default);
+OSP_REGISTER_RENDERER(BlackHoleRenderer, blackhole);
+OSP_REGISTER_MATERIAL(blackhole, core::AdvancedMaterial, default);
 
 } // namespace blackhole
 } // namespace spaceexplorer

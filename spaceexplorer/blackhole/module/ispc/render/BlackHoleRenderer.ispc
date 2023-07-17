@@ -75,8 +75,8 @@ vec4f raymarchDisk(const uniform BlackHoleRenderer* uniform self, const vec3f& d
 {
     vec3f position = zeroPos;
     float lengthPos = length(make_vec3f(position.x, position.z, 0.f));
-    float dist = min(1.f, lengthPos * (1.f / self->blackHoleSize) * 0.5f) * self->blackHoleSize * 0.4f * (1.f / self->diskTextureLayers) /
-                 abs(dir.y);
+    float dist = min(1.f, lengthPos * (1.f / self->blackHoleSize) * 0.5f) * self->blackHoleSize * 0.4f *
+                 (1.f / self->diskTextureLayers) / abs(dir.y);
 
     position = position + dist * self->diskTextureLayers * dir * 0.5f;
 
@@ -115,7 +115,8 @@ vec4f raymarchDisk(const uniform BlackHoleRenderer* uniform self, const vec3f& d
         distMult *= clamp((self->blackHoleSize * 10.f - lengthPos) * (1.f / self->blackHoleSize) * 0.2f, 0.f, 1.f);
         distMult *= distMult;
 
-        float u = lengthPos + self->super.timestamp * self->blackHoleSize * 0.3f + intensity * self->blackHoleSize * 0.2f;
+        float u =
+            lengthPos + self->super.timestamp * self->blackHoleSize * 0.3f + intensity * self->blackHoleSize * 0.2f;
 
         vec2f xy;
         float rot = mod(self->super.timestamp * self->diskRotationSpeed, 8192.f);
@@ -131,7 +132,8 @@ vec4f raymarchDisk(const uniform BlackHoleRenderer* uniform self, const vec3f& d
 
         const float extraWidth = noise * 1.f * (1.f - clamp(i * (1.f / self->diskTextureLayers) * 2.f - 1.f, 0.f, 1.f));
         const float alpha =
-            clamp(noise * (intensity + extraWidth) * ((1.f / self->blackHoleSize) * 10.f + 0.01f) * dist * distMult, 0.f, 1.f);
+            clamp(noise * (intensity + extraWidth) * ((1.f / self->blackHoleSize) * 10.f + 0.01f) * dist * distMult,
+                  0.f, 1.f);
         const vec3f col = 2.f * mix(make_vec3f(0.3f, 0.2f, 0.15f) * insideCol, insideCol, min(1.f, intensity * 2.f));
 
         const vec3f t = col * alpha + make_vec3f(o) * (1.f - alpha);
@@ -139,23 +141,13 @@ vec4f raymarchDisk(const uniform BlackHoleRenderer* uniform self, const vec3f& d
 
         lengthPos *= 1.f / self->blackHoleSize;
 
-        o = o + make_vec4f(make_vec3f(redShift * (intensity * 1.f + 0.5f) * (1.f / self->diskTextureLayers) * 100.f * distMult /
-                                      (lengthPos * lengthPos)),
+        o = o + make_vec4f(make_vec3f(redShift * (intensity * 1.f + 0.5f) * (1.f / self->diskTextureLayers) * 100.f *
+                                      distMult / (lengthPos * lengthPos)),
                            0.f);
     }
 
     o = make_vec4f(clamp(make_vec3f(o) - 0.005f, make_vec3f(0.f), make_vec3f(1.f)), o.w);
     return o;
-}
-
-inline void composite(const varying vec4f& src, varying vec4f& dst, const varying float alphaCorrection)
-{
-    const float alpha = 1.f - pow(1.f - min(src.w, 1.f - 1.f / 256.f), alphaCorrection);
-    const float a = alpha * (1.f - dst.w);
-    dst.x = dst.x + src.x * a;
-    dst.y = dst.y + src.y * a;
-    dst.z = dst.z + src.z * a;
-    dst.w += (alpha * (1.f - dst.w));
 }
 
 inline vec3f BlackHoleRenderer_shadeRay(const uniform BlackHoleRenderer* uniform self, varying ScreenSample& sample)
@@ -183,7 +175,8 @@ inline vec3f BlackHoleRenderer_shadeRay(const uniform BlackHoleRenderer* uniform
             float centDist = dotpos * invDist;            // distance to black hole
             float stepDist = 0.92 * abs(pos.y / (dir.y)); // conservative distance to disk (y==0)
             float farLimit = centDist * 0.5f;             // limit step size far from to black hole
-            float closeLimit = centDist * 0.1f + 0.05f * centDist * centDist * (1.f / self->blackHoleSize); // limit step size closse to BH
+            float closeLimit = centDist * 0.1f + 0.05f * centDist * centDist *
+                                                     (1.f / self->blackHoleSize); // limit step size closse to BH
             stepDist = min(stepDist, min(farLimit, closeLimit));
 
             float invDistSqr = invDist * invDist;
@@ -191,8 +184,9 @@ inline vec3f BlackHoleRenderer_shadeRay(const uniform BlackHoleRenderer* uniform
             dir = normalize(dir - (bendForce * invDist) * pos);                     // bend ray towards BH
             pos = pos + stepDist * dir;
 
-            glow = glow + make_vec4f(1.2f, 1.1f, 1.f, 1.f) * (0.01f * stepDist * invDistSqr * invDistSqr *
-                                                              clamp(centDist * 2.f - 1.2f, 0.f, 1.f)); // adds fairly cheap glow
+            glow = glow + make_vec4f(1.2f, 1.1f, 1.f, 1.f) *
+                              (0.01f * stepDist * invDistSqr * invDistSqr *
+                               clamp(centDist * 2.f - 1.2f, 0.f, 1.f)); // adds fairly cheap glow
         }
 
         float dist2 = length(pos);
@@ -208,9 +202,9 @@ inline vec3f BlackHoleRenderer_shadeRay(const uniform BlackHoleRenderer* uniform
             vec4f bg;
             if (self->grid)
             {
-                bg =
-                    make_vec4f((int)((pos.x + 1000.f) * 0.01f) % 2 == 0 ? 1.f : 0.5f, (int)((pos.y + 1000.f) * 0.01f) % 2 == 0 ? 1.f : 0.5f,
-                               (int)((pos.z + 1000.f) * 0.01f) % 2 == 0 ? 1.f : 0.f, 0.5f);
+                bg = make_vec4f((int)((pos.x + 1000.f) * 0.01f) % 2 == 0 ? 1.f : 0.5f,
+                                (int)((pos.y + 1000.f) * 0.01f) % 2 == 0 ? 1.f : 0.5f,
+                                (int)((pos.z + 1000.f) * 0.01f) % 2 == 0 ? 1.f : 0.f, 0.5f);
             }
             else
             {
@@ -220,7 +214,9 @@ inline vec3f BlackHoleRenderer_shadeRay(const uniform BlackHoleRenderer* uniform
                 envRay.dir = dir;
                 bg = skyboxMapping((Renderer*)self, envRay, self->super.bgMaterial);
             }
-            outCol = make_vec4f(make_vec3f(col) * col.w + make_vec3f(bg) * (1. - col.w) + make_vec3f(glow) * (1. - col.w), 1.);
+            outCol =
+                make_vec4f(make_vec3f(col) * col.w + make_vec3f(bg) * (1. - col.w) + make_vec3f(glow) * (1. - col.w),
+                           1.);
             break;
         }
 
@@ -240,7 +236,8 @@ inline vec3f BlackHoleRenderer_shadeRay(const uniform BlackHoleRenderer* uniform
     return clamp(make_vec3f(outCol * self->exposure), make_vec3f(0.f), make_vec3f(1.f));
 }
 
-void BlackHoleRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData, varying ScreenSample& sample)
+void BlackHoleRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
+                                    varying ScreenSample& sample)
 {
     uniform BlackHoleRenderer* uniform self = (uniform BlackHoleRenderer * uniform) _self;
     sample.ray.time = self->super.timestamp;
@@ -256,10 +253,10 @@ export void* uniform BlackHoleRenderer_create(void* uniform cppE)
     return self;
 }
 
-export void BlackHoleRenderer_set(void* uniform _self, void* uniform bgMaterial, const uniform float timestamp, const uniform int spp,
-                                  const uniform float exposure, const uniform int nbDisks, const uniform bool grid,
-                                  const uniform float diskRotationSpeed, const uniform uint32 diskTextureLayers,
-                                  const uniform float blackHoleSize)
+export void BlackHoleRenderer_set(void* uniform _self, void* uniform bgMaterial, const uniform float timestamp,
+                                  const uniform int spp, const uniform float exposure, const uniform int nbDisks,
+                                  const uniform bool grid, const uniform float diskRotationSpeed,
+                                  const uniform uint32 diskTextureLayers, const uniform float blackHoleSize)
 {
     uniform BlackHoleRenderer* uniform self = (uniform BlackHoleRenderer * uniform) _self;
 

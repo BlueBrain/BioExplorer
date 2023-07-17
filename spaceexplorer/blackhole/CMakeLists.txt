@@ -55,6 +55,7 @@ set(${NAME}_PRIVATE_MODULE_LIBRARIES)
 # OSPRay module
 # ==============================================================================
 if(PLATFORM_OSPRAY_ENABLED)
+    message(STATUS "[BlackHole] Building OSPRay 1 module")
     include(ispc)
 
     list(APPEND ${NAME}_SOURCES
@@ -79,6 +80,42 @@ if(PLATFORM_OSPRAY_ENABLED)
     list(APPEND ${NAME}_PUBLIC_MODULE_LIBRARIES ${OSPRAY_LIBRARIES})
     list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES OSPRayEngine)
     include_directories(${OSPRAY_INCLUDE_DIRS})
+endif()
+
+# ==============================================================================
+# OptiX 6 module
+# ==============================================================================
+if(PLATFORM_OPTIX6_ENABLED)
+    message(STATUS "[BlackHole] Building OptiX 6 module")
+    list(APPEND CMAKE_MODULE_PATH ${BIOEXPLORER_SOURCE_DIRS}/CMake)
+
+    find_package(CUDA REQUIRED)
+    if(CUDA_FOUND)
+      # This doesn't get called from common_find_package_post unless we export some
+      # variables to the parent scope
+      find_cuda_compatible_host_compiler()
+    endif()
+    message(STATUS "Using CUDA version ${CUDA_VERSION}")
+    
+    set(CUDA_NVCC_FLAGS "--use_fast_math")
+    
+    set(${NAME}_CU
+        module/cuda/renderer/BlackHole.cu
+    )
+    
+    CUDA_WRAP_SRCS(${LIBRARY_NAME} PTX ptx_generated_files ${${NAME}_CU})
+    
+    include(StringifyPtx)
+    stringify_ptx(${ptx_generated_files})
+
+    list(APPEND ${NAME}_SOURCES
+        ${${NAME}_CU}
+        ${ptx_generated_files}
+        ${PTX_SOURCES}
+    )
+
+    list(APPEND ${NAME}_HEADERS ${PTX_HEADERS})
+    include_directories(${OptiX6_INCLUDE_DIRS} ${CUDA_INCLUDE_DIRS})
 endif()
 
 # ==============================================================================
