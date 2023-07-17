@@ -147,11 +147,6 @@ configure_file(
 # ==============================================================================
 option(PLATFORM_BUILD_ENABLED "Activate platform build" ON)
 
-# ==============================================================================
-# BioExplorer backend
-# ==============================================================================
-option(BIOEXPLORER_BUILD_ENABLED "Activate BioExplorer build" ON)
-
 if(PLATFORM_BUILD_ENABLED OR BIOEXPLORER_BUILD_ENABLED)
     add_subdirectory(common/deps)
 endif()
@@ -161,7 +156,22 @@ if(PLATFORM_BUILD_ENABLED)
     add_subdirectory(platform)
 endif()
 
+# ==============================================================================
+# BioExplorer backend
+# ==============================================================================
+option(BIOEXPLORER_BUILD_ENABLED "Activate BioExplorer build" ON)
+
 if(BIOEXPLORER_BUILD_ENABLED)
     message(STATUS "[Core] BioExplorer build enabled")
     add_subdirectory(bioexplorer/backend)
+endif()
+
+# ==============================================================================
+# Space explorer
+# ==============================================================================
+option(SPACEEXPLORER_BUILD_ENABLED "Activate SpaceExplorer build" ON)
+
+if(SPACEEXPLORER_BUILD_ENABLED)
+    message(STATUS "[Core] SpaceExplorer build enabled")
+    add_subdirectory(spaceexplorer)
 endif()
