@@ -169,7 +169,7 @@ endif()
 # ==============================================================================
 # Space explorer
 # ==============================================================================
-option(SPACEEXPLORER_BUILD_ENABLED "Activate SpaceExplorer build" ON)
+option(SPACEEXPLORER_BUILD_ENABLED "Activate SpaceExplorer build" OFF)
 
 if(SPACEEXPLORER_BUILD_ENABLED)
     message(STATUS "[Core] SpaceExplorer build enabled")
