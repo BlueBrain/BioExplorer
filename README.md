@@ -310,6 +310,18 @@ The port of [Shadertoy](https://www.shadertoy.com)'s black hole implementation t
 References:
 * Shadertoy's [Black hole with accretion disk](https://www.shadertoy.com/view/tsBXW3)
 
+## Medical Imaging Explorer
+
+Medical imaging is a vital component of modern healthcare, enabling healthcare professionals to visualize internal structures and diagnose various medical conditions.
+
+### DICOM
+
+DICOM stands for "Digital Imaging and Communications in Medicine." It is a widely used standard for the storage, transmission, and sharing of medical images and related information in the healthcare industry. DICOM was created by the National Electrical Manufacturers Association ([NEMA](https://www.nema.org)) and the American College of Radiology ([ACR](https://www.acr.org)) to ensure interoperability and compatibility among various medical imaging devices and software.
+
+The _BBBE_ DICOM plugin implements the loading of DICOM datasets.
+
+![___](./medicalimagingexplorer/docs/dicom_banner.png)
+
 ## Python SDK
 
 A simple API if exposed via the _BBBE_ python library. The API allows scientists to easily create and modify assemblies, according the biological parameters. The _BBBE_ programming language is not necessarily reflecting the underlying implementation, but is meant to be as simple as close as possible to the language used by the scientists to describe biological assemblies.

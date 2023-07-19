@@ -175,3 +175,13 @@ if(SPACEEXPLORER_BUILD_ENABLED)
     message(STATUS "[Core] SpaceExplorer build enabled")
     add_subdirectory(spaceexplorer)
 endif()
+
+# ==============================================================================
+# Medical imaging explorer
+# ==============================================================================
+option(MEDICALIMAGINGEXPLORER_BUILD_ENABLED "Activate MedicalImagingExplorer build" OFF)
+
+if(MEDICALIMAGINGEXPLORER_BUILD_ENABLED)
+    message(STATUS "[Core] MedicalImagingExplorer build enabled")
+    add_subdirectory(medicalimagingexplorer)
+endif()
