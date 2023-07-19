@@ -297,6 +297,31 @@ References:
 * [Neuromodulation of neocortical microcircuitry: a multi-scale framework to model the effects of cholinergic release](https://infoscience.epfl.ch/record/294819)
 * [The cholinergic innervation develops early and rapidly in the rat cerebral cortex: a quantitative immunocytochemical study](https://www.sciencedirect.com/science/article/abs/pii/S030645220100389X)
 
+## Space explorer
+
+Scientific visualization plays a vital role in the field of space exploration by enabling researchers to interpret and communicate complex astronomical data in a visually compelling manner. It involves the use of advanced computer graphics techniques to transform raw data collected from telescopes, satellites, and spacecraft into visually stunning and informative representations. Through scientific visualization, astronomers can create accurate and detailed models of celestial objects, such as galaxies, nebulae, and planetary systems, aiding in the understanding of their formation, evolution, and behavior. It allows scientists to explore and analyze vast datasets, unveiling patterns, relationships, and hidden structures that may otherwise go unnoticed. Additionally, scientific visualization serves as a powerful tool for public outreach, engaging and inspiring the general public by presenting the awe-inspiring beauty and scientific discoveries of the cosmos in accessible and captivating ways. Overall, scientific visualization plays a crucial role in advancing our knowledge of the universe and fostering a deeper appreciation for the wonders of space exploration.
+
+### Black holes
+
+The port of [Shadertoy](https://www.shadertoy.com)'s black hole implementation to the _BBBE_ represents an exciting fusion of artistic creativity and scientific exploration. Shadertoy, a popular platform for shader development and visual effects, offers a stunning black hole simulation that captures the mesmerizing visual aspects of these cosmic entities. The integration of Shadertoy's black hole into the _BBBE_ allows users to engage with the visualization in a more immersive and scalable way.
+
+![___](./spaceexplorer/docs/blackhole_banner.png)
+
+References:
+* Shadertoy's [Black hole with accretion disk](https://www.shadertoy.com/view/tsBXW3)
+
+## Medical Imaging Explorer
+
+Medical imaging is a vital component of modern healthcare, enabling healthcare professionals to visualize internal structures and diagnose various medical conditions.
+
+### DICOM
+
+DICOM stands for "Digital Imaging and Communications in Medicine." It is a widely used standard for the storage, transmission, and sharing of medical images and related information in the healthcare industry. DICOM was created by the National Electrical Manufacturers Association ([NEMA](https://www.nema.org)) and the American College of Radiology ([ACR](https://www.acr.org)) to ensure interoperability and compatibility among various medical imaging devices and software.
+
+The _BBBE_ DICOM plugin implements the loading of DICOM datasets.
+
+![___](./medicalimagingexplorer/docs/dicom_banner.png)
+
 ## Python SDK
 
 A simple API if exposed via the _BBBE_ python library. The API allows scientists to easily create and modify assemblies, according the biological parameters. The _BBBE_ programming language is not necessarily reflecting the underlying implementation, but is meant to be as simple as close as possible to the language used by the scientists to describe biological assemblies.

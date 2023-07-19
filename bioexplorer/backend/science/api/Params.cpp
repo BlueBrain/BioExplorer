@@ -22,7 +22,8 @@
  */
 
 #include "Params.h"
-#include "json.hpp"
+
+#include <common/json.hpp>
 
 #if !defined(DOXYGEN_SHOULD_SKIP_THIS)
 
