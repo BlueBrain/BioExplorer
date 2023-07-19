@@ -24,6 +24,7 @@
 
 #include "OptiXCamera.h"
 #include "OptiXCameraProgram.h"
+#include "OptiXUtils.h"
 
 #include <platform/core/common/Logs.h>
 
@@ -43,8 +44,7 @@ void OptiXCamera::commit()
 
     cameraProgram->commit(*this, context);
 
-    if (_clipPlanesBuffer)
-        _clipPlanesBuffer->destroy();
+    RT_DESTROY(_clipPlanesBuffer);
 
     const size_t numClipPlanes = _clipPlanes.size();
     if (numClipPlanes > 0)
