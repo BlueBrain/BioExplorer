@@ -23,7 +23,7 @@
 
 #include "Params.h"
 
-#include <bioexplorer/backend/json.hpp>
+#include <common/json.hpp>
 
 namespace spaceexplorer
 {
