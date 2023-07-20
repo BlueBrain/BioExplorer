@@ -20,7 +20,7 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "BrickLoader.h"
+#include "SonataCacheLoader.h"
 
 #include <plugin/neuroscience/common/Types.h>
 
@@ -50,9 +50,8 @@ const size_t CACHE_VERSION_2 = 2;
 const size_t CACHE_VERSION_3 = 3;
 const size_t CACHE_VERSION_4 = 4;
 
-const std::string LOADER_NAME = "Brayns cache";
-const std::string SUPPORTED_EXTENTION_BRAYNS = "brayns";
-const std::string SUPPORTED_EXTENTION_BIN = "bin";
+const std::string LOADER_NAME = "Sonata cache";
+const std::string SUPPORTED_EXTENTION_SONATA_CACHE = "soc";
 
 const Property PROP_LOAD_SPHERES = {"spheres", true, {"Load spheres"}};
 const Property PROP_LOAD_CYLINDERS = {"cylinders", true, {"Load cylinders"}};
@@ -62,35 +61,35 @@ const Property PROP_LOAD_STREAMLINES = {"streamlines", true, {"Load streamlines"
 const Property PROP_LOAD_SDF = {"sdf", true, {"Load signed distance field geometry"}};
 const Property PROP_LOAD_SIMULATION = {"simulation", true, {"Attach simulation data (if applicable"}};
 
-BrickLoader::BrickLoader(Scene& scene, PropertyMap&& loaderParams)
+SonataCacheLoader::SonataCacheLoader(Scene& scene, PropertyMap&& loaderParams)
     : Loader(scene)
     , _defaults(loaderParams)
 {
 }
 
-std::string BrickLoader::getName() const
+std::string SonataCacheLoader::getName() const
 {
     return LOADER_NAME;
 }
 
-std::vector<std::string> BrickLoader::getSupportedExtensions() const
+std::vector<std::string> SonataCacheLoader::getSupportedExtensions() const
 {
-    return {SUPPORTED_EXTENTION_BRAYNS, SUPPORTED_EXTENTION_BIN};
+    return {SUPPORTED_EXTENTION_SONATA_CACHE};
 }
 
-bool BrickLoader::isSupported(const std::string& /*filename*/, const std::string& extension) const
+bool SonataCacheLoader::isSupported(const std::string& /*filename*/, const std::string& extension) const
 {
-    const std::set<std::string> types = {SUPPORTED_EXTENTION_BRAYNS, SUPPORTED_EXTENTION_BIN};
+    const std::set<std::string> types = {SUPPORTED_EXTENTION_SONATA_CACHE};
     return types.find(extension) != types.end();
 }
 
-ModelDescriptorPtr BrickLoader::importFromBlob(Blob&& /*blob*/, const LoaderProgress& /*callback*/,
-                                               const PropertyMap& /*properties*/) const
+ModelDescriptorPtr SonataCacheLoader::importFromBlob(Blob&& /*blob*/, const LoaderProgress& /*callback*/,
+                                                     const PropertyMap& /*properties*/) const
 {
     throw std::runtime_error("Loading circuit from blob is not supported");
 }
 
-std::string BrickLoader::_readString(std::ifstream& buffer) const
+std::string SonataCacheLoader::_readString(std::ifstream& buffer) const
 {
     size_t size;
     buffer.read((char*)&size, sizeof(size_t));
@@ -100,8 +99,8 @@ std::string BrickLoader::_readString(std::ifstream& buffer) const
     return str.data();
 }
 
-ModelDescriptorPtr BrickLoader::importFromFile(const std::string& filename, const LoaderProgress& callback,
-                                               const PropertyMap& properties) const
+ModelDescriptorPtr SonataCacheLoader::importFromFile(const std::string& filename, const LoaderProgress& callback,
+                                                     const PropertyMap& properties) const
 {
     PropertyMap props = _defaults;
     props.merge(properties);
@@ -642,7 +641,7 @@ ModelDescriptorPtr BrickLoader::importFromFile(const std::string& filename, cons
     return modelDescriptor;
 }
 
-void BrickLoader::exportToFile(const ModelDescriptorPtr modelDescriptor, const std::string& filename)
+void SonataCacheLoader::exportToFile(const ModelDescriptorPtr modelDescriptor, const std::string& filename)
 {
     PLUGIN_INFO("Saving model to cache file: " << filename);
     std::ofstream file(filename, std::ios::out | std::ios::binary);
@@ -969,12 +968,12 @@ void BrickLoader::exportToFile(const ModelDescriptorPtr modelDescriptor, const s
     file.close();
 }
 
-PropertyMap BrickLoader::getProperties() const
+PropertyMap SonataCacheLoader::getProperties() const
 {
     return _defaults;
 }
 
-PropertyMap BrickLoader::getCLIProperties()
+PropertyMap SonataCacheLoader::getCLIProperties()
 {
     PropertyMap pm(LOADER_NAME);
     pm.setProperty(PROP_LOAD_SPHERES);

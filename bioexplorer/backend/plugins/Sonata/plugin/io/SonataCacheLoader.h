@@ -46,10 +46,10 @@ class URI;
 /**
  * Load circuit from BlueConfig or CircuitConfig file, including simulation.
  */
-class BrickLoader : public Loader
+class SonataCacheLoader : public Loader
 {
 public:
-    BrickLoader(Scene& scene, PropertyMap&& loaderParams = {});
+    SonataCacheLoader(Scene& scene, PropertyMap&& loaderParams = {});
 
     std::string getName() const final;
 

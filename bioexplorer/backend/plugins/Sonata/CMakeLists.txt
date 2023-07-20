@@ -59,7 +59,7 @@ set(${NAME}_SOURCES
     common/Utils.cpp
     plugin/SonataExplorerPlugin.cpp
     plugin/api/SonataExplorerParams.cpp
-    plugin/io/BrickLoader.cpp
+    plugin/io/SonataCacheLoader.cpp
     module/ispc/camera/SphereClippingPerspectiveCamera.cpp
 )
 
@@ -67,7 +67,7 @@ set(${NAME}_PUBLIC_HEADERS
     common/Utils.h
     plugin/SonataExplorerPlugin.h
     plugin/api/SonataExplorerParams.h
-    plugin/io/BrickLoader.h
+    plugin/io/SonataCacheLoader.h
 )
 
 list(APPEND ${NAME}_SOURCES

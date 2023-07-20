@@ -27,7 +27,7 @@
 
 #include <common/Logs.h>
 
-#include <plugin/io/BrickLoader.h>
+#include <plugin/io/SonataCacheLoader.h>
 #include <plugin/neuroscience/astrocyte/AstrocyteLoader.h>
 #include <plugin/neuroscience/common/MorphologyLoader.h>
 #include <plugin/neuroscience/neuron/AdvancedCircuitLoader.h>
@@ -214,7 +214,7 @@ void SonataExplorerPlugin::init()
 
     // Loaders
     PLUGIN_REGISTER_LOADER(LOADER_BRICK);
-    registry.registerLoader(std::make_unique<BrickLoader>(scene, BrickLoader::getCLIProperties()));
+    registry.registerLoader(std::make_unique<SonataCacheLoader>(scene, SonataCacheLoader::getCLIProperties()));
 
     PLUGIN_REGISTER_LOADER(LOADER_SYNAPSE_CIRCUIT);
     registry.registerLoader(std::make_unique<SynapseCircuitLoader>(scene, pm.getApplicationParameters(),
@@ -354,7 +354,7 @@ Response SonataExplorerPlugin::_exportModelToFile(const ExportModelToFile& saveM
         auto modelDescriptor = scene.getModel(saveModel.modelId);
         if (modelDescriptor)
         {
-            BrickLoader brickLoader(_api->getScene());
+            SonataCacheLoader brickLoader(_api->getScene());
             brickLoader.exportToFile(modelDescriptor, saveModel.path);
         }
         else
