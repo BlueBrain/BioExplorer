@@ -1,6 +1,6 @@
 var classbioexplorer_1_1common_1_1SDFGeometries =
 [
-    [ "SDFGeometries", "d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html#a39776a85b3c711cb9246a78496e8caaf", null ],
+    [ "SDFGeometries", "d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html#a5b8cd1492c68f4bc46df9e61209a972d", null ],
     [ "_animatedPosition", "d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html#a96ac8ae5b777a5c3db77567a36bbb5c5", null ],
     [ "_getCorrectedRadius", "d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html#a2fb3e3a9dcfff1c54fbe224857756c47", null ],
     [ "_getDisplacementValue", "d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html#a7a78720b7969618e9a36d093c207df76", null ],

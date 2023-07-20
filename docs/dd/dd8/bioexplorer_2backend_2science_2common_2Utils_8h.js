@@ -40,6 +40,7 @@ var bioexplorer_2backend_2science_2common_2Utils_8h =
     [ "transformVector3f", "dd/dd8/bioexplorer_2backend_2science_2common_2Utils_8h.html#aa08dca9ee408f1442f73417e22858f7a", null ],
     [ "trim", "dd/dd8/bioexplorer_2backend_2science_2common_2Utils_8h.html#abd875ed3e0e2421f483661531a434e87", null ],
     [ "valueFromDoubles", "dd/dd8/bioexplorer_2backend_2science_2common_2Utils_8h.html#a0e919e857cb380428959bd94644c87fd", null ],
+    [ "vector3dToDoubles", "dd/dd8/bioexplorer_2backend_2science_2common_2Utils_8h.html#a67c24a0ac85fbe6064f4e3146cb4edf4", null ],
     [ "weightedRandomRotation", "dd/dd8/bioexplorer_2backend_2science_2common_2Utils_8h.html#ae1afa8d099a7456261dba97c051581bd", null ],
     [ "worleyNoise", "dd/dd8/bioexplorer_2backend_2science_2common_2Utils_8h.html#ae749a784b0f2c9bc7cbe86f794f30997", null ]
 ];

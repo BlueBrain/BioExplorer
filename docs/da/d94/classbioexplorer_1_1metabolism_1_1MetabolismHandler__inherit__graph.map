@@ -1,4 +1,0 @@
-<map id="bioexplorer::metabolism::MetabolismHandler" name="bioexplorer::metabolism::MetabolismHandler">
-<area shape="rect" id="node1" title="The MetabolismHandler class handles metabolite concentrations." alt="" coords="5,95,188,136"/>
-<area shape="rect" id="node2" href="$d5/d65/classcore_1_1AbstractSimulationHandler.html" title="The AbstractSimulationHandler class handles simulation frames for the current circuit." alt="" coords="5,5,188,47"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="bioexplorer::morphology::SomaSimulationHandler" name="bioexplorer::morphology::SomaSimulationHandler">
-<area shape="rect" id="node1" title="The SomaSimulationHandler handles the reading of simulation information from the database at a soma l..." alt="" coords="5,95,193,136"/>
-<area shape="rect" id="node2" href="$d5/d65/classcore_1_1AbstractSimulationHandler.html" title="The AbstractSimulationHandler class handles simulation frames for the current circuit." alt="" coords="8,5,191,47"/>
-</map>

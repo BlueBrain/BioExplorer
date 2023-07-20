@@ -30,13 +30,14 @@ var bioexplorer_2backend_2science_2common_2Types_8h =
     [ "IdsDetails", "d1/d91/structbioexplorer_1_1details_1_1IdsDetails.html", "d1/d91/structbioexplorer_1_1details_1_1IdsDetails" ],
     [ "NameDetails", "d8/d70/structbioexplorer_1_1details_1_1NameDetails.html", "d8/d70/structbioexplorer_1_1details_1_1NameDetails" ],
     [ "ModelIdDetails", "d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails.html", "d6/dc9/structbioexplorer_1_1details_1_1ModelIdDetails" ],
+    [ "ModelBoundsDetails", "da/d76/structbioexplorer_1_1details_1_1ModelBoundsDetails.html", "da/d76/structbioexplorer_1_1details_1_1ModelBoundsDetails" ],
     [ "MaterialsDetails", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails" ],
     [ "BuildFieldsDetails", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails.html", "dc/d5b/structbioexplorer_1_1details_1_1BuildFieldsDetails" ],
     [ "ModelIdFileAccessDetails", "d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails.html", "d8/d1b/structbioexplorer_1_1details_1_1ModelIdFileAccessDetails" ],
     [ "FileAccessDetails", "de/d38/structbioexplorer_1_1details_1_1FileAccessDetails.html", "de/d38/structbioexplorer_1_1details_1_1FileAccessDetails" ],
     [ "DatabaseAccessDetails", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails" ],
     [ "BuildPointCloudDetails", "d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails.html", "d5/dc6/structbioexplorer_1_1details_1_1BuildPointCloudDetails" ],
-    [ "ModelsVisibilityDetails", "d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails.html", "d7/dbc/structbioexplorer_1_1details_1_1ModelsVisibilityDetails" ],
+    [ "ModelLoadingTransactionDetails", "dc/d42/structbioexplorer_1_1details_1_1ModelLoadingTransactionDetails.html", "dc/d42/structbioexplorer_1_1details_1_1ModelLoadingTransactionDetails" ],
     [ "OOCSceneConfigurationDetails", "d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html", "d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails" ],
     [ "SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails" ],
     [ "AtlasDetails", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails.html", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails" ],
@@ -155,6 +156,10 @@ var bioexplorer_2backend_2science_2common_2Types_8h =
       [ "mesh", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1220c2e0e68cbe43cf955085c44b3fbaa09bc81c3aa886b690f84c5aba4109e20", null ],
       [ "convex_hull", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1220c2e0e68cbe43cf955085c44b3fbaa347e88bd5b22530d122b5287b14ab329", null ],
       [ "surface", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1220c2e0e68cbe43cf955085c44b3fbaad302e976c9dd527a9521a88c012437c5", null ]
+    ] ],
+    [ "ModelLoadingTransactionAction", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a6081315452c4678b4b7094086bc85b11", [
+      [ "start", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a6081315452c4678b4b7094086bc85b11aea2b2676c28c0db26d39331a336c6b92", null ],
+      [ "commit", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a6081315452c4678b4b7094086bc85b11afffca4d67ea0a788813031b8bbc3b329", null ]
     ] ],
     [ "MorphologyColorScheme", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1388bb8d13375384654597c4b08280f2", [
       [ "none", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1388bb8d13375384654597c4b08280f2a334c4a4c42fdb79d7ebc3e73b517e6f8", null ],

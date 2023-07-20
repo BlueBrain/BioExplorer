@@ -1,6 +1,0 @@
-<map id="core::AdvancedRenderer" name="core::AdvancedRenderer">
-<area shape="rect" id="node1" title="The AdvancedRenderer class is a renderer that can perform global illumination (light shading,..." alt="" coords="8,229,189,256"/>
-<area shape="rect" id="node2" href="$d2/db4/classcore_1_1SimulationRenderer.html" title=" " alt="" coords="5,155,192,181"/>
-<area shape="rect" id="node3" href="$d1/d37/classcore_1_1AbstractRenderer.html" title=" " alt="" coords="13,80,184,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="58,5,139,32"/>
-</map>

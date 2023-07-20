@@ -1,7 +1,0 @@
-<map id="core::Material" name="core::Material">
-<area shape="rect" id="node1" title="The class that represents the material object. This class is derived from PropertyObject and provides..." alt="" coords="113,155,225,181"/>
-<area shape="rect" id="node4" href="$df/d9b/classcore_1_1OptiXMaterial.html" title=" " alt="" coords="5,229,153,256"/>
-<area shape="rect" id="node5" href="$da/da7/classcore_1_1OSPRayMaterial.html" title=" " alt="" coords="178,229,341,256"/>
-<area shape="rect" id="node2" href="$d7/d67/classcore_1_1PropertyObject.html" title=" " alt="" coords="91,80,246,107"/>
-<area shape="rect" id="node3" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="103,5,235,32"/>
-</map>

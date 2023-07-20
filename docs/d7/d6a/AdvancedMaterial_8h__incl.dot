@@ -1,0 +1,13 @@
+digraph "platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="platform/engines/ospray\l/ispc/render/utils/AdvancedMaterial.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="platform/core/common\l/CommonTypes.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="ospray/SDK/common/Material.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="ospray/SDK/texture\l/Texture2D.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}
