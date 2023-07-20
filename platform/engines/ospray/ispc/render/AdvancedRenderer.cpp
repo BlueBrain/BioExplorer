@@ -91,6 +91,10 @@ void AdvancedRenderer::commit()
 
     _matrixFilter = getParam("matrixFilter", 0);
 
+    _volumeSamplingThreshold = getParam1f("volumeSamplingThreshold", 0.001f);
+    _volumeSpecularExponent = getParam1f("volumeSpecularExponent", 20.f);
+    _volumeAlphaCorrection = getParam1f("volumeAlphaCorrection", 0.5f);
+
     clipPlanes = getParamData("clipPlanes", nullptr);
     const auto clipPlaneData = clipPlanes ? clipPlanes->data : nullptr;
     const uint32 numClipPlanes = clipPlanes ? clipPlanes->numItems : 0;
@@ -100,6 +104,7 @@ void AdvancedRenderer::commit()
                                spp, _lightPtr, _lightArray.size(), _exposure, _epsilonFactor, _fogThickness, _fogStart,
                                _useHardwareRandomizer, _maxBounces, _showBackground, _matrixFilter,
                                _simulationData ? (float*)_simulationData->data : nullptr, _simulationDataSize,
+                               _volumeSamplingThreshold, _volumeSpecularExponent, _volumeAlphaCorrection,
                                (const ispc::vec4f*)clipPlaneData, numClipPlanes);
 }
 

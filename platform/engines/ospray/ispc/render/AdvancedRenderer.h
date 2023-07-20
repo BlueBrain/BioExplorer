@@ -59,12 +59,16 @@ private:
     double _shadows{0.f};
     double _softShadows{0.f};
     ospray::uint32 _softShadowsSamples{1};
-
     double _giStrength{0.f};
     double _giDistance{1e6};
     ospray::uint32 _giSamples{1};
-
     bool _matrixFilter{false};
+
+    // Volumes
+    float _volumeSamplingThreshold{1.f};
+    ospray::int32 _volumeSamplesPerRay{32};
+    float _volumeSpecularExponent{10.f};
+    float _volumeAlphaCorrection{0.5f};
 
     // Clip planes
     ospray::Ref<ospray::Data> clipPlanes;

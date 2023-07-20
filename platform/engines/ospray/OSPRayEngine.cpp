@@ -158,6 +158,10 @@ void OSPRayEngine::_createRenderers()
         properties.setProperty({"useHardwareRandomizer", false, {"Use hardware accelerated randomizer"}});
         properties.setProperty({"showBackground", true, {"Show background"}});
         properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
+        properties.setProperty(
+            {"volumeSamplingThreshold", 0.001, 0.001, 1., {"Threshold under which sampling is ignored"}});
+        properties.setProperty({"volumeSpecularExponent", 20., 1., 100., {"Volume specular exponent"}});
+        properties.setProperty({"volumeAlphaCorrection", 0.5, 0.001, 1., {"Volume alpha correction"}});
         addRendererType("advanced", properties);
     }
     {
