@@ -24,8 +24,8 @@
 
 #include "Model.h"
 
-#include <platform/core/common/Transformation.h>
 #include <platform/core/common/Logs.h>
+#include <platform/core/common/Transformation.h>
 #include <platform/core/common/material/Texture2D.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Volume.h>
@@ -79,6 +79,8 @@ ModelDescriptor::ModelDescriptor(ModelPtr model, const std::string& path)
     : ModelParams(path)
     , _model(std::move(model))
 {
+    _model->updateBounds();
+    computeBounds();
 }
 
 ModelDescriptor::ModelDescriptor(ModelPtr model, const std::string& path, const ModelMetadata& metadata)
@@ -86,6 +88,8 @@ ModelDescriptor::ModelDescriptor(ModelPtr model, const std::string& path, const 
     , _metadata(metadata)
     , _model(std::move(model))
 {
+    _model->updateBounds();
+    computeBounds();
 }
 
 ModelDescriptor::ModelDescriptor(ModelPtr model, const std::string& name, const std::string& path,
@@ -94,6 +98,8 @@ ModelDescriptor::ModelDescriptor(ModelPtr model, const std::string& name, const 
     , _metadata(metadata)
     , _model(std::move(model))
 {
+    _model->updateBounds();
+    computeBounds();
 }
 
 ModelDescriptor& ModelDescriptor::operator=(const ModelParams& rhs)
@@ -155,6 +161,8 @@ void ModelDescriptor::computeBounds()
     _bounds.reset();
     if (!_model)
         return;
+
+    _bounds.merge(_model->getBounds());
 
     for (const auto& instance : getInstances())
     {
@@ -412,8 +420,8 @@ void Model::logInformation()
         nbSdfBeziers += sdfBeziers.second.size();
 
     CORE_INFO("Spheres: " << nbSpheres << ", Cylinders: " << nbCylinders << ", Cones: " << nbCones << ", SDFBeziers: "
-                            << nbSdfBeziers << ", Meshes: " << nbMeshes << ", Memory: " << _sizeInBytes << " bytes ("
-                            << _sizeInBytes / 1048576 << " MB), Bounds: " << _bounds);
+                          << nbSdfBeziers << ", Meshes: " << nbMeshes << ", Memory: " << _sizeInBytes << " bytes ("
+                          << _sizeInBytes / 1048576 << " MB), Bounds: " << _bounds);
 #endif
 }
 
