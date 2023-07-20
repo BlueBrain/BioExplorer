@@ -1094,6 +1094,8 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
                 else if (doReflection)
                     // Reflection
                     ray.dir = attributes.reflectedNormal;
+                else
+                    moreRebounds = false;
 
                 // Prepare next ray
                 ray.org = dg.P + ray.dir * (self->super.epsilonFactor * dg.epsilon);
