@@ -1,0 +1,24 @@
+digraph "core::OSPRayBrickedVolume"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="core::OSPRayBrickedVolume",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="core::BrickedVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/de9/classcore_1_1BrickedVolume.html",tooltip="A volume type where the voxels are copied for each added brick."];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="core::Volume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d2b/classcore_1_1Volume.html",tooltip="A base class for volumes."];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="core::BaseObject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dc6/classcore_1_1BaseObject.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="core::OSPRayVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d82/classcore_1_1OSPRayVolume.html",tooltip=" "];
+  Node3 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" _parameters" ,fontname="Helvetica"];
+  Node6 [label="core::VolumeParameters",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/da5/classcore_1_1VolumeParameters.html",tooltip=" "];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="core::AbstractParameters",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dda/classcore_1_1AbstractParameters.html",tooltip=" "];
+  Node4 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" _clipBox" ,fontname="Helvetica"];
+  Node8 [label="core::Box\< double \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d44/classcore_1_1Box.html",tooltip=" "];
+}

@@ -1,0 +1,24 @@
+digraph "core::Volume"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="core::Volume",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="A base class for volumes."];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="core::BaseObject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dc6/classcore_1_1BaseObject.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="core::BrickedVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/de9/classcore_1_1BrickedVolume.html",tooltip="A volume type where the voxels are copied for each added brick."];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="core::OSPRayBrickedVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/dee/classcore_1_1OSPRayBrickedVolume.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="core::OSPRayVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d82/classcore_1_1OSPRayVolume.html",tooltip=" "];
+  Node5 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="core::OSPRaySharedDataVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d1a/classcore_1_1OSPRaySharedDataVolume.html",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="core::SharedDataVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/df4/classcore_1_1SharedDataVolume.html",tooltip=" "];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="core::OptiXVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d9f/classcore_1_1OptiXVolume.html",tooltip=" "];
+}

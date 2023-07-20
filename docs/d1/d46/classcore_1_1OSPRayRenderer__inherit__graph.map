@@ -1,6 +1,0 @@
-<map id="core::OSPRayRenderer" name="core::OSPRayRenderer">
-<area shape="rect" id="node1" title=" " alt="" coords="5,229,173,256"/>
-<area shape="rect" id="node2" href="$dd/d5b/classcore_1_1Renderer.html" title="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf..." alt="" coords="31,155,148,181"/>
-<area shape="rect" id="node3" href="$d7/d67/classcore_1_1PropertyObject.html" title=" " alt="" coords="12,80,167,107"/>
-<area shape="rect" id="node4" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="23,5,155,32"/>
-</map>

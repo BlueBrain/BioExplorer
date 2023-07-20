@@ -1,0 +1,15 @@
+digraph "bioexplorer/backend/science/vasculature/Vasculature.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="bioexplorer/backend\l/science/vasculature\l/Vasculature.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="bioexplorer/backend\l/science/BioExplorerPlugin.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d09/BioExplorerPlugin_8h.html",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="bioexplorer/backend\l/science/BioExplorerPlugin.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d19/BioExplorerPlugin_8cpp.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="bioexplorer/backend\l/science/common/Assembly.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d5c/Assembly_8cpp.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="bioexplorer/backend\l/science/vasculature\l/Vasculature.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/df8/Vasculature_8cpp.html",tooltip=" "];
+}

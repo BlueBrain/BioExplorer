@@ -1,0 +1,11 @@
+digraph "bioexplorer/backend/plugins/MediaMaker/plugin/api" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_b52349f5576cfd3d293727016b3a4bfd {
+    graph [ bgcolor="#ddddee", pencolor="black", label="plugin" fontname="Helvetica", fontsize="10", URL="dir_b52349f5576cfd3d293727016b3a4bfd.html"]
+  dir_15c088a1e44e98ba8c666a90b58c4452 [shape=box, label="api", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_15c088a1e44e98ba8c666a90b58c4452.html"];
+  }
+  dir_14d627cccd023aaf4f18eaf1359097e2 [shape=box label="science" fillcolor="white" style="filled" color="red" URL="dir_14d627cccd023aaf4f18eaf1359097e2.html"];
+  dir_15c088a1e44e98ba8c666a90b58c4452->dir_14d627cccd023aaf4f18eaf1359097e2 [headlabel="1", labeldistance=1.5 headhref="dir_000138_000037.html"];
+}

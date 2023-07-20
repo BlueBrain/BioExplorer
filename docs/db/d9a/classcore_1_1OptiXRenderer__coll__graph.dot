@@ -1,0 +1,22 @@
+digraph "core::OptiXRenderer"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="core::OptiXRenderer",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="core::Renderer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d5b/classcore_1_1Renderer.html",tooltip="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf..."];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="core::PropertyObject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d67/classcore_1_1PropertyObject.html",tooltip=" "];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="core::BaseObject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dc6/classcore_1_1BaseObject.html",tooltip=" "];
+  Node5 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" _renderingParameters" ,fontname="Helvetica"];
+  Node5 [label="core::RenderingParameters",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d34/classcore_1_1RenderingParameters.html",tooltip=" "];
+  Node6 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="core::AbstractParameters",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dda/classcore_1_1AbstractParameters.html",tooltip=" "];
+  Node4 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" _animationParameters" ,fontname="Helvetica"];
+  Node7 [label="core::AnimationParameters",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/dfb/classcore_1_1AnimationParameters.html",tooltip=" "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

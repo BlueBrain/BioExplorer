@@ -1,7 +1,0 @@
-<map id="core::BaseWindow" name="core::BaseWindow">
-<area shape="rect" id="node1" title=" " alt="" coords="212,95,355,121"/>
-<area shape="rect" id="node2" href="$d4/d54/structcore_1_1RenderOutput.html" title=" " alt="" coords="5,5,153,32"/>
-<area shape="rect" id="node3" href="$de/d75/classcore_1_1Timer.html" title=" " alt="" coords="178,5,274,32"/>
-<area shape="rect" id="node4" href="$d3/d5e/classcore_1_1Core.html" title=" " alt="" coords="298,5,386,32"/>
-<area shape="rect" id="node5" href="$d0/de9/structcore_1_1RenderInput.html" title=" " alt="" coords="411,5,548,32"/>
-</map>

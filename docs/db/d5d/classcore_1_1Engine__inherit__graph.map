@@ -1,5 +1,0 @@
-<map id="core::Engine" name="core::Engine">
-<area shape="rect" id="node1" title="Provides an abstract implementation of a ray&#45;tracing engine." alt="" coords="109,5,211,32"/>
-<area shape="rect" id="node2" href="$d8/d3f/classcore_1_1OptiXEngine.html" title=" " alt="" coords="5,80,144,107"/>
-<area shape="rect" id="node3" href="$d9/d64/classcore_1_1OSPRayEngine.html" title=" " alt="" coords="169,80,322,107"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="core::ModelDescriptor" name="core::ModelDescriptor">
-<area shape="rect" id="node1" title="The ModelDescriptor struct defines the metadata attached to a model." alt="" coords="5,336,171,363"/>
-<area shape="rect" id="node2" href="$d1/df6/classcore_1_1ModelParams.html" title="The ModelParams class represents the parameters needed for initializing a model instance." alt="" coords="15,260,161,287"/>
-<area shape="rect" id="node3" href="$d9/d63/classcore_1_1ModelInstance.html" title="A class representing an instance of a 3D model." alt="" coords="11,171,165,197"/>
-<area shape="rect" id="node4" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="22,5,154,32"/>
-<area shape="rect" id="node5" href="$d0/dcd/classcore_1_1Transformation.html" title="Defines the translation, rotation and scale parameters to be applied to a scene asset." alt="" coords="138,81,294,108"/>
-<area shape="rect" id="node6" href="$d9/daa/classcore_1_1PropertyMap.html" title=" " alt="" coords="189,171,331,197"/>
-</map>

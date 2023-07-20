@@ -1,0 +1,15 @@
+digraph "platform/plugins/multiview" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_1d387e22b704c43dbb0ef2b3b77fabe1 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="plugins" fontname="Helvetica", fontsize="10", URL="dir_1d387e22b704c43dbb0ef2b3b77fabe1.html"]
+  subgraph clusterdir_9eca24558759147f9993844c2daa18e6 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_9eca24558759147f9993844c2daa18e6.html"];
+    dir_9eca24558759147f9993844c2daa18e6 [shape=plaintext label="multiview"];
+  dir_ec9592b2adfad4c3a3d6e37de575f565 [shape=box label="ispc" fillcolor="white" style="filled" color="red" URL="dir_ec9592b2adfad4c3a3d6e37de575f565.html"];
+  }
+  }
+  dir_3066efc1f4040d52e90bf8a29ab3f16b [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_3066efc1f4040d52e90bf8a29ab3f16b.html"];
+  dir_9eca24558759147f9993844c2daa18e6->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="8", labeldistance=1.5 headhref="dir_000079_000065.html"];
+}

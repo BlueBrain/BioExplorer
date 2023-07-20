@@ -1,7 +1,6 @@
 var MathTypes_8h =
 [
     [ "Box", "df/d44/classcore_1_1Box.html", "df/d44/classcore_1_1Box" ],
-    [ "Box", "df/d44/classcore_1_1Box.html", "df/d44/classcore_1_1Box" ],
     [ "GLM_ENABLE_EXPERIMENTAL", "d5/d55/MathTypes_8h.html#abd75661fe7969e19439052a5f69ba5d1", null ],
     [ "GLM_FORCE_CTOR_INIT", "d5/d55/MathTypes_8h.html#ac627c73454e4c96daef4a3fa6b2408fc", null ],
     [ "Boxd", "d5/d55/MathTypes_8h.html#af8525fbf2d49b92c0f085bf707f1fdf8", null ],

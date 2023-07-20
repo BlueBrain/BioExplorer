@@ -40,6 +40,7 @@ var bioexplorer_2backend_2science_2common_2Utils_8cpp =
     [ "transformVector3f", "de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#aa08dca9ee408f1442f73417e22858f7a", null ],
     [ "trim", "de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#abd875ed3e0e2421f483661531a434e87", null ],
     [ "valueFromDoubles", "de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#a0e919e857cb380428959bd94644c87fd", null ],
+    [ "vector3dToDoubles", "de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#a67c24a0ac85fbe6064f4e3146cb4edf4", null ],
     [ "weightedRandomRotation", "de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#ae1afa8d099a7456261dba97c051581bd", null ],
     [ "worleyNoise", "de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#ae749a784b0f2c9bc7cbe86f794f30997", null ],
     [ "randoms", "de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#a7ed75a7a5bdc497aa419f3f41a37139c", null ]

@@ -1,0 +1,14 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="bioexplorer::common\l::Node",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d93/classbioexplorer_1_1common_1_1Node.html",tooltip="The Node class."];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="bioexplorer::common\l::SDFGeometries",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html",tooltip="The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si..."];
+  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="bioexplorer::molecularsystems\l::EnzymeReaction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d07/classbioexplorer_1_1molecularsystems_1_1EnzymeReaction.html",tooltip="An Enzyme reaction is a object that combines an existing enyzme, a list of substrates and a list of p..."];
+  Node0 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="bioexplorer::molecularsystems\l::RNASequence",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d53/classbioexplorer_1_1molecularsystems_1_1RNASequence.html",tooltip="The RNASequence class."];
+}

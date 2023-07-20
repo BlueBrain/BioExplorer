@@ -1,0 +1,13 @@
+digraph "bioexplorer::molecularsystems::Glycans"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="bioexplorer::molecularsystems\l::Glycans",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="The Glycans class."];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="bioexplorer::molecularsystems\l::Molecule",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html",tooltip="The Molecule class implements the 3D representation of a molecule. The object also contains metadata ..."];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="ospray::SDFGeometries",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dd2/structospray_1_1SDFGeometries.html",tooltip=" "];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="ospray::Geometry",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

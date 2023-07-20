@@ -1,5 +1,0 @@
-<map id="core::OSPRayFrameBuffer" name="core::OSPRayFrameBuffer">
-<area shape="rect" id="node1" title=" " alt="" coords="5,155,195,181"/>
-<area shape="rect" id="node2" href="$db/ddf/classcore_1_1FrameBuffer.html" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an..." alt="" coords="31,80,169,107"/>
-<area shape="rect" id="node3" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="34,5,166,32"/>
-</map>

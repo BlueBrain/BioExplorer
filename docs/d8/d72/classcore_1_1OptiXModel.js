@@ -14,8 +14,8 @@ var classcore_1_1OptiXModel =
     [ "createBrickedVolume", "d8/d72/classcore_1_1OptiXModel.html#ace77b64bc8d16024be8a83131e6e4249", null ],
     [ "createMaterialImpl", "d8/d72/classcore_1_1OptiXModel.html#aeee17ba673444a16a90e06be686bf727", null ],
     [ "createMaterialImpl", "d8/d72/classcore_1_1OptiXModel.html#aed3dc834be377c7a2cc86047d5016e98", null ],
-    [ "createSharedDataVolume", "d8/d72/classcore_1_1OptiXModel.html#a41e2c308f4709aa54f104f85c203fa25", null ],
     [ "createSharedDataVolume", "d8/d72/classcore_1_1OptiXModel.html#a9ae7871da40be19d8826d98a712b2832", null ],
+    [ "createSharedDataVolume", "d8/d72/classcore_1_1OptiXModel.html#a41e2c308f4709aa54f104f85c203fa25", null ],
     [ "getBoundingBoxGroup", "d8/d72/classcore_1_1OptiXModel.html#a917340b0f05da446330c39e833972f40", null ],
     [ "getGeometryGroup", "d8/d72/classcore_1_1OptiXModel.html#a071445fefddb0bbe20c18d4db85c4306", null ]
 ];

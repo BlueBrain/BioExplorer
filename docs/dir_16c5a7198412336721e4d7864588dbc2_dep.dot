@@ -1,0 +1,11 @@
+digraph "platform/plugins/vrpn" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_1d387e22b704c43dbb0ef2b3b77fabe1 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="plugins" fontname="Helvetica", fontsize="10", URL="dir_1d387e22b704c43dbb0ef2b3b77fabe1.html"]
+  dir_16c5a7198412336721e4d7864588dbc2 [shape=box, label="vrpn", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_16c5a7198412336721e4d7864588dbc2.html"];
+  }
+  dir_3066efc1f4040d52e90bf8a29ab3f16b [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_3066efc1f4040d52e90bf8a29ab3f16b.html"];
+  dir_16c5a7198412336721e4d7864588dbc2->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="6", labeldistance=1.5 headhref="dir_000082_000065.html"];
+}

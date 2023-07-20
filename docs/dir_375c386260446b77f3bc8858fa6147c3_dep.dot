@@ -1,0 +1,11 @@
+digraph "bioexplorer/backend/plugins/Metabolism/plugin/api" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_6ca321a7dcb70fc74a18e8569f0858b0 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="plugin" fontname="Helvetica", fontsize="10", URL="dir_6ca321a7dcb70fc74a18e8569f0858b0.html"]
+  dir_375c386260446b77f3bc8858fa6147c3 [shape=box, label="api", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_375c386260446b77f3bc8858fa6147c3.html"];
+  }
+  dir_14d627cccd023aaf4f18eaf1359097e2 [shape=box label="science" fillcolor="white" style="filled" color="red" URL="dir_14d627cccd023aaf4f18eaf1359097e2.html"];
+  dir_375c386260446b77f3bc8858fa6147c3->dir_14d627cccd023aaf4f18eaf1359097e2 [headlabel="1", labeldistance=1.5 headhref="dir_000139_000037.html"];
+}

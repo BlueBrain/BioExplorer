@@ -1,0 +1,11 @@
+digraph "platform/plugins/rockets" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_1d387e22b704c43dbb0ef2b3b77fabe1 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="plugins" fontname="Helvetica", fontsize="10", URL="dir_1d387e22b704c43dbb0ef2b3b77fabe1.html"]
+  dir_7c18b428d78dd40b296732ecc9eed82c [shape=box, label="rockets", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_7c18b428d78dd40b296732ecc9eed82c.html"];
+  }
+  dir_3066efc1f4040d52e90bf8a29ab3f16b [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_3066efc1f4040d52e90bf8a29ab3f16b.html"];
+  dir_7c18b428d78dd40b296732ecc9eed82c->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="53", labeldistance=1.5 headhref="dir_000081_000065.html"];
+}
