@@ -169,19 +169,19 @@ endif()
 # ==============================================================================
 # Space explorer
 # ==============================================================================
-option(SPACEEXPLORER_BUILD_ENABLED "Activate SpaceExplorer build" OFF)
+option(COSMOLOGY_BUILD_ENABLED "Activate cosmology extensions build" OFF)
 
-if(SPACEEXPLORER_BUILD_ENABLED)
-    message(STATUS "[Core] SpaceExplorer build enabled")
-    add_subdirectory(spaceexplorer)
+if(COSMOLOGY_BUILD_ENABLED)
+    message(STATUS "[Core] Cosmology build enabled")
+    add_subdirectory(extensions/cosmology)
 endif()
 
 # ==============================================================================
 # Medical imaging explorer
 # ==============================================================================
-option(MEDICALIMAGINGEXPLORER_BUILD_ENABLED "Activate MedicalImagingExplorer build" OFF)
+option(MEDICALIMAGING_BUILD_ENABLED "Activate medical imaging extensions build" OFF)
 
-if(MEDICALIMAGINGEXPLORER_BUILD_ENABLED)
-    message(STATUS "[Core] MedicalImagingExplorer build enabled")
-    add_subdirectory(medicalimagingexplorer)
+if(MEDICALIMAGING_BUILD_ENABLED)
+    message(STATUS "[Core] Medical imaging build enabled")
+    add_subdirectory(extensions/medicalimaging)
 endif()
