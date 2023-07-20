@@ -26,13 +26,11 @@ set(LIBRARY_NAME CoreIO)
 # Sources
 # ==============================================================================
 set(${NAME}_SOURCES
-  ProteinLoader.cpp
   VolumeLoader.cpp
   XYZBLoader.cpp
 )
 
 set(${NAME}_PUBLIC_HEADERS
-  ProteinLoader.h
   VolumeLoader.h
   XYZBLoader.h
 )
