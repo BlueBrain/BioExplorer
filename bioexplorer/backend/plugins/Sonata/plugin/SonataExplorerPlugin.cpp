@@ -108,7 +108,7 @@ using namespace astrocyte;
 const std::string PLUGIN_API_PREFIX = "se-";
 
 const std::string RENDERER_CELL_GROWTH = "cell_growth";
-const std::string RENDERER_PROXIMITY = "proximity";
+const std::string RENDERER_PROXIMITY = "proximity_detection";
 const std::string CAMERA_SPHERE_CLIPPING_PERSPECTIVE = "sphere_clipping_perspective";
 const std::string LOADER_BRICK = "brick";
 const std::string LOADER_SYNAPSE_CIRCUIT = "synapse_circuit";
