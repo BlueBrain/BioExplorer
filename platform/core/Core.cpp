@@ -55,7 +55,6 @@
 #include <platform/core/io/MeshLoader.h>
 #endif
 
-#include <platform/core/io/ProteinLoader.h>
 #include <platform/core/io/VolumeLoader.h>
 #include <platform/core/io/XYZBLoader.h>
 
@@ -302,7 +301,6 @@ private:
 
         auto params = _parametersManager.getGeometryParameters();
 
-        registry.registerLoader(std::make_unique<ProteinLoader>(scene, params));
         registry.registerLoader(std::make_unique<RawVolumeLoader>(scene));
         registry.registerLoader(std::make_unique<MHDVolumeLoader>(scene));
         registry.registerLoader(std::make_unique<XYZBLoader>(scene));
