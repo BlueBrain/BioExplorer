@@ -36,6 +36,11 @@ struct AdvancedRenderer
     float giDistance;
     uint32 giSamples;
 
+    // Volumes
+    float volumeSamplingThreshold;
+    float volumeSpecularExponent;
+    float volumeAlphaCorrection;
+
     // Matrix filter (just for fun)
     bool matrixFilter;
 

@@ -28,16 +28,14 @@
 #include <ospray/SDK/math/vec.ih>
 #include <ospray/SDK/render/Renderer.ih>
 
-float getRandomValue(const varying ScreenSample& sample, const int randomNumber);
+float getRandomValue(const bool useHardware, const varying ScreenSample& sample, const int randomNumber);
 
 /**
     Returns a random direction based on location in the frame buffer, the normal
    to the surface and rotation parameters for the precomputed hard-coded random
    distribution.
     @param useHardware Use hardware acceleration
-    @param frameBufferWidth Width of the frame buffer
     @param sample Frame buffer sample being rendered
-    @param normal Normal vector to the surface
     @param randomNumber A random number that introduces noise in the
    distribution
     @return A random direction based on specified parameters
