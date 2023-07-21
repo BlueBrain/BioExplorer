@@ -317,6 +317,7 @@ The port of [Shadertoy](https://www.shadertoy.com)'s black hole implementation t
 
 References:
 * Shadertoy's [Black hole with accretion disk](https://www.shadertoy.com/view/tsBXW3)
+* [Example notebook](./extensions/cosmology/notebooks/Gaia_ESA.ipynb) for visualizing the GAIA ESA archive dataset
 
 ## Medical Imaging Explorer
 
