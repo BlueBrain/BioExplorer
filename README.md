@@ -297,6 +297,14 @@ References:
 * [Neuromodulation of neocortical microcircuitry: a multi-scale framework to model the effects of cholinergic release](https://infoscience.epfl.ch/record/294819)
 * [The cholinergic innervation develops early and rapidly in the rat cerebral cortex: a quantitative immunocytochemical study](https://www.sciencedirect.com/science/article/abs/pii/S030645220100389X)
 
+# Extensions
+
+The _BBBE_ represents a highly adaptable and flexible system tailored to explore a wide array of scientific datasets. This exceptional platform has been engineered to accommodate a diverse range of data sources and formats. Its extensibility lies in the incorporation of plugins, which serve as add-on modules expanding the system's capabilities.
+
+Among the plugins available in the extensions folder, there are dedicated modules catering to specific scientific domains. For instance, the cosmology plugin empowers researchers to delve into and analyze astronomical datasets. On the other hand, the medical imaging plugin facilitates in-depth investigations of medical datasets, making it possible for healthcare professionals and scientists to examine and interpret various types of medical images with remarkable precision.
+
+Beyond these examples, _BBBE_ boasts the potential to accommodate additional plugins, making it a powerful platform for scientists from diverse disciplines to explore and make sense of complex scientific data efficiently and effectively.
+
 ## Space explorer
 
 Scientific visualization plays a vital role in the field of space exploration by enabling researchers to interpret and communicate complex astronomical data in a visually compelling manner. It involves the use of advanced computer graphics techniques to transform raw data collected from telescopes, satellites, and spacecraft into visually stunning and informative representations. Through scientific visualization, astronomers can create accurate and detailed models of celestial objects, such as galaxies, nebulae, and planetary systems, aiding in the understanding of their formation, evolution, and behavior. It allows scientists to explore and analyze vast datasets, unveiling patterns, relationships, and hidden structures that may otherwise go unnoticed. Additionally, scientific visualization serves as a powerful tool for public outreach, engaging and inspiring the general public by presenting the awe-inspiring beauty and scientific discoveries of the cosmos in accessible and captivating ways. Overall, scientific visualization plays a crucial role in advancing our knowledge of the universe and fostering a deeper appreciation for the wonders of space exploration.
@@ -305,7 +313,7 @@ Scientific visualization plays a vital role in the field of space exploration by
 
 The port of [Shadertoy](https://www.shadertoy.com)'s black hole implementation to the _BBBE_ represents an exciting fusion of artistic creativity and scientific exploration. Shadertoy, a popular platform for shader development and visual effects, offers a stunning black hole simulation that captures the mesmerizing visual aspects of these cosmic entities. The integration of Shadertoy's black hole into the _BBBE_ allows users to engage with the visualization in a more immersive and scalable way.
 
-![___](./spaceexplorer/docs/blackhole_banner.png)
+![___](./extensions/cosmology/docs/blackhole_banner.png)
 
 References:
 * Shadertoy's [Black hole with accretion disk](https://www.shadertoy.com/view/tsBXW3)
@@ -320,7 +328,7 @@ DICOM stands for "Digital Imaging and Communications in Medicine." It is a widel
 
 The _BBBE_ DICOM plugin implements the loading of DICOM datasets.
 
-![___](./medicalimagingexplorer/docs/dicom_banner.png)
+![___](./extensions/medicalimaging/docs/dicom_banner.png)
 
 ## Python SDK
 
