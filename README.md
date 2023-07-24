@@ -331,6 +331,16 @@ The _BBBE_ DICOM plugin implements the loading of DICOM datasets.
 
 ![___](./extensions/medicalimaging/docs/dicom_banner.png)
 
+## Environment
+
+Visualizing environmental data holds immense significance in understanding and addressing complex environmental challenges. By transforming vast datasets into clear, graphical representations, we can grasp the intricate interactions between various environmental factors.
+
+### Geological data
+
+Visualizing geological data is of paramount importance in the field of geology as it provides a powerful means to comprehend and interpret complex information. By converting raw data into visually appealing representations, geologists gain a deeper understanding of the Earth's composition, structure, and processes. Maps, cross-sections, and 3D models enable researchers to identify patterns, trends, and anomalies that may remain obscured in raw datasets. Visualization aids in making informed decisions related to resource exploration, hazard assessment, and environmental management. Moreover, presenting geological findings visually enhances communication with colleagues, policymakers, and the public, fostering greater awareness and support for geological research and its implications for society. The _BBBE_ serves as an indispensable tool in unraveling the mysteries of our planet and harnessing its resources responsibly.
+
+* [Example notebook](./extensions/environment/notebooks/Charm-50.ipynb) for visualizing the [InfoTerre](http://infoterre.brgm.fr/) dataset
+
 ## Python SDK
 
 A simple API if exposed via the _BBBE_ python library. The API allows scientists to easily create and modify assemblies, according the biological parameters. The _BBBE_ programming language is not necessarily reflecting the underlying implementation, but is meant to be as simple as close as possible to the language used by the scientists to describe biological assemblies.

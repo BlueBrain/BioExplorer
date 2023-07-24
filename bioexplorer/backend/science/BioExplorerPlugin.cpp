@@ -1377,11 +1377,11 @@ Response BioExplorerPlugin::_addStreamlines(const AddStreamlinesDetails &payload
         auto material = model->createMaterial(0, "Streamlines");
         material->setDiffuseColor({1, 1, 1});
 
-        for (uint64_t index = 0; index < nbIndices; ++index)
+        for (uint64_t index = 0; index < nbIndices - 1; ++index)
         {
             // Create streamline geometry
             const auto begin = payload.indices[index];
-            const auto end = (index == nbIndices - 1 ? nbVertices : payload.indices[index + 1]) - 1;
+            const auto end = payload.indices[index + 1];
 
             if (end - begin < 2)
                 continue;
