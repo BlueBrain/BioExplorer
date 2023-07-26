@@ -2619,7 +2619,7 @@ class BioExplorer:
         )
         params = self._client.BioExplorerFieldsRendererParams()
         params.cutoff = 5000
-        params.exposure = 2.0
+        params.main_exposure = 10.0
         params.alpha_correction = 0.1
         params.nb_ray_steps = 16
         params.nb_ray_refinement_steps = samples_per_pixel

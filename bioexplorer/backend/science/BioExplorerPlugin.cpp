@@ -147,7 +147,7 @@ void _addBioExplorerFieldsRenderer(Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_FIELDS);
     PropertyMap properties;
-    properties.setProperty({"mainExposure", 1., 1., 10., {"Exposure"}});
+    properties.setProperty({"mainExposure", 1., 1., 20., {"Exposure"}});
     properties.setProperty({"useHardwareRandomizer", false, {"Use hardware accelerated randomizer"}});
     properties.setProperty({"minRayStep", 0.00001, 0.00001, 1.0, {"Smallest ray step"}});
     properties.setProperty({"nbRaySteps", 8, 1, 2048, {"Number of ray marching steps"}});

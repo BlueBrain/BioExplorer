@@ -38,8 +38,6 @@ namespace fields
 {
 using namespace common;
 
-const float DEFAULT_EVENT_VALUE = 1.f;
-
 FieldsHandler::FieldsHandler(const Scene& scene, const double voxelSize, const double density)
     : AbstractSimulationHandler()
 {
@@ -107,7 +105,9 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize, con
                         events.push_back(center.y);
                         events.push_back(center.z);
                         events.push_back(sphere.radius);
-                        events.push_back(DEFAULT_EVENT_VALUE);
+                        events.push_back(sphere.radius);
+
+                        PLUGIN_DEBUG(center.x << ", " << center.y << ", " << center.z);
                     }
                     ++count;
                 }
@@ -115,18 +115,29 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize, con
         }
     }
 
+    PLUGIN_DEBUG("AABB: " << bounds);
+
+    // Events bounds
+    Vector3f sceneSize = bounds.getSize();
+    Vector3f center = bounds.getCenter();
+    Vector3f extendedHalfSize = sceneSize * 0.5f;
+
+    // Expand volume by 25%
+    const float boundsExpansion = 1.25f;
+    bounds.merge(center + extendedHalfSize * boundsExpansion);
+    bounds.merge(center - extendedHalfSize * boundsExpansion);
+    sceneSize = bounds.getSize();
+    center = bounds.getCenter();
+    extendedHalfSize = sceneSize * 0.5f;
+
     // Compute volume information
-    const Vector3f sceneSize = bounds.getSize();
-    const Vector3f center = bounds.getCenter();
-    const Vector3f extendedHalfSize = sceneSize * 0.5f;
     const Vector3f minAABB = center - extendedHalfSize;
     const Vector3f maxAABB = center + extendedHalfSize;
-    _offset = minAABB;
 
     // Build acceleration structure
     const Octree accelerator(events, voxelSize, minAABB, maxAABB);
     const uint32_t volumeSize = accelerator.getVolumeSize();
-    _offset = minAABB;
+    _offset = center - extendedHalfSize;
     _dimensions = accelerator.getVolumeDimensions();
     _spacing = sceneSize / Vector3f(_dimensions);
 
