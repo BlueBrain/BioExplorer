@@ -53,6 +53,8 @@ void _addVolumeRenderer(Engine &engine)
     core::PropertyMap properties;
     properties.setProperty({"shadows", 0., 0., 1., {"Shadows"}});
     properties.setProperty({"softShadows", 0., 0., 1., {"Soft shadows"}});
+    properties.setProperty({"volumeNormalEpsilon", 0.00001, 0.00001, 1., {"Normal epsilon"}});
+    properties.setProperty({"mainExposure", 1., 0.01, 10., {"Exposure"}});
     engine.addRendererType(RENDERER_VOLUME, properties);
 }
 

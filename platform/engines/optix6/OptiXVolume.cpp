@@ -146,7 +146,7 @@ void OptiXVolume::setVoxels(const void* voxels)
 
     optix::Buffer _buffer =
         context->createMipmappedBuffer(RT_BUFFER_INPUT, _dataType, _dimensions.x, _dimensions.y, _dimensions.z, 1u);
-    memcpy(_buffer->map(), voxels, _dimensions.x * _dimensions.y * _dimensions.z * sizeof(_dataType));
+    memcpy(_buffer->map(), voxels, bufferSize);
     _buffer->unmap();
 
     _sampler->setBuffer(0u, 0u, _buffer);
