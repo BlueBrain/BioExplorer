@@ -53,7 +53,7 @@ protected:
     RTformat _dataType{RT_FORMAT_UNSIGNED_BYTE};
     uint64_t _dataTypeSize{1};
     ::optix::Buffer _buffer{nullptr};
-    ::optix::TextureSampler _dummyTextureSampler{nullptr};
+    optix::TextureSampler _sampler{nullptr};
 };
 
 } // namespace core

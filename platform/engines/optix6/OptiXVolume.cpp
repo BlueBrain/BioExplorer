@@ -66,12 +66,6 @@ OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const V
     context[CONTEXT_VOLUME_DATA_TYPE_SIZE]->setUint(_dataTypeSize);
 
     _createBox(model);
-
-    ::optix::TextureSampler sampler = context->createTextureSampler();
-    sampler->setArraySize(1u);
-    optix::Buffer buffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 1, 1);
-    sampler->setBuffer(buffer);
-    _dummyTextureSampler = sampler;
 }
 
 OptiXVolume::~OptiXVolume()
@@ -132,36 +126,34 @@ void OptiXVolume::_createBox(OptiXModel* model)
 void OptiXVolume::setVoxels(const void* voxels)
 {
     RT_DESTROY(_buffer);
+    RT_DESTROY(_sampler);
 
     auto context = OptiXContext::get().getOptixContext();
     const auto bufferSize = _dimensions.x * _dimensions.y * _dimensions.z * _dataTypeSize;
-    _buffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_BYTE, bufferSize);
-    memcpy(_buffer->map(), voxels, bufferSize);
-    _buffer->unmap();
-    context[CONTEXT_VOLUME_DATA]->setBuffer(_buffer);
     context[CONTEXT_VOLUME_DIMENSIONS]->setUint(_dimensions.x, _dimensions.y, _dimensions.z);
     context[CONTEXT_VOLUME_OFFSET]->setFloat(_offset.x, _offset.y, _offset.z);
     context[CONTEXT_VOLUME_ELEMENT_SPACING]->setFloat(_spacing.x, _spacing.y, _spacing.z);
 
     // Volume as texture
     // Create tex sampler and populate with default values
-    optix::TextureSampler sampler = context->createTextureSampler();
-    sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
-    sampler->setWrapMode(1, RT_WRAP_CLAMP_TO_EDGE);
-    sampler->setWrapMode(2, RT_WRAP_CLAMP_TO_EDGE);
-    sampler->setIndexingMode(RT_TEXTURE_INDEX_NORMALIZED_COORDINATES);
-    sampler->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
-    // sampler->setMaxAnisotropy(8.0f);
+    _sampler = context->createTextureSampler();
+    _sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
+    _sampler->setWrapMode(1, RT_WRAP_CLAMP_TO_EDGE);
+    _sampler->setWrapMode(2, RT_WRAP_CLAMP_TO_EDGE);
+    _sampler->setIndexingMode(RT_TEXTURE_INDEX_NORMALIZED_COORDINATES);
+    _sampler->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
+    _sampler->setMaxAnisotropy(8.0f);
 
-    optix::Buffer buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_INT, _dimensions.x,
-                                                          _dimensions.y, _dimensions.z, 1u);
-    memcpy(buffer->map(), voxels, _dimensions.x * _dimensions.y * _dimensions.z * sizeof(RT_FORMAT_INT));
-    buffer->unmap();
+    optix::Buffer _buffer =
+        context->createMipmappedBuffer(RT_BUFFER_INPUT, _dataType, _dimensions.x, _dimensions.y, _dimensions.z, 1u);
+    memcpy(_buffer->map(), voxels, _dimensions.x * _dimensions.y * _dimensions.z * sizeof(_dataType));
+    _buffer->unmap();
 
-    sampler->setBuffer(0u, 0u, buffer);
-    sampler->setFilteringModes(RT_FILTER_LINEAR, RT_FILTER_LINEAR, RT_FILTER_NONE);
+    _sampler->setBuffer(0u, 0u, _buffer);
+    _sampler->setFilteringModes(RT_FILTER_LINEAR, RT_FILTER_LINEAR, RT_FILTER_NONE);
 
-    context[CONTEXT_VOLUME_TEXTURE_SAMPLER]->setInt(sampler->getId());
+    context[CONTEXT_VOLUME_TEXTURE_SAMPLER]->setInt(_sampler->getId());
+    context[CONTEXT_VOLUME_DATA_TYPE]->setUint(_dataType);
 }
 
 } // namespace core

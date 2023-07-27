@@ -114,8 +114,7 @@ const std::string CONTEXT_TONEMAPPED_BUFFER = "tonemapped_buffer";
 const std::string CONTEXT_FRAME_NUMBER = "frame_number";
 
 // Volume
-const std::string CONTEXT_VOLUME_DATA = "volumeData";
-const std::string CONTEXT_VOLUME_DATA_TYPE = "volumeSampler";
+const std::string CONTEXT_VOLUME_DATA_TYPE = "volumeDataType";
 const std::string CONTEXT_VOLUME_DATA_TYPE_SIZE = "volumeDataTypeSize";
 const std::string CONTEXT_VOLUME_DIMENSIONS = "volumeDimensions";
 const std::string CONTEXT_VOLUME_OFFSET = "volumeOffset";

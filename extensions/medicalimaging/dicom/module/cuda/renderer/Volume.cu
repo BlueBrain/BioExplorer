@@ -125,6 +125,37 @@ static __device__ void compose(const float4& src, float4& dst, const float alpha
     dst = make_float4((1.f - dst.w) * a * make_float3(src) + dst.w * make_float3(dst), dst.w + a);
 }
 
+static __device__ float getVoxelValue(const float3& p)
+{
+    switch (volumeDataType)
+    {
+    case RT_FORMAT_BYTE:
+    {
+        const char voxelValue = optix::rtTex3D<char>(volumeSampler, p.x, p.y, p.z);
+        return float(voxelValue) / 256.f;
+    }
+    case RT_FORMAT_UNSIGNED_BYTE:
+    {
+        const unsigned char voxelValue = optix::rtTex3D<unsigned char>(volumeSampler, p.x, p.y, p.z);
+        return float(voxelValue) / 256.f;
+    }
+    case RT_FORMAT_INT:
+    {
+        const int voxelValue = optix::rtTex3D<int>(volumeSampler, p.x, p.y, p.z);
+        return float(voxelValue) / 65536.f;
+    }
+    case RT_FORMAT_UNSIGNED_INT:
+    {
+        const unsigned int voxelValue = optix::rtTex3D<unsigned int>(volumeSampler, p.x, p.y, p.z);
+        return float(voxelValue) / 65536.f;
+    }
+    default:
+    {
+        return optix::rtTex3D<float>(volumeSampler, p.x, p.y, p.z);
+    }
+    }
+}
+
 static __device__ float getVolumeShadowContribution(const optix::Ray& volumeRay)
 {
     float shadowIntensity = 0.f;
@@ -142,11 +173,10 @@ static __device__ float getVolumeShadowContribution(const optix::Ray& volumeRay)
         if (point.x > 0.f && point.x < volumeDimensions.x && point.y > 0.f && point.y < volumeDimensions.y &&
             point.z > 0.f && point.z < volumeDimensions.z)
         {
-            const unsigned int voxelValue =
-                optix::rtTex3D<unsigned int>(volumeSampler, point.x / volumeDimensions.x / 2.f,
-                                             point.y / volumeDimensions.y / 2.f, point.z / volumeDimensions.z / 2.f);
-            const float4 voxelColor = calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange,
-                                                                float(voxelValue) / 65536.f, tfColors, tfOpacities);
+            const float3 p = make_float3(point.x / volumeDimensions.x / 2.f, point.y / volumeDimensions.y / 2.f,
+                                         point.z / volumeDimensions.z / 2.f);
+            const float4 voxelColor =
+                calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, getVoxelValue(p), tfColors, tfOpacities);
 
             shadowIntensity += voxelColor.w;
         }
@@ -195,12 +225,10 @@ static __device__ float4 getVolumeContribution(const optix::Ray& volumeRay)
                 point.z >= 0.f && point.z < volumeDimensions.z)
             {
                 ++computedSamples;
-                const unsigned int voxelValue =
-                    optix::rtTex3D<unsigned int>(volumeSampler, point.x / volumeDimensions.x / 2.f,
-                                                 point.y / volumeDimensions.y / 2.f,
-                                                 point.z / volumeDimensions.z / 2.f);
-                voxelColor += calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, float(voxelValue) / 65536.f,
-                                                        tfColors, tfOpacities);
+                const float3 p = make_float3(point.x / volumeDimensions.x / 2.f, point.y / volumeDimensions.y / 2.f,
+                                             point.z / volumeDimensions.z / 2.f);
+                voxelColor += calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, getVoxelValue(p), tfColors,
+                                                        tfOpacities);
 
                 // Determine light contribution
                 if (computedShadowSamples == 0 && shadows > 0.f && voxelColor.w > DEFAULT_VOLUME_SHADOW_THRESHOLD)
