@@ -44,29 +44,33 @@ void OptiXCamera::commit()
 
     cameraProgram->commit(*this, context);
 
-    RT_DESTROY(_clipPlanesBuffer);
-
-    const size_t numClipPlanes = _clipPlanes.size();
-    if (numClipPlanes > 0)
+    // RT_DESTROY(_clipPlanesBuffer);
+    if (!_clipPlanesBuffer)
     {
-        Vector4fs buffer;
-        buffer.reserve(numClipPlanes);
-        for (const auto& clipPlane : _clipPlanes)
-            buffer.push_back({static_cast<float>(clipPlane[0]), static_cast<float>(clipPlane[1]),
-                              static_cast<float>(clipPlane[2]), static_cast<float>(clipPlane[3])});
+        const size_t numClipPlanes = _clipPlanes.size();
+        if (numClipPlanes > 0)
+        {
+            Vector4fs buffer;
+            buffer.reserve(numClipPlanes);
+            for (const auto& clipPlane : _clipPlanes)
+                buffer.push_back({static_cast<float>(clipPlane[0]), static_cast<float>(clipPlane[1]),
+                                  static_cast<float>(clipPlane[2]), static_cast<float>(clipPlane[3])});
 
-        _clipPlanesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, numClipPlanes);
-        memcpy(_clipPlanesBuffer->map(), buffer.data(), numClipPlanes * sizeof(Vector4f));
-        _clipPlanesBuffer->unmap();
-    }
-    else
-    {
-        // Create empty buffer to avoid unset variable exception in cuda
-        _clipPlanesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 1);
-    }
+            const auto size = numClipPlanes * sizeof(Vector4f);
+            _clipPlanesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, size);
+            memcpy(_clipPlanesBuffer->map(), buffer.data(), size);
+            _clipPlanesBuffer->unmap();
+        }
+        else
+        {
+            // Create empty buffer to avoid unset variable exception in cuda
+            const auto size = sizeof(Vector4f);
+            _clipPlanesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, size);
+        }
 
-    context[CONTEXT_CLIP_PLANES]->setBuffer(_clipPlanesBuffer);
-    context[CONTEXT_NB_CLIP_PLANES]->setUint(numClipPlanes);
+        context[CONTEXT_CLIP_PLANES]->setBuffer(_clipPlanesBuffer);
+        context[CONTEXT_NB_CLIP_PLANES]->setUint(numClipPlanes);
+    }
 }
 
 } // namespace core

@@ -115,10 +115,12 @@ const std::string CONTEXT_FRAME_NUMBER = "frame_number";
 
 // Volume
 const std::string CONTEXT_VOLUME_DATA = "volumeData";
+const std::string CONTEXT_VOLUME_DATA_TYPE = "volumeSampler";
 const std::string CONTEXT_VOLUME_DATA_TYPE_SIZE = "volumeDataTypeSize";
 const std::string CONTEXT_VOLUME_DIMENSIONS = "volumeDimensions";
 const std::string CONTEXT_VOLUME_OFFSET = "volumeOffset";
 const std::string CONTEXT_VOLUME_ELEMENT_SPACING = "volumeElementSpacing";
+const std::string CONTEXT_VOLUME_TEXTURE_SAMPLER = "volumeSampler";
 
 // Volume parameters
 const std::string CONTEXT_VOLUME_GRADIENT_SHADING_ENABLED = "volumeGradientShadingEnabled";

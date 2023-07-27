@@ -20,6 +20,8 @@
 
 #include <plugin/io/DICOMLoader.h>
 
+#include <Defines.h>
+
 #include <platform/core/common/Types.h>
 #include <platform/core/pluginapi/ExtensionPlugin.h>
 
@@ -40,6 +42,11 @@ public:
     void init() final;
 
 private:
+    void _createRenderers();
+#ifdef USE_OPTIX6
+    void _createOptiXRenderers();
+#endif
+
     PropertyMap _dicomParams;
     bool _dirty{false};
 };
