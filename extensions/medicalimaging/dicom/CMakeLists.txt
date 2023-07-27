@@ -72,7 +72,7 @@ if(PLATFORM_OPTIX6_ENABLED)
     set(CUDA_NVCC_FLAGS "--use_fast_math")
     
     set(${NAME}_CU
-        module/cuda/renderer/Volume.cu
+        module/cuda/renderer/DICOM.cu
     )
     
     CUDA_WRAP_SRCS(${LIBRARY_NAME} PTX ptx_generated_files ${${NAME}_CU})

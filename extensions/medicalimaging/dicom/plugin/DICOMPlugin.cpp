@@ -33,7 +33,7 @@
 #include <platform/core/pluginapi/Plugin.h>
 
 #ifdef USE_OPTIX6
-#include <DICOM_generated_Volume.cu.ptx.h>
+#include <DICOM_generated_DICOM.cu.ptx.h>
 #include <platform/engines/optix6/OptiXContext.h>
 #endif
 
@@ -43,7 +43,7 @@ namespace dicom
 {
 #define REGISTER_LOADER(LOADER, FUNC) registry.registerLoader({std::bind(&LOADER::getSupportedDataTypes), FUNC});
 
-const std::string RENDERER_VOLUME = "volume";
+const std::string RENDERER_VOLUME = "DICOM";
 
 using namespace core;
 
@@ -86,7 +86,7 @@ void DICOMPlugin::init()
 void DICOMPlugin::_createOptiXRenderers()
 {
     std::map<std::string, std::string> renderers = {
-        {RENDERER_VOLUME, DICOM_generated_Volume_cu_ptx},
+        {RENDERER_VOLUME, DICOM_generated_DICOM_cu_ptx},
     };
     OptiXContext &context = OptiXContext::get();
     for (const auto &renderer : renderers)
