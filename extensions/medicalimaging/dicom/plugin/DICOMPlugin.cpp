@@ -43,11 +43,11 @@ namespace dicom
 {
 #define REGISTER_LOADER(LOADER, FUNC) registry.registerLoader({std::bind(&LOADER::getSupportedDataTypes), FUNC});
 
-const std::string RENDERER_VOLUME = "DICOM";
+const std::string RENDERER_VOLUME = "dicom";
 
 using namespace core;
 
-void _addVolumeRenderer(Engine &engine)
+void _addDICOMRenderer(Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_VOLUME);
     core::PropertyMap properties;
@@ -55,6 +55,9 @@ void _addVolumeRenderer(Engine &engine)
     properties.setProperty({"softShadows", 0., 0., 1., {"Soft shadows"}});
     properties.setProperty({"volumeNormalEpsilon", 0.00001, 0.00001, 1., {"Normal epsilon"}});
     properties.setProperty({"mainExposure", 1., 0.01, 10., {"Exposure"}});
+    properties.setProperty({"giDistance", 10000.0, {"Global illumination distance"}});
+    properties.setProperty({"giWeight", 0.0, 1.0, 1.0, {"Global illumination weight"}});
+    properties.setProperty({"giSamples", 0, 0, 64, {"Global illumination samples"}});
     engine.addRendererType(RENDERER_VOLUME, properties);
 }
 
@@ -93,7 +96,6 @@ void DICOMPlugin::_createOptiXRenderers()
     OptiXContext &context = OptiXContext::get();
     for (const auto &renderer : renderers)
     {
-        PLUGIN_REGISTER_RENDERER(renderer.first);
         const std::string ptx = renderer.second;
 
         auto osp = std::make_shared<OptixShaderProgram>();
@@ -108,7 +110,7 @@ void DICOMPlugin::_createOptiXRenderers()
 void DICOMPlugin::_createRenderers()
 {
     auto &engine = _api->getEngine();
-    _addVolumeRenderer(engine);
+    _addDICOMRenderer(engine);
 }
 
 extern "C" ExtensionPlugin *core_plugin_create(int /*argc*/, char ** /*argv*/)

@@ -61,6 +61,7 @@ public:
 
 private:
     void _commitVolumeParameters();
+    void _commitClippingPlanes();
 
     optix::Buffer _lightBuffer{nullptr};
     std::vector<BasicLight> _optixLights;
@@ -74,5 +75,8 @@ private:
 
     // Volumes
     optix::Buffer _volumeBuffer;
+
+    // Clipping planes
+    optix::Buffer _clipPlanesBuffer{nullptr};
 };
 } // namespace core

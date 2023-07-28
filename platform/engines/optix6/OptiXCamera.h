@@ -26,8 +26,8 @@
 
 #include "OptiXContext.h"
 
-#include <platform/core/engineapi/Camera.h>
 #include <optixu/optixpp_namespace.h>
+#include <platform/core/engineapi/Camera.h>
 
 namespace core
 {
@@ -46,8 +46,6 @@ public:
     void commit() final;
 
 private:
-    optix::Buffer _clipPlanesBuffer{nullptr};
-    Planes _clipPlanes;
     std::string _currentCamera;
 };
 } // namespace core

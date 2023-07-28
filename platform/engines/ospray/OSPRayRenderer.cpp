@@ -114,7 +114,6 @@ void OSPRayRenderer::commit()
 
         setClipPlanes(planes);
 
-        _camera->setClipPlanes(planes);
         _camera->commit();
     }
 
@@ -129,21 +128,6 @@ void OSPRayRenderer::commit()
         material->setDiffuseColor(rp.getBackgroundColor());
         material->commit(_currentOSPRenderer);
         ospSetObject(_renderer, "bgMaterial", material->getOSPMaterial());
-    }
-
-    // Clip planes
-    if (!_clipPlanes.empty())
-    {
-        const auto clipPlanes = convertVectorToFloat(_clipPlanes);
-        auto clipPlaneData = ospNewData(clipPlanes.size(), OSP_FLOAT4, clipPlanes.data());
-        ospSetData(_renderer, "clipPlanes", clipPlaneData);
-        ospRelease(clipPlaneData);
-    }
-    else
-    {
-        // ospRemoveParam leaks objects, so we set it to null first
-        ospSetData(_renderer, "clipPlanes", nullptr);
-        ospRemoveParam(_renderer, "clipPlanes");
     }
 
     ospSetObject(_renderer, "camera", _camera->impl());

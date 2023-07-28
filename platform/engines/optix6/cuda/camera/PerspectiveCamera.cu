@@ -123,7 +123,9 @@ __device__ float3 launch(unsigned int& seed, const float2 screen, const bool use
     // Clipping planes
     float near = scene_epsilon;
     float far = INFINITY;
+#if 0
     getClippingValues(ray_origin, ray_direction, near, far);
+#endif
 
     // Tracing
     optix::Ray ray(ray_origin, ray_direction, radiance_ray_type, near, far);
