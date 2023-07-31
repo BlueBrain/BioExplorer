@@ -23,13 +23,6 @@
 #include "Environment.cuh"
 #include "Helpers.cuh"
 
-struct PerRayData_radiance
-{
-    float3 result;
-    float importance;
-    int depth;
-};
-
 rtDeclareVariable(PerRayData_radiance, prd_radiance, rtPayload, );
 
 RT_PROGRAM void envmap_miss()

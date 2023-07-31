@@ -42,6 +42,8 @@ void OptiXCamera::commit()
 
     auto context = OptiXContext::get().getOptixContext();
 
+    toOptiXProperties(getPropertyMap());
+
     cameraProgram->commit(*this, context);
 }
 } // namespace core

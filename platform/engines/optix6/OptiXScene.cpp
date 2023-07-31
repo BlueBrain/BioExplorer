@@ -63,7 +63,16 @@ OptiXScene::OptiXScene(AnimationParameters& animationParameters, GeometryParamet
     oc["simulation_data"]->setBuffer(oc->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, 0));
 }
 
-OptiXScene::~OptiXScene() = default;
+OptiXScene::~OptiXScene()
+{
+    RT_DESTROY(_lightBuffer);
+    RT_DESTROY(_colorMapBuffer);
+    RT_DESTROY(_emissionIntensityMapBuffer);
+    RT_DESTROY(_backgroundTextureSampler);
+    RT_DESTROY(_dummyTextureSampler);
+    RT_DESTROY(_volumeBuffer);
+    RT_DESTROY(_clipPlanesBuffer);
+}
 
 bool OptiXScene::commitLights()
 {
@@ -153,6 +162,9 @@ void OptiXScene::_commitVolumeParameters()
 
 void OptiXScene::_commitClippingPlanes()
 {
+    if (!isModified())
+        return;
+
     auto context = OptiXContext::get().getOptixContext();
 
     if (!_clipPlanesBuffer)
@@ -176,10 +188,8 @@ void OptiXScene::_commitClippingPlanes()
         _clipPlanesBuffer->unmap();
     }
 
-    context[CONTEXT_CLIP_PLANES]->setBuffer(_clipPlanesBuffer);
-    context[CONTEXT_NB_CLIP_PLANES]->setUint(numClipPlanes);
-
-    // RT_DESTROY(p);
+    context[CONTEXT_CLIPPING_PLANES]->setBuffer(_clipPlanesBuffer);
+    context[CONTEXT_NB_CLIPPING_PLANES]->setUint(numClipPlanes);
 }
 
 void OptiXScene::commit()

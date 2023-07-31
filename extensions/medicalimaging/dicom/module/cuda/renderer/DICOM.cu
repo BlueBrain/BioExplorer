@@ -25,6 +25,7 @@
 #include <platform/engines/optix6/cuda/Helpers.cuh>
 #include <platform/engines/optix6/cuda/Random.cuh>
 
+#include <platform/engines/optix6/cuda/Helpers.cuh>
 #include <platform/engines/optix6/cuda/renderer/TransferFunction.cuh>
 
 #include <platform/core/common/CommonTypes.h>
@@ -33,100 +34,14 @@ using namespace optix;
 
 const float DEFAULT_VOLUME_SHADOW_THRESHOLD = 0.1f;
 
-// System
-rtDeclareVariable(float3, bad_color, , );
-
-// Material attributes
-rtDeclareVariable(float3, Ka, , );
-rtDeclareVariable(float3, Kd, , );
-rtDeclareVariable(float3, Ks, , );
-rtDeclareVariable(float3, Kr, , );
-rtDeclareVariable(float3, Ko, , );
-rtDeclareVariable(float, phong_exp, , );
-rtDeclareVariable(uint, shading_mode, , );
-
-rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
-rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
-
-// Textures
-rtDeclareVariable(int, albedoMetallic_map, , );
-rtDeclareVariable(float2, texcoord, attribute texcoord, );
-
-// Scene
-rtDeclareVariable(float, t_hit, rtIntersectionDistance, );
-rtDeclareVariable(PerRayData_radiance, prd_radiance, rtPayload, );
-rtDeclareVariable(PerRayData_shadow, prd_shadow, rtPayload, );
-rtDeclareVariable(unsigned int, frame, , );
-rtDeclareVariable(uint2, launch_index, rtLaunchIndex, );
-rtDeclareVariable(unsigned int, radianceRayType, , );
-rtDeclareVariable(unsigned int, shadowRayType, , );
-
-rtDeclareVariable(rtObject, top_object, , );
-rtDeclareVariable(rtObject, top_shadower, , );
-rtDeclareVariable(float3, eye, , );
-rtDeclareVariable(float4, jitter4, , );
-
-// Lights
-rtBuffer<BasicLight> lights;
-rtDeclareVariable(float3, ambientLightColor, , );
-
-// Volume
-rtDeclareVariable(uint3, volumeDimensions, , );
-rtDeclareVariable(float3, volumeOffset, , );
-rtDeclareVariable(float3, volumeElementSpacing, , );
-rtDeclareVariable(uint, volumeSamplesPerRay, , );
-rtDeclareVariable(uint, volumeDataTypeSize, , );
-rtDeclareVariable(uint, volumeDataType, , );
-rtDeclareVariable(int, volumeSampler, , );
-
-// Volume shading
-rtDeclareVariable(uint, volumeGradientShadingEnabled, , );
-rtDeclareVariable(float, volumeAdaptiveMaxSamplingRate, , );
-rtDeclareVariable(uint, volumeSingleShade, , );
-rtDeclareVariable(float, volumeSamplingRate, , );
-rtDeclareVariable(float3, volumeSpecular, , );
-rtDeclareVariable(float, volumeNormalEpsilon, , );
-
-// Transfer function
-rtBuffer<float3> tfColors;
-rtBuffer<float> tfOpacities;
-rtDeclareVariable(float, tfMinValue, , );
-rtDeclareVariable(float, tfRange, , );
-rtDeclareVariable(uint, tfSize, , );
-
 // Rendering
 rtDeclareVariable(float, shadows, , );
 rtDeclareVariable(float, softShadows, , );
-rtDeclareVariable(float, mainExposure, , );
 rtDeclareVariable(float, fogStart, , );
 rtDeclareVariable(float, fogThickness, , );
 rtDeclareVariable(int, giSamples, , );
 rtDeclareVariable(float, giWeight, , );
 rtDeclareVariable(float, giDistance, , );
-
-// Clipping planes
-rtBuffer<float4, 1> clip_planes;
-rtDeclareVariable(unsigned int, nb_clip_planes, , );
-
-rtBuffer<uchar4, 2> output_buffer;
-
-__device__ void applyClippingValues(const optix::Ray& ray, float& near, float& far)
-{
-    for (int i = 0; i < nb_clip_planes; ++i)
-    {
-        const float4 clipPlane = clip_planes[i];
-        const float3 normal = make_float3(clipPlane.x, clipPlane.y, clipPlane.z);
-        float rn = dot(ray.direction, normal);
-        if (rn == 0.f)
-            rn = 0.01f; // volumeNormalEpsilon;
-        const float d = clipPlane.w;
-        const float t = -(dot(normal, ray.origin) + d) / rn;
-        if (rn > 0.f) // opposite direction plane
-            near = max(near, t);
-        else
-            far = min(far, t);
-    }
-}
 
 static __device__ inline bool volumeIntersection(const optix::Ray& ray, float& t0, float& t1)
 {
@@ -189,7 +104,7 @@ static __device__ float getVolumeShadowContribution(const optix::Ray& volumeRay,
     if (!volumeIntersection(volumeRay, t0, t1))
         return shadowIntensity;
 
-    applyClippingValues(volumeRay, t0, t1);
+    applyClippingPlanes(volumeRay.origin, volumeRay.direction, t0, t1);
 
     t0 = max(0.f, t0);
     const float tstep = volumeSamplingRate;
@@ -236,7 +151,7 @@ static __device__ float4 getVolumeContribution(const optix::Ray& volumeRay)
     if (!volumeIntersection(volumeRay, t0, t1))
         return pathColor;
 
-    applyClippingValues(volumeRay, t0, t1);
+    applyClippingPlanes(volumeRay.origin, volumeRay.direction, t0, t1);
 
     optix::size_t2 screen = output_buffer.size();
     unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
@@ -376,9 +291,9 @@ static __device__ void volumeShade()
     const float fogAttenuation = z > fogStart ? optix::clamp((z - fogStart) / fogThickness, 0.f, 1.f) : 0.f;
     result = (result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor());
 
-    prd_radiance.result = result;
-    prd_radiance.importance = 1.f;
-    prd_radiance.depth += 1;
+    prd.result = result;
+    prd.importance = 1.f;
+    prd.depth += 1;
 }
 
 RT_PROGRAM void any_hit_shadow()

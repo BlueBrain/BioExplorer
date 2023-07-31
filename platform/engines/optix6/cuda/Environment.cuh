@@ -22,13 +22,8 @@
 
 #include <optix_world.h>
 
+#include "Context.cuh"
 #include "Helpers.cuh"
-
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
-rtDeclareVariable(float3, bgColor, , );
-rtDeclareVariable(int, envmap, , );
-rtDeclareVariable(uint, use_envmap, , );
-rtDeclareVariable(uint, showBackground, , );
 
 static __device__ inline float3 getEnvironmentColor()
 {

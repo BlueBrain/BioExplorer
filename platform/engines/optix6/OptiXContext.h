@@ -39,6 +39,16 @@ namespace core
 const std::string CONTEXT_SCENE_TOP_OBJECT = "top_object";
 const std::string CONTEXT_SCENE_TOP_SHADOWER = "top_shadower";
 
+// Renderer
+const std::string CONTEXT_RENDERER_JITTER = "jitter4";
+const std::string CONTEXT_RENDERER_FRAME = "frame";
+const std::string CONTEXT_RENDERER_RADIANCE_RAY_TYPE = "radianceRayType";
+const std::string CONTEXT_RENDERER_SHADOW_RAY_TYPE = "shadowRayType";
+const std::string CONTEXT_RENDERER_SCENE_EPSILON = "sceneEpsilon";
+const std::string CONTEXT_RENDERER_AMBIENT_LIGHT_COLOR = "ambientLightColor";
+const std::string CONTEXT_RENDERER_BACKGROUND_COLOR = "bgColor";
+const std::string CONTEXT_RENDERER_SAMPLES_PER_PIXEL = "samples_per_pixel";
+
 // Camera
 const std::string CUDA_FUNC_CAMERA_EXCEPTION = "exception";
 const std::string CUDA_FUNC_CAMERA_ENVMAP_MISS = "envmap_miss";
@@ -63,14 +73,16 @@ const std::string CONTEXT_CAMERA_OFFSET = "offset";
 const std::string CUDA_FUNC_PERSPECTIVE_CAMERA = "perspectiveCamera";
 const std::string CONTEXT_CAMERA_STEREO = "stereo";
 const std::string CONTEXT_CAMERA_IPD = "interpupillaryDistance";
+const std::string CONTEXT_CAMERA_IPD_OFFSET = "ipd_offset";
 
 // Orthographic
 const std::string CUDA_FUNC_ORTHOGRAPHIC_CAMERA = "orthographicCamera";
 const std::string CONTEXT_CAMERA_HEIGHT = "height";
 
 // Clipping planes
-const std::string CONTEXT_CLIP_PLANES = "clip_planes";
-const std::string CONTEXT_NB_CLIP_PLANES = "nb_clip_planes";
+const std::string CONTEXT_ENABLE_CLIPPING_PLANES = "enableClippingPlanes";
+const std::string CONTEXT_CLIPPING_PLANES = "clippingPlanes";
+const std::string CONTEXT_NB_CLIPPING_PLANES = "nbClippingPlanes";
 
 // Lights
 const std::string CONTEXT_LIGHTS = "lights";

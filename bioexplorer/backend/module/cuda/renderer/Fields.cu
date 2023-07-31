@@ -21,35 +21,15 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <platform/engines/optix6/OptiXCommonStructs.h>
+#include <platform/engines/optix6/cuda/Context.cuh>
 #include <platform/engines/optix6/cuda/Random.cuh>
 #include <platform/engines/optix6/cuda/renderer/TransferFunction.cuh>
-
-// Scene
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
-rtDeclareVariable(PerRayData_radiance, prd, rtPayload, );
-rtDeclareVariable(uint2, launch_index, rtLaunchIndex, );
-rtDeclareVariable(uint, frame, , );
-rtDeclareVariable(float, t_hit, rtIntersectionDistance, );
 
 // Renderer
 rtDeclareVariable(float, cutoff, , );
 rtDeclareVariable(float, minRayStep, , );
 rtDeclareVariable(int, nbRaySteps, , );
 rtDeclareVariable(float, alphaCorrection, , );
-
-// Simulation data
-rtBuffer<float> simulation_data;
-rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
-
-// Transfer function
-rtBuffer<float3> tfColors;
-rtBuffer<float> tfOpacities;
-rtDeclareVariable(float, tfMinValue, , );
-rtDeclareVariable(float, tfRange, , );
-rtDeclareVariable(uint, tfSize, , );
-
-rtBuffer<uchar4, 2> output_buffer;
 
 const uint STACK_SIZE = 20;
 

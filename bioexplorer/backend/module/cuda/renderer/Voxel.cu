@@ -21,44 +21,18 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <optix_world.h>
-
-#include <platform/engines/optix6/OptiXCommonStructs.h>
+#include <platform/engines/optix6/cuda/Context.cuh>
 #include <platform/engines/optix6/cuda/renderer/TransferFunction.cuh>
 
-// Scene
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
-rtDeclareVariable(PerRayData_radiance, prd, rtPayload, );
-rtDeclareVariable(PerRayData_radiance, prd_radiance, rtPayload, );
-rtDeclareVariable(unsigned int, radianceRayType, , );
-rtDeclareVariable(float, t_hit, rtIntersectionDistance, );
-rtDeclareVariable(float, sceneEpsilon, , );
-rtDeclareVariable(rtObject, top_object, , );
 rtDeclareVariable(int, maxBounces, , );
-rtDeclareVariable(float, mainExposure, , );
 rtDeclareVariable(float, alphaCorrection, , );
 rtDeclareVariable(float, simulationThreshold, , );
-
-// Material attributes
-rtDeclareVariable(float3, Kd, , );
-rtDeclareVariable(uint, cast_user_data, , );
-
-// Simulation data
-rtBuffer<float> simulation_data;
-rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
-
-// Transfer function
-rtBuffer<float3> tfColors;
-rtBuffer<float> tfOpacities;
-rtDeclareVariable(float, tfMinValue, , );
-rtDeclareVariable(float, tfRange, , );
-rtDeclareVariable(uint, tfSize, , );
 
 static __device__ inline void shade()
 {
     const float3 hit_point = ray.origin + t_hit * ray.direction;
     float3 color = make_float3(0.f);
-    if (prd_radiance.depth < maxBounces && cast_user_data && simulation_data.size() > 0)
+    if (prd.depth < maxBounces && cast_user_data && simulation_data.size() > 0)
     {
         const float4 userDataColor = calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange,
                                                                simulation_data[simulation_idx], tfColors, tfOpacities);
@@ -72,7 +46,7 @@ static __device__ inline void shade()
             prd.importance = 0.f;
 
         PerRayData_radiance new_prd;
-        new_prd.depth = prd_radiance.depth + 1;
+        new_prd.depth = prd.depth + 1;
 
         const optix::Ray new_ray = optix::make_Ray(hit_point, ray.direction, radianceRayType, sceneEpsilon, ray.tmax);
         rtTrace(top_object, new_ray, new_prd);

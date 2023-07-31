@@ -18,54 +18,11 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "../../OptiXCommonStructs.h"
-
-#include "../Helpers.cuh"
-#include "../Random.cuh"
-
-#include <optix.h>
-#include <optixu/optixu_math_namespace.h>
+#include <platform/engines/optix6/cuda/Context.cuh>
+#include <platform/engines/optix6/cuda/Helpers.cuh>
+#include <platform/engines/optix6/cuda/Random.cuh>
 
 using namespace optix;
-
-rtDeclareVariable(float3, eye, , );
-rtDeclareVariable(float3, dir, , );
-rtDeclareVariable(float3, U, , );
-rtDeclareVariable(float3, V, , );
-rtDeclareVariable(float3, W, , );
-rtDeclareVariable(float3, bad_color, , );
-rtDeclareVariable(float, scene_epsilon, , );
-rtBuffer<uchar4, 2> output_buffer;
-rtBuffer<float4, 2> accum_buffer;
-rtDeclareVariable(rtObject, top_object, , );
-rtDeclareVariable(unsigned int, radiance_ray_type, , );
-rtDeclareVariable(unsigned int, frame, , );
-rtDeclareVariable(uint2, launch_index, rtLaunchIndex, );
-
-rtDeclareVariable(float, height, , );
-rtDeclareVariable(float4, jitter4, , );
-rtDeclareVariable(unsigned int, samples_per_pixel, , );
-
-rtBuffer<float4, 1> clip_planes;
-rtDeclareVariable(unsigned int, nb_clip_planes, , );
-
-__device__ void getClippingValues(const float3& ray_origin, const float3& ray_direction, float& near, float& far)
-{
-    for (int i = 0; i < nb_clip_planes; ++i)
-    {
-        float4 clipPlane = clip_planes[i];
-        const float3 planeNormal = {clipPlane.x, clipPlane.y, clipPlane.z};
-        float rn = dot(ray_direction, planeNormal);
-        if (rn == 0.f)
-            rn = scene_epsilon;
-        float d = clipPlane.w;
-        float t = -(dot(planeNormal, ray_origin) + d) / rn;
-        if (rn > 0.f) // opposite direction plane
-            near = max(near, t);
-        else
-            far = min(far, t);
-    }
-}
 
 // Pass 'seed' by reference to keep randomness state
 __device__ float3 launch(unsigned int& seed, const float2 screen, const bool use_randomness)
@@ -88,10 +45,12 @@ __device__ float3 launch(unsigned int& seed, const float2 screen, const bool use
     // lens sampling
     float2 sample = optix::square_to_disk(make_float2(jitter4.z, jitter4.w));
 
-    float near = scene_epsilon;
+    float near = sceneEpsilon;
     float far = INFINITY;
 
-    getClippingValues(ray_origin, ray_direction, near, far);
+    // Clipping planes
+    if (enableClippingPlanes)
+        applyClippingPlanes(ray_origin, ray_direction, near, far);
 
     optix::Ray ray(ray_origin, ray_direction, radiance_ray_type, near, far);
 

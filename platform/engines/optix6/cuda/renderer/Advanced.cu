@@ -22,6 +22,7 @@
 
 #include "../../OptiXCommonStructs.h"
 
+#include "../Context.cuh"
 #include "../Environment.cuh"
 #include "../Helpers.cuh"
 #include "../Random.cuh"
@@ -34,93 +35,17 @@ using namespace optix;
 
 const float DEFAULT_VOLUME_SHADOW_THRESHOLD = 0.1f;
 
-// System
-rtDeclareVariable(float3, bad_color, , );
-
-// Material attributes
-rtDeclareVariable(float3, Ka, , );
-rtDeclareVariable(float3, Kd, , );
-rtDeclareVariable(float3, Ks, , );
-rtDeclareVariable(float3, Kr, , );
-rtDeclareVariable(float3, Ko, , );
-rtDeclareVariable(float, glossiness, , );
-rtDeclareVariable(float, refraction_index, , );
-rtDeclareVariable(float, phong_exp, , );
-rtDeclareVariable(uint, shading_mode, , );
-rtDeclareVariable(float, user_parameter, , );
-rtDeclareVariable(uint, cast_user_data, , );
-rtDeclareVariable(uint, clipping_mode, , );
-
-rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
-rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
-
-// Textures
-rtDeclareVariable(int, albedoMetallic_map, , );
-rtDeclareVariable(float2, texcoord, attribute texcoord, );
-
-// Scene
-rtDeclareVariable(float, t_hit, rtIntersectionDistance, );
-rtDeclareVariable(PerRayData_radiance, prd_radiance, rtPayload, );
-rtDeclareVariable(PerRayData_shadow, prd_shadow, rtPayload, );
-rtDeclareVariable(unsigned int, frame, , );
-rtDeclareVariable(uint2, launch_index, rtLaunchIndex, );
-rtDeclareVariable(unsigned int, radianceRayType, , );
-rtDeclareVariable(unsigned int, shadowRayType, , );
-
-rtDeclareVariable(float, sceneEpsilon, , );
 rtDeclareVariable(float, epsilonFactor, , );
-
-rtDeclareVariable(rtObject, top_object, , );
-rtDeclareVariable(rtObject, top_shadower, , );
-rtDeclareVariable(float3, eye, , );
-rtDeclareVariable(float4, jitter4, , );
-
-// Lights
-rtBuffer<BasicLight> lights;
-rtDeclareVariable(float3, ambientLightColor, , );
-
-// Volume
-rtDeclareVariable(uint3, volumeDimensions, , );
-rtDeclareVariable(float3, volumeOffset, , );
-rtDeclareVariable(float3, volumeElementSpacing, , );
-rtDeclareVariable(uint, volumeSamplesPerRay, , );
-rtDeclareVariable(uint, volumeDataType, , );
-rtDeclareVariable(uint, volumeDataTypeSize, , );
-rtDeclareVariable(int, volumeSampler, , );
-// Volume shading
-rtDeclareVariable(uint, volumeGradientShadingEnabled, , );
-rtDeclareVariable(float, volumeAdaptiveMaxSamplingRate, , );
-rtDeclareVariable(uint, volumeAdaptiveSampling, , );
-rtDeclareVariable(uint, volumeSingleShade, , );
-rtDeclareVariable(uint, volumePreIntegration, , );
-rtDeclareVariable(float, volumeSamplingRate, , );
-rtDeclareVariable(float3, volumeSpecular, , );
-
-// Simulation data
-rtBuffer<float> simulation_data;
-rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
-
-// Transfer function
-rtBuffer<float3> tfColors;
-rtBuffer<float> tfOpacities;
-rtDeclareVariable(float, tfMinValue, , );
-rtDeclareVariable(float, tfRange, , );
-rtDeclareVariable(uint, tfSize, , );
-
-// Rendering
 rtDeclareVariable(int, maxBounces, , );
 rtDeclareVariable(float, shadows, , );
 rtDeclareVariable(float, softShadows, , );
 rtDeclareVariable(int, softShadowsSamples, , );
-rtDeclareVariable(float, mainExposure, , );
 rtDeclareVariable(float, giDistance, , );
 rtDeclareVariable(float, giWeight, , );
 rtDeclareVariable(int, giSamples, , );
 rtDeclareVariable(unsigned int, matrixFilter, , );
 rtDeclareVariable(float, fogStart, , );
 rtDeclareVariable(float, fogThickness, , );
-
-rtBuffer<uchar4, 2> output_buffer;
 
 static __device__ inline bool volumeIntersection(const optix::Ray& ray, float& t0, float& t1)
 {
@@ -554,10 +479,10 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         // Reflection
         if (fmaxf(p_Kr) > 0.f)
         {
-            if (prd_radiance.depth < maxBounces)
+            if (prd.depth < maxBounces)
             {
                 PerRayData_radiance reflected_prd;
-                reflected_prd.depth = prd_radiance.depth + 1;
+                reflected_prd.depth = prd.depth + 1;
 
                 const float3 R = optix::reflect(ray.direction, normal);
                 const optix::Ray reflected_ray(hit_point, R, radianceRayType, epsilon, giDistance);
@@ -572,11 +497,11 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
             float3 aa_color = make_float3(0.f);
             for (int i = 0; i < giSamples; ++i)
             {
-                if (prd_radiance.depth >= maxBounces)
+                if (prd.depth >= maxBounces)
                     continue;
 
                 PerRayData_radiance aa_prd;
-                aa_prd.depth = prd_radiance.depth + 1;
+                aa_prd.depth = prd.depth + 1;
 
                 float3 aa_normal = optix::normalize(make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f));
                 if (optix::dot(aa_normal, normal) < 0.f)
@@ -590,13 +515,13 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         }
 
         // Only opaque surfaces are affected by Global Illumination
-        if (fmaxf(opacity) == 1.f && prd_radiance.depth < maxBounces)
+        if (fmaxf(opacity) == 1.f && prd.depth < maxBounces)
         {
             // Color bleeding
-            if (giWeight > 0.f && prd_radiance.depth == 0)
+            if (giWeight > 0.f && prd.depth == 0)
             {
                 PerRayData_radiance new_prd;
-                new_prd.depth = prd_radiance.depth + 1;
+                new_prd.depth = prd.depth + 1;
 
                 float3 ra_normal =
                     ::optix::normalize(make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f));
@@ -612,10 +537,10 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
     }
 
     // Refraction
-    if (fmaxf(opacity) < 1.f && prd_radiance.depth < maxBounces)
+    if (fmaxf(opacity) < 1.f && prd.depth < maxBounces)
     {
         PerRayData_radiance refracted_prd;
-        refracted_prd.depth = prd_radiance.depth + 1;
+        refracted_prd.depth = prd.depth + 1;
 
         const float3 R = refractedVector(ray.direction, normal, p_refractionIndex, 1.f);
         const optix::Ray refracted_ray(hit_point, R, radianceRayType, epsilon, giDistance);
@@ -642,7 +567,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
     const float fogAttenuation = z > fogStart ? optix::clamp((z - fogStart) / fogThickness, 0.f, 1.f) : 0.f;
     result = mainExposure * (result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor());
 
-    prd_radiance.result = result;
+    prd.result = result;
 }
 
 RT_PROGRAM void any_hit_shadow()

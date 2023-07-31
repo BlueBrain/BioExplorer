@@ -80,6 +80,6 @@ void OptiXPerspectiveCamera::commit(const OptiXCamera& camera, ::optix::Context 
     context[CONTEXT_CAMERA_OFFSET]->setFloat(0, 0);
 
     context[CONTEXT_CAMERA_STEREO]->setUint(stereo);
-    context[CONTEXT_CAMERA_IPD]->setFloat(ipd_offset.x, ipd_offset.y, ipd_offset.z);
+    context[CONTEXT_CAMERA_IPD_OFFSET]->setFloat(ipd_offset.x, ipd_offset.y, ipd_offset.z);
 }
 } // namespace core
