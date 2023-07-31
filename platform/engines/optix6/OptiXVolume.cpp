@@ -123,26 +123,61 @@ void OptiXVolume::_createBox(OptiXModel* model)
     model->mergeBounds(bounds);
 }
 
+float OptiXVolume::_getVoxelValue(const void* voxels, const uint16_t x, const uint16_t y, const uint16_t z) const
+{
+    const uint64_t index = x + _dimensions.x * y + _dimensions.y * _dimensions.y * z;
+
+    switch (_dataType)
+    {
+    case RT_FORMAT_BYTE:
+    {
+        const int8_t* v = (const int8_t*)voxels;
+        const int8_t value = v[index];
+        return (float)value / 256.f;
+    }
+    case RT_FORMAT_UNSIGNED_BYTE:
+    {
+        const uint8_t* v = (const uint8_t*)voxels;
+        const uint8_t value = v[index];
+        return (float)value / 256.f;
+    }
+    case RT_FORMAT_INT:
+    {
+        const int16_t* v = (const int16_t*)voxels;
+        const int16_t value = v[index];
+        return (float)value / 65536.f;
+    }
+    case RT_FORMAT_UNSIGNED_INT:
+    {
+        const uint16_t* v = (const uint16_t*)voxels;
+        const uint16_t value = v[index];
+        return (float)value / 65536.f;
+    }
+    default:
+        const float* v = (const float*)voxels;
+        const float value = v[index];
+        return value;
+    }
+}
+
 void OptiXVolume::setVoxels(const void* voxels)
 {
     RT_DESTROY(_buffer);
     RT_DESTROY(_sampler);
 
     auto context = OptiXContext::get().getOptixContext();
-    const auto bufferSize = _dimensions.x * _dimensions.y * _dimensions.z * _dataTypeSize;
+    uint64_t bufferSize = _dimensions.x * _dimensions.y * _dimensions.z * _dataTypeSize;
     context[CONTEXT_VOLUME_DIMENSIONS]->setUint(_dimensions.x, _dimensions.y, _dimensions.z);
     context[CONTEXT_VOLUME_OFFSET]->setFloat(_offset.x, _offset.y, _offset.z);
     context[CONTEXT_VOLUME_ELEMENT_SPACING]->setFloat(_spacing.x, _spacing.y, _spacing.z);
 
     // Volume as texture
-    // Create tex sampler and populate with default values
     _sampler = context->createTextureSampler();
     _sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
     _sampler->setWrapMode(1, RT_WRAP_CLAMP_TO_EDGE);
     _sampler->setWrapMode(2, RT_WRAP_CLAMP_TO_EDGE);
     _sampler->setIndexingMode(RT_TEXTURE_INDEX_NORMALIZED_COORDINATES);
     _sampler->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
-    _sampler->setMaxAnisotropy(8.0f);
 
     optix::Buffer _buffer =
         context->createMipmappedBuffer(RT_BUFFER_INPUT, _dataType, _dimensions.x, _dimensions.y, _dimensions.z, 1u);

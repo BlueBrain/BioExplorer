@@ -47,6 +47,8 @@ public:
 protected:
     void _createBox(OptiXModel* model);
 
+    float _getVoxelValue(const void* voxels, const uint16_t x, const uint16_t y, const uint16_t z) const;
+
     const VolumeParameters& _parameters;
     const Vector3f _offset{0.f, 0.f, 0.f};
 

@@ -109,6 +109,7 @@ rtDeclareVariable(uint, volumeSamplesPerRay, , );
 rtDeclareVariable(uint, volumeDataTypeSize, , );
 rtDeclareVariable(uint, volumeDataType, , );
 rtDeclareVariable(int, volumeSampler, , );
+rtBuffer<float3> volumeGradientBuffer;
 
 // Volume shading
 rtDeclareVariable(uint, volumeGradientShadingEnabled, , );

@@ -53,11 +53,13 @@ void _addDICOMRenderer(Engine &engine)
     core::PropertyMap properties;
     properties.setProperty({"shadows", 0., 0., 1., {"Shadows"}});
     properties.setProperty({"softShadows", 0., 0., 1., {"Soft shadows"}});
-    properties.setProperty({"volumeNormalEpsilon", 0.00001, 0.00001, 1., {"Normal epsilon"}});
+    properties.setProperty({"volumeNormalEpsilon", 0.005, 0.005, 1., {"Normal epsilon"}});
     properties.setProperty({"mainExposure", 1., 0.01, 10., {"Exposure"}});
     properties.setProperty({"giDistance", 10000.0, {"Global illumination distance"}});
     properties.setProperty({"giWeight", 0.0, 1.0, 1.0, {"Global illumination weight"}});
     properties.setProperty({"giSamples", 0, 0, 64, {"Global illumination samples"}});
+    properties.setProperty({"shadingEnabled", false, {"Enable shading"}});
+    properties.setProperty({"specularExponent", 10., 1.0, 100., {"Specular exponent"}});
     engine.addRendererType(RENDERER_VOLUME, properties);
 }
 
