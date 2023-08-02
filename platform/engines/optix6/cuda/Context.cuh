@@ -121,7 +121,6 @@ rtDeclareVariable(float, volumeAdaptiveMaxSamplingRate, , );
 rtDeclareVariable(uint, volumeSingleShade, , );
 rtDeclareVariable(float, volumeSamplingRate, , );
 rtDeclareVariable(float3, volumeSpecular, , );
-rtDeclareVariable(float, volumeNormalEpsilon, , );
 
 // Simulation data
 rtBuffer<float> simulation_data;

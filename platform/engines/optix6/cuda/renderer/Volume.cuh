@@ -25,6 +25,9 @@
 #include <platform/engines/optix6/cuda/renderer/TransferFunction.cuh>
 
 const float DEFAULT_VOLUME_SHADOW_THRESHOLD = 0.1f;
+const float DEFAULT_SHADING_ALPHA_RATIO = 1.5f;
+const float DEFAULT_SHADING_AMBIENT = 0.2f;
+const float DEFAULT_SHADING_NORMAL_EPSILON = 0.005f;
 
 rtDeclareVariable(int, giSamples, , );
 rtDeclareVariable(float, giWeight, , );
@@ -203,19 +206,6 @@ static __device__ float4 getVolumeContribution(const optix::Ray& volumeRay)
                 }
             }
 
-            // Ambient occlusion
-            for (int i = 0; i < giSamples && voxelColor.w > DEFAULT_VOLUME_SHADOW_THRESHOLD && giShading; ++i)
-            {
-                const float3 aa_normal =
-                    optix::normalize(make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f));
-                optix::Ray aa_ray = volumeRay;
-                aa_ray.origin = point;
-                aa_ray.direction = aa_normal;
-                aaIntensity += getVolumeShadowContribution(aa_ray) * giWeight;
-            }
-            if (giSamples > 0)
-                aaIntensity /= float(giSamples);
-
             // Shading
             if (shadingEnabled && voxelValue > DEFAULT_VOLUME_SHADOW_THRESHOLD)
             {
@@ -225,7 +215,7 @@ static __device__ float4 getVolumeContribution(const optix::Ray& volumeRay)
                 };
                 for (uint i = 0; i < 6; ++i)
                 {
-                    const float3 p1 = point + positions[i] * volumeNormalEpsilon;
+                    const float3 p1 = point + positions[i] * DEFAULT_SHADING_NORMAL_EPSILON;
                     const float3 p2 = make_float3(p1.x / volumeDimensions.x / 2.f, p1.y / volumeDimensions.y / 2.f,
                                                   p1.z / volumeDimensions.z / 2.f);
 
@@ -253,15 +243,18 @@ static __device__ float4 getVolumeContribution(const optix::Ray& volumeRay)
                         break;
                     }
                     }
-                    const float cosNL = ::optix::clamp(::optix::dot(normal, L), 0.f, 1.f);
+                    float cosNL = ::optix::clamp(::optix::dot(normal, L), 0.f, 1.f);
                     if (cosNL > 0.f)
                     {
+                        cosNL = DEFAULT_SHADING_AMBIENT + (1.f - DEFAULT_SHADING_AMBIENT) * cosNL;
                         const float power = pow(cosNL, specularExponent);
-                        voxelColor =
-                            make_float4(make_float3(voxelColor) * cosNL + power * make_float3(1, 1, 1), voxelColor.w);
+                        voxelColor = make_float4(make_float3(voxelColor) * cosNL + power * light.color, voxelColor.w);
                     }
                     else
-                        voxelColor = make_float4(make_float3(voxelColor) * cosNL, voxelColor.w);
+                        voxelColor = make_float4(make_float3(0.f), voxelColor.w);
+
+                    voxelColor = make_float4(make_float3(voxelColor) * DEFAULT_SHADING_ALPHA_RATIO,
+                                             voxelColor.w); // Ambient light
                 }
             }
 
