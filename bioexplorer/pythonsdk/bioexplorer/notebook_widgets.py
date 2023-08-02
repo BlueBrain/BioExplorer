@@ -968,3 +968,95 @@ class Widgets:
         irs.observe(update_slider, "value")
         display(irs)
         display(lbl)
+
+    def display_clipping_planes(self, value_range=[0, 128]):
+        """
+            The code is implementing a visualization feature that allows the user to add and
+            manipulate clip planes in a 3D space.
+
+            The code starts by getting the currently existing clip planes using
+            the _client.get_clip_planes() method. If there are any existing clip planes, it stores
+            the ID of the last plane in the variable plane_id and removes all existing clip planes
+            using the _client.remove_clip_planes() method.
+
+            Next, the code adds 6 new clip planes at the origin using the _client.add_clip_plane()
+            method. The clip planes are added in pairs along the x, y, and z axes.
+
+            After that, the code defines three update functions update_x, update_y, and update_z
+            that will be called when the user interacts with the sliders.
+
+            Each update function calls the _client.update_clip_plane() method to update the position
+            of the corresponding clip plane based on the value of the slider. The plane_id variable
+            is used to identify the correct clip plane to update.
+
+            Finally, three sliders w_y, w_y, and w_z are created using IntRangeSlider with provided
+            minimum and maximum values. Each slider is then associated with its corresponding update
+            function using the observe() method. The sliders are displayed using the display()
+            function.
+
+        Args:
+            value_range (list, optional): Range of values for the clipping planes. Defaults to
+            [0, 128].
+        """
+        planes = self._client.get_clip_planes()
+        plane_id = -1
+        if planes is not None:
+            plane_id = int(planes[len(planes) - 1]["id"])
+            ids = list()
+            for i in range(len(planes)):
+                ids.append(planes[i]["id"])
+            self._client.remove_clip_planes(array=ids)
+
+        for i in range(6):
+            self._client.add_clip_plane([0, 0, 0, 0])
+
+        def update_x(value):
+            self._client.update_clip_plane(
+                id=plane_id + 1, plane=[-1.0, 0.0, 0.0, float(value["new"][1])]
+            )
+            self._client.update_clip_plane(
+                id=plane_id + 2, plane=[1.0, 0.0, 0.0, -float(value["new"][0])]
+            )
+
+        def update_y(value):
+            self._client.update_clip_plane(
+                id=plane_id + 3, plane=[0.0, -1.0, 0.0, float(value["new"][1])]
+            )
+            self._client.update_clip_plane(
+                id=plane_id + 4, plane=[0.0, 1.0, 0.0, -float(value["new"][0])]
+            )
+
+        def update_z(value):
+            self._client.update_clip_plane(
+                id=plane_id + 5, plane=[0.0, 0.0, -1.0, float(value["new"][1])]
+            )
+            self._client.update_clip_plane(
+                id=plane_id + 6, plane=[0.0, 0.0, 1.0, -float(value["new"][0])]
+            )
+
+        w_x = IntRangeSlider(
+            description="X axis",
+            STYLE=Widgets.STYLE,
+            min=value_range[0],
+            max=value_range[1],
+            value=value_range,
+        )
+        w_x.observe(update_x, "value")
+        w_y = IntRangeSlider(
+            description="Y axis",
+            STYLE=Widgets.STYLE,
+            min=value_range[0],
+            max=value_range[1],
+            value=value_range,
+        )
+        w_y.observe(update_y, "value")
+        w_z = IntRangeSlider(
+            description="Z axis",
+            STYLE=Widgets.STYLE,
+            min=value_range[0],
+            max=value_range[1],
+            value=value_range,
+        )
+        w_z.observe(update_z, "value")
+        hbox = HBox([w_x, w_y, w_z], layout=Widgets.DEFAULT_GRID_LAYOUT)
+        display(hbox)
