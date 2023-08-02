@@ -109,6 +109,7 @@ set(${NAME}_PUBLIC_HEADERS
   OptiXContext.h
   OptiXCommonStructs.h
   cuda/renderer/TransferFunction.cuh
+  cuda/renderer/Volume.cuh
   cuda/Random.cuh
   cuda/Helpers.cuh
   cuda/Environment.cuh

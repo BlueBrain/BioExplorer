@@ -78,6 +78,10 @@ rtDeclareVariable(uint, showBackground, , );
 rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
 rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
 rtDeclareVariable(float, mainExposure, , );
+rtDeclareVariable(float, shadows, , );
+rtDeclareVariable(float, softShadows, , );
+rtDeclareVariable(float, fogStart, , );
+rtDeclareVariable(float, fogThickness, , );
 
 // Clipping planes
 rtBuffer<float4, 1> clippingPlanes;

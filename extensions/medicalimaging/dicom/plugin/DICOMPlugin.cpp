@@ -43,13 +43,13 @@ namespace dicom
 {
 #define REGISTER_LOADER(LOADER, FUNC) registry.registerLoader({std::bind(&LOADER::getSupportedDataTypes), FUNC});
 
-const std::string RENDERER_VOLUME = "dicom";
+const std::string RENDERER_DICOM = "dicom";
 
 using namespace core;
 
 void _addDICOMRenderer(Engine &engine)
 {
-    PLUGIN_REGISTER_RENDERER(RENDERER_VOLUME);
+    PLUGIN_REGISTER_RENDERER(RENDERER_DICOM);
     core::PropertyMap properties;
     properties.setProperty({"shadows", 0., 0., 1., {"Shadows"}});
     properties.setProperty({"softShadows", 0., 0., 1., {"Soft shadows"}});
@@ -60,7 +60,7 @@ void _addDICOMRenderer(Engine &engine)
     properties.setProperty({"giSamples", 0, 0, 64, {"Global illumination samples"}});
     properties.setProperty({"shadingEnabled", false, {"Enable shading"}});
     properties.setProperty({"specularExponent", 10., 1.0, 100., {"Specular exponent"}});
-    engine.addRendererType(RENDERER_VOLUME, properties);
+    engine.addRendererType(RENDERER_DICOM, properties);
 }
 
 DICOMPlugin::DICOMPlugin(PropertyMap &&dicomParams)
@@ -79,7 +79,7 @@ void DICOMPlugin::init()
 
     auto &engine = _api->getEngine();
     auto &params = engine.getParametersManager().getApplicationParameters();
-    const auto &engineName = params.getEngine();
+    auto &engineName = params.getEngine();
 #ifdef USE_OPTIX6
     if (engineName == ENGINE_OPTIX_6)
     {
@@ -87,13 +87,14 @@ void DICOMPlugin::init()
         _createRenderers();
     }
 #endif
+    _api->getParametersManager().getRenderingParameters().setCurrentRenderer("advanced");
 }
 
 #ifdef USE_OPTIX6
 void DICOMPlugin::_createOptiXRenderers()
 {
     std::map<std::string, std::string> renderers = {
-        {RENDERER_VOLUME, DICOM_generated_DICOM_cu_ptx},
+        {RENDERER_DICOM, DICOM_generated_DICOM_cu_ptx},
     };
     OptiXContext &context = OptiXContext::get();
     for (const auto &renderer : renderers)

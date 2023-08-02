@@ -107,7 +107,7 @@ void OptiXVolume::_createBox(OptiXModel* model)
         auto material = model->createMaterial(materialId, "box" + std::to_string(materialId));
         material->setDiffuseColor(BLACK);
         material->setSpecularColor(BLACK);
-        material->setOpacity(1.f);
+        material->setOpacity(0.f);
 
         auto& triangleMesh = model->getTriangleMeshes()[materialId];
         for (size_t j = 0; j < 6; ++j)
