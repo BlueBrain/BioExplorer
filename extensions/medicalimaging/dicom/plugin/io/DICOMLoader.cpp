@@ -56,6 +56,25 @@ const ColorMap colormap = {"DICOM",
 const Vector2ds controlPoints = {{0.0, 0.0},   {0.125, 0.0}, {0.25, 0.0},  {0.375, 0.0}, {0.5, 1.0},
                                  {0.625, 1.0}, {0.75, 1.0},  {0.875, 1.0}, {1.0, 1.0}};
 
+std::string getDataTypeAsString(const DataType dataType)
+{
+    switch (dataType)
+    {
+    case DataType::INT8:
+        return "INT8";
+    case DataType::UINT8:
+        return "UINT8";
+    case DataType::INT16:
+        return "INT16";
+    case DataType::UINT16:
+        return "UINT16";
+    case DataType::FLOAT:
+        return "FLOAT";
+    default:
+        return "UNKNOWN";
+    }
+}
+
 DICOMLoader::DICOMLoader(Scene& scene, const GeometryParameters& geometryParameters, PropertyMap&& loaderParams)
     : Loader(scene)
     , _geometryParameters(geometryParameters)
@@ -101,7 +120,7 @@ void DICOMLoader::_readDICOMFile(const std::string& fileName, DICOMImageDescript
             switch (image->getInterData()->getRepresentation())
             {
             case EPR_Sint8:
-                imageDescriptor.dataType = DataType::UINT8;
+                imageDescriptor.dataType = DataType::INT8;
                 voxelSize = sizeof(int8_t);
                 break;
             case EPR_Uint8:
@@ -127,20 +146,10 @@ void DICOMLoader::_readDICOMFile(const std::string& fileName, DICOMImageDescript
         imageDescriptor.dimensions = {(unsigned int)imageSize[0], (unsigned int)imageSize[1]};
         imageDescriptor.pixelSpacing = {(float)pixelSpacing[0], (float)pixelSpacing[1]};
 
-        std::vector<char> rawBuffer;
-        auto rawBufferSize = image->getOutputDataSize();
-        rawBuffer.resize(rawBufferSize);
-
-        if (!image->getOutputData(rawBuffer.data(), rawBufferSize, imageDepth))
+        const auto bufferSize = image->getOutputDataSize();
+        imageDescriptor.buffer.resize(bufferSize);
+        if (!image->getOutputData(imageDescriptor.buffer.data(), bufferSize, imageDepth))
             throw std::runtime_error("Failed to load image data from " + fileName);
-
-        // Convert frame buffer according to bit depth
-        size_t step = 1;
-        if (float(imageDepth) / float(8 * voxelSize) > 1.f)
-            step = 2;
-        for (size_t i = 0; i < rawBufferSize; ++i)
-            if ((i / voxelSize) % step == 0)
-                imageDescriptor.buffer.push_back(rawBuffer[i]);
 
         double minRange, maxRange;
         image->getMinMaxValues(minRange, maxRange);
@@ -269,10 +278,9 @@ ModelDescriptorPtr DICOMLoader::_readDirectory(const std::string& fileName, cons
 
     // Element spacing (if single image, assume that z pixel spacing is the
     // same as y
-    Vector3f elementSpacing{dicomImages[0].pixelSpacing.x, dicomImages[0].pixelSpacing.y,
-                            dicomImages[0].pixelSpacing.y};
+    Vector3f spacing{dicomImages[0].pixelSpacing.x, dicomImages[0].pixelSpacing.y, dicomImages[0].pixelSpacing.y};
     if (dicomImages.size() > 1)
-        elementSpacing.z = dicomImages[1].position.z - dicomImages[0].position.z;
+        spacing.z = dicomImages[1].position.z - dicomImages[0].position.z;
 
     // Load images into volume
     callback.updateProgress("Loading voxels ...", 0.5f);
@@ -281,6 +289,7 @@ ModelDescriptorPtr DICOMLoader::_readDirectory(const std::string& fileName, cons
     DataType dataType;
     Vector2f dataRange{std::numeric_limits<float>::max(), std::numeric_limits<float>::min()};
 
+    // Compile images into one single volume
     uint8_ts volumeData;
     for (const auto& dicomImage : dicomImages)
     {
@@ -292,13 +301,13 @@ ModelDescriptorPtr DICOMLoader::_readDirectory(const std::string& fileName, cons
 
     // Create Model
     callback.updateProgress("Creating model ...", 1.f);
-    PLUGIN_INFO("Creating " << _dataTypeToString(dataType) << " volume " << dimensions << ", " << elementSpacing << ", "
+    PLUGIN_INFO("Creating " << _dataTypeToString(dataType) << " volume " << dimensions << ", " << spacing << ", "
                             << dataRange << " (" << volumeData.size() << " bytes)");
     auto model = _scene.createModel();
     if (!model)
         throw std::runtime_error("Failed to create model");
 
-    auto volume = model->createSharedDataVolume(dimensions, elementSpacing, dataType);
+    auto volume = model->createSharedDataVolume(dimensions, spacing, dataType);
     if (!volume)
         throw std::runtime_error("Failed to create volume");
 
@@ -312,8 +321,11 @@ ModelDescriptorPtr DICOMLoader::_readDirectory(const std::string& fileName, cons
     // Transformation
     Transformation transformation;
     transformation.setRotationCenter(model->getBounds().getCenter());
-    metaData["Dimensions"] = to_string(dimensions);
-    metaData["Element spacing"] = to_string(elementSpacing);
+    metaData["Dimensions"] =
+        std::to_string(dimensions.x) + "," + std::to_string(dimensions.y) + "," + std::to_string(dimensions.z);
+    metaData["Spacing"] = std::to_string(spacing.x) + "," + std::to_string(spacing.y) + "," + std::to_string(spacing.z);
+    metaData["Data range"] = std::to_string(dataRange.x) + "," + std::to_string(dataRange.y);
+    metaData["Data type"] = getDataTypeAsString(dataType);
 
     auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), "DICOMDIR", metaData);
     modelDescriptor->setTransformation(transformation);
@@ -331,7 +343,7 @@ ModelDescriptorPtr DICOMLoader::importFromFolder(const std::string& path)
     imageDescriptors.resize(files.size());
 
     Vector3ui dimensions;
-    Vector3f elementSpacing = {1, 1, 1};
+    Vector3f spacing = {1, 1, 1};
 
     Vector2f dataRange{std::numeric_limits<float>::max(), std::numeric_limits<float>::min()};
     DataType dataType;
@@ -349,11 +361,11 @@ ModelDescriptorPtr DICOMLoader::importFromFolder(const std::string& path)
         {
             dataType = id.dataType;
             dimensions = {id.dimensions.x, id.dimensions.y, id.nbFrames};
-            elementSpacing = {id.pixelSpacing.x, id.pixelSpacing.y, 1.f};
+            spacing = {id.pixelSpacing.x, id.pixelSpacing.y, 1.f};
             break;
         }
         case 1:
-            elementSpacing.z = abs(imageDescriptors[i].position.z - imageDescriptors[i - 1].position.z);
+            spacing.z = abs(imageDescriptors[i].position.z - imageDescriptors[i - 1].position.z);
             break;
         default:
             dimensions.z += id.nbFrames;
@@ -366,7 +378,7 @@ ModelDescriptorPtr DICOMLoader::importFromFolder(const std::string& path)
     }
 
     // Create volume
-    PLUGIN_INFO("Creating " << _dataTypeToString(dataType) << " volume " << dimensions << ", " << elementSpacing << ", "
+    PLUGIN_INFO("Creating " << _dataTypeToString(dataType) << " volume " << dimensions << ", " << spacing << ", "
                             << dataRange);
 
     uint8_ts volumeData;
@@ -378,7 +390,7 @@ ModelDescriptorPtr DICOMLoader::importFromFolder(const std::string& path)
     if (!model)
         throw std::runtime_error("Failed to create model");
 
-    auto volume = model->createSharedDataVolume(dimensions, elementSpacing, dataType);
+    auto volume = model->createSharedDataVolume(dimensions, spacing, dataType);
     if (!volume)
         throw std::runtime_error("Failed to create volume");
 
@@ -389,7 +401,7 @@ ModelDescriptorPtr DICOMLoader::importFromFolder(const std::string& path)
     Transformation transformation;
     transformation.setRotationCenter(model->getBounds().getCenter());
     ModelMetadata metaData = {{"Dimensions", to_string(dimensions)},
-                              {"Element spacing", to_string(elementSpacing)},
+                              {"Element spacing", to_string(spacing)},
                               {"Data range", to_string(dataRange)}};
     auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), path, metaData);
     modelDescriptor->setTransformation(transformation);

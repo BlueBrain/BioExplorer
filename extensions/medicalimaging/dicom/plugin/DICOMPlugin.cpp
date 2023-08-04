@@ -54,8 +54,8 @@ void _addDICOMRenderer(Engine &engine)
     properties.setProperty({"shadows", 0., 0., 1., {"Shadows"}});
     properties.setProperty({"softShadows", 0., 0., 1., {"Soft shadows"}});
     properties.setProperty({"mainExposure", 1., 0.01, 10., {"Exposure"}});
-    properties.setProperty({"shadingEnabled", false, {"Enable shading"}});
-    properties.setProperty({"specularExponent", 10., 1.0, 100., {"Specular exponent"}});
+    properties.setProperty({"specularExponent", 50., 1.0, 100., {"Specular exponent"}});
+    properties.setProperty({"giDistance", 10000.0, {"Global illumination distance"}});
     engine.addRendererType(RENDERER_DICOM, properties);
 }
 

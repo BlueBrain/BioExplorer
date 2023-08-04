@@ -140,7 +140,7 @@ const std::string CONTEXT_VOLUME_ADAPTIVE_SAMPLING = "volumeAdaptiveSampling";
 const std::string CONTEXT_VOLUME_SINGLE_SHADE = "volumeSingleShade";
 const std::string CONTEXT_VOLUME_PRE_INTEGRATION = "volumePreIntegration";
 const std::string CONTEXT_VOLUME_SAMPLING_RATE = "volumeSamplingRate";
-const std::string CONTEXT_VOLUME_SPECULAR_COLOR = "volumeSpecular";
+const std::string CONTEXT_VOLUME_SPECULAR_COLOR = "volumeSpecularColor";
 const std::string CONTEXT_VOLUME_CLIPPING_BOX_LOWER = "volumeClippingBoxLower";
 const std::string CONTEXT_VOLUME_CLIPPING_BOX_UPPER = "volumeClippingBoxUpper";
 

@@ -35,7 +35,7 @@ namespace core
 class OptiXVolume : public SharedDataVolume
 {
 public:
-    OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const Vector3f& spacing, const DataType type,
+    OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const Vector3f& spacing, const DataType dataType,
                 const VolumeParameters& params);
     ~OptiXVolume();
 

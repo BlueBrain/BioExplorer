@@ -27,9 +27,9 @@
 // Scene
 rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
 rtDeclareVariable(PerRayData_radiance, prd, rtPayload, );
-rtDeclareVariable(unsigned int, radianceRayType, , );
+rtDeclareVariable(uint, radianceRayType, , );
 rtDeclareVariable(PerRayData_shadow, prd_shadow, rtPayload, );
-rtDeclareVariable(unsigned int, shadowRayType, , );
+rtDeclareVariable(uint, shadowRayType, , );
 rtDeclareVariable(float, t_hit, rtIntersectionDistance, );
 
 rtDeclareVariable(float3, eye, , );
@@ -41,8 +41,8 @@ rtDeclareVariable(float3, bad_color, , );
 rtDeclareVariable(float, sceneEpsilon, , );
 rtDeclareVariable(rtObject, top_object, , );
 rtDeclareVariable(rtObject, top_shadower, , );
-rtDeclareVariable(unsigned int, radiance_ray_type, , );
-rtDeclareVariable(unsigned int, frame, , );
+rtDeclareVariable(uint, radiance_ray_type, , );
+rtDeclareVariable(uint, frame, , );
 rtDeclareVariable(uint2, launch_index, rtLaunchIndex, );
 
 rtBuffer<uchar4, 2> output_buffer;
@@ -50,7 +50,7 @@ rtBuffer<float4, 2> accum_buffer;
 
 rtDeclareVariable(float, height, , );
 rtDeclareVariable(float4, jitter4, , );
-rtDeclareVariable(unsigned int, samples_per_pixel, , );
+rtDeclareVariable(uint, samples_per_pixel, , );
 
 // Material attributes
 rtDeclareVariable(float3, Ka, , );
@@ -85,13 +85,13 @@ rtDeclareVariable(float, fogThickness, , );
 
 // Clipping planes
 rtBuffer<float4, 1> clippingPlanes;
-rtDeclareVariable(unsigned int, nbClippingPlanes, , );
-rtDeclareVariable(unsigned int, enableClippingPlanes, , );
+rtDeclareVariable(uint, nbClippingPlanes, , );
+rtDeclareVariable(uint, enableClippingPlanes, , );
 
 // Camera
 rtDeclareVariable(float, apertureRadius, , );
 rtDeclareVariable(float, focusDistance, , );
-rtDeclareVariable(unsigned int, stereo, , );
+rtDeclareVariable(uint, stereo, , );
 rtDeclareVariable(float3, ipd_offset, , );
 
 // Lights
@@ -113,14 +113,14 @@ rtDeclareVariable(uint, volumeSamplesPerRay, , );
 rtDeclareVariable(uint, volumeDataTypeSize, , );
 rtDeclareVariable(uint, volumeDataType, , );
 rtDeclareVariable(int, volumeSampler, , );
-rtBuffer<float3> volumeGradientBuffer;
 
 // Volume shading
 rtDeclareVariable(uint, volumeGradientShadingEnabled, , );
+rtDeclareVariable(uint, volumeAdaptiveSampling, , );
 rtDeclareVariable(float, volumeAdaptiveMaxSamplingRate, , );
 rtDeclareVariable(uint, volumeSingleShade, , );
 rtDeclareVariable(float, volumeSamplingRate, , );
-rtDeclareVariable(float3, volumeSpecular, , );
+rtDeclareVariable(float3, volumeSpecularColor, , );
 
 // Simulation data
 rtBuffer<float> simulation_data;
