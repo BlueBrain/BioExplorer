@@ -26,10 +26,12 @@
 #include "OptiXContext.h"
 #include "OptiXMaterial.h"
 #include "OptiXModel.h"
+#include "OptiXUtils.h"
 #include "OptiXVolume.h"
 
-#include <platform/core/common/light/Light.h>
 #include <platform/core/common/Logs.h>
+#include <platform/core/common/light/Light.h>
+#include <platform/core/common/scene/ClipPlane.h>
 #include <platform/core/common/utils/Utils.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/parameters/ParametersManager.h>
@@ -61,7 +63,16 @@ OptiXScene::OptiXScene(AnimationParameters& animationParameters, GeometryParamet
     oc["simulation_data"]->setBuffer(oc->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, 0));
 }
 
-OptiXScene::~OptiXScene() = default;
+OptiXScene::~OptiXScene()
+{
+    RT_DESTROY(_lightBuffer);
+    RT_DESTROY(_colorMapBuffer);
+    RT_DESTROY(_emissionIntensityMapBuffer);
+    RT_DESTROY(_backgroundTextureSampler);
+    RT_DESTROY(_dummyTextureSampler);
+    RT_DESTROY(_volumeBuffer);
+    RT_DESTROY(_clipPlanesBuffer);
+}
 
 bool OptiXScene::commitLights()
 {
@@ -149,6 +160,38 @@ void OptiXScene::_commitVolumeParameters()
     context[CONTEXT_VOLUME_CLIPPING_BOX_UPPER]->setFloat(boxUpper.x, boxUpper.y, boxUpper.z);
 }
 
+void OptiXScene::_commitClippingPlanes()
+{
+    if (!isModified())
+        return;
+
+    auto context = OptiXContext::get().getOptixContext();
+
+    if (!_clipPlanesBuffer)
+        _clipPlanesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 6 /*size*/);
+
+    const size_t numClipPlanes = _clipPlanes.size();
+    if (numClipPlanes > 0)
+    {
+        Vector4fs buffer;
+        buffer.reserve(numClipPlanes);
+        for (const auto clipPlane : _clipPlanes)
+        {
+            const auto& p = clipPlane->getPlane();
+            buffer.push_back({static_cast<float>(p[0]), static_cast<float>(p[1]), static_cast<float>(p[2]),
+                              static_cast<float>(p[3])});
+        }
+
+        const auto size = numClipPlanes * sizeof(Vector4f);
+        // _clipPlanesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 6 /*size*/);
+        memcpy(_clipPlanesBuffer->map(), buffer.data(), size);
+        _clipPlanesBuffer->unmap();
+    }
+
+    context[CONTEXT_CLIPPING_PLANES]->setBuffer(_clipPlanesBuffer);
+    context[CONTEXT_NB_CLIPPING_PLANES]->setUint(numClipPlanes);
+}
+
 void OptiXScene::commit()
 {
     // Always upload transfer function and simulation data if changed
@@ -163,6 +206,7 @@ void OptiXScene::commit()
     }
 
     commitLights();
+    _commitClippingPlanes();
 
     if (!isModified())
         return;

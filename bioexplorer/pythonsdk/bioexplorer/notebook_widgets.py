@@ -51,199 +51,198 @@ from stringcase import pascalcase
 from PIL import ImageDraw
 from .bio_explorer import Vector3
 
-
 # pylint: disable=unused-argument
 # pylint: disable=too-many-locals
 # pylint: disable=too-many-statements
 
-COLOR_MAPS = [
-    "Accent",
-    "Accent_r",
-    "Blues",
-    "Blues_r",
-    "BrBG",
-    "BrBG_r",
-    "BuGn",
-    "BuGn_r",
-    "BuPu",
-    "BuPu_r",
-    "CMRmap",
-    "CMRmap_r",
-    "Dark2",
-    "Dark2_r",
-    "GnBu",
-    "GnBu_r",
-    "Greens",
-    "Greens_r",
-    "Greys",
-    "Greys_r",
-    "OrRd",
-    "OrRd_r",
-    "Oranges",
-    "Oranges_r",
-    "PRGn",
-    "PRGn_r",
-    "Paired",
-    "Paired_r",
-    "Pastel1",
-    "Pastel1_r",
-    "Pastel2",
-    "Pastel2_r",
-    "PiYG",
-    "PiYG_r",
-    "PuBu",
-    "PuBuGn",
-    "PuBuGn_r",
-    "PuBu_r",
-    "PuOr",
-    "PuOr_r",
-    "PuRd",
-    "PuRd_r",
-    "Purples",
-    "Purples_r",
-    "RdBu",
-    "RdBu_r",
-    "RdGy",
-    "RdGy_r",
-    "RdPu",
-    "RdPu_r",
-    "RdYlBu",
-    "RdYlBu_r",
-    "RdYlGn",
-    "RdYlGn_r",
-    "Reds",
-    "Reds_r",
-    "Set1",
-    "Set1_r",
-    "Set2",
-    "Set2_r",
-    "Set3",
-    "Set3_r",
-    "Wistia",
-    "Wistia_r",
-    "YlGn",
-    "YlGnBu",
-    "YlGnBu_r",
-    "YlGn_r",
-    "YlOrBr",
-    "YlOrBr_r",
-    "YlOrRd",
-    "YlOrRd_r",
-    "afmhot",
-    "afmhot_r",
-    "autumn",
-    "autumn_r",
-    "binary",
-    "binary_r",
-    "bone",
-    "bone_r",
-    "brg",
-    "brg_r",
-    "bwr",
-    "bwr_r",
-    "cool",
-    "cool_r",
-    "coolwarm",
-    "coolwarm_r",
-    "copper",
-    "copper_r",
-    "cubehelix",
-    "cubehelix_r",
-    "flag",
-    "flag_r",
-    "gist_earth",
-    "gist_earth_r",
-    "gist_gray",
-    "gist_gray_r",
-    "gist_heat",
-    "gist_heat_r",
-    "gist_ncar",
-    "gist_ncar_r",
-    "gist_rainbow",
-    "gist_rainbow_r",
-    "gist_stern",
-    "gist_stern_r",
-    "gist_yarg",
-    "gist_yarg_r",
-    "gnuplot",
-    "gnuplot2",
-    "gnuplot2_r",
-    "gnuplot_r",
-    "gray",
-    "gray_r",
-    "hot",
-    "hot_r",
-    "hsv",
-    "hsv_r",
-    "icefire",
-    "icefire_r",
-    "inferno",
-    "inferno_r",
-    "jet_r",
-    "magma",
-    "magma_r",
-    "mako",
-    "mako_r",
-    "nipy_spectral",
-    "nipy_spectral_r",
-    "ocean",
-    "ocean_r",
-    "pink",
-    "pink_r",
-    "plasma",
-    "plasma_r",
-    "prism",
-    "prism_r",
-    "rainbow",
-    "rainbow_r",
-    "rocket",
-    "rocket_r",
-    "seismic",
-    "seismic_r",
-    "spring",
-    "spring_r",
-    "summer",
-    "summer_r",
-    "tab10",
-    "tab10_r",
-    "tab20",
-    "tab20_r",
-    "tab20b",
-    "tab20b_r",
-    "tab20c",
-    "tab20c_r",
-    "terrain",
-    "terrain_r",
-    "viridis",
-    "viridis_r",
-    "vlag",
-    "vlag_r",
-    "winter",
-    "winter_r",
-]
-
-SHADING_MODES = [
-    "none",
-    "basic",
-    "diffuse",
-    "electron",
-    "cartoon",
-    "electron_transparency",
-    "perlin",
-    "diffuse_transparency",
-    "checker",
-    "goodsell",
-]
-
-CHAMELEON_MODES = ["none", "emitter", "receiver"]
-
-DEFAULT_GRID_LAYOUT = Layout(border="1px solid black", margin="5px", padding="5px")
-DEFAULT_LAYOUT = Layout(width="50%", height="24px", display="flex", flex_flow="row")
-STYLE = {"description_width": "initial", "handle_color": "gray"}
-
 
 class Widgets:
     """Set of notebook widgets for the BioExplorer"""
+
+    COLOR_MAPS = [
+        "Accent",
+        "Accent_r",
+        "Blues",
+        "Blues_r",
+        "BrBG",
+        "BrBG_r",
+        "BuGn",
+        "BuGn_r",
+        "BuPu",
+        "BuPu_r",
+        "CMRmap",
+        "CMRmap_r",
+        "Dark2",
+        "Dark2_r",
+        "GnBu",
+        "GnBu_r",
+        "Greens",
+        "Greens_r",
+        "Greys",
+        "Greys_r",
+        "OrRd",
+        "OrRd_r",
+        "Oranges",
+        "Oranges_r",
+        "PRGn",
+        "PRGn_r",
+        "Paired",
+        "Paired_r",
+        "Pastel1",
+        "Pastel1_r",
+        "Pastel2",
+        "Pastel2_r",
+        "PiYG",
+        "PiYG_r",
+        "PuBu",
+        "PuBuGn",
+        "PuBuGn_r",
+        "PuBu_r",
+        "PuOr",
+        "PuOr_r",
+        "PuRd",
+        "PuRd_r",
+        "Purples",
+        "Purples_r",
+        "RdBu",
+        "RdBu_r",
+        "RdGy",
+        "RdGy_r",
+        "RdPu",
+        "RdPu_r",
+        "RdYlBu",
+        "RdYlBu_r",
+        "RdYlGn",
+        "RdYlGn_r",
+        "Reds",
+        "Reds_r",
+        "Set1",
+        "Set1_r",
+        "Set2",
+        "Set2_r",
+        "Set3",
+        "Set3_r",
+        "Wistia",
+        "Wistia_r",
+        "YlGn",
+        "YlGnBu",
+        "YlGnBu_r",
+        "YlGn_r",
+        "YlOrBr",
+        "YlOrBr_r",
+        "YlOrRd",
+        "YlOrRd_r",
+        "afmhot",
+        "afmhot_r",
+        "autumn",
+        "autumn_r",
+        "binary",
+        "binary_r",
+        "bone",
+        "bone_r",
+        "brg",
+        "brg_r",
+        "bwr",
+        "bwr_r",
+        "cool",
+        "cool_r",
+        "coolwarm",
+        "coolwarm_r",
+        "copper",
+        "copper_r",
+        "cubehelix",
+        "cubehelix_r",
+        "flag",
+        "flag_r",
+        "gist_earth",
+        "gist_earth_r",
+        "gist_gray",
+        "gist_gray_r",
+        "gist_heat",
+        "gist_heat_r",
+        "gist_ncar",
+        "gist_ncar_r",
+        "gist_rainbow",
+        "gist_rainbow_r",
+        "gist_stern",
+        "gist_stern_r",
+        "gist_yarg",
+        "gist_yarg_r",
+        "gnuplot",
+        "gnuplot2",
+        "gnuplot2_r",
+        "gnuplot_r",
+        "gray",
+        "gray_r",
+        "hot",
+        "hot_r",
+        "hsv",
+        "hsv_r",
+        "icefire",
+        "icefire_r",
+        "inferno",
+        "inferno_r",
+        "jet_r",
+        "magma",
+        "magma_r",
+        "mako",
+        "mako_r",
+        "nipy_spectral",
+        "nipy_spectral_r",
+        "ocean",
+        "ocean_r",
+        "pink",
+        "pink_r",
+        "plasma",
+        "plasma_r",
+        "prism",
+        "prism_r",
+        "rainbow",
+        "rainbow_r",
+        "rocket",
+        "rocket_r",
+        "seismic",
+        "seismic_r",
+        "spring",
+        "spring_r",
+        "summer",
+        "summer_r",
+        "tab10",
+        "tab10_r",
+        "tab20",
+        "tab20_r",
+        "tab20b",
+        "tab20b_r",
+        "tab20c",
+        "tab20c_r",
+        "terrain",
+        "terrain_r",
+        "viridis",
+        "viridis_r",
+        "vlag",
+        "vlag_r",
+        "winter",
+        "winter_r",
+    ]
+
+    SHADING_MODES = [
+        "none",
+        "basic",
+        "diffuse",
+        "electron",
+        "cartoon",
+        "electron_transparency",
+        "perlin",
+        "diffuse_transparency",
+        "checker",
+        "goodsell",
+    ]
+
+    CHAMELEON_MODES = ["none", "emitter", "receiver"]
+
+    DEFAULT_GRID_LAYOUT = Layout(border="1px solid black", margin="5px", padding="5px")
+    DEFAULT_LAYOUT = Layout(width="50%", height="24px", display="flex", flex_flow="row")
+    STYLE = {"description_width": "initial", "handle_color": "gray"}
 
     def __init__(self, bioexplorer):
         """Initialize with a reference to BioExplorer and underlying Brayns API"""
@@ -412,7 +411,7 @@ class Widgets:
         position_box = VBox([x_slider, y_slider, f_button, f_target])
         parameters_box = VBox([a_slider, f_slider, d_slider])
         horizontal_box = HBox(
-            [position_box, parameters_box], layout=DEFAULT_GRID_LAYOUT
+            [position_box, parameters_box], layout=Widgets.DEFAULT_GRID_LAYOUT
         )
         display(horizontal_box)
 
@@ -423,6 +422,7 @@ class Widgets:
 
     def display_palette_for_models(self):
         """Display visual controls for color palettes applied to models"""
+
         def set_colormap(model_id, colormap_name, shading_mode):
             material_ids = self._be.get_material_ids(model_id)["ids"]
             nb_materials = len(material_ids)
@@ -454,17 +454,17 @@ class Widgets:
 
         # Shading modes
         shading_combobox = Select(
-            options=SHADING_MODES, description="Shading:", disabled=False
+            options=Widgets.SHADING_MODES, description="Shading:", disabled=False
         )
 
         # Colors
         palette_combobox = Select(
-            options=COLOR_MAPS, description="Palette:", disabled=False
+            options=Widgets.COLOR_MAPS, description="Palette:", disabled=False
         )
 
         # Chameleon modes
         chameleon_combobox = Select(
-            options=CHAMELEON_MODES, description="Chameleon:", disabled=False
+            options=Widgets.CHAMELEON_MODES, description="Chameleon:", disabled=False
         )
 
         # Events
@@ -540,7 +540,7 @@ class Widgets:
                 horizontal_box_detail2,
                 horizontal_box_detail3,
             ],
-            layout=DEFAULT_GRID_LAYOUT,
+            layout=Widgets.DEFAULT_GRID_LAYOUT,
         )
         display(vertical_box)
 
@@ -699,6 +699,7 @@ class Widgets:
 
     def __display_advanced_settings(self, object_type, threaded):
         """Display visual controls for camera or renderer advanced settings"""
+
         class Updated:
             """Inner class that insures communication with the remote server"""
 
@@ -786,8 +787,8 @@ class Widgets:
                             min=minimum,
                             max=maximum,
                             value=value,
-                            STYLE=STYLE,
-                            layout=DEFAULT_LAYOUT,
+                            STYLE=Widgets.STYLE,
+                            layout=Widgets.DEFAULT_LAYOUT,
                         )
                         float_slider.observe(self._update_params, "value")
                         self._widgets_list[param] = float_slider
@@ -799,8 +800,8 @@ class Widgets:
                             min=minimum,
                             max=maximum,
                             value=value,
-                            STYLE=STYLE,
-                            layout=DEFAULT_LAYOUT,
+                            STYLE=Widgets.STYLE,
+                            layout=Widgets.DEFAULT_LAYOUT,
                         )
                         int_slider.observe(self._update_params, "value")
                         self._widgets_list[param] = int_slider
@@ -808,8 +809,8 @@ class Widgets:
                         check_box = Checkbox(
                             description=description,
                             value=bool(value),
-                            STYLE=STYLE,
-                            layout=DEFAULT_LAYOUT,
+                            STYLE=Widgets.STYLE,
+                            layout=Widgets.DEFAULT_LAYOUT,
                         )
                         check_box.observe(self._update_params, "value")
                         self._widgets_list[param] = check_box
@@ -817,8 +818,8 @@ class Widgets:
                         text_box = Text(
                             description=description,
                             value=value,
-                            STYLE=STYLE,
-                            layout=DEFAULT_LAYOUT,
+                            STYLE=Widgets.STYLE,
+                            layout=Widgets.DEFAULT_LAYOUT,
                         )
                         text_box.observe(self._update_params, "value")
                         self._widgets_list[param] = text_box
@@ -835,12 +836,12 @@ class Widgets:
         for i in range(0, nb_widgets, nb_columns):
             box_widgets = list()
 
-            for widget in list(widgets_list)[i: min(i + nb_columns, nb_widgets)]:
+            for widget in list(widgets_list)[i : min(i + nb_columns, nb_widgets)]:
                 box_widgets.append(widgets_list[widget])
 
             vboxes.append(HBox(box_widgets))
 
-        hbox = VBox(vboxes, layout=DEFAULT_GRID_LAYOUT)
+        hbox = VBox(vboxes, layout=Widgets.DEFAULT_GRID_LAYOUT)
         display(hbox)
 
     def display_advanced_rendering_settings(self, is_threaded=True):
@@ -853,6 +854,7 @@ class Widgets:
 
     def display_rendering_settings(self):
         """Display visual controls for renderer settings"""
+
         def update_params(_):
             """Update renderer params"""
             self._client.set_renderer(
@@ -902,7 +904,7 @@ class Widgets:
         hbox_2 = HBox(
             [colorpicker_background, checkbox_head_light, checkbox_accumulation]
         )
-        display(VBox([hbox_1, hbox_2], layout=DEFAULT_GRID_LAYOUT))
+        display(VBox([hbox_1, hbox_2], layout=Widgets.DEFAULT_GRID_LAYOUT))
 
     def display_environment_maps(self, folder):
         """Display visual controls for setting environment map"""
@@ -960,9 +962,101 @@ class Widgets:
                 palette_size,
             )
             lbl.value = sequence_as_list[2][
-                value["new"][0] - value_range[0]: value["new"][1] - value_range[0]
+                value["new"][0] - value_range[0] : value["new"][1] - value_range[0]
             ]
 
         irs.observe(update_slider, "value")
         display(irs)
         display(lbl)
+
+    def display_clipping_planes(self, value_range=[0, 128]):
+        """
+            The code is implementing a visualization feature that allows the user to add and
+            manipulate clip planes in a 3D space.
+
+            The code starts by getting the currently existing clip planes using
+            the _client.get_clip_planes() method. If there are any existing clip planes, it stores
+            the ID of the last plane in the variable plane_id and removes all existing clip planes
+            using the _client.remove_clip_planes() method.
+
+            Next, the code adds 6 new clip planes at the origin using the _client.add_clip_plane()
+            method. The clip planes are added in pairs along the x, y, and z axes.
+
+            After that, the code defines three update functions update_x, update_y, and update_z
+            that will be called when the user interacts with the sliders.
+
+            Each update function calls the _client.update_clip_plane() method to update the position
+            of the corresponding clip plane based on the value of the slider. The plane_id variable
+            is used to identify the correct clip plane to update.
+
+            Finally, three sliders w_y, w_y, and w_z are created using IntRangeSlider with provided
+            minimum and maximum values. Each slider is then associated with its corresponding update
+            function using the observe() method. The sliders are displayed using the display()
+            function.
+
+        Args:
+            value_range (list, optional): Range of values for the clipping planes. Defaults to
+            [0, 128].
+        """
+        planes = self._client.get_clip_planes()
+        plane_id = -1
+        if planes is not None:
+            plane_id = int(planes[len(planes) - 1]["id"])
+            ids = list()
+            for i in range(len(planes)):
+                ids.append(planes[i]["id"])
+            self._client.remove_clip_planes(array=ids)
+
+        for i in range(6):
+            self._client.add_clip_plane([0, 0, 0, 0])
+
+        def update_x(value):
+            self._client.update_clip_plane(
+                id=plane_id + 1, plane=[-1.0, 0.0, 0.0, float(value["new"][1])]
+            )
+            self._client.update_clip_plane(
+                id=plane_id + 2, plane=[1.0, 0.0, 0.0, -float(value["new"][0])]
+            )
+
+        def update_y(value):
+            self._client.update_clip_plane(
+                id=plane_id + 3, plane=[0.0, -1.0, 0.0, float(value["new"][1])]
+            )
+            self._client.update_clip_plane(
+                id=plane_id + 4, plane=[0.0, 1.0, 0.0, -float(value["new"][0])]
+            )
+
+        def update_z(value):
+            self._client.update_clip_plane(
+                id=plane_id + 5, plane=[0.0, 0.0, -1.0, float(value["new"][1])]
+            )
+            self._client.update_clip_plane(
+                id=plane_id + 6, plane=[0.0, 0.0, 1.0, -float(value["new"][0])]
+            )
+
+        w_x = IntRangeSlider(
+            description="X axis",
+            STYLE=Widgets.STYLE,
+            min=value_range[0],
+            max=value_range[1],
+            value=value_range,
+        )
+        w_x.observe(update_x, "value")
+        w_y = IntRangeSlider(
+            description="Y axis",
+            STYLE=Widgets.STYLE,
+            min=value_range[0],
+            max=value_range[1],
+            value=value_range,
+        )
+        w_y.observe(update_y, "value")
+        w_z = IntRangeSlider(
+            description="Z axis",
+            STYLE=Widgets.STYLE,
+            min=value_range[0],
+            max=value_range[1],
+            value=value_range,
+        )
+        w_z.observe(update_z, "value")
+        hbox = HBox([w_x, w_y, w_z], layout=Widgets.DEFAULT_GRID_LAYOUT)
+        display(hbox)

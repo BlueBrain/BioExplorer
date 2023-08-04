@@ -159,7 +159,7 @@ void OpenDeckPlugin::init()
 #endif
 }
 
-extern "C" core::ExtensionPlugin* brayns_plugin_create(const int argc, const char** argv)
+extern "C" core::ExtensionPlugin* core_plugin_create(const int argc, const char** argv)
 {
     PLUGIN_INFO("");
     PLUGIN_INFO("   _|_|                                  _|_|_|                        _|      ");

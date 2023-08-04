@@ -26,12 +26,16 @@
 #include <plugin/common/Logs.h>
 
 #include <platform/core/common/ActionInterface.h>
-#include <platform/core/common/Progress.h>
-#include <platform/core/engineapi/Camera.h>
+#include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Scene.h>
 #include <platform/core/parameters/ParametersManager.h>
 #include <platform/core/pluginapi/Plugin.h>
+
+#ifdef USE_OPTIX6
+#include <DICOM_generated_DICOM.cu.ptx.h>
+#include <platform/engines/optix6/OptiXContext.h>
+#endif
 
 namespace medicalimagingexplorer
 {
@@ -39,7 +43,21 @@ namespace dicom
 {
 #define REGISTER_LOADER(LOADER, FUNC) registry.registerLoader({std::bind(&LOADER::getSupportedDataTypes), FUNC});
 
+const std::string RENDERER_DICOM = "dicom";
+
 using namespace core;
+
+void _addDICOMRenderer(Engine &engine)
+{
+    PLUGIN_REGISTER_RENDERER(RENDERER_DICOM);
+    core::PropertyMap properties;
+    properties.setProperty({"shadows", 0., 0., 1., {"Shadows"}});
+    properties.setProperty({"softShadows", 0., 0., 1., {"Soft shadows"}});
+    properties.setProperty({"mainExposure", 1., 0.01, 10., {"Exposure"}});
+    properties.setProperty({"specularExponent", 50., 1.0, 100., {"Specular exponent"}});
+    properties.setProperty({"giDistance", 10000.0, {"Global illumination distance"}});
+    engine.addRendererType(RENDERER_DICOM, properties);
+}
 
 DICOMPlugin::DICOMPlugin(PropertyMap &&dicomParams)
     : ExtensionPlugin()
@@ -54,6 +72,44 @@ void DICOMPlugin::init()
     registry.registerLoader(
         std::make_unique<DICOMLoader>(scene, std::move(_api->getParametersManager().getGeometryParameters()),
                                       std::move(_dicomParams)));
+
+    auto &engine = _api->getEngine();
+    auto &params = engine.getParametersManager().getApplicationParameters();
+    auto &engineName = params.getEngine();
+#ifdef USE_OPTIX6
+    if (engineName == ENGINE_OPTIX_6)
+    {
+        _createOptiXRenderers();
+        _createRenderers();
+    }
+#endif
+    _api->getParametersManager().getRenderingParameters().setCurrentRenderer("advanced");
+}
+
+#ifdef USE_OPTIX6
+void DICOMPlugin::_createOptiXRenderers()
+{
+    std::map<std::string, std::string> renderers = {
+        {RENDERER_DICOM, DICOM_generated_DICOM_cu_ptx},
+    };
+    OptiXContext &context = OptiXContext::get();
+    for (const auto &renderer : renderers)
+    {
+        const std::string ptx = renderer.second;
+
+        auto osp = std::make_shared<OptixShaderProgram>();
+        osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance");
+        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "any_hit_shadow");
+
+        context.addRenderer(renderer.first, osp);
+    }
+}
+#endif
+
+void DICOMPlugin::_createRenderers()
+{
+    auto &engine = _api->getEngine();
+    _addDICOMRenderer(engine);
 }
 
 extern "C" ExtensionPlugin *core_plugin_create(int /*argc*/, char ** /*argv*/)

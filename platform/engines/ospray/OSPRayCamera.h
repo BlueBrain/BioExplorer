@@ -25,8 +25,8 @@
 #ifndef OSPRAYCAMERA_H
 #define OSPRAYCAMERA_H
 
-#include <platform/core/engineapi/Camera.h>
 #include <ospray.h>
+#include <platform/core/engineapi/Camera.h>
 
 namespace core
 {

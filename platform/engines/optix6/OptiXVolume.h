@@ -35,7 +35,7 @@ namespace core
 class OptiXVolume : public SharedDataVolume
 {
 public:
-    OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const Vector3f& spacing, const DataType type,
+    OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const Vector3f& spacing, const DataType dataType,
                 const VolumeParameters& params);
     ~OptiXVolume();
 
@@ -47,12 +47,15 @@ public:
 protected:
     void _createBox(OptiXModel* model);
 
+    float _getVoxelValue(const void* voxels, const uint16_t x, const uint16_t y, const uint16_t z) const;
+
     const VolumeParameters& _parameters;
     const Vector3f _offset{0.f, 0.f, 0.f};
 
     RTformat _dataType{RT_FORMAT_UNSIGNED_BYTE};
     uint64_t _dataTypeSize{1};
     ::optix::Buffer _buffer{nullptr};
+    optix::TextureSampler _sampler{nullptr};
 };
 
 } // namespace core

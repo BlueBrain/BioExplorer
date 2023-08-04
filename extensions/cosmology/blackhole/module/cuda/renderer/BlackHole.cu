@@ -23,41 +23,17 @@
 
 #include <optix_world.h>
 
-#include <platform/engines/optix6/OptiXCommonStructs.h>
+#include <platform/engines/optix6/cuda/Context.cuh>
 #include <platform/engines/optix6/cuda/Helpers.cuh>
 #include <platform/engines/optix6/cuda/Random.cuh>
 
-// Scene
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
-rtDeclareVariable(uint2, launch_index, rtLaunchIndex, );
-rtDeclareVariable(PerRayData_radiance, prd, rtPayload, );
-rtDeclareVariable(PerRayData_shadow, prd_shadow, rtPayload, );
-rtDeclareVariable(unsigned int, shadowRayType, , );
-rtDeclareVariable(unsigned int, frame, , );
-rtDeclareVariable(float, t_hit, rtIntersectionDistance, );
-rtDeclareVariable(rtObject, top_shadower, , );
-rtBuffer<BasicLight> lights;
-rtDeclareVariable(float3, bgColor, , );
-
-// Material
-rtDeclareVariable(float3, Ko, , );
-
 // Rendering
-rtDeclareVariable(float, mainExposure, , );
 rtDeclareVariable(uint, grid, , );
 rtDeclareVariable(int, nbDisks, , );
 rtDeclareVariable(float, diskRotationSpeed, , );
 rtDeclareVariable(int, diskTextureLayers, , );
 rtDeclareVariable(float, blackHoleSize, , );
 rtDeclareVariable(float, timestamp, , );
-rtDeclareVariable(int, envmap, , );
-rtDeclareVariable(uint, use_envmap, , );
-rtDeclareVariable(uint, showBackground, , );
-
-// Rendering
-rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
-
-rtBuffer<uchar4, 2> output_buffer;
 
 // Port from https://www.shadertoy.com/view/tsBXW3
 
@@ -215,7 +191,7 @@ static __device__ inline void shade()
 
     for (int disks = 0; disks < nbDisks; ++disks) // steps
     {
-        for (int h = 0; h < 6; h++)               // reduces tests for exit conditions (to minimise branching)
+        for (int h = 0; h < 6; h++) // reduces tests for exit conditions (to minimise branching)
         {
             float dotpos = ::optix::dot(pos, pos);
             float invDist = sqrt(1.f / dotpos);           // 1 / distance to black hole
@@ -265,7 +241,7 @@ static __device__ inline void shade()
 
         else if (abs(pos.y) <= blackHoleSize * 0.002f) // ray hit accretion disk
         {
-            float4 diskCol = raymarchDisk(dir, pos);   // render disk
+            float4 diskCol = raymarchDisk(dir, pos); // render disk
             pos.y = 0.f;
             pos = pos + abs(blackHoleSize * 0.001f / dir.y) * dir;
             col =

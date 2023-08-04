@@ -83,12 +83,12 @@ void OptiXEngine::_createCameras()
     _camera = createCamera();
 
     const bool isStereo = _parametersManager.getApplicationParameters().isStereo();
-    Property stereoProperty{"stereo", isStereo, {"Stereo"}};
-    Property fovy{"fovy", 45., .1, 360., {"Field of view"}};
-    Property aspect{"aspect", 1., {"Aspect ratio"}};
+    Property stereoProperty{CONTEXT_CAMERA_STEREO, isStereo, {"Stereo"}};
+    Property fovy{CONTEXT_CAMERA_FOVY, 45., .1, 360., {"Field of view"}};
+    Property aspect{CONTEXT_CAMERA_ASPECT, 1., {"Aspect ratio"}};
     aspect.markReadOnly();
-    Property eyeSeparation{"interpupillaryDistance", 0.0635, {"Eye separation"}};
-    Property enableClippingPlanes{"enableClippingPlanes", true, {"Clipping"}};
+    Property eyeSeparation{CONTEXT_CAMERA_IPD, 0.0635, {"Eye separation"}};
+    Property enableClippingPlanes{CONTEXT_ENABLE_CLIPPING_PLANES, true, {"Enable clipping planes"}};
 
     OptiXContext& context = OptiXContext::get();
 

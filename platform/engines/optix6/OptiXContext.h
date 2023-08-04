@@ -39,6 +39,16 @@ namespace core
 const std::string CONTEXT_SCENE_TOP_OBJECT = "top_object";
 const std::string CONTEXT_SCENE_TOP_SHADOWER = "top_shadower";
 
+// Renderer
+const std::string CONTEXT_RENDERER_JITTER = "jitter4";
+const std::string CONTEXT_RENDERER_FRAME = "frame";
+const std::string CONTEXT_RENDERER_RADIANCE_RAY_TYPE = "radianceRayType";
+const std::string CONTEXT_RENDERER_SHADOW_RAY_TYPE = "shadowRayType";
+const std::string CONTEXT_RENDERER_SCENE_EPSILON = "sceneEpsilon";
+const std::string CONTEXT_RENDERER_AMBIENT_LIGHT_COLOR = "ambientLightColor";
+const std::string CONTEXT_RENDERER_BACKGROUND_COLOR = "bgColor";
+const std::string CONTEXT_RENDERER_SAMPLES_PER_PIXEL = "samples_per_pixel";
+
 // Camera
 const std::string CUDA_FUNC_CAMERA_EXCEPTION = "exception";
 const std::string CUDA_FUNC_CAMERA_ENVMAP_MISS = "envmap_miss";
@@ -63,14 +73,16 @@ const std::string CONTEXT_CAMERA_OFFSET = "offset";
 const std::string CUDA_FUNC_PERSPECTIVE_CAMERA = "perspectiveCamera";
 const std::string CONTEXT_CAMERA_STEREO = "stereo";
 const std::string CONTEXT_CAMERA_IPD = "interpupillaryDistance";
+const std::string CONTEXT_CAMERA_IPD_OFFSET = "ipd_offset";
 
 // Orthographic
 const std::string CUDA_FUNC_ORTHOGRAPHIC_CAMERA = "orthographicCamera";
 const std::string CONTEXT_CAMERA_HEIGHT = "height";
 
 // Clipping planes
-const std::string CONTEXT_CLIP_PLANES = "clip_planes";
-const std::string CONTEXT_NB_CLIP_PLANES = "nb_clip_planes";
+const std::string CONTEXT_ENABLE_CLIPPING_PLANES = "enableClippingPlanes";
+const std::string CONTEXT_CLIPPING_PLANES = "clippingPlanes";
+const std::string CONTEXT_NB_CLIPPING_PLANES = "nbClippingPlanes";
 
 // Lights
 const std::string CONTEXT_LIGHTS = "lights";
@@ -114,11 +126,12 @@ const std::string CONTEXT_TONEMAPPED_BUFFER = "tonemapped_buffer";
 const std::string CONTEXT_FRAME_NUMBER = "frame_number";
 
 // Volume
-const std::string CONTEXT_VOLUME_DATA = "volumeData";
+const std::string CONTEXT_VOLUME_DATA_TYPE = "volumeDataType";
 const std::string CONTEXT_VOLUME_DATA_TYPE_SIZE = "volumeDataTypeSize";
 const std::string CONTEXT_VOLUME_DIMENSIONS = "volumeDimensions";
 const std::string CONTEXT_VOLUME_OFFSET = "volumeOffset";
 const std::string CONTEXT_VOLUME_ELEMENT_SPACING = "volumeElementSpacing";
+const std::string CONTEXT_VOLUME_TEXTURE_SAMPLER = "volumeSampler";
 
 // Volume parameters
 const std::string CONTEXT_VOLUME_GRADIENT_SHADING_ENABLED = "volumeGradientShadingEnabled";
@@ -127,7 +140,7 @@ const std::string CONTEXT_VOLUME_ADAPTIVE_SAMPLING = "volumeAdaptiveSampling";
 const std::string CONTEXT_VOLUME_SINGLE_SHADE = "volumeSingleShade";
 const std::string CONTEXT_VOLUME_PRE_INTEGRATION = "volumePreIntegration";
 const std::string CONTEXT_VOLUME_SAMPLING_RATE = "volumeSamplingRate";
-const std::string CONTEXT_VOLUME_SPECULAR_COLOR = "volumeSpecular";
+const std::string CONTEXT_VOLUME_SPECULAR_COLOR = "volumeSpecularColor";
 const std::string CONTEXT_VOLUME_CLIPPING_BOX_LOWER = "volumeClippingBoxLower";
 const std::string CONTEXT_VOLUME_CLIPPING_BOX_UPPER = "volumeClippingBoxUpper";
 

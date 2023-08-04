@@ -19,12 +19,10 @@
  */
 
 // #include "Helpers.h"
-#include <platform/engines/optix6/OptiXCommonStructs.h>
+#include <platform/engines/optix6/cuda/Context.cuh>
 #include <platform/engines/optix6/cuda/Helpers.cuh>
 #include <platform/engines/optix6/cuda/Random.cuh>
 
-#include <optix.h>
-#include <optixu/optixu_math_namespace.h>
 #include <optixu/optixu_matrix_namespace.h>
 
 static const float OPENDECK_RADIUS = 2.55f;
@@ -44,44 +42,9 @@ rtDeclareVariable(float3, headPos, , );
 rtDeclareVariable(float3, headUVec, , );
 
 rtDeclareVariable(float, half_ipd, , );
-rtDeclareVariable(float3, eye, , );
-rtDeclareVariable(float3, U, , );
-rtDeclareVariable(float3, V, , );
-rtDeclareVariable(float3, W, , );
-rtDeclareVariable(float3, bad_color, , );
-rtDeclareVariable(float, scene_epsilon, , );
-rtBuffer<uchar4, 2> output_buffer;
-rtBuffer<float4, 2> accum_buffer;
-rtDeclareVariable(rtObject, top_object, , );
-rtDeclareVariable(unsigned int, radiance_ray_type, , );
-rtDeclareVariable(unsigned int, frame, , );
-rtDeclareVariable(uint2, launch_index, rtLaunchIndex, );
 
 rtDeclareVariable(float, aperture_radius, , ); // Unused for now
 rtDeclareVariable(float, focal_scale, , );     // Unused for now
-rtDeclareVariable(float4, jitter4, , );        // Unused for now
-rtDeclareVariable(unsigned int, samples_per_pixel, , );
-
-rtBuffer<float4, 1> clip_planes;
-rtDeclareVariable(unsigned int, nb_clip_planes, , );
-
-__device__ void getClippingValues(const float3& ray_origin, const float3& ray_direction, float& near, float& far)
-{
-    for (int i = 0; i < nb_clip_planes; ++i)
-    {
-        float4 clipPlane = clip_planes[i];
-        const float3 planeNormal = {clipPlane.x, clipPlane.y, clipPlane.z};
-        float rn = dot(ray_direction, planeNormal);
-        if (rn == 0.f)
-            rn = scene_epsilon;
-        float d = clipPlane.w;
-        float t = -(dot(planeNormal, ray_origin) + d) / rn;
-        if (rn > 0.f) // opposite direction plane
-            near = max(near, t);
-        else
-            far = min(far, t);
-    }
-}
 
 // Pass 'seed' by reference to keep randomness state
 __device__ float3 launch(unsigned int& seed, const float2 screen, const bool use_randomness)
@@ -170,10 +133,10 @@ __device__ float3 launch(unsigned int& seed, const float2 screen, const bool use
     dir = transform * dir;
 
     const float3 org = eye + headPos - eyeDeltaPos;
-    float near = scene_epsilon;
+    float near = sceneEpsilon;
     float far = INFINITY;
 
-    getClippingValues(org, dir, near, far);
+    applyClippingPlanes(org, dir, near, far);
     optix::Ray ray(org, dir, radiance_ray_type, near, far);
 
     rtTrace(top_object, ray, prd);

@@ -20,25 +20,24 @@
 
 #pragma once
 
+#include "Context.cuh"
+
 #include <optixu/optixu_math_namespace.h>
 
-// Convert a float3 in [0,1)^3 to a uchar4 in [0,255]^4 -- 4th channel is set to
-// 255
+// Convert a float3 in [0,1)^3 to a uchar4 in [0,255]^4 -- 4th channel is set to 255
 #ifdef __CUDACC__
 static __device__ __inline__ optix::uchar4 make_color(const optix::float3& c)
 {
-    return optix::make_uchar4(
-        static_cast<unsigned char>(__saturatef(c.x) * 255.99f), /* R */
-        static_cast<unsigned char>(__saturatef(c.y) * 255.99f), /* G */
-        static_cast<unsigned char>(__saturatef(c.z) * 255.99f), /* B */
-        255u);                                                  /* A */
+    return optix::make_uchar4(static_cast<unsigned char>(__saturatef(c.x) * 255.99f), /* R */
+                              static_cast<unsigned char>(__saturatef(c.y) * 255.99f), /* G */
+                              static_cast<unsigned char>(__saturatef(c.z) * 255.99f), /* B */
+                              255u);                                                  /* A */
 }
 #endif
 
 // Sample Phong lobe relative to U, V, W frame
-static __host__ __device__ __inline__ optix::float3 sample_phong_lobe(
-    optix::float2 sample, float exponent, optix::float3 U, optix::float3 V,
-    optix::float3 W)
+static __host__ __device__ __inline__ optix::float3 sample_phong_lobe(optix::float2 sample, float exponent,
+                                                                      optix::float3 U, optix::float3 V, optix::float3 W)
 {
     const float power = expf(logf(sample.y) / (exponent + 1.0f));
     const float phi = sample.x * 2.0f * (float)M_PIf;
@@ -52,9 +51,10 @@ static __host__ __device__ __inline__ optix::float3 sample_phong_lobe(
 }
 
 // Sample Phong lobe relative to U, V, W frame
-static __host__ __device__ __inline__ optix::float3 sample_phong_lobe(
-    const optix::float2& sample, float exponent, const optix::float3& U,
-    const optix::float3& V, const optix::float3& W, float& pdf, float& bdf_val)
+static __host__ __device__ __inline__ optix::float3 sample_phong_lobe(const optix::float2& sample, float exponent,
+                                                                      const optix::float3& U, const optix::float3& V,
+                                                                      const optix::float3& W, float& pdf,
+                                                                      float& bdf_val)
 {
     const float cos_theta = powf(sample.y, 1.0f / (exponent + 1.0f));
 
@@ -73,9 +73,9 @@ static __host__ __device__ __inline__ optix::float3 sample_phong_lobe(
 }
 
 // Get Phong lobe PDF for local frame
-static __host__ __device__ __inline__ float get_phong_lobe_pdf(
-    float exponent, const optix::float3& normal, const optix::float3& dir_out,
-    const optix::float3& dir_in, float& bdf_val)
+static __host__ __device__ __inline__ float get_phong_lobe_pdf(float exponent, const optix::float3& normal,
+                                                               const optix::float3& dir_out,
+                                                               const optix::float3& dir_in, float& bdf_val)
 {
     using namespace optix;
 
@@ -88,9 +88,7 @@ static __host__ __device__ __inline__ float get_phong_lobe_pdf(
 }
 
 // Create ONB from normal.  Resulting W is parallel to normal
-static __host__ __device__ __inline__ void create_onb(const optix::float3& n,
-                                                      optix::float3& U,
-                                                      optix::float3& V,
+static __host__ __device__ __inline__ void create_onb(const optix::float3& n, optix::float3& U, optix::float3& V,
                                                       optix::float3& W)
 {
     using namespace optix;
@@ -106,8 +104,7 @@ static __host__ __device__ __inline__ void create_onb(const optix::float3& n,
 }
 
 // Create ONB from normalized vector
-static __device__ __inline__ void create_onb(const optix::float3& n,
-                                             optix::float3& U, optix::float3& V)
+static __device__ __inline__ void create_onb(const optix::float3& n, optix::float3& U, optix::float3& V)
 {
     using namespace optix;
 
@@ -121,29 +118,27 @@ static __device__ __inline__ void create_onb(const optix::float3& n,
 }
 
 // Compute the origin ray differential for transfer
-static __host__ __device__ __inline__ optix::float3
-    differential_transfer_origin(optix::float3 dPdx, optix::float3 dDdx,
-                                 float t, optix::float3 direction,
-                                 optix::float3 normal)
+static __host__ __device__ __inline__ optix::float3 differential_transfer_origin(optix::float3 dPdx, optix::float3 dDdx,
+                                                                                 float t, optix::float3 direction,
+                                                                                 optix::float3 normal)
 {
-    float dtdx =
-        -optix::dot((dPdx + t * dDdx), normal) / optix::dot(direction, normal);
+    float dtdx = -optix::dot((dPdx + t * dDdx), normal) / optix::dot(direction, normal);
     return (dPdx + t * dDdx) + dtdx * direction;
 }
 
 // Compute the direction ray differential for a pinhole camera
-static __host__ __device__ __inline__ optix::float3
-    differential_generation_direction(optix::float3 d, optix::float3 basis)
+static __host__ __device__ __inline__ optix::float3 differential_generation_direction(optix::float3 d,
+                                                                                      optix::float3 basis)
 {
     float dd = optix::dot(d, d);
     return (dd * basis - optix::dot(d, basis) * d) / (dd * sqrtf(dd));
 }
 
 // Compute the direction ray differential for reflection
-static __host__ __device__ __inline__ optix::float3
-    differential_reflect_direction(optix::float3 dPdx, optix::float3 dDdx,
-                                   optix::float3 dNdP, optix::float3 D,
-                                   optix::float3 N)
+static __host__ __device__ __inline__ optix::float3 differential_reflect_direction(optix::float3 dPdx,
+                                                                                   optix::float3 dDdx,
+                                                                                   optix::float3 dNdP, optix::float3 D,
+                                                                                   optix::float3 N)
 {
     using namespace optix;
 
@@ -153,10 +148,11 @@ static __host__ __device__ __inline__ optix::float3
 }
 
 // Compute the direction ray differential for refraction
-static __host__ __device__ __inline__ optix::float3
-    differential_refract_direction(optix::float3 dPdx, optix::float3 dDdx,
-                                   optix::float3 dNdP, optix::float3 D,
-                                   optix::float3 N, float ior, optix::float3 T)
+static __host__ __device__ __inline__ optix::float3 differential_refract_direction(optix::float3 dPdx,
+                                                                                   optix::float3 dDdx,
+                                                                                   optix::float3 dNdP, optix::float3 D,
+                                                                                   optix::float3 N, float ior,
+                                                                                   optix::float3 T)
 {
     using namespace optix;
 
@@ -180,26 +176,20 @@ static __host__ __device__ __inline__ optix::float3
 }
 
 // Color space conversions
-static __host__ __device__ __inline__ optix::float3 Yxy2XYZ(
-    const optix::float3& Yxy)
+static __host__ __device__ __inline__ optix::float3 Yxy2XYZ(const optix::float3& Yxy)
 {
     // avoid division by zero
     if (Yxy.z < 1e-4)
         return optix::make_float3(0.0f, 0.0f, 0.0f);
 
-    return optix::make_float3(Yxy.y * (Yxy.x / Yxy.z), Yxy.x,
-                              (1.0f - Yxy.y - Yxy.z) * (Yxy.x / Yxy.z));
+    return optix::make_float3(Yxy.y * (Yxy.x / Yxy.z), Yxy.x, (1.0f - Yxy.y - Yxy.z) * (Yxy.x / Yxy.z));
 }
 
-static __host__ __device__ __inline__ optix::float3 XYZ2rgb(
-    const optix::float3& xyz)
+static __host__ __device__ __inline__ optix::float3 XYZ2rgb(const optix::float3& xyz)
 {
-    const float R =
-        optix::dot(xyz, optix::make_float3(3.2410f, -1.5374f, -0.4986f));
-    const float G =
-        optix::dot(xyz, optix::make_float3(-0.9692f, 1.8760f, 0.0416f));
-    const float B =
-        optix::dot(xyz, optix::make_float3(0.0556f, -0.2040f, 1.0570f));
+    const float R = optix::dot(xyz, optix::make_float3(3.2410f, -1.5374f, -0.4986f));
+    const float G = optix::dot(xyz, optix::make_float3(-0.9692f, 1.8760f, 0.0416f));
+    const float B = optix::dot(xyz, optix::make_float3(0.0556f, -0.2040f, 1.0570f));
     return optix::make_float3(R, G, B);
 }
 
@@ -212,8 +202,7 @@ static __host__ __device__ __inline__ optix::float3 Yxy2rgb(optix::float3 Yxy)
         return make_float3(0.0f, 0.0f, 0.0f);
 
     // First convert to xyz
-    float3 xyz = make_float3(Yxy.y * (Yxy.x / Yxy.z), Yxy.x,
-                             (1.0f - Yxy.y - Yxy.z) * (Yxy.x / Yxy.z));
+    float3 xyz = make_float3(Yxy.y * (Yxy.x / Yxy.z), Yxy.x, (1.0f - Yxy.y - Yxy.z) * (Yxy.x / Yxy.z));
 
     const float R = dot(xyz, make_float3(3.2410f, -1.5374f, -0.4986f));
     const float G = dot(xyz, make_float3(-0.9692f, 1.8760f, 0.0416f));
@@ -240,8 +229,7 @@ static __host__ __device__ __inline__ optix::float3 rgb2Yxy(optix::float3 rgb)
     return make_float3(Y, X / (denominator), Y / (denominator));
 }
 
-static __host__ __device__ __inline__ optix::float3 tonemap(
-    const optix::float3& hdr_value, float Y_log_av, float Y_max)
+static __host__ __device__ __inline__ optix::float3 tonemap(const optix::float3& hdr_value, float Y_log_av, float Y_max)
 {
     using namespace optix;
 
@@ -263,11 +251,9 @@ static __device__ inline optix::float3 tonemap(const optix::float3& color)
     return color / (color + make_float3(1.0f));
 }
 
-static __device__ inline optix::float2 getEquirectangularUV(
-    const optix::float3& R)
+static __device__ inline optix::float2 getEquirectangularUV(const optix::float3& R)
 {
-    return make_float2(atan2f(R.z, R.x) * M_1_PIf / 2.f + 0.5f,
-                       asinf(R.y) * M_1_PIf + 0.5f);
+    return make_float2(atan2f(R.z, R.x) * M_1_PIf / 2.f + 0.5f, asinf(R.y) * M_1_PIf + 0.5f);
 }
 
 static __device__ inline float3 max(const float3& a, const float3& b)
@@ -288,6 +274,24 @@ static __device__ inline float4 SRGBtoLinear(const float4& srgb)
 static __device__ inline float3 linearToSRGB(const float3& color)
 {
     return pow(color, 1.f / 2.2f);
+}
+
+static __device__ void applyClippingPlanes(const float3& origin, const float3& direction, float& near, float& far)
+{
+    for (int i = 0; i < nbClippingPlanes; ++i)
+    {
+        float4 clipPlane = clippingPlanes[i];
+        const float3 planeNormal = {clipPlane.x, clipPlane.y, clipPlane.z};
+        float rn = ::optix::dot(direction, planeNormal);
+        if (rn == 0.f)
+            rn = sceneEpsilon;
+        float d = clipPlane.w;
+        float t = -(::optix::dot(planeNormal, origin) + d) / rn;
+        if (rn > 0.f) // opposite direction plane
+            near = max(near, t);
+        else
+            far = min(far, t);
+    }
 }
 
 #define OPTIX_DUMP_FLOAT(VALUE) rtPrintf(#VALUE " %f\n", VALUE)

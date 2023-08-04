@@ -21,16 +21,7 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <optix_world.h>
-
-#include <platform/engines/optix6/OptiXCommonStructs.h>
-
-// Scene
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
-rtDeclareVariable(PerRayData_radiance, prd, rtPayload, );
-
-// Material attributes
-rtDeclareVariable(float3, Kd, , );
+#include <platform/engines/optix6/cuda/Context.cuh>
 
 static __device__ inline void shade()
 {

@@ -28,52 +28,51 @@
 
 namespace core
 {
-OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const Vector3f& spacing, const DataType type,
-                         const VolumeParameters& params)
-    : Volume(dimensions, spacing, type)
-    , SharedDataVolume(dimensions, spacing, type)
+OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const Vector3f& spacing,
+                         const DataType dataType, const VolumeParameters& params)
+    : Volume(dimensions, spacing, dataType)
+    , SharedDataVolume(dimensions, spacing, dataType)
     , _parameters(params)
 {
     CORE_INFO("Volume dimension: " << _dimensions);
     CORE_INFO("Volume spacing  : " << _spacing);
-    switch (type)
+    switch (dataType)
     {
     case DataType::INT8:
         _dataType = RT_FORMAT_BYTE;
-        _dataTypeSize = 1;
+        _dataTypeSize = sizeof(int8_t);
         CORE_INFO("Volume data type: RT_FORMAT_BYTE");
         break;
     case DataType::UINT8:
         _dataType = RT_FORMAT_UNSIGNED_BYTE;
-        _dataTypeSize = 1;
+        _dataTypeSize = sizeof(uint8_t);
         CORE_INFO("Volume data type: RT_FORMAT_UNSIGNED_BYTE");
         break;
     case DataType::INT16:
         _dataType = RT_FORMAT_INT;
-        _dataTypeSize = 2;
+        _dataTypeSize = sizeof(int16_t);
         CORE_INFO("Volume data type: RT_FORMAT_INT");
         break;
     case DataType::UINT16:
         _dataType = RT_FORMAT_UNSIGNED_INT;
-        _dataTypeSize = 2;
+        _dataTypeSize = sizeof(uint16_t);
         CORE_INFO("Volume data type: RT_FORMAT_UNSIGNED_INT");
         break;
+    case DataType::FLOAT:
+        _dataType = RT_FORMAT_FLOAT;
+        _dataTypeSize = sizeof(float);
+        CORE_INFO("Volume data type: RT_FORMAT_FLOAT");
+        break;
     default:
-        throw std::runtime_error("Unsupported voxel type " + std::to_string(int(type)));
+        throw std::runtime_error("Unsupported voxel type " + std::to_string(int(dataType)));
     }
-
-    auto context = OptiXContext::get().getOptixContext();
-    context[CONTEXT_VOLUME_DATA_TYPE_SIZE]->setUint(_dataTypeSize);
-
     _createBox(model);
 }
 
 OptiXVolume::~OptiXVolume()
 {
-    auto context = OptiXContext::get().getOptixContext();
-    _buffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_BYTE, 0);
-
     RT_DESTROY(_buffer);
+    RT_DESTROY(_sampler);
 }
 
 void OptiXVolume::_createBox(OptiXModel* model)
@@ -126,16 +125,92 @@ void OptiXVolume::_createBox(OptiXModel* model)
 void OptiXVolume::setVoxels(const void* voxels)
 {
     RT_DESTROY(_buffer);
+    RT_DESTROY(_sampler);
 
     auto context = OptiXContext::get().getOptixContext();
-    const auto bufferSize = _dimensions.x * _dimensions.y * _dimensions.z * _dataTypeSize;
-    _buffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_BYTE, bufferSize);
-    memcpy(_buffer->map(), voxels, bufferSize);
-    _buffer->unmap();
-    context[CONTEXT_VOLUME_DATA]->setBuffer(_buffer);
     context[CONTEXT_VOLUME_DIMENSIONS]->setUint(_dimensions.x, _dimensions.y, _dimensions.z);
     context[CONTEXT_VOLUME_OFFSET]->setFloat(_offset.x, _offset.y, _offset.z);
     context[CONTEXT_VOLUME_ELEMENT_SPACING]->setFloat(_spacing.x, _spacing.y, _spacing.z);
+
+    // Volume as texture
+    _sampler = context->createTextureSampler();
+    _sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
+    _sampler->setWrapMode(1, RT_WRAP_CLAMP_TO_EDGE);
+    _sampler->setWrapMode(2, RT_WRAP_CLAMP_TO_EDGE);
+    _sampler->setIndexingMode(RT_TEXTURE_INDEX_NORMALIZED_COORDINATES);
+    _sampler->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
+
+    optix::Buffer _buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _dimensions.x,
+                                                           _dimensions.y, _dimensions.z, 1u);
+    const uint64_t volumeSize = _dimensions.x * _dimensions.y * _dimensions.z;
+    float* volumeAsFloats = (float*)_buffer->map();
+    _dataRange = Vector2f(1e6, -1e6);
+
+    for (uint64_t i = 0; i < volumeSize; ++i)
+    {
+        switch (_dataType)
+        {
+        case RT_FORMAT_BYTE:
+        {
+            int8_t value;
+            int8_t* v = (int8_t*)voxels;
+            memcpy(&value, v + i, sizeof(int8_t));
+            volumeAsFloats[i] = value;
+            _dataRange.x = std::min(_dataRange.x, (float)value);
+            _dataRange.y = std::max(_dataRange.y, (float)value);
+            break;
+        }
+        case RT_FORMAT_UNSIGNED_BYTE:
+        {
+            uint8_t value;
+            uint8_t* v = (uint8_t*)voxels;
+            memcpy(&value, v + i, sizeof(uint8_t));
+            volumeAsFloats[i] = value;
+            _dataRange.x = std::min(_dataRange.x, (float)value);
+            _dataRange.y = std::max(_dataRange.y, (float)value);
+            break;
+        }
+        case RT_FORMAT_INT:
+        {
+            int16_t value;
+            int16_t* v = (int16_t*)voxels;
+            memcpy(&value, v + i, sizeof(int16_t));
+            volumeAsFloats[i] = value;
+            _dataRange.x = std::min(_dataRange.x, (float)value);
+            _dataRange.y = std::max(_dataRange.y, (float)value);
+            break;
+        }
+        case RT_FORMAT_UNSIGNED_INT:
+        {
+            uint16_t value;
+            uint16_t* v = (uint16_t*)voxels;
+            memcpy(&value, v + i, sizeof(uint16_t));
+            volumeAsFloats[i] = value;
+            _dataRange.x = std::min(_dataRange.x, (float)value);
+            _dataRange.y = std::max(_dataRange.y, (float)value);
+            break;
+        }
+        case RT_FORMAT_FLOAT:
+        {
+            float value;
+            float* v = (float*)voxels;
+            memcpy(&value, v + i, sizeof(float));
+            volumeAsFloats[i] = value;
+            _dataRange.x = std::min(_dataRange.x, (float)value);
+            _dataRange.y = std::max(_dataRange.y, (float)value);
+            break;
+        }
+        }
+    }
+    _buffer->unmap();
+
+    _sampler->setBuffer(0u, 0u, _buffer);
+    _sampler->setFilteringModes(RT_FILTER_LINEAR, RT_FILTER_LINEAR, RT_FILTER_NONE);
+
+    context[CONTEXT_VOLUME_TEXTURE_SAMPLER]->setInt(_sampler->getId());
+    context[CONTEXT_VOLUME_DATA_TYPE]->setUint(_dataType);
+
+    CORE_INFO("Volume range: " << _dataRange);
 }
 
 } // namespace core

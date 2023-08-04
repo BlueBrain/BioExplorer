@@ -23,29 +23,14 @@
 
 #include <optix_world.h>
 
-#include <platform/engines/optix6/OptiXCommonStructs.h>
+#include <platform/engines/optix6/cuda/Context.cuh>
 #include <platform/engines/optix6/cuda/Random.cuh>
 
-// Scene
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
-rtDeclareVariable(uint2, launch_index, rtLaunchIndex, );
-rtDeclareVariable(unsigned int, frame, , );
-rtDeclareVariable(unsigned int, shadowRayType, , );
-
 // Rendering attributes
-rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
-rtDeclareVariable(PerRayData_shadow, prd_shadow, rtPayload, );
-rtDeclareVariable(PerRayData_radiance, prd, rtPayload, );
-rtDeclareVariable(float, t_hit, rtIntersectionDistance, );
 rtDeclareVariable(int, samplesPerFrame, , );
 rtDeclareVariable(float, rayLength, , );
-rtDeclareVariable(float, sceneEpsilon, , );
 rtDeclareVariable(float, rayStep, , );
 rtDeclareVariable(float, farPlane, , );
-
-rtDeclareVariable(rtObject, top_shadower, , );
-
-rtBuffer<uchar4, 2> output_buffer;
 
 static __device__ inline void shade()
 {

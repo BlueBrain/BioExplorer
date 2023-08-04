@@ -51,11 +51,6 @@ public:
 protected:
     void _commitToOptiX();
 
-#if 0
-    sutil::Camera _camera{nullptr};
-    optix::Buffer _clipPlanesBuffer{nullptr};
-#endif
-    Planes _clipPlanes;
     std::string _currentCamera;
     Vector3f _u, _v, _w;
     CUdeviceptr _d_miss_record;

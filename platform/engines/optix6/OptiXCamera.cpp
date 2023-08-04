@@ -42,31 +42,8 @@ void OptiXCamera::commit()
 
     auto context = OptiXContext::get().getOptixContext();
 
+    toOptiXProperties(getPropertyMap());
+
     cameraProgram->commit(*this, context);
-
-    RT_DESTROY(_clipPlanesBuffer);
-
-    const size_t numClipPlanes = _clipPlanes.size();
-    if (numClipPlanes > 0)
-    {
-        Vector4fs buffer;
-        buffer.reserve(numClipPlanes);
-        for (const auto& clipPlane : _clipPlanes)
-            buffer.push_back({static_cast<float>(clipPlane[0]), static_cast<float>(clipPlane[1]),
-                              static_cast<float>(clipPlane[2]), static_cast<float>(clipPlane[3])});
-
-        _clipPlanesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, numClipPlanes);
-        memcpy(_clipPlanesBuffer->map(), buffer.data(), numClipPlanes * sizeof(Vector4f));
-        _clipPlanesBuffer->unmap();
-    }
-    else
-    {
-        // Create empty buffer to avoid unset variable exception in cuda
-        _clipPlanesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 1);
-    }
-
-    context[CONTEXT_CLIP_PLANES]->setBuffer(_clipPlanesBuffer);
-    context[CONTEXT_NB_CLIP_PLANES]->setUint(numClipPlanes);
 }
-
 } // namespace core

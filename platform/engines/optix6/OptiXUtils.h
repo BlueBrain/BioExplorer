@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -26,9 +24,13 @@
 
 #include <optix.h>
 
+#include <platform/core/common/Types.h>
+
 #include <iomanip>
 #include <iostream>
 
+namespace core
+{
 #define BRAYNS_OPTIX_SAMPLE_NAME "braynsOptix7Engine"
 
 #define RT_DESTROY(__object)     \
@@ -46,3 +48,6 @@ static void context_log_cb(unsigned int level, const char* tag, const char* mess
 {
     std::cerr << "[" << std::setw(2) << level << "][" << std::setw(12) << tag << "]: " << message << "\n";
 }
+
+void toOptiXProperties(const PropertyMap& object);
+} // namespace core

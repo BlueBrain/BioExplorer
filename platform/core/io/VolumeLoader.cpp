@@ -184,7 +184,7 @@ ModelDescriptorPtr RawVolumeLoader::_loadVolume(const std::string& filename, con
     if (glm::compMul(dimensions) == 0)
         throw std::runtime_error("Volume dimensions are empty");
 
-    const auto dataRange = dataRangeFromType(type);
+    auto dataRange = dataRangeFromType(type);
     auto model = _scene.createModel();
     auto volume = model->createSharedDataVolume(dimensions, spacing, type);
     volume->setDataRange(dataRange);
@@ -197,9 +197,15 @@ ModelDescriptorPtr RawVolumeLoader::_loadVolume(const std::string& filename, con
 
     Transformation transformation;
     transformation.setRotationCenter(model->getBounds().getCenter());
-    auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), filename,
-                                                             ModelMetadata{{"dimensions", to_string(dimensions)},
-                                                                           {"element-spacing", to_string(spacing)}});
+    dataRange = volume->getDataRange();
+    auto modelDescriptor = std::make_shared<ModelDescriptor>(
+        std::move(model), filename,
+        ModelMetadata{{"Data type", properties.getProperty<std::string>(PROP_TYPE.name)},
+                      {"Dimensions", std::to_string(dimensions.x) + "," + std::to_string(dimensions.y) + "," +
+                                         std::to_string(dimensions.z)},
+                      {"Element Spacing",
+                       std::to_string(spacing.x) + "," + std::to_string(spacing.y) + "," + std::to_string(spacing.z)},
+                      {"Data range", std::to_string(dataRange.x) + "," + std::to_string(dataRange.y)}});
     modelDescriptor->setTransformation(transformation);
     return modelDescriptor;
 }

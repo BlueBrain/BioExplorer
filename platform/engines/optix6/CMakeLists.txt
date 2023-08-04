@@ -71,6 +71,7 @@ set(${NAME}_SOURCES
   OptiXMaterial.cpp
   OptiXModel.cpp
   OptiXVolume.cpp
+  OptiXUtils.cpp
 )
 
 set_source_files_properties(
@@ -85,6 +86,7 @@ set_source_files_properties(
   OptiXMaterial.cpp
   OptiXModel.cpp
   OptiXVolume.cpp
+  OptiXUtils.cpp
   PROPERTIES COMPILE_FLAGS -Wno-shadow
 )
 
@@ -107,9 +109,11 @@ set(${NAME}_PUBLIC_HEADERS
   OptiXContext.h
   OptiXCommonStructs.h
   cuda/renderer/TransferFunction.cuh
+  cuda/renderer/Volume.cuh
   cuda/Random.cuh
   cuda/Helpers.cuh
   cuda/Environment.cuh
+  cuda/Context.cuh
 )
 
 set(
