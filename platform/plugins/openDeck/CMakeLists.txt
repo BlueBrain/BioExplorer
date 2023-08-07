@@ -65,11 +65,16 @@ if(OSPRAY_FOUND)
   include(ispc)
 
   # Compile ispc code
-  include_directories_ispc(${PROJECT_SOURCE_DIR}/../../ ${OSPRAY_INCLUDE_DIRS})
+  list(APPEND CMAKE_MODULE_PATH ${OSPRAY_CMAKE_ROOT})
+  list(APPEND ALL_ISPC_INCLUDES ${BIOEXPLORER_SOURCE_DIRS})
+  list(APPEND ALL_ISPC_INCLUDES ${${NAME}_MODULES_DIR})
+  list(APPEND ALL_ISPC_INCLUDES ${OSPRAY_INCLUDE_DIRS})
+  list(APPEND ALL_ISPC_INCLUDES ${GLM_INCLUDE_DIRS})
+  include_directories_ispc(${ALL_ISPC_INCLUDES})
   ospray_ispc_compile(${${NAME}_ISPC_SOURCES})
   list(APPEND ${NAME}_SOURCES ${ISPC_OBJECTS})
-
-  list(APPEND ${NAME}_LINK_LIBRARIES ospray::ospray_common ospray::ospray ospray::ospray_module_ispc)
+  list(APPEND ${NAME}_LINK_LIBRARIES ${OSPRAY_LIBRARIES})
+  include_directories(${OSPRAY_INCLUDE_DIRS})
 endif()
 
 # ==============================================================================

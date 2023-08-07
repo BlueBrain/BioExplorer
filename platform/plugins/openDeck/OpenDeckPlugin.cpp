@@ -133,7 +133,7 @@ void OpenDeckPlugin::init()
     auto& engine = _api->getEngine();
     auto& params = engine.getParametersManager().getApplicationParameters();
     const auto& engineName = params.getEngine();
-#ifdef PLATFORM_USE_OSPRAY
+#ifdef USE_OSPRAY
     if (engineName == ENGINE_OSPRAY)
     {
         engine.addCameraType(CAMERA_CYLINDRIC);
@@ -149,7 +149,7 @@ void OpenDeckPlugin::init()
         engine.addFrameBuffer(frameBuffer);
     }
 #endif
-#ifdef PLATFORM_USE_OSPRAY
+#ifdef USE_OPTIX6
     if (engineName == ENGINE_OPTIX_6)
     {
         OptiXContext& context = OptiXContext::get();

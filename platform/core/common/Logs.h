@@ -62,4 +62,9 @@ namespace core
         std::cout << "] " << std::min(__pos * 2, uint32_t(PROGRESS_BAR_SIZE * 2)) << "% " << __msg << "\r"; \
         std::cout.flush();                                                                                  \
     }
+
+#define PLUGIN_REGISTER_ENDPOINT(__msg) CORE_INFO("Registering end-point '" << __msg << "'");
+#define PLUGIN_REGISTER_RENDERER(__msg) CORE_INFO("Registering renderer '" << __msg << "'");
+#define PLUGIN_REGISTER_LOADER(__msg) CORE_INFO("Registering loader '" << __msg << "'");
+#define PLUGIN_REGISTER_CAMERA(__msg) CORE_INFO("Registering camera '" << __msg << "'");
 } // namespace core
