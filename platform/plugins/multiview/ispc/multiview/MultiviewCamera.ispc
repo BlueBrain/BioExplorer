@@ -20,7 +20,8 @@
  */
 
 #include "MultiviewCamera.ih"
-#include "engines/ospray/ispc/camera/utils/CameraUtils.ih"
+
+#include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
 
 #include "math/LinearSpace.ih"
 #include "math/math.ih"
