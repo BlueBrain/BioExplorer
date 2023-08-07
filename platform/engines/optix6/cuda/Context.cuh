@@ -34,6 +34,7 @@ rtDeclareVariable(float, t_hit, rtIntersectionDistance, );
 
 rtDeclareVariable(float3, eye, , );
 rtDeclareVariable(float3, dir, , );
+rtDeclareVariable(float4, orientation, , );
 rtDeclareVariable(float3, U, , );
 rtDeclareVariable(float3, V, , );
 rtDeclareVariable(float3, W, , );

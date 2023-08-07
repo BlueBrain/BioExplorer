@@ -28,22 +28,19 @@ using namespace optix;
 __device__ float3 launch(unsigned int& seed, const float2 screen, const bool use_randomness)
 {
     // Subpixel jitter: send the ray through a different position inside the
-    // pixel each time, to provide antialiasing.
-    float2 subpixel_jitter = use_randomness ? make_float2(rnd(seed) - 0.5f, rnd(seed) - 0.5f) : make_float2(0.f, 0.f);
+    // pixel each time, to provide anti-aliasing.
+    const float2 subpixel_jitter =
+        use_randomness ? make_float2(rnd(seed) - 0.5f, rnd(seed) - 0.5f) : make_float2(0.f, 0.f);
 
-    float2 p = (make_float2(launch_index) + subpixel_jitter) / screen * 2.f - 1.f;
+    // Normalized pixel position (from -0.5 to 0.5)
+    const float2 p = (make_float2(launch_index) + subpixel_jitter) / screen * 2.f - 1.f;
 
-    const float3 ray_origin = W + screen.x * U + screen.y * V;
-    const float3 ray_direction = optix::normalize(dir);
+    const float3 ray_origin = W + p.x * U + p.y * V;
+    const float3 ray_direction = dir;
 
     PerRayData_radiance prd;
     prd.importance = 1.f;
     prd.depth = 0;
-    prd.rayDdx = screen.x * U;
-    prd.rayDdy = screen.y * V;
-
-    // lens sampling
-    float2 sample = optix::square_to_disk(make_float2(jitter4.z, jitter4.w));
 
     float near = sceneEpsilon;
     float far = INFINITY;
@@ -52,8 +49,7 @@ __device__ float3 launch(unsigned int& seed, const float2 screen, const bool use
     if (enableClippingPlanes)
         applyClippingPlanes(ray_origin, ray_direction, near, far);
 
-    optix::Ray ray(ray_origin, ray_direction, radiance_ray_type, near, far);
-
+    const optix::Ray ray(ray_origin, ray_direction, radiance_ray_type, near, far);
     rtTrace(top_object, ray, prd);
 
     return prd.result;
@@ -69,7 +65,6 @@ RT_PROGRAM void orthographicCamera()
     const int num_samples = max(1, samples_per_pixel);
     // We enable randomness if we are using subpixel sampling or accumulation
     const bool use_randomness = frame > 0 || num_samples > 1;
-
     float3 result = make_float3(0, 0, 0);
     for (int i = 0; i < num_samples; i++)
         result += launch(seed, screen_f, use_randomness);

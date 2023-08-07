@@ -102,6 +102,7 @@ void OptiXEngine::_createCameras()
         properties.setProperty(enableClippingPlanes);
         properties.setProperty(stereoProperty);
         properties.setProperty(eyeSeparation);
+
         auto camera = std::make_shared<OptiXPerspectiveCamera>();
         context.addCamera("perspective", camera);
         addCameraType("perspective", properties);
@@ -110,6 +111,8 @@ void OptiXEngine::_createCameras()
     {
         PropertyMap properties;
         properties.setProperty({"height", 1., {"Height"}});
+        properties.setProperty(aspect);
+        properties.setProperty(enableClippingPlanes);
 
         auto camera = std::make_shared<OptiXOrthographicCamera>();
         context.addCamera("orthographic", camera);
