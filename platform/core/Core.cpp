@@ -150,9 +150,8 @@ struct Core::Impl : public PluginAPI
         const auto windowSize = _parametersManager.getApplicationParameters().getWindowSize();
 
         if (camera.hasProperty("aspect"))
-        {
             camera.updateProperty("aspect", static_cast<double>(windowSize.x) / static_cast<double>(windowSize.y));
-        }
+
         for (auto frameBuffer : _frameBuffers)
             frameBuffer->resize(windowSize);
 
@@ -164,9 +163,7 @@ struct Core::Impl : public PluginAPI
 
         if (_parametersManager.isAnyModified() || camera.isModified() || scene.isModified() || renderer.isModified() ||
             lightManager.isModified())
-        {
             _engine->clearFrameBuffers();
-        }
 
         _parametersManager.resetModified();
         camera.resetModified();

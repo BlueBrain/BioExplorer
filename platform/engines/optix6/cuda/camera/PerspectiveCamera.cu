@@ -54,15 +54,11 @@ __device__ float3 launch(unsigned int& seed, const float2 screen, const bool use
 
     const float fs = focusDistance == 0.f ? 1.f : focusDistance;
     const float3 d = fs * (p.x * U + p.y * V + W);
-    const float dotD = dot(d, d);
-    const float denom = pow(dotD, 1.5f);
     float3 ray_direction = normalize(d);
 
     PerRayData_radiance prd;
     prd.importance = 1.f;
     prd.depth = 0;
-    prd.rayDdx = (dotD * U - dot(d, U) * d) / (denom * screen.x);
-    prd.rayDdy = (dotD * V - dot(d, V) * d) / (denom * screen.y);
 
     if (apertureRadius > 0.f)
     {

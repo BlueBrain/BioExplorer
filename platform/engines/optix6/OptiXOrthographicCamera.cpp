@@ -23,6 +23,8 @@
 #include "OptiXCamera.h"
 #include "OptiXContext.h"
 
+#include <platform/core/common/Logs.h>
+
 #include <platform/engines/optix6/OptiX6Engine_generated_Constantbg.cu.ptx.h>
 #include <platform/engines/optix6/OptiX6Engine_generated_OrthographicCamera.cu.ptx.h>
 
@@ -42,29 +44,25 @@ OptiXOrthographicCamera::OptiXOrthographicCamera()
 
 void OptiXOrthographicCamera::commit(const OptiXCamera& camera, ::optix::Context context)
 {
-    const auto pos = camera.getPosition();
-    const auto up = glm::rotate(camera.getOrientation(), Vector3d(0, 1, 0));
+    const auto position = camera.getPosition();
+    const auto target = camera.getTarget();
+    const auto orientation = camera.getOrientation();
 
-    const auto height = camera.getPropertyOrValue<double>(CONTEXT_CAMERA_HEIGHT, 1.0);
-    const auto aspect = camera.getPropertyOrValue<double>(CONTEXT_CAMERA_ASPECT, 1.0);
+    const auto height = camera.getPropertyOrValue<double>(CONTEXT_CAMERA_HEIGHT, 1.f);
+    const auto aspect = camera.getPropertyOrValue<double>(CONTEXT_CAMERA_ASPECT, 1.f);
 
-    Vector3d dir = normalize(camera.getTarget() - pos);
-    Vector3d pos_du = normalize(cross(dir, up));
-    Vector3d pos_dv = cross(pos_du, dir);
+    const Vector3d dir = normalize(target - position);
 
-    pos_du *= height * aspect;
-    pos_dv *= height;
+    Vector3d u = normalize(cross(dir, orientation * UP_VECTOR));
+    Vector3d v = cross(u, dir);
 
-    const Vector3d pos_00 = pos - 0.5 * pos_du - 0.5 * pos_dv;
+    u *= height * aspect;
+    v *= height;
 
-    context[CONTEXT_CAMERA_W]->setFloat(pos_00.x, pos_00.y, pos_00.z);
-    context[CONTEXT_CAMERA_U]->setFloat(pos_du.x, pos_du.y, pos_du.z);
-    context[CONTEXT_CAMERA_V]->setFloat(pos_dv.x, pos_dv.y, pos_dv.z);
-
-    context[CONTEXT_CAMERA_EYE]->setFloat(pos.x, pos.y, pos.z);
+    context[CONTEXT_CAMERA_U]->setFloat(u.x, u.y, u.z);
+    context[CONTEXT_CAMERA_V]->setFloat(v.x, v.y, v.z);
+    context[CONTEXT_CAMERA_W]->setFloat(position.x, position.y, position.z);
     context[CONTEXT_CAMERA_DIR]->setFloat(dir.x, dir.y, dir.z);
-    context[CONTEXT_CAMERA_HEIGHT]->setFloat(height);
     context[CONTEXT_CAMERA_BAD_COLOR]->setFloat(1.f, 0.f, 1.f);
-    context[CONTEXT_CAMERA_OFFSET]->setFloat(0, 0);
 }
 } // namespace core

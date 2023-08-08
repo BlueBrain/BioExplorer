@@ -59,6 +59,7 @@ const std::string CUDA_FUNC_EXCEPTION = "exception";
 
 const std::string CONTEXT_CAMERA_BAD_COLOR = "bad_color";
 const std::string CONTEXT_CAMERA_EYE = "eye";
+const std::string CONTEXT_CAMERA_ORIENTATION = "orientation";
 const std::string CONTEXT_CAMERA_DIR = "dir";
 const std::string CONTEXT_CAMERA_U = "U";
 const std::string CONTEXT_CAMERA_V = "V";
