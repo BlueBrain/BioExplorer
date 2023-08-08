@@ -253,7 +253,7 @@ void Scene::buildDefault()
     CORE_INFO("Building default Cornell Box scene");
 
     auto model = createModel();
-#if 0
+#if 1
     const Vector3f WHITE = {1.f, 1.f, 1.f};
 
     const Vector3f positions[8] = {
@@ -275,17 +275,14 @@ void Scene::buildDefault()
         {7, 3, 2, 2, 6, 7}  // Top
     };
 
-    const Vector3f colors[6] = {{0.8f, 0.8f, 0.8f}, {1.f, 0.f, 0.f},
-                                {0.8f, 0.8f, 0.8f}, {0.f, 1.f, 0.f},
-                                {0.8f, 0.8f, 0.8f}, {0.8f, 0.8f, 0.8f}};
+    const Vector3f colors[6] = {{0.8f, 0.8f, 0.8f}, {1.f, 0.f, 0.f},    {0.8f, 0.8f, 0.8f},
+                                {0.f, 1.f, 0.f},    {0.8f, 0.8f, 0.8f}, {0.8f, 0.8f, 0.8f}};
 
     size_t materialId = 0;
     for (size_t i = 1; i < 6; ++i)
     {
         // Cornell box
-        auto material =
-            model->createMaterial(materialId,
-                                  "wall_" + std::to_string(materialId));
+        auto material = model->createMaterial(materialId, "wall_" + std::to_string(materialId));
         material->setDiffuseColor(colors[i]);
         material->setSpecularColor(WHITE);
         material->setSpecularExponent(10.f);
@@ -307,12 +304,13 @@ void Scene::buildDefault()
     {
         // Sphere
         auto material = model->createMaterial(materialId, "sphere");
-        material->setOpacity(0.2f);
-        material->setRefractionIndex(1.5f);
+        material->setOpacity(0.5f);
+        material->setRefractionIndex(1.05f);
         material->setReflectionIndex(0.1f);
         material->setDiffuseColor(WHITE);
         material->setSpecularColor(WHITE);
         material->setSpecularExponent(100.f);
+        material->setShadingMode(MaterialShadingMode::diffuse);
         model->addSphere(materialId, {{0.25f, 0.26f, 0.30f}, 0.25f});
         ++materialId;
     }
@@ -323,9 +321,8 @@ void Scene::buildDefault()
         material->setDiffuseColor({0.1f, 0.1f, 0.8f});
         material->setSpecularColor(WHITE);
         material->setSpecularExponent(10.f);
-        model->addCylinder(materialId, {{0.25f, 0.126f, 0.75f},
-                                        {0.75f, 0.126f, 0.75f},
-                                        0.125f});
+        material->setShadingMode(MaterialShadingMode::diffuse);
+        model->addCylinder(materialId, {{0.25f, 0.126f, 0.75f}, {0.75f, 0.126f, 0.75f}, 0.125f});
         ++materialId;
     }
 
@@ -335,10 +332,8 @@ void Scene::buildDefault()
         material->setReflectionIndex(0.8f);
         material->setSpecularColor(WHITE);
         material->setSpecularExponent(10.f);
-        model->addCone(materialId, {{0.75f, 0.01f, 0.25f},
-                                    {0.75f, 0.5f, 0.25f},
-                                    0.15f,
-                                    0.f});
+        material->setShadingMode(MaterialShadingMode::diffuse);
+        model->addCone(materialId, {{0.75f, 0.01f, 0.25f}, {0.75f, 0.5f, 0.25f}, 0.15f, 0.f});
         ++materialId;
     }
 
@@ -348,11 +343,10 @@ void Scene::buildDefault()
         material->setDiffuseColor(WHITE);
         material->setEmission(5.f);
         const Vector3f lampInfo = {0.15f, 0.99f, 0.15f};
-        const Vector3f lampPositions[4] = {
-            {0.5f - lampInfo.x, lampInfo.y, 0.5f - lampInfo.z},
-            {0.5f + lampInfo.x, lampInfo.y, 0.5f - lampInfo.z},
-            {0.5f + lampInfo.x, lampInfo.y, 0.5f + lampInfo.z},
-            {0.5f - lampInfo.x, lampInfo.y, 0.5f + lampInfo.z}};
+        const Vector3f lampPositions[4] = {{0.5f - lampInfo.x, lampInfo.y, 0.5f - lampInfo.z},
+                                           {0.5f + lampInfo.x, lampInfo.y, 0.5f - lampInfo.z},
+                                           {0.5f + lampInfo.x, lampInfo.y, 0.5f + lampInfo.z},
+                                           {0.5f - lampInfo.x, lampInfo.y, 0.5f + lampInfo.z}};
         auto& triangleMesh = model->getTriangleMeshes()[materialId];
         for (size_t i = 0; i < 4; ++i)
             triangleMesh.vertices.push_back(lampPositions[i]);
@@ -366,10 +360,6 @@ void Scene::buildDefault()
         material->setOpacity(0.75f);
         material->setRefractionIndex(1.5f);
         material->setReflectionIndex(0.5f);
-        // material->setOpacity(1.f);
-        // material->setDiffuseColor(
-        //     {rand() % 100 / 100.f, rand() % 100 / 100.f, rand() % 100 /
-        //     100.f});
         material->setDiffuseColor({materialId * 0.1f, 0.f, 1.f - materialId * 0.1f});
         material->setSpecularColor({1.f, 1.f, 1.f});
         material->setSpecularExponent(100.f);
