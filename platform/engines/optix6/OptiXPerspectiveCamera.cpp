@@ -52,7 +52,7 @@ void OptiXPerspectiveCamera::commit(const OptiXCamera& camera, ::optix::Context 
     if (stereo)
         aspect *= 2.f;
 
-    const auto up = glm::rotate(camera.getOrientation(), Vector3d(0, 1, 0));
+    const auto up = glm::rotate(camera.getOrientation(), UP_VECTOR);
 
     Vector3d u, v, w;
     float ulen, vlen, wlen;
