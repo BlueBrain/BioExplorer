@@ -25,13 +25,13 @@
 #include "Context.cuh"
 #include "Helpers.cuh"
 
-static __device__ inline float3 getEnvironmentColor()
+static __device__ inline float3 getEnvironmentColor(const float3& rayDirection)
 {
     if (showBackground)
     {
         if (use_envmap)
         {
-            const float2 uv = getEquirectangularUV(ray.direction);
+            const float2 uv = getEquirectangularUV(rayDirection);
             return linearToSRGB(tonemap(make_float3(optix::rtTex2D<float4>(envmap, uv.x, uv.y))));
         }
         return bgColor;

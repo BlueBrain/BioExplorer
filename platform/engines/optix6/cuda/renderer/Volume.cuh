@@ -27,6 +27,7 @@
 const float DEFAULT_VOLUME_SHADING_THRESHOLD = 0.01f;
 const float DEFAULT_SHADING_ALPHA_RATIO = 1.5f;
 const float DEFAULT_SHADING_AMBIENT = 0.2f;
+const float DEFAULT_ENVIRONMENT_POWER = 0.5f;
 
 rtDeclareVariable(int, giSamples, , );
 rtDeclareVariable(float, giWeight, , );
@@ -215,6 +216,9 @@ static __device__ float4 getVolumeContribution(const ::optix::Ray& volumeRay)
                         voxelColor = make_float4(make_float3(voxelColor) * DEFAULT_SHADING_ALPHA_RATIO,
                                                  voxelColor.w); // Ambient light
                     }
+
+                    // Environment lighting
+                    voxelColor += DEFAULT_ENVIRONMENT_POWER * make_float4(getEnvironmentColor(normal), 0.f);
                 }
                 shading = (volumeSingleShade ? false : true);
                 startAdaptiveSampling = true;
@@ -236,7 +240,7 @@ static __device__ float4 getVolumeContribution(const ::optix::Ray& volumeRay)
     pathColor = make_float4(make_float3(pathColor) * mainExposure, pathColor.w);
 
     // Combine with background color
-    compose(make_float4(getEnvironmentColor(), 1.f - pathColor.w), pathColor);
+    compose(make_float4(getEnvironmentColor(ray.direction), 1.f - pathColor.w), pathColor);
 
     return ::optix::clamp(pathColor, 0.f, 1.f);
 }
