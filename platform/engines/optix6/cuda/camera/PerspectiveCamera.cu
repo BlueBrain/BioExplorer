@@ -29,8 +29,7 @@ __device__ float3 launch(unsigned int& seed, const float2 screen, const bool use
 {
     float3 ray_origin = eye;
 
-    // Subpixel jitter: send the ray through a different position inside the
-    // pixel each time, to provide antialiasing.
+    // Subpixel jitter: send the ray through a different position inside the  pixel each time, to provide antialiasing.
     const float2 subpixel_jitter =
         use_randomness ? make_float2(rnd(seed) - 0.5f, rnd(seed) - 0.5f) : make_float2(0.f, 0.f);
 
@@ -52,19 +51,25 @@ __device__ float3 launch(unsigned int& seed, const float2 screen, const bool use
         }
     }
 
-    const float fs = focusDistance == 0.f ? 1.f : focusDistance;
-    const float3 d = fs * (p.x * U + p.y * V + W);
+    const float3 d = p.x * U + p.y * V + W;
+    const float fs = (focusDistance == 0.f ? 1.f : focusDistance);
+    const float dotD = dot(d, d);
+    const float denom = pow(dotD, 1.5f);
     float3 ray_direction = normalize(d);
+    const float3 ray_target = ray_origin + fs * ray_direction;
 
     PerRayData_radiance prd;
     prd.importance = 1.f;
     prd.depth = 0;
+    prd.rayDdx = (dotD * U - dot(d, U) * d) / (denom * screen.x);
+    prd.rayDdy = (dotD * V - dot(d, V) * d) / (denom * screen.y);
 
     if (apertureRadius > 0.f)
     {
         // Lens sampling
         const float2 sample = optix::square_to_disk(make_float2(jitter4.z, jitter4.w));
         ray_origin = ray_origin + apertureRadius * (sample.x * normalize(U) + sample.y * normalize(V));
+        ray_direction = normalize(ray_target - ray_origin);
     }
 
     float near = sceneEpsilon;
@@ -89,7 +94,6 @@ RT_PROGRAM void perspectiveCamera()
     unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
 
     const int num_samples = max(1, samples_per_pixel);
-    // We enable randomness if we are using subpixel sampling or accumulation
     const bool use_randomness = frame > 0 || num_samples > 1;
     float3 result = make_float3(0, 0, 0);
     for (int i = 0; i < num_samples; i++)
