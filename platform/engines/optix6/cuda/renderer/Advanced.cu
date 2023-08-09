@@ -124,8 +124,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
     float3 Kd = p_Kd;
 
     float3 normal = ::optix::normalize(p_normal);
-    const float epsilon = sceneEpsilon * epsilonFactor * optix::length(eye - hit_point);
-    if (fmaxf(opacity) > 0.f)
+    if (fmaxf(opacity) > 0.f && prd.depth < maxBounces)
     {
         // User data
         if (cast_user_data && simulation_data.size() > 0)
@@ -185,7 +184,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
                 {
                     PerRayData_shadow shadow_prd;
                     shadow_prd.attenuation = make_float3(1.f);
-                    optix::Ray shadow_ray(hit_point, lightDirection, shadowRayType, epsilon, giDistance);
+                    optix::Ray shadow_ray(hit_point, lightDirection, shadowRayType, sceneEpsilon, giDistance);
                     rtTrace(top_shadower, shadow_ray, shadow_prd);
 
                     // light_attenuation is zero if completely shadowed
@@ -280,78 +279,72 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         color += directLightingColor;
 
         // Reflection
-        if (fmaxf(p_Kr) > 0.f)
+        if (fmaxf(p_Kr) > 0.f && prd.depth < maxBounces)
         {
-            if (prd.depth < maxBounces)
-            {
-                PerRayData_radiance reflected_prd;
-                reflected_prd.depth = prd.depth + 1;
+            PerRayData_radiance reflected_prd;
+            reflected_prd.depth = prd.depth + 1;
 
-                const float3 R = optix::reflect(ray.direction, normal);
-                const optix::Ray reflected_ray(hit_point, R, radianceRayType, epsilon, giDistance);
-                rtTrace(top_object, reflected_ray, reflected_prd);
-                color = color * (1.f - p_Kr) + p_Kr * reflected_prd.result;
-            }
+            const float3 R = optix::reflect(ray.direction, normal);
+            const optix::Ray reflected_ray(hit_point, R, radianceRayType, sceneEpsilon, giDistance);
+            rtTrace(top_object, reflected_ray, reflected_prd);
+            color = color * (1.f - p_Kr) + p_Kr * reflected_prd.result;
         }
 
-        // Ambient occlusion
-        if (giSamples > 0 && giWeight > 0.f)
+        // Refraction
+        if (fmaxf(opacity) < 1.f && prd.depth < maxBounces)
         {
-            float3 aa_color = make_float3(0.f);
-            for (int i = 0; i < giSamples; ++i)
-            {
-                if (prd.depth >= maxBounces)
-                    continue;
+            PerRayData_radiance refracted_prd;
+            refracted_prd.result = make_float3(0.f);
+            refracted_prd.importance = 0.f;
+            refracted_prd.depth = prd.depth + 1;
 
-                PerRayData_radiance aa_prd;
-                aa_prd.depth = prd.depth + 1;
+            const float3 refractedNormal = refractedVector(ray.direction, normal, p_refractionIndex, 1.f);
+            const optix::Ray refracted_ray(hit_point, refractedNormal, radianceRayType, sceneEpsilon, giDistance);
+            rtTrace(top_object, refracted_ray, refracted_prd);
+            color = color * opacity + refracted_prd.result * (1.f - opacity);
+        }
+
+        if (giSamples > 0 && giWeight > 0.f && prd.depth == 0)
+        {
+            float aa_attenuation = 0.f;
+            float3 cb_color = make_float3(0.f);
+            for (unsigned int i = 0; i < giSamples; ++i)
+            {
+                // Ambient occlusion
+                PerRayData_shadow aa_prd;
+                aa_prd.attenuation = make_float3(0.f);
 
                 float3 aa_normal = optix::normalize(make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f));
                 if (optix::dot(aa_normal, normal) < 0.f)
                     aa_normal = -aa_normal;
 
-                const optix::Ray aa_ray(hit_point, aa_normal, shadowRayType, epsilon, giDistance);
+                const optix::Ray aa_ray(hit_point, aa_normal, shadowRayType, sceneEpsilon, giDistance);
                 rtTrace(top_object, aa_ray, aa_prd);
-                aa_color = aa_color + giWeight * aa_prd.result;
-            }
-            color += aa_color / giSamples;
-        }
+                aa_attenuation += giWeight * ::optix::luminance(aa_prd.attenuation);
 
-        // Only opaque surfaces are affected by Global Illumination
-        if (fmaxf(opacity) == 1.f && prd.depth < maxBounces)
-        {
-            // Color bleeding
-            if (giWeight > 0.f && prd.depth == 0)
-            {
-                PerRayData_radiance new_prd;
-                new_prd.depth = prd.depth + 1;
+                // Color bleeding
+                PerRayData_radiance cb_prd;
+                cb_prd.result = make_float3(0.f);
+                cb_prd.importance = 0.f;
+                cb_prd.depth = prd.depth + 1;
 
-                float3 ra_normal =
+                float3 cb_normal =
                     ::optix::normalize(make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f));
-                if (optix::dot(ra_normal, normal) < 0.f)
-                    ra_normal = -ra_normal;
+                if (optix::dot(cb_normal, normal) < 0.f)
+                    cb_normal = -cb_normal;
 
-                const float3 origin = hit_point + epsilonFactor * ra_normal;
-                const optix::Ray ra_ray = optix::make_Ray(origin, ra_normal, radianceRayType, epsilon, ray.tmax);
-                rtTrace(top_shadower, ra_ray, new_prd);
-                color += giWeight * new_prd.result;
+                const optix::Ray cb_ray =
+                    optix::make_Ray(hit_point, cb_normal, radianceRayType, sceneEpsilon, ray.tmax);
+                rtTrace(top_shadower, cb_ray, cb_prd);
+                cb_color += giWeight * cb_prd.result;
             }
+            aa_attenuation /= (float)giSamples;
+            cb_color /= (float)giSamples;
+            color += cb_color * (1.f - aa_attenuation);
         }
     }
 
-    // Refraction
-    if (fmaxf(opacity) < 1.f && prd.depth < maxBounces)
-    {
-        PerRayData_radiance refracted_prd;
-        refracted_prd.depth = prd.depth + 1;
-
-        const float3 R = refractedVector(ray.direction, normal, p_refractionIndex, 1.f);
-        const optix::Ray refracted_ray(hit_point, R, radianceRayType, epsilon, giDistance);
-        rtTrace(top_object, refracted_ray, refracted_prd);
-        color = color * opacity + (1.f - opacity) * refracted_prd.result;
-    }
-
-    float4 finalColor = make_float4(color, fmaxf(opacity));
+    float4 finalColor = make_float4(color, 1.f);
 
     // Volume
     const float4 volumeColor = getVolumeContribution(ray);
