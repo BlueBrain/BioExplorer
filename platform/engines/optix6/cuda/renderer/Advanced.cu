@@ -358,7 +358,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
     // Exposure and Fog attenuation
     const float z = optix::length(eye - hit_point);
     const float fogAttenuation = z > fogStart ? optix::clamp((z - fogStart) / fogThickness, 0.f, 1.f) : 0.f;
-    result = mainExposure * (result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor());
+    result = mainExposure * (result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor(ray.direction));
 
     prd.result = result;
 }

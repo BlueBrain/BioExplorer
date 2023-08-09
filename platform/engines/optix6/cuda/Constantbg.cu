@@ -27,5 +27,5 @@ rtDeclareVariable(PerRayData_radiance, prd_radiance, rtPayload, );
 
 RT_PROGRAM void envmap_miss()
 {
-    prd_radiance.result = getEnvironmentColor();
+    prd_radiance.result = getEnvironmentColor(ray.direction);
 }

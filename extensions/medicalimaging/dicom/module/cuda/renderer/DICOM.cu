@@ -45,7 +45,7 @@ static __device__ void dicomShade()
     const float3 hit_point = ray.origin + t_hit * ray.direction;
     const float z = optix::length(eye - hit_point);
     const float fogAttenuation = z > fogStart ? optix::clamp((z - fogStart) / fogThickness, 0.f, 1.f) : 0.f;
-    result = (result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor());
+    result = (result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor(ray.direction));
 
     prd.result = result;
 }

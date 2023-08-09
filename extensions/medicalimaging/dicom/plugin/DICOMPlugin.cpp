@@ -51,6 +51,8 @@ void _addDICOMRenderer(Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_DICOM);
     core::PropertyMap properties;
+    properties.setProperty({"fogStart", 0.0, 0.0, 1e6, {"Fog start"}});
+    properties.setProperty({"fogThickness", 1e6, 1e6, 1e6, {"Fog thickness"}});
     properties.setProperty({"shadows", 0., 0., 1., {"Shadows"}});
     properties.setProperty({"softShadows", 0., 0., 1., {"Soft shadows"}});
     properties.setProperty({"mainExposure", 1., 0.01, 10., {"Exposure"}});

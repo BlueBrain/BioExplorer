@@ -24,6 +24,7 @@
 #include <optix_world.h>
 
 #include <platform/engines/optix6/cuda/Context.cuh>
+#include <platform/engines/optix6/cuda/Environment.cuh>
 #include <platform/engines/optix6/cuda/Helpers.cuh>
 #include <platform/engines/optix6/cuda/Random.cuh>
 
@@ -84,20 +85,6 @@ static __device__ inline float value(const float2& p, float f) // value noise
     float b = mix(bl, br, fr.x);
     float t = mix(tl, tr, fr.x);
     return mix(b, t, fr.y);
-}
-
-static __device__ inline float4 getEnvironmentColor(const float3 direction)
-{
-    if (showBackground)
-    {
-        if (use_envmap)
-        {
-            const float2 uv = getEquirectangularUV(direction);
-            return make_float4(linearToSRGB(tonemap(make_float3(optix::rtTex2D<float4>(envmap, uv.x, uv.y)))), 0.f);
-        }
-        return make_float4(bgColor, 0.f);
-    }
-    return make_float4(0.f);
 }
 
 static __device__ inline float4 raymarchDisk(const float3& dir, const float3& zeroPos)
@@ -224,15 +211,12 @@ static __device__ inline void shade()
         {
             float4 bg;
             if (grid)
-            {
                 bg = make_float4((int)((pos.x + 1000.f) * 0.01f) % 2 == 0 ? 1.f : 0.5f,
                                  (int)((pos.y + 1000.f) * 0.01f) % 2 == 0 ? 1.f : 0.5f,
                                  (int)((pos.z + 1000.f) * 0.01f) % 2 == 0 ? 1.f : 0.f, 0.5f);
-            }
             else
-            {
-                bg = getEnvironmentColor(dir);
-            }
+                bg = make_float4(getEnvironmentColor(dir), 0.f);
+
             outCol = make_float4(make_float3(col) * col.w + make_float3(bg) * (1. - col.w) +
                                      make_float3(glow) * (1. - col.w),
                                  1.);
