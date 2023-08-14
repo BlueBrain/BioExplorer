@@ -22,8 +22,9 @@
  */
 
 #include <platform/engines/optix6/cuda/Context.cuh>
+#include <platform/engines/optix6/cuda/Environment.cuh>
 #include <platform/engines/optix6/cuda/Random.cuh>
-#include <platform/engines/optix6/cuda/renderer/TransferFunction.cuh>
+#include <platform/engines/optix6/cuda/renderer/Volume.cuh>
 
 // Renderer
 rtDeclareVariable(float, cutoff, , );
@@ -31,80 +32,78 @@ rtDeclareVariable(float, minRayStep, , );
 rtDeclareVariable(int, nbRaySteps, , );
 rtDeclareVariable(float, alphaCorrection, , );
 
-const uint STACK_SIZE = 20;
-
-static __device__ inline bool volumeIntersection(const float3& volumeOffset, const float3& volumeDimensions,
-                                                 const float3& volumeElementSpacing, const optix::Ray& ray, float& t0,
-                                                 float& t1)
+static __device__ inline bool intersection(const float3& volumeOffset, const float3& volumeDimensions,
+                                           const float3& volumeElementSpacing, const optix::Ray& ray, float& t0,
+                                           float& t1)
 {
-    float3 boxmin = volumeOffset + make_float3(0.f);
-    float3 boxmax = volumeOffset + volumeDimensions / volumeElementSpacing;
+    const float3 boxmin = volumeOffset;
+    const float3 boxmax = volumeOffset + volumeDimensions / volumeElementSpacing;
 
-    float3 a = (boxmin - ray.origin) / ray.direction;
-    float3 b = (boxmax - ray.origin) / ray.direction;
-    float3 near = fminf(a, b);
-    float3 far = fmaxf(a, b);
+    const float3 a = (boxmin - ray.origin) / ray.direction;
+    const float3 b = (boxmax - ray.origin) / ray.direction;
+    const float3 near = fminf(a, b);
+    const float3 far = fmaxf(a, b);
     t0 = fmaxf(near);
     t1 = fminf(far);
 
     return (t0 <= t1);
 }
 
-static __device__ inline float treeWalker(const uint startIndices, const uint startData,
-                                          const float3 volumeElementSpacing, const float3& point, const float distance,
-                                          const float cutoff, const uint index = 0)
+/*
+A smart way to avoid recursion restrictions with OptiX 6 is to use templates!
+
+https://www.thanassis.space/cudarenderer-BVH.html#recursion
+*/
+
+#define MAX_RECURSION_DEPTH 10
+
+template <int depth>
+__device__ float treeWalker(const uint startIndices, const uint startData, const float3& point, const float distance,
+                            const float cutoff, const uint index)
 {
-    return 1.f;
+    if (depth >= MAX_RECURSION_DEPTH)
+        return 0.f;
+
+    const uint begin = simulation_data[startIndices + index * 2];
+    const uint end = simulation_data[startIndices + index * 2 + 1];
+    const uint idxData = startData + index * 4;
+
+    if (idxData >= simulation_data.size())
+        return 0.f;
+
+    if (begin == 0 && end == 0)
+        // Leaf
+        return simulation_data[idxData + 3] / (distance * distance);
+
     float voxelValue = 0.f;
-
-    uint nodeStack[STACK_SIZE];
-    int top = 0;
-    nodeStack[top] = index;
-    top++;
-
-    uint iteration = 0;
-    while (top >= 0 && iteration < STACK_SIZE / 2)
+    for (uint childIndex = begin; childIndex <= end; ++childIndex)
     {
-        const uint currentIndex = nodeStack[top];
-        top--;
+        const uint idx = startData + childIndex * 4;
+        const float3 childPosition =
+            make_float3(simulation_data[idx], simulation_data[idx + 1], simulation_data[idx + 2]);
+        const float3 delta = point - childPosition;
 
-        const uint begin = simulation_data[startIndices + currentIndex * 2];
-        const uint end = simulation_data[startIndices + currentIndex * 2 + 1];
+        const float d = sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
 
-        const uint idxData = startData + begin * 4;
-
-        if (begin == 0 && end == 0)
-            voxelValue += simulation_data[idxData + 3] / (distance * distance);
-        else
+        if (d >= cutoff)
         {
-            uint idxLeft = begin;
-            const uint idxRight = end;
-            const uint idxLeftData = startData + idxLeft * 4;
-            const float3 childCenter = make_float3(simulation_data[idxLeftData], simulation_data[idxLeftData + 1],
-                                                   simulation_data[idxLeftData + 2]);
-            const float3 delta = point - childCenter;
-            float d = sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
-
-            if (d < volumeElementSpacing.x / 2.f)
-                d = volumeElementSpacing.x / 2.f;
-
-            if (d < cutoff)
-            {
-                top++;
-                nodeStack[top] = idxLeft;
-                if (idxLeft != idxRight)
-                {
-                    top++;
-                    nodeStack[top] = idxRight;
-                }
-            }
-            else
-                voxelValue += simulation_data[idxData + 3] / (d * d);
+            // Child is further than the cutoff distance, no need to evaluate
+            // events in the child node, we take the precomputed value of node
+            // instead
+            voxelValue += simulation_data[idx + 3] / (d * d);
         }
-        ++iteration;
+        else
+            // Dive into the child node and compute its contents
+            voxelValue += treeWalker<depth + 1>(startIndices, startData, point, d, cutoff / 2.f, childIndex);
     }
-
     return voxelValue;
+}
+
+template <>
+__device__ float treeWalker<MAX_RECURSION_DEPTH>(const uint startIndices, const uint startData, const float3& point,
+                                                 const float distance, const float cutoff, const uint index)
+{
+    return 0.f;
 }
 
 static __device__ inline void shade()
@@ -114,14 +113,14 @@ static __device__ inline void shade()
     const float3 offset = make_float3(simulation_data[0], simulation_data[1], simulation_data[2]);
     const float3 spacing = make_float3(simulation_data[3], simulation_data[4], simulation_data[5]);
     const float3 dimensions = make_float3(simulation_data[6], simulation_data[7], simulation_data[8]);
-    const float distance = simulation_data[9] * 5.f; // Octree size * 5
+    const float distance = simulation_data[9] * 5.f;
     const uint startIndices = 11;
     const uint startData = startIndices + simulation_data[10];
-    const float diag = max(max(dimensions.x, dimensions.y), dimensions.z);
-    const float step = max(minRayStep, diag / nbRaySteps);
+    const float diag = fmax(fmax(dimensions.x, dimensions.y), dimensions.z);
+    const float tstep = fmax(minRayStep, diag / (float)nbRaySteps);
 
     float t0, t1;
-    if (!volumeIntersection(offset, dimensions, spacing, ray, t0, t1))
+    if (!intersection(offset, dimensions, spacing, ray, t0, t1))
     {
         prd.result = make_float3(finalColor);
         return;
@@ -129,23 +128,24 @@ static __device__ inline void shade()
 
     optix::size_t2 screen = output_buffer.size();
     uint seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
+    const float random = rnd(seed) * tstep;
 
-    float t = max(t_hit, t0);
+    float t = fmax(0.f, t0) + random;
     while (t < t1 && finalColor.w < 1.f)
     {
-        const float3 p = ray.origin + t_hit * ray.direction;
+        const float3 p = ray.origin + t * ray.direction;
         const float3 point = (p - offset) / spacing;
 
-        const float value = treeWalker(startIndices, startData, spacing, point, distance, cutoff);
+        const float sampleValue = treeWalker<0>(startIndices, startData, point, distance, cutoff, 0);
         const float4 sampleColor =
-            calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, value, tfColors, tfOpacities);
-        const float alpha = (finalColor.w == 0.0 ? 1.f : finalColor.w) * alphaCorrection * sampleColor.w;
-        finalColor = finalColor + make_float4(make_float3(sampleColor) * alpha, alpha);
+            calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, sampleValue, tfColors, tfOpacities);
+        if (sampleColor.w > 0.f)
+            compose(sampleColor, finalColor, alphaCorrection);
 
-        t += step;
+        t += tstep;
     }
 
-    prd.result = make_float3(finalColor);
+    prd.result = ::optix::clamp(make_float3(finalColor * mainExposure), 0.f, 1.f);
 }
 
 RT_PROGRAM void any_hit_shadow()
