@@ -84,31 +84,32 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize, con
             const auto& spheresMap = model.getSpheres();
             for (const auto& spheres : spheresMap)
             {
-                for (const auto& sphere : spheres.second)
-                {
-                    const Vector3f center =
-                        tf.getTranslation() + tf.getRotation() * (Vector3d(sphere.center) - tf.getRotationCenter());
-
-                    const Vector3d c = center;
-                    if (isClipped(c, clipPlanes))
+                if (spheres.first != BOUNDINGBOX_MATERIAL_ID && spheres.first != SECONDARY_MODEL_MATERIAL_ID)
+                    for (const auto& sphere : spheres.second)
                     {
+                        const Vector3f center =
+                            tf.getTranslation() + tf.getRotation() * (Vector3d(sphere.center) - tf.getRotationCenter());
+
+                        const Vector3d c = center;
+                        if (isClipped(c, clipPlanes))
+                        {
+                            ++count;
+                            continue;
+                        }
+
+                        if (count % densityRatio == 0)
+                        {
+                            bounds.merge(center + sphere.radius);
+                            bounds.merge(center - sphere.radius);
+
+                            events.push_back(center.x);
+                            events.push_back(center.y);
+                            events.push_back(center.z);
+                            events.push_back(sphere.radius);
+                            events.push_back(sphere.radius);
+                        }
                         ++count;
-                        continue;
                     }
-
-                    if (count % densityRatio == 0)
-                    {
-                        bounds.merge(center + sphere.radius);
-                        bounds.merge(center - sphere.radius);
-
-                        events.push_back(center.x);
-                        events.push_back(center.y);
-                        events.push_back(center.z);
-                        events.push_back(sphere.radius);
-                        events.push_back(sphere.radius);
-                    }
-                    ++count;
-                }
             }
         }
     }

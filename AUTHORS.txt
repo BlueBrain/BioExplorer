@@ -1,1 +1,13 @@
-Cyrille Favreau (cyrille.favreau@epfl.ch)
+BioExplorer:
+- Cyrille Favreau
+
+Platform (Brayns 1.0.0: https://github.com/BlueBrain/Brayns/tree/04cdc25c68de435227e579469b336217fbbd58a8):
+- Daniel Nachbaur
+- Jonas Karlsson
+- Grigori Chevtchenko
+- Raphael Dumusc
+- Ahmet Bilgili
+- Andrei-Roland Groza
+- Juan Bautista Hernando Vieites
+- Pawel Jozef Podhajski
+- Jafet Villafranca Diaz
