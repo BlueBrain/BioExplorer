@@ -91,13 +91,6 @@ public:
      */
     const StringMap getSequencesAsString() const;
 
-    /**
-     * @brief Get the bounds of the molecule atomic structure
-     *
-     * @return const Boxf& Bounds of the molecule atomic structure
-     */
-    const Boxf& getBounds() const { return _bounds; };
-
 protected:
     double _getDisplacementValue(const DisplacementElement& element) final;
 
@@ -138,7 +131,6 @@ protected:
 
     std::string _selectedAminoAcidSequence;
     Vector2uis _selectedAminoAcidRanges;
-    Boxf _bounds;
 };
 } // namespace molecularsystems
 } // namespace bioexplorer

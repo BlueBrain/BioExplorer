@@ -56,6 +56,13 @@ public:
      */
     const ModelDescriptorPtr getModelDescriptor() const;
 
+    /**
+     * @brief Get the bounds of the node
+     *
+     * @return const Boxf& Bounds of the node
+     */
+    const Boxd& getBounds() const { return _bounds; };
+
 protected:
     void _setMaterialExtraAttributes();
 
