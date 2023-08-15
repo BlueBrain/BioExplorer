@@ -83,11 +83,16 @@ void OptiXRenderer::commit()
                 {
                     auto optixMaterial = dynamic_cast<OptiXMaterial*>(kv.second.get());
                     const bool textured = optixMaterial->isTextured();
-
-                    optixMaterial->getOptixMaterial()->setClosestHitProgram(0, textured
-                                                                                   ? renderProgram->closest_hit_textured
-                                                                                   : renderProgram->closest_hit);
-                    optixMaterial->getOptixMaterial()->setAnyHitProgram(1, renderProgram->any_hit);
+                    auto material = optixMaterial->getOptixMaterial();
+                    if (material)
+                    {
+                        const auto program =
+                            textured ? renderProgram->closest_hit_textured : renderProgram->closest_hit;
+                        material->setClosestHitProgram(0, program);
+                        material->setAnyHitProgram(1, renderProgram->any_hit);
+                    }
+                    else
+                        CORE_WARN("No OptiX material initialized for core material " + kv.second->getName());
                 }
             });
     }
