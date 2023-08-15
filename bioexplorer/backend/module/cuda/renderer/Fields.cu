@@ -145,7 +145,14 @@ static __device__ inline void shade()
         t += tstep;
     }
 
-    prd.result = ::optix::clamp(make_float3(finalColor * mainExposure), 0.f, 1.f);
+    // Main exposure
+    finalColor = make_float4(::optix::clamp(make_float3(finalColor * mainExposure), 0.f, 1.f), finalColor.w);
+
+    // Environment
+    compose(make_float4(getEnvironmentColor(ray.direction), 1.f), finalColor);
+
+    prd.result = make_float3(finalColor);
+    prd.importance = finalColor.w;
 }
 
 RT_PROGRAM void any_hit_shadow()
