@@ -69,6 +69,17 @@ rtDeclareVariable(uint, clipping_mode, , );
 
 // Textures
 rtDeclareVariable(int, albedoMetallic_map, , );
+rtDeclareVariable(int, normalRoughness_map, , );
+rtDeclareVariable(int, bump_map, , );
+rtDeclareVariable(int, aoEmissive_map, , );
+rtDeclareVariable(int, map_ns, , );
+rtDeclareVariable(int, map_d, , );
+rtDeclareVariable(int, map_reflection, , );
+rtDeclareVariable(int, map_refraction, , );
+rtDeclareVariable(int, map_occlusion, , );
+rtDeclareVariable(int, radiance_map, , );
+rtDeclareVariable(int, irradiance_map, , );
+rtDeclareVariable(int, brdf_lut, , );
 rtDeclareVariable(float2, texcoord, attribute texcoord, );
 
 // Shading

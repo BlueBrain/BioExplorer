@@ -759,10 +759,7 @@ void Molecule::_setMaterialDiffuseColor(const size_t atomIndex, const RGBColorDe
     auto& model = _modelDescriptor->getModel();
     auto material = model.getMaterial(atomIndex);
     if (material)
-    {
         material->setDiffuseColor({color.r / 255.0, color.g / 255.0, color.b / 255.0});
-        material->commit();
-    }
     else
         PLUGIN_THROW("Model has no material for atom " + std::to_string(atomIndex));
 }

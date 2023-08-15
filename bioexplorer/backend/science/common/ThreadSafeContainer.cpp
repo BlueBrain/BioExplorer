@@ -189,7 +189,6 @@ void ThreadSafeContainer::_commitMaterials()
         material->setSpecularExponent(100.f);
         material->setShadingMode(MaterialShadingMode::undefined_shading_mode);
         material->setUserParameter(1.f);
-        material->commit();
     }
 }
 

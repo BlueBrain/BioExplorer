@@ -67,14 +67,19 @@ void OptiXMaterial::commit()
     _optixMaterial[CONTEXT_MATERIAL_CAST_USER_DATA]->setUint(_castUserData);
     _optixMaterial[CONTEXT_MATERIAL_CLIPPING_MODE]->setUint(_clippingMode);
 
-    for (const auto& i : getTextureDescriptors())
-    {
-        if (!_textureSamplers.count(i.first))
+    const auto textureDescriptors = getTextureDescriptors();
+    if (textureDescriptors.empty())
+        for (const auto& textureType : textureTypeToString)
+            _optixMaterial[textureType]->setInt(0);
+    else
+        for (const auto& i : textureDescriptors)
         {
-            auto textureSampler = OptiXContext::get().createTextureSampler(i.second);
-            _textureSamplers.insert(std::make_pair(i.first, textureSampler));
-            _optixMaterial[textureTypeToString[(uint8_t)i.first]]->setInt(textureSampler->getId());
+            if (!_textureSamplers.count(i.first))
+            {
+                auto textureSampler = OptiXContext::get().createTextureSampler(i.second);
+                _textureSamplers.insert(std::make_pair(i.first, textureSampler));
+                _optixMaterial[textureTypeToString[(uint8_t)i.first]]->setInt(textureSampler->getId());
+            }
         }
-    }
 }
 } // namespace core
