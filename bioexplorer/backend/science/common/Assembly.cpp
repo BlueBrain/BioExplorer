@@ -276,7 +276,7 @@ void Assembly::_processInstances(ModelDescriptorPtr md, const std::string &name,
             const Transformation finalTransformation = combineTransformations(transformations);
             const auto &translation = finalTransformation.getTranslation();
 
-            // Assembly constaints
+            // Assembly constraints
             bool addInstance = true;
             for (const auto &constraint : constraints)
             {

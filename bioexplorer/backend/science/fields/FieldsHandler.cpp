@@ -106,16 +106,12 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize, con
                         events.push_back(center.z);
                         events.push_back(sphere.radius);
                         events.push_back(sphere.radius);
-
-                        PLUGIN_DEBUG(center.x << ", " << center.y << ", " << center.z);
                     }
                     ++count;
                 }
             }
         }
     }
-
-    PLUGIN_DEBUG("AABB: " << bounds);
 
     // Events bounds
     Vector3f sceneSize = bounds.getSize();

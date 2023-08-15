@@ -60,6 +60,7 @@ Octree::Octree(const floats &events, double voxelSize, const Vector3f &minAABB, 
 
     for (uint32_t i = 0; i < events.size(); i += 5)
     {
+        PLUGIN_PROGRESS("Bulding octree from events", i, events.size());
         const uint32_t xpos = std::floor((events[i] - minAABB.x) / voxelSize);
         const uint32_t ypos = std::floor((events[i + 1] - minAABB.y) / voxelSize);
         const uint32_t zpos = std::floor((events[i + 2] - minAABB.z) / voxelSize);
