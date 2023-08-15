@@ -299,6 +299,7 @@ void Assembly::_processInstances(ModelDescriptorPtr md, const std::string &name,
             // Instance is clipped
         }
     }
+    md->computeBounds();
 }
 
 void Assembly::setProteinColorScheme(const ProteinColorSchemeDetails &details)
