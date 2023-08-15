@@ -278,6 +278,7 @@ void OptiXModel::buildBoundingBox()
     auto material = createMaterial(BOUNDINGBOX_MATERIAL_ID, "bounding_box");
     material->setDiffuseColor({1, 1, 1});
     material->setEmission(1.f);
+    material->commit();
 
     const Vector3f s(0.5f);
     const Vector3f c(0.5f);

@@ -189,6 +189,7 @@ void ThreadSafeContainer::_commitMaterials()
         material->setSpecularExponent(100.f);
         material->setShadingMode(MaterialShadingMode::undefined_shading_mode);
         material->setUserParameter(1.f);
+        material->commit();
     }
 }
 
@@ -235,8 +236,7 @@ void ThreadSafeContainer::_commitSDFGeometriesToModel()
     const uint64_t numGeoms = _sdfMorphologyData.geometries.size();
     size_ts localToGlobalIndex(numGeoms, 0);
 
-    // Add geometries to _model. We do not know the indices of the
-    // neighbours yet so we leave them empty.
+    // Add geometries to _model. We do not know the indices of the neighbours yet so we leave them empty.
     for (uint64_t i = 0; i < numGeoms; ++i)
         localToGlobalIndex[i] =
             _model.addSDFGeometry(_sdfMorphologyData.materials[i], _sdfMorphologyData.geometries[i], {});
@@ -306,6 +306,5 @@ void ThreadSafeContainer::_commitStreamlinesToModel()
     }
     _streamlinesMap.clear();
 }
-
 } // namespace common
 } // namespace bioexplorer
