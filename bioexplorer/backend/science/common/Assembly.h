@@ -158,7 +158,7 @@ public:
     void addProtein(const ProteinDetails &details, const AssemblyConstraints &constraints);
 
     /**
-     * @brief addGlycans Add glycans to glycosilation sites of a given protein
+     * @brief addGlycans Add glycans to Glycosylation sites of a given protein
      * in the assembly
      * @param details Details of the glycans
      */

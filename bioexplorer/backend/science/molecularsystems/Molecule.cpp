@@ -84,8 +84,8 @@ static AtomicRadii atomicRadii = {
     {{"MT"}, {25.0}},  {{"DS"}, {25.0}},  {{"RG"}, {25.0}},  {{"CN"}, {25.0}},  {{"NH"}, {25.0}},  {{"FL"}, {25.0}},
     {{"MC"}, {25.0}},  {{"LV"}, {25.0}},  {{"TS"}, {25.0}},  {{"OG"}, {25.0}}};
 
-Molecule::Molecule(Scene& scene, const size_ts& chainIds)
-    : SDFGeometries(NO_GRID_ALIGNMENT)
+Molecule::Molecule(Scene& scene, const Vector3d& position, const Quaterniond& rotation, const size_ts& chainIds)
+    : SDFGeometries(NO_GRID_ALIGNMENT, position, rotation)
     , _aminoAcidRange(std::numeric_limits<size_t>::max(), std::numeric_limits<size_t>::min())
     , _scene(scene)
     , _chainIds(chainIds)

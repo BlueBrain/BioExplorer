@@ -37,7 +37,7 @@ namespace molecularsystems
 {
 using namespace common;
 Protein::Protein(Scene& scene, const ProteinDetails& details)
-    : Molecule(scene, details.chainIds)
+    : Molecule(scene, doublesToVector3d(details.position), doublesToQuaterniond(details.rotation), details.chainIds)
     , _details(details)
 {
     size_t lineIndex{0};
@@ -261,36 +261,35 @@ void Protein::_getSitesTransformations(Vector3ds& positions, Quaternions& rotati
             PLUGIN_THROW("Invalid chain");
 
         const auto aminoAcidsPerChain = (*itAminoAcids).second;
-        for (const auto site : chain.second)
+        for (const auto bindingSite : chain.second)
         {
             // Protein center
             const Vector3d proteinCenter = _bounds.getCenter();
-            Boxf siteBounds;
-            Vector3d siteCenter;
+            Boxd bindingSiteBounds;
+            Vector3d bindingSiteCenter;
 
-            const auto offsetSite = site;
+            const auto offsetBindingSite = bindingSite;
 
             // Site center
-            const auto it = aminoAcidsPerChain.find(offsetSite);
+            const auto it = aminoAcidsPerChain.find(offsetBindingSite);
             if (it != aminoAcidsPerChain.end())
             {
-                siteBounds = (*it).second;
-                siteCenter = siteBounds.getCenter();
+                bindingSiteBounds = (*it).second;
+                bindingSiteCenter = bindingSiteBounds.getCenter();
 
-                // rotation is determined by the center of the site and the
-                // center of the protein
-                const auto bindrotation = normalize(siteCenter - proteinCenter);
-                positions.push_back(siteCenter);
-                rotations.push_back(safeQuatlookAt(bindrotation));
+                // rotation is determined by the center of the site and the center of the protein
+                const auto bindRotation = normalize(bindingSiteCenter - proteinCenter);
+                positions.push_back(_position + _rotation * bindingSiteCenter);
+                rotations.push_back(_rotation * safeQuatlookAt(bindRotation));
             }
             else
-                PLUGIN_WARN("Chain: " << chain.first << ", Site " << site + 1
+                PLUGIN_WARN("Chain: " << chain.first << ", Site " << bindingSite + 1
                                       << " is not available in the protein source");
         }
     }
 }
 
-void Protein::getGlycosilationSites(Vector3ds& positions, Quaternions& rotations, const size_ts& siteIndices) const
+void Protein::getGlycosylationSites(Vector3ds& positions, Quaternions& rotations, const size_ts& siteIndices) const
 {
     positions.clear();
     rotations.clear();
@@ -346,7 +345,7 @@ void Protein::setAminoAcid(const AminoAcidDetails& details)
 }
 
 void Protein::_processInstances(ModelDescriptorPtr md, const Vector3ds& positions, const Quaternions& rotations,
-                                const Quaterniond& moleculerotation, const MolecularSystemAnimationDetails& randInfo)
+                                const Quaterniond& moleculeRotation, const MolecularSystemAnimationDetails& randInfo)
 {
     size_t count = 0;
     const auto& proteinInstances = _modelDescriptor->getInstances();
@@ -363,8 +362,7 @@ void Protein::_processInstances(ModelDescriptorPtr md, const Vector3ds& position
 
             if (randInfo.rotationSeed != 0)
                 rotation = weightedRandomRotation(rotation, randInfo.rotationSeed, i, randInfo.rotationStrength);
-
-            glycanTransformation.setRotation(moleculerotation * rotation);
+            glycanTransformation.setRotation(moleculeRotation * rotation);
 
             const Transformation combinedTransformation = proteinTransformation * glycanTransformation;
 
@@ -385,19 +383,18 @@ void Protein::addGlycan(const SugarDetails& details)
 
     Vector3ds glycanPositions;
     Quaternions glycanRotations;
-    getGlycosilationSites(glycanPositions, glycanRotations, details.siteIndices);
+    getGlycosylationSites(glycanPositions, glycanRotations, details.siteIndices);
 
     if (glycanPositions.empty())
         PLUGIN_THROW("No glycosylation site was found on " + details.proteinName);
 
-    // Create glycans and attach them to the glycosylation sites of the target
-    // protein
+    // Create glycans and attach them to the glycosylation sites of the target protein
     GlycansPtr glycans(new Glycans(_scene, details));
     auto modelDescriptor = glycans->getModelDescriptor();
-    const Quaterniond proteinrotation = doublesToQuaterniond(details.rotation);
+    const Quaterniond proteinRotation = doublesToQuaterniond(details.rotation);
 
     const auto randInfo = doublesToMolecularSystemAnimationDetails(details.animationParams);
-    _processInstances(modelDescriptor, glycanPositions, glycanRotations, proteinrotation, randInfo);
+    _processInstances(modelDescriptor, glycanPositions, glycanRotations, proteinRotation, randInfo);
 
     _glycans[details.name] = std::move(glycans);
     _scene.addModel(modelDescriptor);

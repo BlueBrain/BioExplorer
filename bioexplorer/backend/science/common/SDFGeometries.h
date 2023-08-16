@@ -74,8 +74,8 @@ protected:
 
     CellAnimationDetails _animationDetails;
     double _alignToGrid{0.0};
-    const Vector3d& _position;
-    const Quaterniond& _rotation;
+    Vector3d _position;
+    Quaterniond _rotation;
 };
 
 } // namespace common

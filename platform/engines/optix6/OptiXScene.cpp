@@ -167,10 +167,12 @@ void OptiXScene::_commitClippingPlanes()
 
     auto context = OptiXContext::get().getOptixContext();
 
-    if (!_clipPlanesBuffer)
-        _clipPlanesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 6 /*size*/);
-
     const size_t numClipPlanes = _clipPlanes.size();
+    const auto size = numClipPlanes * sizeof(Vector4f);
+
+    RT_DESTROY(_clipPlanesBuffer);
+    _clipPlanesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, numClipPlanes);
+
     if (numClipPlanes > 0)
     {
         Vector4fs buffer;
@@ -182,8 +184,6 @@ void OptiXScene::_commitClippingPlanes()
                               static_cast<float>(p[3])});
         }
 
-        const auto size = numClipPlanes * sizeof(Vector4f);
-        // _clipPlanesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 6 /*size*/);
         memcpy(_clipPlanesBuffer->map(), buffer.data(), size);
         _clipPlanesBuffer->unmap();
     }
@@ -271,15 +271,15 @@ void OptiXScene::commit()
             size_t count{0};
             for (const auto& instance : instances)
             {
-                auto transformation = instance.getTransformation();
+                auto modelTransformation = instance.getTransformation();
                 if (count == 0)
-                    transformation = modelDescriptor->getTransformation();
-                const ::glm::mat4 matrix = transformation.toMatrix(true);
+                    modelTransformation = modelDescriptor->getTransformation();
+                const ::glm::mat4 matrix = modelTransformation.toMatrix(true);
                 ::optix::Matrix4x4 optixMatrix(glm::value_ptr(matrix));
-                ::optix::Transform xform = context->createTransform();
-                xform->setChild(geometryGroup);
-                xform->setMatrix(true, optixMatrix.getData(), optixMatrix.inverse().getData());
-                _rootGroup->addChild(xform);
+                ::optix::Transform instanceTransformation = context->createTransform();
+                instanceTransformation->setChild(geometryGroup);
+                instanceTransformation->setMatrix(true, optixMatrix.getData(), optixMatrix.inverse().getData());
+                _rootGroup->addChild(instanceTransformation);
                 ++count;
             }
             CORE_DEBUG("Group has " << geometryGroup->getChildCount() << " children");
@@ -287,23 +287,23 @@ void OptiXScene::commit()
 
         if (modelDescriptor->getBoundingBox())
         {
-            // scale and move the unit-sized bounding box geometry to the
-            // model size/scale first, then apply the instance transform
+            // scale and move the unit-sized bounding box geometry to the model size/scale first, then apply the
+            // instance transform
             const auto boundingBoxGroup = impl.getBoundingBoxGroup();
-            ::optix::Transform xform = context->createTransform();
+            ::optix::Transform transformation = context->createTransform();
 
             const auto& modelBounds = modelDescriptor->getModel().getBounds();
-            Transformation modelTransform;
-            modelTransform.setTranslation(modelBounds.getCenter() / modelBounds.getSize() - Vector3d(0.5));
-            modelTransform.setScale(modelBounds.getSize());
+            Transformation modelTransformation;
+            modelTransformation.setTranslation(modelBounds.getCenter() / modelBounds.getSize() - Vector3d(0.5));
+            modelTransformation.setScale(modelBounds.getSize());
 
-            Matrix4f mtxd = modelTransform.toMatrix(true);
-            mtxd = glm::transpose(mtxd);
-            auto trf = glm::value_ptr(mtxd);
+            Matrix4f modelMatrix = modelTransformation.toMatrix(true);
+            modelMatrix = glm::transpose(modelMatrix);
+            const auto trf = glm::value_ptr(modelMatrix);
 
-            xform->setMatrix(false, trf, 0);
-            xform->setChild(boundingBoxGroup);
-            _rootGroup->addChild(xform);
+            transformation->setMatrix(false, trf, 0);
+            transformation->setChild(boundingBoxGroup);
+            _rootGroup->addChild(transformation);
         }
     }
     computeBounds();
@@ -313,8 +313,8 @@ void OptiXScene::commit()
     context[CONTEXT_SCENE_TOP_OBJECT]->set(_rootGroup);
     context[CONTEXT_SCENE_TOP_SHADOWER]->set(_rootGroup);
 
-    // TODO: triggers the change callback to re-broadcast the scene if the clip
-    // planes have changed. Provide an RPC to update/set clip planes.
+    // TODO: triggers the change callback to re-broadcast the scene if the clip planes have changed. Provide an RPC to
+    // update/set clip planes.
     markModified();
 }
 

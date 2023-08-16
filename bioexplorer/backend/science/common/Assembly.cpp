@@ -203,8 +203,7 @@ void Assembly::addMembrane(const MembraneDetails &details)
 
 void Assembly::addSugar(const SugarDetails &details)
 {
-    // Get information from target protein (attributes, number of instances,
-    // glycosylation sites, etc)
+    // Get information from target protein (attributes, number of instances, glycosylation sites, etc)
     const auto it = _proteins.find(details.proteinName);
     if (it == _proteins.end())
     {
@@ -221,8 +220,7 @@ void Assembly::addSugar(const SugarDetails &details)
 
 void Assembly::addGlycan(const SugarDetails &details)
 {
-    // Get information from target protein (attributes, number of instances,
-    // glycosylation sites, etc)
+    // Get information from target protein (attributes, number of instances, glycosylation sites, etc)
     const auto it = _proteins.find(details.proteinName);
     if (it == _proteins.end())
     {
@@ -267,11 +265,6 @@ void Assembly::_processInstances(ModelDescriptorPtr md, const std::string &name,
                 _shape->getTransformation(occurrence, occurrences, molecularSystemAnimationDetails, offset);
 
             transformations.push_back(shapeTransformation);
-
-            Transformation proteinTransformation;
-            proteinTransformation.setTranslation(position);
-            proteinTransformation.setRotation(rotation);
-            transformations.push_back(proteinTransformation);
 
             const Transformation finalTransformation = combineTransformations(transformations);
             const auto &translation = finalTransformation.getTranslation();
