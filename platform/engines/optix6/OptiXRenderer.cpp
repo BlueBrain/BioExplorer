@@ -92,7 +92,7 @@ void OptiXRenderer::commit()
                         material->setAnyHitProgram(1, renderProgram->any_hit);
                     }
                     else
-                        CORE_WARN("No OptiX material initialized for core material " + kv.second->getName());
+                        CORE_DEBUG("No OptiX material initialized for core material " + kv.second->getName());
                 }
             });
     }

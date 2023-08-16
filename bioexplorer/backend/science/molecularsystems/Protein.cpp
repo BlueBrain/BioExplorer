@@ -83,7 +83,7 @@ Protein::Protein(Scene& scene, const ProteinDetails& details)
     // Build 3d models according to atoms positions (re-centered to origin)
     if (details.recenter)
     {
-        core::Boxf newBounds;
+        core::Boxd newBounds;
         const auto& center = _bounds.getCenter();
         for (auto& atom : _atomMap)
         {

@@ -331,6 +331,13 @@ void OptiXContext::_initialize()
     if (!_optixContext)
         throw(std::runtime_error("Failed to initialize OptiX"));
 
+#ifdef NDEBUG
+    _optixContext->setPrintEnabled(false);
+#else
+    _optixContext->setPrintEnabled(true);
+    _optixContext->setPrintBufferSize(1024);
+#endif
+
     _optixContext->setRayTypeCount(OPTIX_RAY_TYPE_COUNT);
     _optixContext->setEntryPointCount(OPTIX_ENTRY_POINT_COUNT);
     _optixContext->setStackSize(OPTIX_STACK_SIZE);
@@ -354,10 +361,10 @@ void OptiXContext::_initialize()
 
     // Volumes
     ::optix::Buffer buffer = _optixContext->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_BYTE, 0);
-    _optixContext["volumeData"]->setBuffer(buffer);
-    _optixContext["volumeDimensions"]->setUint(0, 0, 0);
-    _optixContext["volumeOffset"]->setFloat(0.f, 0.f, 0.f);
-    _optixContext["volumeElementSpacing"]->setFloat(0.f, 0.f, 0.f);
+    _optixContext[CONTEXT_VOLUME_DATA]->setBuffer(buffer);
+    _optixContext[CONTEXT_VOLUME_DIMENSIONS]->setUint(0, 0, 0);
+    _optixContext[CONTEXT_VOLUME_OFFSET]->setFloat(0.f, 0.f, 0.f);
+    _optixContext[CONTEXT_VOLUME_ELEMENT_SPACING]->setFloat(0.f, 0.f, 0.f);
 
     PLUGIN_DEBUG("Context created");
 }

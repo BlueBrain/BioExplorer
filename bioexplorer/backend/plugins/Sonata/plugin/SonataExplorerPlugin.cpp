@@ -565,7 +565,6 @@ void SonataExplorerPlugin::_createShapeMaterial(ModelPtr& model, const size_t id
     material->setSpecularExponent(0.0);
     material->setShadingMode(MaterialShadingMode::diffuse_transparency);
     material->markModified();
-    material->commit();
 }
 
 Response SonataExplorerPlugin::_addSphere(const AddSphere& details)
