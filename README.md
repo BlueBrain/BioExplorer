@@ -441,6 +441,17 @@ For more information on _BBBE_, please contact:
 
 * [__Evelyne Schmid Osborne__](https://www.epfl.ch/research/domains/bluebrain/blue-brain/people/our-people/operations-division/evelyne-schmid-osborne/) - Communications - Blue Brain Project ([evelyne.schmidosborne@epfl.ch](evelyne.schmidosborne@epfl.ch))
 
+* Co-authors and contributors:
+  * [Daniel Nachbaur](https://github.com/tribal-tec)
+  * [Jonas Karlsson](https://github.com/karjonas)
+  * [Andrei-Roland Groza](https://github.com/rolandjitsu)
+  * [Grigori Chevtchenko](https://github.com/chevtche)
+  * Raphael Dumusc
+  * Ahmet Bilgili
+  * Juan Bautista Hernando Vieites
+  * [Pawel Jozef Podhajski](https://github.com/ppodhajski)
+  * Jafet Villafranca Diaz
+
 # Funding & Acknowledgment
 
 The development of this software was supported by funding to the Blue Brain Project, a research center of the École polytechnique fédérale de Lausanne (EPFL), from the Swiss government’s ETH Board of the Swiss Federal Institutes of Technology.
