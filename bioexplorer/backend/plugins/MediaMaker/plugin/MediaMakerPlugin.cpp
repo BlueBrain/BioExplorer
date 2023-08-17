@@ -181,6 +181,8 @@ void MediaMakerPlugin::_createOptiXRenderers()
 
         auto osp = std::make_shared<OptixShaderProgram>();
         osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance");
+        osp->closest_hit_textured =
+            context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance_textured");
         osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "any_hit_shadow");
 
         context.addRenderer(renderer.first, osp);

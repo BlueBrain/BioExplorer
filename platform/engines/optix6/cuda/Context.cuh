@@ -22,6 +22,7 @@
 
 #include <platform/engines/optix6/OptiXCommonStructs.h>
 
+#include <optix_world.h>
 #include <optixu/optixu_math_namespace.h>
 
 // Scene
@@ -80,7 +81,9 @@ rtDeclareVariable(int, map_occlusion, , );
 rtDeclareVariable(int, radiance_map, , );
 rtDeclareVariable(int, irradiance_map, , );
 rtDeclareVariable(int, brdf_lut, , );
+rtDeclareVariable(int, volume_map, , );
 rtDeclareVariable(float2, texcoord, attribute texcoord, );
+rtDeclareVariable(float3, texcoord3d, attribute texcoord3d, );
 
 // Shading
 rtDeclareVariable(float3, bgColor, , );

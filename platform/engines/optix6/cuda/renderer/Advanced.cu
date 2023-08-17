@@ -119,7 +119,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
                                   unsigned int p_shadingMode, float p_user_parameter, float3 p_normal)
 {
     const float3 hit_point = ray.origin + t_hit * ray.direction;
-    float3 color = make_float3(0.f, 0.f, 0.f);
+    float3 color = make_float3(0.f);
     float3 opacity = p_Ko;
     float3 Kd = p_Kd;
 
@@ -282,12 +282,14 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         if (fmaxf(p_Kr) > 0.f && prd.depth < maxBounces)
         {
             PerRayData_radiance reflected_prd;
+            reflected_prd.result = make_float3(0.f);
+            reflected_prd.importance = prd.importance * fmaxf(p_Kr);
             reflected_prd.depth = prd.depth + 1;
 
             const float3 R = optix::reflect(ray.direction, normal);
             const optix::Ray reflected_ray(hit_point, R, radianceRayType, sceneEpsilon, giDistance);
             rtTrace(top_object, reflected_ray, reflected_prd);
-            color = color * (1.f - p_Kr) + p_Kr * reflected_prd.result;
+            color += p_Kr * reflected_prd.result;
         }
 
         // Refraction
@@ -295,15 +297,16 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         {
             PerRayData_radiance refracted_prd;
             refracted_prd.result = make_float3(0.f);
-            refracted_prd.importance = 0.f;
+            refracted_prd.importance = prd.importance * (1.f - fmaxf(opacity));
             refracted_prd.depth = prd.depth + 1;
 
             const float3 refractedNormal = refractedVector(ray.direction, normal, p_refractionIndex, 1.f);
             const optix::Ray refracted_ray(hit_point, refractedNormal, radianceRayType, sceneEpsilon, giDistance);
             rtTrace(top_object, refracted_ray, refracted_prd);
-            color = color * opacity + refracted_prd.result * (1.f - opacity);
+            color += (1.f - opacity) * refracted_prd.result;
         }
 
+        // Ambient occlusion
         if (giSamples > 0 && giWeight > 0.f && prd.depth == 0)
         {
             float aa_attenuation = 0.f;
@@ -346,19 +349,21 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
 
     float4 finalColor = make_float4(color, ::optix::luminance(p_Ko));
 
+#if 1
     // Volume
     const float4 volumeColor = getVolumeContribution(ray);
     compose(volumeColor, finalColor);
+#endif
     float3 result = make_float3(finalColor);
 
     // Matrix filter :)
     if (matrixFilter)
         result = make_float3(result.x * 0.666f, result.y * 0.8f, result.z * 0.666f);
 
-    // Exposure and Fog attenuation
+    // Fog attenuation
     const float z = optix::length(eye - hit_point);
     const float fogAttenuation = z > fogStart ? optix::clamp((z - fogStart) / fogThickness, 0.f, 1.f) : 0.f;
-    result = mainExposure * (result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor(ray.direction));
+    result = result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor(ray.direction);
 
     prd.result = result;
 }
@@ -372,14 +377,27 @@ static __device__ inline void shade(bool textured)
 {
     float3 world_shading_normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
     float3 world_geometric_normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
-
     float3 ffnormal = faceforward(world_shading_normal, -ray.direction, world_geometric_normal);
 
     float3 p_Kd = Kd;
+    float3 p_Ko = Ko;
+#if 0
     if (textured)
+    {
+        if (volume_map != 0)
+        {
+            const float voxelValue = optix::rtTex3D<float>(volume_map, texcoord3d.x, texcoord3d.y, texcoord3d.z);
+            const float4 voxelColor =
+                calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, voxelValue, tfColors, tfOpacities);
+            p_Kd = make_float3(voxelColor);
+            p_Ko = make_float3(voxelColor.w);
+        }
+        else
         p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
+    }
+#endif
 
-    phongShade(p_Kd, Ka, Ks, Kr, Ko, refraction_index, phong_exp, glossiness, shading_mode, user_parameter, ffnormal);
+    phongShade(p_Kd, Ka, Ks, Kr, p_Ko, refraction_index, phong_exp, glossiness, shading_mode, user_parameter, ffnormal);
 }
 
 RT_PROGRAM void closest_hit_radiance()

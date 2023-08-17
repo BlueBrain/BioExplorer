@@ -43,6 +43,7 @@ public:
 
     ::optix::Material getOptixMaterial() { return _optixMaterial; }
     auto getTextureSampler(const TextureType type) const { return _textureSamplers.at(type); }
+    auto& getTextureSamplers() { return _textureSamplers; }
 
 private:
     ::optix::Material _optixMaterial{nullptr};

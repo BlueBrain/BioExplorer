@@ -26,6 +26,8 @@
 
 #include <memory>
 
+#include <platform/core/common/Types.h>
+
 namespace core
 {
 class OptiXCamera;
@@ -33,10 +35,12 @@ using OptiXCameraPtr = std::shared_ptr<OptiXCamera>;
 class OptiXCameraProgram;
 using OptiXCameraProgramPtr = std::shared_ptr<OptiXCameraProgram>;
 
-constexpr size_t OPTIX_STACK_SIZE = 16384;
-constexpr size_t OPTIX_RAY_TYPE_COUNT = 2;
-constexpr size_t OPTIX_ENTRY_POINT_COUNT = 1;
-
-constexpr float EPSILON = 1e-2f;
+struct VolumeGeometry
+{
+    Vector3f dimensions;
+    Vector3f position;
+    Vector3f spacing;
+    float textureSamplerId;
+};
 
 } // namespace core

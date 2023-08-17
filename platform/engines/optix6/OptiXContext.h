@@ -57,7 +57,6 @@ const std::string CUDA_FUNC_INTERSECTION = "intersect";
 const std::string CUDA_FUNC_ROBUST_INTERSECTION = "robust_intersect";
 const std::string CUDA_FUNC_EXCEPTION = "exception";
 
-const std::string CONTEXT_CAMERA_BAD_COLOR = "bad_color";
 const std::string CONTEXT_CAMERA_EYE = "eye";
 const std::string CONTEXT_CAMERA_ORIENTATION = "orientation";
 const std::string CONTEXT_CAMERA_DIR = "dir";
@@ -69,6 +68,9 @@ const std::string CONTEXT_CAMERA_FOCAL_SCALE = "focal_scale";
 const std::string CONTEXT_CAMERA_FOVY = "fovy";
 const std::string CONTEXT_CAMERA_ASPECT = "aspect";
 const std::string CONTEXT_CAMERA_OFFSET = "offset";
+
+// Exception
+const std::string CONTEXT_EXCEPTION_BAD_COLOR = "bad_color";
 
 // Perspective
 const std::string CUDA_FUNC_PERSPECTIVE_CAMERA = "perspectiveCamera";
@@ -95,6 +97,7 @@ const std::string CONTEXT_USE_ENVIRONMENT_MAP = "use_envmap";
 const std::string CONTEXT_SPHERE_SIZE = "sphere_size";
 const std::string CONTEXT_CYLINDER_SIZE = "cylinder_size";
 const std::string CONTEXT_CONE_SIZE = "cone_size";
+const std::string CONTEXT_VOLUME_SIZE = "volume_size";
 
 // Material
 const std::string CONTEXT_MATERIAL_KA = "Ka";
@@ -161,7 +164,8 @@ enum class OptixGeometryType
     sphere,
     cone,
     cylinder,
-    triangleMesh
+    triangleMesh,
+    volume
 };
 
 struct OptixShaderProgram

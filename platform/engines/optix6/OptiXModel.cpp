@@ -63,13 +63,6 @@ void setBuffer(RTbuffertype bufferType, RTformat bufferFormat, optix::Handle<opt
 OptiXModel::OptiXModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters)
     : Model(animationParameters, volumeParameters)
 {
-}
-
-void OptiXModel::commitGeometry()
-{
-    // Materials
-    _commitMaterials();
-
     const auto compactBVH = getBVHFlags().count(BVHFlag::compact) > 0;
     // Geometry group
     if (!_geometryGroup)
@@ -78,6 +71,18 @@ void OptiXModel::commitGeometry()
     // Bounding box group
     if (!_boundingBoxGroup)
         _boundingBoxGroup = OptiXContext::get().createGeometryGroup(compactBVH);
+}
+
+OptiXModel::~OptiXModel()
+{
+    RT_DESTROY(_geometryGroup);
+    RT_DESTROY(_boundingBoxGroup);
+}
+
+void OptiXModel::commitGeometry()
+{
+    // Materials
+    _commitMaterials();
 
     size_t nbSpheres = 0;
     size_t nbCylinders = 0;
@@ -323,7 +328,54 @@ MaterialPtr OptiXModel::createMaterialImpl(const PropertyMap& properties)
 SharedDataVolumePtr OptiXModel::createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
                                                        const DataType type)
 {
-    return std::make_shared<OptiXVolume>(this, dimensions, spacing, type, _volumeParameters);
+    if (!_geometries->_volumes.empty())
+        return nullptr;
+
+    if (!_volumeGeometries.empty())
+        CORE_THROW("Only one volume per model is currently supported");
+
+    auto context = OptiXContext::get().getOptixContext();
+    const size_t materialId = 0;
+    auto volume = std::make_shared<OptiXVolume>(this, dimensions, spacing, type, _volumeParameters);
+    _geometries->_volumes.push_back(volume);
+    context[CONTEXT_VOLUME_SIZE]->setUint(sizeof(VolumeGeometry) / sizeof(float));
+    _optixVolumes[materialId] = OptiXContext::get().createGeometry(OptixGeometryType::volume);
+
+    VolumeGeometry volumeGeometry;
+    volumeGeometry.dimensions = volume->getDimensions();
+    volumeGeometry.position = volume->getOffset();
+    volumeGeometry.spacing = volume->getElementSpacing();
+
+    _volumeGeometries.push_back(volumeGeometry);
+
+    auto& optixVolumes = _optixVolumes[materialId];
+    optixVolumes->setPrimitiveCount(1);
+
+    auto material = createMaterial(materialId, "Volume");
+    material->setDiffuseColor({1, 1, 1});
+    material->setSpecularColor({1, 1, 1});
+    material->setOpacity(0.f);
+    material->setRefractionIndex(1.f);
+
+    _materials[materialId] = material;
+    material->commit();
+    auto optixMaterial = static_cast<OptiXMaterial*>(material.get())->getOptixMaterial();
+
+    auto instance = context->createGeometryInstance();
+    instance->setGeometry(optixVolumes);
+    instance->setMaterialCount(1);
+    instance->setMaterial(0, optixMaterial);
+    _geometryGroup->addChild(instance);
+    _bounds.merge(volumeGeometry.position);
+    _bounds.merge(volumeGeometry.position + volumeGeometry.dimensions * volumeGeometry.spacing);
+
+    return volume;
+}
+
+void OptiXModel::commitVolumesBuffers(const size_t materialId)
+{
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _volumesBuffers[materialId], _optixVolumes[materialId]["volumes"],
+              _volumeGeometries, sizeof(VolumeGeometry) * _volumeGeometries.size());
 }
 
 /** @copydoc Model::createBrickedVolume */

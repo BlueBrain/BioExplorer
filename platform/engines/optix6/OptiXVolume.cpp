@@ -32,6 +32,7 @@ OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const V
                          const DataType dataType, const VolumeParameters& params)
     : Volume(dimensions, spacing, dataType)
     , SharedDataVolume(dimensions, spacing, dataType)
+    , _model(model)
     , _parameters(params)
 {
     CORE_INFO("Volume dimension: " << _dimensions);
@@ -66,7 +67,7 @@ OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const V
     default:
         throw std::runtime_error("Unsupported voxel type " + std::to_string(int(dataType)));
     }
-    _createBox(model);
+    // _createBox(model);
 }
 
 OptiXVolume::~OptiXVolume()
@@ -132,14 +133,6 @@ void OptiXVolume::setVoxels(const void* voxels)
     context[CONTEXT_VOLUME_OFFSET]->setFloat(_offset.x, _offset.y, _offset.z);
     context[CONTEXT_VOLUME_ELEMENT_SPACING]->setFloat(_spacing.x, _spacing.y, _spacing.z);
 
-    // Volume as texture
-    _sampler = context->createTextureSampler();
-    _sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
-    _sampler->setWrapMode(1, RT_WRAP_CLAMP_TO_EDGE);
-    _sampler->setWrapMode(2, RT_WRAP_CLAMP_TO_EDGE);
-    _sampler->setIndexingMode(RT_TEXTURE_INDEX_NORMALIZED_COORDINATES);
-    _sampler->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
-
     optix::Buffer _buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _dimensions.x,
                                                            _dimensions.y, _dimensions.z, 1u);
     const uint64_t volumeSize = _dimensions.x * _dimensions.y * _dimensions.z;
@@ -204,10 +197,34 @@ void OptiXVolume::setVoxels(const void* voxels)
     }
     _buffer->unmap();
 
+    // Volume as texture
+    const size_t materialId = 0;
+    auto material = static_cast<OptiXMaterial*>(_model->getMaterial(materialId).get());
+    auto& textureSamplers = material->getTextureSamplers();
+    const auto it = textureSamplers.find(TextureType::volume);
+    if (it != textureSamplers.end())
+        textureSamplers.erase(it);
+    _sampler = context->createTextureSampler();
+    _sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
+    _sampler->setWrapMode(1, RT_WRAP_CLAMP_TO_EDGE);
+    _sampler->setWrapMode(2, RT_WRAP_CLAMP_TO_EDGE);
+    _sampler->setIndexingMode(RT_TEXTURE_INDEX_NORMALIZED_COORDINATES);
+    _sampler->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
     _sampler->setBuffer(0u, 0u, _buffer);
     _sampler->setFilteringModes(RT_FILTER_LINEAR, RT_FILTER_LINEAR, RT_FILTER_NONE);
+    textureSamplers.insert(std::make_pair(TextureType::volume, _sampler));
+    auto optixMaterial = material->getOptixMaterial();
+    const auto textureName = textureTypeToString[static_cast<uint8_t>(TextureType::volume)];
+    CORE_INFO("Registering " + textureName + " texture");
+    optixMaterial[textureName]->setInt(_sampler->getId());
+    material->commit();
 
-    context[CONTEXT_VOLUME_TEXTURE_SAMPLER]->setInt(_sampler->getId());
+    const auto textureSamplerId = _sampler->getId();
+    auto& volumeGeometries = _model->getVolumeGeometries();
+    volumeGeometries[materialId].textureSamplerId = textureSamplerId;
+    _model->commitVolumesBuffers(materialId);
+
+    context[CONTEXT_VOLUME_TEXTURE_SAMPLER]->setInt(textureSamplerId);
     context[CONTEXT_VOLUME_DATA_TYPE]->setUint(_dataType);
 
     CORE_INFO("Volume range: " << _dataRange);

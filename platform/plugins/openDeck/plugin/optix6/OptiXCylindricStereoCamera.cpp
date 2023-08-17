@@ -60,7 +60,6 @@ void OptiXCylindricStereoCamera::commit(const OptiXCamera& camera, ::optix::Cont
     context[CONTEXT_CAMERA_U]->setFloat(u.x, u.y, u.z);
     context[CONTEXT_CAMERA_V]->setFloat(v.x, v.y, v.z);
     context[CONTEXT_CAMERA_W]->setFloat(w.x, w.y, w.z);
-    context[CONTEXT_CAMERA_BAD_COLOR]->setFloat(1.f, 0.f, 1.f);
 
     const auto headPos = camera.getPropertyOrValue<std::array<double, 3>>(CONTEXT_CAMERA_HEAD_POSITION, {{0., 0., 0.}});
     const auto headRotation =

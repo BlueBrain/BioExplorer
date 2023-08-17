@@ -37,6 +37,7 @@ rtBuffer<float2> texcoord_buffer;
 rtBuffer<int3> indices_buffer;
 
 rtDeclareVariable(float2, texcoord, attribute texcoord, );
+rtDeclareVariable(float3, texcoord3d, attribute texcoord3d, );
 rtDeclareVariable(float3, v0, attribute v0, );
 rtDeclareVariable(float3, v1, attribute v1, );
 rtDeclareVariable(float3, v2, attribute v2, );
@@ -142,6 +143,7 @@ static __device__ void meshIntersect(int primIdx)
                 t2 = texcoord_buffer[v_idx.z];
 
                 texcoord = t1 * beta + t2 * gamma + t0 * (1.f - beta - gamma);
+                texcoord3d = make_float3(0.f);
 
                 ddx = t1 * betaDerivative.x + t2 * gammaDerivative.x + t0 * (-betaDerivative.x - gammaDerivative.x);
                 ddy = t1 * betaDerivative.y + t2 * gammaDerivative.y + t0 * (-betaDerivative.y - gammaDerivative.y);

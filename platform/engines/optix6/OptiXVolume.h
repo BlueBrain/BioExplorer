@@ -56,6 +56,9 @@ protected:
     uint64_t _dataTypeSize{1};
     ::optix::Buffer _buffer{nullptr};
     optix::TextureSampler _sampler{nullptr};
+
+private:
+    OptiXModel* _model{nullptr};
 };
 
 } // namespace core

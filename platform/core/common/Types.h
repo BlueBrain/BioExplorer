@@ -137,6 +137,7 @@ using VolumePtr = std::shared_ptr<Volume>;
 using SharedDataVolumePtr = std::shared_ptr<SharedDataVolume>;
 using BrickedVolumePtr = std::shared_ptr<BrickedVolume>;
 using Volumes = std::vector<VolumePtr>;
+using VolumesMap = std::map<size_t, Volumes>;
 
 class Texture2D;
 using Texture2DPtr = std::shared_ptr<Texture2D>;
@@ -242,8 +243,14 @@ enum class TextureType : uint8_t
     occlusion,
     radiance,
     irradiance,
-    brdf_lut
+    brdf_lut,
+    volume
 };
+
+static std::string textureTypeToString[13] = {
+    "albedoMetallic_map", "normalRoughness_map", "bump_map",      "aoEmissive_map", "map_ns",         "map_d",
+    "map_reflection",     "map_refraction",      "map_occlusion", "radiance_map",   "irradiance_map", "brdf_lut",
+    "volume_map"};
 
 enum class MemoryMode
 {

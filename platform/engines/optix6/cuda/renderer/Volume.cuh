@@ -21,6 +21,7 @@
  */
 
 #include <platform/engines/optix6/cuda/Context.cuh>
+#include <platform/engines/optix6/cuda/Environment.cuh>
 #include <platform/engines/optix6/cuda/Helpers.cuh>
 #include <platform/engines/optix6/cuda/renderer/TransferFunction.cuh>
 

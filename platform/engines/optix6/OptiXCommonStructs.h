@@ -22,8 +22,15 @@
 
 #include <optixu/optixu_vector_types.h>
 
-#define BASIC_LIGHT_TYPE_POINT 0
-#define BASIC_LIGHT_TYPE_DIRECTIONAL 1
+const size_t BASIC_LIGHT_TYPE_POINT = 0;
+const size_t BASIC_LIGHT_TYPE_DIRECTIONAL = 1;
+
+const size_t OPTIX_STACK_SIZE = 1200;
+const size_t OPTIX_RAY_TYPE_COUNT = 2;
+const size_t OPTIX_ENTRY_POINT_COUNT = 1;
+const size_t OPTIX_MAX_TRACE_DEPTH = 31;
+
+const float EPSILON = 1e-2f;
 
 struct BasicLight
 {

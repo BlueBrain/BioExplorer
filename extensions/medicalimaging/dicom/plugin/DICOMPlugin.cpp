@@ -34,6 +34,7 @@
 
 #ifdef USE_OPTIX6
 #include <DICOM_generated_DICOM.cu.ptx.h>
+#include <platform/engines/optix6/OptiXCommonStructs.h>
 #include <platform/engines/optix6/OptiXContext.h>
 #endif
 
@@ -58,6 +59,8 @@ void _addDICOMRenderer(Engine &engine)
     properties.setProperty({"mainExposure", 1., 0.01, 10., {"Exposure"}});
     properties.setProperty({"specularExponent", 50., 1.0, 100., {"Specular exponent"}});
     properties.setProperty({"giDistance", 10000.0, {"Global illumination distance"}});
+    properties.setProperty(
+        {"maxBounces", static_cast<int>(OPTIX_MAX_TRACE_DEPTH), 1, 100, {"Maximum number of ray bounces"}});
     engine.addRendererType(RENDERER_DICOM, properties);
 }
 
@@ -101,8 +104,10 @@ void DICOMPlugin::_createOptiXRenderers()
 
         auto osp = std::make_shared<OptixShaderProgram>();
         osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance");
+        osp->closest_hit_textured =
+            context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance_textured");
         osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "any_hit_shadow");
-
+        osp->exception_program = context.getOptixContext()->createProgramFromPTXString(ptx, "exception");
         context.addRenderer(renderer.first, osp);
     }
 }

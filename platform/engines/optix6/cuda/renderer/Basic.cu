@@ -18,44 +18,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "TransferFunction.cuh"
+#include <platform/engines/optix6/cuda/Environment.cuh>
+#include <platform/engines/optix6/cuda/Helpers.cuh>
+#include <platform/engines/optix6/cuda/Random.cuh>
+#include <platform/engines/optix6/cuda/renderer/Volume.cuh>
 
-#include <optix_world.h>
-
-struct PerRayData_radiance
-{
-    float3 result;
-    float importance;
-    int depth;
-};
-
-// Scene
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
-rtDeclareVariable(PerRayData_radiance, prd, rtPayload, );
-
-// Material attributes
-rtDeclareVariable(float3, Kd, , );
-
-rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
-rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
-
-// Textures
-rtDeclareVariable(int, albedoMetallic_map, , );
-rtDeclareVariable(float2, texcoord, attribute texcoord, );
-
-// Simulation data
-rtBuffer<float> simulation_data;
-rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
-
-// Transfer function
-rtBuffer<float3> tfColors;
-rtBuffer<float> tfOpacities;
-rtDeclareVariable(float, tfMinValue, , );
-rtDeclareVariable(float, tfRange, , );
-rtDeclareVariable(uint, tfSize, , );
-
-// Rendering
-rtDeclareVariable(float, mainExposure, , );
+#include <platform/core/common/CommonTypes.h>
 
 static __device__ inline void shade(bool textured)
 {
@@ -65,7 +33,7 @@ static __device__ inline void shade(bool textured)
     float3 p_normal = optix::faceforward(world_shading_normal, -ray.direction, world_geometric_normal);
 
     float3 p_Kd;
-    if (textured)
+    if (textured && albedoMetallic_map)
         p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
     else
         p_Kd = Kd;
@@ -77,7 +45,7 @@ static __device__ inline void shade(bool textured)
         p_Kd = p_Kd * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;
     }
 
-    prd.result = mainExposure * p_Kd * max(0.f, optix::dot(-ray.direction, p_normal));
+    prd.result = p_Kd * max(0.f, optix::dot(-ray.direction, p_normal));
 }
 
 RT_PROGRAM void any_hit_shadow()
@@ -93,4 +61,9 @@ RT_PROGRAM void closest_hit_radiance()
 RT_PROGRAM void closest_hit_radiance_textured()
 {
     shade(true);
+}
+
+RT_PROGRAM void exception()
+{
+    output_buffer[launch_index] = make_color(bad_color);
 }

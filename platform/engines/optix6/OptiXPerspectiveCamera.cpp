@@ -76,7 +76,6 @@ void OptiXPerspectiveCamera::commit(const OptiXCamera& camera, ::optix::Context 
     context[CONTEXT_CAMERA_APERTURE_RADIUS]->setFloat(
         camera.getPropertyOrValue<double>(CONTEXT_CAMERA_APERTURE_RADIUS, 0.0));
     context[CONTEXT_CAMERA_FOCAL_SCALE]->setFloat(camera.getPropertyOrValue<double>(CONTEXT_CAMERA_FOCAL_SCALE, 1.0));
-    context[CONTEXT_CAMERA_BAD_COLOR]->setFloat(1.f, 0.f, 1.f);
     context[CONTEXT_CAMERA_OFFSET]->setFloat(0, 0);
 
     context[CONTEXT_CAMERA_STEREO]->setUint(stereo);

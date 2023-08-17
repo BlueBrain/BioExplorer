@@ -25,6 +25,7 @@
 #include "OptiXContext.h"
 #include "Logs.h"
 #include "OptiXCameraProgram.h"
+#include "OptiXCommonStructs.h"
 #include "OptiXTypes.h"
 #include "OptiXUtils.h"
 
@@ -32,6 +33,7 @@
 #include <platform/engines/optix6/OptiX6Engine_generated_Cylinders.cu.ptx.h>
 #include <platform/engines/optix6/OptiX6Engine_generated_Spheres.cu.ptx.h>
 #include <platform/engines/optix6/OptiX6Engine_generated_TriangleMesh.cu.ptx.h>
+#include <platform/engines/optix6/OptiX6Engine_generated_Volumes.cu.ptx.h>
 
 #include <platform/core/common/material/Texture2D.h>
 
@@ -42,6 +44,7 @@ const std::string CUDA_SPHERES = OptiX6Engine_generated_Spheres_cu_ptx;
 const std::string CUDA_CYLINDERS = OptiX6Engine_generated_Cylinders_cu_ptx;
 const std::string CUDA_CONES = OptiX6Engine_generated_Cones_cu_ptx;
 const std::string CUDA_TRIANGLES_MESH = OptiX6Engine_generated_TriangleMesh_cu_ptx;
+const std::string CUDA_VOLUMES = OptiX6Engine_generated_Volumes_cu_ptx;
 
 template <typename T>
 T white();
@@ -341,6 +344,7 @@ void OptiXContext::_initialize()
     _optixContext->setRayTypeCount(OPTIX_RAY_TYPE_COUNT);
     _optixContext->setEntryPointCount(OPTIX_ENTRY_POINT_COUNT);
     _optixContext->setStackSize(OPTIX_STACK_SIZE);
+    _optixContext->setMaxTraceDepth(OPTIX_MAX_TRACE_DEPTH);
 
     _bounds[OptixGeometryType::cone] = _optixContext->createProgramFromPTXString(CUDA_CONES, CUDA_FUNC_BOUNDS);
     _intersects[OptixGeometryType::cone] =
@@ -359,12 +363,19 @@ void OptiXContext::_initialize()
     _intersects[OptixGeometryType::triangleMesh] =
         _optixContext->createProgramFromPTXString(CUDA_TRIANGLES_MESH, CUDA_FUNC_INTERSECTION);
 
+    _bounds[OptixGeometryType::volume] = _optixContext->createProgramFromPTXString(CUDA_VOLUMES, CUDA_FUNC_BOUNDS);
+    _intersects[OptixGeometryType::volume] =
+        _optixContext->createProgramFromPTXString(CUDA_VOLUMES, CUDA_FUNC_INTERSECTION);
+
     // Volumes
     ::optix::Buffer buffer = _optixContext->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_BYTE, 0);
     _optixContext[CONTEXT_VOLUME_DATA]->setBuffer(buffer);
     _optixContext[CONTEXT_VOLUME_DIMENSIONS]->setUint(0, 0, 0);
     _optixContext[CONTEXT_VOLUME_OFFSET]->setFloat(0.f, 0.f, 0.f);
     _optixContext[CONTEXT_VOLUME_ELEMENT_SPACING]->setFloat(0.f, 0.f, 0.f);
+
+    // Exceptions
+    _optixContext[CONTEXT_EXCEPTION_BAD_COLOR]->setFloat(1.0f, 0.0f, 0.0f);
 
     PLUGIN_DEBUG("Context created");
 }
