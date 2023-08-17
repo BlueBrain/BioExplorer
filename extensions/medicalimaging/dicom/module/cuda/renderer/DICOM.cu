@@ -29,45 +29,39 @@
 
 using namespace optix;
 
-static __device__ void dicomShadowed(float3 p_Ko)
-{
-    // this material is opaque, so it fully attenuates all shadow rays
-    prd_shadow.attenuation = 1.f - p_Ko;
-    rtTerminateRay();
-}
-
 static __device__ void dicomShade()
 {
-    const float4 color = getVolumeContribution(ray);
-    float3 result = make_float3(::optix::clamp(color, 0.f, 1.f));
+    // Volume contribution
+    float4 volumeColor = getVolumeContribution(ray);
 
-    // Exposure and Fog attenuation
+    // Apply exposure
+    volumeColor = make_float4(make_float3(volumeColor) * mainExposure, volumeColor.w);
+    float3 result = make_float3(::optix::clamp(volumeColor, 0.f, 1.f));
+
+    // Fog attenuation
     const float3 hit_point = ray.origin + t_hit * ray.direction;
     const float z = optix::length(eye - hit_point);
     const float fogAttenuation = z > fogStart ? optix::clamp((z - fogStart) / fogThickness, 0.f, 1.f) : 0.f;
     result = (result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor(ray.direction));
 
+    // Final result
     prd.result = result;
+    prd.importance = volumeColor.w;
 }
 
 RT_PROGRAM void any_hit_shadow()
 {
-    dicomShadowed(Ko);
-}
-
-static __device__ inline void shade(bool textured)
-{
-    dicomShade();
+    rtTerminateRay();
 }
 
 RT_PROGRAM void closest_hit_radiance()
 {
-    shade(false);
+    dicomShade();
 }
 
 RT_PROGRAM void closest_hit_radiance_textured()
 {
-    shade(true);
+    dicomShade();
 }
 
 RT_PROGRAM void exception()

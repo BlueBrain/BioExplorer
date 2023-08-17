@@ -344,7 +344,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         }
     }
 
-    float4 finalColor = make_float4(color, 1.f);
+    float4 finalColor = make_float4(color, ::optix::luminance(p_Ko));
 
     // Volume
     const float4 volumeColor = getVolumeContribution(ray);

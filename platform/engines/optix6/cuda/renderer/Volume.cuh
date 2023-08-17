@@ -94,9 +94,6 @@ static __device__ float getVolumeShadowContribution(const ::optix::Ray& volumeRa
 
 static __device__ float4 getVolumeContribution(const ::optix::Ray& volumeRay)
 {
-    if (tfColors.size() == 0)
-        return make_float4(0.f, 1.f, 0.f, 0.f);
-
     float4 pathColor = make_float4(0.f, 0.f, 0.f, 0.f);
     float t0, t1;
     if (!volumeIntersection(volumeRay, t0, t1))
@@ -109,8 +106,9 @@ static __device__ float4 getVolumeContribution(const ::optix::Ray& volumeRay)
 
     const float diag = min(volumeElementSpacing.x, min(volumeElementSpacing.y, volumeElementSpacing.z));
     float tstep = diag / volumeSamplingRate;
+
     const float random = rnd(seed) * tstep;
-    float t = max(0.f, t0) + random;
+    float t = t0 + random;
     bool shading = true;
     bool startAdaptiveSampling = false;
 
@@ -235,9 +233,6 @@ static __device__ float4 getVolumeContribution(const ::optix::Ray& volumeRay)
             tstep *= (1.f + volumeAdaptiveMaxSamplingRate / 100.f);
         t += tstep;
     }
-
-    // Apply exposure
-    pathColor = make_float4(make_float3(pathColor) * mainExposure, pathColor.w);
 
     // Combine with background color
     compose(make_float4(getEnvironmentColor(ray.direction), 1.f - pathColor.w), pathColor);
