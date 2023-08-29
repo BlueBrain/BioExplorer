@@ -26,6 +26,7 @@
 
 #include "OptiXCommonStructs.h"
 #include "OptiXContext.h"
+#include "OptiXUtils.h"
 
 #include <platform/core/common/Logs.h>
 
@@ -33,11 +34,13 @@ namespace core
 {
 OptiXMaterial::~OptiXMaterial()
 {
+    /*
     for (auto& i : _textureSamplers)
-        i.second->destroy();
-
-    if (_optixMaterial)
-        _optixMaterial->destroy();
+    {
+        RT_DESTROY(i.second);
+    }
+    RT_DESTROY(_optixMaterial);
+    */
 }
 
 bool OptiXMaterial::isTextured() const
@@ -62,6 +65,7 @@ void OptiXMaterial::commit()
     _optixMaterial[CONTEXT_MATERIAL_USER_PARAMETER]->setFloat(_userParameter);
     _optixMaterial[CONTEXT_MATERIAL_CAST_USER_DATA]->setUint(_castUserData);
     _optixMaterial[CONTEXT_MATERIAL_CLIPPING_MODE]->setUint(_clippingMode);
+    _optixMaterial[CONTEXT_MATERIAL_VALUE_RANGE]->setFloat(_valueRange.x, _valueRange.y);
 
     for (const auto& textureDescriptor : getTextureDescriptors())
     {

@@ -48,9 +48,9 @@ public:
     PLATFORM_API virtual void setDataRange(const Vector2f& range) = 0;
 
     /*
-     * @brief Gets the range of data in the volume.
+     * @brief Gets the range of values in the volume.
      */
-    PLATFORM_API Vector2f getDataRange() const { return _dataRange; }
+    PLATFORM_API Vector2f getDataRange() const { return _valueRange; }
 
     /**
      * @brief Commits changes to the volume.
@@ -82,6 +82,6 @@ protected:
     const Vector3f _spacing;            // The spacing between voxels as a Vector3f object.
     const Vector3f _offset;             // Volume offset
     const DataType _dataType;           // The data type of the volume.
-    Vector2f _dataRange{-1e6f, 1e6f};   // The voxel data range in the volume.
+    Vector2f _valueRange{-1e6f, 1e6f};  // The voxel value range in the volume.
 };
 } // namespace core

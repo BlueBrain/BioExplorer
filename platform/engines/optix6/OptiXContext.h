@@ -112,6 +112,7 @@ const std::string CONTEXT_MATERIAL_SHADING_MODE = "shading_mode";
 const std::string CONTEXT_MATERIAL_USER_PARAMETER = "user_parameter";
 const std::string CONTEXT_MATERIAL_CAST_USER_DATA = "cast_user_data";
 const std::string CONTEXT_MATERIAL_CLIPPING_MODE = "clipping_mode";
+const std::string CONTEXT_MATERIAL_VALUE_RANGE = "value_range";
 const std::string CONTEXT_MATERIAL_RADIANCE_LODS = "radianceLODs";
 
 // Frame buffer

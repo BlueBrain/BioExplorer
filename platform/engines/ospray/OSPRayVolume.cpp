@@ -96,8 +96,8 @@ OSPRaySharedDataVolume::OSPRaySharedDataVolume(const Vector3ui& dimensions, cons
 
 void OSPRayVolume::setDataRange(const Vector2f& range)
 {
-    _dataRange = range;
-    osphelper::set(_volume, "voxelRange", _dataRange);
+    _valueRange = range;
+    osphelper::set(_volume, "voxelRange", _valueRange);
     markModified();
 }
 

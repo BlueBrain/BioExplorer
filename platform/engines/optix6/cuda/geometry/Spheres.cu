@@ -79,6 +79,7 @@ static __device__ void intersect_sphere(int primIdx)
         {
             shading_normal = geometric_normal = (O + (root1 + root11) * D) / radius;
             simulation_idx = userData;
+            texcoord = make_float2(0.f);
             texcoord3d = make_float3(0.f);
             if (rtReportIntersection(0))
                 check_second = false;
@@ -90,6 +91,7 @@ static __device__ void intersect_sphere(int primIdx)
             {
                 shading_normal = geometric_normal = (O + root2 * D) / radius;
                 simulation_idx = userData;
+                texcoord = make_float2(0.f);
                 texcoord3d = make_float3(0.f);
                 rtReportIntersection(0);
             }

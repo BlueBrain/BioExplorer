@@ -225,6 +225,7 @@ enum class GeometryQuality
 const size_t NO_MATERIAL = std::numeric_limits<size_t>::max();
 const size_t BOUNDINGBOX_MATERIAL_ID = NO_MATERIAL - 1;
 const size_t SECONDARY_MODEL_MATERIAL_ID = NO_MATERIAL - 2;
+const size_t VOLUME_MATERIAL_ID = NO_MATERIAL - 3;
 
 const std::string IRRADIANCE_MAP = "-irradiance";
 const std::string RADIANCE_MAP = "-radiance";
@@ -244,13 +245,14 @@ enum class TextureType : uint8_t
     radiance,
     irradiance,
     brdf_lut,
-    volume
+    volume,
+    transfer_function
 };
 
-static std::string textureTypeToString[13] = {
-    "albedoMetallic_map", "normalRoughness_map", "bump_map",      "aoEmissive_map", "map_ns",         "map_d",
-    "map_reflection",     "map_refraction",      "map_occlusion", "radiance_map",   "irradiance_map", "brdf_lut",
-    "volume_map"};
+const strings textureTypeToString{
+    "albedoMetallic_map", "normalRoughness_map",  "bump_map",      "aoEmissive_map", "map_ns",         "map_d",
+    "map_reflection",     "map_refraction",       "map_occlusion", "radiance_map",   "irradiance_map", "brdf_lut",
+    "volume_map",         "transfer_function_map"};
 
 enum class MemoryMode
 {

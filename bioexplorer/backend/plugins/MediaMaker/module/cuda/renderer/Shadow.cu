@@ -21,7 +21,7 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <platform/engines/optix6/cuda/Context.cuh>
+#include <platform/engines/optix6/cuda/Helpers.cuh>
 #include <platform/engines/optix6/cuda/Random.cuh>
 
 // Rendering
@@ -70,7 +70,10 @@ static __device__ inline void shade()
             {
                 PerRayData_shadow shadow_prd;
                 shadow_prd.attenuation = make_float3(1.f);
-                optix::Ray shadow_ray(hit_point, lightDirection, shadowRayType, sceneEpsilon, rayLength);
+                float near = sceneEpsilon;
+                float far = rayLength;
+                applyClippingPlanes(hit_point, lightDirection, near, far);
+                optix::Ray shadow_ray(hit_point, lightDirection, shadowRayType, near, far);
                 rtTrace(top_shadower, shadow_ray, shadow_prd);
 
                 // light_attenuation is zero if completely shadowed

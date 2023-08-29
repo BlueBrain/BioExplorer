@@ -39,15 +39,14 @@ static __device__ void dicomShade()
     float4 voxelColor = make_float4(Kd, luminance(Ko));
     if (volume_map != 0)
     {
-        const float voxelValue = optix::rtTex3D<float>(volume_map, texcoord3d.x, texcoord3d.y, texcoord3d.z);
-        voxelColor = calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, voxelValue, tfColors, tfOpacities);
+        const float voxelValue = rtTex3D<float>(volume_map, texcoord3d.x, texcoord3d.y, texcoord3d.z);
+        voxelColor = calcTransferFunctionColor(transfer_function_map, value_range, voxelValue);
     }
 
     const float3 hit_point = ray.origin + t_hit * ray.direction;
-    float cosNL = 1.f;
 
     float3 normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
-    optix::size_t2 screen = output_buffer.size();
+    size_t2 screen = output_buffer.size();
     unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
 
     // Shadows
@@ -83,7 +82,7 @@ static __device__ void dicomShade()
                 float near = sceneEpsilon + surfaceOffset;
                 float far = giDistance;
                 applyClippingPlanes(hit_point, lightDirection, near, far);
-                optix::Ray shadow_ray(hit_point, lightDirection, shadowRayType, near, far);
+                Ray shadow_ray(hit_point, lightDirection, shadowRayType, near, far);
                 rtTrace(top_shadower, shadow_ray, shadow_prd);
 
                 light_attenuation -= shadows * (1.f - luminance(shadow_prd.attenuation));
@@ -117,24 +116,118 @@ static __device__ void dicomShade()
                     lightDirection += softShadows * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
                 lightDirection = normalize(lightDirection);
             }
-            cosNL = max(0.f, dot(normal, lightDirection));
-            cosNL = DEFAULT_SHADING_AMBIENT + (1.f - DEFAULT_SHADING_AMBIENT) * cosNL;
-            float3 specularColor = make_float3(0.f);
+            float nDl = dot(normal, lightDirection);
+            const float3 Lc = light.color * light_attenuation;
+            float3 directLightingColor = make_float3(0.f);
+            const float3 color = make_float3(voxelColor);
+            float opacity = voxelColor.w;
+            switch (shading_mode)
+            {
+            case MaterialShadingMode::diffuse:
+            case MaterialShadingMode::diffuse_transparency:
+            case MaterialShadingMode::perlin:
+            {
+                float pDl = 1.f;
+                if (shading_mode == MaterialShadingMode::perlin)
+                {
+                    const float3 point = user_parameter * hit_point;
+                    const float n1 = 0.25f + 0.75f * clamp(worleyNoise(point, 2.f), 0.f, 1.f);
+                    pDl = 1.f - n1;
+                    normal.x += 0.5f * n1;
+                    normal.y += 0.5f * (0.5f - n1);
+                    normal.z += 0.5f * (0.25f - n1);
+                    normal = normalize(normal);
+                }
 
-            // Specular
-            const float power = pow(cosNL, specularExponent);
-            specularColor = power * volumeSpecularColor;
-
-            voxelColor = make_float4(make_float3(voxelColor) * cosNL + specularColor, voxelColor.w);
+                // Diffuse
+                directLightingColor += light_attenuation * color * nDl * pDl * Lc;
+                const float3 H = normalize(lightDirection - ray.direction);
+                const float nDh = dot(normal, H);
+                if (nDh > 0.f)
+                {
+                    // Specular
+                    const float power = pow(nDh, phong_exp);
+                    directLightingColor += Ks * power * Lc;
+                }
+                if (shading_mode == MaterialShadingMode::diffuse_transparency)
+                    opacity *= nDh;
+                break;
+            }
+            case MaterialShadingMode::cartoon:
+            {
+                float cosNL = max(0.f, dot(normalize(eye - hit_point), normal));
+                const uint angleAsInt = cosNL * user_parameter;
+                cosNL = (float)angleAsInt / user_parameter;
+                directLightingColor += light_attenuation * color * cosNL * Lc;
+                break;
+            }
+            case MaterialShadingMode::basic:
+            {
+                const float cosNL = max(0.f, dot(normalize(eye - hit_point), normal));
+                directLightingColor += light_attenuation * color * cosNL * Lc;
+                break;
+            }
+            case MaterialShadingMode::electron:
+            case MaterialShadingMode::electron_transparency:
+            {
+                float cosNL = max(0.f, dot(normalize(eye - hit_point), normal));
+                cosNL = 1.f - pow(cosNL, user_parameter);
+                directLightingColor += light_attenuation * color * cosNL * Lc;
+                if (shading_mode == MaterialShadingMode::electron_transparency)
+                    opacity *= cosNL;
+                break;
+            }
+            case MaterialShadingMode::checker:
+            {
+                const int3 point = make_int3(user_parameter * (hit_point + make_float3(1e2f)));
+                const int3 p = make_int3(point.x % 2, point.y % 2, point.z % 2);
+                if ((p.x == p.y && p.z == 1) || (p.x != p.y && p.z == 0))
+                    directLightingColor += light_attenuation * color;
+                else
+                    directLightingColor += light_attenuation * (1.f - color);
+                break;
+            }
+            case MaterialShadingMode::goodsell:
+            {
+                const float cosNL = max(0.f, dot(normalize(eye - hit_point), normal));
+                directLightingColor += light_attenuation * color * (cosNL > user_parameter ? 1.f : 0.5f);
+                break;
+            }
+            default:
+            {
+                directLightingColor += light_attenuation * color;
+                break;
+            }
+            }
+            voxelColor = make_float4(directLightingColor, opacity);
         }
 
         // Alpha ratio
         voxelColor = make_float4(make_float3(voxelColor) * DEFAULT_SHADING_ALPHA_RATIO, voxelColor.w);
     }
+    const float opacity = voxelColor.w;
     result = make_float3(voxelColor) * light_attenuation * voxelColor.w;
 
+    // Reflection
+    const float reflectionIndex = fmaxf(Kr);
+    if (reflectionIndex > 0.f && voxelColor.w > 0.f && prd.depth < maxBounces)
+    {
+        PerRayData_radiance reflected_prd;
+        reflected_prd.result = make_float3(0.f);
+        reflected_prd.importance = prd.importance * reflectionIndex;
+        reflected_prd.depth = prd.depth + 1;
+
+        const float3 reflectedNormal = reflect(ray.direction, normal);
+        float near = sceneEpsilon + surfaceOffset;
+        float far = giDistance;
+        applyClippingPlanes(hit_point, reflectedNormal, near, far);
+
+        const Ray reflected_ray(hit_point, reflectedNormal, radianceRayType, near, far);
+        rtTrace(top_object, reflected_ray, reflected_prd);
+        result = result * (1.f - Kr) + Kr * reflected_prd.result;
+    }
+
     // Refraction
-    const float opacity = voxelColor.w;
     if (voxelColor.w < 1.f && prd.depth < maxBounces)
     {
         PerRayData_radiance refracted_prd;
@@ -142,14 +235,19 @@ static __device__ void dicomShade()
         refracted_prd.importance = prd.importance * (1.f - opacity);
         refracted_prd.depth = prd.depth + 1;
 
-        const optix::Ray refracted_ray(hit_point, ray.direction, radianceRayType, sceneEpsilon);
+        const float3 refractedNormal = refractedVector(ray.direction, normal, refraction_index, 1.f);
+        float near = sceneEpsilon + surfaceOffset;
+        float far = giDistance;
+        applyClippingPlanes(hit_point, refractedNormal, near, far);
+
+        const Ray refracted_ray(hit_point, refractedNormal, radianceRayType, near, far);
         rtTrace(top_object, refracted_ray, refracted_prd);
         result = result * opacity + (1.f - opacity) * refracted_prd.result;
     }
 
     // Fog attenuation
-    const float z = optix::length(eye - hit_point);
-    const float fogAttenuation = z > fogStart ? optix::clamp((z - fogStart) / fogThickness, 0.f, 1.f) : 0.f;
+    const float z = length(eye - hit_point);
+    const float fogAttenuation = z > fogStart ? clamp((z - fogStart) / fogThickness, 0.f, 1.f) : 0.f;
     result = (result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor(ray.direction));
 
     // Final result

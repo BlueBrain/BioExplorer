@@ -86,3 +86,8 @@ RT_PROGRAM void closest_hit_radiance()
 {
     shade();
 }
+
+RT_PROGRAM void closest_hit_radiance_textured()
+{
+    shade();
+}

@@ -67,6 +67,7 @@ rtDeclareVariable(uint, shading_mode, , );
 rtDeclareVariable(float, user_parameter, , );
 rtDeclareVariable(uint, cast_user_data, , );
 rtDeclareVariable(uint, clipping_mode, , );
+rtDeclareVariable(float2, value_range, , );
 
 // Textures
 rtDeclareVariable(int, albedoMetallic_map, , );
@@ -82,6 +83,7 @@ rtDeclareVariable(int, radiance_map, , );
 rtDeclareVariable(int, irradiance_map, , );
 rtDeclareVariable(int, brdf_lut, , );
 rtDeclareVariable(int, volume_map, , );
+rtDeclareVariable(int, transfer_function_map, , );
 rtDeclareVariable(float2, texcoord, attribute texcoord, );
 rtDeclareVariable(float3, texcoord3d, attribute texcoord3d, );
 

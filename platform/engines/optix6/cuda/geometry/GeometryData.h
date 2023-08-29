@@ -165,7 +165,9 @@ struct GeometryData
         float3 dimensions;
         float3 position;
         float3 spacing;
-        float textureSamplerId;
+        float volumeSamplerId;
+        float transferFunctionSamplerId;
+        float2 valueRange;
     };
 
     Type type;

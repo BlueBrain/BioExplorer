@@ -37,7 +37,6 @@ class OptiXVolume : public SharedDataVolume
 public:
     OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const Vector3f& spacing, const DataType dataType,
                 const VolumeParameters& params);
-    ~OptiXVolume();
 
     void setDataRange(const Vector2f&) final{};
     void commit() final{};
@@ -54,8 +53,6 @@ protected:
 
     RTformat _dataType{RT_FORMAT_UNSIGNED_BYTE};
     uint64_t _dataTypeSize{1};
-    ::optix::Buffer _buffer{nullptr};
-    optix::TextureSampler _sampler{nullptr};
 
 private:
     OptiXModel* _model{nullptr};

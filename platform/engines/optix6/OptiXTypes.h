@@ -40,7 +40,9 @@ struct VolumeGeometry
     Vector3f dimensions;
     Vector3f position;
     Vector3f spacing;
-    float textureSamplerId;
+    float volumeSamplerId;
+    float transferFunctionSamplerId;
+    Vector2f valueRange;
 };
 
 } // namespace core

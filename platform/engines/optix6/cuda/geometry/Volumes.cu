@@ -31,7 +31,9 @@ using namespace optix;
 const uint OFFSET_DIMENSIONS = 0;
 const uint OFFSET_POSITION = OFFSET_DIMENSIONS + 3;
 const uint OFFSET_SPACING = OFFSET_POSITION + 3;
-const uint OFFSET_TEXTURE_SAMPLER_ID = OFFSET_SPACING + 3;
+const uint OFFSET_VOLUME_TEXTURE_SAMPLER_ID = OFFSET_SPACING + 3;
+const uint OFFSET_TRANSFER_FUNCTION_TEXTURE_SAMPLER_ID = OFFSET_VOLUME_TEXTURE_SAMPLER_ID + 1;
+const uint OFFSET_VALUE_RANGE = OFFSET_TRANSFER_FUNCTION_TEXTURE_SAMPLER_ID + 1;
 
 rtDeclareVariable(unsigned int, volume_size, , );
 
@@ -47,8 +49,9 @@ static __device__ void intersect_volume(int primIdx)
                              volumes[idx + OFFSET_POSITION + 2]};
     const float3 spacing = {volumes[idx + OFFSET_SPACING], volumes[idx + OFFSET_SPACING + 1],
                             volumes[idx + OFFSET_SPACING + 2]};
-
-    const int textureSamplerId = static_cast<int>(volumes[idx + OFFSET_TEXTURE_SAMPLER_ID]);
+    const int volumeSamplerId = static_cast<int>(volumes[idx + OFFSET_VOLUME_TEXTURE_SAMPLER_ID]);
+    const int transferFunctionSamplerId = static_cast<int>(volumes[idx + OFFSET_TRANSFER_FUNCTION_TEXTURE_SAMPLER_ID]);
+    const float2 valueRange = {volumes[idx + OFFSET_VALUE_RANGE], volumes[idx + OFFSET_VALUE_RANGE + 1]};
 
     const float3 boxMin = position;
     const float3 boxMax = position + dimensions * spacing;
@@ -65,7 +68,7 @@ static __device__ void intersect_volume(int primIdx)
 
     const float diag = min(spacing.x, min(spacing.y, spacing.z));
     const float step = diag / volumeSamplingRate;
-    const float random = rnd(seed) * step;
+    const float random = rnd(seed) * step * 5.f;
 
     // Apply ray clipping
     t0 = max(t0, ray.tmin);
@@ -77,11 +80,10 @@ static __device__ void intersect_volume(int primIdx)
         while (t < t1)
         {
             const float3 p0 = ((ray.origin + t * ray.direction) - position) / (spacing * dimensions);
-            const float voxelValue = optix::rtTex3D<float>(textureSamplerId, p0.x, p0.y, p0.z);
-            const float4 voxelColor =
-                calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, voxelValue, tfColors, tfOpacities);
+            const float voxelValue = optix::rtTex3D<float>(volumeSamplerId, p0.x, p0.y, p0.z);
+            const float4 voxelColor = calcTransferFunctionColor(transferFunctionSamplerId, valueRange, voxelValue);
             if (voxelColor.w > 0.f)
-                if (rtPotentialIntersection(t + step))
+                if (rtPotentialIntersection(t - sceneEpsilon))
                 {
                     float3 normal = make_float3(0.f);
                     if (volumeGradientShadingEnabled)
@@ -91,17 +93,17 @@ static __device__ void intersect_volume(int primIdx)
                         for (const auto& position : positions)
                         {
                             const float3 p1 = p0 + (position * DEFAULT_GRADIENT_OFFSET);
-                            const float v = optix::rtTex3D<float>(textureSamplerId, p1.x, p1.y, p1.z);
-                            // if (v > DEFAULT_VOLUME_SHADING_THRESHOLD)
+                            const float v = optix::rtTex3D<float>(volumeSamplerId, p1.x, p1.y, p1.z);
                             normal += v * position;
                         }
                         normal = ::optix::normalize(-1.f * normal);
                     }
                     else
                         normal = make_float3(0, 1, 0);
+
                     geometric_normal = shading_normal = normal;
                     simulation_idx = 0;
-                    texcoord = make_float2(0, 0);
+                    texcoord = make_float2(0.f);
                     texcoord3d = p0;
                     rtReportIntersection(0);
                     break;

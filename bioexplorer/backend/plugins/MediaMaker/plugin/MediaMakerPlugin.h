@@ -56,6 +56,7 @@ private:
     ExportFramesToDisk _exportFramesToDiskPayload;
     bool _exportFramesToDiskDirty{false};
     uint16_t _frameNumber{0};
+    Vector2ui _frameBufferSize;
     int16_t _accumulationFrameNumber{0};
     std::string _baseName;
 

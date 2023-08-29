@@ -40,8 +40,8 @@ static __device__ inline void shade(bool textured)
 
     if (simulation_data.size() > 0)
     {
-        const float4 userDataColor = calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange,
-                                                               simulation_data[simulation_idx], tfColors, tfOpacities);
+        const float4 userDataColor =
+            calcTransferFunctionColor(transfer_function_map, value_range, simulation_data[simulation_idx]);
         p_Kd = p_Kd * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;
     }
 

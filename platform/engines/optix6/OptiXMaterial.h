@@ -45,8 +45,11 @@ public:
     auto getTextureSampler(const TextureType type) const { return _textureSamplers.at(type); }
     auto& getTextureSamplers() { return _textureSamplers; }
 
+    void setValueRange(const Vector2f& valueRange) { _valueRange = valueRange; }
+
 private:
     ::optix::Material _optixMaterial{nullptr};
     std::map<TextureType, ::optix::TextureSampler> _textureSamplers;
+    Vector2f _valueRange;
 };
 } // namespace core

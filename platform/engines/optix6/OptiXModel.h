@@ -73,6 +73,7 @@ private:
     void _commitCylinders(const size_t materialId);
     void _commitCones(const size_t materialId);
     void _commitMeshes(const size_t materialId);
+    void _commitVolumes(const size_t materialId);
     void _commitMaterials();
     bool _commitSimulationData();
     bool _commitTransferFunction();
@@ -110,7 +111,7 @@ private:
 
     // Volume
     ::optix::Buffer _volumeBuffer{nullptr};
-    std::vector<VolumeGeometry> _volumeGeometries;
+    std::map<size_t, VolumeGeometry> _volumeGeometries;
 
     // Materials and textures
     std::map<std::string, optix::Buffer> _optixTextures;

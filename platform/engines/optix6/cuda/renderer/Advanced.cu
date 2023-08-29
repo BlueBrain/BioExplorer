@@ -33,79 +33,6 @@ rtDeclareVariable(float, epsilonFactor, , );
 rtDeclareVariable(int, softShadowsSamples, , );
 rtDeclareVariable(unsigned int, matrixFilter, , );
 
-static __device__ inline float3 frac(const float3 x)
-{
-    return x - optix::floor(x);
-}
-
-static __device__ inline float mix(const float x, const float y, const float a)
-{
-    return x * (1.f - a) + y * a;
-}
-
-static __device__ inline float hash(float n)
-{
-    return frac(make_float3(sin(n + 1.951f) * 43758.5453f)).x;
-}
-
-static __device__ float noise(const float3& x)
-{
-    // hash based 3d value noise
-    float3 p = optix::floor(x);
-    float3 f = frac(x);
-
-    f = f * f * (make_float3(3.0f) - make_float3(2.0f) * f);
-    float n = p.x + p.y * 57.0f + 113.0f * p.z;
-    return mix(mix(mix(hash(n + 0.0f), hash(n + 1.0f), f.x), mix(hash(n + 57.0f), hash(n + 58.0f), f.x), f.y),
-               mix(mix(hash(n + 113.0f), hash(n + 114.0f), f.x), mix(hash(n + 170.0f), hash(n + 171.0f), f.x), f.y),
-               f.z);
-}
-
-static __device__ inline float3 mod(const float3& v, const int m)
-{
-    return make_float3(v.x - m * floor(v.x / m), v.y - m * floor(v.y / m), v.z - m * floor(v.z / m));
-}
-
-static __device__ float cells(const float3& p, float cellCount)
-{
-    const float3 pCell = p * cellCount;
-    float d = 1.0e10;
-    for (int xo = -1; xo <= 1; xo++)
-    {
-        for (int yo = -1; yo <= 1; yo++)
-        {
-            for (int zo = -1; zo <= 1; zo++)
-            {
-                float3 tp = floor(pCell) + make_float3(xo, yo, zo);
-
-                tp = pCell - tp - noise(mod(tp, cellCount / 1));
-
-                d = min(d, optix::dot(tp, tp));
-            }
-        }
-    }
-    d = min(d, 1.0f);
-    d = max(d, 0.0f);
-    return d;
-}
-
-static __device__ float worleyNoise(const float3& p, float cellCount)
-{
-    return cells(p, cellCount);
-}
-
-static __device__ float3 refractedVector(const float3 direction, const float3 normal, const float n1, const float n2)
-{
-    if (n2 == 0.f)
-        return direction;
-    const float eta = n1 / n2;
-    const float cos1 = -optix::dot(direction, normal);
-    const float cos2 = 1.f - eta * eta * (1.f - cos1 * cos1);
-    if (cos2 > 0.f)
-        return ::optix::normalize(eta * direction + (eta * cos1 - sqrt(cos2)) * normal);
-    return direction;
-}
-
 static __device__ void phongShadowed(float3 p_Ko)
 {
     // this material is opaque, so it fully attenuates all shadow rays
@@ -129,8 +56,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         if (cast_user_data && simulation_data.size() > 0)
         {
             const float4 userDataColor =
-                calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, simulation_data[simulation_idx], tfColors,
-                                          tfOpacities);
+                calcTransferFunctionColor(transfer_function_map, value_range, simulation_data[simulation_idx]);
             Kd = Kd * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;
         }
 
@@ -380,8 +306,7 @@ static __device__ inline void shade(bool textured)
         if (volume_map != 0)
         {
             const float voxelValue = optix::rtTex3D<float>(volume_map, texcoord3d.x, texcoord3d.y, texcoord3d.z);
-            const float4 voxelColor =
-                calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, voxelValue, tfColors, tfOpacities);
+            const float4 voxelColor = calcTransferFunctionColor(transfer_function_map, value_range, voxelValue);
             p_Kd = make_float3(voxelColor);
             p_Ko = make_float3(voxelColor.w);
         }

@@ -26,6 +26,8 @@
 
 #include <platform/core/parameters/VolumeParameters.h>
 
+using namespace optix;
+
 namespace core
 {
 OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const Vector3f& spacing,
@@ -69,23 +71,14 @@ OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const V
     }
 }
 
-OptiXVolume::~OptiXVolume()
-{
-    RT_DESTROY(_buffer);
-    RT_DESTROY(_sampler);
-}
-
 void OptiXVolume::setVoxels(const void* voxels)
 {
-    RT_DESTROY(_buffer);
-    RT_DESTROY(_sampler);
-
     auto context = OptiXContext::get().getOptixContext();
-    optix::Buffer _buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _dimensions.x,
-                                                           _dimensions.y, _dimensions.z, 1u);
+    Buffer buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _dimensions.x, _dimensions.y,
+                                                   _dimensions.z, 1u);
     const uint64_t volumeSize = _dimensions.x * _dimensions.y * _dimensions.z;
-    float* volumeAsFloats = (float*)_buffer->map();
-    _dataRange = Vector2f(1e6, -1e6);
+    float* volumeAsFloats = (float*)buffer->map();
+    _valueRange = Vector2f(1e6, -1e6);
 
     for (uint64_t i = 0; i < volumeSize; ++i)
     {
@@ -97,8 +90,8 @@ void OptiXVolume::setVoxels(const void* voxels)
             int8_t* v = (int8_t*)voxels;
             memcpy(&value, v + i, sizeof(int8_t));
             volumeAsFloats[i] = value;
-            _dataRange.x = std::min(_dataRange.x, (float)value);
-            _dataRange.y = std::max(_dataRange.y, (float)value);
+            _valueRange.x = std::min(_valueRange.x, (float)value);
+            _valueRange.y = std::max(_valueRange.y, (float)value);
             break;
         }
         case RT_FORMAT_UNSIGNED_BYTE:
@@ -107,8 +100,8 @@ void OptiXVolume::setVoxels(const void* voxels)
             uint8_t* v = (uint8_t*)voxels;
             memcpy(&value, v + i, sizeof(uint8_t));
             volumeAsFloats[i] = value;
-            _dataRange.x = std::min(_dataRange.x, (float)value);
-            _dataRange.y = std::max(_dataRange.y, (float)value);
+            _valueRange.x = std::min(_valueRange.x, (float)value);
+            _valueRange.y = std::max(_valueRange.y, (float)value);
             break;
         }
         case RT_FORMAT_INT:
@@ -117,8 +110,8 @@ void OptiXVolume::setVoxels(const void* voxels)
             int16_t* v = (int16_t*)voxels;
             memcpy(&value, v + i, sizeof(int16_t));
             volumeAsFloats[i] = value;
-            _dataRange.x = std::min(_dataRange.x, (float)value);
-            _dataRange.y = std::max(_dataRange.y, (float)value);
+            _valueRange.x = std::min(_valueRange.x, (float)value);
+            _valueRange.y = std::max(_valueRange.y, (float)value);
             break;
         }
         case RT_FORMAT_UNSIGNED_INT:
@@ -127,8 +120,8 @@ void OptiXVolume::setVoxels(const void* voxels)
             uint16_t* v = (uint16_t*)voxels;
             memcpy(&value, v + i, sizeof(uint16_t));
             volumeAsFloats[i] = value;
-            _dataRange.x = std::min(_dataRange.x, (float)value);
-            _dataRange.y = std::max(_dataRange.y, (float)value);
+            _valueRange.x = std::min(_valueRange.x, (float)value);
+            _valueRange.y = std::max(_valueRange.y, (float)value);
             break;
         }
         case RT_FORMAT_FLOAT:
@@ -137,38 +130,42 @@ void OptiXVolume::setVoxels(const void* voxels)
             float* v = (float*)voxels;
             memcpy(&value, v + i, sizeof(float));
             volumeAsFloats[i] = value;
-            _dataRange.x = std::min(_dataRange.x, (float)value);
-            _dataRange.y = std::max(_dataRange.y, (float)value);
+            _valueRange.x = std::min(_valueRange.x, (float)value);
+            _valueRange.y = std::max(_valueRange.y, (float)value);
             break;
         }
         }
     }
-    _buffer->unmap();
+    buffer->unmap();
 
     // Volume as texture
-    const size_t materialId = 0;
+    const size_t materialId = VOLUME_MATERIAL_ID;
     auto material = static_cast<OptiXMaterial*>(_model->getMaterial(materialId).get());
+    material->setValueRange(_valueRange);
     auto& textureSamplers = material->getTextureSamplers();
     const auto it = textureSamplers.find(TextureType::volume);
     if (it != textureSamplers.end())
         textureSamplers.erase(it);
-    _sampler = context->createTextureSampler();
-    _sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
-    _sampler->setWrapMode(1, RT_WRAP_CLAMP_TO_EDGE);
-    _sampler->setWrapMode(2, RT_WRAP_CLAMP_TO_EDGE);
-    _sampler->setIndexingMode(RT_TEXTURE_INDEX_NORMALIZED_COORDINATES);
-    _sampler->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
-    _sampler->setBuffer(0u, 0u, _buffer);
-    _sampler->setFilteringModes(RT_FILTER_LINEAR, RT_FILTER_LINEAR, RT_FILTER_NONE);
-    textureSamplers.insert(std::make_pair(TextureType::volume, _sampler));
+
+    TextureSampler sampler = context->createTextureSampler();
+    sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
+    sampler->setWrapMode(1, RT_WRAP_CLAMP_TO_EDGE);
+    sampler->setWrapMode(2, RT_WRAP_CLAMP_TO_EDGE);
+    sampler->setIndexingMode(RT_TEXTURE_INDEX_NORMALIZED_COORDINATES);
+    sampler->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
+    sampler->setBuffer(0u, 0u, buffer);
+    sampler->setFilteringModes(RT_FILTER_LINEAR, RT_FILTER_LINEAR, RT_FILTER_NONE);
+    textureSamplers.insert(std::make_pair(TextureType::volume, sampler));
     auto optixMaterial = material->getOptixMaterial();
     const auto textureName = textureTypeToString[static_cast<uint8_t>(TextureType::volume)];
-    optixMaterial[textureName]->setInt(_sampler->getId());
+    optixMaterial[textureName]->setInt(sampler->getId());
     material->commit();
 
-    const auto textureSamplerId = _sampler->getId();
+    const auto volumeSamplerId = sampler->getId();
     auto& volumeGeometries = _model->getVolumeGeometries();
-    volumeGeometries[materialId].textureSamplerId = textureSamplerId;
+
+    volumeGeometries[materialId].volumeSamplerId = volumeSamplerId;
+    volumeGeometries[materialId].valueRange = _valueRange;
     _model->commitVolumesBuffers(materialId);
 }
 
