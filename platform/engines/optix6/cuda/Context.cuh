@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, EPFL/Blue Brain Project
+ * Copyright (c) 2019-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
@@ -97,6 +97,7 @@ rtDeclareVariable(float, shadows, , );
 rtDeclareVariable(float, softShadows, , );
 rtDeclareVariable(float, fogStart, , );
 rtDeclareVariable(float, fogThickness, , );
+rtDeclareVariable(int, maxBounces, , );
 
 // Clipping planes
 rtBuffer<float4, 1> clippingPlanes;
@@ -119,15 +120,6 @@ rtBuffer<float> tfOpacities;
 rtDeclareVariable(float, tfMinValue, , );
 rtDeclareVariable(float, tfRange, , );
 rtDeclareVariable(uint, tfSize, , );
-
-// Volume
-rtDeclareVariable(uint3, volumeDimensions, , );
-rtDeclareVariable(float3, volumeOffset, , );
-rtDeclareVariable(float3, volumeElementSpacing, , );
-rtDeclareVariable(uint, volumeSamplesPerRay, , );
-rtDeclareVariable(uint, volumeDataTypeSize, , );
-rtDeclareVariable(uint, volumeDataType, , );
-rtDeclareVariable(int, volumeSampler, , );
 
 // Volume shading
 rtDeclareVariable(uint, volumeGradientShadingEnabled, , );

@@ -1,21 +1,24 @@
 /*
- * Copyright (c) 2019, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
+ *
+ * The Blue Brain BioExplorer is a tool for scientists to extract and analyse
+ * scientific data from visualization
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3.0 as published
- * by the Free Software Foundation.
+ * Copyright 2020-2023 Blue BrainProject / EPFL
  *
- * This library is distributed in the hope that it will be useful, but WITHOUT
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  * details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -292,6 +295,13 @@ static __device__ void applyClippingPlanes(const float3& origin, const float3& d
         else
             far = min(far, t);
     }
+}
+
+static __device__ void compose(const float4& src, float4& dst, const float alphaCorrection = 1.0)
+{
+    const float alpha = alphaCorrection * src.w;
+    dst =
+        make_float4((1.f - dst.w) * alpha * make_float3(src) + dst.w * make_float3(dst), dst.w + alpha * (1.f - dst.w));
 }
 
 #define OPTIX_DUMP_FLOAT(VALUE) rtPrintf(#VALUE " %f\n", VALUE)

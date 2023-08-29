@@ -24,7 +24,6 @@
 #include <platform/engines/optix6/cuda/Context.cuh>
 #include <platform/engines/optix6/cuda/renderer/TransferFunction.cuh>
 
-rtDeclareVariable(int, maxBounces, , );
 rtDeclareVariable(float, alphaCorrection, , );
 rtDeclareVariable(float, simulationThreshold, , );
 

@@ -59,8 +59,9 @@ void _addDICOMRenderer(Engine &engine)
     properties.setProperty({"mainExposure", 1., 0.01, 10., {"Exposure"}});
     properties.setProperty({"specularExponent", 50., 1.0, 100., {"Specular exponent"}});
     properties.setProperty({"giDistance", 10000.0, {"Global illumination distance"}});
+    properties.setProperty({"surfaceOffset", 1., 0.01, 10., {"Surface offset"}});
     properties.setProperty(
-        {"maxBounces", static_cast<int>(OPTIX_MAX_TRACE_DEPTH), 1, 100, {"Maximum number of ray bounces"}});
+        {"maxBounces", 5, 1, static_cast<int>(OPTIX_MAX_TRACE_DEPTH), {"Maximum number of ray bounces"}});
     engine.addRendererType(RENDERER_DICOM, properties);
 }
 

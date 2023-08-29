@@ -76,17 +76,33 @@ static __device__ void intersect_volume(int primIdx)
         float t = t0 + random;
         while (t < t1)
         {
-            const float3 p = ((ray.origin + t * ray.direction) - position) / (spacing * dimensions);
-            const float voxelValue = optix::rtTex3D<float>(textureSamplerId, p.x, p.y, p.z);
+            const float3 p0 = ((ray.origin + t * ray.direction) - position) / (spacing * dimensions);
+            const float voxelValue = optix::rtTex3D<float>(textureSamplerId, p0.x, p0.y, p0.z);
             const float4 voxelColor =
                 calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, voxelValue, tfColors, tfOpacities);
             if (voxelColor.w > 0.f)
                 if (rtPotentialIntersection(t + step))
                 {
-                    geometric_normal = shading_normal = make_float3(voxelValue);
+                    float3 normal = make_float3(0.f);
+                    if (volumeGradientShadingEnabled)
+                    {
+                        const float3 positions[6] = {{-1, 0, 0}, {1, 0, 0},  {0, -1, 0},
+                                                     {0, 1, 0},  {0, 0, -1}, {0, 0, 1}};
+                        for (const auto& position : positions)
+                        {
+                            const float3 p1 = p0 + (position * DEFAULT_GRADIENT_OFFSET);
+                            const float v = optix::rtTex3D<float>(textureSamplerId, p1.x, p1.y, p1.z);
+                            // if (v > DEFAULT_VOLUME_SHADING_THRESHOLD)
+                            normal += v * position;
+                        }
+                        normal = ::optix::normalize(-1.f * normal);
+                    }
+                    else
+                        normal = make_float3(0, 1, 0);
+                    geometric_normal = shading_normal = normal;
                     simulation_idx = 0;
                     texcoord = make_float2(0, 0);
-                    texcoord3d = p;
+                    texcoord3d = p0;
                     rtReportIntersection(0);
                     break;
                 }

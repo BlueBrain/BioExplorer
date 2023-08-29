@@ -367,13 +367,6 @@ void OptiXContext::_initialize()
     _intersects[OptixGeometryType::volume] =
         _optixContext->createProgramFromPTXString(CUDA_VOLUMES, CUDA_FUNC_INTERSECTION);
 
-    // Volumes
-    ::optix::Buffer buffer = _optixContext->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_BYTE, 0);
-    _optixContext[CONTEXT_VOLUME_DATA]->setBuffer(buffer);
-    _optixContext[CONTEXT_VOLUME_DIMENSIONS]->setUint(0, 0, 0);
-    _optixContext[CONTEXT_VOLUME_OFFSET]->setFloat(0.f, 0.f, 0.f);
-    _optixContext[CONTEXT_VOLUME_ELEMENT_SPACING]->setFloat(0.f, 0.f, 0.f);
-
     // Exceptions
     _optixContext[CONTEXT_EXCEPTION_BAD_COLOR]->setFloat(1.0f, 0.0f, 0.0f);
 

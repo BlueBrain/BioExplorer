@@ -354,7 +354,7 @@ SharedDataVolumePtr OptiXModel::createSharedDataVolume(const Vector3ui& dimensio
     auto material = createMaterial(materialId, "Volume");
     material->setDiffuseColor({1, 1, 1});
     material->setSpecularColor({1, 1, 1});
-    material->setOpacity(0.f);
+    material->setOpacity(1.f);
     material->setRefractionIndex(1.f);
 
     _materials[materialId] = material;

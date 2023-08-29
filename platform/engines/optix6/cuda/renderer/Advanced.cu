@@ -30,7 +30,6 @@
 using namespace optix;
 
 rtDeclareVariable(float, epsilonFactor, , );
-rtDeclareVariable(int, maxBounces, , );
 rtDeclareVariable(int, softShadowsSamples, , );
 rtDeclareVariable(unsigned int, matrixFilter, , );
 
@@ -349,11 +348,6 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
 
     float4 finalColor = make_float4(color, ::optix::luminance(p_Ko));
 
-#if 1
-    // Volume
-    const float4 volumeColor = getVolumeContribution(ray);
-    compose(volumeColor, finalColor);
-#endif
     float3 result = make_float3(finalColor);
 
     // Matrix filter :)
@@ -381,7 +375,6 @@ static __device__ inline void shade(bool textured)
 
     float3 p_Kd = Kd;
     float3 p_Ko = Ko;
-#if 0
     if (textured)
     {
         if (volume_map != 0)
@@ -393,9 +386,8 @@ static __device__ inline void shade(bool textured)
             p_Ko = make_float3(voxelColor.w);
         }
         else
-        p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
+            p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
     }
-#endif
 
     phongShade(p_Kd, Ka, Ks, Kr, p_Ko, refraction_index, phong_exp, glossiness, shading_mode, user_parameter, ffnormal);
 }

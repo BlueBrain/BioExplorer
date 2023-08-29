@@ -67,7 +67,6 @@ OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const V
     default:
         throw std::runtime_error("Unsupported voxel type " + std::to_string(int(dataType)));
     }
-    // _createBox(model);
 }
 
 OptiXVolume::~OptiXVolume()
@@ -76,63 +75,12 @@ OptiXVolume::~OptiXVolume()
     RT_DESTROY(_sampler);
 }
 
-void OptiXVolume::_createBox(OptiXModel* model)
-{
-    const Vector3f positions[8] = {
-        {0.f, 0.f, 0.f}, //
-        {1.f, 0.f, 0.f}, //    6--------7
-        {0.f, 1.f, 0.f}, //   /|       /|
-        {1.f, 1.f, 0.f}, //  2--------3 |
-        {0.f, 0.f, 1.f}, //  | |      | |
-        {1.f, 0.f, 1.f}, //  | 4------|-5
-        {0.f, 1.f, 1.f}, //  |/       |/
-        {1.f, 1.f, 1.f}  //  0--------1
-    };
-
-    const uint16_t indices[6][6] = {
-        {5, 4, 6, 6, 7, 5}, // Front
-        {7, 5, 1, 1, 3, 7}, // Right
-        {3, 1, 0, 0, 2, 3}, // Back
-        {2, 0, 4, 4, 6, 2}, // Left
-        {0, 1, 5, 5, 4, 0}, // Bottom
-        {7, 3, 2, 2, 6, 7}  // Top
-    };
-
-    size_t materialId = 0;
-    const Vector3f BLACK = {0.f, 0.f, 0.f};
-    Boxd bounds;
-    for (size_t i = 0; i < 6; ++i)
-    {
-        // Cornell box
-        auto material = model->createMaterial(materialId, "box" + std::to_string(materialId));
-        material->setDiffuseColor(BLACK);
-        material->setSpecularColor(BLACK);
-        material->setOpacity(0.f);
-
-        auto& triangleMesh = model->getTriangleMeshes()[materialId];
-        for (size_t j = 0; j < 6; ++j)
-        {
-            const auto position = Vector3f(_dimensions) * _spacing * positions[indices[i][j]];
-            triangleMesh.vertices.push_back(position);
-            bounds.merge(position);
-        }
-        triangleMesh.indices.push_back(Vector3ui(0, 1, 2));
-        triangleMesh.indices.push_back(Vector3ui(3, 4, 5));
-        ++materialId;
-    }
-    model->mergeBounds(bounds);
-}
-
 void OptiXVolume::setVoxels(const void* voxels)
 {
     RT_DESTROY(_buffer);
     RT_DESTROY(_sampler);
 
     auto context = OptiXContext::get().getOptixContext();
-    context[CONTEXT_VOLUME_DIMENSIONS]->setUint(_dimensions.x, _dimensions.y, _dimensions.z);
-    context[CONTEXT_VOLUME_OFFSET]->setFloat(_offset.x, _offset.y, _offset.z);
-    context[CONTEXT_VOLUME_ELEMENT_SPACING]->setFloat(_spacing.x, _spacing.y, _spacing.z);
-
     optix::Buffer _buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _dimensions.x,
                                                            _dimensions.y, _dimensions.z, 1u);
     const uint64_t volumeSize = _dimensions.x * _dimensions.y * _dimensions.z;
@@ -215,7 +163,6 @@ void OptiXVolume::setVoxels(const void* voxels)
     textureSamplers.insert(std::make_pair(TextureType::volume, _sampler));
     auto optixMaterial = material->getOptixMaterial();
     const auto textureName = textureTypeToString[static_cast<uint8_t>(TextureType::volume)];
-    CORE_INFO("Registering " + textureName + " texture");
     optixMaterial[textureName]->setInt(_sampler->getId());
     material->commit();
 
@@ -223,11 +170,6 @@ void OptiXVolume::setVoxels(const void* voxels)
     auto& volumeGeometries = _model->getVolumeGeometries();
     volumeGeometries[materialId].textureSamplerId = textureSamplerId;
     _model->commitVolumesBuffers(materialId);
-
-    context[CONTEXT_VOLUME_TEXTURE_SAMPLER]->setInt(textureSamplerId);
-    context[CONTEXT_VOLUME_DATA_TYPE]->setUint(_dataType);
-
-    CORE_INFO("Volume range: " << _dataRange);
 }
 
 } // namespace core
