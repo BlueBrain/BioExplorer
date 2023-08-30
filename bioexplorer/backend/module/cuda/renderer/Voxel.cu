@@ -50,8 +50,8 @@ static __device__ inline void shade()
         rtTrace(top_object, new_ray, new_prd);
     }
 
-    color = ::optix::clamp(mainExposure * color, 0.f, 1.f);
-    prd.result = color;
+    color = ::optix::clamp(color, 0.f, 1.f);
+    prd.result = make_float4(color, 1.f);
 }
 
 RT_PROGRAM void any_hit_shadow()

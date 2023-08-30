@@ -207,28 +207,28 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         if (fmaxf(p_Kr) > 0.f && prd.depth < maxBounces)
         {
             PerRayData_radiance reflected_prd;
-            reflected_prd.result = make_float3(0.f);
+            reflected_prd.result = make_float4(0.f);
             reflected_prd.importance = prd.importance * fmaxf(p_Kr);
             reflected_prd.depth = prd.depth + 1;
 
             const float3 R = optix::reflect(ray.direction, normal);
             const optix::Ray reflected_ray(hit_point, R, radianceRayType, sceneEpsilon, giDistance);
             rtTrace(top_object, reflected_ray, reflected_prd);
-            color += p_Kr * reflected_prd.result;
+            color += p_Kr * make_float3(reflected_prd.result);
         }
 
         // Refraction
         if (fmaxf(opacity) < 1.f && prd.depth < maxBounces)
         {
             PerRayData_radiance refracted_prd;
-            refracted_prd.result = make_float3(0.f);
+            refracted_prd.result = make_float4(0.f);
             refracted_prd.importance = prd.importance * (1.f - fmaxf(opacity));
             refracted_prd.depth = prd.depth + 1;
 
             const float3 refractedNormal = refractedVector(ray.direction, normal, p_refractionIndex, 1.f);
             const optix::Ray refracted_ray(hit_point, refractedNormal, radianceRayType, sceneEpsilon, giDistance);
             rtTrace(top_object, refracted_ray, refracted_prd);
-            color += (1.f - opacity) * refracted_prd.result;
+            color += (1.f - opacity) * make_float3(refracted_prd.result);
         }
 
         // Ambient occlusion
@@ -252,7 +252,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
 
                 // Color bleeding
                 PerRayData_radiance cb_prd;
-                cb_prd.result = make_float3(0.f);
+                cb_prd.result = make_float4(0.f);
                 cb_prd.importance = 0.f;
                 cb_prd.depth = prd.depth + 1;
 
@@ -264,7 +264,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
                 const optix::Ray cb_ray =
                     optix::make_Ray(hit_point, cb_normal, radianceRayType, sceneEpsilon, ray.tmax);
                 rtTrace(top_shadower, cb_ray, cb_prd);
-                cb_color += giWeight * cb_prd.result;
+                cb_color += giWeight * make_float3(cb_prd.result);
             }
             aa_attenuation /= (float)giSamples;
             cb_color /= (float)giSamples;
@@ -285,7 +285,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
     const float fogAttenuation = z > fogStart ? optix::clamp((z - fogStart) / fogThickness, 0.f, 1.f) : 0.f;
     result = result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor(ray.direction);
 
-    prd.result = result;
+    prd.result = make_float4(result, finalColor.w);
 }
 
 RT_PROGRAM void any_hit_shadow()

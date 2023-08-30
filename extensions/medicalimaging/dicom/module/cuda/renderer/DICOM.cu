@@ -213,7 +213,7 @@ static __device__ void dicomShade()
     if (reflectionIndex > 0.f && voxelColor.w > 0.f && prd.depth < maxBounces)
     {
         PerRayData_radiance reflected_prd;
-        reflected_prd.result = make_float3(0.f);
+        reflected_prd.result = make_float4(0.f);
         reflected_prd.importance = prd.importance * reflectionIndex;
         reflected_prd.depth = prd.depth + 1;
 
@@ -224,14 +224,14 @@ static __device__ void dicomShade()
 
         const Ray reflected_ray(hit_point, reflectedNormal, radianceRayType, near, far);
         rtTrace(top_object, reflected_ray, reflected_prd);
-        result = result * (1.f - Kr) + Kr * reflected_prd.result;
+        result = result * (1.f - Kr) + Kr * make_float3(reflected_prd.result);
     }
 
     // Refraction
     if (voxelColor.w < 1.f && prd.depth < maxBounces)
     {
         PerRayData_radiance refracted_prd;
-        refracted_prd.result = make_float3(0.f);
+        refracted_prd.result = make_float4(0.f);
         refracted_prd.importance = prd.importance * (1.f - opacity);
         refracted_prd.depth = prd.depth + 1;
 
@@ -242,7 +242,7 @@ static __device__ void dicomShade()
 
         const Ray refracted_ray(hit_point, refractedNormal, radianceRayType, near, far);
         rtTrace(top_object, refracted_ray, refracted_prd);
-        result = result * opacity + (1.f - opacity) * refracted_prd.result;
+        result = result * opacity + (1.f - opacity) * make_float3(refracted_prd.result);
     }
 
     // Fog attenuation
@@ -251,7 +251,7 @@ static __device__ void dicomShade()
     result = (result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor(ray.direction));
 
     // Final result
-    prd.result = result;
+    prd.result = make_float4(result, 1.f);
 }
 
 RT_PROGRAM void any_hit_shadow()
@@ -272,5 +272,5 @@ RT_PROGRAM void closest_hit_radiance_textured()
 
 RT_PROGRAM void exception()
 {
-    output_buffer[launch_index] = make_color(make_float3(0, 1, 0));
+    output_buffer[launch_index] = make_color(make_float4(0.f, 1.f, 0.f, 1.f));
 }

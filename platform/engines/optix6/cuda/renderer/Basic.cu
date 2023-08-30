@@ -45,7 +45,7 @@ static __device__ inline void shade(bool textured)
         p_Kd = p_Kd * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;
     }
 
-    prd.result = p_Kd * max(0.f, optix::dot(-ray.direction, p_normal));
+    prd.result = make_float4(p_Kd * max(0.f, optix::dot(-ray.direction, p_normal)), 1.f);
 }
 
 RT_PROGRAM void any_hit_shadow()

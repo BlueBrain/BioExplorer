@@ -217,7 +217,7 @@ static __device__ inline void shade()
     if (outCol.x == 100.f)
         outCol = make_float4(make_float3(col) + make_float3(glow) * (col.w + glow.w), 1.f);
 
-    prd.result = ::optix::clamp(make_float3(outCol * mainExposure), make_float3(0.f), make_float3(1.f));
+    prd.result = ::optix::clamp(outCol, 0.f, 1.f);
 }
 
 RT_PROGRAM void any_hit_shadow()

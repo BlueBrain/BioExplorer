@@ -55,7 +55,7 @@ static __device__ inline void shade()
         attenuation += ::optix::luminance(shadow_prd.attenuation);
     }
     attenuation = ::optix::clamp(attenuation / float(samplesPerFrame), 0.f, 1.f);
-    prd.result = make_float3(attenuation);
+    prd.result = make_float4(make_float3(attenuation), 1.f);
 }
 
 RT_PROGRAM void any_hit_shadow()

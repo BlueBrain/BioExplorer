@@ -72,8 +72,7 @@ static __device__ inline void shade()
         }
         t += rayStep;
     }
-    prd.result = make_float3(color);
-    prd.importance = color.w;
+    prd.result = color;
 }
 
 RT_PROGRAM void any_hit_shadow()

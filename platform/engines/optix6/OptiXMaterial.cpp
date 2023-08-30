@@ -34,13 +34,7 @@ namespace core
 {
 OptiXMaterial::~OptiXMaterial()
 {
-    /*
-    for (auto& i : _textureSamplers)
-    {
-        RT_DESTROY(i.second);
-    }
     RT_DESTROY(_optixMaterial);
-    */
 }
 
 bool OptiXMaterial::isTextured() const

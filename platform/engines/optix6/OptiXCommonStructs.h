@@ -46,7 +46,7 @@ struct BasicLight
 
 struct PerRayData_radiance
 {
-    ::optix::float3 result;
+    ::optix::float4 result;
     float importance;
     int depth;
     ::optix::float3 rayDdx;

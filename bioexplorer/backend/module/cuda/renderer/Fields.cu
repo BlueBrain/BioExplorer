@@ -122,7 +122,7 @@ static __device__ inline void shade()
     float t0, t1;
     if (!intersection(offset, dimensions, spacing, ray, t0, t1))
     {
-        prd.result = make_float3(finalColor);
+        prd.result = finalColor;
         return;
     }
 
@@ -150,8 +150,7 @@ static __device__ inline void shade()
     // Environment
     compose(make_float4(getEnvironmentColor(ray.direction), 1.f), finalColor);
 
-    prd.result = make_float3(finalColor);
-    prd.importance = finalColor.w;
+    prd.result = finalColor;
 }
 
 RT_PROGRAM void any_hit_shadow()

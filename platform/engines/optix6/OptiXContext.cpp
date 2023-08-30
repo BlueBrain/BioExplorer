@@ -368,7 +368,7 @@ void OptiXContext::_initialize()
         _optixContext->createProgramFromPTXString(CUDA_VOLUMES, CUDA_FUNC_INTERSECTION);
 
     // Exceptions
-    _optixContext[CONTEXT_EXCEPTION_BAD_COLOR]->setFloat(1.0f, 0.0f, 0.0f);
+    _optixContext[CONTEXT_EXCEPTION_BAD_COLOR]->setFloat(1.0f, 0.0f, 0.0f, 1.f);
 
     PLUGIN_DEBUG("Context created");
 }

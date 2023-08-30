@@ -39,7 +39,7 @@ rtDeclareVariable(float4, orientation, , );
 rtDeclareVariable(float3, U, , );
 rtDeclareVariable(float3, V, , );
 rtDeclareVariable(float3, W, , );
-rtDeclareVariable(float3, bad_color, , );
+rtDeclareVariable(float4, bad_color, , );
 rtDeclareVariable(float, sceneEpsilon, , );
 rtDeclareVariable(rtObject, top_object, , );
 rtDeclareVariable(rtObject, top_shadower, , );
