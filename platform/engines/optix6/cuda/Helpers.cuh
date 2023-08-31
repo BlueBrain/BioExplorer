@@ -1,21 +1,24 @@
 /*
- * Copyright (c) 2019, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
+ *
+ * The Blue Brain BioExplorer is a tool for scientists to extract and analyse
+ * scientific data from visualization
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3.0 as published
- * by the Free Software Foundation.
+ * Copyright 2020-2023 Blue BrainProject / EPFL
  *
- * This library is distributed in the hope that it will be useful, but WITHOUT
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  * details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -26,12 +29,12 @@
 
 // Convert a float3 in [0,1)^3 to a uchar4 in [0,255]^4 -- 4th channel is set to 255
 #ifdef __CUDACC__
-static __device__ __inline__ optix::uchar4 make_color(const optix::float3& c)
+static __device__ __inline__ optix::uchar4 make_color(const optix::float4& c)
 {
-    return optix::make_uchar4(static_cast<unsigned char>(__saturatef(c.x) * 255.99f), /* R */
-                              static_cast<unsigned char>(__saturatef(c.y) * 255.99f), /* G */
-                              static_cast<unsigned char>(__saturatef(c.z) * 255.99f), /* B */
-                              255u);                                                  /* A */
+    return optix::make_uchar4(static_cast<unsigned char>(__saturatef(c.x) * 255.99f),  /* R */
+                              static_cast<unsigned char>(__saturatef(c.y) * 255.99f),  /* G */
+                              static_cast<unsigned char>(__saturatef(c.z) * 255.99f),  /* B */
+                              static_cast<unsigned char>(__saturatef(c.w) * 255.99f)); /* A */
 }
 #endif
 
@@ -292,6 +295,91 @@ static __device__ void applyClippingPlanes(const float3& origin, const float3& d
         else
             far = min(far, t);
     }
+}
+
+static __device__ void compose(const float4& src, float4& dst, const float alphaCorrection = 1.0)
+{
+    const float alpha = alphaCorrection * src.w;
+    dst =
+        make_float4((1.f - dst.w) * alpha * make_float3(src) + dst.w * make_float3(dst), dst.w + alpha * (1.f - dst.w));
+}
+
+static __device__ inline float3 frac(const float3 x)
+{
+    return x - optix::floor(x);
+}
+
+static __device__ inline float mix(const float x, const float y, const float a)
+{
+    return x * (1.f - a) + y * a;
+}
+
+static __device__ inline float hash(float n)
+{
+    return frac(make_float3(sin(n + 1.951f) * 43758.5453f)).x;
+}
+
+static __device__ inline float hash(const float2& x)
+{
+    return hash(x.x + hash(x.y));
+}
+
+static __device__ float noise(const float3& x)
+{
+    // hash based 3d value noise
+    float3 p = optix::floor(x);
+    float3 f = frac(x);
+
+    f = f * f * (make_float3(3.0f) - make_float3(2.0f) * f);
+    float n = p.x + p.y * 57.0f + 113.0f * p.z;
+    return mix(mix(mix(hash(n + 0.0f), hash(n + 1.0f), f.x), mix(hash(n + 57.0f), hash(n + 58.0f), f.x), f.y),
+               mix(mix(hash(n + 113.0f), hash(n + 114.0f), f.x), mix(hash(n + 170.0f), hash(n + 171.0f), f.x), f.y),
+               f.z);
+}
+
+static __device__ inline float3 mod(const float3& v, const int m)
+{
+    return make_float3(v.x - m * floor(v.x / m), v.y - m * floor(v.y / m), v.z - m * floor(v.z / m));
+}
+
+static __device__ float cells(const float3& p, float cellCount)
+{
+    const float3 pCell = p * cellCount;
+    float d = 1.0e10;
+    for (int xo = -1; xo <= 1; xo++)
+    {
+        for (int yo = -1; yo <= 1; yo++)
+        {
+            for (int zo = -1; zo <= 1; zo++)
+            {
+                float3 tp = floor(pCell) + make_float3(xo, yo, zo);
+
+                tp = pCell - tp - noise(mod(tp, cellCount / 1));
+
+                d = min(d, optix::dot(tp, tp));
+            }
+        }
+    }
+    d = min(d, 1.0f);
+    d = max(d, 0.0f);
+    return d;
+}
+
+static __device__ float worleyNoise(const float3& p, float cellCount)
+{
+    return cells(p, cellCount);
+}
+
+static __device__ float3 refractedVector(const float3 direction, const float3 normal, const float n1, const float n2)
+{
+    if (n2 == 0.f)
+        return direction;
+    const float eta = n1 / n2;
+    const float cos1 = -optix::dot(direction, normal);
+    const float cos2 = 1.f - eta * eta * (1.f - cos1 * cos1);
+    if (cos2 > 0.f)
+        return ::optix::normalize(eta * direction + (eta * cos1 - sqrt(cos2)) * normal);
+    return direction;
 }
 
 #define OPTIX_DUMP_FLOAT(VALUE) rtPrintf(#VALUE " %f\n", VALUE)

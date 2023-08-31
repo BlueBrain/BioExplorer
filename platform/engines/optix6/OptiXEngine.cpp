@@ -125,11 +125,10 @@ void OptiXEngine::_createRenderers()
     _renderer = std::make_shared<OptiXRenderer>(_parametersManager.getAnimationParameters(),
                                                 _parametersManager.getRenderingParameters());
     _renderer->setScene(_scene);
+    OptiXContext& context = OptiXContext::get();
 
     { // Advanced renderer
         const std::string CUDA_ADVANCED_SIMULATION_RENDERER = OptiX6Engine_generated_Advanced_cu_ptx;
-
-        OptiXContext& context = OptiXContext::get();
 
         auto osp = std::make_shared<OptixShaderProgram>();
         osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER,
@@ -139,11 +138,9 @@ void OptiXEngine::_createRenderers()
                                                                   "closest_hit_radiance_textured");
         osp->any_hit =
             context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER, "any_hit_shadow");
-        // Exception program
         osp->exception_program =
             context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER, "exception");
         context.getOptixContext()->setExceptionProgram(0, osp->exception_program);
-        context.getOptixContext()["bad_color"]->setFloat(1.0f, 0.0f, 0.0f);
 
         context.addRenderer("advanced", osp);
 
@@ -171,7 +168,6 @@ void OptiXEngine::_createRenderers()
 
     { // Basic simulation / Basic renderer
         const std::string CUDA_BASIC_SIMULATION_RENDERER = OptiX6Engine_generated_Basic_cu_ptx;
-        OptiXContext& context = OptiXContext::get();
 
         auto osp = std::make_shared<OptixShaderProgram>();
         osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER,
@@ -181,6 +177,8 @@ void OptiXEngine::_createRenderers()
                                                                   "closest_hit_radiance_textured");
         osp->any_hit =
             context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER, "any_hit_shadow");
+        osp->exception_program =
+            context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER, "exception");
 
         context.addRenderer("basic", osp);
 

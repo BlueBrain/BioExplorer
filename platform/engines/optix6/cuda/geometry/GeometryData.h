@@ -41,8 +41,7 @@
 
 namespace core
 {
-#define float3_as_uints(u) \
-    __float_as_uint(u.x), __float_as_uint(u.y), __float_as_uint(u.z)
+#define float3_as_uints(u) __float_as_uint(u.x), __float_as_uint(u.y), __float_as_uint(u.z)
 
 // unaligned equivalent of float2
 struct Vec2f
@@ -93,8 +92,8 @@ struct GeometryData
         BufferView<Vec2f> texcoords[num_texcoords]; // The buffer view may not
                                                     // be aligned, so don't use
                                                     // float2
-        BufferView<Vec4f> colors; // The buffer view may not be aligned, so
-                                  // don't use float4
+        BufferView<Vec4f> colors;                   // The buffer view may not be aligned, so
+                                                    // don't use float4
     };
 
     enum SphereShellHitType
@@ -161,6 +160,16 @@ struct GeometryData
                                        // info.y = strand length (segments)
     };
 
+    struct Volume
+    {
+        float3 dimensions;
+        float3 position;
+        float3 spacing;
+        float volumeSamplerId;
+        float transferFunctionSamplerId;
+        float2 valueRange;
+    };
+
     Type type;
 
     union
@@ -170,6 +179,7 @@ struct GeometryData
         Cylinder cylinder;
         Cone cone;
         Curves curves;
+        Volume volume;
     };
 };
 

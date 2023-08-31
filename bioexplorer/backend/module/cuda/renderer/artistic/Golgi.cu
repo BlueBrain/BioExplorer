@@ -45,7 +45,7 @@ static __device__ inline void shade()
     if (inverse)
         cosNL = 1.f - cosNL;
 
-    prd.result = make_float3(cosNL, cosNL, cosNL);
+    prd.result = make_float4(cosNL, cosNL, cosNL, 1.f);
 }
 
 RT_PROGRAM void any_hit_shadow()
@@ -54,6 +54,11 @@ RT_PROGRAM void any_hit_shadow()
 }
 
 RT_PROGRAM void closest_hit_radiance()
+{
+    shade();
+}
+
+RT_PROGRAM void closest_hit_radiance_textured()
 {
     shade();
 }

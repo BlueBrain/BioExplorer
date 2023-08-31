@@ -117,18 +117,18 @@ static __device__ inline void shade()
     const uint startIndices = 11;
     const uint startData = startIndices + simulation_data[10];
     const float diag = fmax(fmax(dimensions.x, dimensions.y), dimensions.z);
-    const float tstep = fmax(minRayStep, diag / (float)nbRaySteps);
+    const float t_step = fmax(minRayStep, diag / (float)nbRaySteps);
 
     float t0, t1;
     if (!intersection(offset, dimensions, spacing, ray, t0, t1))
     {
-        prd.result = make_float3(finalColor);
+        prd.result = finalColor;
         return;
     }
 
     optix::size_t2 screen = output_buffer.size();
     uint seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
-    const float random = rnd(seed) * tstep;
+    const float random = rnd(seed) * t_step;
 
     float t = fmax(0.f, t0) + random;
     while (t < t1 && finalColor.w < 1.f)
@@ -137,12 +137,11 @@ static __device__ inline void shade()
         const float3 point = (p - offset) / spacing;
 
         const float sampleValue = treeWalker<0>(startIndices, startData, point, distance, cutoff, 0);
-        const float4 sampleColor =
-            calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, sampleValue, tfColors, tfOpacities);
+        const float4 sampleColor = calcTransferFunctionColor(transfer_function_map, value_range, sampleValue);
         if (sampleColor.w > 0.f)
             compose(sampleColor, finalColor, alphaCorrection);
 
-        t += tstep;
+        t += t_step;
     }
 
     // Main exposure
@@ -151,13 +150,17 @@ static __device__ inline void shade()
     // Environment
     compose(make_float4(getEnvironmentColor(ray.direction), 1.f), finalColor);
 
-    prd.result = make_float3(finalColor);
-    prd.importance = finalColor.w;
+    prd.result = finalColor;
 }
 
 RT_PROGRAM void any_hit_shadow()
 {
     rtTerminateRay();
+}
+
+RT_PROGRAM void closest_hit_radiance_textured()
+{
+    shade();
 }
 
 RT_PROGRAM void closest_hit_radiance()

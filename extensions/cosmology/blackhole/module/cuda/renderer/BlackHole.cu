@@ -38,19 +38,9 @@ rtDeclareVariable(float, timestamp, , );
 
 // Port from https://www.shadertoy.com/view/tsBXW3
 
-static __device__ inline float frac(const float x)
-{
-    return x - floor(x);
-}
-
 static __device__ inline float2 frac2(const float2 x)
 {
     return x - optix::floor(x);
-}
-
-static __device__ inline float mix(float x, float y, float a)
-{
-    return x * (1.f - a) + y * a;
 }
 
 static __device__ inline float3 mix(float3 x, float3 y, float a)
@@ -61,16 +51,6 @@ static __device__ inline float3 mix(float3 x, float3 y, float a)
 static __device__ inline float mod(float v, float u)
 {
     return v - u * floor(v / u);
-}
-
-static __device__ inline float hash(float x)
-{
-    return frac(sin(x) * 152754.742f);
-}
-
-static __device__ inline float hash(const float2& x)
-{
-    return hash(x.x + hash(x.y));
 }
 
 static __device__ inline float value(const float2& p, float f) // value noise
@@ -237,7 +217,7 @@ static __device__ inline void shade()
     if (outCol.x == 100.f)
         outCol = make_float4(make_float3(col) + make_float3(glow) * (col.w + glow.w), 1.f);
 
-    prd.result = ::optix::clamp(make_float3(outCol * mainExposure), make_float3(0.f), make_float3(1.f));
+    prd.result = ::optix::clamp(outCol, 0.f, 1.f);
 }
 
 RT_PROGRAM void any_hit_shadow()

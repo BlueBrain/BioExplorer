@@ -30,82 +30,8 @@
 using namespace optix;
 
 rtDeclareVariable(float, epsilonFactor, , );
-rtDeclareVariable(int, maxBounces, , );
 rtDeclareVariable(int, softShadowsSamples, , );
 rtDeclareVariable(unsigned int, matrixFilter, , );
-
-static __device__ inline float3 frac(const float3 x)
-{
-    return x - optix::floor(x);
-}
-
-static __device__ inline float mix(const float x, const float y, const float a)
-{
-    return x * (1.f - a) + y * a;
-}
-
-static __device__ inline float hash(float n)
-{
-    return frac(make_float3(sin(n + 1.951f) * 43758.5453f)).x;
-}
-
-static __device__ float noise(const float3& x)
-{
-    // hash based 3d value noise
-    float3 p = optix::floor(x);
-    float3 f = frac(x);
-
-    f = f * f * (make_float3(3.0f) - make_float3(2.0f) * f);
-    float n = p.x + p.y * 57.0f + 113.0f * p.z;
-    return mix(mix(mix(hash(n + 0.0f), hash(n + 1.0f), f.x), mix(hash(n + 57.0f), hash(n + 58.0f), f.x), f.y),
-               mix(mix(hash(n + 113.0f), hash(n + 114.0f), f.x), mix(hash(n + 170.0f), hash(n + 171.0f), f.x), f.y),
-               f.z);
-}
-
-static __device__ inline float3 mod(const float3& v, const int m)
-{
-    return make_float3(v.x - m * floor(v.x / m), v.y - m * floor(v.y / m), v.z - m * floor(v.z / m));
-}
-
-static __device__ float cells(const float3& p, float cellCount)
-{
-    const float3 pCell = p * cellCount;
-    float d = 1.0e10;
-    for (int xo = -1; xo <= 1; xo++)
-    {
-        for (int yo = -1; yo <= 1; yo++)
-        {
-            for (int zo = -1; zo <= 1; zo++)
-            {
-                float3 tp = floor(pCell) + make_float3(xo, yo, zo);
-
-                tp = pCell - tp - noise(mod(tp, cellCount / 1));
-
-                d = min(d, optix::dot(tp, tp));
-            }
-        }
-    }
-    d = min(d, 1.0f);
-    d = max(d, 0.0f);
-    return d;
-}
-
-static __device__ float worleyNoise(const float3& p, float cellCount)
-{
-    return cells(p, cellCount);
-}
-
-static __device__ float3 refractedVector(const float3 direction, const float3 normal, const float n1, const float n2)
-{
-    if (n2 == 0.f)
-        return direction;
-    const float eta = n1 / n2;
-    const float cos1 = -optix::dot(direction, normal);
-    const float cos2 = 1.f - eta * eta * (1.f - cos1 * cos1);
-    if (cos2 > 0.f)
-        return ::optix::normalize(eta * direction + (eta * cos1 - sqrt(cos2)) * normal);
-    return direction;
-}
 
 static __device__ void phongShadowed(float3 p_Ko)
 {
@@ -119,7 +45,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
                                   unsigned int p_shadingMode, float p_user_parameter, float3 p_normal)
 {
     const float3 hit_point = ray.origin + t_hit * ray.direction;
-    float3 color = make_float3(0.f, 0.f, 0.f);
+    float3 color = make_float3(0.f);
     float3 opacity = p_Ko;
     float3 Kd = p_Kd;
 
@@ -130,8 +56,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         if (cast_user_data && simulation_data.size() > 0)
         {
             const float4 userDataColor =
-                calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange, simulation_data[simulation_idx], tfColors,
-                                          tfOpacities);
+                calcTransferFunctionColor(transfer_function_map, value_range, simulation_data[simulation_idx]);
             Kd = Kd * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;
         }
 
@@ -282,28 +207,31 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         if (fmaxf(p_Kr) > 0.f && prd.depth < maxBounces)
         {
             PerRayData_radiance reflected_prd;
+            reflected_prd.result = make_float4(0.f);
+            reflected_prd.importance = prd.importance * fmaxf(p_Kr);
             reflected_prd.depth = prd.depth + 1;
 
             const float3 R = optix::reflect(ray.direction, normal);
             const optix::Ray reflected_ray(hit_point, R, radianceRayType, sceneEpsilon, giDistance);
             rtTrace(top_object, reflected_ray, reflected_prd);
-            color = color * (1.f - p_Kr) + p_Kr * reflected_prd.result;
+            color += p_Kr * make_float3(reflected_prd.result);
         }
 
         // Refraction
         if (fmaxf(opacity) < 1.f && prd.depth < maxBounces)
         {
             PerRayData_radiance refracted_prd;
-            refracted_prd.result = make_float3(0.f);
-            refracted_prd.importance = 0.f;
+            refracted_prd.result = make_float4(0.f);
+            refracted_prd.importance = prd.importance * (1.f - fmaxf(opacity));
             refracted_prd.depth = prd.depth + 1;
 
             const float3 refractedNormal = refractedVector(ray.direction, normal, p_refractionIndex, 1.f);
             const optix::Ray refracted_ray(hit_point, refractedNormal, radianceRayType, sceneEpsilon, giDistance);
             rtTrace(top_object, refracted_ray, refracted_prd);
-            color = color * opacity + refracted_prd.result * (1.f - opacity);
+            color += (1.f - opacity) * make_float3(refracted_prd.result);
         }
 
+        // Ambient occlusion
         if (giSamples > 0 && giWeight > 0.f && prd.depth == 0)
         {
             float aa_attenuation = 0.f;
@@ -324,7 +252,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
 
                 // Color bleeding
                 PerRayData_radiance cb_prd;
-                cb_prd.result = make_float3(0.f);
+                cb_prd.result = make_float4(0.f);
                 cb_prd.importance = 0.f;
                 cb_prd.depth = prd.depth + 1;
 
@@ -336,7 +264,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
                 const optix::Ray cb_ray =
                     optix::make_Ray(hit_point, cb_normal, radianceRayType, sceneEpsilon, ray.tmax);
                 rtTrace(top_shadower, cb_ray, cb_prd);
-                cb_color += giWeight * cb_prd.result;
+                cb_color += giWeight * make_float3(cb_prd.result);
             }
             aa_attenuation /= (float)giSamples;
             cb_color /= (float)giSamples;
@@ -344,23 +272,20 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         }
     }
 
-    float4 finalColor = make_float4(color, 1.f);
+    float4 finalColor = make_float4(color, ::optix::luminance(p_Ko));
 
-    // Volume
-    const float4 volumeColor = getVolumeContribution(ray);
-    compose(volumeColor, finalColor);
     float3 result = make_float3(finalColor);
 
     // Matrix filter :)
     if (matrixFilter)
         result = make_float3(result.x * 0.666f, result.y * 0.8f, result.z * 0.666f);
 
-    // Exposure and Fog attenuation
+    // Fog attenuation
     const float z = optix::length(eye - hit_point);
     const float fogAttenuation = z > fogStart ? optix::clamp((z - fogStart) / fogThickness, 0.f, 1.f) : 0.f;
-    result = mainExposure * (result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor(ray.direction));
+    result = result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor(ray.direction);
 
-    prd.result = result;
+    prd.result = make_float4(result, finalColor.w);
 }
 
 RT_PROGRAM void any_hit_shadow()
@@ -372,14 +297,24 @@ static __device__ inline void shade(bool textured)
 {
     float3 world_shading_normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
     float3 world_geometric_normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
-
     float3 ffnormal = faceforward(world_shading_normal, -ray.direction, world_geometric_normal);
 
     float3 p_Kd = Kd;
+    float3 p_Ko = Ko;
     if (textured)
-        p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
+    {
+        if (volume_map != 0)
+        {
+            const float voxelValue = optix::rtTex3D<float>(volume_map, texcoord3d.x, texcoord3d.y, texcoord3d.z);
+            const float4 voxelColor = calcTransferFunctionColor(transfer_function_map, value_range, voxelValue);
+            p_Kd = make_float3(voxelColor);
+            p_Ko = make_float3(voxelColor.w);
+        }
+        else
+            p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
+    }
 
-    phongShade(p_Kd, Ka, Ks, Kr, Ko, refraction_index, phong_exp, glossiness, shading_mode, user_parameter, ffnormal);
+    phongShade(p_Kd, Ka, Ks, Kr, p_Ko, refraction_index, phong_exp, glossiness, shading_mode, user_parameter, ffnormal);
 }
 
 RT_PROGRAM void closest_hit_radiance()

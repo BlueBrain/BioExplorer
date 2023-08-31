@@ -21,7 +21,7 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <platform/engines/optix6/cuda/Context.cuh>
+#include <platform/engines/optix6/cuda/Helpers.cuh>
 #include <platform/engines/optix6/cuda/Random.cuh>
 
 rtDeclareVariable(int, samplesPerFrame, , );
@@ -44,13 +44,18 @@ static __device__ inline void shade()
 
         PerRayData_shadow shadow_prd;
         shadow_prd.attenuation = make_float3(1.f);
-        ::optix::Ray shadow_ray(hit_point, aa_normal, shadowRayType, sceneEpsilon, rayLength);
+
+        float near = sceneEpsilon;
+        float far = rayLength;
+        applyClippingPlanes(hit_point, aa_normal, near, far);
+
+        ::optix::Ray shadow_ray(hit_point, aa_normal, shadowRayType, near, far);
         rtTrace(top_shadower, shadow_ray, shadow_prd);
 
         attenuation += ::optix::luminance(shadow_prd.attenuation);
     }
     attenuation = ::optix::clamp(attenuation / float(samplesPerFrame), 0.f, 1.f);
-    prd.result = make_float3(attenuation);
+    prd.result = make_float4(make_float3(attenuation), 1.f);
 }
 
 RT_PROGRAM void any_hit_shadow()
@@ -60,6 +65,11 @@ RT_PROGRAM void any_hit_shadow()
 }
 
 RT_PROGRAM void closest_hit_radiance()
+{
+    shade();
+}
+
+RT_PROGRAM void closest_hit_radiance_textured()
 {
     shade();
 }

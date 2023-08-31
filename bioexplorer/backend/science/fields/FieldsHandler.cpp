@@ -66,7 +66,7 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize, con
     if (density > 1.f || density <= 0.f)
         PLUGIN_THROW("Density should be higher > 0 and <= 1");
 
-    const auto clipPlanes = getClippingPlanes(scene);
+    const auto& clipPlanes = getClippingPlanes(scene);
 
     floats events;
     uint32_t count{0};

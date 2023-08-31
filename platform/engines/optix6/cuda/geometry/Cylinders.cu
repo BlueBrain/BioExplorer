@@ -22,7 +22,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <optix_world.h>
+#include <platform/engines/optix6/cuda/Context.cuh>
 
 using namespace optix;
 
@@ -34,28 +34,18 @@ using namespace optix;
 #define OFFSET_TEX_COORDS (OFFSET_TIMESTAMP + 1)
 
 // Global variables
-rtBuffer<float> cylinders;
-
-// Geometry specific variables
-rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
-rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
 rtDeclareVariable(unsigned int, cylinder_size, , );
-rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
+rtBuffer<float> cylinders;
 
 template <bool use_robust_method>
 static __device__ void intersect_cylinder(int primIdx)
 {
     const int idx = primIdx * cylinder_size;
-    const unsigned long userData =
-        *((unsigned long*)(&cylinders[idx + OFFSET_USER_DATA]));
+    const unsigned long userData = *((unsigned long*)(&cylinders[idx + OFFSET_USER_DATA]));
 
-    const float3 v0 = {cylinders[idx + OFFSET_CENTER],
-                       cylinders[idx + OFFSET_CENTER + 1],
+    const float3 v0 = {cylinders[idx + OFFSET_CENTER], cylinders[idx + OFFSET_CENTER + 1],
                        cylinders[idx + OFFSET_CENTER + 2]};
-    const float3 v1 = {cylinders[idx + OFFSET_UP],
-                       cylinders[idx + OFFSET_UP + 1],
-                       cylinders[idx + OFFSET_UP + 2]};
+    const float3 v1 = {cylinders[idx + OFFSET_UP], cylinders[idx + OFFSET_UP + 1], cylinders[idx + OFFSET_UP + 2]};
     const float radius = cylinders[idx + OFFSET_RADIUS];
 
     const float3 A = v0 - ray.origin;
@@ -98,6 +88,8 @@ static __device__ void intersect_cylinder(int primIdx)
                 const float3 V = cross(P, AB);
                 geometric_normal = shading_normal = cross(AB, V);
                 simulation_idx = userData;
+                texcoord = make_float2(0.f);
+                texcoord3d = make_float3(0.f);
                 if (rtReportIntersection(0))
                     check_second = false;
             }
@@ -114,6 +106,8 @@ static __device__ void intersect_cylinder(int primIdx)
                     const float3 V = cross(P, AB);
                     geometric_normal = shading_normal = cross(AB, V);
                     simulation_idx = userData;
+                    texcoord = make_float2(0.f);
+                    texcoord3d = make_float3(0.f);
                     rtReportIntersection(0);
                 }
             }
@@ -134,12 +128,9 @@ RT_PROGRAM void robust_intersect(int primIdx)
 RT_PROGRAM void bounds(int primIdx, float result[6])
 {
     const int idx = primIdx * cylinder_size;
-    const float3 v0 = {cylinders[idx + OFFSET_CENTER],
-                       cylinders[idx + OFFSET_CENTER + 1],
+    const float3 v0 = {cylinders[idx + OFFSET_CENTER], cylinders[idx + OFFSET_CENTER + 1],
                        cylinders[idx + OFFSET_CENTER + 2]};
-    const float3 v1 = {cylinders[idx + OFFSET_UP],
-                       cylinders[idx + OFFSET_UP + 1],
-                       cylinders[idx + OFFSET_UP + 2]};
+    const float3 v1 = {cylinders[idx + OFFSET_UP], cylinders[idx + OFFSET_UP + 1], cylinders[idx + OFFSET_UP + 2]};
     const float radius = cylinders[idx + OFFSET_RADIUS];
 
     optix::Aabb* aabb = (optix::Aabb*)result;

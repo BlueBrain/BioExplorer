@@ -27,7 +27,7 @@
 
 static __device__ inline void shade()
 {
-    prd.result = Kd;
+    prd.result = make_float4(Kd, 1.f);
 }
 
 RT_PROGRAM void any_hit_shadow()
@@ -36,6 +36,11 @@ RT_PROGRAM void any_hit_shadow()
 }
 
 RT_PROGRAM void closest_hit_radiance()
+{
+    shade();
+}
+
+RT_PROGRAM void closest_hit_radiance_textured()
 {
     shade();
 }

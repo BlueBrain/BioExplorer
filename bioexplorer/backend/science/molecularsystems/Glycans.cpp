@@ -33,7 +33,7 @@ namespace bioexplorer
 namespace molecularsystems
 {
 Glycans::Glycans(Scene& scene, const SugarDetails& details)
-    : Molecule(scene, {})
+    : Molecule(scene, Vector3d(), doublesToQuaterniond(details.rotation), {})
     , _details(details)
 {
     size_t lineIndex{0};
@@ -56,12 +56,11 @@ Glycans::Glycans(Scene& scene, const SugarDetails& details)
     }
     auto model = scene.createModel();
 
-    // Build 3d models according to atoms positions (re-centered to origin)
-    Boxf bounds;
-
-    // Recenter
     if (_details.recenter)
     {
+        // Recenter
+        Boxd bounds;
+
         // Get current center
         for (const auto& atom : _atomMap)
             bounds.merge(atom.second.position);
@@ -69,11 +68,13 @@ Glycans::Glycans(Scene& scene, const SugarDetails& details)
 
         const auto firstAtomPosition = _atomMap.begin()->second.position;
         const auto translation = center - firstAtomPosition;
+
         // Translate according to position of first atom
         for (auto& atom : _atomMap)
             atom.second.position -= translation;
     }
 
+    // Build 3d models according to atoms positions
     _buildModel(_details.assemblyName, _details.name, _details.pdbId, header, _details.representation,
                 _details.atomRadiusMultiplier, _details.loadBonds);
 }

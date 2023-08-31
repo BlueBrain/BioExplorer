@@ -26,22 +26,15 @@
 
 #include "OptiXCommonStructs.h"
 #include "OptiXContext.h"
+#include "OptiXUtils.h"
 
 #include <platform/core/common/Logs.h>
 
 namespace core
 {
-static std::string textureTypeToString[12] = {
-    "albedoMetallic_map", "normalRoughness_map", "bump_map",      "aoEmissive_map", "map_ns",         "map_d",
-    "map_reflection",     "map_refraction",      "map_occlusion", "radiance_map",   "irradiance_map", "brdf_lut"};
-
 OptiXMaterial::~OptiXMaterial()
 {
-    for (auto& i : _textureSamplers)
-        i.second->destroy();
-
-    if (_optixMaterial)
-        _optixMaterial->destroy();
+    RT_DESTROY(_optixMaterial);
 }
 
 bool OptiXMaterial::isTextured() const
@@ -66,20 +59,17 @@ void OptiXMaterial::commit()
     _optixMaterial[CONTEXT_MATERIAL_USER_PARAMETER]->setFloat(_userParameter);
     _optixMaterial[CONTEXT_MATERIAL_CAST_USER_DATA]->setUint(_castUserData);
     _optixMaterial[CONTEXT_MATERIAL_CLIPPING_MODE]->setUint(_clippingMode);
+    _optixMaterial[CONTEXT_MATERIAL_VALUE_RANGE]->setFloat(_valueRange.x, _valueRange.y);
 
-    const auto textureDescriptors = getTextureDescriptors();
-    if (textureDescriptors.empty())
-        for (const auto& textureType : textureTypeToString)
-            _optixMaterial[textureType]->setInt(0);
-    else
-        for (const auto& i : textureDescriptors)
+    for (const auto& textureDescriptor : getTextureDescriptors())
+    {
+        if (!_textureSamplers.count(textureDescriptor.first))
         {
-            if (!_textureSamplers.count(i.first))
-            {
-                auto textureSampler = OptiXContext::get().createTextureSampler(i.second);
-                _textureSamplers.insert(std::make_pair(i.first, textureSampler));
-                _optixMaterial[textureTypeToString[(uint8_t)i.first]]->setInt(textureSampler->getId());
-            }
+            const auto textureSampler = OptiXContext::get().createTextureSampler(textureDescriptor.second);
+            _textureSamplers.insert(std::make_pair(textureDescriptor.first, textureSampler));
+            _optixMaterial[textureTypeToString[static_cast<uint8_t>(textureDescriptor.first)]]->setInt(
+                textureSampler->getId());
         }
+    }
 }
 } // namespace core

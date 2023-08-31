@@ -34,6 +34,8 @@
 
 #include <platform/core/engineapi/Material.h>
 
+using namespace optix;
+
 namespace core
 {
 template <typename T>
@@ -65,19 +67,26 @@ OptiXModel::OptiXModel(AnimationParameters& animationParameters, VolumeParameter
 {
 }
 
+OptiXModel::~OptiXModel()
+{
+    RT_DESTROY(_geometryGroup);
+    RT_DESTROY(_boundingBoxGroup);
+}
+
 void OptiXModel::commitGeometry()
 {
-    // Materials
-    _commitMaterials();
-
     const auto compactBVH = getBVHFlags().count(BVHFlag::compact) > 0;
+    auto& context = OptiXContext::get();
     // Geometry group
     if (!_geometryGroup)
-        _geometryGroup = OptiXContext::get().createGeometryGroup(compactBVH);
+        _geometryGroup = context.createGeometryGroup(compactBVH);
 
     // Bounding box group
     if (!_boundingBoxGroup)
-        _boundingBoxGroup = OptiXContext::get().createGeometryGroup(compactBVH);
+        _boundingBoxGroup = context.createGeometryGroup(compactBVH);
+
+    // Materials
+    _commitMaterials();
 
     size_t nbSpheres = 0;
     size_t nbCylinders = 0;
@@ -115,6 +124,9 @@ void OptiXModel::commitGeometry()
     if (_triangleMeshesDirty)
         for (const auto& meshes : _geometries->_triangleMeshes)
             _commitMeshes(meshes.first);
+
+    if (_volumesDirty)
+        _commitVolumes(VOLUME_MATERIAL_ID);
 
     updateBounds();
     _markGeometriesClean();
@@ -260,6 +272,19 @@ void OptiXModel::_commitMeshes(const size_t materialId)
         _geometryGroup->addChild(instance);
 }
 
+void OptiXModel::_commitVolumes(const size_t materialId)
+{
+    auto context = OptiXContext::get().getOptixContext();
+    auto material = _materials[materialId];
+    auto optixMaterial = static_cast<OptiXMaterial*>(material.get())->getOptixMaterial();
+    auto instance = context->createGeometryInstance();
+    auto& optixVolumes = _optixVolumes[materialId];
+    instance->setGeometry(optixVolumes);
+    instance->setMaterialCount(1);
+    instance->setMaterial(0, optixMaterial);
+    _geometryGroup->addChild(instance);
+}
+
 void OptiXModel::_commitMaterials()
 {
     CORE_DEBUG("Committing " << _materials.size() << " OptiX materials");
@@ -319,14 +344,57 @@ MaterialPtr OptiXModel::createMaterialImpl(const PropertyMap& properties)
     return material;
 }
 
-/** @copydoc Model::createSharedDataVolume */
 SharedDataVolumePtr OptiXModel::createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
                                                        const DataType type)
 {
-    return std::make_shared<OptiXVolume>(this, dimensions, spacing, type, _volumeParameters);
+    if (!_geometries->_volumes.empty())
+        return nullptr;
+
+    if (!_volumeGeometries.empty())
+        CORE_THROW("Only one volume per model is currently supported");
+
+    auto context = OptiXContext::get().getOptixContext();
+    const size_t materialId = VOLUME_MATERIAL_ID;
+    auto volume = std::make_shared<OptiXVolume>(this, dimensions, spacing, type, _volumeParameters);
+    _geometries->_volumes.push_back(volume);
+    context[CONTEXT_VOLUME_SIZE]->setUint(sizeof(VolumeGeometry) / sizeof(float));
+    _optixVolumes[materialId] = OptiXContext::get().createGeometry(OptixGeometryType::volume);
+
+    VolumeGeometry volumeGeometry;
+    volumeGeometry.dimensions = volume->getDimensions();
+    volumeGeometry.position = volume->getOffset();
+    volumeGeometry.spacing = volume->getElementSpacing();
+
+    _volumeGeometries[materialId] = volumeGeometry;
+
+    auto& optixVolumes = _optixVolumes[materialId];
+    optixVolumes->setPrimitiveCount(1);
+
+    auto material = createMaterial(materialId, "Volume");
+    material->setDiffuseColor({1, 1, 1});
+    material->setSpecularColor({1, 1, 1});
+    material->setOpacity(1.f);
+    material->setRefractionIndex(1.f);
+    _materials[materialId] = material;
+    material->commit();
+
+    _volumesDirty = true;
+    return volume;
 }
 
-/** @copydoc Model::createBrickedVolume */
+void OptiXModel::commitVolumesBuffers(const size_t materialId)
+{
+    if (_volumeGeometries.empty())
+        return;
+
+    std::vector<VolumeGeometry> volumeGeometries;
+    for (const auto& volumeGeometry : _volumeGeometries)
+        volumeGeometries.push_back(volumeGeometry.second);
+
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _volumesBuffers[materialId], _optixVolumes[materialId]["volumes"],
+              volumeGeometries, sizeof(VolumeGeometry) * volumeGeometries.size());
+}
+
 BrickedVolumePtr OptiXModel::createBrickedVolume(const Vector3ui& /*dimensions*/, const Vector3f& /*spacing*/,
                                                  const DataType /*type*/)
 {
@@ -337,31 +405,54 @@ BrickedVolumePtr OptiXModel::createBrickedVolume(const Vector3ui& /*dimensions*/
 void OptiXModel::_commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities,
                                              const Vector2d valueRange)
 {
+    auto context = OptiXContext::get().getOptixContext();
     const auto nbColors = colors.size();
-    floats normalizedOpacities(nbColors);
-    Vector3fs gbrColors(nbColors);
-    for (uint64_t i = 0; i < colors.size(); ++i)
+    Vector4fs colormap;
+    for (uint64_t i = 0; i < nbColors; ++i)
+        colormap.push_back({colors[i].x, colors[i].y, colors[i].z, opacities[i * 256 / nbColors]});
+
+    Buffer buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, nbColors, 1u);
+    memcpy(buffer->map(), colormap.data(), sizeof(Vector4f) * colormap.size());
+    buffer->unmap();
+
+    TextureSampler sampler = context->createTextureSampler();
+    sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
+    sampler->setWrapMode(1, RT_WRAP_CLAMP_TO_EDGE);
+    sampler->setWrapMode(2, RT_WRAP_CLAMP_TO_EDGE);
+    sampler->setIndexingMode(RT_TEXTURE_INDEX_NORMALIZED_COORDINATES);
+    sampler->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
+    sampler->setBuffer(0u, 0u, buffer);
+    sampler->setFilteringModes(RT_FILTER_NEAREST, RT_FILTER_NEAREST, RT_FILTER_NONE);
+    const auto samplerId = sampler->getId();
+
+    // Attach transfer function texture to all materials in the model
+    for (auto& volumeGeometry : _volumeGeometries)
     {
-        gbrColors[i] = {colors[i].z, colors[i].y, colors[i].x};
-        normalizedOpacities[i] = opacities[i * 256 / nbColors];
+        volumeGeometry.second.transferFunctionSamplerId = samplerId;
+        volumeGeometry.second.valueRange = valueRange;
     }
 
-    RT_DESTROY(_tfColorsBuffer);
-    RT_DESTROY(_tfOpacitiesBuffer);
-    auto context = OptiXContext::get().getOptixContext();
-    _tfColorsBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3, nbColors);
-    memcpy(_tfColorsBuffer->map(), colors.data(), nbColors * sizeof(Vector3f));
-    _tfColorsBuffer->unmap();
-    context[CONTEXT_TRANSFER_FUNCTION_COLORS]->setBuffer(_tfColorsBuffer);
+    for (auto material : _materials)
+    {
+        const auto materialId = material.first;
+        if (materialId == BOUNDINGBOX_MATERIAL_ID || materialId == SECONDARY_MODEL_MATERIAL_ID)
+            continue;
 
-    _tfOpacitiesBuffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, nbColors);
-    memcpy(_tfOpacitiesBuffer->map(), normalizedOpacities.data(), nbColors * sizeof(float));
-    _tfOpacitiesBuffer->unmap();
-    context[CONTEXT_TRANSFER_FUNCTION_OPACITIES]->setBuffer(_tfOpacitiesBuffer);
+        auto optixMaterial = static_cast<OptiXMaterial*>(getMaterial(materialId).get());
+        auto deviceMaterial = optixMaterial->getOptixMaterial();
+        if (!deviceMaterial)
+            continue;
 
-    context[CONTEXT_TRANSFER_FUNCTION_SIZE]->setUint(nbColors);
-    context[CONTEXT_TRANSFER_FUNCTION_MINIMUM_VALUE]->setFloat(valueRange.x);
-    context[CONTEXT_TRANSFER_FUNCTION_RANGE]->setFloat(valueRange.y - valueRange.x);
+        auto& textureSamplers = optixMaterial->getTextureSamplers();
+        textureSamplers.insert(std::make_pair(TextureType::transfer_function, sampler));
+        const auto textureName = textureTypeToString[static_cast<uint8_t>(TextureType::transfer_function)];
+        deviceMaterial[textureName]->setInt(samplerId);
+        optixMaterial->setValueRange(valueRange);
+        optixMaterial->commit();
+    }
+
+    // Update volume buffers with transfer function texture sampler Id and range
+    commitVolumesBuffers(VOLUME_MATERIAL_ID);
 }
 
 void OptiXModel::_commitSimulationDataImpl(const float* frameData, const size_t frameSize)

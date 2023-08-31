@@ -53,7 +53,6 @@ uint64_t ThreadSafeContainer::addSphere(const Vector3f& position, const float ra
                                         const Vector3f displacement)
 {
     const Vector3f scale = _scale;
-    const Vector3f scaledDisplacement{displacement.x * scale.x, displacement.y / scale.x, displacement.z};
     const Vector3f scaledPosition =
         getAlignmentToGrid(_alignToGrid, Vector3f(_position + _rotation * Vector3d(position)) * scale);
     if (useSdf)
@@ -61,12 +60,13 @@ uint64_t ThreadSafeContainer::addSphere(const Vector3f& position, const float ra
         const auto scaledRadius = (radius - displacement.x) * scale.x;
         _bounds.merge(scaledPosition + scaledRadius);
         _bounds.merge(scaledPosition - scaledRadius);
+        const Vector3f scaledDisplacement{displacement.x * scale.x, displacement.y / scale.x, displacement.z};
         return _addSDFGeometry(materialId, createSDFSphere(scaledPosition, scaledRadius, userData, scaledDisplacement),
                                neighbours);
     }
     const auto scaledRadius = radius * scale.x;
-    _bounds.merge(scaledPosition + Vector3f(scaledRadius, scaledRadius, scaledRadius));
-    _bounds.merge(scaledPosition - Vector3f(scaledRadius, scaledRadius, scaledRadius));
+    _bounds.merge(scaledPosition + scaledRadius);
+    _bounds.merge(scaledPosition - scaledRadius);
     return _addSphere(materialId, {scaledPosition, scaledRadius, userData});
 }
 
@@ -76,21 +76,21 @@ uint64_t ThreadSafeContainer::addCone(const Vector3f& sourcePosition, const floa
                                       const Vector3f displacement)
 {
     const Vector3f scale = _scale;
-    const Vector3f scaledDisplacement{displacement.x * scale.x, displacement.y / scale.x, displacement.z};
     const Vector3f scaledSrcPosition =
         getAlignmentToGrid(_alignToGrid, Vector3f(_position + _rotation * Vector3d(sourcePosition)) * scale);
     const Vector3f scaledDstPosition =
         getAlignmentToGrid(_alignToGrid, Vector3f(_position + _rotation * Vector3d(targetPosition)) * scale);
     if (useSdf)
     {
+        const Vector3f scaledDisplacement{displacement.x * scale.x, displacement.y / scale.x, displacement.z};
         const auto scaledSrcRadius = (sourceRadius - displacement.x) * scale.x;
         const auto scaledDstRadius = (targetRadius - displacement.x) * scale.x;
         const auto geom = createSDFConePill(scaledSrcPosition, scaledDstPosition, scaledSrcRadius, scaledDstRadius,
                                             userDataOffset, scaledDisplacement);
-        _bounds.merge(scaledSrcPosition + Vector3f(scaledSrcRadius, scaledSrcRadius, scaledSrcRadius));
-        _bounds.merge(scaledSrcPosition - Vector3f(scaledSrcRadius, scaledSrcRadius, scaledSrcRadius));
-        _bounds.merge(scaledDstPosition + Vector3f(scaledDstRadius, scaledDstRadius, scaledDstRadius));
-        _bounds.merge(scaledDstPosition - Vector3f(scaledDstRadius, scaledDstRadius, scaledDstRadius));
+        _bounds.merge(scaledSrcPosition + scaledSrcRadius);
+        _bounds.merge(scaledSrcPosition - scaledSrcRadius);
+        _bounds.merge(scaledDstPosition + scaledDstRadius);
+        _bounds.merge(scaledDstPosition - scaledDstRadius);
         return _addSDFGeometry(materialId, geom, neighbours);
     }
     if (abs(sourceRadius - targetRadius) < equalityEpsilon)
@@ -106,10 +106,10 @@ uint64_t ThreadSafeContainer::addCone(const Vector3f& sourcePosition, const floa
 
     const auto scaledSrcRadius = sourceRadius * scale.x;
     const auto scaledDstRadius = targetRadius * scale.x;
-    _bounds.merge(scaledSrcRadius + Vector3f(scaledSrcRadius, scaledSrcRadius, scaledSrcRadius));
-    _bounds.merge(scaledSrcRadius - Vector3f(scaledSrcRadius, scaledSrcRadius, scaledSrcRadius));
-    _bounds.merge(scaledDstPosition + Vector3f(scaledDstRadius, scaledDstRadius, scaledDstRadius));
-    _bounds.merge(scaledDstPosition - Vector3f(scaledDstRadius, scaledDstRadius, scaledDstRadius));
+    _bounds.merge(scaledSrcPosition + scaledSrcRadius);
+    _bounds.merge(scaledSrcPosition - scaledSrcRadius);
+    _bounds.merge(scaledDstPosition + scaledDstRadius);
+    _bounds.merge(scaledDstPosition - scaledDstRadius);
     return _addCone(materialId, {scaledSrcPosition, scaledDstPosition, sourceRadius * scale.x, targetRadius * scale.x,
                                  userDataOffset});
 }
@@ -284,6 +284,10 @@ void ThreadSafeContainer::_commitMeshesToModel()
 
 void ThreadSafeContainer::_commitStreamlinesToModel()
 {
+    const auto& streamlines = _model.getStreamlines();
+    if (streamlines.empty())
+        return;
+
     const auto materialId = 0;
     _materialIds.insert(materialId);
     auto& modelStreamline = _model.getStreamlines()[materialId];

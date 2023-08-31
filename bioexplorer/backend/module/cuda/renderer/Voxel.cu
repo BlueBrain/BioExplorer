@@ -24,7 +24,6 @@
 #include <platform/engines/optix6/cuda/Context.cuh>
 #include <platform/engines/optix6/cuda/renderer/TransferFunction.cuh>
 
-rtDeclareVariable(int, maxBounces, , );
 rtDeclareVariable(float, alphaCorrection, , );
 rtDeclareVariable(float, simulationThreshold, , );
 
@@ -34,9 +33,8 @@ static __device__ inline void shade()
     float3 color = make_float3(0.f);
     if (prd.depth < maxBounces && cast_user_data && simulation_data.size() > 0)
     {
-        const float4 userDataColor = calcTransferFunctionColor(tfMinValue, tfMinValue + tfRange,
-                                                               simulation_data[simulation_idx], tfColors, tfOpacities);
-
+        const float4 userDataColor =
+            calcTransferFunctionColor(transfer_function_map, value_range, simulation_data[simulation_idx]);
         if (userDataColor.w >= simulationThreshold)
         {
             color = color * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;
@@ -52,8 +50,8 @@ static __device__ inline void shade()
         rtTrace(top_object, new_ray, new_prd);
     }
 
-    color = ::optix::clamp(mainExposure * color, 0.f, 1.f);
-    prd.result = color;
+    color = ::optix::clamp(color, 0.f, 1.f);
+    prd.result = make_float4(color, 1.f);
 }
 
 RT_PROGRAM void any_hit_shadow()
@@ -62,6 +60,11 @@ RT_PROGRAM void any_hit_shadow()
 }
 
 RT_PROGRAM void closest_hit_radiance()
+{
+    shade();
+}
+
+RT_PROGRAM void closest_hit_radiance_textured()
 {
     shade();
 }

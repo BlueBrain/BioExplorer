@@ -24,6 +24,8 @@
 
 #pragma once
 
+#include "OptiXTypes.h"
+
 #include <platform/core/engineapi/Model.h>
 
 #include <optixu/optixpp_namespace.h>
@@ -36,6 +38,8 @@ class OptiXModel : public Model
 {
 public:
     OptiXModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters);
+
+    ~OptiXModel();
 
     /** @copydoc Model::commit */
     void commitGeometry() final;
@@ -57,6 +61,9 @@ public:
     ::optix::GeometryGroup getGeometryGroup() const { return _geometryGroup; }
     ::optix::GeometryGroup getBoundingBoxGroup() const { return _boundingBoxGroup; }
 
+    auto& getVolumeGeometries() { return _volumeGeometries; }
+    void commitVolumesBuffers(const size_t materialId);
+
 protected:
     void _commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities, const Vector2d valueRange) final;
     void _commitSimulationDataImpl(const float* frameData, const size_t frameSize) final;
@@ -66,6 +73,7 @@ private:
     void _commitCylinders(const size_t materialId);
     void _commitCones(const size_t materialId);
     void _commitMeshes(const size_t materialId);
+    void _commitVolumes(const size_t materialId);
     void _commitMaterials();
     bool _commitSimulationData();
     bool _commitTransferFunction();
@@ -85,6 +93,10 @@ private:
     std::map<size_t, optix::Buffer> _conesBuffers;
     std::map<size_t, optix::Geometry> _optixCones;
 
+    // Volumes
+    std::map<size_t, optix::Buffer> _volumesBuffers;
+    std::map<size_t, optix::Geometry> _optixVolumes;
+
     // Meshes
     struct TriangleMesh
     {
@@ -99,6 +111,7 @@ private:
 
     // Volume
     ::optix::Buffer _volumeBuffer{nullptr};
+    std::map<size_t, VolumeGeometry> _volumeGeometries;
 
     // Materials and textures
     std::map<std::string, optix::Buffer> _optixTextures;

@@ -18,7 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <optix_world.h>
+#include <platform/engines/optix6/cuda/Context.cuh>
 
 using namespace optix;
 
@@ -28,23 +28,17 @@ using namespace optix;
 #define OFFSET_TIMESTAMP (OFFSET_RADIUS + 1)
 #define OFFSET_TEX_COORDS (OFFSET_TIMESTAMP + 1)
 
-rtBuffer<float> spheres;
-
-rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
-rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
+// Global variables
 rtDeclareVariable(unsigned int, sphere_size, , );
-rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
+rtBuffer<float> spheres;
 
 template <bool use_robust_method>
 static __device__ void intersect_sphere(int primIdx)
 {
     const int idx = primIdx * sphere_size;
 
-    const unsigned long userData =
-        *((unsigned long*)(&spheres[idx + OFFSET_USER_DATA]));
-    const float3 center = {spheres[idx + OFFSET_CENTER],
-                           spheres[idx + OFFSET_CENTER + 1],
+    const unsigned long userData = *((unsigned long*)(&spheres[idx + OFFSET_USER_DATA]));
+    const float3 center = {spheres[idx + OFFSET_CENTER], spheres[idx + OFFSET_CENTER + 1],
                            spheres[idx + OFFSET_CENTER + 2]};
     const float3 O = ray.origin - center;
     const float3 D = ray.direction;
@@ -83,9 +77,10 @@ static __device__ void intersect_sphere(int primIdx)
         bool check_second = true;
         if (rtPotentialIntersection(root1 + root11))
         {
-            shading_normal = geometric_normal =
-                (O + (root1 + root11) * D) / radius;
+            shading_normal = geometric_normal = (O + (root1 + root11) * D) / radius;
             simulation_idx = userData;
+            texcoord = make_float2(0.f);
+            texcoord3d = make_float3(0.f);
             if (rtReportIntersection(0))
                 check_second = false;
         }
@@ -96,6 +91,8 @@ static __device__ void intersect_sphere(int primIdx)
             {
                 shading_normal = geometric_normal = (O + root2 * D) / radius;
                 simulation_idx = userData;
+                texcoord = make_float2(0.f);
+                texcoord3d = make_float3(0.f);
                 rtReportIntersection(0);
             }
         }
@@ -115,8 +112,7 @@ RT_PROGRAM void robust_intersect(int primIdx)
 RT_PROGRAM void bounds(int primIdx, float result[6])
 {
     const int idx = primIdx * sphere_size;
-    const float3 cen = {spheres[idx + OFFSET_CENTER],
-                        spheres[idx + OFFSET_CENTER + 1],
+    const float3 cen = {spheres[idx + OFFSET_CENTER], spheres[idx + OFFSET_CENTER + 1],
                         spheres[idx + OFFSET_CENTER + 2]};
     const float rad = spheres[idx + OFFSET_RADIUS];
 

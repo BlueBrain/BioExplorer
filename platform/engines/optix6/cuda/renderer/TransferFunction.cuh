@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, EPFL/Blue Brain Project
+ * Copyright (c) 2019-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
@@ -20,36 +20,9 @@
 
 #include <optix_world.h>
 
-template <typename T>
-static __device__ inline T interpolateValues(const float v_min, const float v_max, const float value,
-                                             optix::buffer<T, 1>& values)
+static __device__ inline float4 calcTransferFunctionColor(const int sampleId, const float2& valueRange,
+                                                          const float value)
 {
-    const int num_values = values.size();
-
-    const float v_clamped = min(v_max, max(v_min, value));
-    const float range_per_value = (v_max - v_min) / (num_values - 1);
-    const float idx_value = (v_clamped - v_min) / range_per_value;
-
-    const int index = int(floor(idx_value));
-
-    if (index == num_values - 1)
-        return values[index];
-
-    const float v_low = v_min + float(index) * range_per_value;
-    const float t = (v_clamped - v_low) / range_per_value;
-
-    return values[index] * (1.0f - t) + values[index + 1] * t;
-}
-
-static __device__ inline float4 calcTransferFunctionColor(const float range_min, const float range_max,
-                                                          const float value, optix::buffer<float3, 1>& colors,
-                                                          optix::buffer<float, 1>& opacities)
-{
-    const float3 WHITE = make_float3(1.f, 1.f, 1.f);
-
-    const float3 color = interpolateValues<float3>(range_min, range_max, value, colors);
-
-    const float opacity = interpolateValues<float>(range_min, range_max, value, opacities);
-
-    return make_float4(opacity * color + (1.0f - opacity) * WHITE, opacity);
+    const float texcoord = (value - valueRange.x) / (valueRange.y - valueRange.x);
+    return optix::rtTex1D<float4>(sampleId, texcoord);
 }

@@ -25,7 +25,7 @@
 using namespace optix;
 
 // Pass 'seed' by reference to keep randomness state
-__device__ float3 launch(unsigned int& seed, const float2 screen, const bool use_randomness)
+__device__ float4 launch(unsigned int& seed, const float2 screen, const bool use_randomness)
 {
     // Subpixel jitter: send the ray through a different position inside the
     // pixel each time, to provide anti-aliasing.
@@ -52,7 +52,7 @@ __device__ float3 launch(unsigned int& seed, const float2 screen, const bool use
     const optix::Ray ray(ray_origin, ray_direction, radiance_ray_type, near, far);
     rtTrace(top_object, ray, prd);
 
-    return prd.result;
+    return make_float4(make_float3(prd.result) * mainExposure, prd.result.w);
 }
 
 RT_PROGRAM void orthographicCamera()
@@ -65,7 +65,7 @@ RT_PROGRAM void orthographicCamera()
     const int num_samples = max(1, samples_per_pixel);
     // We enable randomness if we are using subpixel sampling or accumulation
     const bool use_randomness = frame > 0 || num_samples > 1;
-    float3 result = make_float3(0, 0, 0);
+    float4 result = make_float4(0.f);
     for (int i = 0; i < num_samples; i++)
         result += launch(seed, screen_f, use_randomness);
     result /= num_samples;
@@ -74,12 +74,12 @@ RT_PROGRAM void orthographicCamera()
     if (frame > 0)
     {
         acc_val = accum_buffer[launch_index];
-        acc_val = lerp(acc_val, make_float4(result, 0.f), 1.0f / static_cast<float>(frame + 1));
+        acc_val = lerp(acc_val, result, 1.0f / static_cast<float>(frame + 1));
     }
     else
-        acc_val = make_float4(result, 1.f);
+        acc_val = result;
 
-    output_buffer[launch_index] = make_color(make_float3(acc_val));
+    output_buffer[launch_index] = make_color(acc_val);
 
     if (accum_buffer.size().x > 1 && accum_buffer.size().y > 1)
         accum_buffer[launch_index] = acc_val;

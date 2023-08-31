@@ -23,7 +23,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <optix_world.h>
+#include <platform/engines/optix6/cuda/Context.cuh>
 
 using namespace optix;
 
@@ -37,27 +37,17 @@ using namespace optix;
 
 // Global variables
 rtDeclareVariable(unsigned int, cone_size, , );
-
 rtBuffer<float> cones;
-
-// Geometry specific variables
-rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
-rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
-rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
 
 template <bool use_robust_method>
 static __device__ void intersect_cone(int primIdx)
 {
     const int idx = primIdx * cone_size;
 
-    const unsigned long userData =
-        *((unsigned long*)(&cones[idx + OFFSET_USER_DATA]));
+    const unsigned long userData = *((unsigned long*)(&cones[idx + OFFSET_USER_DATA]));
 
-    float3 v0 = {cones[idx + OFFSET_CENTER], cones[idx + OFFSET_CENTER + 1],
-                 cones[idx + OFFSET_CENTER + 2]};
-    float3 v1 = {cones[idx + OFFSET_UP], cones[idx + OFFSET_UP + 1],
-                 cones[idx + OFFSET_UP + 2]};
+    float3 v0 = {cones[idx + OFFSET_CENTER], cones[idx + OFFSET_CENTER + 1], cones[idx + OFFSET_CENTER + 2]};
+    float3 v1 = {cones[idx + OFFSET_UP], cones[idx + OFFSET_UP + 1], cones[idx + OFFSET_UP + 2]};
     float radius0 = cones[idx + OFFSET_CENTER_RADIUS];
     float radius1 = cones[idx + OFFSET_UP_RADIUS];
 
@@ -160,9 +150,10 @@ static __device__ void intersect_cone(int primIdx)
             if (rtPotentialIntersection(t_in))
             {
                 const float3 surfaceVec = normalize(p1 - V);
-                geometric_normal = shading_normal =
-                    cross(cross(v, surfaceVec), surfaceVec);
+                geometric_normal = shading_normal = cross(cross(v, surfaceVec), surfaceVec);
                 simulation_idx = userData;
+                texcoord = make_float2(0.f);
+                texcoord3d = make_float3(0.f);
                 if (rtReportIntersection(0))
                     check_second = false;
             }
@@ -180,9 +171,10 @@ static __device__ void intersect_cone(int primIdx)
                 if (rtPotentialIntersection(t_out))
                 {
                     const float3 surfaceVec = normalize(p2 - V);
-                    geometric_normal = shading_normal =
-                        cross(cross(v, surfaceVec), surfaceVec);
+                    geometric_normal = shading_normal = cross(cross(v, surfaceVec), surfaceVec);
                     simulation_idx = userData;
+                    texcoord = make_float2(0.f);
+                    texcoord3d = make_float3(0.f);
                     rtReportIntersection(0);
                 }
             }
@@ -203,13 +195,9 @@ RT_PROGRAM void robust_intersect(int primIdx)
 RT_PROGRAM void bounds(int primIdx, float result[6])
 {
     const int idx = primIdx * cone_size;
-    const float3 v0 = {cones[idx + OFFSET_CENTER],
-                       cones[idx + OFFSET_CENTER + 1],
-                       cones[idx + OFFSET_CENTER + 2]};
-    const float3 v1 = {cones[idx + OFFSET_UP], cones[idx + OFFSET_UP + 1],
-                       cones[idx + OFFSET_UP + 2]};
-    const float radius =
-        max(cones[idx + OFFSET_CENTER_RADIUS], cones[idx + OFFSET_UP_RADIUS]);
+    const float3 v0 = {cones[idx + OFFSET_CENTER], cones[idx + OFFSET_CENTER + 1], cones[idx + OFFSET_CENTER + 2]};
+    const float3 v1 = {cones[idx + OFFSET_UP], cones[idx + OFFSET_UP + 1], cones[idx + OFFSET_UP + 2]};
+    const float radius = max(cones[idx + OFFSET_CENTER_RADIUS], cones[idx + OFFSET_UP_RADIUS]);
 
     const float3 V0 = {min(v0.x, v1.x), min(v0.y, v1.y), min(v0.z, v1.z)};
     const float3 V1 = {max(v0.x, v1.x), max(v0.y, v1.y), max(v0.z, v1.z)};

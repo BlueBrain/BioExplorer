@@ -92,16 +92,16 @@ public:
     const ProteinDetails& getDescriptor() const { return _details; }
 
     /**
-     * @brief Get the positions and rotations of glycosilation sites on the
+     * @brief Get the positions and rotations of Glycosylation sites on the
      * protein
      *
-     * @param positions Positions of glycosilation sites on the protein
-     * @param rotations rotations of glycosilation sites on the protein
+     * @param positions Positions of Glycosylation sites on the protein
+     * @param rotations rotations of Glycosylation sites on the protein
      * @param siteIndices Optional indices of sites for which positions and
      * rotations should be returned. If empty, positions and rotations are
      * returned for every glycosylation site on the protein
      */
-    void getGlycosilationSites(Vector3ds& positions, Quaternions& rotations, const size_ts& siteIndices) const;
+    void getGlycosylationSites(Vector3ds& positions, Quaternions& rotations, const size_ts& siteIndices) const;
 
     /**
      * @brief Get the sugar binding sites positions and rotations
@@ -136,7 +136,7 @@ public:
     void setAminoAcid(const AminoAcidDetails& details);
 
     /**
-     * @brief addGlycan Add glycans to glycosilation sites of a given protein
+     * @brief addGlycan Add glycans to Glycosylation sites of a given protein
      * in the assembly
      * @param details Details of the glycans
      */
@@ -174,7 +174,7 @@ private:
 
     // Utility functions
     void _processInstances(ModelDescriptorPtr md, const Vector3ds& positions, const Quaternions& rotations,
-                           const Quaterniond& proteinrotation, const MolecularSystemAnimationDetails& randInfo);
+                           const Quaterniond& proteinRotation, const MolecularSystemAnimationDetails& randInfo);
     void _buildAminoAcidBounds();
 
     // Class members
@@ -182,7 +182,7 @@ private:
     GlycansMap _glycans;
     double _transMembraneOffset{0.f};
     double _transMembraneRadius;
-    std::map<std::string, std::map<size_t, Boxf>> _aminoAcidBounds;
+    std::map<std::string, std::map<size_t, Boxd>> _aminoAcidBounds;
 };
 } // namespace molecularsystems
 } // namespace bioexplorer

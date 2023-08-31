@@ -181,6 +181,8 @@ void MediaMakerPlugin::_createOptiXRenderers()
 
         auto osp = std::make_shared<OptixShaderProgram>();
         osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance");
+        osp->closest_hit_textured =
+            context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance_textured");
         osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "any_hit_shadow");
 
         context.addRenderer(renderer.first, osp);
@@ -210,6 +212,16 @@ void MediaMakerPlugin::preRender()
 {
     if (_exportFramesToDiskDirty && _accumulationFrameNumber == 0)
     {
+        auto &frameBuffer = _api->getEngine().getFrameBuffer();
+        frameBuffer.resize(_frameBufferSize);
+        frameBuffer.clear();
+
+        auto &camera = _api->getCamera();
+        if (camera.hasProperty("aspect"))
+            camera.updateProperty("aspect",
+                                  static_cast<double>(_frameBufferSize.x) / static_cast<double>(_frameBufferSize.y));
+        camera.commit();
+
         const uint64_t i = CAMERA_DEFINITION_SIZE * _frameNumber;
         // Camera position
         CameraDefinition cd;
@@ -422,25 +434,18 @@ void MediaMakerPlugin::_exportFramesToDisk(const ExportFramesToDisk &payload)
     _exportFramesToDiskPayload = payload;
     _exportFramesToDiskDirty = true;
     _frameNumber = payload.startFrame;
+    _frameBufferSize = Vector2ui(payload.size[0], payload.size[1]);
     _accumulationFrameNumber = 0;
     _baseName = payload.baseName;
 
-    auto &frameBuffer = _api->getEngine().getFrameBuffer();
-    const auto size = Vector2ui(payload.size[0], payload.size[1]);
-    frameBuffer.resize(size);
-    frameBuffer.clear();
-
-    auto &camera = _api->getCamera();
-    if (camera.hasProperty("aspect"))
-        camera.updateProperty("aspect", static_cast<double>(size.x) / static_cast<double>(size.y));
-    camera.commit();
     const size_t nbFrames = _exportFramesToDiskPayload.endFrame - _exportFramesToDiskPayload.startFrame;
     PLUGIN_INFO(
         "----------------------------------------------------------------------"
         "----------");
     PLUGIN_INFO("Movie settings               :");
     PLUGIN_INFO("- Samples per pixel          : " + std::to_string(payload.spp));
-    PLUGIN_INFO("- Frame size                 : " + std::to_string(size.x) + "x" + std::to_string(size.y));
+    PLUGIN_INFO("- Frame size                 : " + std::to_string(_frameBufferSize.x) + "x" +
+                std::to_string(_frameBufferSize.y));
     PLUGIN_INFO("- Export folder              : " + payload.path);
     PLUGIN_INFO("- Export intermediate frames : " + std::string(payload.exportIntermediateFrames ? "Yes" : "No"));
     PLUGIN_INFO("- Start frame                : " + std::to_string(payload.startFrame));

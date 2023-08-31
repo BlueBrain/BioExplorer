@@ -63,6 +63,5 @@ void OptiXOrthographicCamera::commit(const OptiXCamera& camera, ::optix::Context
     context[CONTEXT_CAMERA_V]->setFloat(v.x, v.y, v.z);
     context[CONTEXT_CAMERA_W]->setFloat(position.x, position.y, position.z);
     context[CONTEXT_CAMERA_DIR]->setFloat(dir.x, dir.y, dir.z);
-    context[CONTEXT_CAMERA_BAD_COLOR]->setFloat(1.f, 0.f, 1.f);
 }
 } // namespace core

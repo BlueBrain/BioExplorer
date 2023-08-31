@@ -58,7 +58,7 @@ public:
      * @param scene The 3D scene where the glycans are added
      * @param chainIds IDs of chains to be used to construct the molecule object
      */
-    Molecule(Scene& scene, const size_ts& chainIds);
+    Molecule(Scene& scene, const Vector3d& position, const Quaterniond& rotation, const size_ts& chainIds);
 
     /**
      * @brief Get the Atoms object
