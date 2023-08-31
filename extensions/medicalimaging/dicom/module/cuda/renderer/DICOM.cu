@@ -32,15 +32,21 @@ using namespace optix;
 
 rtDeclareVariable(float, surfaceOffset, , );
 
-static __device__ void dicomShade()
+static __device__ void dicomShade(const bool textured)
 {
     float3 result = make_float3(0.f);
 
     float4 voxelColor = make_float4(Kd, luminance(Ko));
-    if (volume_map != 0)
+    if (textured)
     {
-        const float voxelValue = rtTex3D<float>(volume_map, texcoord3d.x, texcoord3d.y, texcoord3d.z);
-        voxelColor = calcTransferFunctionColor(transfer_function_map, value_range, voxelValue);
+        if (volume_map != 0)
+        {
+            const float voxelValue = rtTex3D<float>(volume_map, texcoord3d.x, texcoord3d.y, texcoord3d.z);
+            voxelColor = calcTransferFunctionColor(transfer_function_map, value_range, voxelValue);
+        }
+        else
+            voxelColor = make_float4(make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y)),
+                                     luminance(Ko));
     }
 
     const float3 hit_point = ray.origin + t_hit * ray.direction;
@@ -262,12 +268,12 @@ RT_PROGRAM void any_hit_shadow()
 
 RT_PROGRAM void closest_hit_radiance()
 {
-    dicomShade();
+    dicomShade(false);
 }
 
 RT_PROGRAM void closest_hit_radiance_textured()
 {
-    dicomShade();
+    dicomShade(true);
 }
 
 RT_PROGRAM void exception()

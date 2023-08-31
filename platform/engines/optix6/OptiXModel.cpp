@@ -23,6 +23,7 @@
  */
 
 #include "OptiXModel.h"
+#include "OptiXCommonStructs.h"
 #include "OptiXContext.h"
 #include "OptiXMaterial.h"
 #include "OptiXUtils.h"
@@ -30,6 +31,7 @@
 
 #include <platform/core/common/Logs.h>
 #include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/utils/Utils.h>
 #include <platform/core/parameters/AnimationParameters.h>
 
 #include <platform/core/engineapi/Material.h>
@@ -88,38 +90,17 @@ void OptiXModel::commitGeometry()
     // Materials
     _commitMaterials();
 
-    size_t nbSpheres = 0;
-    size_t nbCylinders = 0;
-    size_t nbCones = 0;
     if (_spheresDirty)
-    {
         for (const auto& spheres : _geometries->_spheres)
-        {
-            nbSpheres += spheres.second.size();
             _commitSpheres(spheres.first);
-        }
-        CORE_DEBUG(nbSpheres << " spheres");
-    }
 
     if (_cylindersDirty)
-    {
         for (const auto& cylinders : _geometries->_cylinders)
-        {
-            nbCylinders += cylinders.second.size();
             _commitCylinders(cylinders.first);
-        }
-        CORE_DEBUG(nbCylinders << " cylinders");
-    }
 
     if (_conesDirty)
-    {
         for (const auto& cones : _geometries->_cones)
-        {
-            nbCones += cones.second.size();
             _commitCones(cones.first);
-        }
-        CORE_DEBUG(nbCones << " cones");
-    }
 
     if (_triangleMeshesDirty)
         for (const auto& meshes : _geometries->_triangleMeshes)
@@ -127,6 +108,10 @@ void OptiXModel::commitGeometry()
 
     if (_volumesDirty)
         _commitVolumes(VOLUME_MATERIAL_ID);
+
+    if (_streamlinesDirty)
+        for (const auto& streamlines : _geometries->_streamlines)
+            _commitStreamlines(streamlines.first);
 
     updateBounds();
     _markGeometriesClean();
@@ -283,6 +268,124 @@ void OptiXModel::_commitVolumes(const size_t materialId)
     instance->setMaterialCount(1);
     instance->setMaterial(0, optixMaterial);
     _geometryGroup->addChild(instance);
+}
+
+void OptiXModel::_commitStreamlines(const size_t materialId)
+{
+    if (_geometries->_streamlines.find(materialId) == _geometries->_streamlines.end())
+        return;
+
+    const auto& streamlines = _geometries->_streamlines[materialId];
+
+    // Identify streamlines according to indices
+    std::vector<Vector2ui> indices;
+    size_t begin = 0;
+    for (size_t i = 0; i < streamlines.indices.size() - 1; ++i)
+    {
+        if (streamlines.indices[i] + 1 != streamlines.indices[i + 1])
+        {
+            indices.push_back({begin, streamlines.indices[i]});
+            begin = streamlines.indices[i + 1];
+        }
+    }
+
+    Vector4fs vertexCurve;
+    Vector4fs colorCurve = streamlines.vertexColor;
+    uint32_ts indexCurve;
+    const bool processColor = colorCurve.empty();
+    size_t count = 0;
+    for (const auto& index : indices)
+    {
+        const uint32_t begin = index.x;
+        const uint32_t end = index.y;
+
+        Vector4fs controlPoints;
+        for (uint32_t idx = begin; idx < end; ++idx)
+            controlPoints.push_back(streamlines.vertex[idx]);
+
+        const auto lengthSegment = length(Vector3f(streamlines.vertex[end]) - Vector3f(streamlines.vertex[begin]));
+        const auto nbSteps = max(2, floor(lengthSegment / 3.f));
+        const float t_step = 1.f / nbSteps;
+        for (float t = 0.f; t < 1.f - t_step; t += t_step)
+        {
+            const auto a = getBezierPoint(controlPoints, t);
+            const auto b = getBezierPoint(controlPoints, t + t_step);
+            const auto src = Vector3f(a);
+            const auto dst = Vector3f(b);
+            const auto srcRadius = a.w;
+            const auto dstRadius = b.w;
+            if (t == 0.f)
+            {
+                vertexCurve.push_back(Vector4f(src, 0.f));
+                vertexCurve.push_back(Vector4f(dst, dstRadius));
+            }
+            else if (t == 1.f - t_step)
+            {
+                vertexCurve.push_back(Vector4f(src, srcRadius));
+                vertexCurve.push_back(Vector4f(dst, 0.f));
+            }
+            else
+            {
+                vertexCurve.push_back(Vector4f(src, srcRadius));
+                vertexCurve.push_back(Vector4f(dst, dstRadius));
+            }
+
+            if (processColor)
+                colorCurve.push_back(Vector4f(0.5f + 0.5f * normalize(dst - src), 1.f));
+
+            indexCurve.push_back(count);
+            count += 2;
+        }
+    }
+
+    _optixStreamlines[materialId] = OptiXContext::get().createGeometry(OptixGeometryType::streamline);
+
+    auto& optixStreamlines = _optixStreamlines[materialId];
+    optixStreamlines->setPrimitiveCount(indexCurve.size());
+
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, _streamlinesBuffers[materialId].vertices_buffer,
+              _optixStreamlines[materialId]["vertices_buffer"], vertexCurve, vertexCurve.size());
+
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_INT, _streamlinesBuffers[materialId].indices_buffer,
+              _optixStreamlines[materialId]["indices_buffer"], indexCurve, indexCurve.size());
+
+    auto& material = static_cast<OptiXMaterial&>(*_materials[materialId]);
+    auto optixMaterial = material.getOptixMaterial();
+    if (!optixMaterial)
+        CORE_THROW(std::runtime_error("OptiX material is not defined"));
+
+    auto context = OptiXContext::get().getOptixContext();
+
+    const Vector2ui textureSize{MAX_TEXTURE_SIZE, 1 + colorCurve.size() / MAX_TEXTURE_SIZE};
+    Buffer buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, textureSize.x, textureSize.y, 1u);
+    memcpy(buffer->map(), colorCurve.data(), sizeof(Vector4f) * colorCurve.size());
+    buffer->unmap();
+
+    TextureSampler sampler = context->createTextureSampler();
+    sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
+    sampler->setWrapMode(1, RT_WRAP_CLAMP_TO_EDGE);
+    sampler->setWrapMode(2, RT_WRAP_CLAMP_TO_EDGE);
+    sampler->setIndexingMode(RT_TEXTURE_INDEX_NORMALIZED_COORDINATES);
+    sampler->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
+    sampler->setBuffer(0u, 0u, buffer);
+    sampler->setFilteringModes(RT_FILTER_NEAREST, RT_FILTER_NEAREST, RT_FILTER_NONE);
+    sampler->setMaxAnisotropy(8.0f);
+    sampler->validate();
+    const auto samplerId = sampler->getId();
+    auto& textureSamplers = material.getTextureSamplers();
+    textureSamplers.insert(std::make_pair(TextureType::diffuse, sampler));
+    const auto textureName = textureTypeToString[static_cast<uint8_t>(TextureType::diffuse)];
+    optixMaterial[textureName]->setInt(samplerId);
+    material.commit();
+
+    auto instance = context->createGeometryInstance();
+    instance->setGeometry(optixStreamlines);
+    instance->setMaterialCount(1);
+    instance->setMaterial(0, optixMaterial);
+    if (materialId == BOUNDINGBOX_MATERIAL_ID)
+        _boundingBoxGroup->addChild(instance);
+    else
+        _geometryGroup->addChild(instance);
 }
 
 void OptiXModel::_commitMaterials()

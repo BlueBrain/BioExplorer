@@ -74,6 +74,7 @@ private:
     void _commitCones(const size_t materialId);
     void _commitMeshes(const size_t materialId);
     void _commitVolumes(const size_t materialId);
+    void _commitStreamlines(const size_t materialId);
     void _commitMaterials();
     bool _commitSimulationData();
     bool _commitTransferFunction();
@@ -112,6 +113,16 @@ private:
     // Volume
     ::optix::Buffer _volumeBuffer{nullptr};
     std::map<size_t, VolumeGeometry> _volumeGeometries;
+
+    // Streamlines
+    struct Streamlines
+    {
+        optix::Buffer vertices_buffer;
+        optix::Buffer color_buffer;
+        optix::Buffer indices_buffer;
+    };
+    std::map<size_t, Streamlines> _streamlinesBuffers;
+    std::map<size_t, optix::Geometry> _optixStreamlines;
 
     // Materials and textures
     std::map<std::string, optix::Buffer> _optixTextures;

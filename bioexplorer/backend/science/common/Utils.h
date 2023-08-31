@@ -194,17 +194,6 @@ Transformation combineTransformations(const Transformations& transformations);
 bool rayBoxIntersection(const Vector3d& origin, const Vector3d& direction, const Boxd& box, const double t0,
                         const double t1, double& t);
 
-/**
- * @brief Get the Bezier Point from a curve defined by the provided control
- * points
- *
- * @param controlPoints Curve control points with radius
- * @param t The t in the function for a curve can be thought of as describing
- * how far B(t) is from first to last control point.
- * @return Vector3f
- */
-Vector4f getBezierPoint(const Vector4fs& controlPoints, const double t);
-
 // Volumes
 double sphereVolume(const double radius);
 double cylinderVolume(const double height, const double radius);

@@ -155,6 +155,8 @@ void OptiXVolume::setVoxels(const void* voxels)
     sampler->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
     sampler->setBuffer(0u, 0u, buffer);
     sampler->setFilteringModes(RT_FILTER_LINEAR, RT_FILTER_LINEAR, RT_FILTER_NONE);
+    sampler->setMaxAnisotropy(8.0f);
+    sampler->validate();
     textureSamplers.insert(std::make_pair(TextureType::volume, sampler));
     auto optixMaterial = material->getOptixMaterial();
     const auto textureName = textureTypeToString[static_cast<uint8_t>(TextureType::volume)];

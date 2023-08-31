@@ -157,7 +157,8 @@ enum class OptixGeometryType
     cone,
     cylinder,
     triangleMesh,
-    volume
+    volume,
+    streamline
 };
 
 struct OptixShaderProgram

@@ -51,4 +51,15 @@ inline std::array<T, M> toArray(const glm::vec<M, T>& input)
     return output;
 }
 
+/**
+ * @brief Get the Bezier Point from a curve defined by the provided control
+ * points
+ *
+ * @param controlPoints Curve control points with radius
+ * @param t The t in the function for a curve can be thought of as describing
+ * how far B(t) is from first to last control point.
+ * @return Vector3f
+ */
+Vector4f getBezierPoint(const Vector4fs& controlPoints, const double t);
+
 } // namespace core

@@ -31,6 +31,7 @@ const size_t OPTIX_ENTRY_POINT_COUNT = 1;
 const size_t OPTIX_MAX_TRACE_DEPTH = 31;
 
 const float EPSILON = 1e-2f;
+const size_t MAX_TEXTURE_SIZE = 16384;
 
 struct BasicLight
 {

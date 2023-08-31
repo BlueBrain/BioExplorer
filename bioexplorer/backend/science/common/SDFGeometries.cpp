@@ -26,6 +26,7 @@
 #include <science/common/UniqueId.h>
 #include <science/common/Utils.h>
 
+#include <platform/core/common/utils/Utils.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Model.h>
 
