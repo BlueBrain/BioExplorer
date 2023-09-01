@@ -311,7 +311,9 @@ An enzyme attracts substrates to its active site, catalyzes the chemical reactio
 ![___](./bioexplorer/pythonsdk/notebooks/bioexplorer_enzyme_reactions_banner.png)
 
 References:
+* [Blue Brain Project Neuro-Glia-Vasculature Portal](https://bbp.epfl.ch/ngv-portal/)
 * [Blue Brain Neuro-Glia-Vasculature Portal. Metabolism. Reconstruction Data](https://bbp.epfl.ch/ngv-portal/#explore)
+* [Breakdown and rejuvenation of aging brain energy metabolism](https://www.biorxiv.org/content/10.1101/2023.08.30.555341v1)
 
 ### Neuromodulation
 
