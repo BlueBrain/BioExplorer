@@ -28,6 +28,8 @@
 // ispc exports
 #include "VoxelRenderer_ispc.h"
 
+using namespace core;
+
 namespace bioexplorer
 {
 namespace rendering

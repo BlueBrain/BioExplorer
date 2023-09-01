@@ -31,18 +31,13 @@ namespace bioexplorer
 {
 namespace morphology
 {
-using namespace core;
-using namespace io;
-using namespace common;
-
 /**
- * @brief The CompartmentSimulationHandler handles the reading of simulation
- * information from the database at a compartment level. When attached to a
- * model, the simulation data is communicated to the renderer by Core, and
- * mapped to the geometry by the BioExplorer advanced renderer
+ * @brief The CompartmentSimulationHandler handles the reading of simulation information from the database at a
+ * compartment level. When attached to a model, the simulation data is communicated to the renderer by Core, and mapped
+ * to the geometry by the BioExplorer advanced renderer
  *
  */
-class CompartmentSimulationHandler : public AbstractSimulationHandler
+class CompartmentSimulationHandler : public core::AbstractSimulationHandler
 {
 public:
     /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
@@ -60,7 +55,7 @@ public:
 private:
     std::string _populationName;
     uint64_t _simulationReportId;
-    SimulationReport _simulationReport;
+    common::SimulationReport _simulationReport;
 };
 } // namespace morphology
 } // namespace bioexplorer

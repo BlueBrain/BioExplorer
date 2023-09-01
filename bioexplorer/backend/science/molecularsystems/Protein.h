@@ -41,7 +41,7 @@ public:
      * @param scene Scene to which assembly should be added
      * @param details Details of the protein
      */
-    Protein(Scene& scene, const ProteinDetails& details);
+    Protein(core::Scene& scene, const details::ProteinDetails& details);
 
     /**
      * @brief Destroy the Protein object
@@ -60,7 +60,8 @@ public:
      * @param chainIds Optional identifiers of chains to which the color scheme
      * is to be applied
      */
-    void setColorScheme(const ProteinColorScheme& colorScheme, const Palette& palette, const size_ts& chainIds);
+    void setColorScheme(const details::ProteinColorScheme& colorScheme, const Palette& palette,
+                        const size_ts& chainIds);
 
     /**
      * @brief Set the Amino Acid Sequence As String object
@@ -89,7 +90,7 @@ public:
      *
      * @return The protein descriptor object
      */
-    const ProteinDetails& getDescriptor() const { return _details; }
+    const details::ProteinDetails& getDescriptor() const { return _details; }
 
     /**
      * @brief Get the positions and rotations of Glycosylation sites on the
@@ -133,35 +134,35 @@ public:
      * @param details Structure containing the information related the amino
      * acid to be modified
      */
-    void setAminoAcid(const AminoAcidDetails& details);
+    void setAminoAcid(const details::AminoAcidDetails& details);
 
     /**
      * @brief addGlycan Add glycans to Glycosylation sites of a given protein
      * in the assembly
      * @param details Details of the glycans
      */
-    void addGlycan(const SugarDetails& details);
+    void addGlycan(const details::SugarDetails& details);
 
     /**
      * @brief addSugar Add sugars to sugar binding sites of a given protein of
      * the assembly
      * @param details Details of the sugars
      */
-    void addSugar(const SugarDetails& details);
+    void addSugar(const details::SugarDetails& details);
 
     /**
      * @brief Get the protein transformation
      *
      * @return Transformation Protein transformation
      */
-    Transformation getTransformation() const;
+    core::Transformation getTransformation() const;
 
     /**
      * @brief Get the protein animation details
      *
      * @return MolecularSystemAnimationDetails Protein animation details
      */
-    MolecularSystemAnimationDetails getAnimationDetails() const;
+    details::MolecularSystemAnimationDetails getAnimationDetails() const;
 
 private:
     // Analysis
@@ -173,16 +174,17 @@ private:
     void _setGlycosylationSiteColorScheme(const Palette& palette);
 
     // Utility functions
-    void _processInstances(ModelDescriptorPtr md, const Vector3ds& positions, const Quaternions& rotations,
-                           const Quaterniond& proteinRotation, const MolecularSystemAnimationDetails& randInfo);
+    void _processInstances(core::ModelDescriptorPtr md, const Vector3ds& positions, const Quaternions& rotations,
+                           const core::Quaterniond& proteinRotation,
+                           const details::MolecularSystemAnimationDetails& randInfo);
     void _buildAminoAcidBounds();
 
     // Class members
-    ProteinDetails _details;
+    details::ProteinDetails _details;
     GlycansMap _glycans;
     double _transMembraneOffset{0.f};
     double _transMembraneRadius;
-    std::map<std::string, std::map<size_t, Boxd>> _aminoAcidBounds;
+    std::map<std::string, std::map<size_t, core::Boxd>> _aminoAcidBounds;
 };
 } // namespace molecularsystems
 } // namespace bioexplorer

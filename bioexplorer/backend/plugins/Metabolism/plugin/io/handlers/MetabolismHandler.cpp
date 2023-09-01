@@ -26,6 +26,8 @@
 
 #include <fstream>
 
+using namespace core;
+
 namespace bioexplorer
 {
 namespace metabolism
@@ -100,19 +102,6 @@ void* MetabolismHandler::getFrameData(const uint32_t frame)
     }
 
     _frameSize = _frameData.size();
-
-#if 0
-    std::string s;
-    for (uint64_t i = 0; i < _frameData.size(); ++i)
-    {
-        if (!s.empty())
-            s += ",";
-        s += "[" + std::to_string(_locations[i - 1].guid) + "] " +
-             std::to_string(_frameData[i]);
-    }
-    PLUGIN_INFO(s);
-#endif
-
     return _frameData.data();
 }
 

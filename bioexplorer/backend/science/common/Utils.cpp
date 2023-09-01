@@ -33,6 +33,8 @@
 
 namespace bioexplorer
 {
+using namespace details;
+
 namespace common
 {
 using namespace core;

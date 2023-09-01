@@ -1,6 +1,17 @@
 var bioexplorer_2backend_2science_2common_2Types_8h =
 [
-    [ "RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails" ],
+    [ "GeometryNode", "d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html", "d7/d1e/structbioexplorer_1_1common_1_1GeometryNode" ],
+    [ "SDFMorphologyData", "d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html", "d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData" ],
+    [ "SimulationReport", "da/d89/structbioexplorer_1_1common_1_1SimulationReport.html", "da/d89/structbioexplorer_1_1common_1_1SimulationReport" ],
+    [ "Atom", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom" ],
+    [ "ResidueSequence", "d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence.html", "d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence" ],
+    [ "AminoAcid", "d4/d03/structbioexplorer_1_1molecularsystems_1_1AminoAcid.html", "d4/d03/structbioexplorer_1_1molecularsystems_1_1AminoAcid" ],
+    [ "Synapse", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse" ],
+    [ "AstrocyteSoma", "d6/d17/structbioexplorer_1_1morphology_1_1AstrocyteSoma.html", "d6/d17/structbioexplorer_1_1morphology_1_1AstrocyteSoma" ],
+    [ "NeuronSoma", "d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html", "d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma" ],
+    [ "Section", "d4/d08/structbioexplorer_1_1morphology_1_1Section.html", "d4/d08/structbioexplorer_1_1morphology_1_1Section" ],
+    [ "EndFoot", "d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html", "d6/d46/structbioexplorer_1_1morphology_1_1EndFoot" ],
+    [ "Cell", "d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html", "d0/d2e/structbioexplorer_1_1morphology_1_1Cell" ],
     [ "Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", "d6/d45/structbioexplorer_1_1details_1_1Response" ],
     [ "FocusOnDetails", "d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html", "d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails" ],
     [ "GeneralSettingsDetails", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails" ],
@@ -44,7 +55,6 @@ var bioexplorer_2backend_2science_2common_2Types_8h =
     [ "VasculatureDetails", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails" ],
     [ "VasculatureReportDetails", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails" ],
     [ "VasculatureRadiusReportDetails", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails" ],
-    [ "CellAnimationDetails", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails" ],
     [ "AstrocytesDetails", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails" ],
     [ "NeuronsDetails", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails" ],
     [ "NeuronIdSectionIdDetails", "d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails.html", "d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails" ],
@@ -56,18 +66,7 @@ var bioexplorer_2backend_2science_2common_2Types_8h =
     [ "SynapsesDetails", "d5/ddf/structbioexplorer_1_1details_1_1SynapsesDetails.html", "d5/ddf/structbioexplorer_1_1details_1_1SynapsesDetails" ],
     [ "SynapseEfficacyDetails", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails" ],
     [ "SpikeReportVisualizationSettingsDetails", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails.html", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails" ],
-    [ "GeometryNode", "d7/d1e/structbioexplorer_1_1common_1_1GeometryNode.html", "d7/d1e/structbioexplorer_1_1common_1_1GeometryNode" ],
-    [ "SDFMorphologyData", "d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html", "d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData" ],
-    [ "SimulationReport", "da/d89/structbioexplorer_1_1common_1_1SimulationReport.html", "da/d89/structbioexplorer_1_1common_1_1SimulationReport" ],
-    [ "Atom", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom" ],
-    [ "ResidueSequence", "d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence.html", "d0/df4/structbioexplorer_1_1molecularsystems_1_1ResidueSequence" ],
-    [ "AminoAcid", "d4/d03/structbioexplorer_1_1molecularsystems_1_1AminoAcid.html", "d4/d03/structbioexplorer_1_1molecularsystems_1_1AminoAcid" ],
-    [ "Synapse", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse" ],
-    [ "AstrocyteSoma", "d6/d17/structbioexplorer_1_1morphology_1_1AstrocyteSoma.html", "d6/d17/structbioexplorer_1_1morphology_1_1AstrocyteSoma" ],
-    [ "NeuronSoma", "d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html", "d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma" ],
-    [ "Section", "d4/d08/structbioexplorer_1_1morphology_1_1Section.html", "d4/d08/structbioexplorer_1_1morphology_1_1Section" ],
-    [ "EndFoot", "d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html", "d6/d46/structbioexplorer_1_1morphology_1_1EndFoot" ],
-    [ "Cell", "d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html", "d0/d2e/structbioexplorer_1_1morphology_1_1Cell" ],
+    [ "CellAnimationDetails", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails" ],
     [ "AminoAcidMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a62afc69306369962f92e7abcf1c7c708", null ],
     [ "AssemblyConstraint", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#acdc02dfba869a5cb63b6ae3134f2536b", null ],
     [ "AssemblyConstraints", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af79dcb33627fba8c7c689de02b072c85", null ],
@@ -82,7 +81,7 @@ var bioexplorer_2backend_2science_2common_2Types_8h =
     [ "BondsMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a97230743e759dc234722dbc1d85bf58c", null ],
     [ "bools", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#ad35896c78e8421c37094eaad491fdcff", null ],
     [ "CellMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a31446e8211b22ed2170689f06b4f3111", null ],
-    [ "Color", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aba6a4d1495a79a288fe5b1b769bf2fc5", null ],
+    [ "Color", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#ad8a955e198cc40b2e6781f331d01159d", null ],
     [ "CommandLineArguments", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a0ee54787b38bf9fae7509d74851d9284", null ],
     [ "DBConnectorPtr", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aa00dbea9bd4aebf3d2a4cc7bf98e7922", null ],
     [ "doubles", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1c15d089306191219946f1f6768fb2f4", null ],
@@ -95,7 +94,7 @@ var bioexplorer_2backend_2science_2common_2Types_8h =
     [ "GlycansMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aaa4281a021b7c9dbbc06f4e003e5371d", null ],
     [ "GlycansPtr", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#adf6c6e2f416a77c8823b79e275d76a35", null ],
     [ "MembranePtr", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a6cf84a6b38da1aa033e9d9a3d7b81c80", null ],
-    [ "ModelDescriptors", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a66e474f1492d66ad06d295dcf212fa68", null ],
+    [ "ModelDescriptors", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a14b6a533fb986e398c77bf11311e6f4e", null ],
     [ "MorphologiesPtr", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aba7c55cb03a1d5a60937eb7a09a856a0", null ],
     [ "NeuronSomaMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aa5d342fa6d8b00a9d8010a6cf58f4fea", null ],
     [ "NeuronsPtr", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a7a98f782f0017feb62c81b142e3b80f7", null ],
@@ -104,37 +103,36 @@ var bioexplorer_2backend_2science_2common_2Types_8h =
     [ "ProteinMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a70e4451b23b399c06ef86032095b6892", null ],
     [ "ProteinPtr", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#ad0b311215d8b21ee0e3b88b7d54f7cd8", null ],
     [ "Proteins", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a80646f52e781113b9bcec3aa691e6df9", null ],
-    [ "Quaternions", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#ae1ff029193fab4d3d2570cc1e97861c5", null ],
+    [ "Quaternions", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a49b0e4985e0bdc23cccc8a068c187308", null ],
     [ "Residues", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a168c80f49f42e7088f28a41af4169fe9", null ],
     [ "ResidueSequenceMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a6bcb5e8c2f02681a8f573158f02c6716", null ],
-    [ "RGBColorDetailsMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a2f087258407865ba2ac80139c497594a", null ],
     [ "RNASequenceMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a4848c1efd49def46986ef123e319fe10", null ],
     [ "RNASequencePtr", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#ab27f545c5acdb6a713ea84d9b14e859d", null ],
     [ "SDFGeometriesPtr", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a8d6090005cfb9019b0d6c520915b7adf", null ],
     [ "SectionMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#afa4a4f15db2b7da0b56d017d2290be6e", null ],
     [ "SectionSynapseMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af9dd97d784c5da1417e0bb1cf0834c2b", null ],
     [ "SegmentSynapseMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a28d0b22397b676a439b7033ac5ddb2ef", null ],
-    [ "SpikesMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a96e8a9f65476a57be02f18d6b82db974", null ],
+    [ "SpikesMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a2f62876f7d105a88dc977624f40d0d19", null ],
     [ "StringMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a13c46b7f7ea529cda0a85600268945ea", null ],
     [ "strings", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a79066cd25873a86f215cacf87adf1482", null ],
     [ "SynapseEfficacyPtr", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aff18f4dc986a037178276a13dd504be5", null ],
     [ "SynapsesMap", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#acb692684f79ab84694fdf5d7652b6995", null ],
     [ "SynapsesPtr", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a3d85829a9778fa87c75b83bd8c910be1", null ],
     [ "ThreadSafeContainers", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a6b8e4ec36867cb533565eca0e26a4773", null ],
-    [ "Transformations", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a2bbc9edaf4e4cae30c9bb3d1f5cbeb0c", null ],
+    [ "Transformations", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#acf16e250a21b3150ab0e9f17d05237d2", null ],
     [ "uint32_ts", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#ac2aeafc41bc2c831be51835788de4f36", null ],
     [ "uint64_tm", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a5100a59d0bfb4836bf39be1366f3a070", null ],
     [ "uint64_ts", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a42999ad6938ef1bbcde0bba0edf3fd3b", null ],
     [ "uint8_tm", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a6e974543f4b15fe6bde4f45193f66211", null ],
     [ "uint8_ts", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a3fd333dce095db78703923e02f99912a", null ],
     [ "VasculaturePtr", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a539f429c06825c0aa83ead7ad8773733", null ],
-    [ "Vector2uis", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#ac8987bf011fc04c91d156232ada1b4ed", null ],
-    [ "Vector3dm", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a18bf094bfca64b3054f95779edf03006", null ],
-    [ "Vector3ds", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a00dbbc950c7e5b91b2bff83faa2c172e", null ],
-    [ "Vector3uis", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a57b0cc3bf70cdb76d6319c7dcb155f26", null ],
-    [ "Vector4ds", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a4200c06cfe8f2933097acc193e376617", null ],
+    [ "Vector2uis", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#ad8d1845d477834fa113cb8ad61458921", null ],
+    [ "Vector3dm", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aab05c48f3bbed4e1f45ddb4670753fb5", null ],
+    [ "Vector3ds", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1b859bac754c86e4a2523e621b829092", null ],
+    [ "Vector3uis", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#ac6d4f5efad3b9bf5f16ba8963e4e2317", null ],
+    [ "Vector4ds", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#ab7629763b0d69bff03ff680a522e85d0", null ],
     [ "WhiteMatterPtr", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a83c41c68795044c92cfa132357d01c3e", null ],
-    [ "WhiteMatterStreamlines", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a90adc1f687dd708052593ce9cc2b54af", null ],
+    [ "WhiteMatterStreamlines", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#adabe47d8efd77f08214b71948068ddaa", null ],
     [ "AssemblyConstraintType", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a0a5c60da51c30895756bd229fac959bf", [
       [ "inside", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a0a5c60da51c30895756bd229fac959bfa335cf4508dd597be4bfc9caa3e08b901", null ],
       [ "outside", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a0a5c60da51c30895756bd229fac959bfac30163615770c8b2b8873288e828de41", null ]
@@ -152,38 +150,38 @@ var bioexplorer_2backend_2science_2common_2Types_8h =
       [ "filled_sphere", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af608e48ca83174d68456a1069a6f07a1ad3b67e8d138b210c1e4d61e66aa71aa8", null ],
       [ "spherical_cell_diffusion", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af608e48ca83174d68456a1069a6f07a1a1a17967c0c81fda300710f04d41f36d9", null ]
     ] ],
-    [ "MicroDomainRepresentation", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1220c2e0e68cbe43cf955085c44b3fba", [
-      [ "mesh", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1220c2e0e68cbe43cf955085c44b3fbaa09bc81c3aa886b690f84c5aba4109e20", null ],
-      [ "convex_hull", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1220c2e0e68cbe43cf955085c44b3fbaa347e88bd5b22530d122b5287b14ab329", null ],
-      [ "surface", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1220c2e0e68cbe43cf955085c44b3fbaad302e976c9dd527a9521a88c012437c5", null ]
+    [ "MicroDomainRepresentation", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aee7447751c54a343c4f8600c3f9a1aa3", [
+      [ "mesh", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aee7447751c54a343c4f8600c3f9a1aa3a09bc81c3aa886b690f84c5aba4109e20", null ],
+      [ "convex_hull", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aee7447751c54a343c4f8600c3f9a1aa3a347e88bd5b22530d122b5287b14ab329", null ],
+      [ "surface", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aee7447751c54a343c4f8600c3f9a1aa3ad302e976c9dd527a9521a88c012437c5", null ]
     ] ],
     [ "ModelLoadingTransactionAction", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a6081315452c4678b4b7094086bc85b11", [
       [ "start", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a6081315452c4678b4b7094086bc85b11aea2b2676c28c0db26d39331a336c6b92", null ],
       [ "commit", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a6081315452c4678b4b7094086bc85b11afffca4d67ea0a788813031b8bbc3b329", null ]
     ] ],
-    [ "MorphologyColorScheme", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1388bb8d13375384654597c4b08280f2", [
-      [ "none", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1388bb8d13375384654597c4b08280f2a334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
-      [ "section_type", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1388bb8d13375384654597c4b08280f2a20c86a5b1db0b50a86ac8957d072666b", null ],
-      [ "section_orientation", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1388bb8d13375384654597c4b08280f2a0145672d8d7524ce08243e73f26fb560", null ],
-      [ "distance_to_soma", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a1388bb8d13375384654597c4b08280f2a3332ad1d462461e9305526d3caf2647f", null ]
+    [ "MorphologyColorScheme", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af47c0b707cfe543dedbe216efc85e699", [
+      [ "none", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af47c0b707cfe543dedbe216efc85e699a334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
+      [ "section_type", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af47c0b707cfe543dedbe216efc85e699a20c86a5b1db0b50a86ac8957d072666b", null ],
+      [ "section_orientation", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af47c0b707cfe543dedbe216efc85e699a0145672d8d7524ce08243e73f26fb560", null ],
+      [ "distance_to_soma", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af47c0b707cfe543dedbe216efc85e699a3332ad1d462461e9305526d3caf2647f", null ]
     ] ],
-    [ "MorphologyRealismLevel", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a2dd16db6d1606b87fa6f86259a6d60cc", [
-      [ "none", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a2dd16db6d1606b87fa6f86259a6d60cca334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
-      [ "soma", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a2dd16db6d1606b87fa6f86259a6d60cca15a00ab33070d69d3ec3f03a9222034b", null ],
-      [ "axon", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a2dd16db6d1606b87fa6f86259a6d60cca805757c5974a71270fa9f9133a54d065", null ],
-      [ "dendrite", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a2dd16db6d1606b87fa6f86259a6d60cca45c27ebae6394fc0597ff696a4a1bc51", null ],
-      [ "internals", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a2dd16db6d1606b87fa6f86259a6d60cca2007fad87c5e530deecda769e08fab2b", null ],
-      [ "externals", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a2dd16db6d1606b87fa6f86259a6d60cca0bf849c9eb83323c8ed98542aa0968a6", null ],
-      [ "spine", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a2dd16db6d1606b87fa6f86259a6d60ccaa35ecf344c66770b2ba0f0e913747072", null ],
-      [ "end_foot", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a2dd16db6d1606b87fa6f86259a6d60cca6de5585ab830cda2a19414f05ca01faf", null ],
-      [ "all", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a2dd16db6d1606b87fa6f86259a6d60ccaa181a603769c1f98ad927e7367c7aa51", null ]
+    [ "MorphologyRealismLevel", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af76cd19fe86d500efe3fcfc74d78e16e", [
+      [ "none", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af76cd19fe86d500efe3fcfc74d78e16ea334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
+      [ "soma", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af76cd19fe86d500efe3fcfc74d78e16ea15a00ab33070d69d3ec3f03a9222034b", null ],
+      [ "axon", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af76cd19fe86d500efe3fcfc74d78e16ea805757c5974a71270fa9f9133a54d065", null ],
+      [ "dendrite", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af76cd19fe86d500efe3fcfc74d78e16ea45c27ebae6394fc0597ff696a4a1bc51", null ],
+      [ "internals", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af76cd19fe86d500efe3fcfc74d78e16ea2007fad87c5e530deecda769e08fab2b", null ],
+      [ "externals", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af76cd19fe86d500efe3fcfc74d78e16ea0bf849c9eb83323c8ed98542aa0968a6", null ],
+      [ "spine", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af76cd19fe86d500efe3fcfc74d78e16eaa35ecf344c66770b2ba0f0e913747072", null ],
+      [ "end_foot", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af76cd19fe86d500efe3fcfc74d78e16ea6de5585ab830cda2a19414f05ca01faf", null ],
+      [ "all", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af76cd19fe86d500efe3fcfc74d78e16eaa181a603769c1f98ad927e7367c7aa51", null ]
     ] ],
-    [ "MorphologyRepresentation", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a90131e60544ba72eb568da48ad96bddf", [
-      [ "graph", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a90131e60544ba72eb568da48ad96bddfaf8b0b924ebd7046dbfa85a856e4682c8", null ],
-      [ "section", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a90131e60544ba72eb568da48ad96bddfa73d5342eba070f636ac3246f319bf77f", null ],
-      [ "segment", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a90131e60544ba72eb568da48ad96bddfafdd32b9061681edb52c554bd9bbf0712", null ],
-      [ "orientation", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a90131e60544ba72eb568da48ad96bddfada1639422ad8f355d2371428471379b5", null ],
-      [ "bezier", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a90131e60544ba72eb568da48ad96bddfab4f49419e540cdfc505f0af52fe7524a", null ]
+    [ "MorphologyRepresentation", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a836567508b9aecb15c453472e19221f5", [
+      [ "graph", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a836567508b9aecb15c453472e19221f5af8b0b924ebd7046dbfa85a856e4682c8", null ],
+      [ "section", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a836567508b9aecb15c453472e19221f5a73d5342eba070f636ac3246f319bf77f", null ],
+      [ "segment", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a836567508b9aecb15c453472e19221f5afdd32b9061681edb52c554bd9bbf0712", null ],
+      [ "orientation", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a836567508b9aecb15c453472e19221f5ada1639422ad8f355d2371428471379b5", null ],
+      [ "bezier", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a836567508b9aecb15c453472e19221f5ab4f49419e540cdfc505f0af52fe7524a", null ]
     ] ],
     [ "NeuronSectionType", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#adcbca927ea217f070e26a63410ff8c50", [
       [ "undefined", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#adcbca927ea217f070e26a63410ff8c50a5e543256c480ac577d30f76f9120eb74", null ],
@@ -192,9 +190,9 @@ var bioexplorer_2backend_2science_2common_2Types_8h =
       [ "basal_dendrite", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#adcbca927ea217f070e26a63410ff8c50a6ffcc904d7c4481cea1f5d39e70dde1c", null ],
       [ "apical_dendrite", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#adcbca927ea217f070e26a63410ff8c50a4605296fe6c11f08d597ce5a87fa12e1", null ]
     ] ],
-    [ "PopulationColorScheme", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a3a663e8593f9088b1ea580375463faf8", [
-      [ "none", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a3a663e8593f9088b1ea580375463faf8a334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
-      [ "id", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a3a663e8593f9088b1ea580375463faf8ab80bb7740288fda1f201890375a60c8f", null ]
+    [ "PopulationColorScheme", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a510e9d8ea89618eca90c3c703f23a726", [
+      [ "none", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a510e9d8ea89618eca90c3c703f23a726a334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
+      [ "id", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a510e9d8ea89618eca90c3c703f23a726ab80bb7740288fda1f201890375a60c8f", null ]
     ] ],
     [ "ProteinColorScheme", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af28a3218771336f388f499dad4cca5ef", [
       [ "none", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af28a3218771336f388f499dad4cca5efa334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
@@ -205,14 +203,14 @@ var bioexplorer_2backend_2science_2common_2Types_8h =
       [ "glycosylation_site", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af28a3218771336f388f499dad4cca5efae867fa204ecf88ad4a468c611aa6233e", null ],
       [ "region", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af28a3218771336f388f499dad4cca5efa960db2ed82202a9706b97775a4269378", null ]
     ] ],
-    [ "ProteinRepresentation", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aad9e1645c632a352d331a058fa332cc5", [
-      [ "atoms", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aad9e1645c632a352d331a058fa332cc5a2bb8d809d871a7c1a392fec36563a8f7", null ],
-      [ "atoms_and_sticks", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aad9e1645c632a352d331a058fa332cc5aa8478b1ba39a0998e72ba8a5a93ab603", null ],
-      [ "contour", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aad9e1645c632a352d331a058fa332cc5a5865f57e17007694772b743b2560914f", null ],
-      [ "surface", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aad9e1645c632a352d331a058fa332cc5ad302e976c9dd527a9521a88c012437c5", null ],
-      [ "union_of_balls", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aad9e1645c632a352d331a058fa332cc5a49b002b2a7b50ba019a5924a29584c0f", null ],
-      [ "debug", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aad9e1645c632a352d331a058fa332cc5aad42f6697b035b7580e4fef93be20b4d", null ],
-      [ "mesh", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aad9e1645c632a352d331a058fa332cc5a09bc81c3aa886b690f84c5aba4109e20", null ]
+    [ "ProteinRepresentation", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a0d247bf41e7637f3d8436c91e20f8ab9", [
+      [ "atoms", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a0d247bf41e7637f3d8436c91e20f8ab9a2bb8d809d871a7c1a392fec36563a8f7", null ],
+      [ "atoms_and_sticks", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a0d247bf41e7637f3d8436c91e20f8ab9aa8478b1ba39a0998e72ba8a5a93ab603", null ],
+      [ "contour", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a0d247bf41e7637f3d8436c91e20f8ab9a5865f57e17007694772b743b2560914f", null ],
+      [ "surface", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a0d247bf41e7637f3d8436c91e20f8ab9ad302e976c9dd527a9521a88c012437c5", null ],
+      [ "union_of_balls", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a0d247bf41e7637f3d8436c91e20f8ab9a49b002b2a7b50ba019a5924a29584c0f", null ],
+      [ "debug", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a0d247bf41e7637f3d8436c91e20f8ab9aad42f6697b035b7580e4fef93be20b4d", null ],
+      [ "mesh", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a0d247bf41e7637f3d8436c91e20f8ab9a09bc81c3aa886b690f84c5aba4109e20", null ]
     ] ],
     [ "ReportType", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a43884bcb270b34cb62c4762d144e5787", [
       [ "undefined", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a43884bcb270b34cb62c4762d144e5787a5e543256c480ac577d30f76f9120eb74", null ],
@@ -259,14 +257,14 @@ var bioexplorer_2backend_2science_2common_2Types_8h =
       [ "optimized_segment", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a52708697ea44f6525af8aaa3665a5e2fae764e8c447a0fa5487e6c221b428bab1", null ],
       [ "bezier", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a52708697ea44f6525af8aaa3665a5e2fab4f49419e540cdfc505f0af52fe7524a", null ]
     ] ],
-    [ "XYZFileFormat", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abc9bc73bc7dd36d78f738158e7dd1e5a", [
-      [ "unspecified", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abc9bc73bc7dd36d78f738158e7dd1e5aad415f0e30c471dfdd9bc4f827329ef48", null ],
-      [ "xyz_binary", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abc9bc73bc7dd36d78f738158e7dd1e5aa9e4cbb42b5d6c466ad8c3dd174950bac", null ],
-      [ "xyzr_binary", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abc9bc73bc7dd36d78f738158e7dd1e5aad34a1e2b43c12f14e140b83d570383a8", null ],
-      [ "xyzrv_binary", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abc9bc73bc7dd36d78f738158e7dd1e5aa5da2ae2700a3ad945d2c9d5a619c8fcd", null ],
-      [ "xyz_ascii", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abc9bc73bc7dd36d78f738158e7dd1e5aad649628ba216d8f8a764c8ab204c3144", null ],
-      [ "xyzr_ascii", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abc9bc73bc7dd36d78f738158e7dd1e5aa44a4be84a01bb0b61c876d93b36cc9c5", null ],
-      [ "xyzrv_ascii", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abc9bc73bc7dd36d78f738158e7dd1e5aaba550d0f752fd13169f7c9b7b6866182", null ]
+    [ "XYZFileFormat", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abdc93aaf6df1e55f824b85f187bf91ec", [
+      [ "unspecified", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abdc93aaf6df1e55f824b85f187bf91ecad415f0e30c471dfdd9bc4f827329ef48", null ],
+      [ "xyz_binary", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abdc93aaf6df1e55f824b85f187bf91eca9e4cbb42b5d6c466ad8c3dd174950bac", null ],
+      [ "xyzr_binary", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abdc93aaf6df1e55f824b85f187bf91ecad34a1e2b43c12f14e140b83d570383a8", null ],
+      [ "xyzrv_binary", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abdc93aaf6df1e55f824b85f187bf91eca5da2ae2700a3ad945d2c9d5a619c8fcd", null ],
+      [ "xyz_ascii", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abdc93aaf6df1e55f824b85f187bf91ecad649628ba216d8f8a764c8ab204c3144", null ],
+      [ "xyzr_ascii", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abdc93aaf6df1e55f824b85f187bf91eca44a4be84a01bb0b61c876d93b36cc9c5", null ],
+      [ "xyzrv_ascii", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#abdc93aaf6df1e55f824b85f187bf91ecaba550d0f752fd13169f7c9b7b6866182", null ]
     ] ],
     [ "ARG_DB_BATCH_SIZE", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af76012cd98bc05bcc59b91506f6c71ea", null ],
     [ "ARG_DB_HOST", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a0ca615c88385851ed121c9750bcdd4f5", null ],
@@ -293,11 +291,11 @@ var bioexplorer_2backend_2science_2common_2Types_8h =
     [ "METADATA_HEADER", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aa8fb6f5bdb96801abd98b1d3ac25aa28", null ],
     [ "METADATA_PDB_ID", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a6ee929940d7a524baf951c8308d2b2e4", null ],
     [ "METADATA_SIZE", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a6f43723ba906d18fe432cab0ffececda", null ],
-    [ "mitochondrionRadius", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a870dbff1827978296c098a041757b0d6", null ],
-    [ "mitochondrionSegmentSize", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a79ce3b63e0919b72c5205a96603683b9", null ],
-    [ "myelinSteathLength", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#ac25fe53113a39834635ce0821602e7ef", null ],
-    [ "myelinSteathRadiusRatio", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a7f9a774056625988c9713171ed1adffc", null ],
-    [ "nbMinSegmentsForVaricosity", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a2e7c023f0d0f0bf7794401109ddf2f04", null ],
+    [ "mitochondrionRadius", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#afe3a88dadf7e60cb6c33ad4dcacc1850", null ],
+    [ "mitochondrionSegmentSize", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a22372c45457a621b984af01a98fb457d", null ],
+    [ "myelinSteathLength", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aca9db033d3b19e4b606ce02d93891586", null ],
+    [ "myelinSteathRadiusRatio", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a000b53884d468dfa2460f373bc401cc7", null ],
+    [ "nbMinSegmentsForVaricosity", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#acd77bc33ec75c093dde77edb8f703025", null ],
     [ "NO_GRID_ALIGNMENT", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a157f2193704f76f7f3ab3809decfa195", null ],
-    [ "spineRadiusRatio", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a58199ff16d3e0eb995c1cf2dc208f503", null ]
+    [ "spineRadiusRatio", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a8057609bc4f7b59c6e3349f384840517", null ]
 ];

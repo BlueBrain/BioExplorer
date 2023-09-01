@@ -93,9 +93,10 @@ typedef CGAL::Union_of_balls_3<Traits> Union_of_balls_3;
         PLUGIN_ERROR(e.what());         \
     }
 
+using namespace core;
+
 namespace sonataexplorer
 {
-using namespace core;
 using namespace api;
 using namespace io;
 using namespace loader;
@@ -221,7 +222,8 @@ void SonataExplorerPlugin::init()
                                                                    SynapseCircuitLoader::getCLIProperties()));
 
     PLUGIN_REGISTER_LOADER(LOADER_MORPHOLOGY);
-    registry.registerLoader(std::make_unique<MorphologyLoader>(scene, MorphologyLoader::getCLIProperties()));
+    registry.registerLoader(std::make_unique<neuroscience::common::MorphologyLoader>(
+        scene, neuroscience::common::MorphologyLoader::getCLIProperties()));
 
     PLUGIN_REGISTER_LOADER(LOADER_ADVANCED_CIRCUIT);
     registry.registerLoader(std::make_unique<AdvancedCircuitLoader>(scene, pm.getApplicationParameters(),

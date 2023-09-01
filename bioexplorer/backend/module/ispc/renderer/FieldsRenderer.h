@@ -33,9 +33,6 @@ namespace bioexplorer
 {
 namespace rendering
 {
-using namespace ospray;
-using namespace core;
-
 /**
  * @brief The FieldsRenderer class allows visualization of magnetic
  * fields created by atoms in the 3D scene. An Octree acceleration structure has
@@ -71,7 +68,7 @@ private:
     void** _lightPtr;
     ospray::Data* _lightData;
 
-    AdvancedMaterial* _bgMaterial;
+    core::AdvancedMaterial* _bgMaterial;
 
     bool _useHardwareRandomizer{false};
     ospray::uint32 _randomNumber{0};

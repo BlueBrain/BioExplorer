@@ -34,29 +34,46 @@
 #include <memory>
 #include <vector>
 
-typedef ::int64_t int64;
-typedef ::uint64_t uint64;
-typedef ::int32_t int32;
-typedef ::uint32_t uint32;
-typedef ::int16_t int16;
-typedef ::uint16_t uint16;
-typedef ::int8_t int8;
-typedef ::uint8_t uint8;
-typedef ::int64_t index_t;
-
-typedef std::vector<std::string> strings;
-typedef std::vector<float> floats;
-typedef std::vector<int> ints;
-typedef std::vector<unsigned int> uints;
-typedef std::vector<int8_t> int8_ts;
-typedef std::vector<uint8_t> uint8_ts;
-typedef std::vector<int16_t> int16_ts;
-typedef std::vector<uint16_t> uint16_ts;
-typedef std::vector<int32_t> int32_ts;
-typedef std::vector<uint32_t> uint32_ts;
-typedef std::vector<int64_t> int64_ts;
-typedef std::vector<uint64_t> uint64_ts;
-typedef std::vector<size_t> size_ts;
+using int64 = ::int64_t;
+using uint64 = ::uint64_t;
+using int32 = ::int32_t;
+using uint32 = ::uint32_t;
+using int16 = ::int16_t;
+using uint16 = ::uint16_t;
+using int8 = ::int8_t;
+using uint8 = ::uint8_t;
+using index_t = ::int64_t;
+using strings = std::vector<std::string>;
+using floats = std::vector<float>;
+using ints = std::vector<int>;
+using uints = std::vector<unsigned int>;
+using int8_ts = std::vector<int8_t>;
+using uint8_ts = std::vector<uint8_t>;
+using int16_ts = std::vector<int16_t>;
+using uint16_ts = std::vector<uint16_t>;
+using int32_ts = std::vector<int32_t>;
+using uint32_ts = std::vector<uint32_t>;
+using int64_ts = std::vector<int64_t>;
+using uint64_ts = std::vector<uint64_t>;
+using size_ts = std::vector<size_t>;
+using StringMap = std::map<std::string, std::string>;
+using Color = core::Vector3d;
+using Palette = std::vector<Color>;
+using Quaternions = std::vector<core::Quaterniond>;
+using bools = std::vector<bool>;
+using doubles = std::vector<double>;
+using strings = std::vector<std::string>;
+using Vector3ds = std::vector<core::Vector3d>;
+using Vector3dm = std::map<uint64_t, core::Vector3d>;
+using Vector4ds = std::vector<core::Vector4d>;
+using Vector2uis = std::vector<core::Vector2ui>;
+using Vector3uis = std::vector<core::Vector3ui>;
+using uint8_ts = std::vector<uint8_t>;
+using uint8_tm = std::map<uint64_t, uint8_t>;
+using uint32_ts = std::vector<uint32_t>;
+using uint64_ts = std::vector<uint64_t>;
+using uint64_tm = std::map<uint64_t, uint64_t>;
+using CommandLineArguments = std::map<std::string, std::string>;
 
 namespace core
 {
@@ -88,6 +105,7 @@ using ModelPtr = std::unique_ptr<Model>;
 using ModelMetadata = std::map<std::string, std::string>;
 
 class Transformation;
+using Transformations = std::vector<Transformation>;
 
 class ModelInstance;
 class ModelParams;
@@ -199,16 +217,6 @@ enum class AccumulationType
 {
     linear = 0,
     ai_denoised = 1,
-};
-
-/** Define the color scheme to be applied to the geometry */
-enum class ProteinColorScheme
-{
-    none = 0,
-    by_id = 1,
-    protein_atoms = 2,
-    protein_chains = 3,
-    protein_residues = 4
 };
 
 /** Geometry quality */
@@ -377,16 +385,6 @@ enum class BVHFlag
 };
 
 ///////////////////////////////////////////////////////////////////////////
-
-template <>
-inline std::vector<std::pair<std::string, ProteinColorScheme>> enumMap()
-{
-    return {{"none", ProteinColorScheme::none},
-            {"by_id", ProteinColorScheme::by_id},
-            {"protein_atoms", ProteinColorScheme::protein_atoms},
-            {"protein_chains", ProteinColorScheme::protein_chains},
-            {"protein_residues", ProteinColorScheme::protein_residues}};
-}
 
 template <>
 inline std::vector<std::pair<std::string, GeometryQuality>> enumMap()

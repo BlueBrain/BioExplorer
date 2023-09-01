@@ -33,10 +33,13 @@
 
 #include <fstream>
 
+using namespace core;
+
 namespace tests
 {
 using namespace bioexplorer;
 using namespace molecularsystems;
+using namespace details;
 
 std::string getFileContents(const std::string& filename)
 {

@@ -23,6 +23,8 @@
 
 #pragma once
 
+namespace bioexplorer
+{
 enum class DisplacementElement
 {
     vasculature_segment_strength = 0,
@@ -56,3 +58,4 @@ const double DEFAULT_MORPHOLOGY_MYELIN_STEATH_STRENGTH = 0.1;
 const double DEFAULT_MORPHOLOGY_MYELIN_STEATH_FREQUENCY = 2.5;
 const double DEFAULT_MORPHOLOGY_SPINE_STRENGTH = 0.01;
 const double DEFAULT_MORPHOLOGY_SPINE_FREQUENCY = 25.0;
+} // namespace bioexplorer

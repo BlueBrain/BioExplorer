@@ -23,8 +23,8 @@
 #pragma once
 
 #include <platform/core/common/Transformation.h>
-#include <platform/core/common/loader/Loader.h>
 #include <platform/core/common/Types.h>
+#include <platform/core/common/loader/Loader.h>
 
 namespace sonataexplorer
 {
@@ -32,35 +32,34 @@ namespace neuroscience
 {
 namespace astrocyte
 {
-using namespace core;
-
-class AstrocyteLoader : public Loader
+class AstrocyteLoader : public core::Loader
 {
 public:
-    AstrocyteLoader(Scene &scene, const ApplicationParameters &applicationParameters, PropertyMap &&loaderParams);
+    AstrocyteLoader(core::Scene &scene, const core::ApplicationParameters &applicationParameters,
+                    core::PropertyMap &&loaderParams);
 
     std::string getName() const final;
 
-    std::vector<std::string> getSupportedExtensions() const final;
+    strings getSupportedExtensions() const final;
 
     bool isSupported(const std::string &filename, const std::string &extension) const final;
 
-    static PropertyMap getCLIProperties();
+    static core::PropertyMap getCLIProperties();
 
     /** @copydoc Loader::importFromBlob */
-    ModelDescriptorPtr importFromBlob(Blob &&blob, const LoaderProgress &callback,
-                                      const PropertyMap &properties) const final;
+    core::ModelDescriptorPtr importFromBlob(core::Blob &&blob, const core::LoaderProgress &callback,
+                                            const core::PropertyMap &properties) const final;
 
     /** @copydoc Loader::importFromFile */
-    ModelDescriptorPtr importFromFile(const std::string &filename, const LoaderProgress &callback,
-                                      const PropertyMap &properties) const final;
+    core::ModelDescriptorPtr importFromFile(const std::string &filename, const core::LoaderProgress &callback,
+                                            const core::PropertyMap &properties) const final;
 
 private:
-    void _importMorphologiesFromURIs(const PropertyMap &properties, const std::vector<std::string> &uris,
-                                     const LoaderProgress &callback, Model &model) const;
-    const ApplicationParameters &_applicationParameters;
-    PropertyMap _defaults;
-    PropertyMap _fixedDefaults;
+    void _importMorphologiesFromURIs(const core::PropertyMap &properties, const std::vector<std::string> &uris,
+                                     const core::LoaderProgress &callback, core::Model &model) const;
+    const core::ApplicationParameters &_applicationParameters;
+    core::PropertyMap _defaults;
+    core::PropertyMap _fixedDefaults;
 };
 } // namespace astrocyte
 } // namespace neuroscience

@@ -1,19 +1,24 @@
-/* Copyright (c) 2020, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
+/*
  *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3.0 as published
- * by the Free Software Foundation.
+ * The Blue Brain BioExplorer is a tool for scientists to extract and analyse
+ * scientific data from visualization
  *
- * This library is distributed in the hope that it will be useful, but WITHOUT
+ * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
+ *
+ * Copyright 2020-2023 Blue BrainProject / EPFL
+ *
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  * details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include "BlackHoleRenderer.ih"
@@ -168,7 +173,7 @@ inline vec3f BlackHoleRenderer_shadeRay(const uniform BlackHoleRenderer* uniform
 
     for (int disks = 0; disks < self->nbDisks; ++disks) // steps
     {
-        for (int h = 0; h < 6; h++)                     // reduces tests for exit conditions (to minimise branching)
+        for (int h = 0; h < 6; h++) // reduces tests for exit conditions (to minimise branching)
         {
             float dotpos = dot(pos, pos);
             float invDist = sqrt(1.f / dotpos);           // 1 / distance to black hole
@@ -222,7 +227,7 @@ inline vec3f BlackHoleRenderer_shadeRay(const uniform BlackHoleRenderer* uniform
 
         else if (abs(pos.y) <= self->blackHoleSize * 0.002f) // ray hit accretion disk
         {
-            vec4f diskCol = raymarchDisk(self, dir, pos);    // render disk
+            vec4f diskCol = raymarchDisk(self, dir, pos); // render disk
             pos.y = 0.f;
             pos = pos + abs(self->blackHoleSize * 0.001f / dir.y) * dir;
             col = make_vec4f(make_vec3f(diskCol) * (1.f - col.w) + make_vec3f(col), col.w + diskCol.w * (1.f - col.w));

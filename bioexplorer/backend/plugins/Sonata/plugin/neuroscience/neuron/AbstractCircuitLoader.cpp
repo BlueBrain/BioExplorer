@@ -44,13 +44,16 @@
 #include <platform/core/io/MeshLoader.h>
 #endif
 
+using namespace core;
+
 namespace sonataexplorer
 {
 namespace neuroscience
 {
+using namespace common;
+
 namespace neuron
 {
-using namespace common;
 
 const strings LOADER_KEYWORDS{"BlueConfig", "CircuitConfig"};
 const strings LOADER_EXTENSIONS{"BlueConfig", "BlueConfig3", "CircuitConfig", ".json", "circuit", "CircuitConfig_nrn"};

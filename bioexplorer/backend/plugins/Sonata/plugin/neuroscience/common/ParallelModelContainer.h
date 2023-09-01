@@ -28,40 +28,38 @@ namespace neuroscience
 {
 namespace common
 {
-using namespace core;
-
 class ParallelModelContainer
 {
 public:
-    ParallelModelContainer(const Transformation& transformation);
+    ParallelModelContainer(const core::Transformation& transformation);
     ~ParallelModelContainer() {}
 
-    void addSphere(const size_t materialId, const Sphere& sphere);
-    void addCylinder(const size_t materialId, const Cylinder& cylinder);
-    void addCone(const size_t materialId, const Cone& cone);
-    void addSDFGeometry(const size_t materialId, const SDFGeometry& geom, const std::vector<size_t> neighbours);
-    void moveGeometryToModel(Model& model);
-    void applyTransformation(const PropertyMap& properties, const Matrix4f& transformation);
+    void addSphere(const size_t materialId, const core::Sphere& sphere);
+    void addCylinder(const size_t materialId, const core::Cylinder& cylinder);
+    void addCone(const size_t materialId, const core::Cone& cone);
+    void addSDFGeometry(const size_t materialId, const core::SDFGeometry& geom, const size_ts neighbours);
+    void moveGeometryToModel(core::Model& model);
+    void applyTransformation(const core::PropertyMap& properties, const core::Matrix4f& transformation);
 
     MorphologyInfo& getMorphologyInfo() { return _morphologyInfo; }
 
 private:
-    void _moveSpheresToModel(Model& model);
-    void _moveCylindersToModel(Model& model);
-    void _moveConesToModel(Model& model);
-    void _moveSDFGeometriesToModel(Model& model);
-    Vector3d _getAlignmentToGrid(const PropertyMap& properties, const Vector3d& position) const;
+    void _moveSpheresToModel(core::Model& model);
+    void _moveCylindersToModel(core::Model& model);
+    void _moveConesToModel(core::Model& model);
+    void _moveSDFGeometriesToModel(core::Model& model);
+    core::Vector3d _getAlignmentToGrid(const core::PropertyMap& properties, const core::Vector3d& position) const;
 
-    SpheresMap _spheres;
-    CylindersMap _cylinders;
-    ConesMap _cones;
-    TriangleMeshMap _trianglesMeshes;
+    core::SpheresMap _spheres;
+    core::CylindersMap _cylinders;
+    core::ConesMap _cones;
+    core::TriangleMeshMap _trianglesMeshes;
     MorphologyInfo _morphologyInfo;
-    std::vector<SDFGeometry> _sdfGeometries;
+    std::vector<core::SDFGeometry> _sdfGeometries;
     std::vector<std::vector<size_t>> _sdfNeighbours;
-    std::vector<size_t> _sdfMaterials;
-    Transformation _transformation;
-    Boxd _bounds;
+    size_ts _sdfMaterials;
+    core::Transformation _transformation;
+    core::Boxd _bounds;
 };
 } // namespace common
 } // namespace neuroscience

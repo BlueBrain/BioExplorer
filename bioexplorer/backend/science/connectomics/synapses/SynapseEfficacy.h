@@ -29,14 +29,10 @@ namespace bioexplorer
 {
 namespace connectomics
 {
-using namespace core;
-using namespace common;
-using namespace details;
-
 /**
  * Load synapse efficacy information from database
  */
-class SynapseEfficacy : public SDFGeometries
+class SynapseEfficacy : public common::SDFGeometries
 {
 public:
     /**
@@ -46,16 +42,16 @@ public:
      * @param details Set of attributes defining how the synapse efficacy should
      * be loaded
      */
-    SynapseEfficacy(Scene& scene, const SynapseEfficacyDetails& details, const Vector3d& position,
-                    const Quaterniond& rotation);
+    SynapseEfficacy(core::Scene& scene, const details::SynapseEfficacyDetails& details, const core::Vector3d& position,
+                    const core::Quaterniond& rotation);
 
 private:
     double _getDisplacementValue(const DisplacementElement& element) final { return 0; }
 
     void _buildModel();
 
-    const SynapseEfficacyDetails _details;
-    Scene& _scene;
+    const details::SynapseEfficacyDetails _details;
+    core::Scene& _scene;
 };
 } // namespace connectomics
 } // namespace bioexplorer

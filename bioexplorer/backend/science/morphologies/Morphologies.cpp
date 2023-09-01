@@ -29,8 +29,12 @@
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Model.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
+using namespace common;
+
 namespace morphology
 {
 Morphologies::Morphologies(const double alignToGrid, const Vector3d& position, const Quaterniond& rotation,
@@ -55,7 +59,7 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container, const size_
     // study (https://doi.org/10.1002/cne.903610404)
     const double nucleusRadius = somaRadius * 0.7; // 70% of the volume of the soma;
 
-    const double somaInnerRadius = nucleusRadius + mitochondrionRadius;
+    const double somaInnerRadius = nucleusRadius + morphology::mitochondrionRadius;
     const double somaOutterRadius = somaRadius * 0.9;
     const double availableVolumeForMitochondria = sphereVolume(somaRadius) * mitochondriaDensity;
 

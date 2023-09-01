@@ -1,7 +1,7 @@
 var namespacesonataexplorer_1_1io_1_1loader =
 [
     [ "servus", "d0/d1e/namespacesonataexplorer_1_1io_1_1loader_1_1servus.html", null ],
-    [ "BrickLoader", "d2/d88/classsonataexplorer_1_1io_1_1loader_1_1BrickLoader.html", "d2/d88/classsonataexplorer_1_1io_1_1loader_1_1BrickLoader" ],
+    [ "SonataCacheLoader", "d3/de0/classsonataexplorer_1_1io_1_1loader_1_1SonataCacheLoader.html", "d3/de0/classsonataexplorer_1_1io_1_1loader_1_1SonataCacheLoader" ],
     [ "CACHE_VERSION_1", "d8/d33/namespacesonataexplorer_1_1io_1_1loader.html#afcc476aadde0ab0db68b98d5fd83dc94", null ],
     [ "CACHE_VERSION_2", "d8/d33/namespacesonataexplorer_1_1io_1_1loader.html#a948fe94278cc00c38349a4e7fc6a12f0", null ],
     [ "CACHE_VERSION_3", "d8/d33/namespacesonataexplorer_1_1io_1_1loader.html#a8675025e4fbe1f1601e4a3cfdc9d0a4f", null ],
@@ -14,6 +14,5 @@ var namespacesonataexplorer_1_1io_1_1loader =
     [ "PROP_LOAD_SIMULATION", "d8/d33/namespacesonataexplorer_1_1io_1_1loader.html#a8e3fa0e5f69c4467372a9a16a1e67f3d", null ],
     [ "PROP_LOAD_SPHERES", "d8/d33/namespacesonataexplorer_1_1io_1_1loader.html#a57928e83b2a0cb4efb5cafc40af0f8cb", null ],
     [ "PROP_LOAD_STREAMLINES", "d8/d33/namespacesonataexplorer_1_1io_1_1loader.html#ad437e51ed5c6dfdac105f01731d13667", null ],
-    [ "SUPPORTED_EXTENTION_BIN", "d8/d33/namespacesonataexplorer_1_1io_1_1loader.html#a8d48fe569ff3e4ff355b09d9b1e5d536", null ],
-    [ "SUPPORTED_EXTENTION_BRAYNS", "d8/d33/namespacesonataexplorer_1_1io_1_1loader.html#a07510f9f3df857df39ebef56b2df2d0c", null ]
+    [ "SUPPORTED_EXTENTION_SONATA_CACHE", "d8/d33/namespacesonataexplorer_1_1io_1_1loader.html#a3083d51c4b4a4e4a15c6e25bdeddb588", null ]
 ];

@@ -31,6 +31,8 @@
 // ispc exports
 #include "DensityRenderer_ispc.h"
 
+using namespace core;
+
 namespace bioexplorer
 {
 namespace rendering

@@ -29,14 +29,10 @@ namespace bioexplorer
 {
 namespace connectomics
 {
-using namespace core;
-using namespace common;
-using namespace details;
-
 /**
  * Load whitematter from database
  */
-class WhiteMatter : public SDFGeometries
+class WhiteMatter : public common::SDFGeometries
 {
 public:
     /**
@@ -46,17 +42,19 @@ public:
      * @param details Set of attributes defining how the whitematter should be
      * loaded
      */
-    WhiteMatter(Scene& scene, const WhiteMatterDetails& details, const Vector3d& position, const Quaterniond& rotation);
+    WhiteMatter(core::Scene& scene, const details::WhiteMatterDetails& details, const core::Vector3d& position,
+                const core::Quaterniond& rotation);
 
 private:
     double _getDisplacementValue(const DisplacementElement& element) final { return 0; }
 
     void _buildModel();
 
-    void _addStreamline(ThreadSafeContainer& container, const Vector3fs& points, const uint64_t materialId);
+    void _addStreamline(common::ThreadSafeContainer& container, const core::Vector3fs& points,
+                        const uint64_t materialId);
 
-    const WhiteMatterDetails _details;
-    Scene& _scene;
+    const details::WhiteMatterDetails _details;
+    core::Scene& _scene;
 };
 } // namespace connectomics
 } // namespace bioexplorer

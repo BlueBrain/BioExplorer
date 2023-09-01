@@ -29,9 +29,6 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace details;
-using namespace core;
-
 class RNAShape : public Shape
 {
 public:
@@ -46,36 +43,37 @@ public:
      * @param curveParams Curve parameters based on t, and depending on the
      * shape type
      */
-    RNAShape(const Vector4ds& clippingPlanes, const RNAShapeType& shapeType, const uint64_t nbElements,
-             const Vector2f& shapeParams, const Vector2f& valuesRange, const Vector3d& curveParams);
+    RNAShape(const Vector4ds& clippingPlanes, const details::RNAShapeType& shapeType, const uint64_t nbElements,
+             const core::Vector2f& shapeParams, const core::Vector2f& valuesRange, const core::Vector3d& curveParams);
 
     /** @copydoc Shape::getTransformation */
-    Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
-                                     const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
-                                     const double offset) const final;
+    core::Transformation getTransformation(
+        const uint64_t occurrence, const uint64_t nbOccurrences,
+        const details::MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+        const double offset) const final;
 
     /** @copydoc Shape::isInside */
-    bool isInside(const Vector3d& point) const final;
+    bool isInside(const core::Vector3d& point) const final;
 
 private:
-    void _getSegment(const double u, const double v, Vector3d& src, Vector3d& dst) const;
-    Vector3d _trefoilKnot(double t) const;
-    Vector3d _torus(double t) const;
-    Vector3d _star(double t) const;
-    Vector3d _spring(double t) const;
-    Vector3d _heart(double u) const;
-    Vector3d _thing(double t) const;
-    Vector3d _moebius(double u, double v) const;
+    void _getSegment(const double u, const double v, core::Vector3d& src, core::Vector3d& dst) const;
+    core::Vector3d _trefoilKnot(double t) const;
+    core::Vector3d _torus(double t) const;
+    core::Vector3d _star(double t) const;
+    core::Vector3d _spring(double t) const;
+    core::Vector3d _heart(double u) const;
+    core::Vector3d _thing(double t) const;
+    core::Vector3d _moebius(double u, double v) const;
 
-    RNAShapeType _shapeType;
+    details::RNAShapeType _shapeType;
 
-    Vector3d _U;
-    Vector3d _V;
+    core::Vector3d _U;
+    core::Vector3d _V;
     double _step;
 
-    Vector2d _shapeParams;
-    Vector2d _valuesRange;
-    Vector3d _curveParams;
+    core::Vector2d _shapeParams;
+    core::Vector2d _valuesRange;
+    core::Vector3d _curveParams;
 };
 typedef std::shared_ptr<RNAShape> RNAShapePtr;
 

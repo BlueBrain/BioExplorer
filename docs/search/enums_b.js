@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['populationcolorscheme_7283',['PopulationColorScheme',['../d0/d1f/namespacebioexplorer_1_1details.html#a3a663e8593f9088b1ea580375463faf8',1,'bioexplorer::details']]],
-  ['proteincolorscheme_7284',['ProteinColorScheme',['../d9/d0f/namespacecore.html#a49eab297c0b027757a358a0ee3c37c24',1,'core::ProteinColorScheme()'],['../d0/d1f/namespacebioexplorer_1_1details.html#af28a3218771336f388f499dad4cca5ef',1,'bioexplorer::details::ProteinColorScheme()']]],
-  ['proteinrepresentation_7285',['ProteinRepresentation',['../d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5',1,'bioexplorer::details']]]
+  ['populationcolorscheme_7239',['PopulationColorScheme',['../dd/d40/namespacebioexplorer_1_1morphology.html#a510e9d8ea89618eca90c3c703f23a726',1,'bioexplorer::morphology']]],
+  ['proteincolorscheme_7240',['ProteinColorScheme',['../d0/d1f/namespacebioexplorer_1_1details.html#af28a3218771336f388f499dad4cca5ef',1,'bioexplorer::details']]],
+  ['proteinrepresentation_7241',['ProteinRepresentation',['../d1/dc2/namespacebioexplorer_1_1molecularsystems.html#a0d247bf41e7637f3d8436c91e20f8ab9',1,'bioexplorer::molecularsystems']]]
 ];

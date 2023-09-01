@@ -47,101 +47,108 @@ var NAVTREE =
         [ "Simulation of neuronal activity", "index.html#autotoc_md20", null ],
         [ "Morphology synthesis", "index.html#autotoc_md21", null ],
         [ "Proximity detection", "index.html#autotoc_md22", null ],
-        [ "White matter", "index.html#autotoc_md23", null ],
-        [ "Enzyme reactions", "index.html#autotoc_md24", null ],
-        [ "Neuromodulation", "index.html#autotoc_md25", null ]
+        [ "White matter and tractography", "index.html#autotoc_md23", [
+          [ "White matter", "index.html#autotoc_md24", null ]
+        ] ],
+        [ "Enzyme reactions", "index.html#autotoc_md26", null ],
+        [ "Neuromodulation", "index.html#autotoc_md27", null ]
+      ] ]
+    ] ],
+    [ "Extensions", "index.html#autotoc_md28", [
+      [ "Space explorer", "index.html#autotoc_md29", [
+        [ "Black holes", "index.html#autotoc_md30", null ]
       ] ],
-      [ "Space explorer", "index.html#autotoc_md26", [
-        [ "Black holes", "index.html#autotoc_md27", null ]
+      [ "Medical Imaging Explorer", "index.html#autotoc_md31", [
+        [ "DICOM", "index.html#autotoc_md32", null ]
       ] ],
-      [ "Medical Imaging Explorer", "index.html#autotoc_md28", [
-        [ "DICOM", "index.html#autotoc_md29", null ]
+      [ "Environment", "index.html#autotoc_md33", [
+        [ "Geological data", "index.html#autotoc_md34", null ]
       ] ],
-      [ "Python SDK", "index.html#autotoc_md30", null ],
-      [ "Documentation", "index.html#autotoc_md31", null ],
-      [ "Deployment", "index.html#autotoc_md32", [
-        [ "Server", "index.html#autotoc_md33", null ],
-        [ "Python SDK", "index.html#autotoc_md34", null ],
-        [ "Web User Interface", "index.html#autotoc_md35", null ],
-        [ "PostgreSQL Database", "index.html#autotoc_md36", null ]
+      [ "Python SDK", "index.html#autotoc_md35", null ],
+      [ "Documentation", "index.html#autotoc_md36", null ],
+      [ "Deployment", "index.html#autotoc_md37", [
+        [ "Server", "index.html#autotoc_md38", null ],
+        [ "Python SDK", "index.html#autotoc_md39", null ],
+        [ "Web User Interface", "index.html#autotoc_md40", null ],
+        [ "PostgreSQL Database", "index.html#autotoc_md41", null ]
       ] ],
-      [ "Building from Source", "index.html#autotoc_md37", [
-        [ "BioExplorer", "index.html#autotoc_md38", [
-          [ "Compile", "index.html#autotoc_md39", null ],
-          [ "Run", "index.html#autotoc_md40", null ]
+      [ "Building from Source", "index.html#autotoc_md42", [
+        [ "BioExplorer", "index.html#autotoc_md43", [
+          [ "Compile", "index.html#autotoc_md44", null ],
+          [ "Run", "index.html#autotoc_md45", null ]
         ] ]
       ] ],
-      [ "Simple example", "index.html#autotoc_md41", null ]
+      [ "Simple example", "index.html#autotoc_md46", null ]
     ] ],
-    [ "License", "index.html#autotoc_md42", null ],
-    [ "Contact", "index.html#autotoc_md43", null ],
-    [ "Funding & Acknowledgment", "index.html#autotoc_md44", null ],
+    [ "License", "index.html#autotoc_md47", null ],
+    [ "Contact", "index.html#autotoc_md48", null ],
+    [ "Funding & Acknowledgment", "index.html#autotoc_md49", null ],
     [ "The Multiview core plug-in", "d6/dc8/md_platform_plugins_multiview_README.html", [
       [ "Usage", "d6/dc8/md_platform_plugins_multiview_README.html#autotoc_md0", null ]
     ] ],
     [ "Docker", "d8/d7e/md_DOCKER.html", [
-      [ "Prerequisites", "d8/d7e/md_DOCKER.html#autotoc_md46", null ],
-      [ "Setup", "d8/d7e/md_DOCKER.html#autotoc_md47", null ],
-      [ "Usage", "d8/d7e/md_DOCKER.html#autotoc_md48", null ]
+      [ "Prerequisites", "d8/d7e/md_DOCKER.html#autotoc_md51", null ],
+      [ "Setup", "d8/d7e/md_DOCKER.html#autotoc_md52", null ],
+      [ "Usage", "d8/d7e/md_DOCKER.html#autotoc_md53", null ]
     ] ],
     [ "User guide", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html", [
-      [ "Protein", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md50", null ],
-      [ "Glycan", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md51", null ],
-      [ "RNA sequence", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md52", null ],
-      [ "Membrane", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md53", null ],
-      [ "Surfactants", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md54", null ],
-      [ "Virus", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md55", null ],
-      [ "Host cell", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md56", null ],
-      [ "Glycans Models", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md57", null ],
-      [ "Visualization", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md58", null ]
+      [ "Protein", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md55", null ],
+      [ "Glycan", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md56", null ],
+      [ "RNA sequence", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md57", null ],
+      [ "Membrane", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md58", null ],
+      [ "Surfactants", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md59", null ],
+      [ "Virus", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md60", null ],
+      [ "Host cell", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md61", null ],
+      [ "Glycans Models", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md62", null ],
+      [ "Visualization", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md63", null ]
     ] ],
     [ "Architecture", "d1/dbc/md_ARCHITECTURE.html", [
-      [ "Motivation", "d1/dbc/md_ARCHITECTURE.html#autotoc_md60", null ],
-      [ "Design goals", "d1/dbc/md_ARCHITECTURE.html#autotoc_md61", null ],
-      [ "Software Architecture", "d1/dbc/md_ARCHITECTURE.html#autotoc_md62", [
-        [ "Modular design", "d1/dbc/md_ARCHITECTURE.html#autotoc_md63", null ],
-        [ "Distributed architecture", "d1/dbc/md_ARCHITECTURE.html#autotoc_md64", null ],
-        [ "Abstraction", "d1/dbc/md_ARCHITECTURE.html#autotoc_md65", null ],
-        [ "Properties", "d1/dbc/md_ARCHITECTURE.html#autotoc_md66", null ],
-        [ "Core components", "d1/dbc/md_ARCHITECTURE.html#autotoc_md67", [
-          [ "Blue Brain Brayns", "d1/dbc/md_ARCHITECTURE.html#autotoc_md68", null ],
-          [ "Parameter manager", "d1/dbc/md_ARCHITECTURE.html#autotoc_md69", null ],
-          [ "Camera manipulators", "d1/dbc/md_ARCHITECTURE.html#autotoc_md70", null ],
-          [ "Engine factory", "d1/dbc/md_ARCHITECTURE.html#autotoc_md71", null ],
-          [ "Plug-ins", "d1/dbc/md_ARCHITECTURE.html#autotoc_md72", null ],
-          [ "Data loaders", "d1/dbc/md_ARCHITECTURE.html#autotoc_md73", null ],
-          [ "Engine", "d1/dbc/md_ARCHITECTURE.html#autotoc_md74", null ],
-          [ "Scene", "d1/dbc/md_ARCHITECTURE.html#autotoc_md75", null ],
-          [ "Model descriptor", "d1/dbc/md_ARCHITECTURE.html#autotoc_md76", null ],
-          [ "Model", "d1/dbc/md_ARCHITECTURE.html#autotoc_md77", null ]
+      [ "Motivation", "d1/dbc/md_ARCHITECTURE.html#autotoc_md65", null ],
+      [ "Design goals", "d1/dbc/md_ARCHITECTURE.html#autotoc_md66", null ],
+      [ "Software Architecture", "d1/dbc/md_ARCHITECTURE.html#autotoc_md67", [
+        [ "Modular design", "d1/dbc/md_ARCHITECTURE.html#autotoc_md68", null ],
+        [ "Distributed architecture", "d1/dbc/md_ARCHITECTURE.html#autotoc_md69", null ],
+        [ "Abstraction", "d1/dbc/md_ARCHITECTURE.html#autotoc_md70", null ],
+        [ "Properties", "d1/dbc/md_ARCHITECTURE.html#autotoc_md71", null ],
+        [ "Core components", "d1/dbc/md_ARCHITECTURE.html#autotoc_md72", [
+          [ "Blue Brain Brayns", "d1/dbc/md_ARCHITECTURE.html#autotoc_md73", null ],
+          [ "Parameter manager", "d1/dbc/md_ARCHITECTURE.html#autotoc_md74", null ],
+          [ "Camera manipulators", "d1/dbc/md_ARCHITECTURE.html#autotoc_md75", null ],
+          [ "Engine factory", "d1/dbc/md_ARCHITECTURE.html#autotoc_md76", null ],
+          [ "Plug-ins", "d1/dbc/md_ARCHITECTURE.html#autotoc_md77", null ],
+          [ "Data loaders", "d1/dbc/md_ARCHITECTURE.html#autotoc_md78", null ],
+          [ "Engine", "d1/dbc/md_ARCHITECTURE.html#autotoc_md79", null ],
+          [ "Scene", "d1/dbc/md_ARCHITECTURE.html#autotoc_md80", null ],
+          [ "Model descriptor", "d1/dbc/md_ARCHITECTURE.html#autotoc_md81", null ],
+          [ "Model", "d1/dbc/md_ARCHITECTURE.html#autotoc_md82", null ]
         ] ],
-        [ "Application Programming Interface", "d1/dbc/md_ARCHITECTURE.html#autotoc_md78", [
-          [ "Action interface", "d1/dbc/md_ARCHITECTURE.html#autotoc_md79", null ],
-          [ "plug-in", "d1/dbc/md_ARCHITECTURE.html#autotoc_md80", null ],
-          [ "Loader", "d1/dbc/md_ARCHITECTURE.html#autotoc_md81", null ]
+        [ "Application Programming Interface", "d1/dbc/md_ARCHITECTURE.html#autotoc_md83", [
+          [ "Action interface", "d1/dbc/md_ARCHITECTURE.html#autotoc_md84", null ],
+          [ "plug-in", "d1/dbc/md_ARCHITECTURE.html#autotoc_md85", null ],
+          [ "Loader", "d1/dbc/md_ARCHITECTURE.html#autotoc_md86", null ]
         ] ]
       ] ],
-      [ "Client software development kits", "d1/dbc/md_ARCHITECTURE.html#autotoc_md82", [
-        [ "Introduction", "d1/dbc/md_ARCHITECTURE.html#autotoc_md83", null ],
-        [ "Python SDK", "d1/dbc/md_ARCHITECTURE.html#autotoc_md84", null ],
-        [ "Javascript SDK", "d1/dbc/md_ARCHITECTURE.html#autotoc_md85", null ],
-        [ "Deflect", "d1/dbc/md_ARCHITECTURE.html#autotoc_md86", null ],
-        [ "Rockets", "d1/dbc/md_ARCHITECTURE.html#autotoc_md87", null ],
-        [ "VRPN", "d1/dbc/md_ARCHITECTURE.html#autotoc_md88", null ]
+      [ "Client software development kits", "d1/dbc/md_ARCHITECTURE.html#autotoc_md87", [
+        [ "Introduction", "d1/dbc/md_ARCHITECTURE.html#autotoc_md88", null ],
+        [ "Python SDK", "d1/dbc/md_ARCHITECTURE.html#autotoc_md89", null ],
+        [ "Javascript SDK", "d1/dbc/md_ARCHITECTURE.html#autotoc_md90", null ],
+        [ "Deflect", "d1/dbc/md_ARCHITECTURE.html#autotoc_md91", null ],
+        [ "Rockets", "d1/dbc/md_ARCHITECTURE.html#autotoc_md92", null ],
+        [ "VRPN", "d1/dbc/md_ARCHITECTURE.html#autotoc_md93", null ]
       ] ],
-      [ "Applications", "d1/dbc/md_ARCHITECTURE.html#autotoc_md89", [
-        [ "Service", "d1/dbc/md_ARCHITECTURE.html#autotoc_md90", null ],
-        [ "Viewer", "d1/dbc/md_ARCHITECTURE.html#autotoc_md91", null ]
+      [ "Applications", "d1/dbc/md_ARCHITECTURE.html#autotoc_md94", [
+        [ "Service", "d1/dbc/md_ARCHITECTURE.html#autotoc_md95", null ],
+        [ "Viewer", "d1/dbc/md_ARCHITECTURE.html#autotoc_md96", null ]
       ] ],
-      [ "Use-cases", "d1/dbc/md_ARCHITECTURE.html#autotoc_md92", [
-        [ "Visualization of Blue Brain / Sonata datasets", "d1/dbc/md_ARCHITECTURE.html#autotoc_md93", null ],
-        [ "MOOC", "d1/dbc/md_ARCHITECTURE.html#autotoc_md94", null ],
-        [ "OpenDeck", "d1/dbc/md_ARCHITECTURE.html#autotoc_md95", [
-          [ "Native rendering", "d1/dbc/md_ARCHITECTURE.html#autotoc_md96", null ],
-          [ "Remote rendering", "d1/dbc/md_ARCHITECTURE.html#autotoc_md97", null ]
+      [ "Use-cases", "d1/dbc/md_ARCHITECTURE.html#autotoc_md97", [
+        [ "Visualization of Blue Brain / Sonata datasets", "d1/dbc/md_ARCHITECTURE.html#autotoc_md98", null ],
+        [ "MOOC", "d1/dbc/md_ARCHITECTURE.html#autotoc_md99", null ],
+        [ "OpenDeck", "d1/dbc/md_ARCHITECTURE.html#autotoc_md100", [
+          [ "Native rendering", "d1/dbc/md_ARCHITECTURE.html#autotoc_md101", null ],
+          [ "Remote rendering", "d1/dbc/md_ARCHITECTURE.html#autotoc_md102", null ]
         ] ]
       ] ],
-      [ "What next?", "d1/dbc/md_ARCHITECTURE.html#autotoc_md98", null ]
+      [ "What next?", "d1/dbc/md_ARCHITECTURE.html#autotoc_md103", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -186,36 +193,36 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d0/d9a/optix6_2OptiXFrameBuffer_8h.html",
-"d1/d11/classcore_1_1Model.html#a7abcaaa0abf0f862f0122ced1e7af494",
-"d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#adcbca927ea217f070e26a63410ff8c50a5e543256c480ac577d30f76f9120eb74",
-"d1/da5/structbioexplorer_1_1details_1_1AssemblyDetails.html#a01ed7cba61c4a1c5f5536e496ef9b57c",
-"d2/d0e/Errors_8h.html#a82d2d256af3510c644b84c0681ff7c79",
-"d2/db3/MetaballsGenerator_8cpp.html",
-"d3/d38/structBasicLight.html#a7792ae3e0976c87f2bc82d1997d4234e",
-"d4/d07/classbioexplorer_1_1molecularsystems_1_1EnzymeReaction.html#a0073b4bebaf6f2b1a6004493a9984fd9",
-"d4/d49/classcore_1_1AbstractTask.html#a656b0e5326324bdfc239a7b403c0d5c5",
-"d5/d25/plugins_2Sonata_2plugin_2neuroscience_2neuron_2SpikeSimulationHandler_8h.html",
-"d5/d94/classsonataexplorer_1_1neuroscience_1_1neuron_1_1MEGHandler.html#a399d3e59a10bacee5f996a31135f53c0",
-"d6/d42/spaceexplorer_2blackhole_2plugin_2api_2Params_8h.html#a9dbc62319c8d464c97718c6c6e0d44e1",
-"d6/dd7/Core_8h.html",
-"d7/dae/classcore_1_1SpotLight.html#a24a243fae6e37ae7b395d4d3a0e03261",
-"d8/d2e/structospray_1_1SphereClippingPerspectiveCamera.html#a8d46b074333dd606cf0917def1af9d23",
-"d8/dc1/RocketsPlugin_8cpp.html#a57a16874e6509cc3c7def36dc1ba06ad",
-"d9/d0f/namespacecore.html#a7ae9d422b1064493e5ce8636c0461640",
-"d9/d24/PerspectiveParallaxCamera_8h_source.html",
-"d9/daa/classcore_1_1PropertyMap.html#ac0b1d818fb3c87b725024a164a492c9e",
-"da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#a145bda1edb34a4aa59e2df05eb5fc2e6",
-"da/dfc/structcore_1_1DeflectPixelOp_1_1Instance.html#ac0d48a977dda6dffee6440e1e139e51b",
-"db/ddf/classcore_1_1FrameBuffer.html#a4965f96625ddff685fdc62ffb6be0477",
-"dc/d88/Neurons_8cpp.html",
-"dd/d10/structcore_1_1SDFGeometry.html#a76fc8bc97bae7081c60fff23b03a4d45",
-"dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#a029cadf81ded0d7df857b834d48b3dea",
-"de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#afbe8c9cd99673dd230695010ce1227f2",
-"de/d65/PlaneShape_8h.html",
-"de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#a519d52a826f1bf4ff95ad8517d85dd04",
-"df/d9b/classcore_1_1OptiXMaterial.html#acf24b4a065f05b62697fc983e8364c2e",
-"dir_f1f9c636edd67c457aa0bf92847eca1a.html"
+"d0/dc2/Timer_8cpp.html#a603bbdc6d66e86a839fb9b833b32c9fa",
+"d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html#a7a78720b7969618e9a36d093c207df76",
+"d1/d3f/structospray_1_1PerspectiveParallaxCamera.html#a54dc2318ae1f56303506b250d1d9ea75a1ae3ea593e2bc203f5a7b603cd98c9ea",
+"d1/dbc/md_ARCHITECTURE.html#autotoc_md86",
+"d2/d51/structospray_1_1Cones.html#afed868f3cc734e6b510daadbd27ed7e8",
+"d2/dc9/structcore_1_1Params.html#a0d0fe0e2d1fa51c24f6807992348f0f0",
+"d3/d69/classcore_1_1Material.html#aeb83c2bfce4ac0b4e175886b01ef053f",
+"d4/d2c/jsonSerialization_8h.html#a2d16748e96ff159ab2f2ab8a6608ebdb",
+"d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp.html#ae74b4d2153086802d1c194e27ba3546a",
+"d5/d60/utils_8h.html#a12c4ac8ddb0e702102196c28b6e221dc",
+"d5/df4/structsonataexplorer_1_1api_1_1SpikeReportVisualizationSettings.html",
+"d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#af80e8ad4745b084d6f93195080e8cdcc",
+"d7/d65/classcore_1_1OptiXContext.html#ac6e840e0256ff0f13210458875979275",
+"d7/dea/plugins_2Metabolism_2plugin_2io_2db_2DBConnector_8h_source.html",
+"d8/d8e/namespacebioexplorer.html#a0332ccb7ef8c10db2f439fce38db2e28",
+"d9/d0f/namespacecore.html#a18d5ef137fafdc0711308da0c3e2083d",
+"d9/d0f/namespacecore.html#ab4aa74e5031f4f96471c149c1bc19793",
+"d9/d63/classcore_1_1ModelInstance.html#ac7053549bd905583218fe9872329389a",
+"da/d0b/namespacebioexplorer_1_1common.html#ab09abc57fbb8f60aedb578665dba01ab",
+"da/d98/optix6_2OptiXContext_8h.html#aa7521e00c904c489b264901d1a79eac3a34248a9bfcbd589d9b5fccb6a0ac6963",
+"db/d96/classcore_1_1RawVolumeLoader.html#a3e65844779ff0010135357b4d8480216",
+"dc/d1b/platform_2engines_2ospray_2Utils_8cpp.html",
+"dc/df9/classcore_1_1AbstractManipulator.html#a29446503e70aee2d0b938c8bdba1ebed",
+"dd/d40/namespacebioexplorer_1_1morphology.html#af018492c7c2b834b060698d3538db8d6",
+"dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#acd98bb9e835f11ffce7693cad8a994dca8ffacdb2b75195d944d3c9fb88fcb83a",
+"de/d4c/classcore_1_1OSPRayModel.html#a94ddf2ed272f43cb81b1834a2edd031e",
+"de/da1/SonataExplorerParams_8h.html#a5e9c09750d9ebc84817e5ac623d67b7f",
+"df/d09/VasculatureHandler_8cpp_source.html",
+"df/de4/structcore_1_1freeimage_1_1ImageDeleter.html",
+"globals_j.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

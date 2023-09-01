@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::mediamaker\l::Response",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/df4/structbioexplorer_1_1mediamaker_1_1Response.html",tooltip=" "];
+  Node0 [label="bioexplorer::meshing\l::PointCloudMesher",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d99/classbioexplorer_1_1meshing_1_1PointCloudMesher.html",tooltip=" "];
 }

@@ -29,9 +29,6 @@ namespace bioexplorer
 {
 namespace io
 {
-using namespace core;
-using namespace details;
-
 /**
  * @brief The OOCManager classes manager the out-of-core engine of the
  * BioExplorer. The scene is devided into bricks of a given size that are, in
@@ -77,7 +74,7 @@ public:
      * @param arguments Command line arguments (See class description for
      * details)
      */
-    OOCManager(Scene& scene, const Camera& camera, const CommandLineArguments& arguments);
+    OOCManager(core::Scene& scene, const core::Camera& camera, const CommandLineArguments& arguments);
 
     /**
      * @brief Destroy the OOCManager object
@@ -90,14 +87,14 @@ public:
      *
      * @param frameBuffer A reference to the Core frame buffer
      */
-    void setFrameBuffer(FrameBuffer* frameBuffer) { _frameBuffer = frameBuffer; }
+    void setFrameBuffer(core::FrameBuffer* frameBuffer) { _frameBuffer = frameBuffer; }
 
     /**
      * @brief Get the frame buffer
      *
      * @return const FrameBuffer* A pointer to the frame buffer
      */
-    const FrameBuffer* getFrameBuffer() const { return _frameBuffer; }
+    const core::FrameBuffer* getFrameBuffer() const { return _frameBuffer; }
 
     /**
      * @brief Starts a thread that takes care of loading the bricks according to
@@ -111,7 +108,7 @@ public:
      *
      * @return const std::string&
      */
-    const OOCSceneConfigurationDetails& getSceneConfiguration() const { return _sceneConfiguration; }
+    const details::OOCSceneConfigurationDetails& getSceneConfiguration() const { return _sceneConfiguration; }
 
     /**
      * @brief Get the Show Grid value, read from the command line parameters
@@ -144,11 +141,11 @@ private:
     void _parseArguments(const CommandLineArguments& arguments);
     void _loadBricks();
 
-    Scene& _scene;
-    const Camera& _camera;
-    FrameBuffer* _frameBuffer{nullptr};
+    core::Scene& _scene;
+    const core::Camera& _camera;
+    core::FrameBuffer* _frameBuffer{nullptr};
 
-    OOCSceneConfigurationDetails _sceneConfiguration;
+    details::OOCSceneConfigurationDetails _sceneConfiguration;
     double _updateFrequency{1.f};
     int32_t _nbVisibleBricks{0};
     bool _unloadBricks{false};

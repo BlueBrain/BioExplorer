@@ -43,6 +43,9 @@
 #endif
 #define TO_JSON(PARAM, JSON, NAME) JSON[#NAME] = PARAM.NAME
 
+using namespace bioexplorer;
+using namespace details;
+
 std::string to_json(const Response &param)
 {
     try
@@ -1096,5 +1099,4 @@ bool from_json(SpikeReportVisualizationSettingsDetails &param, const std::string
     }
     return true;
 }
-
 #endif

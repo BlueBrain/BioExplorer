@@ -43,8 +43,12 @@ typedef K::Segment_3 Segment_3;
 typedef K::Triangle_3 Triangle_3;
 #endif
 
+using namespace core;
+
 namespace bioexplorer
 {
+using namespace common;
+
 namespace meshing
 {
 PointCloudMesher::PointCloudMesher() {}

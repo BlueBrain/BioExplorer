@@ -34,14 +34,17 @@
 
 #include <omp.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
-namespace connectomics
-{
 using namespace common;
+using namespace details;
 using namespace io;
 using namespace db;
 
+namespace connectomics
+{
 WhiteMatter::WhiteMatter(Scene& scene, const WhiteMatterDetails& details, const Vector3d& position,
                          const Quaterniond& rotation)
     : SDFGeometries(NO_GRID_ALIGNMENT, position, rotation, doublesToVector3d(details.scale))

@@ -31,16 +31,10 @@
 
 namespace bioexplorer
 {
-using namespace fields;
-using namespace molecularsystems;
-using namespace vasculature;
-using namespace details;
-using namespace io;
-
 /**
  * @brief This class implements the BioExplorer plugin
  */
-class BioExplorerPlugin : public ExtensionPlugin
+class BioExplorerPlugin : public core::ExtensionPlugin
 {
 public:
     /**
@@ -67,112 +61,115 @@ private:
 #endif
 
     // Info and settings
-    Response _getVersion() const;
-    SceneInformationDetails _getSceneInformation() const;
-    Response _setGeneralSettings(const GeneralSettingsDetails &payload);
-    Response _resetScene();
-    Response _resetCamera();
-    Response _setFocusOn(const FocusOnDetails &details);
+    details::Response _getVersion() const;
+    details::SceneInformationDetails _getSceneInformation() const;
+    details::Response _setGeneralSettings(const details::GeneralSettingsDetails &payload);
+    details::Response _resetScene();
+    details::Response _resetCamera();
+    details::Response _setFocusOn(const details::FocusOnDetails &details);
 
     // IO
-    Response _exportToFile(const FileAccessDetails &payload);
-    Response _importFromFile(const FileAccessDetails &payload);
-    Response _exportToXYZ(const FileAccessDetails &payload);
+    details::Response _exportToFile(const details::FileAccessDetails &payload);
+    details::Response _importFromFile(const details::FileAccessDetails &payload);
+    details::Response _exportToXYZ(const details::FileAccessDetails &payload);
 
     // DB
-    Response _exportBrickToDatabase(const DatabaseAccessDetails &payload);
+    details::Response _exportBrickToDatabase(const details::DatabaseAccessDetails &payload);
 
     // Biological elements
-    Response _addAssembly(const AssemblyDetails &payload);
-    Response _removeAssembly(const AssemblyDetails &payload);
-    Response _addMembrane(const MembraneDetails &payload) const;
-    Response _addRNASequence(const RNASequenceDetails &payload) const;
-    Response _addProtein(const ProteinDetails &payload) const;
-    Response _addGlycan(const SugarDetails &payload) const;
-    Response _addSugar(const SugarDetails &payload) const;
-    Response _addEnzymeReaction(const EnzymeReactionDetails &payload) const;
-    Response _setEnzymeReactionProgress(const EnzymeReactionProgressDetails &payload) const;
+    details::Response _addAssembly(const details::AssemblyDetails &payload);
+    details::Response _removeAssembly(const details::AssemblyDetails &payload);
+    details::Response _addMembrane(const details::MembraneDetails &payload) const;
+    details::Response _addRNASequence(const details::RNASequenceDetails &payload) const;
+    details::Response _addProtein(const details::ProteinDetails &payload) const;
+    details::Response _addGlycan(const details::SugarDetails &payload) const;
+    details::Response _addSugar(const details::SugarDetails &payload) const;
+    details::Response _addEnzymeReaction(const details::EnzymeReactionDetails &payload) const;
+    details::Response _setEnzymeReactionProgress(const details::EnzymeReactionProgressDetails &payload) const;
 
     // Other elements
-    Response _addGrid(const AddGridDetails &payload);
-    Response _addSpheres(const AddSpheresDetails &payload);
-    Response _addCone(const AddConeDetails &payload);
-    Response _addBoundingBox(const AddBoundingBoxDetails &payload);
-    Response _addBox(const AddBoxDetails &payload);
-    Response _addStreamlines(const AddStreamlinesDetails &payload);
+    details::Response _addGrid(const details::AddGridDetails &payload);
+    details::Response _addSpheres(const details::AddSpheresDetails &payload);
+    details::Response _addCone(const details::AddConeDetails &payload);
+    details::Response _addBoundingBox(const details::AddBoundingBoxDetails &payload);
+    details::Response _addBox(const details::AddBoxDetails &payload);
+    details::Response _addStreamlines(const details::AddStreamlinesDetails &payload);
 
     // Amino acids
-    Response _setAminoAcidSequenceAsString(const AminoAcidSequenceAsStringDetails &payload) const;
-    Response _setAminoAcidSequenceAsRanges(const AminoAcidSequenceAsRangesDetails &payload) const;
-    Response _getAminoAcidInformation(const AminoAcidInformationDetails &payload) const;
-    Response _setAminoAcid(const AminoAcidDetails &payload) const;
+    details::Response _setAminoAcidSequenceAsString(const details::AminoAcidSequenceAsStringDetails &payload) const;
+    details::Response _setAminoAcidSequenceAsRanges(const details::AminoAcidSequenceAsRangesDetails &payload) const;
+    details::Response _getAminoAcidInformation(const details::AminoAcidInformationDetails &payload) const;
+    details::Response _setAminoAcid(const details::AminoAcidDetails &payload) const;
 
     // Portein instances
-    Response _setProteinInstanceTransformation(const ProteinInstanceTransformationDetails &payload) const;
-    Response _getProteinInstanceTransformation(const ProteinInstanceTransformationDetails &payload) const;
+    details::Response _setProteinInstanceTransformation(
+        const details::ProteinInstanceTransformationDetails &payload) const;
+    details::Response _getProteinInstanceTransformation(
+        const details::ProteinInstanceTransformationDetails &payload) const;
 
     // Models
-    NameDetails _getModelName(const ModelIdDetails &payload) const;
-    ModelBoundsDetails _getModelBounds(const ModelIdDetails &payload) const;
-    IdsDetails _getModelIds() const;
-    IdsDetails _getModelInstances(const ModelIdDetails &payload) const;
+    details::NameDetails _getModelName(const details::ModelIdDetails &payload) const;
+    details::ModelBoundsDetails _getModelBounds(const details::ModelIdDetails &payload) const;
+    details::IdsDetails _getModelIds() const;
+    details::IdsDetails _getModelInstances(const details::ModelIdDetails &payload) const;
 
     // Colors and materials
-    Response _setProteinColorScheme(const ProteinColorSchemeDetails &payload) const;
-    Response _setMaterials(const MaterialsDetails &payload);
-    IdsDetails _getMaterialIds(const ModelIdDetails &payload);
+    details::Response _setProteinColorScheme(const details::ProteinColorSchemeDetails &payload) const;
+    details::Response _setMaterials(const details::MaterialsDetails &payload);
+    details::IdsDetails _getMaterialIds(const details::ModelIdDetails &payload);
 
     // Point clouds
-    Response _buildPointCloud(const BuildPointCloudDetails &payload);
+    details::Response _buildPointCloud(const details::BuildPointCloudDetails &payload);
 
     // Fields
-    size_t _attachFieldsHandler(FieldsHandlerPtr handler);
-    Response _buildFields(const BuildFieldsDetails &payload);
-    Response _exportFieldsToFile(const ModelIdFileAccessDetails &payload);
-    Response _importFieldsFromFile(const FileAccessDetails &payload);
+    size_t _attachFieldsHandler(fields::FieldsHandlerPtr handler);
+    details::Response _buildFields(const details::BuildFieldsDetails &payload);
+    details::Response _exportFieldsToFile(const details::ModelIdFileAccessDetails &payload);
+    details::Response _importFieldsFromFile(const details::FileAccessDetails &payload);
 
     // Models
-    Response _setModelLoadingTransactionAction(const ModelLoadingTransactionDetails &payload);
+    details::Response _setModelLoadingTransactionAction(const details::ModelLoadingTransactionDetails &payload);
 
     // Out-Of-Core
-    Response _getOOCConfiguration() const;
-    Response _getOOCProgress() const;
-    Response _getOOCAverageLoadingTime() const;
-    OOCManagerPtr _oocManager{nullptr};
+    details::Response _getOOCConfiguration() const;
+    details::Response _getOOCProgress() const;
+    details::Response _getOOCAverageLoadingTime() const;
+    io::OOCManagerPtr _oocManager{nullptr};
 
     // Inspection
-    ProteinInspectionDetails _inspectProtein(const InspectionDetails &details) const;
+    details::ProteinInspectionDetails _inspectProtein(const details::InspectionDetails &details) const;
+
+    // Atlas
+    details::Response _addAtlas(const details::AtlasDetails &payload);
+
+    // Vasculature
+    details::Response _addVasculature(const details::VasculatureDetails &payload);
+    details::Response _getVasculatureInfo(const details::NameDetails &payload) const;
+    details::Response _setVasculatureReport(const details::VasculatureReportDetails &payload);
+    details::Response _setVasculatureRadiusReport(const details::VasculatureRadiusReportDetails &payload);
+
+    // Astrocytes
+    details::Response _addAstrocytes(const details::AstrocytesDetails &payload);
+
+    // Neurons
+    details::Response _addNeurons(const details::NeuronsDetails &payload);
+    details::NeuronPointsDetails _getNeuronSectionPoints(const details::NeuronIdSectionIdDetails &payload);
+    details::NeuronPointsDetails _getNeuronVaricosities(const details::NeuronIdDetails &payload);
+
+    // Connectomics
+    details::Response _addWhiteMatter(const details::WhiteMatterDetails &payload);
+    details::Response _addSynapses(const details::SynapsesDetails &payload);
+    details::Response _addSynapseEfficacy(const details::SynapseEfficacyDetails &payload);
+    details::Response _setSpikeReportVisualizationSettings(
+        const details::SpikeReportVisualizationSettingsDetails &payload);
+
+    // Utilities
+    details::LookAtResponseDetails _lookAt(const details::LookAtDetails &payload);
 
     // Attributes
-    AssemblyMap _assemblies;
+    common::AssemblyMap _assemblies;
 
     // Command line arguments
     std::map<std::string, std::string> _commandLineArguments;
-
-    // Atlas
-    Response _addAtlas(const AtlasDetails &payload);
-
-    // Vasculature
-    Response _addVasculature(const VasculatureDetails &payload);
-    Response _getVasculatureInfo(const NameDetails &payload) const;
-    Response _setVasculatureReport(const VasculatureReportDetails &payload);
-    Response _setVasculatureRadiusReport(const VasculatureRadiusReportDetails &payload);
-
-    // Astrocytes
-    Response _addAstrocytes(const AstrocytesDetails &payload);
-
-    // Neurons
-    Response _addNeurons(const NeuronsDetails &payload);
-    NeuronPointsDetails _getNeuronSectionPoints(const NeuronIdSectionIdDetails &payload);
-    NeuronPointsDetails _getNeuronVaricosities(const NeuronIdDetails &payload);
-
-    // Connectomics
-    Response _addWhiteMatter(const WhiteMatterDetails &payload);
-    Response _addSynapses(const SynapsesDetails &payload);
-    Response _addSynapseEfficacy(const SynapseEfficacyDetails &payload);
-    Response _setSpikeReportVisualizationSettings(const SpikeReportVisualizationSettingsDetails &payload);
-
-    // Utilities
-    LookAtResponseDetails _lookAt(const LookAtDetails &payload);
 };
 } // namespace bioexplorer

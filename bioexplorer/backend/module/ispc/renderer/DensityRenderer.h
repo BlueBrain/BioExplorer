@@ -33,8 +33,6 @@ namespace bioexplorer
 {
 namespace rendering
 {
-using namespace ospray;
-using namespace core;
 
 /**
  * @brief The DensityRenderer class allows visualization of atom density in the
@@ -68,7 +66,7 @@ private:
     void** _lightPtr;
     ospray::Data* _lightData;
 
-    AdvancedMaterial* _bgMaterial;
+    core::AdvancedMaterial* _bgMaterial;
 
     double _timestamp{0.f};
     double _exposure{1.f};

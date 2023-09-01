@@ -28,7 +28,7 @@
 // ispc exports
 #include "CellGrowthRenderer_ispc.h"
 
-using namespace ospray;
+using namespace core;
 
 namespace sonataexplorer
 {

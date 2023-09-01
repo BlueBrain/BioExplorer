@@ -29,9 +29,6 @@ namespace bioexplorer
 {
 namespace meshing
 {
-using namespace core;
-using namespace common;
-
 typedef std::map<size_t, Vector4ds> PointCloud;
 
 class PointCloudMesher
@@ -47,12 +44,12 @@ public:
      * @brief Convert a point cloud into a 3D representation using the Convex
      * Hull alogithm
      *
-     * @param model Model into which the 3D represenation is created
+     * @param model Model into which the 3D representation is created
      * @param pointCloud The list of points
      * @return true If the 3D representation is possible
      * @return false If the 3D representation could not be built
      */
-    bool toConvexHull(ThreadSafeContainer& container, const PointCloud& pointCloud);
+    bool toConvexHull(common::ThreadSafeContainer& container, const PointCloud& pointCloud);
 };
 } // namespace meshing
 } // namespace bioexplorer

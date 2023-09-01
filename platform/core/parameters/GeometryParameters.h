@@ -45,7 +45,6 @@ public:
     /** @copydoc AbstractParameters::print */
     void print() final;
 
-    ProteinColorScheme getColorScheme() const { return _colorScheme; }
     GeometryQuality getGeometryQuality() const { return _geometryQuality; }
     float getRadiusMultiplier() const { return _radiusMultiplier; }
     /**
@@ -62,7 +61,6 @@ protected:
     std::set<BVHFlag> _defaultBVHFlags;
 
     // Geometry
-    ProteinColorScheme _colorScheme{ProteinColorScheme::none};
     GeometryQuality _geometryQuality{GeometryQuality::high};
     float _radiusMultiplier{1};
 

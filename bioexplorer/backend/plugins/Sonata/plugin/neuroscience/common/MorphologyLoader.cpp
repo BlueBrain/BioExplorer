@@ -36,6 +36,8 @@
 
 #include <boost/filesystem.hpp>
 
+using namespace core;
+
 namespace sonataexplorer
 {
 namespace neuroscience

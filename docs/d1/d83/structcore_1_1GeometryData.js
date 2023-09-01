@@ -6,7 +6,9 @@ var structcore_1_1GeometryData =
     [ "Parallelogram", "de/d4d/structcore_1_1GeometryData_1_1Parallelogram.html", "de/d4d/structcore_1_1GeometryData_1_1Parallelogram" ],
     [ "Sphere", "da/dd2/structcore_1_1GeometryData_1_1Sphere.html", "da/dd2/structcore_1_1GeometryData_1_1Sphere" ],
     [ "SphereShell", "d7/d94/structcore_1_1GeometryData_1_1SphereShell.html", "d7/d94/structcore_1_1GeometryData_1_1SphereShell" ],
+    [ "StreamLines", "db/da2/structcore_1_1GeometryData_1_1StreamLines.html", "db/da2/structcore_1_1GeometryData_1_1StreamLines" ],
     [ "TriangleMesh", "db/dee/structcore_1_1GeometryData_1_1TriangleMesh.html", "db/dee/structcore_1_1GeometryData_1_1TriangleMesh" ],
+    [ "Volume", "df/d83/structcore_1_1GeometryData_1_1Volume.html", "df/d83/structcore_1_1GeometryData_1_1Volume" ],
     [ "SphereShellHitType", "d1/d83/structcore_1_1GeometryData.html#ac94d4af7f79c3ba4f1123f0e077eceb2", [
       [ "HIT_OUTSIDE_FROM_OUTSIDE", "d1/d83/structcore_1_1GeometryData.html#ac94d4af7f79c3ba4f1123f0e077eceb2ab7bfee67f7415dea015c2f11567cde40", null ],
       [ "HIT_OUTSIDE_FROM_INSIDE", "d1/d83/structcore_1_1GeometryData.html#ac94d4af7f79c3ba4f1123f0e077eceb2abdf40815b0f4835c6d2ea0b0426e37d2", null ],
@@ -67,6 +69,8 @@ var structcore_1_1GeometryData =
     [ "curves", "d1/d83/structcore_1_1GeometryData.html#ae2167b060575b14a7c09d1b3b33cef2f", null ],
     [ "cylinder", "d1/d83/structcore_1_1GeometryData.html#a2be9963f666151a805320a64dfd15ad1", null ],
     [ "sphere", "d1/d83/structcore_1_1GeometryData.html#aa7da1b3bbac5a51b031cfb06cdbfb9c7", null ],
+    [ "streamLines", "d1/d83/structcore_1_1GeometryData.html#af9e99f327ba659abb5b5470671b60557", null ],
     [ "triangle_mesh", "d1/d83/structcore_1_1GeometryData.html#a6f07d1580689140eb6f21730949da8c4", null ],
-    [ "type", "d1/d83/structcore_1_1GeometryData.html#aac553368872cc6e19c1233dded06df2c", null ]
+    [ "type", "d1/d83/structcore_1_1GeometryData.html#aac553368872cc6e19c1233dded06df2c", null ],
+    [ "volume", "d1/d83/structcore_1_1GeometryData.html#ac3fdc8d7697bf142ada85a53ba59c578", null ]
 ];

@@ -29,14 +29,6 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace common;
-using namespace details;
-using namespace atlas;
-using namespace molecularsystems;
-using namespace vasculature;
-using namespace morphology;
-using namespace connectomics;
-
 /**
  * @brief The Assembly class is a container for biological entities (proteins,
  * membranes, sugars, etc.)
@@ -49,7 +41,7 @@ public:
      * @param scene Scene to which assembly should be added
      * @param details Details of the assembly
      */
-    Assembly(Scene &scene, const AssemblyDetails &details);
+    Assembly(core::Scene &scene, const details::AssemblyDetails &details);
 
     /**
      * @brief Destroy the Assembly object
@@ -61,28 +53,28 @@ public:
      * @brief setColorScheme Set a color scheme to a protein of the assembly
      * @param details Color scheme details
      */
-    void setProteinColorScheme(const ProteinColorSchemeDetails &details);
+    void setProteinColorScheme(const details::ProteinColorSchemeDetails &details);
 
     /**
      * @brief setAminoAcidSequenceAsString Apply a color scheme to visualize a
      * given amino acid sequence defined by a string
      * @param details Amino acid sequence as a string
      */
-    void setAminoAcidSequenceAsString(const AminoAcidSequenceAsStringDetails &details);
+    void setAminoAcidSequenceAsString(const details::AminoAcidSequenceAsStringDetails &details);
 
     /**
      * @brief setAminoAcidSequenceAsRange Apply a color scheme to visualize a
      * given amino acid sequence defined by a range of indices
      * @param details Amino acid sequence as a range of indices
      */
-    void setAminoAcidSequenceAsRange(const AminoAcidSequenceAsRangesDetails &details);
+    void setAminoAcidSequenceAsRange(const details::AminoAcidSequenceAsRangesDetails &details);
 
     /**
      * @param details Name of the assembly and name of the protein
      * @return Amino acid sequence and indices for a given protein of the
      * assembly
      */
-    const std::string getAminoAcidInformation(const AminoAcidInformationDetails &details) const;
+    const std::string getAminoAcidInformation(const details::AminoAcidInformationDetails &details) const;
 
     /**
      * @brief Set an amino acid at a given position in the protein sequences
@@ -90,7 +82,7 @@ public:
      * @param details Structure containing the information related the amino
      * acid to be modified
      */
-    void setAminoAcid(const AminoAcidDetails &details);
+    void setAminoAcid(const details::AminoAcidDetails &details);
 
     /**
      * @return Clipping planes applied to the assembly
@@ -106,70 +98,71 @@ public:
     /**
      * @return The description of the assembly
      */
-    const AssemblyDetails &getDescriptor() { return _details; }
+    const details::AssemblyDetails &getDescriptor() { return _details; }
 
     /**
      * @return A map of the proteins in the assembly
      */
-    const ProteinMap &getProteins() const { return _proteins; }
+    const molecularsystems::ProteinMap &getProteins() const { return _proteins; }
 
     /**
      * @return A pointer to a protein in the assembly
      */
-    ProteinPtr getProtein(const std::string &name);
+    molecularsystems::ProteinPtr getProtein(const std::string &name);
 
     /**
      * @brief Set the transformation for a specific instance of a protein
      * @param details Details about the instance
      */
-    void setProteinInstanceTransformation(const ProteinInstanceTransformationDetails &details);
+    void setProteinInstanceTransformation(const details::ProteinInstanceTransformationDetails &details);
 
     /**
      * @param details Details about the instance
      * @return The transformation for a specific instance of a protein
      */
-    const Transformation getProteinInstanceTransformation(const ProteinInstanceTransformationDetails &details) const;
+    const core::Transformation getProteinInstanceTransformation(
+        const details::ProteinInstanceTransformationDetails &details) const;
 
     /**
      * @brief addMembrane Add a membrane to the assembly
      * @param details Membrane details
      */
-    void addMembrane(const MembraneDetails &details);
+    void addMembrane(const details::MembraneDetails &details);
 
     /**
      * @brief Get the Membrane object
      *
      * @return const MembranePtr
      */
-    const MembranePtr getMembrane() const { return _membrane; }
+    const molecularsystems::MembranePtr getMembrane() const { return _membrane; }
 
     /**
      * @brief addRNASequence Add an RNA sequence to the assembly
      * @param details Details of the RNA sequence
      */
-    void addRNASequence(const RNASequenceDetails &details);
+    void addRNASequence(const details::RNASequenceDetails &details);
 
-    const RNASequencePtr getRNASequence() { return _rnaSequence; }
+    const molecularsystems::RNASequencePtr getRNASequence() { return _rnaSequence; }
 
     /**
      * @brief addProtein Add a protein to the assembly
      * @param details Details of the protein
      */
-    void addProtein(const ProteinDetails &details, const AssemblyConstraints &constraints);
+    void addProtein(const details::ProteinDetails &details, const AssemblyConstraints &constraints);
 
     /**
      * @brief addGlycans Add glycans to Glycosylation sites of a given protein
      * in the assembly
      * @param details Details of the glycans
      */
-    void addGlycan(const SugarDetails &details);
+    void addGlycan(const details::SugarDetails &details);
 
     /**
      * @brief addSugars Add sugars to sugar binding sites of a given protein of
      * the assembly
      * @param details Details of the sugars
      */
-    void addSugar(const SugarDetails &details);
+    void addSugar(const details::SugarDetails &details);
 
     /**
      * @brief addEnzymeReaction Add enzyme reaction to the scene
@@ -180,15 +173,16 @@ public:
      * @param substrates List of pointers to the substrates
      * @param products List of pointers to the products
      */
-    void addEnzymeReaction(const EnzymeReactionDetails &details, AssemblyPtr enzymeAssembly, ProteinPtr enzyme,
-                           Proteins &substrates, Proteins &products);
+    void addEnzymeReaction(const details::EnzymeReactionDetails &details, AssemblyPtr enzymeAssembly,
+                           molecularsystems::ProteinPtr enzyme, molecularsystems::Proteins &substrates,
+                           molecularsystems::Proteins &products);
 
     /**
      * @brief setEnzymeReactionProgress Set enzyme reaction progress
      *
      * @param details Details about the enzyme reaction
      */
-    void setEnzymeReactionProgress(const EnzymeReactionProgressDetails &details);
+    void setEnzymeReactionProgress(const details::EnzymeReactionProgressDetails &details);
 
     /**
      * @brief Check if a location is inside the assembly
@@ -197,7 +191,7 @@ public:
      * @return true if the location is inside
      * @return false if the location is outside
      */
-    bool isInside(const Vector3d &location) const;
+    bool isInside(const core::Vector3d &location) const;
 
     /**
      * @brief Returns information about the first protein hit by a ray defined
@@ -207,14 +201,15 @@ public:
      * @param direction Direction of the ray
      * @return ProteinInspectionDetails Details about the protein
      */
-    ProteinInspectionDetails inspect(const Vector3d &origin, const Vector3d &direction, double &t) const;
+    details::ProteinInspectionDetails inspect(const core::Vector3d &origin, const core::Vector3d &direction,
+                                              double &t) const;
 
     /**
      * @brief Get the assembly transformation
      *
      * @return Transformation Assembly transformation
      */
-    Transformation getTransformation() const;
+    core::Transformation getTransformation() const;
 
     /**
      * @brief Get the assembly shape
@@ -228,7 +223,7 @@ public:
      *
      * @param details Details of the vasculature
      */
-    void addVasculature(const VasculatureDetails &details);
+    void addVasculature(const details::VasculatureDetails &details);
 
     /**
      * @brief Get the Vasculature Info object
@@ -243,28 +238,28 @@ public:
      *
      * @param details Details of the simulation report
      */
-    void setVasculatureReport(const VasculatureReportDetails &details);
+    void setVasculatureReport(const details::VasculatureReportDetails &details);
 
     /**
      * @brief Attach a radius report to the vasculature
      *
      * @param details Details of the radius report
      */
-    void setVasculatureRadiusReport(const VasculatureRadiusReportDetails &details);
+    void setVasculatureRadiusReport(const details::VasculatureRadiusReportDetails &details);
 
     /**
      * @brief Add astrocytes to the assembly
      *
      * @param details Details of the astrocytes
      */
-    void addAstrocytes(const AstrocytesDetails &details);
+    void addAstrocytes(const details::AstrocytesDetails &details);
 
     /**
      * @brief Add neurons to the assembly
      *
      * @param details Details of the neurons
      */
-    void addNeurons(const NeuronsDetails &details);
+    void addNeurons(const details::NeuronsDetails &details);
 
     /**
      * @brief Get the neuron section points
@@ -273,7 +268,7 @@ public:
      * @return Vector4ds List of ordered 3D points corresponding to the segments
      * of the section
      */
-    Vector4ds getNeuronSectionPoints(const NeuronIdSectionIdDetails &details);
+    Vector4ds getNeuronSectionPoints(const details::NeuronIdSectionIdDetails &details);
 
     /**
      * @brief Get the neuron varicosities locations
@@ -281,60 +276,62 @@ public:
      * @param details Details of the neuron (Neuron ID)
      * @return Vector3ds List of 3D locations for the neuron varicosities
      */
-    Vector3ds getNeuronVaricosities(const NeuronIdDetails &details);
+    Vector3ds getNeuronVaricosities(const details::NeuronIdDetails &details);
 
     /**
      * @brief Add a brain atlas to the assembly (Cells and/or regions)
      *
      * @param details Details of the brain atlas
      */
-    void addAtlas(const AtlasDetails &details);
+    void addAtlas(const details::AtlasDetails &details);
 
     /**
      * @brief Add white matter to the scene
      *
      * @param details Details of the white matter
      */
-    void addWhiteMatter(const WhiteMatterDetails &details);
+    void addWhiteMatter(const details::WhiteMatterDetails &details);
 
     /**
      * @brief Add synapses to the scene
      *
      * @param details Details of the synapses
      */
-    void addSynapses(const SynapsesDetails &details);
+    void addSynapses(const details::SynapsesDetails &details);
 
     /**
      * @brief Add synapse efficacy report to the scene
      *
      * @param details Details of the synapse efficacy report
      */
-    void addSynapseEfficacy(const SynapseEfficacyDetails &details);
+    void addSynapseEfficacy(const details::SynapseEfficacyDetails &details);
 
 private:
-    void _processInstances(ModelDescriptorPtr md, const std::string &name, const size_t occurrences,
-                           const Vector3d &position, const Quaterniond &rotation, const uint64_ts &allowedOccurrences,
-                           const MolecularSystemAnimationDetails &molecularSystemAnimationDetails, const double offset,
-                           const AssemblyConstraints &constraints);
+    void _processInstances(core::ModelDescriptorPtr md, const std::string &name, const size_t occurrences,
+                           const core::Vector3d &position, const core::Quaterniond &rotation,
+                           const uint64_ts &allowedOccurrences,
+                           const details::MolecularSystemAnimationDetails &molecularSystemAnimationDetails,
+                           const double offset, const AssemblyConstraints &constraints);
 
-    AssemblyDetails _details;
-    Scene &_scene;
-    ProteinMap _proteins;
-    MembranePtr _membrane{nullptr};
-    RNASequencePtr _rnaSequence{nullptr};
-    EnzymeReactionMap _enzymeReactions;
-    Vector3d _position;
-    Quaterniond _rotation;
+    details::AssemblyDetails _details;
+    core::Scene &_scene;
+    molecularsystems::ProteinMap _proteins;
+    molecularsystems::MembranePtr _membrane{nullptr};
+    molecularsystems::RNASequencePtr _rnaSequence{nullptr};
+    molecularsystems::EnzymeReactionMap _enzymeReactions;
+    atlas::AtlasPtr _atlas{nullptr};
+    vasculature::VasculaturePtr _vasculature{nullptr};
+    morphology::AstrocytesPtr _astrocytes{nullptr};
+    morphology::NeuronsPtr _neurons{nullptr};
+    morphology::SynapsesPtr _synapses{nullptr};
+    connectomics::SynapseEfficacyPtr _synapseEfficacy{nullptr};
+    connectomics::WhiteMatterPtr _whiteMatter{nullptr};
+
+    core::Vector3d _position;
+    core::Quaterniond _rotation;
     Vector4ds _clippingPlanes;
-    ModelDescriptors _modelDescriptors;
+    core::ModelDescriptors _modelDescriptors;
     ShapePtr _shape{nullptr};
-    AtlasPtr _atlas{nullptr};
-    VasculaturePtr _vasculature{nullptr};
-    AstrocytesPtr _astrocytes{nullptr};
-    NeuronsPtr _neurons{nullptr};
-    WhiteMatterPtr _whiteMatter{nullptr};
-    SynapsesPtr _synapses{nullptr};
-    SynapseEfficacyPtr _synapseEfficacy{nullptr};
 };
 } // namespace common
 } // namespace bioexplorer

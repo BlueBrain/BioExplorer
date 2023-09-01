@@ -30,13 +30,11 @@ namespace bioexplorer
 {
 namespace rendering
 {
-using namespace core;
-
 /**
  * @brief The PathTracingRenderer class is a renderer that processes the
  * rendering of the 3D scene using the path tracing algorythm
  */
-class PathTracingRenderer : public SimulationRenderer
+class PathTracingRenderer : public core::SimulationRenderer
 {
 public:
     PathTracingRenderer();
@@ -55,7 +53,7 @@ private:
     void** _lightPtr;
     ospray::Data* _lightData;
 
-    AdvancedMaterial* _bgMaterial;
+    core::AdvancedMaterial* _bgMaterial;
 
     double _exposure{1.f};
     double _aoStrength{1.f};

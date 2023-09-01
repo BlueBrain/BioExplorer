@@ -31,13 +31,10 @@ namespace bioexplorer
 {
 namespace atlas
 {
-using namespace core;
-using namespace common;
-
 /**
  * Load brain atlas from database
  */
-class Atlas : public SDFGeometries
+class Atlas : public common::SDFGeometries
 {
 public:
     /**
@@ -47,15 +44,16 @@ public:
      * @param details Set of attributes defining how the vasculature should be
      * loaded
      */
-    Atlas(Scene& scene, const AtlasDetails& details, const Vector3d& position, const Quaterniond& rotation);
+    Atlas(core::Scene& scene, const details::AtlasDetails& details, const core::Vector3d& position,
+          const core::Quaterniond& rotation);
 
 private:
     double _getDisplacementValue(const DisplacementElement& element) final { return 0; }
 
     void _load();
 
-    const AtlasDetails _details;
-    Scene& _scene;
+    const details::AtlasDetails _details;
+    core::Scene& _scene;
 };
 } // namespace atlas
 } // namespace bioexplorer

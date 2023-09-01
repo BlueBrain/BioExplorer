@@ -70,6 +70,7 @@ var platform_2core_2common_2Types_8h =
     [ "uints", "de/d53/platform_2core_2common_2Types_8h.html#aa14009cb858d062b17df5eb6cc4ae8fd", null ],
     [ "VolumePtr", "de/d53/platform_2core_2common_2Types_8h.html#a1821d76907dac8b71deaca0e55f47688", null ],
     [ "Volumes", "de/d53/platform_2core_2common_2Types_8h.html#a2308339bc63c98774276aa3b9f2675eb", null ],
+    [ "VolumesMap", "de/d53/platform_2core_2common_2Types_8h.html#af24081d0865a1bc75c17fd92f7dec0cf", null ],
     [ "AccumulationType", "de/d53/platform_2core_2common_2Types_8h.html#ad43c1b0a03df44f7b1026c1325ce6de3", [
       [ "linear", "de/d53/platform_2core_2common_2Types_8h.html#ad43c1b0a03df44f7b1026c1325ce6de3a9a932b3cb396238423eb2f33ec17d6aa", null ],
       [ "ai_denoised", "de/d53/platform_2core_2common_2Types_8h.html#ad43c1b0a03df44f7b1026c1325ce6de3a3bebbf5cdebccdeb71ff0777ae8d9f9e", null ]
@@ -119,13 +120,6 @@ var platform_2core_2common_2Types_8h =
       [ "shared", "de/d53/platform_2core_2common_2Types_8h.html#a8734e7752dd105788c38cf9c43207428a9e81e7b963c71363e2fb3eefcfecfc0e", null ],
       [ "replicated", "de/d53/platform_2core_2common_2Types_8h.html#a8734e7752dd105788c38cf9c43207428a08069c56938bbf6ddcc01ee2fd848af5", null ]
     ] ],
-    [ "ProteinColorScheme", "de/d53/platform_2core_2common_2Types_8h.html#a49eab297c0b027757a358a0ee3c37c24", [
-      [ "none", "de/d53/platform_2core_2common_2Types_8h.html#a49eab297c0b027757a358a0ee3c37c24a334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
-      [ "by_id", "de/d53/platform_2core_2common_2Types_8h.html#a49eab297c0b027757a358a0ee3c37c24a6940e84643265fd66a05efe9c3ae3ebd", null ],
-      [ "protein_atoms", "de/d53/platform_2core_2common_2Types_8h.html#a49eab297c0b027757a358a0ee3c37c24aa4cf5a965be375522619966d002b38b1", null ],
-      [ "protein_chains", "de/d53/platform_2core_2common_2Types_8h.html#a49eab297c0b027757a358a0ee3c37c24a78fbe3f5135170e57b4532ca1cb18a6f", null ],
-      [ "protein_residues", "de/d53/platform_2core_2common_2Types_8h.html#a49eab297c0b027757a358a0ee3c37c24ae985c44544e2b5ba12e19af1522e8ac9", null ]
-    ] ],
     [ "TextureType", "de/d53/platform_2core_2common_2Types_8h.html#a942b62b36204ca1117f092b071bce51d", [
       [ "diffuse", "de/d53/platform_2core_2common_2Types_8h.html#a942b62b36204ca1117f092b071bce51daa2b8f01051e9b67acd6050985ce2422f", null ],
       [ "normals", "de/d53/platform_2core_2common_2Types_8h.html#a942b62b36204ca1117f092b071bce51dad145450dfb4c0581ed9fc6bce61b435a", null ],
@@ -138,7 +132,9 @@ var platform_2core_2common_2Types_8h =
       [ "occlusion", "de/d53/platform_2core_2common_2Types_8h.html#a942b62b36204ca1117f092b071bce51da73a6a553fd8c616be53e8c1094f06e8f", null ],
       [ "radiance", "de/d53/platform_2core_2common_2Types_8h.html#a942b62b36204ca1117f092b071bce51da779dc4beebc1affac992e67d44cfc2bc", null ],
       [ "irradiance", "de/d53/platform_2core_2common_2Types_8h.html#a942b62b36204ca1117f092b071bce51dabd711fe2d4a13439b7df45a0fe0b2055", null ],
-      [ "brdf_lut", "de/d53/platform_2core_2common_2Types_8h.html#a942b62b36204ca1117f092b071bce51dad045437cec99510c14217d66b1e140ae", null ]
+      [ "brdf_lut", "de/d53/platform_2core_2common_2Types_8h.html#a942b62b36204ca1117f092b071bce51dad045437cec99510c14217d66b1e140ae", null ],
+      [ "volume", "de/d53/platform_2core_2common_2Types_8h.html#a942b62b36204ca1117f092b071bce51da210ab9e731c9c36c2c38db15c28a8d1c", null ],
+      [ "transfer_function", "de/d53/platform_2core_2common_2Types_8h.html#a942b62b36204ca1117f092b071bce51da6c41ba909cb6f8703d65e48d992d820a", null ]
     ] ],
     [ "enumMap", "de/d53/platform_2core_2common_2Types_8h.html#a883832a62b24f86cc38ed05b71e6fe56", null ],
     [ "BOUNDINGBOX_MATERIAL_ID", "de/d53/platform_2core_2common_2Types_8h.html#a1db4439c4828a17b5535e19c3aedc5d1", null ],
@@ -149,5 +145,7 @@ var platform_2core_2common_2Types_8h =
     [ "IRRADIANCE_MAP", "de/d53/platform_2core_2common_2Types_8h.html#a0e90452ad3bbd3bbe09004d3fa51bba5", null ],
     [ "NO_MATERIAL", "de/d53/platform_2core_2common_2Types_8h.html#a3db2cff6eeb561d637e2513be2702c6a", null ],
     [ "RADIANCE_MAP", "de/d53/platform_2core_2common_2Types_8h.html#af8ae89ba03bcecc88ffe84a9ee17868d", null ],
-    [ "SECONDARY_MODEL_MATERIAL_ID", "de/d53/platform_2core_2common_2Types_8h.html#a3cda79c5b8f6a7e088ca71fe3042d41d", null ]
+    [ "SECONDARY_MODEL_MATERIAL_ID", "de/d53/platform_2core_2common_2Types_8h.html#a3cda79c5b8f6a7e088ca71fe3042d41d", null ],
+    [ "textureTypeToString", "de/d53/platform_2core_2common_2Types_8h.html#a8034becde2348711bb9a3e0f8ae884aa", null ],
+    [ "VOLUME_MATERIAL_ID", "de/d53/platform_2core_2common_2Types_8h.html#a2be1304a433f78e174e161c8d8df86af", null ]
 ];

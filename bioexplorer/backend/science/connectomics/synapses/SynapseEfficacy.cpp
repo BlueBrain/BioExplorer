@@ -32,14 +32,17 @@
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
-namespace connectomics
-{
 using namespace common;
+using namespace details;
 using namespace io;
 using namespace db;
 
+namespace connectomics
+{
 SynapseEfficacy::SynapseEfficacy(Scene& scene, const SynapseEfficacyDetails& details, const Vector3d& position,
                                  const Quaterniond& rotation)
     : SDFGeometries(details.alignToGrid, position, rotation)

@@ -29,6 +29,8 @@
 
 namespace bioexplorer
 {
+using namespace details;
+
 namespace connectomics
 {
 using namespace io;

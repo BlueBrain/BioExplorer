@@ -31,9 +31,6 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace core;
-using namespace details;
-
 /**
  * @brief Left trim of a string
  *
@@ -66,14 +63,14 @@ std::string& trim(std::string& s);
  * @param clippingPlanes Clipping planes defining the volume
  * @return True if the position does not belong to the volume, false otherwise
  */
-bool isClipped(const Vector3d& position, const Vector4ds& clippingPlanes);
+bool isClipped(const core::Vector3d& position, const Vector4ds& clippingPlanes);
 
 /**
  * @brief Set the default transfer function (Unipolar) to a given model
  *
  * @param model Model to which the transfer function should be set
  */
-void setDefaultTransferFunction(Model& model, const Vector2d range = {0.0, 1.0}, const double alpha = 1.0);
+void setDefaultTransferFunction(core::Model& model, const core::Vector2d range = {0.0, 1.0}, const double alpha = 1.0);
 
 /**
  * @brief Get the Clipping Planes from the scene
@@ -81,7 +78,7 @@ void setDefaultTransferFunction(Model& model, const Vector2d range = {0.0, 1.0},
  * @param scene 3D scene
  * @return Vector4ds List of clipping planes
  */
-Vector4ds getClippingPlanes(const Scene& scene);
+Vector4ds getClippingPlanes(const core::Scene& scene);
 
 /**
  * @brief Converts a vector of doubles into a 2D vector
@@ -89,7 +86,7 @@ Vector4ds getClippingPlanes(const Scene& scene);
  * @param value Vector of doubles
  * @return Vector2d A 2D vector
  */
-Vector2d doublesToVector2d(const doubles& value);
+core::Vector2d doublesToVector2d(const doubles& value);
 
 /**
  * @brief Converts a vector of doubles into a 3D vector
@@ -97,7 +94,7 @@ Vector2d doublesToVector2d(const doubles& value);
  * @param value Vector of doubles
  * @return Vector3d A 3D vector
  */
-Vector3d doublesToVector3d(const doubles& value);
+core::Vector3d doublesToVector3d(const doubles& value);
 
 /**
  * @brief Converts a 3D vector to a vector of doubles
@@ -105,7 +102,7 @@ Vector3d doublesToVector3d(const doubles& value);
  * @param value A 3D vector
  * @return Vector3d Vector of doubles
  */
-doubles vector3dToDoubles(const Vector3d& value);
+doubles vector3dToDoubles(const core::Vector3d& value);
 
 /**
  * @brief Converts a vector of doubles into a 4D vector
@@ -113,7 +110,7 @@ doubles vector3dToDoubles(const Vector3d& value);
  * @param value Vector of doubles
  * @return Vector3d A 4D vector
  */
-Vector4d doublesToVector4d(const doubles& value);
+core::Vector4d doublesToVector4d(const doubles& value);
 
 /**
  * @brief Converts a vector of doubles into a Quaternion
@@ -121,7 +118,7 @@ Vector4d doublesToVector4d(const doubles& value);
  * @param values Vector of doubles
  * @return Quaternion A quaternion
  */
-Quaterniond doublesToQuaterniond(const doubles& values);
+core::Quaterniond doublesToQuaterniond(const doubles& values);
 
 /**
  * @brief Converts a vector of doubles into vector of 4D vectors
@@ -137,7 +134,7 @@ Vector4ds doublesToVector4ds(const doubles& values);
  * @param value Vector of doubles
  * @return MolecularSystemAnimationDetails The animation details
  */
-MolecularSystemAnimationDetails doublesToMolecularSystemAnimationDetails(const doubles& values);
+details::MolecularSystemAnimationDetails doublesToMolecularSystemAnimationDetails(const doubles& values);
 
 /**
  * @brief Converts a vector of doubles into cell animation details
@@ -145,7 +142,7 @@ MolecularSystemAnimationDetails doublesToMolecularSystemAnimationDetails(const d
  * @param value Vector of doubles
  * @return CellAnimationDetails The animation details
  */
-CellAnimationDetails doublesToCellAnimationDetails(const doubles& values);
+details::CellAnimationDetails doublesToCellAnimationDetails(const doubles& values);
 
 /**
  * @brief Returns a position and a rotation of a instance on a sphere using a
@@ -159,8 +156,9 @@ CellAnimationDetails doublesToCellAnimationDetails(const doubles& values);
  * @param ratio Ratio of coverage of the sphere
  * @return Vector3d
  */
-Vector3d sphereFilling(const double radius, const uint64_t occurrence, const uint64_t occurrences, const uint64_t rnd,
-                       Vector3d& position, Quaterniond& rotation, const double ratio = 1.0);
+core::Vector3d sphereFilling(const double radius, const uint64_t occurrence, const uint64_t occurrences,
+                             const uint64_t rnd, core::Vector3d& position, core::Quaterniond& rotation,
+                             const double ratio = 1.0);
 
 /**
  * @brief Splits a string according to the delimiter
@@ -177,7 +175,7 @@ std::vector<std::string> split(const std::string& s, const std::string& delimite
  * @param transformations List of transformations
  * @return Transformation Result of the combination
  */
-Transformation combineTransformations(const Transformations& transformations);
+core::Transformation combineTransformations(const core::Transformations& transformations);
 
 /**
  * @brief Intersection between a ray and a box
@@ -191,8 +189,8 @@ Transformation combineTransformations(const Transformations& transformations);
  * @return true The ray intersects with the box
  * @return false The ray does not intersect with the box
  */
-bool rayBoxIntersection(const Vector3d& origin, const Vector3d& direction, const Boxd& box, const double t0,
-                        const double t1, double& t);
+bool rayBoxIntersection(const core::Vector3d& origin, const core::Vector3d& direction, const core::Boxd& box,
+                        const double t0, const double t1, double& t);
 
 // Volumes
 double sphereVolume(const double radius);
@@ -200,19 +198,19 @@ double cylinderVolume(const double height, const double radius);
 double coneVolume(const double height, const double r1, const double r2);
 double capsuleVolume(const double height, const double radius);
 
-Vector3f transformVector3f(const Vector3f& v, const Matrix4f& transformation);
+core::Vector3f transformVector3f(const core::Vector3f& v, const core::Matrix4f& transformation);
 Vector3ds getPointsInSphere(const size_t nbPoints, const double innerRadius);
 
 double frac(const double x);
-Vector3d frac(const Vector3d x);
+core::Vector3d frac(const core::Vector3d x);
 double mix(const double x, const double y, const double a);
 double hash(const double n);
-double noise(const Vector3d& x);
-Vector3d mod(const Vector3d& v, const int m);
-double cells(const Vector3d& p, const double cellCount);
-double worleyNoise(const Vector3d& p, const double cellCount);
+double noise(const core::Vector3d& x);
+core::Vector3d mod(const core::Vector3d& v, const int m);
+double cells(const core::Vector3d& p, const double cellCount);
+double worleyNoise(const core::Vector3d& p, const double cellCount);
 
-size_t getMaterialIdFromOrientation(const Vector3d& orientation);
+size_t getMaterialIdFromOrientation(const core::Vector3d& orientation);
 
 /**
  * @brief Return a random double between -0.5 and 0.5
@@ -248,8 +246,8 @@ double rnd3(const uint64_t index);
  * @param weight Weight of the alteration
  * @return Quaterniond Resulting modified quaternion
  */
-Quaterniond weightedRandomRotation(const Quaterniond& q, const uint64_t seed, const uint64_t index,
-                                   const double weight);
+core::Quaterniond weightedRandomRotation(const core::Quaterniond& q, const uint64_t seed, const uint64_t index,
+                                         const double weight);
 
 /**
  * @brief Generate a random quaternion
@@ -257,7 +255,7 @@ Quaterniond weightedRandomRotation(const Quaterniond& q, const uint64_t seed, co
  * @param seed Seed to apply to the randomness
  * @return Quaterniond Random quaternion
  */
-Quaterniond randomQuaternion(const uint64_t seed);
+core::Quaterniond randomQuaternion(const uint64_t seed);
 
 /**
  * @brief Check is test is part of value using the AND operator
@@ -294,7 +292,7 @@ double valueFromDoubles(const doubles& array, const size_t index, const double d
  * @param position 3D position
  * @return Vector3d An 3D position aligned to the grid
  */
-Vector3d getAlignmentToGrid(const double gridSize, const Vector3d& position);
+core::Vector3d getAlignmentToGrid(const double gridSize, const core::Vector3d& position);
 
 } // namespace common
 } // namespace bioexplorer

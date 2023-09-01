@@ -40,12 +40,13 @@
 
 #include <omp.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
+using namespace common;
 namespace molecularsystems
 {
-using namespace core;
-using namespace common;
 #ifdef USE_CGAL
 using namespace meshing;
 #endif

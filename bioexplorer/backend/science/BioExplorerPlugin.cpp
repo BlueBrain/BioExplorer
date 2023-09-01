@@ -51,9 +51,15 @@
 #include <platform/engines/optix6/OptiXContext.h>
 #endif
 
+using namespace core;
+
 namespace bioexplorer
 {
+using namespace fields;
+using namespace molecularsystems;
+using namespace morphology;
 using namespace common;
+using namespace details;
 using namespace io;
 using namespace db;
 

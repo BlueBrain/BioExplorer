@@ -24,6 +24,8 @@
 
 #include <common/Utils.h>
 
+using namespace core;
+
 namespace sonataexplorer
 {
 namespace neuroscience

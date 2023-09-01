@@ -29,8 +29,6 @@ namespace bioexplorer
 {
 namespace meshing
 {
-using namespace core;
-
 class SurfaceMesher
 {
 public:
@@ -41,15 +39,15 @@ public:
      * @param atoms atoms used to generate the mesh
      * @param triangles Generated triangles
      */
-    ModelDescriptorPtr generateSurface(core::Scene& scene, const std::string& pdbId, const Vector4ds& atoms,
-                                       const double shrinkfactor = 0.5);
+    core::ModelDescriptorPtr generateSurface(core::Scene& scene, const std::string& pdbId, const Vector4ds& atoms,
+                                             const double shrinkfactor = 0.5);
 
     /** Generates a triangle based mesh model
      *
      * @param atoms atoms used to generate the mesh
      * @param triangles Generated triangles
      */
-    ModelDescriptorPtr generateUnionOfBalls(core::Scene& scene, const std::string& pdbId, const Vector4ds& atoms);
+    core::ModelDescriptorPtr generateUnionOfBalls(core::Scene& scene, const std::string& pdbId, const Vector4ds& atoms);
 
 private:
     uint32_t _uuid;

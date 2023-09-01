@@ -108,6 +108,8 @@ Collaboration diagram for core::OptiXModel:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab5ac37f8be648dade91c1a8ad2ff44b0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#ab5ac37f8be648dade91c1a8ad2ff44b0">OptiXModel</a> (<a class="el" href="../../d4/dfb/classcore_1_1AnimationParameters.html">AnimationParameters</a> &amp;animationParameters, <a class="el" href="../../df/da5/classcore_1_1VolumeParameters.html">VolumeParameters</a> &amp;volumeParameters)</td></tr>
 <tr class="separator:ab5ac37f8be648dade91c1a8ad2ff44b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ad0933c0dddaa4baedfb1fb982e8409"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#a1ad0933c0dddaa4baedfb1fb982e8409">~OptiXModel</a> ()</td></tr>
+<tr class="separator:a1ad0933c0dddaa4baedfb1fb982e8409"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d97247b00ea12b2a8cef704e70367e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#a7d97247b00ea12b2a8cef704e70367e1">commitGeometry</a> () final</td></tr>
 <tr class="separator:a7d97247b00ea12b2a8cef704e70367e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbc2b69bc30d99903f2faf073c7a0da2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#acbc2b69bc30d99903f2faf073c7a0da2">buildBoundingBox</a> () final</td></tr>
@@ -125,6 +127,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a071445fefddb0bbe20c18d4db85c4306"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a917340b0f05da446330c39e833972f40"><td class="memItemLeft" align="right" valign="top">::optix::GeometryGroup&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#a917340b0f05da446330c39e833972f40">getBoundingBoxGroup</a> () const</td></tr>
 <tr class="separator:a917340b0f05da446330c39e833972f40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7d79f074eb265187ee73c0161a0679d"><td class="memItemLeft" align="right" valign="top">auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#ae7d79f074eb265187ee73c0161a0679d">getVolumeGeometries</a> ()</td></tr>
+<tr class="separator:ae7d79f074eb265187ee73c0161a0679d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00e606a55316717a133de70f757f7c91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#a00e606a55316717a133de70f757f7c91">commitVolumesBuffers</a> (const size_t materialId)</td></tr>
+<tr class="separator:a00e606a55316717a133de70f757f7c91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5ac37f8be648dade91c1a8ad2ff44b0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#ab5ac37f8be648dade91c1a8ad2ff44b0">OptiXModel</a> (<a class="el" href="../../d4/dfb/classcore_1_1AnimationParameters.html">AnimationParameters</a> &amp;animationParameters, <a class="el" href="../../df/da5/classcore_1_1VolumeParameters.html">VolumeParameters</a> &amp;volumeParameters)</td></tr>
 <tr class="separator:ab5ac37f8be648dade91c1a8ad2ff44b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d97247b00ea12b2a8cef704e70367e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d72/classcore_1_1OptiXModel.html#a7d97247b00ea12b2a8cef704e70367e1">commitGeometry</a> () final</td></tr>
@@ -354,7 +360,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d3/d98/optix6_2OptiXModel_8h_source.html#l00035">35</a> of file <a class="el" href="../../d3/d98/optix6_2OptiXModel_8h_source.html">OptiXModel.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d98/optix6_2OptiXModel_8h_source.html#l00037">37</a> of file <a class="el" href="../../d3/d98/optix6_2OptiXModel_8h_source.html">OptiXModel.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab5ac37f8be648dade91c1a8ad2ff44b0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab5ac37f8be648dade91c1a8ad2ff44b0">&#9670;&nbsp;</a></span>OptiXModel() <span class="overload">[1/2]</span></h2>
@@ -382,7 +388,26 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00063">63</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00067">67</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1ad0933c0dddaa4baedfb1fb982e8409"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ad0933c0dddaa4baedfb1fb982e8409">&#9670;&nbsp;</a></span>~OptiXModel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">core::OptiXModel::~OptiXModel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00072">72</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
 
 </div>
 </div>
@@ -451,7 +476,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/d11/classcore_1_1Model.html#a81828a19add88023374933f7de206920">core::Model</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00367">367</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00561">561</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
 
 </div>
 </div>
@@ -535,7 +560,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/d11/classcore_1_1Model.html#af19fe9a61be81358f212c4941018940a">core::Model</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00337">337</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00508">508</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
 
 </div>
 </div>
@@ -610,7 +635,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/d11/classcore_1_1Model.html#a2ad5d819fd1c26edbc5e78105e23ca9f">core::Model</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00271">271</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00399">399</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
 
 </div>
 </div>
@@ -670,7 +695,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/d11/classcore_1_1Model.html#afc93740cb95e07ed50ed2fdaad3df01a">core::Model</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00068">68</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00078">78</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
 
 </div>
 </div>
@@ -700,6 +725,26 @@ Additional Inherited Members</h2></td></tr>
 <p></p>
 
 <p>Implements <a class="el" href="../../d1/d11/classcore_1_1Model.html#afc93740cb95e07ed50ed2fdaad3df01a">core::Model</a>.</p>
+
+</div>
+</div>
+<a id="a00e606a55316717a133de70f757f7c91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00e606a55316717a133de70f757f7c91">&#9670;&nbsp;</a></span>commitVolumesBuffers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::OptiXModel::commitVolumesBuffers </td>
+          <td>(</td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>materialId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00488">488</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
 
 </div>
 </div>
@@ -756,7 +801,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/d11/classcore_1_1Model.html#ae689bdb99ca6d4836a8dbe7c5be814fb">core::Model</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00330">330</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00501">501</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
 
 </div>
 </div>
@@ -844,7 +889,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/d11/classcore_1_1Model.html#a1c247e578d5e72ab989f9db1d1f3d75f">core::Model</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00314">314</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00442">442</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
 
 </div>
 </div>
@@ -932,7 +977,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/d11/classcore_1_1Model.html#a5812aa7ec40b22f0ac5b9251dd1a85d1">core::Model</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00323">323</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html#l00450">450</a> of file <a class="el" href="../../d7/de6/optix6_2OptiXModel_8cpp_source.html">OptiXModel.cpp</a>.</p>
 
 </div>
 </div>
@@ -1014,7 +1059,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d98/optix6_2OptiXModel_8h_source.html#l00058">58</a> of file <a class="el" href="../../d3/d98/optix6_2OptiXModel_8h_source.html">OptiXModel.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d98/optix6_2OptiXModel_8h_source.html#l00062">62</a> of file <a class="el" href="../../d3/d98/optix6_2OptiXModel_8h_source.html">OptiXModel.h</a>.</p>
 
 </div>
 </div>
@@ -1041,7 +1086,34 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d98/optix6_2OptiXModel_8h_source.html#l00057">57</a> of file <a class="el" href="../../d3/d98/optix6_2OptiXModel_8h_source.html">OptiXModel.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d98/optix6_2OptiXModel_8h_source.html#l00061">61</a> of file <a class="el" href="../../d3/d98/optix6_2OptiXModel_8h_source.html">OptiXModel.h</a>.</p>
+
+</div>
+</div>
+<a id="ae7d79f074eb265187ee73c0161a0679d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7d79f074eb265187ee73c0161a0679d">&#9670;&nbsp;</a></span>getVolumeGeometries()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto&amp; core::OptiXModel::getVolumeGeometries </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d98/optix6_2OptiXModel_8h_source.html#l00064">64</a> of file <a class="el" href="../../d3/d98/optix6_2OptiXModel_8h_source.html">OptiXModel.h</a>.</p>
 
 </div>
 </div>

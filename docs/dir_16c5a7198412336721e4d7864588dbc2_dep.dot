@@ -7,5 +7,5 @@ digraph "platform/plugins/vrpn" {
   dir_16c5a7198412336721e4d7864588dbc2 [shape=box, label="vrpn", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_16c5a7198412336721e4d7864588dbc2.html"];
   }
   dir_3066efc1f4040d52e90bf8a29ab3f16b [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_3066efc1f4040d52e90bf8a29ab3f16b.html"];
-  dir_16c5a7198412336721e4d7864588dbc2->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="6", labeldistance=1.5 headhref="dir_000082_000065.html"];
+  dir_16c5a7198412336721e4d7864588dbc2->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="6", labeldistance=1.5 headhref="dir_000081_000064.html"];
 }

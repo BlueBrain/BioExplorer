@@ -28,8 +28,13 @@
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Scene.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
+using namespace common;
+using namespace details;
+
 namespace molecularsystems
 {
 Glycans::Glycans(Scene& scene, const SugarDetails& details)

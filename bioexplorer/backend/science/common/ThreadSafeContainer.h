@@ -29,8 +29,6 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace core;
-
 using MaterialSet = std::set<size_t>;
 using Neighbours = std::set<size_t>;
 
@@ -50,8 +48,8 @@ public:
      * for the geometry
      * @param scale Scale applied to individual elements
      */
-    ThreadSafeContainer(Model& model, const double alignToGrid, const Vector3d& position, const Quaterniond& rotation,
-                        const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
+    ThreadSafeContainer(core::Model& model, const double alignToGrid, const core::Vector3d& position,
+                        const core::Quaterniond& rotation, const core::Vector3d& scale = core::Vector3d(1.0, 1.0, 1.0));
 
     /**
      * @brief Destroy the Thread Safe Model object
@@ -73,9 +71,9 @@ public:
      * geometry)
      * @return uint64_t Index of the geometry in the model
      */
-    uint64_t addSphere(const Vector3f& position, const float radius, const size_t materialId, const bool useSdf,
+    uint64_t addSphere(const core::Vector3f& position, const float radius, const size_t materialId, const bool useSdf,
                        const uint64_t userDataOffset = 0, const Neighbours& neighbours = {},
-                       const Vector3f displacementRatio = Vector3f());
+                       const core::Vector3f displacementRatio = core::Vector3f());
 
     /**
      * @brief Add a cone to the thread safe model. If both radii are identical
@@ -95,24 +93,24 @@ public:
      * geometry)
      * @return uint64_t Index of the geometry in the model
      */
-    uint64_t addCone(const Vector3f& sourcePosition, const float sourceRadius, const Vector3f& targetPosition,
-                     const float targetRadius, const size_t materialId, const bool useSdf,
-                     const uint64_t userDataOffset = 0, const Neighbours& neighbours = {},
-                     const Vector3f displacementRatio = Vector3f());
+    uint64_t addCone(const core::Vector3f& sourcePosition, const float sourceRadius,
+                     const core::Vector3f& targetPosition, const float targetRadius, const size_t materialId,
+                     const bool useSdf, const uint64_t userDataOffset = 0, const Neighbours& neighbours = {},
+                     const core::Vector3f displacementRatio = core::Vector3f());
 
     /**
      * @brief Add a mesh to the thread safe model
      *
      * @param mesh Mesh
      */
-    void addMesh(const size_t materialId, const TriangleMesh& mesh);
+    void addMesh(const size_t materialId, const core::TriangleMesh& mesh);
 
     /**
      * @brief Add a streamline to the thread safe model
      *
      * @param streamline Streamline
      */
-    void addStreamline(const size_t materialId, const StreamlinesData& streamline);
+    void addStreamline(const size_t materialId, const core::StreamlinesData& streamline);
 
     /**
      * @brief Commit geometries and materials to the Core model
@@ -123,10 +121,11 @@ public:
     MaterialSet& getMaterialIds() { return _materialIds; }
 
 private:
-    uint64_t _addSphere(const size_t materialId, const Sphere& sphere);
-    uint64_t _addCylinder(const size_t materialId, const Cylinder& cylinder);
-    uint64_t _addCone(const size_t materialId, const Cone& cone);
-    uint64_t _addSDFGeometry(const size_t materialId, const SDFGeometry& geom, const std::set<size_t>& neighbours);
+    uint64_t _addSphere(const size_t materialId, const core::Sphere& sphere);
+    uint64_t _addCylinder(const size_t materialId, const core::Cylinder& cylinder);
+    uint64_t _addCone(const size_t materialId, const core::Cone& cone);
+    uint64_t _addSDFGeometry(const size_t materialId, const core::SDFGeometry& geom,
+                             const std::set<size_t>& neighbours);
 
     void _commitSpheresToModel();
     void _commitCylindersToModel();
@@ -137,19 +136,20 @@ private:
     void _commitMaterials();
     void _finalizeSDFGeometries();
 
-    SpheresMap _spheresMap;
-    CylindersMap _cylindersMap;
-    ConesMap _conesMap;
-    TriangleMeshMap _meshesMap;
-    SDFMorphologyData _sdfMorphologyData;
-    StreamlinesDataMap _streamlinesMap;
-    MaterialSet _materialIds;
-    Boxd _bounds;
+    core::SpheresMap _spheresMap;
+    core::CylindersMap _cylindersMap;
+    core::ConesMap _conesMap;
+    core::TriangleMeshMap _meshesMap;
+    core::StreamlinesDataMap _streamlinesMap;
+    core::Boxd _bounds;
+    core::Model& _model;
+    core::Vector3d _position;
+    core::Quaterniond _rotation;
+    core::Vector3d _scale{1.0, 1.0, 1.0};
 
-    Model& _model;
-    Vector3d _position;
-    Quaterniond _rotation;
-    Vector3d _scale{1.0, 1.0, 1.0};
+    SDFMorphologyData _sdfMorphologyData;
+    MaterialSet _materialIds;
+
     double _alignToGrid{0.0};
 };
 } // namespace common

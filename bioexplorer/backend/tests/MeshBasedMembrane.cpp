@@ -35,9 +35,13 @@
 
 #include <fstream>
 
+using namespace core;
+
 namespace tests
 {
 using namespace bioexplorer;
+using namespace details;
+using namespace common;
 using namespace molecularsystems;
 
 const std::string folder = "./bioexplorer/pythonsdk/tests/test_files/";

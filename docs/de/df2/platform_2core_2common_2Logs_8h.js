@@ -8,5 +8,9 @@ var platform_2core_2common_2Logs_8h =
     [ "CORE_THROW", "de/df2/platform_2core_2common_2Logs_8h.html#a106818bf135ab5ee6797b4b575b96cd1", null ],
     [ "CORE_TIMER", "de/df2/platform_2core_2common_2Logs_8h.html#a9b04cab67cc778df3dda84c569e3f815", null ],
     [ "CORE_WARN", "de/df2/platform_2core_2common_2Logs_8h.html#a25fdb9f8179cb80858064e8155650367", null ],
+    [ "PLUGIN_REGISTER_CAMERA", "de/df2/platform_2core_2common_2Logs_8h.html#a1323e5cc50bd6015c2e17881b395bcf2", null ],
+    [ "PLUGIN_REGISTER_ENDPOINT", "de/df2/platform_2core_2common_2Logs_8h.html#a34643718ac7159722b077ad671da368c", null ],
+    [ "PLUGIN_REGISTER_LOADER", "de/df2/platform_2core_2common_2Logs_8h.html#ae473db5654102d448e7abc6554387355", null ],
+    [ "PLUGIN_REGISTER_RENDERER", "de/df2/platform_2core_2common_2Logs_8h.html#a67194eaed893f1bc8c7fcbc24a21a783", null ],
     [ "PROGRESS_BAR_SIZE", "de/df2/platform_2core_2common_2Logs_8h.html#a557f3b671a03dc4238559a9d29d1ed19", null ]
 ];

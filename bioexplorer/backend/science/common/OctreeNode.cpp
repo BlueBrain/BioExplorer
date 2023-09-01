@@ -23,6 +23,8 @@
 
 #include "OctreeNode.h"
 
+using namespace core;
+
 namespace bioexplorer
 {
 namespace common

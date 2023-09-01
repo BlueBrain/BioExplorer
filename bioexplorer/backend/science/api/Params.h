@@ -25,104 +25,101 @@
 
 #include <science/common/Types.h>
 
-using namespace bioexplorer;
-using namespace details;
-
 #if !defined(DOXYGEN_SHOULD_SKIP_THIS)
 // Response
-std::string to_json(const Response &param);
+std::string to_json(const bioexplorer::details::Response &param);
 
 // Settings
-bool from_json(GeneralSettingsDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::GeneralSettingsDetails &param, const std::string &payload);
 
 // Scene information
-std::string to_json(const SceneInformationDetails &param);
+std::string to_json(const bioexplorer::details::SceneInformationDetails &param);
 
 // Camera
-bool from_json(FocusOnDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::FocusOnDetails &param, const std::string &payload);
 
 // Biological elements
-bool from_json(AssemblyDetails &param, const std::string &payload);
-std::string to_json(const AssemblyDetails &payload);
+bool from_json(bioexplorer::details::AssemblyDetails &param, const std::string &payload);
+std::string to_json(const bioexplorer::details::AssemblyDetails &payload);
 
-bool from_json(AssemblyTransformationsDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::AssemblyTransformationsDetails &param, const std::string &payload);
 
-bool from_json(RNASequenceDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::RNASequenceDetails &param, const std::string &payload);
 
-bool from_json(MembraneDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::MembraneDetails &param, const std::string &payload);
 
-bool from_json(ProteinDetails &param, const std::string &payload);
-std::string to_json(const ProteinDetails &payload);
+bool from_json(bioexplorer::details::ProteinDetails &param, const std::string &payload);
+std::string to_json(const bioexplorer::details::ProteinDetails &payload);
 
-bool from_json(SugarDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::SugarDetails &param, const std::string &payload);
 
 // Enzyme reactions
-bool from_json(EnzymeReactionDetails &param, const std::string &payload);
-bool from_json(EnzymeReactionProgressDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::EnzymeReactionDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::EnzymeReactionProgressDetails &param, const std::string &payload);
 
 // Other elements
-bool from_json(AddGridDetails &param, const std::string &payload);
-bool from_json(AddSpheresDetails &param, const std::string &payload);
-bool from_json(AddConeDetails &param, const std::string &payload);
-bool from_json(AddBoundingBoxDetails &param, const std::string &payload);
-bool from_json(AddBoxDetails &param, const std::string &payload);
-bool from_json(AddStreamlinesDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::AddGridDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::AddSpheresDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::AddConeDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::AddBoundingBoxDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::AddBoxDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::AddStreamlinesDetails &param, const std::string &payload);
 
 // Amino acids
-bool from_json(AminoAcidSequenceAsStringDetails &param, const std::string &payload);
-bool from_json(AminoAcidSequenceAsRangesDetails &param, const std::string &payload);
-bool from_json(AminoAcidInformationDetails &param, const std::string &payload);
-bool from_json(AminoAcidDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::AminoAcidSequenceAsStringDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::AminoAcidSequenceAsRangesDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::AminoAcidInformationDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::AminoAcidDetails &param, const std::string &payload);
 
 // Files
-bool from_json(FileAccessDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::FileAccessDetails &param, const std::string &payload);
 
 // DB
-bool from_json(DatabaseAccessDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::DatabaseAccessDetails &param, const std::string &payload);
 
 // Models, Color schemes and materials
-bool from_json(ProteinColorSchemeDetails &param, const std::string &payload);
-bool from_json(ModelIdDetails &modelId, const std::string &payload);
-std::string to_json(const ModelBoundsDetails &param);
-bool from_json(MaterialsDetails &materialsDetails, const std::string &payload);
-std::string to_json(const IdsDetails &param);
-bool from_json(NameDetails &param, const std::string &payload);
-std::string to_json(const NameDetails &param);
+bool from_json(bioexplorer::details::ProteinColorSchemeDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::ModelIdDetails &modelId, const std::string &payload);
+std::string to_json(const bioexplorer::details::ModelBoundsDetails &param);
+bool from_json(bioexplorer::details::MaterialsDetails &materialsDetails, const std::string &payload);
+std::string to_json(const bioexplorer::details::IdsDetails &param);
+bool from_json(bioexplorer::details::NameDetails &param, const std::string &payload);
+std::string to_json(const bioexplorer::details::NameDetails &param);
 
 // Fields
-bool from_json(BuildFieldsDetails &param, const std::string &payload);
-bool from_json(ModelIdFileAccessDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::BuildFieldsDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::ModelIdFileAccessDetails &param, const std::string &payload);
 
 // Point cloud
-bool from_json(BuildPointCloudDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::BuildPointCloudDetails &param, const std::string &payload);
 
 // Models and instances
-bool from_json(ModelLoadingTransactionDetails &param, const std::string &payload);
-bool from_json(ProteinInstanceTransformationDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::ModelLoadingTransactionDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::ProteinInstanceTransformationDetails &param, const std::string &payload);
 
 // Protein inspection
-bool from_json(InspectionDetails &param, const std::string &payload);
-std::string to_json(const ProteinInspectionDetails &param);
+bool from_json(bioexplorer::details::InspectionDetails &param, const std::string &payload);
+std::string to_json(const bioexplorer::details::ProteinInspectionDetails &param);
 
 // Vasculature
-bool from_json(VasculatureDetails &param, const std::string &payload);
-bool from_json(VasculatureReportDetails &param, const std::string &payload);
-bool from_json(VasculatureRadiusReportDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::VasculatureDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::VasculatureReportDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::VasculatureRadiusReportDetails &param, const std::string &payload);
 
-bool from_json(AtlasDetails &param, const std::string &payload);
-bool from_json(AstrocytesDetails &param, const std::string &payload);
-bool from_json(NeuronsDetails &param, const std::string &payload);
-bool from_json(NeuronIdSectionIdDetails &param, const std::string &payload);
-bool from_json(NeuronIdDetails &param, const std::string &payload);
-std::string to_json(const NeuronPointsDetails &param);
+bool from_json(bioexplorer::details::AtlasDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::AstrocytesDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::NeuronsDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::NeuronIdSectionIdDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::NeuronIdDetails &param, const std::string &payload);
+std::string to_json(const bioexplorer::details::NeuronPointsDetails &param);
 
 // Connectomics
-bool from_json(WhiteMatterDetails &param, const std::string &payload);
-bool from_json(SynapsesDetails &param, const std::string &payload);
-bool from_json(SynapseEfficacyDetails &param, const std::string &payload);
-bool from_json(SpikeReportVisualizationSettingsDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::WhiteMatterDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::SynapsesDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::SynapseEfficacyDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::SpikeReportVisualizationSettingsDetails &param, const std::string &payload);
 
 // Utilities
-bool from_json(LookAtDetails &param, const std::string &payload);
-std::string to_json(const LookAtResponseDetails &param);
+bool from_json(bioexplorer::details::LookAtDetails &param, const std::string &payload);
+std::string to_json(const bioexplorer::details::LookAtResponseDetails &param);
 #endif

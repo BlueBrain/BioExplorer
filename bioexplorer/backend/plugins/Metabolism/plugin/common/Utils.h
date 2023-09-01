@@ -26,8 +26,5 @@
 
 namespace metabolism
 {
-using namespace core;
-
 void setTransferFunction(core::TransferFunction& tf);
-
 } // namespace metabolism

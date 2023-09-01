@@ -26,8 +26,6 @@
 
 #include <bioexplorer/backend/science/common/Types.h>
 
-using namespace core;
-
 namespace bioexplorer
 {
 namespace metabolism
@@ -51,6 +49,14 @@ const std::string ARG_DB_SCHEMA = "--db-schema";
 
 typedef struct
 {
+    uint32_t guid;
+    std::string code;
+    core::Vector3f color;
+} Location;
+using Locations = std::vector<Location>;
+
+typedef struct
+{
     std::string connectionString;
     std::string schema;
     size_t simulationId;
@@ -58,14 +64,5 @@ typedef struct
     int32_t referenceFrame;
     bool relativeConcentration{false};
 } AttachHandlerDetails;
-
-typedef struct
-{
-    uint32_t guid;
-    std::string code;
-    Vector3f color;
-} Location;
-using Locations = std::vector<Location>;
-
 } // namespace metabolism
 } // namespace bioexplorer

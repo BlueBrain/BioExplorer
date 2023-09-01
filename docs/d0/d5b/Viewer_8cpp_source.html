@@ -87,27 +87,27 @@ $(document).ready(function(){initNavTree('d0/d5b/Viewer_8cpp_source.html','../..
 </div><!--header-->
 <div class="contents">
 <a href="../../d0/d5b/Viewer_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright (c) 2015-2017, EPFL/Blue Brain Project</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * All rights reserved. Do not distribute without permission.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Responsible Author: Cyrille Favreau &lt;cyrille.favreau@epfl.ch&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *                     Jafet Villafranca &lt;jafet.villafrancadiaz@epfl.ch&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * Copyright 2020-2023 Blue BrainProject / EPFL</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * version.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * details.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dc/d05/Viewer_8h.html">Viewer.h</a>&quot;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
@@ -150,8 +150,8 @@ $(document).ready(function(){initNavTree('d0/d5b/Viewer_8cpp_source.html','../..
 <div class="ttc" id="aclasscore_1_1BaseWindow_html_a4771ca4ebde557388635832b393a1768"><div class="ttname"><a href="../../d5/d7d/classcore_1_1BaseWindow.html#a4771ca4ebde557388635832b393a1768">core::BaseWindow::_core</a></div><div class="ttdeci">Core &amp; _core</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d64/BaseWindow_8h_source.html#l00117">BaseWindow.h:117</a></div></div>
 <div class="ttc" id="aclasscore_1_1BaseWindow_html_a53bd946d3e17c80d023a9d94615ad114"><div class="ttname"><a href="../../d5/d7d/classcore_1_1BaseWindow.html#a53bd946d3e17c80d023a9d94615ad114">core::BaseWindow::setTitle</a></div><div class="ttdeci">void setTitle(const std::string &amp;title)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d64/BaseWindow_8h_source.html#l00066">BaseWindow.h:66</a></div></div>
 <div class="ttc" id="aclasscore_1_1BaseWindow_html_add7b465a713a08ba8bfe0ad3f2da518d"><div class="ttname"><a href="../../d5/d7d/classcore_1_1BaseWindow.html#add7b465a713a08ba8bfe0ad3f2da518d">core::BaseWindow::_timer</a></div><div class="ttdeci">Timer _timer</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d64/BaseWindow_8h_source.html#l00132">BaseWindow.h:132</a></div></div>
-<div class="ttc" id="aclasscore_1_1Core_html"><div class="ttname"><a href="../../d3/d5e/classcore_1_1Core.html">core::Core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd7/Core_8h_source.html#l00048">Core.h:49</a></div></div>
-<div class="ttc" id="aclasscore_1_1Core_html_a8718451cc500a4ca43b63f54f7c50887"><div class="ttname"><a href="../../d3/d5e/classcore_1_1Core.html#a8718451cc500a4ca43b63f54f7c50887">core::Core::getParametersManager</a></div><div class="ttdeci">PLATFORM_API ParametersManager &amp; getParametersManager()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d27/Core_8cpp_source.html#l00519">Core.cpp:519</a></div></div>
+<div class="ttc" id="aclasscore_1_1Core_html"><div class="ttname"><a href="../../d3/d5e/classcore_1_1Core.html">core::Core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dd7/Core_8h_source.html#l00049">Core.h:50</a></div></div>
+<div class="ttc" id="aclasscore_1_1Core_html_a8718451cc500a4ca43b63f54f7c50887"><div class="ttname"><a href="../../d3/d5e/classcore_1_1Core.html#a8718451cc500a4ca43b63f54f7c50887">core::Core::getParametersManager</a></div><div class="ttdeci">PLATFORM_API ParametersManager &amp; getParametersManager()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d27/Core_8cpp_source.html#l00515">Core.cpp:515</a></div></div>
 <div class="ttc" id="aclasscore_1_1ParametersManager_html_a07c5b2046b887538161068fe05b5cdfa"><div class="ttname"><a href="../../dc/d04/classcore_1_1ParametersManager.html#a07c5b2046b887538161068fe05b5cdfa">core::ParametersManager::getApplicationParameters</a></div><div class="ttdeci">PLATFORM_API ApplicationParameters &amp; getApplicationParameters()</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d3e/ParametersManager_8cpp_source.html#l00221">ParametersManager.cpp:221</a></div></div>
 <div class="ttc" id="aclasscore_1_1ParametersManager_html_a43ebf4034c779a3356166ee790cc0161"><div class="ttname"><a href="../../dc/d04/classcore_1_1ParametersManager.html#a43ebf4034c779a3356166ee790cc0161">core::ParametersManager::getAnimationParameters</a></div><div class="ttdeci">PLATFORM_API AnimationParameters &amp; getAnimationParameters()</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d3e/ParametersManager_8cpp_source.html#l00211">ParametersManager.cpp:211</a></div></div>
 <div class="ttc" id="aclasscore_1_1Timer_html_a79f4dc38896124ae1bade1cae03e8d96"><div class="ttname"><a href="../../de/d75/classcore_1_1Timer.html#a79f4dc38896124ae1bade1cae03e8d96">core::Timer::perSecondSmoothed</a></div><div class="ttdeci">double perSecondSmoothed() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dc2/Timer_8cpp_source.html#l00080">Timer.cpp:80</a></div></div>

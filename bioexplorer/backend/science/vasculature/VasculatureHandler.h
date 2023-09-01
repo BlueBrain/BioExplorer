@@ -26,13 +26,11 @@
 #include <science/api/Params.h>
 
 #include <platform/core/common/Api.h>
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
 #include <platform/core/common/Types.h>
+#include <platform/core/common/simulation/AbstractSimulationHandler.h>
 
 namespace bioexplorer
 {
-using namespace common;
-
 namespace vasculature
 {
 /**
@@ -45,7 +43,7 @@ public:
     /**
      * @brief Default constructor
      */
-    VasculatureHandler(const VasculatureReportDetails& details);
+    VasculatureHandler(const details::VasculatureReportDetails& details);
 
     /**
      * @copydoc core::AbstractSimulationHandler::getFrameData
@@ -63,11 +61,11 @@ public:
     core::AbstractSimulationHandlerPtr clone() const final;
 
 private:
-    VasculatureReportDetails _details;
+    details::VasculatureReportDetails _details;
     std::vector<doubles> _simulationData;
     bool _showVariations{false};
 
-    SimulationReport _simulationReport;
+    common::SimulationReport _simulationReport;
 };
 using VasculatureHandlerPtr = std::shared_ptr<VasculatureHandler>;
 } // namespace vasculature

@@ -31,8 +31,17 @@
 #include <omp.h>
 #include <pqxx/pqxx>
 
+using namespace core;
+
 namespace bioexplorer
 {
+using namespace details;
+using namespace common;
+using namespace morphology;
+using namespace molecularsystems;
+using namespace vasculature;
+using namespace connectomics;
+
 namespace io
 {
 namespace db

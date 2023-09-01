@@ -23,10 +23,9 @@
 #include "Params.h"
 #include <common/json.hpp>
 
-namespace bioexplorer
-{
-namespace metabolism
-{
+using namespace bioexplorer;
+using namespace metabolism;
+
 #ifndef PLATFORM_DEBUG_JSON_ENABLED
 #define FROM_JSON(PARAM, JSON, NAME) PARAM.NAME = JSON[#NAME].get<decltype(PARAM.NAME)>()
 #else
@@ -61,5 +60,3 @@ bool from_json(AttachHandlerDetails &param, const std::string &payload)
     }
     return true;
 }
-} // namespace metabolism
-} // namespace bioexplorer

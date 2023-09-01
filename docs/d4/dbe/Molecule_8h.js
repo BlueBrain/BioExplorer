@@ -1,6 +1,8 @@
 var Molecule_8h =
 [
+    [ "RGBColorDetails", "d6/d55/structbioexplorer_1_1molecularsystems_1_1RGBColorDetails.html", "d6/d55/structbioexplorer_1_1molecularsystems_1_1RGBColorDetails" ],
     [ "Molecule", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule" ],
+    [ "RGBColorDetailsMap", "d4/dbe/Molecule_8h.html#a34409984ddb118142a8922d5fc7b5a60", null ],
     [ "KEY_ATOM", "d4/dbe/Molecule_8h.html#af034d3a774fc4513a17e531fcf0bba8d", null ],
     [ "KEY_CONECT", "d4/dbe/Molecule_8h.html#a786e01894c27b5318dfee1979638f066", null ],
     [ "KEY_HEADER", "d4/dbe/Molecule_8h.html#a1db0b3cffe320ca8a09d74f800df646f", null ],

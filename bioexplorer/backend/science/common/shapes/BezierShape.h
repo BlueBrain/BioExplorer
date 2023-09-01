@@ -29,9 +29,6 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace details;
-using namespace core;
-
 class BezierShape : public Shape
 {
 public:
@@ -44,12 +41,13 @@ public:
     BezierShape(const Vector4ds& clippingPlanes, const Vector3ds points);
 
     /** @copydoc Shape::getTransformation */
-    Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
-                                     const MolecularSystemAnimationDetails& molecularSystemAnimationDetails,
-                                     const double offset) const final;
+    core::Transformation getTransformation(
+        const uint64_t occurrence, const uint64_t nbOccurrences,
+        const details::MolecularSystemAnimationDetails& molecularSystemAnimationDetails,
+        const double offset) const final;
 
     /** @copydoc Shape::isInside */
-    bool isInside(const Vector3d& point) const final;
+    bool isInside(const core::Vector3d& point) const final;
 
 private:
     Vector3ds _points;

@@ -33,8 +33,13 @@
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Model.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
+using namespace common;
+using namespace details;
+
 namespace molecularsystems
 {
 Membrane::Membrane(const MembraneDetails& details, Scene& scene, const Vector3d& assemblyPosition,

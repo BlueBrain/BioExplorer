@@ -40,6 +40,8 @@
 
 #include <fstream>
 
+using namespace core;
+
 namespace
 {
 bool inBounds(const Vector3d& point, const Boxd& bounds)

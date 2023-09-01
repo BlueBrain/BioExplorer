@@ -8,10 +8,6 @@ var dir_1eb3b0b88ed1f70eb631f2227acc17ea =
     [ "MeshLoader.h", "da/d96/MeshLoader_8h.html", [
       [ "MeshLoader", "df/d21/classcore_1_1MeshLoader.html", "df/d21/classcore_1_1MeshLoader" ]
     ] ],
-    [ "ProteinLoader.cpp", "db/d01/ProteinLoader_8cpp.html", "db/d01/ProteinLoader_8cpp" ],
-    [ "ProteinLoader.h", "d7/d02/ProteinLoader_8h.html", [
-      [ "ProteinLoader", "df/d43/classcore_1_1ProteinLoader.html", "df/d43/classcore_1_1ProteinLoader" ]
-    ] ],
     [ "VolumeLoader.cpp", "dd/daa/VolumeLoader_8cpp.html", null ],
     [ "VolumeLoader.h", "dd/d50/VolumeLoader_8h.html", [
       [ "MHDVolumeLoader", "d3/dd5/classcore_1_1MHDVolumeLoader.html", "d3/dd5/classcore_1_1MHDVolumeLoader" ],

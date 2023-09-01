@@ -61,7 +61,7 @@ public:
      *
      * @return The dimensions of the volume
      */
-    const Vector3ui &getVolumeDimensions() const { return _volumeDimensions; }
+    const core::Vector3ui &getVolumeDimensions() const { return _volumeDimensions; }
 
     /**
      * @brief Get the size of the volume
@@ -112,7 +112,7 @@ private:
         return x + 1;
     }
 
-    Vector3ui _volumeDimensions;
+    core::Vector3ui _volumeDimensions;
     uint32_t _volumeSize;
     uint32_t _octreeSize;
     uint32_t _depth;

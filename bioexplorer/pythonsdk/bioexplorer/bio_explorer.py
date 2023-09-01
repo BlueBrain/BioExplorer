@@ -71,7 +71,7 @@ class Vector3:
 
     def __str__(self):
         """Returns a stringified representation of the object"""
-        return '[%f, %f, %f]' % (self.x, self.y, self.z)
+        return "[%f, %f, %f]" % (self.x, self.y, self.z)
 
     def to_list(self):
         """
@@ -112,7 +112,7 @@ class Vector2:
 
     def __str__(self):
         """Returns a stringified representation of the object"""
-        return '[%f, %f]' % (self.x, self.y)
+        return "[%f, %f]" % (self.x, self.y)
 
     def to_list(self):
         """:return: A list containing the values of x and y attributes"""
@@ -218,8 +218,12 @@ class Bounds:
 
     def __str__(self):
         """Returns a stringified representation of the object"""
-        return 'min_aabb=%s, max_aabb=%s, center=%s, size=%s' % (
-            self.min_aabb, self.max_aabb, self.center, self.size)
+        return "min_aabb=%s, max_aabb=%s, center=%s, size=%s" % (
+            self.min_aabb,
+            self.max_aabb,
+            self.center,
+            self.size,
+        )
 
     def copy(self):
         """
@@ -271,9 +275,14 @@ class NeuronDisplacementParams:
     """Parameters used for the sinusoidal SDF displacement function for neuron morphologies"""
 
     def __init__(
-            self, soma=Vector2(0.1, 3.0), section=Vector2(0.15, 2.0),
-            nucleus=Vector2(0.01, 2.0), mitochondrion=Vector2(0.2, 100.0),
-            myelin_steath=Vector2(0.1, 2.5), spine=Vector2(0.01, 25.0)):
+        self,
+        soma=Vector2(0.1, 3.0),
+        section=Vector2(0.15, 2.0),
+        nucleus=Vector2(0.01, 2.0),
+        mitochondrion=Vector2(0.2, 100.0),
+        myelin_steath=Vector2(0.1, 2.5),
+        spine=Vector2(0.01, 25.0),
+    ):
         """
         Parameters used to define how cells should be represented using the SDF technique
 
@@ -311,9 +320,19 @@ class NeuronDisplacementParams:
         :rtype: list
         """
         return [
-            self.soma.x, self.soma.y, self.section.x, self.section.y,
-            self.nucleus.x, self.nucleus.y, self.mitochondrion.x, self.mitochondrion.y,
-            self.myelin_steath.x, self.myelin_steath.y, self.spine.x, self.spine.y]
+            self.soma.x,
+            self.soma.y,
+            self.section.x,
+            self.section.y,
+            self.nucleus.x,
+            self.nucleus.y,
+            self.mitochondrion.x,
+            self.mitochondrion.y,
+            self.myelin_steath.x,
+            self.myelin_steath.y,
+            self.spine.x,
+            self.spine.y,
+        ]
 
     def copy(self):
         """
@@ -322,16 +341,26 @@ class NeuronDisplacementParams:
         :return: NeuronDisplacementParams: A copy of the object
         """
         return NeuronDisplacementParams(
-            self.soma, self.section, self.nucleus, self.mitochondrion, self.myelin_steath,
-            self.spine)
+            self.soma,
+            self.section,
+            self.nucleus,
+            self.mitochondrion,
+            self.myelin_steath,
+            self.spine,
+        )
 
 
 class AstrocyteDisplacementParams:
     """Parameters used for the sinusoidal SDF displacement function for astrocyte morphologies"""
 
-    def __init__(self, soma=Vector2(0.05, 0.5), section=Vector2(0.5, 5.0),
-                 nucleus=Vector2(0.01, 2.0), mitochondrion=Vector2(0.2, 100.0),
-                 end_foot=Vector2(0.3, 0.5)):
+    def __init__(
+        self,
+        soma=Vector2(0.05, 0.5),
+        section=Vector2(0.5, 5.0),
+        nucleus=Vector2(0.01, 2.0),
+        mitochondrion=Vector2(0.2, 100.0),
+        end_foot=Vector2(0.3, 0.5),
+    ):
         """
         Parameters used to define how cells should be represented using the SDF technique
 
@@ -365,9 +394,17 @@ class AstrocyteDisplacementParams:
         :rtype: list
         """
         return [
-            self.soma.x, self.soma.y, self.section.x, self.section.y,
-            self.nucleus.x, self.nucleus.y, self.mitochondrion.x, self.mitochondrion.y,
-            self.end_foot.x, self.end_foot.y]
+            self.soma.x,
+            self.soma.y,
+            self.section.x,
+            self.section.y,
+            self.nucleus.x,
+            self.nucleus.y,
+            self.mitochondrion.x,
+            self.mitochondrion.y,
+            self.end_foot.x,
+            self.end_foot.y,
+        ]
 
     def copy(self):
         """
@@ -376,7 +413,8 @@ class AstrocyteDisplacementParams:
         :return: AstrocyteDisplacementParams: A copy of the object
         """
         return AstrocyteDisplacementParams(
-            self.soma, self.section, self.nucleus, self.mitochondrion, self.end_foot)
+            self.soma, self.section, self.nucleus, self.mitochondrion, self.end_foot
+        )
 
 
 class VasculatureDisplacementParams:
@@ -706,9 +744,20 @@ class BioExplorer:
         """
         List of authors
 
-        :rtype: string
+        :rtype: list
         """
-        return "Cyrille Favreau (cyrille.favreau@epfl.ch)"
+        return [
+            "Cyrille Favreau",
+            "Daniel Nachbaur",
+            "Jonas Karlsson",
+            "Andrei-Roland Groza",
+            "Grigori Chevtchenko",
+            "Raphael Dumusc",
+            "Ahmet Bilgili",
+            "Juan Bautista Hernando Vieites",
+            "Pawel Jozef Podhajski",
+            "Jafet Villafranca Diaz",
+        ]
 
     def reset_scene(self):
         """
@@ -2173,13 +2222,13 @@ class BioExplorer:
         params["modelId"] = model_id
         params["maxNbInstances"] = 0
         model_bounds = self._invoke("get-model-bounds", params)
-        value = model_bounds['minAABB']
+        value = model_bounds["minAABB"]
         min_aabb = Vector3(value[0], value[1], value[2])
-        value = model_bounds['maxAABB']
+        value = model_bounds["maxAABB"]
         max_aabb = Vector3(value[0], value[1], value[2])
-        value = model_bounds['center']
+        value = model_bounds["center"]
         center = Vector3(value[0], value[1], value[2])
-        value = model_bounds['size']
+        value = model_bounds["size"]
         size = Vector3(value[0], value[1], value[2])
         return Bounds(min_aabb, max_aabb, center, size)
 
@@ -3030,7 +3079,7 @@ class BioExplorer:
         scale=Vector3(1.0, 1.0, 1.0),
         animation_params=CellAnimationParams(),
         displacement_params=VasculatureDisplacementParams(),
-        align_to_grid=0.0
+        align_to_grid=0.0,
     ):
         """
         Add a vasculature to the 3D scene
@@ -3150,7 +3199,7 @@ class BioExplorer:
         animation_params=CellAnimationParams(),
         displacement_params=AstrocyteDisplacementParams(),
         max_distance_to_soma=0.0,
-        align_to_grid=0.0
+        align_to_grid=0.0,
     ):
         """
         Add a population of astrocytes to the 3D scene
@@ -3229,7 +3278,7 @@ class BioExplorer:
         animation_params=CellAnimationParams(),
         displacement_params=NeuronDisplacementParams(),
         max_distance_to_soma=0.0,
-        align_to_grid=0.0
+        align_to_grid=0.0,
     ):
         """
         Add a population of astrocytes to the 3D scene
@@ -3345,7 +3394,8 @@ class BioExplorer:
         return ps
 
     def set_spike_report_visualization_settings(
-            self, model_id, rest_voltage=-65, spiking_voltage=-10, decay_speed=5.0):
+        self, model_id, rest_voltage=-65, spiking_voltage=-10, decay_speed=5.0
+    ):
         """
         Set visualization settings for spike report
 
@@ -3357,12 +3407,12 @@ class BioExplorer:
         :return: Result of the request submission
         """
         params = dict()
-        params['modelId'] = model_id
-        params['restVoltage'] = rest_voltage
-        params['spikingVoltage'] = spiking_voltage
-        params['timeInterval'] = 0.0
-        params['decaySpeed'] = decay_speed
-        return self._invoke_and_check('set-spike-report-visualization-settings', params)
+        params["modelId"] = model_id
+        params["restVoltage"] = rest_voltage
+        params["spikingVoltage"] = spiking_voltage
+        params["timeInterval"] = 0.0
+        params["decaySpeed"] = decay_speed
+        return self._invoke_and_check("set-spike-report-visualization-settings", params)
 
     def add_white_matter(
         self,
@@ -3370,7 +3420,7 @@ class BioExplorer:
         population_name,
         radius=1.0,
         sql_filter="",
-        scale=Vector3(1.0, 1.0, 1.0)
+        scale=Vector3(1.0, 1.0, 1.0),
     ):
         """
         Add white matter to the 3D scene
@@ -3401,7 +3451,7 @@ class BioExplorer:
         representation=SYNAPSE_REPRESENTATION_SPHERE,
         realism_level=VASCULATURE_REALISM_LEVEL_NONE,
         sql_filter="",
-        displacement_params=list()
+        displacement_params=list(),
     ):
         """
         Add synapse efficacy report to the 3D scene
@@ -3434,7 +3484,7 @@ class BioExplorer:
         simulation_report_id,
         radius=1.0,
         sql_filter="",
-        align_to_grid=0.0
+        align_to_grid=0.0,
     ):
         """
         Add synapse efficacy report to the 3D scene

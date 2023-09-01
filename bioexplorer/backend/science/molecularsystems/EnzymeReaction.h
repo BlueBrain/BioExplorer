@@ -29,19 +29,14 @@ namespace bioexplorer
 {
 namespace molecularsystems
 {
-using namespace core;
-using namespace common;
-using namespace details;
-
 using ModelInstanceId = std::pair<uint64_t, uint64_t>;
 
 /**
- * @brief An Enzyme reaction is a object that combines an existing enyzme, a
- * list of substrates and a list of products. It implements the way those
- * molecules interact with each other to describe the chemical reaction.
+ * @brief An Enzyme reaction is a object that combines an existing enzyme, a list of substrates and a list of products.
+ * It implements the way those molecules interact with each other to describe the chemical reaction.
  *
  */
-class EnzymeReaction : public Node
+class EnzymeReaction : public common::Node
 {
 public:
     /**
@@ -54,8 +49,8 @@ public:
      * @param substrates List of pointers to the substrates
      * @param products List of pointers to the products
      */
-    EnzymeReaction(Scene& scene, const EnzymeReactionDetails& details, AssemblyPtr enzymeAssembly, ProteinPtr enzyme,
-                   Proteins& substrates, Proteins& products);
+    EnzymeReaction(core::Scene& scene, const details::EnzymeReactionDetails& details,
+                   common::AssemblyPtr enzymeAssembly, ProteinPtr enzyme, Proteins& substrates, Proteins& products);
 
     /**
      * @brief Set the progress of the reaction process
@@ -66,17 +61,17 @@ public:
     void setProgress(const uint64_t instanceId, const double progress);
 
 protected:
-    Quaterniond _getMoleculeRotation(const double progress, const double rotationSpeed = 5.0) const;
+    core::Quaterniond _getMoleculeRotation(const double progress, const double rotationSpeed = 5.0) const;
 
-    Scene& _scene;
-    AssemblyPtr _enzymeAssembly;
+    core::Scene& _scene;
+    common::AssemblyPtr _enzymeAssembly;
     ProteinPtr _enzyme{nullptr};
     Proteins _substrates;
     Proteins _products;
-    std::map<ModelInstanceId, Transformation> _enzymeInitialTransformations;
-    std::map<ModelInstanceId, Transformation> _substrateInitialTransformations;
-    std::map<ModelInstanceId, Transformation> _productInitialTransformations;
-    const EnzymeReactionDetails& _details;
+    std::map<ModelInstanceId, core::Transformation> _enzymeInitialTransformations;
+    std::map<ModelInstanceId, core::Transformation> _substrateInitialTransformations;
+    std::map<ModelInstanceId, core::Transformation> _productInitialTransformations;
+    const details::EnzymeReactionDetails& _details;
 };
 } // namespace molecularsystems
 } // namespace bioexplorer

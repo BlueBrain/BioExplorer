@@ -6,6 +6,6 @@ var classbioexplorer_1_1common_1_1Octree =
     [ "getFlatIndices", "d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a96de385c76f87b32430105e51779d9e1", null ],
     [ "getOctreeDepth", "d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a44cff5f18beedaa2ab92e84dcd0d89f5", null ],
     [ "getOctreeSize", "d8/d8a/classbioexplorer_1_1common_1_1Octree.html#af4be65e27a85ae273268dc8d0ed5683a", null ],
-    [ "getVolumeDimensions", "d8/d8a/classbioexplorer_1_1common_1_1Octree.html#ad0efe23e1145b97a402ec130979013c2", null ],
+    [ "getVolumeDimensions", "d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a6d6c46eaaabccb6351e64b2972aa340f", null ],
     [ "getVolumeSize", "d8/d8a/classbioexplorer_1_1common_1_1Octree.html#a13b437ecd4f16ef4f6ff81f2d4c3a8a7", null ]
 ];

@@ -72,7 +72,6 @@ var jsonSerialization_8h =
     [ "modelBinaryParamsFromJson", "d4/d2c/jsonSerialization_8h.html#a2dd002f480161c277468f5aca79ff4f4", null ],
     [ "STATICJSON_DECLARE_ENUM", "d4/d2c/jsonSerialization_8h.html#a6e9e0172d86845c4f9421362eb4fc675", null ],
     [ "STATICJSON_DECLARE_ENUM", "d4/d2c/jsonSerialization_8h.html#ad61eb80a553784eeebe7792ce2f3c7cd", null ],
-    [ "STATICJSON_DECLARE_ENUM", "d4/d2c/jsonSerialization_8h.html#a4ceb7ad01e3dad45bcab163b65e668b2", null ],
     [ "STATICJSON_DECLARE_ENUM", "d4/d2c/jsonSerialization_8h.html#a06388b248176a445a33edd762f6735d4", null ],
     [ "to_json", "d4/d2c/jsonSerialization_8h.html#a4ab4c308444fcc437f2a872627c47a5c", null ],
     [ "to_json", "d4/d2c/jsonSerialization_8h.html#ade8db98db566b2088f7db8165e749307", null ],

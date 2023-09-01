@@ -30,13 +30,10 @@ namespace bioexplorer
 {
 namespace molecularsystems
 {
-using namespace details;
-using namespace common;
-
 /**
  * @brief The RNASequence class
  */
-class RNASequence : public Node
+class RNASequence : public common::Node
 {
 public:
     /**
@@ -46,8 +43,9 @@ public:
      * @param details Details of the RNA sequence
      * @param position Relative position of the RNA sequence in the assembly
      */
-    RNASequence(Scene& scene, const RNASequenceDetails& details, const Vector4ds& clippingPlanes,
-                const Vector3d& assemblyPosition = Vector3d(), const Quaterniond& assemblyRotation = Quaterniond());
+    RNASequence(core::Scene& scene, const details::RNASequenceDetails& details, const Vector4ds& clippingPlanes,
+                const core::Vector3d& assemblyPosition = core::Vector3d(),
+                const core::Quaterniond& assemblyRotation = core::Quaterniond());
 
     /**
      * @brief Get the map of RNA sequences
@@ -59,17 +57,17 @@ public:
     ProteinPtr getProtein() const { return _protein; }
 
 private:
-    void _buildRNAAsProteinInstances(const Quaterniond& rotation);
-    void _buildRNAAsCurve(const Quaterniond& rotation);
+    void _buildRNAAsProteinInstances(const core::Quaterniond& rotation);
+    void _buildRNAAsCurve(const core::Quaterniond& rotation);
 
-    Scene& _scene;
+    core::Scene& _scene;
     uint64_t _nbElements;
-    RNASequenceDetails _details;
+    details::RNASequenceDetails _details;
     RNASequenceMap _rnaSequenceMap;
     ProteinPtr _protein{nullptr};
-    const Vector3d& _assemblyPosition;
-    const Quaterniond& _assemblyRotation;
-    RNAShapePtr _shape{nullptr};
+    const core::Vector3d& _assemblyPosition;
+    const core::Quaterniond& _assemblyRotation;
+    common::RNAShapePtr _shape{nullptr};
 };
 } // namespace molecularsystems
 } // namespace bioexplorer

@@ -34,12 +34,13 @@
 
 #include <fstream>
 
+using namespace core;
+
 namespace bioexplorer
 {
+using namespace details;
 namespace metabolism
 {
-using namespace bioexplorer;
-using namespace details;
 
 const std::string PLUGIN_VERSION = "0.1.0";
 const std::string PLUGIN_API_PREFIX = "mb-";

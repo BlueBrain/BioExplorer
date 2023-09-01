@@ -12,5 +12,5 @@ var structbioexplorer_1_1details_1_1MembraneDetails =
     [ "loadNonPolymerChemicals", "d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html#ad5833c005a4d0e25c44191b448ae3c56", null ],
     [ "name", "d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html#ab6fcf548034dd9a61eff941c78158e3d", null ],
     [ "recenter", "d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html#a5b8aff232c54391521bc4fa2a7c1d64f", null ],
-    [ "representation", "d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html#a4857b2b56adb5e781eed76e49b69fd19", null ]
+    [ "representation", "d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html#af750095fd527f64b573a41f2cc17cf8e", null ]
 ];

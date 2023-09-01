@@ -34,57 +34,57 @@ namespace medicalimagingexplorer
 namespace dicom
 {
 using uint8_ts = std::vector<uint8_t>;
-using namespace core;
 
 struct DICOMImageDescriptor
 {
     std::string path;
-    DataType dataType;
-    Vector2ui dimensions{0, 0};
-    Vector3f position{0, 0, 0};
-    Vector2f pixelSpacing{1, 1};
-    Vector2f dataRange;
+    core::DataType dataType;
+    core::Vector2ui dimensions{0, 0};
+    core::Vector3f position{0, 0, 0};
+    core::Vector2f pixelSpacing{1, 1};
+    core::Vector2f dataRange;
     uint8_ts buffer;
     uint16_t nbFrames;
 };
 using DICOMImageDescriptors = std::vector<DICOMImageDescriptor>;
 
-class DICOMLoader : public Loader
+class DICOMLoader : public core::Loader
 {
 public:
-    DICOMLoader(Scene& scene, const GeometryParameters& geometryParameters, PropertyMap&& loaderParams);
+    DICOMLoader(core::Scene& scene, const core::GeometryParameters& geometryParameters,
+                core::PropertyMap&& loaderParams);
 
     std::string getName() const final;
 
-    std::vector<std::string> getSupportedExtensions() const final;
+    strings getSupportedExtensions() const final;
 
     bool isSupported(const std::string& filename, const std::string& extension) const final;
 
-    static PropertyMap getCLIProperties();
+    static core::PropertyMap getCLIProperties();
 
-    ModelDescriptorPtr importFromFile(const std::string& path, const LoaderProgress& callback,
-                                      const PropertyMap& properties) const final;
+    core::ModelDescriptorPtr importFromFile(const std::string& path, const core::LoaderProgress& callback,
+                                            const core::PropertyMap& properties) const final;
 
-    ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
-                                      const PropertyMap& properties) const final;
+    core::ModelDescriptorPtr importFromBlob(core::Blob&& blob, const core::LoaderProgress& callback,
+                                            const core::PropertyMap& properties) const final;
 
-    ModelDescriptorPtr importFromFolder(const std::string& path);
+    core::ModelDescriptorPtr importFromFolder(const std::string& path);
 
 private:
-    void _setDefaultTransferFunction(Model& model, const Vector2f& dataRange) const;
+    void _setDefaultTransferFunction(core::Model& model, const core::Vector2f& dataRange) const;
 
-    std::string _dataTypeToString(const DataType& dataType) const;
+    std::string _dataTypeToString(const core::DataType& dataType) const;
 
-    DICOMImageDescriptors _parseDICOMImagesData(const std::string& fileName, ModelMetadata& metadata) const;
+    DICOMImageDescriptors _parseDICOMImagesData(const std::string& fileName, core::ModelMetadata& metadata) const;
 
     void _readDICOMFile(const std::string& path, DICOMImageDescriptor& imageDescriptor) const;
 
-    ModelDescriptorPtr _readDirectory(const std::string& path, const LoaderProgress& callback) const;
+    core::ModelDescriptorPtr _readDirectory(const std::string& path, const core::LoaderProgress& callback) const;
 
-    ModelDescriptorPtr _readFile(const std::string& path) const;
+    core::ModelDescriptorPtr _readFile(const std::string& path) const;
 
-    const GeometryParameters& _geometryParameters;
-    PropertyMap _loaderParams;
+    const core::GeometryParameters& _geometryParameters;
+    core::PropertyMap _loaderParams;
 };
 } // namespace dicom
 } // namespace medicalimagingexplorer

@@ -27,10 +27,4 @@
 #include <bioexplorer/backend/science/api/Params.h>
 #include <plugin/common/Types.h>
 
-namespace bioexplorer
-{
-namespace metabolism
-{
-bool from_json(AttachHandlerDetails &param, const std::string &payload);
-} // namespace metabolism
-} // namespace bioexplorer
+bool from_json(bioexplorer::metabolism::AttachHandlerDetails &param, const std::string &payload);

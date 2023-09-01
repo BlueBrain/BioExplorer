@@ -38,6 +38,8 @@
 
 #include <fstream>
 
+using namespace core;
+
 namespace sonataexplorer
 {
 namespace neuroscience

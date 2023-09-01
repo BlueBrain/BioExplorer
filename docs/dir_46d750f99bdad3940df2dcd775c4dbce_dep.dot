@@ -7,5 +7,5 @@ digraph "bioexplorer/backend/module/ispc/renderer/artistic" {
   dir_46d750f99bdad3940df2dcd775c4dbce [shape=box, label="artistic", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_46d750f99bdad3940df2dcd775c4dbce.html"];
   }
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_46d750f99bdad3940df2dcd775c4dbce->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="1", labeldistance=1.5 headhref="dir_000008_000059.html"];
+  dir_46d750f99bdad3940df2dcd775c4dbce->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="1", labeldistance=1.5 headhref="dir_000008_000058.html"];
 }

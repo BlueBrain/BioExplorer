@@ -32,10 +32,6 @@ namespace bioexplorer
 {
 namespace morphology
 {
-using namespace core;
-using namespace common;
-using namespace connectomics;
-
 using Varicosities = std::map<uint64_t, Vector3ds>;
 
 /**
@@ -51,8 +47,8 @@ public:
      * @param scene 3D scene into which neurons should be loaded
      * @param details Set of attributes defining how neurons should be loaded
      */
-    Neurons(Scene& scene, const NeuronsDetails& details, const Vector3d& assemblyPosition,
-            const Quaterniond& assemblyRotation);
+    Neurons(core::Scene& scene, const details::NeuronsDetails& details, const core::Vector3d& assemblyPosition,
+            const core::Quaterniond& assemblyRotation);
 
     /**
      * @brief Get the neuron section 3D points for a given section Id
@@ -78,46 +74,51 @@ private:
 
     void _buildNeurons();
 
-    void _buildSomasOnly(ThreadSafeContainer& container, const NeuronSomaMap& somas, const size_t baseMaterialId);
+    void _buildSomasOnly(common::ThreadSafeContainer& container, const NeuronSomaMap& somas,
+                         const size_t baseMaterialId);
 
-    void _buildOrientations(ThreadSafeContainer& container, const NeuronSomaMap& somas, const size_t baseMaterialId);
+    void _buildOrientations(common::ThreadSafeContainer& container, const NeuronSomaMap& somas,
+                            const size_t baseMaterialId);
 
-    void _buildMorphology(ThreadSafeContainer& container, const uint64_t neuronId, const NeuronSoma& soma,
+    void _buildMorphology(common::ThreadSafeContainer& container, const uint64_t neuronId, const NeuronSoma& soma,
                           const uint64_t neuronIndex);
 
-    void _addArrow(ThreadSafeContainer& container, const uint64_t neuronId, const Vector3d& somaPosition,
-                   const Quaterniond& somaRotation, const Vector4d& srcNode, const Vector4d& dstNode,
-                   const NeuronSectionType sectionType, const size_t baseMaterialId, const double distanceToSoma);
+    void _addArrow(common::ThreadSafeContainer& container, const uint64_t neuronId, const core::Vector3d& somaPosition,
+                   const core::Quaterniond& somaRotation, const core::Vector4d& srcNode, const core::Vector4d& dstNode,
+                   const details::NeuronSectionType sectionType, const size_t baseMaterialId,
+                   const double distanceToSoma);
 
-    void _addSection(ThreadSafeContainer& container, const uint64_t neuronId, const uint64_t morphologyId,
+    void _addSection(common::ThreadSafeContainer& container, const uint64_t neuronId, const uint64_t morphologyId,
                      const uint64_t sectionId, const Section& section, const uint64_t somaGeometryIndex,
-                     const Vector3d& somaPosition, const Quaterniond& somaRotation, const double somaRadius,
+                     const core::Vector3d& somaPosition, const core::Quaterniond& somaRotation, const double somaRadius,
                      const size_t baseMaterialId, const double mitochondriaDensity, const uint64_t somaUserData,
                      const SectionSynapseMap& synapses, const double distanceToSoma);
 
-    void _addSpine(ThreadSafeContainer& container, const uint64_t neuronId, const uint64_t morphologyId,
+    void _addSpine(common::ThreadSafeContainer& container, const uint64_t neuronId, const uint64_t morphologyId,
                    const uint64_t sectionId, const Synapse& synapse, const size_t baseMaterialId,
-                   const Vector3d& surfacePosition);
+                   const core::Vector3d& surfacePosition);
 
-    void _addSectionInternals(ThreadSafeContainer& container, const uint64_t neuronId, const Vector3d& somaPosition,
-                              const Quaterniond& somaRotation, const double sectionLength, const double sectionVolume,
-                              const Vector4fs& points, const double mitochondriaDensity, const size_t baseMaterialId);
+    void _addSectionInternals(common::ThreadSafeContainer& container, const uint64_t neuronId,
+                              const core::Vector3d& somaPosition, const core::Quaterniond& somaRotation,
+                              const double sectionLength, const double sectionVolume, const core::Vector4fs& points,
+                              const double mitochondriaDensity, const size_t baseMaterialId);
 
-    void _addAxonMyelinSheath(ThreadSafeContainer& container, const uint64_t neuronId, const Vector3d& somaPosition,
-                              const Quaterniond& somaRotation, const double sectionLength, const Vector4fs& points,
+    void _addAxonMyelinSheath(common::ThreadSafeContainer& container, const uint64_t neuronId,
+                              const core::Vector3d& somaPosition, const core::Quaterniond& somaRotation,
+                              const double sectionLength, const core::Vector4fs& points,
                               const double mitochondriaDensity, const size_t materialId);
 
-    void _addVaricosity(Vector4fs& points);
+    void _addVaricosity(core::Vector4fs& points);
 
-    void _attachSimulationReport(Model& model);
+    void _attachSimulationReport(core::Model& model);
 
-    const NeuronsDetails _details;
-    Scene& _scene;
+    const details::NeuronsDetails _details;
+    core::Scene& _scene;
     Varicosities _varicosities;
     uint64_t _nbSpines{0};
     double _maxDistanceToSoma{0.0};
-    Vector2d _minMaxSomaRadius{1e6, -1e6};
-    SimulationReport _simulationReport;
+    core::Vector2d _minMaxSomaRadius{1e6, -1e6};
+    common::SimulationReport _simulationReport;
 };
 } // namespace morphology
 } // namespace bioexplorer

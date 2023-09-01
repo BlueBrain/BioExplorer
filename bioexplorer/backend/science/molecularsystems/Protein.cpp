@@ -31,11 +31,15 @@
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Scene.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
 namespace molecularsystems
 {
 using namespace common;
+using namespace details;
+
 Protein::Protein(Scene& scene, const ProteinDetails& details)
     : Molecule(scene, doublesToVector3d(details.position), doublesToQuaterniond(details.rotation), details.chainIds)
     , _details(details)

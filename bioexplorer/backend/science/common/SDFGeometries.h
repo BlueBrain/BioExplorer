@@ -38,9 +38,6 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace core;
-using namespace details;
-
 /**
  * @brief The SDFGeometries abstract class is used as a parent to any assembly
  * that potentially requires the signed-distance field technique
@@ -52,30 +49,24 @@ public:
      * @brief Construct a new SDFGeometries object
      *
      */
-    SDFGeometries(const double alignToGrid, const Vector3d& position = Vector3d(0.0, 0.0, 0.0),
-                  const Quaterniond& rotation = Quaterniond(0.0, 0.0, 0.0, 1.0),
-                  const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
-
-    /**
-     * @brief Add a simple demo of SDF geometries, mainly for testing purpose
-     *
-     * @param model Core model to which the SDF geometries are added
-     */
-    void addSDFDemo(Model& model);
+    SDFGeometries(const double alignToGrid, const core::Vector3d& position = core::Vector3d(0.0, 0.0, 0.0),
+                  const core::Quaterniond& rotation = core::Quaterniond(0.0, 0.0, 0.0, 1.0),
+                  const core::Vector3d& scale = core::Vector3d(1.0, 1.0, 1.0));
 
 protected:
     virtual double _getDisplacementValue(const DisplacementElement& element) = 0;
 
-    Vector4fs _getProcessedSectionPoints(const MorphologyRepresentation& representation, const Vector4fs& points);
+    core::Vector4fs _getProcessedSectionPoints(const morphology::MorphologyRepresentation& representation,
+                                               const core::Vector4fs& points);
 
-    Vector3d _animatedPosition(const Vector4d& position, const uint64_t index = 0) const;
+    core::Vector3d _animatedPosition(const core::Vector4d& position, const uint64_t index = 0) const;
 
     double _getCorrectedRadius(const double radius, const double radiusMultiplier) const;
 
-    CellAnimationDetails _animationDetails;
+    details::CellAnimationDetails _animationDetails;
     double _alignToGrid{0.0};
-    Vector3d _position;
-    Quaterniond _rotation;
+    core::Vector3d _position;
+    core::Quaterniond _rotation;
 };
 
 } // namespace common

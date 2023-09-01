@@ -40,8 +40,8 @@ const std::array<std::string, 5> COLOR_SCHEMES = {
 const std::string GEOMETRY_QUALITIES[3] = {"low", "medium", "high"};
 const std::string GEOMETRY_MEMORY_MODES[2] = {"shared", "replicated"};
 const std::map<std::string, core::BVHFlag> BVH_TYPES = {{"dynamic", core::BVHFlag::dynamic},
-                                                          {"compact", core::BVHFlag::compact},
-                                                          {"robust", core::BVHFlag::robust}};
+                                                        {"compact", core::BVHFlag::compact},
+                                                        {"robust", core::BVHFlag::robust}};
 } // namespace
 
 namespace core
@@ -50,10 +50,6 @@ GeometryParameters::GeometryParameters()
     : AbstractParameters("Geometry")
 {
     _parameters.add_options()
-        //
-        (PARAM_COLOR_SCHEME.c_str(), po::value<std::string>(),
-         "Color scheme to be applied to the geometry "
-         "[none|by-id|protein-atoms|protein-chains|protein-residues]")
         //
         (PARAM_GEOMETRY_QUALITY.c_str(), po::value<std::string>(), "Geometry rendering quality [low|medium|high]")
         //
@@ -71,20 +67,6 @@ GeometryParameters::GeometryParameters()
 
 void GeometryParameters::parse(const po::variables_map& vm)
 {
-    if (vm.count(PARAM_COLOR_SCHEME))
-    {
-        _colorScheme = ProteinColorScheme::none;
-        const auto& colorScheme = vm[PARAM_COLOR_SCHEME].as<std::string>();
-        if (!colorScheme.empty())
-        {
-            auto it = std::find(COLOR_SCHEMES.begin(), COLOR_SCHEMES.end(), colorScheme);
-            if (it == COLOR_SCHEMES.end())
-                throw po::error("No match for color scheme '" + colorScheme);
-
-            const auto index = std::distance(COLOR_SCHEMES.begin(), it);
-            _colorScheme = static_cast<ProteinColorScheme>(index);
-        }
-    }
     if (vm.count(PARAM_GEOMETRY_QUALITY))
     {
         _geometryQuality = GeometryQuality::low;
@@ -121,7 +103,6 @@ void GeometryParameters::parse(const po::variables_map& vm)
 void GeometryParameters::print()
 {
     AbstractParameters::print();
-    CORE_INFO("Color scheme               : " << COLOR_SCHEMES[static_cast<size_t>(_colorScheme)]);
     CORE_INFO("Geometry quality           : " << GEOMETRY_QUALITIES[static_cast<size_t>(_geometryQuality)]);
     CORE_INFO("Radius multiplier          : " << _radiusMultiplier);
     CORE_INFO("Memory mode                : " << (_memoryMode == MemoryMode::shared ? "Shared" : "Replicated"));

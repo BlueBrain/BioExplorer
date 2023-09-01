@@ -8,6 +8,6 @@ digraph "bioexplorer/backend/plugins/Metabolism/plugin/io/handlers" {
   dir_36c6ed3ad22180dd692cccc52c405634 [shape=box, label="handlers", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_36c6ed3ad22180dd692cccc52c405634.html"];
   }
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_36c6ed3ad22180dd692cccc52c405634->dir_8732d1f007698c46399b542c484c1e73 [headlabel="1", labeldistance=1.5 headhref="dir_000023_000047.html"];
-  dir_36c6ed3ad22180dd692cccc52c405634->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="2", labeldistance=1.5 headhref="dir_000023_000059.html"];
+  dir_36c6ed3ad22180dd692cccc52c405634->dir_8732d1f007698c46399b542c484c1e73 [headlabel="1", labeldistance=1.5 headhref="dir_000023_000050.html"];
+  dir_36c6ed3ad22180dd692cccc52c405634->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="2", labeldistance=1.5 headhref="dir_000023_000058.html"];
 }

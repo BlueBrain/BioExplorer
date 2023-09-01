@@ -34,15 +34,13 @@ namespace medicalimagingexplorer
 {
 namespace dicom
 {
-using namespace core;
-
 /**
  * @brief The DICOM plugin class manages the loading of DICOM datasets
  */
-class DICOMPlugin : public ExtensionPlugin
+class DICOMPlugin : public core::ExtensionPlugin
 {
 public:
-    DICOMPlugin(PropertyMap&& dicomParams);
+    DICOMPlugin(core::PropertyMap&& dicomParams);
 
     void init() final;
 
@@ -52,7 +50,7 @@ private:
     void _createOptiXRenderers();
 #endif
 
-    PropertyMap _dicomParams;
+    core::PropertyMap _dicomParams;
     bool _dirty{false};
 };
 } // namespace dicom

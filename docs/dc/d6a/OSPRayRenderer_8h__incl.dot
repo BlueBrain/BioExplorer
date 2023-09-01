@@ -92,10 +92,10 @@ digraph "platform/engines/ospray/OSPRayRenderer.h"
   Node37 [label="ospray.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node38 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node38 [label="OSPRayCamera.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/ddf/OSPRayCamera_8h.html",tooltip=" "];
+  Node38 -> Node37 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node38 -> Node39 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node39 [label="platform/core/engineapi\l/Camera.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/de4/Camera_8h.html",tooltip=" "];
   Node39 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node39 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node39 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node38 -> Node37 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

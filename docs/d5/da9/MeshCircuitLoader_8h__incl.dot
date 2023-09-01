@@ -111,12 +111,12 @@ digraph "bioexplorer/backend/plugins/Sonata/plugin/neuroscience/neuron/MeshCircu
   Node43 [label="brion/brion.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node24 -> Node44 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node44 [label="unordered_map",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node2 -> Node45 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node45 [label="platform/core/common\l/loader/Loader.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d0b/Loader_8h.html",tooltip=" "];
   Node45 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node45 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node45 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node2 -> Node41 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node2 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

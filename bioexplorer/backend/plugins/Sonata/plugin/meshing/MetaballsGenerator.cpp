@@ -22,10 +22,12 @@
 
 #include "MetaballsGenerator.h"
 
+#include <common/Logs.h>
 #include <platform/core/common/geometry/Sphere.h>
 #include <platform/core/common/geometry/TriangleMesh.h>
 #include <platform/core/engineapi/Material.h>
-#include <common/Logs.h>
+
+using namespace core;
 
 namespace sonataexplorer
 {

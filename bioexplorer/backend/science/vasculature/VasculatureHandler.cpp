@@ -28,8 +28,13 @@
 #include <science/common/Logs.h>
 #include <science/common/Utils.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
+using namespace details;
+using namespace common;
+
 namespace vasculature
 {
 using namespace io;

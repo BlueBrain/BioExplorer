@@ -85,6 +85,7 @@ $(document).ready(function(){initNavTree('dd/d40/namespacebioexplorer_1_1morphol
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">bioexplorer::morphology Namespace Reference</div>  </div>
@@ -150,11 +151,68 @@ Typedefs</h2></td></tr>
 <tr class="separator:a4c39da6470d0929ae5fde57f8ed36293"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31446e8211b22ed2170689f06b4f3111"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a31446e8211b22ed2170689f06b4f3111">CellMap</a> = std::map&lt; uint64_t, <a class="el" href="../../d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html">Cell</a> &gt;</td></tr>
 <tr class="separator:a31446e8211b22ed2170689f06b4f3111"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25b84cfdf98b9db586e7ac03c90d73b1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a25b84cfdf98b9db586e7ac03c90d73b1">Varicosities</a> = std::map&lt; uint64_t, <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a00dbbc950c7e5b91b2bff83faa2c172e">Vector3ds</a> &gt;</td></tr>
+<tr class="memitem:a2f62876f7d105a88dc977624f40d0d19"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a2f62876f7d105a88dc977624f40d0d19">SpikesMap</a> = std::map&lt; uint64_t, float &gt;</td></tr>
+<tr class="separator:a2f62876f7d105a88dc977624f40d0d19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25b84cfdf98b9db586e7ac03c90d73b1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a25b84cfdf98b9db586e7ac03c90d73b1">Varicosities</a> = std::map&lt; uint64_t, <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1b859bac754c86e4a2523e621b829092">Vector3ds</a> &gt;</td></tr>
 <tr class="separator:a25b84cfdf98b9db586e7ac03c90d73b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a510e9d8ea89618eca90c3c703f23a726"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a510e9d8ea89618eca90c3c703f23a726">PopulationColorScheme</a> { <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a510e9d8ea89618eca90c3c703f23a726a334c4a4c42fdb79d7ebc3e73b517e6f8">none</a> = 0
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a510e9d8ea89618eca90c3c703f23a726ab80bb7740288fda1f201890375a60c8f">id</a> = 1
+ }</td></tr>
+<tr class="separator:a510e9d8ea89618eca90c3c703f23a726"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af47c0b707cfe543dedbe216efc85e699"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af47c0b707cfe543dedbe216efc85e699">MorphologyColorScheme</a> { <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af47c0b707cfe543dedbe216efc85e699a334c4a4c42fdb79d7ebc3e73b517e6f8">none</a> = 0
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af47c0b707cfe543dedbe216efc85e699a20c86a5b1db0b50a86ac8957d072666b">section_type</a> = 1
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af47c0b707cfe543dedbe216efc85e699a0145672d8d7524ce08243e73f26fb560">section_orientation</a> = 2
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af47c0b707cfe543dedbe216efc85e699a3332ad1d462461e9305526d3caf2647f">distance_to_soma</a> = 3
+ }</td></tr>
+<tr class="separator:af47c0b707cfe543dedbe216efc85e699"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a836567508b9aecb15c453472e19221f5"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5">MorphologyRepresentation</a> { <br />
+&#160;&#160;<a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5af8b0b924ebd7046dbfa85a856e4682c8">graph</a> = 0
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5a73d5342eba070f636ac3246f319bf77f">section</a> = 1
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5afdd32b9061681edb52c554bd9bbf0712">segment</a> = 2
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5ada1639422ad8f355d2371428471379b5">orientation</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5ab4f49419e540cdfc505f0af52fe7524a">bezier</a> = 4
+<br />
+ }</td></tr>
+<tr class="separator:a836567508b9aecb15c453472e19221f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af76cd19fe86d500efe3fcfc74d78e16e"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16e">MorphologyRealismLevel</a> { <br />
+&#160;&#160;<a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16ea334c4a4c42fdb79d7ebc3e73b517e6f8">none</a> = 0
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16ea15a00ab33070d69d3ec3f03a9222034b">soma</a> = 1
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16ea805757c5974a71270fa9f9133a54d065">axon</a> = 2
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16ea45c27ebae6394fc0597ff696a4a1bc51">dendrite</a> = 4
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16ea2007fad87c5e530deecda769e08fab2b">internals</a> = 8
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16ea0bf849c9eb83323c8ed98542aa0968a6">externals</a> = 16
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16eaa35ecf344c66770b2ba0f0e913747072">spine</a> = 32
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16ea6de5585ab830cda2a19414f05ca01faf">end_foot</a> = 64
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16eaa181a603769c1f98ad927e7367c7aa51">all</a> = 255
+<br />
+ }</td></tr>
+<tr class="separator:af76cd19fe86d500efe3fcfc74d78e16e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee7447751c54a343c4f8600c3f9a1aa3"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#aee7447751c54a343c4f8600c3f9a1aa3">MicroDomainRepresentation</a> { <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#aee7447751c54a343c4f8600c3f9a1aa3a09bc81c3aa886b690f84c5aba4109e20">mesh</a> = 0
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#aee7447751c54a343c4f8600c3f9a1aa3a347e88bd5b22530d122b5287b14ab329">convex_hull</a> = 1
+, <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#aee7447751c54a343c4f8600c3f9a1aa3ad302e976c9dd527a9521a88c012437c5">surface</a> = 2
+ }</td></tr>
+<tr class="separator:aee7447751c54a343c4f8600c3f9a1aa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a22372c45457a621b984af01a98fb457d"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a22372c45457a621b984af01a98fb457d">mitochondrionSegmentSize</a> = 0.25</td></tr>
+<tr class="separator:a22372c45457a621b984af01a98fb457d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe3a88dadf7e60cb6c33ad4dcacc1850"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#afe3a88dadf7e60cb6c33ad4dcacc1850">mitochondrionRadius</a> = 0.1</td></tr>
+<tr class="separator:afe3a88dadf7e60cb6c33ad4dcacc1850"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8057609bc4f7b59c6e3349f384840517"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a8057609bc4f7b59c6e3349f384840517">spineRadiusRatio</a> = 0.5</td></tr>
+<tr class="separator:a8057609bc4f7b59c6e3349f384840517"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca9db033d3b19e4b606ce02d93891586"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#aca9db033d3b19e4b606ce02d93891586">myelinSteathLength</a> = 10.0</td></tr>
+<tr class="separator:aca9db033d3b19e4b606ce02d93891586"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a000b53884d468dfa2460f373bc401cc7"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a000b53884d468dfa2460f373bc401cc7">myelinSteathRadiusRatio</a> = 3.0</td></tr>
+<tr class="separator:a000b53884d468dfa2460f373bc401cc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd77bc33ec75c093dde77edb8f703025"><td class="memItemLeft" align="right" valign="top">const uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#acd77bc33ec75c093dde77edb8f703025">nbMinSegmentsForVaricosity</a> = 10</td></tr>
+<tr class="separator:acd77bc33ec75c093dde77edb8f703025"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2bbafd5cb3aee2d6be3986fa45a9d178"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a2bbafd5cb3aee2d6be3986fa45a9d178">DEFAULT_MITOCHONDRIA_DENSITY</a> = 0.0459</td></tr>
 <tr class="separator:a2bbafd5cb3aee2d6be3986fa45a9d178"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a592204656c82a9d7ded38185ab0c2639"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a592204656c82a9d7ded38185ab0c2639">DEFAULT_ENDFOOT_RADIUS_RATIO</a> = 1.1</td></tr>
@@ -215,7 +273,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01627">1627</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00374">374</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -231,7 +289,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01601">1601</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00348">348</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -247,7 +305,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01667">1667</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00414">414</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -263,7 +321,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01657">1657</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00404">404</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -279,7 +337,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01598">1598</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00345">345</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -295,7 +353,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01638">1638</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00385">385</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -311,7 +369,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01603">1603</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00350">350</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -327,7 +385,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01647">1647</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00394">394</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -343,7 +401,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01619">1619</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00366">366</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -359,7 +417,23 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01618">1618</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00365">365</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a id="a2f62876f7d105a88dc977624f40d0d19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f62876f7d105a88dc977624f40d0d19">&#9670;&nbsp;</a></span>SpikesMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a2f62876f7d105a88dc977624f40d0d19">bioexplorer::morphology::SpikesMap</a> = typedef std::map&lt;uint64_t, float&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00474">474</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -375,7 +449,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01617">1617</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00364">364</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -391,7 +465,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01605">1605</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00352">352</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -402,12 +476,172 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a25b84cfdf98b9db586e7ac03c90d73b1">bioexplorer::morphology::Varicosities</a> = typedef std::map&lt;uint64_t, <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a00dbbc950c7e5b91b2bff83faa2c172e">Vector3ds</a>&gt;</td>
+          <td class="memname">using <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a25b84cfdf98b9db586e7ac03c90d73b1">bioexplorer::morphology::Varicosities</a> = typedef std::map&lt;uint64_t, <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1b859bac754c86e4a2523e621b829092">Vector3ds</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/de9/Neurons_8h_source.html#l00039">39</a> of file <a class="el" href="../../dd/de9/Neurons_8h_source.html">Neurons.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/de9/Neurons_8h_source.html#l00035">35</a> of file <a class="el" href="../../dd/de9/Neurons_8h_source.html">Neurons.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="aee7447751c54a343c4f8600c3f9a1aa3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee7447751c54a343c4f8600c3f9a1aa3">&#9670;&nbsp;</a></span>MicroDomainRepresentation</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#aee7447751c54a343c4f8600c3f9a1aa3">bioexplorer::morphology::MicroDomainRepresentation</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aee7447751c54a343c4f8600c3f9a1aa3a09bc81c3aa886b690f84c5aba4109e20"></a>mesh&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aee7447751c54a343c4f8600c3f9a1aa3a347e88bd5b22530d122b5287b14ab329"></a>convex_hull&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aee7447751c54a343c4f8600c3f9a1aa3ad302e976c9dd527a9521a88c012437c5"></a>surface&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00468">468</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a id="af47c0b707cfe543dedbe216efc85e699"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af47c0b707cfe543dedbe216efc85e699">&#9670;&nbsp;</a></span>MorphologyColorScheme</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af47c0b707cfe543dedbe216efc85e699">bioexplorer::morphology::MorphologyColorScheme</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="af47c0b707cfe543dedbe216efc85e699a334c4a4c42fdb79d7ebc3e73b517e6f8"></a>none&#160;</td><td class="fielddoc"><p>All sections use the same color </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af47c0b707cfe543dedbe216efc85e699a20c86a5b1db0b50a86ac8957d072666b"></a>section_type&#160;</td><td class="fielddoc"><p>Colored by section </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af47c0b707cfe543dedbe216efc85e699a0145672d8d7524ce08243e73f26fb560"></a>section_orientation&#160;</td><td class="fielddoc"><p>section orientation </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af47c0b707cfe543dedbe216efc85e699a3332ad1d462461e9305526d3caf2647f"></a>distance_to_soma&#160;</td><td class="fielddoc"><p>distance to soma </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00434">434</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a id="af76cd19fe86d500efe3fcfc74d78e16e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af76cd19fe86d500efe3fcfc74d78e16e">&#9670;&nbsp;</a></span>MorphologyRealismLevel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16e">bioexplorer::morphology::MorphologyRealismLevel</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="af76cd19fe86d500efe3fcfc74d78e16ea334c4a4c42fdb79d7ebc3e73b517e6f8"></a>none&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af76cd19fe86d500efe3fcfc74d78e16ea15a00ab33070d69d3ec3f03a9222034b"></a>soma&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af76cd19fe86d500efe3fcfc74d78e16ea805757c5974a71270fa9f9133a54d065"></a>axon&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af76cd19fe86d500efe3fcfc74d78e16ea45c27ebae6394fc0597ff696a4a1bc51"></a>dendrite&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af76cd19fe86d500efe3fcfc74d78e16ea2007fad87c5e530deecda769e08fab2b"></a>internals&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af76cd19fe86d500efe3fcfc74d78e16ea0bf849c9eb83323c8ed98542aa0968a6"></a>externals&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af76cd19fe86d500efe3fcfc74d78e16eaa35ecf344c66770b2ba0f0e913747072"></a>spine&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af76cd19fe86d500efe3fcfc74d78e16ea6de5585ab830cda2a19414f05ca01faf"></a>end_foot&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af76cd19fe86d500efe3fcfc74d78e16eaa181a603769c1f98ad927e7367c7aa51"></a>all&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00455">455</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a id="a836567508b9aecb15c453472e19221f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a836567508b9aecb15c453472e19221f5">&#9670;&nbsp;</a></span>MorphologyRepresentation</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5">bioexplorer::morphology::MorphologyRepresentation</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a836567508b9aecb15c453472e19221f5af8b0b924ebd7046dbfa85a856e4682c8"></a>graph&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a836567508b9aecb15c453472e19221f5a73d5342eba070f636ac3246f319bf77f"></a>section&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a836567508b9aecb15c453472e19221f5afdd32b9061681edb52c554bd9bbf0712"></a>segment&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a836567508b9aecb15c453472e19221f5ada1639422ad8f355d2371428471379b5"></a>orientation&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a836567508b9aecb15c453472e19221f5ab4f49419e540cdfc505f0af52fe7524a"></a>bezier&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00446">446</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a id="a510e9d8ea89618eca90c3c703f23a726"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a510e9d8ea89618eca90c3c703f23a726">&#9670;&nbsp;</a></span>PopulationColorScheme</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="../../dd/d40/namespacebioexplorer_1_1morphology.html#a510e9d8ea89618eca90c3c703f23a726">bioexplorer::morphology::PopulationColorScheme</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a510e9d8ea89618eca90c3c703f23a726a334c4a4c42fdb79d7ebc3e73b517e6f8"></a>none&#160;</td><td class="fielddoc"><p>All nodes use the same color </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a510e9d8ea89618eca90c3c703f23a726ab80bb7740288fda1f201890375a60c8f"></a>id&#160;</td><td class="fielddoc"><p>Colored by id </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00426">426</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -424,7 +658,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d88/Neurons_8cpp_source.html#l00051">51</a> of file <a class="el" href="../../dc/d88/Neurons_8cpp_source.html">Neurons.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d88/Neurons_8cpp_source.html#l00053">53</a> of file <a class="el" href="../../dc/d88/Neurons_8cpp_source.html">Neurons.cpp</a>.</p>
 
 </div>
 </div>
@@ -440,7 +674,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/db7/Astrocytes_8cpp_source.html#l00051">51</a> of file <a class="el" href="../../da/db7/Astrocytes_8cpp_source.html">Astrocytes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/db7/Astrocytes_8cpp_source.html#l00053">53</a> of file <a class="el" href="../../da/db7/Astrocytes_8cpp_source.html">Astrocytes.cpp</a>.</p>
 
 </div>
 </div>
@@ -456,7 +690,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/db7/Astrocytes_8cpp_source.html#l00052">52</a> of file <a class="el" href="../../da/db7/Astrocytes_8cpp_source.html">Astrocytes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/db7/Astrocytes_8cpp_source.html#l00054">54</a> of file <a class="el" href="../../da/db7/Astrocytes_8cpp_source.html">Astrocytes.cpp</a>.</p>
 
 </div>
 </div>
@@ -472,7 +706,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/db7/Astrocytes_8cpp_source.html#l00050">50</a> of file <a class="el" href="../../da/db7/Astrocytes_8cpp_source.html">Astrocytes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/db7/Astrocytes_8cpp_source.html#l00052">52</a> of file <a class="el" href="../../da/db7/Astrocytes_8cpp_source.html">Astrocytes.cpp</a>.</p>
 
 </div>
 </div>
@@ -488,7 +722,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d88/Neurons_8cpp_source.html#l00053">53</a> of file <a class="el" href="../../dc/d88/Neurons_8cpp_source.html">Neurons.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d88/Neurons_8cpp_source.html#l00055">55</a> of file <a class="el" href="../../dc/d88/Neurons_8cpp_source.html">Neurons.cpp</a>.</p>
 
 </div>
 </div>
@@ -504,7 +738,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00035">35</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00032">32</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
 
 </div>
 </div>
@@ -520,7 +754,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00042">42</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00039">39</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
 
 </div>
 </div>
@@ -536,7 +770,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00040">40</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00037">37</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
 
 </div>
 </div>
@@ -552,7 +786,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00041">41</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00038">38</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
 
 </div>
 </div>
@@ -568,7 +802,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00047">47</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00044">44</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
 
 </div>
 </div>
@@ -584,7 +818,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00048">48</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00045">45</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
 
 </div>
 </div>
@@ -600,7 +834,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00044">44</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00041">41</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
 
 </div>
 </div>
@@ -616,7 +850,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00046">46</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00043">43</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
 
 </div>
 </div>
@@ -632,7 +866,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00045">45</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00042">42</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
 
 </div>
 </div>
@@ -648,7 +882,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00039">39</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00036">36</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
 
 </div>
 </div>
@@ -664,7 +898,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00043">43</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00040">40</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
 
 </div>
 </div>
@@ -680,7 +914,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00038">38</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00035">35</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
 
 </div>
 </div>
@@ -696,7 +930,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d88/Neurons_8cpp_source.html#l00052">52</a> of file <a class="el" href="../../dc/d88/Neurons_8cpp_source.html">Neurons.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d88/Neurons_8cpp_source.html#l00054">54</a> of file <a class="el" href="../../dc/d88/Neurons_8cpp_source.html">Neurons.cpp</a>.</p>
 
 </div>
 </div>
@@ -712,7 +946,71 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d88/Neurons_8cpp_source.html#l00065">65</a> of file <a class="el" href="../../dc/d88/Neurons_8cpp_source.html">Neurons.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d88/Neurons_8cpp_source.html#l00067">67</a> of file <a class="el" href="../../dc/d88/Neurons_8cpp_source.html">Neurons.cpp</a>.</p>
+
+</div>
+</div>
+<a id="afe3a88dadf7e60cb6c33ad4dcacc1850"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe3a88dadf7e60cb6c33ad4dcacc1850">&#9670;&nbsp;</a></span>mitochondrionRadius</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double bioexplorer::morphology::mitochondrionRadius = 0.1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00417">417</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a id="a22372c45457a621b984af01a98fb457d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22372c45457a621b984af01a98fb457d">&#9670;&nbsp;</a></span>mitochondrionSegmentSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double bioexplorer::morphology::mitochondrionSegmentSize = 0.25</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00416">416</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a id="aca9db033d3b19e4b606ce02d93891586"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca9db033d3b19e4b606ce02d93891586">&#9670;&nbsp;</a></span>myelinSteathLength</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double bioexplorer::morphology::myelinSteathLength = 10.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00421">421</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a id="a000b53884d468dfa2460f373bc401cc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a000b53884d468dfa2460f373bc401cc7">&#9670;&nbsp;</a></span>myelinSteathRadiusRatio</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double bioexplorer::morphology::myelinSteathRadiusRatio = 3.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00422">422</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -728,7 +1026,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00037">37</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00034">34</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
 
 </div>
 </div>
@@ -744,7 +1042,23 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d88/Neurons_8cpp_source.html#l00050">50</a> of file <a class="el" href="../../dc/d88/Neurons_8cpp_source.html">Neurons.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d88/Neurons_8cpp_source.html#l00052">52</a> of file <a class="el" href="../../dc/d88/Neurons_8cpp_source.html">Neurons.cpp</a>.</p>
+
+</div>
+</div>
+<a id="acd77bc33ec75c093dde77edb8f703025"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd77bc33ec75c093dde77edb8f703025">&#9670;&nbsp;</a></span>nbMinSegmentsForVaricosity</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint64_t bioexplorer::morphology::nbMinSegmentsForVaricosity = 10</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00424">424</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -765,7 +1079,7 @@ Variables</h2></td></tr>
 <div class="line">                                                        {ReportType::compartment, <span class="stringliteral">&quot;compartment&quot;</span>},</div>
 <div class="line">                                                        {ReportType::synapse_efficacy, <span class="stringliteral">&quot;synapse efficacy&quot;</span>}}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../dc/d88/Neurons_8cpp_source.html#l00055">55</a> of file <a class="el" href="../../dc/d88/Neurons_8cpp_source.html">Neurons.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d88/Neurons_8cpp_source.html#l00057">57</a> of file <a class="el" href="../../dc/d88/Neurons_8cpp_source.html">Neurons.cpp</a>.</p>
 
 </div>
 </div>
@@ -781,7 +1095,23 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00050">50</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dab/Morphologies_8h_source.html#l00047">47</a> of file <a class="el" href="../../d6/dab/Morphologies_8h_source.html">Morphologies.h</a>.</p>
+
+</div>
+</div>
+<a id="a8057609bc4f7b59c6e3349f384840517"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8057609bc4f7b59c6e3349f384840517">&#9670;&nbsp;</a></span>spineRadiusRatio</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double bioexplorer::morphology::spineRadiusRatio = 0.5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00419">419</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>

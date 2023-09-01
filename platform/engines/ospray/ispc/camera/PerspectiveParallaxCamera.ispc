@@ -1,23 +1,24 @@
 /*
- * Copyright (c) 2018, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
- * Responsible Author: Cyrille Favreau <cyrille.favreau@epfl.ch>
- *                     Grigori Chevtchenko <grigori.chevtchenko@epfl.ch>
+ *
+ * The Blue Brain BioExplorer is a tool for scientists to extract and analyse
+ * scientific data from visualization
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3.0 as published
- * by the Free Software Foundation.
+ * Copyright 2020-2023 Blue BrainProject / EPFL
  *
- * This library is distributed in the hope that it will be useful, but WITHOUT
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  * details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include "math/LinearSpace.ih"
@@ -40,12 +41,10 @@ struct PerspectiveParallaxCamera
     float idpOffset;
 };
 
-void PerspectiveParallaxCamera_initRay(uniform Camera* uniform _self,
-                                       varying Ray& ray,
+void PerspectiveParallaxCamera_initRay(uniform Camera* uniform _self, varying Ray& ray,
                                        const varying CameraSample& sample)
 {
-    uniform PerspectiveParallaxCamera* uniform self =
-        (uniform PerspectiveParallaxCamera * uniform) _self;
+    uniform PerspectiveParallaxCamera* uniform self = (uniform PerspectiveParallaxCamera * uniform) _self;
 
     vec2f screen = sample.screen;
     screen = Camera_subRegion(_self, screen);
@@ -59,8 +58,7 @@ void PerspectiveParallaxCamera_initRay(uniform Camera* uniform _self,
 
     vec3f dir = normalize(pixelPos - org);
 
-    const LinearSpace3f cameraSpace =
-        make_LinearSpace3f(self->dir_du, self->dir_dv, self->dir_cam);
+    const LinearSpace3f cameraSpace = make_LinearSpace3f(self->dir_du, self->dir_dv, self->dir_cam);
     dir = normalize(cameraSpace * dir);
     org = cameraSpace * org;
 
@@ -75,22 +73,19 @@ void PerspectiveParallaxCamera_initRay(uniform Camera* uniform _self,
     parameters */
 export void* uniform PerspectiveParallaxCamera_create(void* uniform cppE)
 {
-    uniform PerspectiveParallaxCamera* uniform self =
-        uniform new uniform PerspectiveParallaxCamera;
+    uniform PerspectiveParallaxCamera* uniform self = uniform new uniform PerspectiveParallaxCamera;
     self->super.cppEquivalent = cppE;
     self->super.initRay = PerspectiveParallaxCamera_initRay;
     self->super.doesDOF = false;
     return self;
 }
 
-export void PerspectiveParallaxCamera_set(
-    void* uniform _self, const uniform vec3f& org, const uniform vec3f& dir_cam,
-    const uniform vec3f& dir_du, const uniform vec3f& dir_dv,
-    const uniform float distanceToPlane, const uniform float imgPlane_size_y,
-    const uniform float imgPlane_size_x, const uniform float idpOffset)
+export void PerspectiveParallaxCamera_set(void* uniform _self, const uniform vec3f& org, const uniform vec3f& dir_cam,
+                                          const uniform vec3f& dir_du, const uniform vec3f& dir_dv,
+                                          const uniform float distanceToPlane, const uniform float imgPlane_size_y,
+                                          const uniform float imgPlane_size_x, const uniform float idpOffset)
 {
-    uniform PerspectiveParallaxCamera* uniform self =
-        (uniform PerspectiveParallaxCamera * uniform) _self;
+    uniform PerspectiveParallaxCamera* uniform self = (uniform PerspectiveParallaxCamera * uniform) _self;
     self->org = org;
     self->dir_cam = dir_cam;
     self->dir_du = dir_du;

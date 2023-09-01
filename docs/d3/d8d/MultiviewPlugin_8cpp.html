@@ -91,6 +91,7 @@ $(document).ready(function(){initNavTree('d3/d8d/MultiviewPlugin_8cpp.html','../
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="../../de/dbb/MultiviewPlugin_8h_source.html">MultiviewPlugin.h</a>&quot;</code><br />
+<code>#include &lt;Version.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../de/df2/platform_2core_2common_2Logs_8h_source.html">platform/core/common/Logs.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../dd/de4/Camera_8h_source.html">platform/core/engineapi/Camera.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../d1/dd4/Engine_8h_source.html">platform/core/engineapi/Engine.h</a>&gt;</code><br />
@@ -111,25 +112,27 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a39853316cebea7016aa9e802fc68e60c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">core::ExtensionPlugin</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp.html#a39853316cebea7016aa9e802fc68e60c">brayns_plugin_create</a> (const int argc, const char **argv)</td></tr>
-<tr class="separator:a39853316cebea7016aa9e802fc68e60c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8c8e27f5c0064da581e3d4ec6e88c86"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">core::ExtensionPlugin</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp.html#ae8c8e27f5c0064da581e3d4ec6e88c86">core_plugin_create</a> (const int argc, const char **argv)</td></tr>
+<tr class="separator:ae8c8e27f5c0064da581e3d4ec6e88c86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ab68933a4cbed6de7498103f716029516"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp.html#ab68933a4cbed6de7498103f716029516">PARAM_ARM_LENGTH</a> = &quot;armLength&quot;</td></tr>
-<tr class="separator:ab68933a4cbed6de7498103f716029516"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2dd4949321482c00e97d2a6c7b9383d9"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp.html#a2dd4949321482c00e97d2a6c7b9383d9">PARAM_HEIGHT</a> = &quot;height&quot;</td></tr>
-<tr class="separator:a2dd4949321482c00e97d2a6c7b9383d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adea2cbe9965913964c5c7046562da64b"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp.html#adea2cbe9965913964c5c7046562da64b">RENDERER_MULTI_VIEW</a> = &quot;multiview&quot;</td></tr>
+<tr class="separator:adea2cbe9965913964c5c7046562da64b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade45aa1a1d23c23d23d776d2fc738ddd"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp.html#ade45aa1a1d23c23d23d776d2fc738ddd">PARAM_ARM_LENGTH</a> = &quot;armLength&quot;</td></tr>
+<tr class="separator:ade45aa1a1d23c23d23d776d2fc738ddd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc14544e9da94f3d78fc8c69b7cc2b0b"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp.html#adc14544e9da94f3d78fc8c69b7cc2b0b">PARAM_HEIGHT</a> = &quot;height&quot;</td></tr>
+<tr class="separator:adc14544e9da94f3d78fc8c69b7cc2b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a39853316cebea7016aa9e802fc68e60c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39853316cebea7016aa9e802fc68e60c">&#9670;&nbsp;</a></span>brayns_plugin_create()</h2>
+<a id="ae8c8e27f5c0064da581e3d4ec6e88c86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8c8e27f5c0064da581e3d4ec6e88c86">&#9670;&nbsp;</a></span>core_plugin_create()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">core::ExtensionPlugin</a>* brayns_plugin_create </td>
+          <td class="memname"><a class="el" href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">core::ExtensionPlugin</a>* core_plugin_create </td>
           <td>(</td>
           <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>argc</em>, </td>
@@ -148,56 +151,56 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp_source.html#l00056">56</a> of file <a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp_source.html">MultiviewPlugin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp_source.html#l00059">59</a> of file <a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp_source.html">MultiviewPlugin.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="ab68933a4cbed6de7498103f716029516"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab68933a4cbed6de7498103f716029516">&#9670;&nbsp;</a></span>PARAM_ARM_LENGTH</h2>
+<a id="ade45aa1a1d23c23d23d776d2fc738ddd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade45aa1a1d23c23d23d776d2fc738ddd">&#9670;&nbsp;</a></span>PARAM_ARM_LENGTH</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto PARAM_ARM_LENGTH = &quot;armLength&quot;</td>
+          <td class="memname">const std::string PARAM_ARM_LENGTH = &quot;armLength&quot;</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp_source.html#l00029">29</a> of file <a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp_source.html">MultiviewPlugin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp_source.html#l00032">32</a> of file <a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp_source.html">MultiviewPlugin.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a2dd4949321482c00e97d2a6c7b9383d9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2dd4949321482c00e97d2a6c7b9383d9">&#9670;&nbsp;</a></span>PARAM_HEIGHT</h2>
+<a id="adc14544e9da94f3d78fc8c69b7cc2b0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc14544e9da94f3d78fc8c69b7cc2b0b">&#9670;&nbsp;</a></span>PARAM_HEIGHT</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto PARAM_HEIGHT = &quot;height&quot;</td>
+          <td class="memname">const std::string PARAM_HEIGHT = &quot;height&quot;</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp_source.html#l00030">30</a> of file <a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp_source.html">MultiviewPlugin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp_source.html#l00033">33</a> of file <a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp_source.html">MultiviewPlugin.cpp</a>.</p>
+
+</div>
+</div>
+<a id="adea2cbe9965913964c5c7046562da64b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adea2cbe9965913964c5c7046562da64b">&#9670;&nbsp;</a></span>RENDERER_MULTI_VIEW</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string RENDERER_MULTI_VIEW = &quot;multiview&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp_source.html#l00031">31</a> of file <a class="el" href="../../d3/d8d/MultiviewPlugin_8cpp_source.html">MultiviewPlugin.cpp</a>.</p>
 
 </div>
 </div>

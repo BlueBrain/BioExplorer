@@ -31,15 +31,12 @@
 
 namespace sonataexplorer
 {
-using namespace core;
-using namespace api;
-
 /**
  * @brief The SonataExplorerPlugin class manages the loading and visualization
  * of the Blue Brain Project micro-circuits, and allows visualisation of voltage
  * simulations
  */
-class SonataExplorerPlugin : public ExtensionPlugin
+class SonataExplorerPlugin : public core::ExtensionPlugin
 {
 public:
     SonataExplorerPlugin();
@@ -53,33 +50,34 @@ public:
 
 private:
     // Plug-in
-    Response _getVersion() const;
+    api::Response _getVersion() const;
     void _markModified() { _dirty = true; };
 
     // Handlers
-    Response _attachCellGrowthHandler(const AttachCellGrowthHandler& payload);
-    Response _attachCircuitSimulationHandler(const AttachCircuitSimulationHandler& payload);
-    Response _setConnectionsPerValue(const ConnectionsPerValue&);
-    Response _setSpikeReportVisualizationSettings(const SpikeReportVisualizationSettings& payload);
+    api::Response _attachCellGrowthHandler(const api::AttachCellGrowthHandler& payload);
+    api::Response _attachCircuitSimulationHandler(const api::AttachCircuitSimulationHandler& payload);
+    api::Response _setConnectionsPerValue(const api::ConnectionsPerValue&);
+    api::Response _setSpikeReportVisualizationSettings(const api::SpikeReportVisualizationSettings& payload);
 
-    SynapseAttributes _synapseAttributes;
+    api::SynapseAttributes _synapseAttributes;
 
     // Experimental
-    Response _exportModelToFile(const ExportModelToFile&);
-    Response _exportModelToMesh(const ExportModelToMesh&);
+    api::Response _exportModelToFile(const api::ExportModelToFile&);
+    api::Response _exportModelToMesh(const api::ExportModelToMesh&);
 
     // Add geometry
-    void _createShapeMaterial(ModelPtr& model, const size_t id, const Vector3d& color, const double& opacity);
-    Response _addSphere(const AddSphere& payload);
-    Response _addPill(const AddPill& payload);
-    Response _addCylinder(const AddCylinder& payload);
-    Response _addBox(const AddBox& payload);
+    void _createShapeMaterial(core::ModelPtr& model, const size_t id, const core::Vector3d& color,
+                              const double& opacity);
+    api::Response _addSphere(const api::AddSphere& payload);
+    api::Response _addPill(const api::AddPill& payload);
+    api::Response _addCylinder(const api::AddCylinder& payload);
+    api::Response _addBox(const api::AddBox& payload);
 
     // Predefined models
-    Response _addColumn(const AddColumn& payload);
+    api::Response _addColumn(const api::AddColumn& payload);
 
     // MEG
-    Response _loadMEG(const LoadMEGSettings& payload);
+    api::Response _loadMEG(const api::LoadMEGSettings& payload);
 
     bool _dirty{false};
 };

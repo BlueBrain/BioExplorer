@@ -36,8 +36,6 @@ namespace io
 {
 namespace loader
 {
-using namespace core;
-
 namespace servus
 {
 class URI;
@@ -46,32 +44,32 @@ class URI;
 /**
  * Load circuit from BlueConfig or CircuitConfig file, including simulation.
  */
-class SonataCacheLoader : public Loader
+class SonataCacheLoader : public core::Loader
 {
 public:
-    SonataCacheLoader(Scene& scene, PropertyMap&& loaderParams = {});
+    SonataCacheLoader(core::Scene& scene, core::PropertyMap&& loaderParams = {});
 
     std::string getName() const final;
 
-    std::vector<std::string> getSupportedExtensions() const final;
+    strings getSupportedExtensions() const final;
 
     bool isSupported(const std::string& filename, const std::string& extension) const final;
 
-    static PropertyMap getCLIProperties();
+    static core::PropertyMap getCLIProperties();
 
-    PropertyMap getProperties() const final;
+    core::PropertyMap getProperties() const final;
 
-    ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
-                                      const PropertyMap& properties) const final;
+    core::ModelDescriptorPtr importFromBlob(core::Blob&& blob, const core::LoaderProgress& callback,
+                                            const core::PropertyMap& properties) const final;
 
-    ModelDescriptorPtr importFromFile(const std::string& filename, const LoaderProgress& callback,
-                                      const PropertyMap& properties) const final;
+    core::ModelDescriptorPtr importFromFile(const std::string& filename, const core::LoaderProgress& callback,
+                                            const core::PropertyMap& properties) const final;
 
-    void exportToFile(const ModelDescriptorPtr modelDescriptor, const std::string& filename);
+    void exportToFile(const core::ModelDescriptorPtr modelDescriptor, const std::string& filename);
 
 private:
     std::string _readString(std::ifstream& f) const;
-    PropertyMap _defaults;
+    core::PropertyMap _defaults;
 };
 } // namespace loader
 } // namespace io

@@ -32,19 +32,17 @@ namespace bioexplorer
 {
 namespace fields
 {
-using namespace core;
-
 /**
  * @brief The FieldsHandler class handles electro-magnetic fields data
  * structures
  */
-class FieldsHandler : public AbstractSimulationHandler
+class FieldsHandler : public core::AbstractSimulationHandler
 {
 public:
     /**
      * @brief Default constructor
      */
-    FieldsHandler(const Scene& scene, const double voxelSize, const double density);
+    FieldsHandler(const core::Scene& scene, const double voxelSize, const double density);
 
     /**
      * @brief Construct a new FieldsHandler from a file
@@ -87,7 +85,7 @@ public:
      * @return AbstractSimulationHandlerPtr Clone of the
      * AbstractSimulationHandler
      */
-    AbstractSimulationHandlerPtr clone() const final;
+    core::AbstractSimulationHandlerPtr clone() const final;
 
     /**
      * @brief Export the octree information to a file
@@ -108,28 +106,28 @@ public:
      *
      * @return const Vector3ui& Dimensions of the octree
      */
-    const Vector3ui& getDimensions() const { return _dimensions; }
+    const core::Vector3ui& getDimensions() const { return _dimensions; }
 
     /**
      * @brief Get the voxel spacing information
      *
      * @return const Vector3f& The voxel spacing information
      */
-    const Vector3f& getSpacing() const { return _spacing; }
+    const core::Vector3f& getSpacing() const { return _spacing; }
 
     /**
      * @brief Get the offset of the octree
      *
      * @return const Vector3f& Offset of the octree
      */
-    const Vector3f& getOffset() const { return _offset; }
+    const core::Vector3f& getOffset() const { return _offset; }
 
 private:
-    void _buildOctree(const Scene& scene, const double voxelSize, const double density);
+    void _buildOctree(const core::Scene& scene, const double voxelSize, const double density);
 
-    Vector3ui _dimensions;
-    Vector3f _spacing;
-    Vector3f _offset;
+    core::Vector3ui _dimensions;
+    core::Vector3f _spacing;
+    core::Vector3f _offset;
 };
 typedef std::shared_ptr<FieldsHandler> FieldsHandlerPtr;
 } // namespace fields

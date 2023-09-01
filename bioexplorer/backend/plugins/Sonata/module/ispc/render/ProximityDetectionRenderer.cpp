@@ -27,6 +27,8 @@
 // ispc exports
 #include "ProximityDetectionRenderer_ispc.h"
 
+using namespace core;
+
 namespace sonataexplorer
 {
 void ProximityDetectionRenderer::commit()

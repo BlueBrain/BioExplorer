@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="core::PDBCellPositions",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d82/structcore_1_1PDBCellPositions.html",tooltip=" "];
+  Node0 [label="core::PerRayData_radiance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d46/structcore_1_1PerRayData__radiance.html",tooltip=" "];
 }

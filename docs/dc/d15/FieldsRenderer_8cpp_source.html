@@ -119,73 +119,74 @@ $(document).ready(function(){initNavTree('dc/d15/FieldsRenderer_8cpp_source.html
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">// ispc exports</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;FieldsRenderer_ispc.h&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">namespace </span>rendering</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html#aa02d4cdf73eae3f8aef11bfd13cab8b5">   38</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html#aa02d4cdf73eae3f8aef11bfd13cab8b5">FieldsRenderer::commit</a>()</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">namespace </span>rendering</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="../../dd/d5b/classcore_1_1Renderer.html#ac0d33c18f79cd470968ce4216483f598">Renderer::commit</a>();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    _lightData = (ospray::Data*)getParamData(<span class="stringliteral">&quot;lights&quot;</span>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    _lightArray.clear();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">if</span> (_lightData)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; _lightData-&gt;size(); ++i)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            _lightArray.push_back(((ospray::Light**)_lightData-&gt;data)[i]-&gt;getIE());</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    _lightPtr = _lightArray.empty() ? nullptr : &amp;_lightArray[0];</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="../../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html#aa02d4cdf73eae3f8aef11bfd13cab8b5">   40</a></span>&#160;<span class="keywordtype">void</span> FieldsRenderer::commit()</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="../../dd/d5b/classcore_1_1Renderer.html#ac0d33c18f79cd470968ce4216483f598">Renderer::commit</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    _lightData = (ospray::Data*)getParamData(<span class="stringliteral">&quot;lights&quot;</span>);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    _lightArray.clear();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">if</span> (_lightData)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; _lightData-&gt;size(); ++i)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            _lightArray.push_back(((ospray::Light**)_lightData-&gt;data)[i]-&gt;getIE());</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    _bgMaterial = (<a class="code" href="../../db/dd9/structcore_1_1AdvancedMaterial.html">AdvancedMaterial</a>*)getParamObject(<span class="stringliteral">&quot;bgMaterial&quot;</span>, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    _lightPtr = _lightArray.empty() ? nullptr : &amp;_lightArray[0];</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    _useHardwareRandomizer = getParam(<span class="stringliteral">&quot;useHardwareRandomizer&quot;</span>, 0);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    _bgMaterial = (<a class="code" href="../../db/dd9/structcore_1_1AdvancedMaterial.html">AdvancedMaterial</a>*)getParamObject(<span class="stringliteral">&quot;bgMaterial&quot;</span>, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    _exposure = getParam1f(<span class="stringliteral">&quot;mainExposure&quot;</span>, 1.f);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    _randomNumber = getParam1i(<span class="stringliteral">&quot;randomNumber&quot;</span>, 0);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    _timestamp = getParam1f(<span class="stringliteral">&quot;timestamp&quot;</span>, 0.f);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="comment">// Sampling</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    _minRayStep = getParam1f(<span class="stringliteral">&quot;minRayStep&quot;</span>, 0.1f);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    _nbRaySteps = getParam1i(<span class="stringliteral">&quot;nbRaySteps&quot;</span>, 8);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    _nbRayRefinementSteps = getParam1i(<span class="stringliteral">&quot;nbRayRefinementSteps&quot;</span>, 8);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    _alphaCorrection = getParam1f(<span class="stringliteral">&quot;alphaCorrection&quot;</span>, 1.0f);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="comment">// Extra</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    _cutoff = getParam1f(<span class="stringliteral">&quot;cutoff&quot;</span>, 1.f);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">// Octree</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    _userData = getParamData(<span class="stringliteral">&quot;simulationData&quot;</span>);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    _userDataSize = _userData ? _userData-&gt;size() : 0;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="comment">// Transfer function</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    ospray::TransferFunction* transferFunction = (ospray::TransferFunction*)getParamObject(<span class="stringliteral">&quot;transferFunction&quot;</span>, <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">if</span> (transferFunction)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        ispc::FieldsRenderer_setTransferFunction(getIE(), transferFunction-&gt;getIE());</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">// Renderer</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    ispc::FieldsRenderer_set(getIE(), (_bgMaterial ? _bgMaterial-&gt;getIE() : <span class="keyword">nullptr</span>),</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                             (_userData ? (<span class="keywordtype">float</span>*)_userData-&gt;data : <span class="keyword">nullptr</span>), _userDataSize, _randomNumber, _timestamp,</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                             spp, _lightPtr, _lightArray.size(), _minRayStep, _nbRaySteps, _nbRayRefinementSteps,</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                             _exposure, _useHardwareRandomizer, _cutoff, _alphaCorrection);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="../../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html#ad83c6f06b14a267800724cf063c1798a">   84</a></span>&#160;<a class="code" href="../../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html#ad83c6f06b14a267800724cf063c1798a">FieldsRenderer::FieldsRenderer</a>()</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;{</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    ispcEquivalent = ispc::FieldsRenderer_create(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="../../d7/dee/namespacebioexplorer_1_1rendering.html#a05f60d7e70016f07362b3feef277d94e">   89</a></span>&#160;<a class="code" href="../../d7/dee/namespacebioexplorer_1_1rendering.html#ab7b46dfbbda7f23be8ff8178aa267523">OSP_REGISTER_RENDERER</a>(<a class="code" href="../../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html">FieldsRenderer</a>, bio_explorer_fields);</div>
-<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="../../d7/dee/namespacebioexplorer_1_1rendering.html#a454240df93c0a11c0851bd983bd00889">   90</a></span>&#160;<a class="code" href="../../d7/dee/namespacebioexplorer_1_1rendering.html#ac12d3e251ecfbd885893bfc1bcb4ebdc">OSP_REGISTER_MATERIAL</a>(bio_explorer_fields, <a class="code" href="../../db/dd9/structcore_1_1AdvancedMaterial.html">AdvancedMaterial</a>, <span class="keywordflow">default</span>);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;} <span class="comment">// namespace rendering</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    _useHardwareRandomizer = getParam(<span class="stringliteral">&quot;useHardwareRandomizer&quot;</span>, 0);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    _exposure = getParam1f(<span class="stringliteral">&quot;mainExposure&quot;</span>, 1.f);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    _randomNumber = getParam1i(<span class="stringliteral">&quot;randomNumber&quot;</span>, 0);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    _timestamp = getParam1f(<span class="stringliteral">&quot;timestamp&quot;</span>, 0.f);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="comment">// Sampling</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    _minRayStep = getParam1f(<span class="stringliteral">&quot;minRayStep&quot;</span>, 0.1f);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    _nbRaySteps = getParam1i(<span class="stringliteral">&quot;nbRaySteps&quot;</span>, 8);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    _nbRayRefinementSteps = getParam1i(<span class="stringliteral">&quot;nbRayRefinementSteps&quot;</span>, 8);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    _alphaCorrection = getParam1f(<span class="stringliteral">&quot;alphaCorrection&quot;</span>, 1.0f);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment">// Extra</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    _cutoff = getParam1f(<span class="stringliteral">&quot;cutoff&quot;</span>, 1.f);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment">// Octree</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    _userData = getParamData(<span class="stringliteral">&quot;simulationData&quot;</span>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    _userDataSize = _userData ? _userData-&gt;size() : 0;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="comment">// Transfer function</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    ospray::TransferFunction* transferFunction = (ospray::TransferFunction*)getParamObject(<span class="stringliteral">&quot;transferFunction&quot;</span>, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">if</span> (transferFunction)</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        ispc::FieldsRenderer_setTransferFunction(getIE(), transferFunction-&gt;getIE());</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="comment">// Renderer</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    ispc::FieldsRenderer_set(getIE(), (_bgMaterial ? _bgMaterial-&gt;getIE() : <span class="keyword">nullptr</span>),</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                             (_userData ? (<span class="keywordtype">float</span>*)_userData-&gt;data : <span class="keyword">nullptr</span>), _userDataSize, _randomNumber, _timestamp,</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                             spp, _lightPtr, _lightArray.size(), _minRayStep, _nbRaySteps, _nbRayRefinementSteps,</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                             _exposure, _useHardwareRandomizer, _cutoff, _alphaCorrection);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="../../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html#ad83c6f06b14a267800724cf063c1798a">   86</a></span>&#160;FieldsRenderer::FieldsRenderer()</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;{</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    ispcEquivalent = ispc::FieldsRenderer_create(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="../../d7/dee/namespacebioexplorer_1_1rendering.html#a05f60d7e70016f07362b3feef277d94e">   91</a></span>&#160;<a class="code" href="../../d9/d0f/namespacecore.html#a4f9cfbb636d52fd19b7d040996385a7e">OSP_REGISTER_RENDERER</a>(<a class="code" href="../../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html">FieldsRenderer</a>, bio_explorer_fields);</div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="../../d7/dee/namespacebioexplorer_1_1rendering.html#a454240df93c0a11c0851bd983bd00889">   92</a></span>&#160;<a class="code" href="../../d9/d0f/namespacecore.html#a5216d57159d8f310efe3de69a8064bba">OSP_REGISTER_MATERIAL</a>(bio_explorer_fields, <a class="code" href="../../db/dd9/structcore_1_1AdvancedMaterial.html">AdvancedMaterial</a>, <span class="keywordflow">default</span>);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;} <span class="comment">// namespace rendering</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 <div class="ttc" id="aFieldsRenderer_8h_html"><div class="ttname"><a href="../../da/d33/FieldsRenderer_8h.html">FieldsRenderer.h</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1FieldsRenderer_html"><div class="ttname"><a href="../../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html">bioexplorer::rendering::FieldsRenderer</a></div><div class="ttdoc">The FieldsRenderer class allows visualization of magnetic fields created by atoms in the 3D scene....</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d33/FieldsRenderer_8h_source.html#l00046">FieldsRenderer.h:47</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1FieldsRenderer_html_aa02d4cdf73eae3f8aef11bfd13cab8b5"><div class="ttname"><a href="../../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html#aa02d4cdf73eae3f8aef11bfd13cab8b5">bioexplorer::rendering::FieldsRenderer::commit</a></div><div class="ttdeci">void commit() final</div><div class="ttdoc">Commit the changes to the OSPRay engine.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d15/FieldsRenderer_8cpp_source.html#l00038">FieldsRenderer.cpp:38</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1FieldsRenderer_html_ad83c6f06b14a267800724cf063c1798a"><div class="ttname"><a href="../../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html#ad83c6f06b14a267800724cf063c1798a">bioexplorer::rendering::FieldsRenderer::FieldsRenderer</a></div><div class="ttdeci">FieldsRenderer()</div><div class="ttdoc">Construct a new Bio Explorer Fields Renderer object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d15/FieldsRenderer_8cpp_source.html#l00084">FieldsRenderer.cpp:84</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1rendering_1_1FieldsRenderer_html"><div class="ttname"><a href="../../de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html">bioexplorer::rendering::FieldsRenderer</a></div><div class="ttdoc">The FieldsRenderer class allows visualization of magnetic fields created by atoms in the 3D scene....</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d33/FieldsRenderer_8h_source.html#l00043">FieldsRenderer.h:44</a></div></div>
 <div class="ttc" id="aclasscore_1_1Renderer_html_ac0d33c18f79cd470968ce4216483f598"><div class="ttname"><a href="../../dd/d5b/classcore_1_1Renderer.html#ac0d33c18f79cd470968ce4216483f598">core::Renderer::commit</a></div><div class="ttdeci">virtual void commit()=0</div><div class="ttdoc">This virtual method is implemented in specific engine renderers to signal that rendering is complete.</div></div>
-<div class="ttc" id="anamespacebioexplorer_1_1rendering_html_ab7b46dfbbda7f23be8ff8178aa267523"><div class="ttname"><a href="../../d7/dee/namespacebioexplorer_1_1rendering.html#ab7b46dfbbda7f23be8ff8178aa267523">bioexplorer::rendering::OSP_REGISTER_RENDERER</a></div><div class="ttdeci">OSP_REGISTER_RENDERER(GolgiStyleRenderer, bio_explorer_golgi_style)</div></div>
-<div class="ttc" id="anamespacebioexplorer_1_1rendering_html_ac12d3e251ecfbd885893bfc1bcb4ebdc"><div class="ttname"><a href="../../d7/dee/namespacebioexplorer_1_1rendering.html#ac12d3e251ecfbd885893bfc1bcb4ebdc">bioexplorer::rendering::OSP_REGISTER_MATERIAL</a></div><div class="ttdeci">OSP_REGISTER_MATERIAL(bio_explorer_golgi_style, AdvancedMaterial, default)</div></div>
 <div class="ttc" id="anamespacebioexplorer_html"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/platform_2plugins_2openDeck_2plugin_2common_2Logs_8h_source.html#l00028">Logs.h:29</a></div></div>
+<div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00055">BaseWindow.cpp:56</a></div></div>
+<div class="ttc" id="anamespacecore_html_a4f9cfbb636d52fd19b7d040996385a7e"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a4f9cfbb636d52fd19b7d040996385a7e">core::OSP_REGISTER_RENDERER</a></div><div class="ttdeci">OSP_REGISTER_RENDERER(AdvancedRenderer, advanced)</div></div>
+<div class="ttc" id="anamespacecore_html_a5216d57159d8f310efe3de69a8064bba"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a5216d57159d8f310efe3de69a8064bba">core::OSP_REGISTER_MATERIAL</a></div><div class="ttdeci">OSP_REGISTER_MATERIAL(basic, AdvancedMaterial, default)</div></div>
 <div class="ttc" id="astructcore_1_1AdvancedMaterial_html"><div class="ttname"><a href="../../db/dd9/structcore_1_1AdvancedMaterial.html">core::AdvancedMaterial</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/de1/AdvancedMaterial_8h_source.html#l00038">AdvancedMaterial.h:39</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
