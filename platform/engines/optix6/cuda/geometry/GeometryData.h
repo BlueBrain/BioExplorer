@@ -170,6 +170,15 @@ struct GeometryData
         float2 valueRange;
     };
 
+    struct StreamLines
+    {
+        float radius;
+        BufferView<float4> vertex;
+        int32 numVertices;
+        BufferView<uint32> index;
+        BufferView<float4> color;
+    };
+
     Type type;
 
     union
@@ -180,6 +189,7 @@ struct GeometryData
         Cone cone;
         Curves curves;
         Volume volume;
+        StreamLines streamLines;
     };
 };
 

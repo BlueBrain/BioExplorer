@@ -48,6 +48,7 @@ set(${NAME}_CU
   cuda/geometry/Spheres.cu
   cuda/geometry/TriangleMesh.cu
   cuda/geometry/Volumes.cu
+  cuda/geometry/Streamlines.cu
   cuda/renderer/Basic.cu
   cuda/renderer/Advanced.cu
 )

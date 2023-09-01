@@ -418,25 +418,6 @@ bool rayBoxIntersection(const Vector3d& origin, const Vector3d& direction, const
     return (tmin < t1 && tmax > t0);
 }
 
-Vector4f getBezierPoint(const Vector4fs& controlPoints, const double t)
-{
-    if (t < 0.0 || t > 1.0)
-        PLUGIN_THROW("Invalid value with t=" + std::to_string(t) + ". Must be between 0 and 1");
-    const uint64_t nbControlPoints = controlPoints.size();
-    // 3D points
-    Vector3fs points;
-    points.reserve(nbControlPoints);
-    for (const auto& controlPoint : controlPoints)
-        points.push_back({controlPoint.x, controlPoint.y, controlPoint.z});
-    for (int64_t i = nbControlPoints - 1; i >= 0; --i)
-        for (uint64_t j = 0; j < i; ++j)
-            points[j] += t * (points[j + 1] - points[j]);
-
-    // Radius
-    const double radius = controlPoints[floor(t * double(nbControlPoints))].w;
-    return Vector4f(points[0].x, points[0].y, points[0].z, radius);
-}
-
 double sphereVolume(const double radius)
 {
     return 4.0 * M_PI * pow(radius, 3) / 3.0;

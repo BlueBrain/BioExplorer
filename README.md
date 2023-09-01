@@ -252,7 +252,9 @@ In the context of brain simulation, detecting touches between neurons is a essen
 
 When a ray hits a geometry, a random secondary ray is sent in a direction belonging to an hemisphere defined by the normal to the surface. If that secondary ray hits another geometry, the distance between the initial hit and the new intersection is computed, and the corresponding color is assigned to the pixel. By default, red is for short distances (including touches), and green for longer ones. The notion of short and long is defined in the settings of the renderer.
 
-### White matter
+### White matter and tractography
+
+#### White matter
 
 White matter is composed of bundles, which connect various grey matter areas (the locations of nerve cell bodies) of the brain to each other, and carry nerve impulses between neurons. Myelin acts as an insulator, which allows electrical signals to jump, rather than coursing through the axon, increasing the speed of transmission of all nerve signals.
 
@@ -277,6 +279,30 @@ The white matter feature contributed to generating images for the [null model of
       </a>
 </div>
 
+##### Tractography
+
+Tractography is a neuroimaging technique used in the field of neuroscience and medical imaging to visualize and study the white matter pathways in the human brain. White matter consists of bundles of nerve fibers (axons) that connect different regions of the brain and enable communication between them. Tractography helps researchers and clinicians map and understand these complex neural pathways.
+
+The basic principle of tractography involves tracking the diffusion of water molecules in brain tissue. This technique is often referred to as diffusion-weighted magnetic resonance imaging (DW-MRI) or diffusion tensor imaging (DTI). Here's how it works:
+
+1. Diffusion of Water Molecules: Water molecules in brain tissue naturally diffuse in a preferred direction along the axonal fibers in white matter. This diffusion is hindered by cellular structures, membranes, and myelin sheaths surrounding axons.
+
+2. Imaging Process: During a DW-MRI scan, multiple images are acquired with different gradients of magnetic fields, which allows for the measurement of water diffusion in multiple directions within each voxel (3D pixel) of the brain.
+
+3. Data Analysis: The data from DW-MRI is processed to calculate a diffusion tensor, which provides information about the direction and magnitude of water diffusion in each voxel. From this information, researchers can infer the orientation of axonal fibers in that region.
+
+4. Tractography Reconstruction: Tractography algorithms use the diffusion tensor information to reconstruct and visualize the trajectories of white matter pathways throughout the brain. This results in colorful images and 3D representations that show the connections between different brain regions.
+
+Tractography has numerous applications in neuroscience and clinical practice. Researchers use it to study brain connectivity, understand the organization of neural circuits, and investigate neurological disorders. In the clinical setting, tractography can help surgeons plan brain surgeries, evaluate the extent of brain lesions, and assess the impact of brain injuries or diseases on white matter pathways. It has also been used to study conditions like Alzheimer's disease, multiple sclerosis, and stroke.
+
+Different variations of tractography algorithms have been developed to improve the accuracy of tracking neural pathways, such as deterministic tractography and probabilistic tractography. Overall, tractography is a valuable tool for advancing our understanding of brain structure and function.
+
+![___](./bioexplorer/pythonsdk/doc/source/images/tractography.png)
+
+A [Python notebook example](./bioexplorer/pythonsdk/notebooks/tractography/BioExplorer_ISMRM_2015_Tracto_challenge_ground_truth_bundles_TRK_v2.ipynb) demonstrates how to download streamlines from the [Tractography Challenge ISMRM 2015](https://zenodo.org/record/572345) dataset and visualize them in the _BBBE_.
+
+References:
+* [Tractography Challenge ISMRM 2015](https://zenodo.org/record/572345)
 
 ### Enzyme reactions
 
