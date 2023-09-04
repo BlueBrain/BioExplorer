@@ -60,7 +60,7 @@ bool from_json(bioexplorer::details::EnzymeReactionProgressDetails &param, const
 // Other elements
 bool from_json(bioexplorer::details::AddGridDetails &param, const std::string &payload);
 bool from_json(bioexplorer::details::AddSpheresDetails &param, const std::string &payload);
-bool from_json(bioexplorer::details::AddConeDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::AddConesDetails &param, const std::string &payload);
 bool from_json(bioexplorer::details::AddBoundingBoxDetails &param, const std::string &payload);
 bool from_json(bioexplorer::details::AddBoxDetails &param, const std::string &payload);
 bool from_json(bioexplorer::details::AddStreamlinesDetails &param, const std::string &payload);

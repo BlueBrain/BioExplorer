@@ -2872,13 +2872,13 @@ class BioExplorer:
         params["opacity"] = opacity
         return self._invoke_and_check("add-spheres", params)
 
-    def add_cone(
+    def add_cones(
         self,
         name,
-        origin,
-        target,
-        origin_radius,
-        target_radius,
+        origins,
+        targets,
+        origins_radii,
+        targets_radii,
         color=Vector3(1.0, 1.0, 1.0),
         opacity=1.0,
     ):
@@ -2886,29 +2886,44 @@ class BioExplorer:
         Add a cone to the scene
 
         :name: Name of the cone
-        :origin: Origin of the cone
-        :target: Target of the cone
-        :origin_radius: Origin radius of the cone
-        :target_radius: target radius of the cone
+        :origins: Origins of the cone
+        :targets: Targets of the cone
+        :origins_radii: Origin radii of the cones
+        :targets_radii: target radii of the cones
         :color: RGB Color of the cone (0..1)
         :return: Result of the request submission
         """
         if self._client is None:
             return
 
-        assert isinstance(origin, Vector3)
-        assert isinstance(target, Vector3)
+        assert isinstance(origins, list)
+        assert isinstance(targets, list)
+        assert isinstance(origins_radii, list)
+        assert isinstance(targets_radii, list)
         assert isinstance(color, Vector3)
+        assert isinstance(opacity, float)
+
+        origins_as_floats = list()
+        for origin in origins:
+            origins_as_floats.append(origin.x)
+            origins_as_floats.append(origin.y)
+            origins_as_floats.append(origin.z)
+
+        targets_as_floats = list()
+        for target in targets:
+            targets_as_floats.append(target.x)
+            targets_as_floats.append(target.y)
+            targets_as_floats.append(target.z)
 
         params = dict()
         params["name"] = name
-        params["origin"] = origin.to_list()
-        params["target"] = target.to_list()
-        params["originRadius"] = origin_radius
-        params["targetRadius"] = target_radius
+        params["origins"] = origins_as_floats
+        params["targets"] = targets_as_floats
+        params["originsRadii"] = origins_radii
+        params["targetsRadii"] = targets_radii
         params["color"] = color.to_list()
         params["opacity"] = opacity
-        return self._invoke_and_check("add-cone", params)
+        return self._invoke_and_check("add-cones", params)
 
     def add_sdf_demo(self):
         """

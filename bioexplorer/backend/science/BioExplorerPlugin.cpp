@@ -353,10 +353,10 @@ void BioExplorerPlugin::init()
         actionInterface->registerRequest<AddSpheresDetails, Response>(endPoint, [&](const AddSpheresDetails &payload)
                                                                       { return _addSpheres(payload); });
 
-        endPoint = PLUGIN_API_PREFIX + "add-cone";
+        endPoint = PLUGIN_API_PREFIX + "add-cones";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        actionInterface->registerRequest<AddConeDetails, Response>(endPoint, [&](const AddConeDetails &payload)
-                                                                   { return _addCone(payload); });
+        actionInterface->registerRequest<AddConesDetails, Response>(endPoint, [&](const AddConesDetails &payload)
+                                                                    { return _addCones(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "add-bounding-box";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
@@ -1228,15 +1228,21 @@ Response BioExplorerPlugin::_addSpheres(const AddSpheresDetails &payload)
     return response;
 }
 
-Response BioExplorerPlugin::_addCone(const AddConeDetails &payload)
+Response BioExplorerPlugin::_addCones(const AddConesDetails &payload)
 {
     Response response;
     try
     {
-        if (payload.origin.size() != 3)
+        if (payload.origins.size() != payload.targets.size())
+            PLUGIN_THROW("Invalid number of origins vs targets");
+        if (payload.origins.size() % 3 != 0)
             PLUGIN_THROW("Invalid number of double for origin");
-        if (payload.target.size() != 3)
+        if (payload.targets.size() % 3 != 0)
             PLUGIN_THROW("Invalid number of double for target");
+        if (payload.origins.size() / 3 != payload.originsRadii.size())
+            PLUGIN_THROW("Invalid number of origin radii");
+        if (payload.targets.size() / 3 != payload.targetsRadii.size())
+            PLUGIN_THROW("Invalid number of origin radii");
         if (payload.color.size() != 3)
             PLUGIN_THROW("Invalid number of double for color");
 
@@ -1244,20 +1250,25 @@ Response BioExplorerPlugin::_addCone(const AddConeDetails &payload)
         auto model = scene.createModel();
 
         const auto color = doublesToVector3d(payload.color);
-        const auto origin = doublesToVector3d(payload.origin);
-        const auto target = doublesToVector3d(payload.target);
+        const auto &origins = payload.origins;
+        const auto &targets = payload.targets;
 
-        auto material = model->createMaterial(0, "Cone");
+        auto material = model->createMaterial(0, "Cones");
         material->setDiffuseColor(color);
         material->setOpacity(payload.opacity);
 
-        PLUGIN_INFO(3, "Adding cone " + payload.name + " to the scene");
-
-        if (payload.originRadius == payload.targetRadius)
-            model->addCylinder(0, {origin, target, static_cast<float>(payload.originRadius)});
-        else
-            model->addCone(0, {origin, target, static_cast<float>(payload.originRadius),
-                               static_cast<float>(payload.targetRadius)});
+        PLUGIN_INFO(3, "Adding cones " + payload.name + " to the scene");
+        for (uint64_t i = 0; i < payload.originsRadii.size(); ++i)
+        {
+            const auto origin = Vector3d(origins[i * 3], origins[i * 3 + 1], origins[i * 3 + 2]);
+            const auto target = Vector3d(targets[i * 3], targets[i * 3 + 1], targets[i * 3 + 2]);
+            const auto originRadius = payload.originsRadii[i];
+            const auto targetRadius = payload.targetsRadii[i];
+            if (originRadius == targetRadius)
+                model->addCylinder(0, {origin, target, static_cast<float>(originRadius)});
+            else
+                model->addCone(0, {origin, target, static_cast<float>(originRadius), static_cast<float>(targetRadius)});
+        }
         scene.addModel(std::make_shared<ModelDescriptor>(std::move(model), payload.name));
     }
     CATCH_STD_EXCEPTION()

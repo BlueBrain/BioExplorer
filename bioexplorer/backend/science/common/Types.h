@@ -940,21 +940,21 @@ typedef struct
  */
 typedef struct
 {
-    /** Name of the cone */
+    /** Name of the cones */
     std::string name;
     /** Origin of the cone in the scene */
-    doubles origin;
+    doubles origins;
     /** Target of the cone in the scene */
-    doubles target;
-    /** Origin radius of the cone */
-    double originRadius{1.0};
-    /** Target radius of the cone */
-    double targetRadius{1.0};
+    doubles targets;
+    /** Origin radii of the cones */
+    doubles originsRadii;
+    /** Target radii of the cones */
+    doubles targetsRadii;
     /** RGB Color of the cone */
     doubles color{1.0, 1.0, 1.0};
     /** Opacity */
     double opacity;
-} AddConeDetails;
+} AddConesDetails;
 
 /**
  * @brief Defines the parameters needed when adding bounding box to the scene

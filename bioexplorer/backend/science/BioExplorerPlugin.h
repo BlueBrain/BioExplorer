@@ -90,7 +90,7 @@ private:
     // Other elements
     details::Response _addGrid(const details::AddGridDetails &payload);
     details::Response _addSpheres(const details::AddSpheresDetails &payload);
-    details::Response _addCone(const details::AddConeDetails &payload);
+    details::Response _addCones(const details::AddConesDetails &payload);
     details::Response _addBoundingBox(const details::AddBoundingBoxDetails &payload);
     details::Response _addBox(const details::AddBoxDetails &payload);
     details::Response _addStreamlines(const details::AddStreamlinesDetails &payload);
