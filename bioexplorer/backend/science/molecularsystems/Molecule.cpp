@@ -294,12 +294,8 @@ void Molecule::_buildModel(const std::string& assemblyName, const std::string& n
             if (it != atomColorMap.end())
                 rgb = (*it).second;
 
-            core::PropertyMap props;
-            props.setProperty(
-                {MATERIAL_PROPERTY_CHAMELEON_MODE, static_cast<int>(MaterialChameleonMode::undefined_chameleon_mode)});
-            props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
+            material->setNodeId(_uuid);
             material->setDiffuseColor({rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0});
-            material->updateProperties(props);
         }
 
         _modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), name, header, metadata);
@@ -355,10 +351,9 @@ void Molecule::_buildModel(const std::string& assemblyName, const std::string& n
                 rgb = (*it).second;
 
             core::PropertyMap props;
-            props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, static_cast<int>(MaterialChameleonMode::emitter)});
-            props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
+            material->setChameleonMode(MaterialChameleonMode::emitter);
+            material->setNodeId(_uuid);
             material->setDiffuseColor({rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0});
-            material->updateProperties(props);
         }
         break;
     }

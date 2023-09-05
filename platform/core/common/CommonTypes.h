@@ -49,8 +49,6 @@
 #define MATERIAL_PROPERTY_CLIPPING_MODE "clipping_mode"
 #define MATERIAL_PROPERTY_CHAMELEON_MODE "chameleon_mode"
 #define MATERIAL_PROPERTY_NODE_ID "node_id"
-#define MATERIAL_PROPERTY_SKYBOX "skybox"
-#define MATERIAL_PROPERTY_APPLY_SIMULATION "apply_simulation"
 
 enum CameraStereoMode
 {

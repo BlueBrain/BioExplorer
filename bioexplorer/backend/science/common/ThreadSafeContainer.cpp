@@ -180,16 +180,7 @@ void ThreadSafeContainer::_finalizeSDFGeometries()
 void ThreadSafeContainer::_commitMaterials()
 {
     for (const auto materialId : _materialIds)
-    {
-        Vector3f color{1.f, 1.f, 1.f};
-        auto material = _model.createMaterial(materialId, std::to_string(materialId));
-
-        material->setDiffuseColor(color);
-        material->setSpecularColor(color);
-        material->setSpecularExponent(100.f);
-        material->setShadingMode(MaterialShadingMode::undefined_shading_mode);
-        material->setUserParameter(1.f);
-    }
+        _model.createMaterial(materialId, std::to_string(materialId));
 }
 
 void ThreadSafeContainer::_commitSpheresToModel()

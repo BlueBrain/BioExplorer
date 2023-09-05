@@ -590,14 +590,6 @@ void AbstractCircuitLoader::_importMeshes(const PropertyMap &properties, Model &
         ++meshIndex;
         callback.updateProgress("Loading cells as meshes...", (float)meshIndex / (float)gids.size());
     }
-    // Add custom properties to materials
-    for (auto &material : model.getMaterials())
-    {
-        PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_CAST_USER_DATA, true});
-        props.setProperty({MATERIAL_PROPERTY_CLIPPING_MODE, static_cast<int>(MaterialClippingMode::no_clipping)});
-        material.second->setProperties(props);
-    }
 }
 #else
 void AbstractCircuitLoader::_importMeshes(const PropertyMap & /*props*/, Model & /*model*/,

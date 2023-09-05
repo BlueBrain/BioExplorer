@@ -189,12 +189,11 @@ ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer, const in
 
         int32_t chameleonMode;
         buffer.read((char*)&chameleonMode, sizeof(int32_t));
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, chameleonMode});
+        material->setChameleonMode(static_cast<MaterialChameleonMode>(chameleonMode));
 
         int32_t nodeId;
         buffer.read((char*)&nodeId, sizeof(int32_t));
-        props.setProperty({MATERIAL_PROPERTY_NODE_ID, nodeId});
-        material->updateProperties(props);
+        material->setNodeId(nodeId);
     }
 
     uint64_t bufferSize{0};
@@ -547,7 +546,7 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor, std::st
         int32_t chameleonMode = MaterialChameleonMode::undefined_chameleon_mode;
         try
         {
-            shadingMode = material.second->getProperty<int32_t>(MATERIAL_PROPERTY_CHAMELEON_MODE);
+            shadingMode = material.second->getChameleonMode();
         }
         catch (const std::runtime_error&)
         {
@@ -557,7 +556,7 @@ bool CacheLoader::_exportModel(const ModelDescriptorPtr modelDescriptor, std::st
         int32_t nodeId = 0;
         try
         {
-            shadingMode = material.second->getProperty<int32_t>(MATERIAL_PROPERTY_NODE_ID);
+            shadingMode = material.second->getNodeId();
         }
         catch (const std::runtime_error&)
         {
