@@ -1,6 +1,5 @@
 var namespacebioexplorer_1_1details =
 [
-    [ "RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails" ],
     [ "Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", "d6/d45/structbioexplorer_1_1details_1_1Response" ],
     [ "FocusOnDetails", "d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html", "d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails" ],
     [ "GeneralSettingsDetails", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails" ],
@@ -44,7 +43,6 @@ var namespacebioexplorer_1_1details =
     [ "VasculatureDetails", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails" ],
     [ "VasculatureReportDetails", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails" ],
     [ "VasculatureRadiusReportDetails", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails" ],
-    [ "CellAnimationDetails", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails" ],
     [ "AstrocytesDetails", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails" ],
     [ "NeuronsDetails", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails" ],
     [ "NeuronIdSectionIdDetails", "d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails.html", "d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails" ],
@@ -56,7 +54,7 @@ var namespacebioexplorer_1_1details =
     [ "SynapsesDetails", "d5/ddf/structbioexplorer_1_1details_1_1SynapsesDetails.html", "d5/ddf/structbioexplorer_1_1details_1_1SynapsesDetails" ],
     [ "SynapseEfficacyDetails", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails" ],
     [ "SpikeReportVisualizationSettingsDetails", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails.html", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails" ],
-    [ "RGBColorDetailsMap", "d0/d1f/namespacebioexplorer_1_1details.html#a2f087258407865ba2ac80139c497594a", null ],
+    [ "CellAnimationDetails", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails" ],
     [ "AssemblyShape", "d0/d1f/namespacebioexplorer_1_1details.html#af608e48ca83174d68456a1069a6f07a1", [
       [ "point", "d0/d1f/namespacebioexplorer_1_1details.html#af608e48ca83174d68456a1069a6f07a1a78ee54aa8f813885fe2fe20d232518b9", null ],
       [ "empty_sphere", "d0/d1f/namespacebioexplorer_1_1details.html#af608e48ca83174d68456a1069a6f07a1a4cfc023d382f7ad28cfa60a9413b3ec8", null ],
@@ -70,38 +68,9 @@ var namespacebioexplorer_1_1details =
       [ "filled_sphere", "d0/d1f/namespacebioexplorer_1_1details.html#af608e48ca83174d68456a1069a6f07a1ad3b67e8d138b210c1e4d61e66aa71aa8", null ],
       [ "spherical_cell_diffusion", "d0/d1f/namespacebioexplorer_1_1details.html#af608e48ca83174d68456a1069a6f07a1a1a17967c0c81fda300710f04d41f36d9", null ]
     ] ],
-    [ "MicroDomainRepresentation", "d0/d1f/namespacebioexplorer_1_1details.html#a1220c2e0e68cbe43cf955085c44b3fba", [
-      [ "mesh", "d0/d1f/namespacebioexplorer_1_1details.html#a1220c2e0e68cbe43cf955085c44b3fbaa09bc81c3aa886b690f84c5aba4109e20", null ],
-      [ "convex_hull", "d0/d1f/namespacebioexplorer_1_1details.html#a1220c2e0e68cbe43cf955085c44b3fbaa347e88bd5b22530d122b5287b14ab329", null ],
-      [ "surface", "d0/d1f/namespacebioexplorer_1_1details.html#a1220c2e0e68cbe43cf955085c44b3fbaad302e976c9dd527a9521a88c012437c5", null ]
-    ] ],
     [ "ModelLoadingTransactionAction", "d0/d1f/namespacebioexplorer_1_1details.html#a6081315452c4678b4b7094086bc85b11", [
       [ "start", "d0/d1f/namespacebioexplorer_1_1details.html#a6081315452c4678b4b7094086bc85b11aea2b2676c28c0db26d39331a336c6b92", null ],
       [ "commit", "d0/d1f/namespacebioexplorer_1_1details.html#a6081315452c4678b4b7094086bc85b11afffca4d67ea0a788813031b8bbc3b329", null ]
-    ] ],
-    [ "MorphologyColorScheme", "d0/d1f/namespacebioexplorer_1_1details.html#a1388bb8d13375384654597c4b08280f2", [
-      [ "none", "d0/d1f/namespacebioexplorer_1_1details.html#a1388bb8d13375384654597c4b08280f2a334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
-      [ "section_type", "d0/d1f/namespacebioexplorer_1_1details.html#a1388bb8d13375384654597c4b08280f2a20c86a5b1db0b50a86ac8957d072666b", null ],
-      [ "section_orientation", "d0/d1f/namespacebioexplorer_1_1details.html#a1388bb8d13375384654597c4b08280f2a0145672d8d7524ce08243e73f26fb560", null ],
-      [ "distance_to_soma", "d0/d1f/namespacebioexplorer_1_1details.html#a1388bb8d13375384654597c4b08280f2a3332ad1d462461e9305526d3caf2647f", null ]
-    ] ],
-    [ "MorphologyRealismLevel", "d0/d1f/namespacebioexplorer_1_1details.html#a2dd16db6d1606b87fa6f86259a6d60cc", [
-      [ "none", "d0/d1f/namespacebioexplorer_1_1details.html#a2dd16db6d1606b87fa6f86259a6d60cca334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
-      [ "soma", "d0/d1f/namespacebioexplorer_1_1details.html#a2dd16db6d1606b87fa6f86259a6d60cca15a00ab33070d69d3ec3f03a9222034b", null ],
-      [ "axon", "d0/d1f/namespacebioexplorer_1_1details.html#a2dd16db6d1606b87fa6f86259a6d60cca805757c5974a71270fa9f9133a54d065", null ],
-      [ "dendrite", "d0/d1f/namespacebioexplorer_1_1details.html#a2dd16db6d1606b87fa6f86259a6d60cca45c27ebae6394fc0597ff696a4a1bc51", null ],
-      [ "internals", "d0/d1f/namespacebioexplorer_1_1details.html#a2dd16db6d1606b87fa6f86259a6d60cca2007fad87c5e530deecda769e08fab2b", null ],
-      [ "externals", "d0/d1f/namespacebioexplorer_1_1details.html#a2dd16db6d1606b87fa6f86259a6d60cca0bf849c9eb83323c8ed98542aa0968a6", null ],
-      [ "spine", "d0/d1f/namespacebioexplorer_1_1details.html#a2dd16db6d1606b87fa6f86259a6d60ccaa35ecf344c66770b2ba0f0e913747072", null ],
-      [ "end_foot", "d0/d1f/namespacebioexplorer_1_1details.html#a2dd16db6d1606b87fa6f86259a6d60cca6de5585ab830cda2a19414f05ca01faf", null ],
-      [ "all", "d0/d1f/namespacebioexplorer_1_1details.html#a2dd16db6d1606b87fa6f86259a6d60ccaa181a603769c1f98ad927e7367c7aa51", null ]
-    ] ],
-    [ "MorphologyRepresentation", "d0/d1f/namespacebioexplorer_1_1details.html#a90131e60544ba72eb568da48ad96bddf", [
-      [ "graph", "d0/d1f/namespacebioexplorer_1_1details.html#a90131e60544ba72eb568da48ad96bddfaf8b0b924ebd7046dbfa85a856e4682c8", null ],
-      [ "section", "d0/d1f/namespacebioexplorer_1_1details.html#a90131e60544ba72eb568da48ad96bddfa73d5342eba070f636ac3246f319bf77f", null ],
-      [ "segment", "d0/d1f/namespacebioexplorer_1_1details.html#a90131e60544ba72eb568da48ad96bddfafdd32b9061681edb52c554bd9bbf0712", null ],
-      [ "orientation", "d0/d1f/namespacebioexplorer_1_1details.html#a90131e60544ba72eb568da48ad96bddfada1639422ad8f355d2371428471379b5", null ],
-      [ "bezier", "d0/d1f/namespacebioexplorer_1_1details.html#a90131e60544ba72eb568da48ad96bddfab4f49419e540cdfc505f0af52fe7524a", null ]
     ] ],
     [ "NeuronSectionType", "d0/d1f/namespacebioexplorer_1_1details.html#adcbca927ea217f070e26a63410ff8c50", [
       [ "undefined", "d0/d1f/namespacebioexplorer_1_1details.html#adcbca927ea217f070e26a63410ff8c50a5e543256c480ac577d30f76f9120eb74", null ],
@@ -109,10 +78,6 @@ var namespacebioexplorer_1_1details =
       [ "axon", "d0/d1f/namespacebioexplorer_1_1details.html#adcbca927ea217f070e26a63410ff8c50a805757c5974a71270fa9f9133a54d065", null ],
       [ "basal_dendrite", "d0/d1f/namespacebioexplorer_1_1details.html#adcbca927ea217f070e26a63410ff8c50a6ffcc904d7c4481cea1f5d39e70dde1c", null ],
       [ "apical_dendrite", "d0/d1f/namespacebioexplorer_1_1details.html#adcbca927ea217f070e26a63410ff8c50a4605296fe6c11f08d597ce5a87fa12e1", null ]
-    ] ],
-    [ "PopulationColorScheme", "d0/d1f/namespacebioexplorer_1_1details.html#a3a663e8593f9088b1ea580375463faf8", [
-      [ "none", "d0/d1f/namespacebioexplorer_1_1details.html#a3a663e8593f9088b1ea580375463faf8a334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
-      [ "id", "d0/d1f/namespacebioexplorer_1_1details.html#a3a663e8593f9088b1ea580375463faf8ab80bb7740288fda1f201890375a60c8f", null ]
     ] ],
     [ "ProteinColorScheme", "d0/d1f/namespacebioexplorer_1_1details.html#af28a3218771336f388f499dad4cca5ef", [
       [ "none", "d0/d1f/namespacebioexplorer_1_1details.html#af28a3218771336f388f499dad4cca5efa334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
@@ -122,15 +87,6 @@ var namespacebioexplorer_1_1details =
       [ "amino_acid_sequence", "d0/d1f/namespacebioexplorer_1_1details.html#af28a3218771336f388f499dad4cca5efa97e01ccc12fc16f0b91d71a569a5a4a5", null ],
       [ "glycosylation_site", "d0/d1f/namespacebioexplorer_1_1details.html#af28a3218771336f388f499dad4cca5efae867fa204ecf88ad4a468c611aa6233e", null ],
       [ "region", "d0/d1f/namespacebioexplorer_1_1details.html#af28a3218771336f388f499dad4cca5efa960db2ed82202a9706b97775a4269378", null ]
-    ] ],
-    [ "ProteinRepresentation", "d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5", [
-      [ "atoms", "d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5a2bb8d809d871a7c1a392fec36563a8f7", null ],
-      [ "atoms_and_sticks", "d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5aa8478b1ba39a0998e72ba8a5a93ab603", null ],
-      [ "contour", "d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5a5865f57e17007694772b743b2560914f", null ],
-      [ "surface", "d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5ad302e976c9dd527a9521a88c012437c5", null ],
-      [ "union_of_balls", "d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5a49b002b2a7b50ba019a5924a29584c0f", null ],
-      [ "debug", "d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5aad42f6697b035b7580e4fef93be20b4d", null ],
-      [ "mesh", "d0/d1f/namespacebioexplorer_1_1details.html#aad9e1645c632a352d331a058fa332cc5a09bc81c3aa886b690f84c5aba4109e20", null ]
     ] ],
     [ "RNAShapeType", "d0/d1f/namespacebioexplorer_1_1details.html#a7d711d6fc24e2fd35dd22551ca714290", [
       [ "trefoilKnot", "d0/d1f/namespacebioexplorer_1_1details.html#a7d711d6fc24e2fd35dd22551ca714290acc90d605a389b56fe42b312e58100ae6", null ],
@@ -169,20 +125,5 @@ var namespacebioexplorer_1_1details =
       [ "segment", "d0/d1f/namespacebioexplorer_1_1details.html#a52708697ea44f6525af8aaa3665a5e2fafdd32b9061681edb52c554bd9bbf0712", null ],
       [ "optimized_segment", "d0/d1f/namespacebioexplorer_1_1details.html#a52708697ea44f6525af8aaa3665a5e2fae764e8c447a0fa5487e6c221b428bab1", null ],
       [ "bezier", "d0/d1f/namespacebioexplorer_1_1details.html#a52708697ea44f6525af8aaa3665a5e2fab4f49419e540cdfc505f0af52fe7524a", null ]
-    ] ],
-    [ "XYZFileFormat", "d0/d1f/namespacebioexplorer_1_1details.html#abc9bc73bc7dd36d78f738158e7dd1e5a", [
-      [ "unspecified", "d0/d1f/namespacebioexplorer_1_1details.html#abc9bc73bc7dd36d78f738158e7dd1e5aad415f0e30c471dfdd9bc4f827329ef48", null ],
-      [ "xyz_binary", "d0/d1f/namespacebioexplorer_1_1details.html#abc9bc73bc7dd36d78f738158e7dd1e5aa9e4cbb42b5d6c466ad8c3dd174950bac", null ],
-      [ "xyzr_binary", "d0/d1f/namespacebioexplorer_1_1details.html#abc9bc73bc7dd36d78f738158e7dd1e5aad34a1e2b43c12f14e140b83d570383a8", null ],
-      [ "xyzrv_binary", "d0/d1f/namespacebioexplorer_1_1details.html#abc9bc73bc7dd36d78f738158e7dd1e5aa5da2ae2700a3ad945d2c9d5a619c8fcd", null ],
-      [ "xyz_ascii", "d0/d1f/namespacebioexplorer_1_1details.html#abc9bc73bc7dd36d78f738158e7dd1e5aad649628ba216d8f8a764c8ab204c3144", null ],
-      [ "xyzr_ascii", "d0/d1f/namespacebioexplorer_1_1details.html#abc9bc73bc7dd36d78f738158e7dd1e5aa44a4be84a01bb0b61c876d93b36cc9c5", null ],
-      [ "xyzrv_ascii", "d0/d1f/namespacebioexplorer_1_1details.html#abc9bc73bc7dd36d78f738158e7dd1e5aaba550d0f752fd13169f7c9b7b6866182", null ]
-    ] ],
-    [ "mitochondrionRadius", "d0/d1f/namespacebioexplorer_1_1details.html#a870dbff1827978296c098a041757b0d6", null ],
-    [ "mitochondrionSegmentSize", "d0/d1f/namespacebioexplorer_1_1details.html#a79ce3b63e0919b72c5205a96603683b9", null ],
-    [ "myelinSteathLength", "d0/d1f/namespacebioexplorer_1_1details.html#ac25fe53113a39834635ce0821602e7ef", null ],
-    [ "myelinSteathRadiusRatio", "d0/d1f/namespacebioexplorer_1_1details.html#a7f9a774056625988c9713171ed1adffc", null ],
-    [ "nbMinSegmentsForVaricosity", "d0/d1f/namespacebioexplorer_1_1details.html#a2e7c023f0d0f0bf7794401109ddf2f04", null ],
-    [ "spineRadiusRatio", "d0/d1f/namespacebioexplorer_1_1details.html#a58199ff16d3e0eb995c1cf2dc208f503", null ]
+    ] ]
 ];

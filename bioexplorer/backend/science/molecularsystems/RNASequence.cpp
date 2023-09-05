@@ -32,12 +32,15 @@
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
-namespace molecularsystems
-{
+using namespace details;
 using namespace common;
 
+namespace molecularsystems
+{
 /**
  * @brief Structure representing a nucleotid
  *

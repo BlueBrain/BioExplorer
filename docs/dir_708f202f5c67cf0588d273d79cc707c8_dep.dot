@@ -14,10 +14,10 @@ digraph "bioexplorer/backend/plugins/Sonata" {
   }
   dir_14d627cccd023aaf4f18eaf1359097e2 [shape=box label="science" fillcolor="white" style="filled" color="red" URL="dir_14d627cccd023aaf4f18eaf1359097e2.html"];
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_14d627cccd023aaf4f18eaf1359097e2->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="101", labeldistance=1.5 headhref="dir_000037_000059.html"];
-  dir_97ae30d42df5e4285ee3bd4240a32689->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="3", labeldistance=1.5 headhref="dir_000025_000059.html"];
+  dir_14d627cccd023aaf4f18eaf1359097e2->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="102", labeldistance=1.5 headhref="dir_000037_000058.html"];
+  dir_97ae30d42df5e4285ee3bd4240a32689->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="3", labeldistance=1.5 headhref="dir_000025_000058.html"];
   dir_ad1e054ad47d824a391bc455c4fe0df7->dir_14d627cccd023aaf4f18eaf1359097e2 [headlabel="1", labeldistance=1.5 headhref="dir_000029_000037.html"];
-  dir_ad1e054ad47d824a391bc455c4fe0df7->dir_26ddc90037ea0f279e3316cb1bad6b6d [headlabel="1", labeldistance=1.5 headhref="dir_000029_000100.html"];
-  dir_ad1e054ad47d824a391bc455c4fe0df7->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="70", labeldistance=1.5 headhref="dir_000029_000059.html"];
-  dir_26ddc90037ea0f279e3316cb1bad6b6d->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="3", labeldistance=1.5 headhref="dir_000100_000059.html"];
+  dir_ad1e054ad47d824a391bc455c4fe0df7->dir_26ddc90037ea0f279e3316cb1bad6b6d [headlabel="1", labeldistance=1.5 headhref="dir_000029_000094.html"];
+  dir_ad1e054ad47d824a391bc455c4fe0df7->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="70", labeldistance=1.5 headhref="dir_000029_000058.html"];
+  dir_26ddc90037ea0f279e3316cb1bad6b6d->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="3", labeldistance=1.5 headhref="dir_000094_000058.html"];
 }

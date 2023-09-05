@@ -99,10 +99,10 @@ Functions</h2></td></tr>
 <tr class="separator:a416f769f8e15e7059985a8becaa48a2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ee45e6292c82c8acfb117353a9a79de"><td class="memItemLeft" align="right" valign="top">CMake run_nvcc cmake&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/platform_2engines_2optix6_2CMakeLists_8txt.html#a2ee45e6292c82c8acfb117353a9a79de">endif</a> () <a class="el" href="../../d4/d55/bioexplorer_2backend_2plugins_2Sonata_2CMakeLists_8txt.html#a6cda8e68bd67fb358d0261445b85fc0a">set</a>($</td></tr>
 <tr class="separator:a2ee45e6292c82c8acfb117353a9a79de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5156375139a5af3386072a06427947d"><td class="memItemLeft" align="right" valign="top">_CU cuda camera PerspectiveCamera cu cuda camera OrthographicCamera cu cuda Constantbg cu cuda geometry Cones cu cuda geometry Cylinders cu cuda geometry Spheres cu cuda geometry TriangleMesh cu cuda renderer Basic cu cuda renderer Advanced cu&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/platform_2engines_2optix6_2CMakeLists_8txt.html#ae5156375139a5af3386072a06427947d">include</a> (StringifyPtx) stringify_ptx($</td></tr>
-<tr class="separator:ae5156375139a5af3386072a06427947d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a201c3d217055dfee41252f80da2bac8b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/platform_2engines_2optix6_2CMakeLists_8txt.html#a201c3d217055dfee41252f80da2bac8b">set</a> (${NAME}_SOURCES ${BRAYNSOPTIX6ENGINE_CU} ${ptx_generated_files} ${PTX_SOURCES} OptiXContext.cpp OptiXFrameBuffer.cpp OptiXScene.cpp OptiXCamera.cpp OptiXPerspectiveCamera.cpp OptiXOrthographicCamera.cpp OptiXRenderer.cpp OptiXEngine.cpp OptiXMaterial.cpp OptiXModel.cpp OptiXVolume.cpp) set_source_files_properties(OptiXContext.cpp OptiXFrameBuffer.cpp OptiXScene.cpp OptiXCamera.cpp OptiXPerspectiveCamera.cpp OptiXOrthographicCamera.cpp OptiXRenderer.cpp OptiXEngine.cpp OptiXMaterial.cpp OptiXModel.cpp OptiXVolume.cpp PROPERTIES COMPILE_FLAGS -Wno-shadow) set($</td></tr>
-<tr class="separator:a201c3d217055dfee41252f80da2bac8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0445aba50d59b53d02c75ec91609cb94"><td class="memItemLeft" align="right" valign="top">_CU cuda camera PerspectiveCamera cu cuda camera OrthographicCamera cu cuda Constantbg cu cuda geometry Cones cu cuda geometry Cylinders cu cuda geometry Spheres cu cuda geometry TriangleMesh cu cuda geometry Volumes cu cuda geometry Streamlines cu cuda renderer Basic cu cuda renderer Advanced cu&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/platform_2engines_2optix6_2CMakeLists_8txt.html#a0445aba50d59b53d02c75ec91609cb94">include</a> (StringifyPtx) stringify_ptx($</td></tr>
+<tr class="separator:a0445aba50d59b53d02c75ec91609cb94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6aaa722be70e0cdd1917b06ea5bfe4b0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/platform_2engines_2optix6_2CMakeLists_8txt.html#a6aaa722be70e0cdd1917b06ea5bfe4b0">set</a> (${NAME}_SOURCES ${BRAYNSOPTIX6ENGINE_CU} ${ptx_generated_files} ${PTX_SOURCES} OptiXContext.cpp OptiXFrameBuffer.cpp OptiXScene.cpp OptiXCamera.cpp OptiXPerspectiveCamera.cpp OptiXOrthographicCamera.cpp OptiXRenderer.cpp OptiXEngine.cpp OptiXMaterial.cpp OptiXModel.cpp OptiXVolume.cpp OptiXUtils.cpp) set_source_files_properties(OptiXContext.cpp OptiXFrameBuffer.cpp OptiXScene.cpp OptiXCamera.cpp OptiXPerspectiveCamera.cpp OptiXOrthographicCamera.cpp OptiXRenderer.cpp OptiXEngine.cpp OptiXMaterial.cpp OptiXModel.cpp OptiXVolume.cpp OptiXUtils.cpp PROPERTIES COMPILE_FLAGS -Wno-shadow) set($</td></tr>
+<tr class="separator:a6aaa722be70e0cdd1917b06ea5bfe4b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a2ee45e6292c82c8acfb117353a9a79de"></a>
@@ -144,14 +144,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae5156375139a5af3386072a06427947d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5156375139a5af3386072a06427947d">&#9670;&nbsp;</a></span>include()</h2>
+<a id="a0445aba50d59b53d02c75ec91609cb94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0445aba50d59b53d02c75ec91609cb94">&#9670;&nbsp;</a></span>include()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">_CU cuda camera PerspectiveCamera cu cuda camera OrthographicCamera cu cuda Constantbg cu cuda geometry Cones cu cuda geometry Cylinders cu cuda geometry Spheres cu cuda geometry TriangleMesh cu cuda renderer Basic cu cuda renderer Advanced cu include </td>
+          <td class="memname">_CU cuda camera PerspectiveCamera cu cuda camera OrthographicCamera cu cuda Constantbg cu cuda geometry Cones cu cuda geometry Cylinders cu cuda geometry Spheres cu cuda geometry TriangleMesh cu cuda geometry Volumes cu cuda geometry Streamlines cu cuda renderer Basic cu cuda renderer Advanced cu include </td>
           <td>(</td>
           <td class="paramtype">StringifyPtx&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -160,12 +160,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d61/platform_2engines_2optix6_2CMakeLists_8txt_source.html#l00056">56</a> of file <a class="el" href="../../d5/d61/platform_2engines_2optix6_2CMakeLists_8txt_source.html">CMakeLists.txt</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d61/platform_2engines_2optix6_2CMakeLists_8txt_source.html#l00058">58</a> of file <a class="el" href="../../d5/d61/platform_2engines_2optix6_2CMakeLists_8txt_source.html">CMakeLists.txt</a>.</p>
 
 </div>
 </div>
-<a id="a201c3d217055dfee41252f80da2bac8b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a201c3d217055dfee41252f80da2bac8b">&#9670;&nbsp;</a></span>set() <span class="overload">[1/3]</span></h2>
+<a id="a6aaa722be70e0cdd1917b06ea5bfe4b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6aaa722be70e0cdd1917b06ea5bfe4b0">&#9670;&nbsp;</a></span>set() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -174,13 +174,13 @@ Functions</h2></td></tr>
           <td class="memname">set </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>${NAME}_SOURCES ${BRAYNSOPTIX6ENGINE_CU} ${ptx_generated_files} ${PTX_SOURCES} OptiXContext.cpp OptiXFrameBuffer.cpp OptiXScene.cpp OptiXCamera.cpp OptiXPerspectiveCamera.cpp OptiXOrthographicCamera.cpp OptiXRenderer.cpp OptiXEngine.cpp OptiXMaterial.cpp OptiXModel.cpp OptiXVolume.</em></td><td>)</td>
+          <td class="paramname"><em>${NAME}_SOURCES ${BRAYNSOPTIX6ENGINE_CU} ${ptx_generated_files} ${PTX_SOURCES} OptiXContext.cpp OptiXFrameBuffer.cpp OptiXScene.cpp OptiXCamera.cpp OptiXPerspectiveCamera.cpp OptiXOrthographicCamera.cpp OptiXRenderer.cpp OptiXEngine.cpp OptiXMaterial.cpp OptiXModel.cpp OptiXVolume.cpp OptiXUtils.</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d61/platform_2engines_2optix6_2CMakeLists_8txt_source.html#l00059">59</a> of file <a class="el" href="../../d5/d61/platform_2engines_2optix6_2CMakeLists_8txt_source.html">CMakeLists.txt</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d61/platform_2engines_2optix6_2CMakeLists_8txt_source.html#l00061">61</a> of file <a class="el" href="../../d5/d61/platform_2engines_2optix6_2CMakeLists_8txt_source.html">CMakeLists.txt</a>.</p>
 
 </div>
 </div>

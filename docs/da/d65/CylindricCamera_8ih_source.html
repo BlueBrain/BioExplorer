@@ -87,41 +87,42 @@ $(document).ready(function(){initNavTree('da/d65/CylindricCamera_8ih_source.html
 </div><!--header-->
 <div class="contents">
 <a href="../../da/d65/CylindricCamera_8ih.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;/*</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; * Copyright (c) 2018-2023, EPFL/Blue Brain Project</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; * All rights reserved. Do not distribute without permission.</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; * Responsible Author: Cyrille Favreau &lt;cyrille.favreau@epfl.ch&gt;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; *                     Grigori Chevtchenko &lt;grigori.chevtchenko@epfl.ch&gt;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; *</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; *</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; * This library is free software; you can redistribute it and/or modify it under</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; * the terms of the GNU Lesser General Public License version 3.0 as published</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; * by the Free Software Foundation.</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; *</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; * This library is distributed in the hope that it will be useful, but WITHOUT</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; * details.</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; *</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; * You should have received a copy of the GNU Lesser General Public License</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; * along with this library; if not, write to the Free Software Foundation, Inc.,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; */</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;#pragma once</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;#include &lt;ospray/SDK/camera/Camera.ih&gt;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;struct CylindricCamera</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    Camera super;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    vec3f org;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    vec3f dir_cam;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    vec3f dir_du;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    vec3f dir_dv;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    float imgPlane_size_y;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;};</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; *</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; * scientific data from visualization</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; *</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; *</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; * Copyright 2020-2023 Blue BrainProject / EPFL</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; *</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; * This program is free software: you can redistribute it and/or modify it under</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; * the terms of the GNU General Public License as published by the Free Software</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; * Foundation, either version 3 of the License, or (at your option) any later</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; * version.</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; *</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; * This program is distributed in the hope that it will be useful, but WITHOUT</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; * details.</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; *</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; * You should have received a copy of the GNU General Public License along with</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; */</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;#pragma once</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;#include &lt;ospray/SDK/camera/Camera.ih&gt;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;struct CylindricCamera</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    Camera super;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    vec3f org;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    vec3f dir_cam;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    vec3f dir_du;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    vec3f dir_dv;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    float imgPlane_size_y;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

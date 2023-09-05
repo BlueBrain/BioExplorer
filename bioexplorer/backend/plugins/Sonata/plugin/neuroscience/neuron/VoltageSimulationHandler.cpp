@@ -26,6 +26,8 @@
 
 #include <platform/core/parameters/AnimationParameters.h>
 
+using namespace core;
+
 namespace sonataexplorer
 {
 namespace neuroscience

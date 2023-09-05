@@ -111,84 +111,73 @@ $(document).ready(function(){initNavTree('d4/d14/Density_8cu_source.html','../..
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;#include &lt;optix_world.h&gt;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;#include &lt;platform/engines/optix6/OptiXCommonStructs.h&gt;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;#include &lt;platform/engines/optix6/cuda/Context.cuh&gt;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;#include &lt;platform/engines/optix6/cuda/Random.cuh&gt;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;// Scene</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;rtDeclareVariable(uint2, launch_index, rtLaunchIndex, );</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;rtDeclareVariable(unsigned int, frame, , );</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;rtDeclareVariable(unsigned int, shadowRayType, , );</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;// Rendering attributes</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;rtDeclareVariable(int, samplesPerFrame, , );</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;rtDeclareVariable(float, rayLength, , );</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;rtDeclareVariable(float, rayStep, , );</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;rtDeclareVariable(float, farPlane, , );</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;// Rendering attributes</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;rtDeclareVariable(float3, shading_normal, attribute shading_normal, );</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;rtDeclareVariable(PerRayData_shadow, prd_shadow, rtPayload, );</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;rtDeclareVariable(PerRayData_radiance, prd, rtPayload, );</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;rtDeclareVariable(float, t_hit, rtIntersectionDistance, );</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;rtDeclareVariable(int, samplesPerFrame, , );</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;rtDeclareVariable(float, rayLength, , );</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;rtDeclareVariable(float, sceneEpsilon, , );</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;rtDeclareVariable(float, rayStep, , );</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;rtDeclareVariable(float, farPlane, , );</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;static __device__ inline void shade()</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    optix::size_t2 screen = output_buffer.size();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    float t = rayStep;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    float4 color = make_float4(0.f);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    while (color.w &lt; 0.9f &amp;&amp; t &lt; farPlane)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        unsigned int hits = 0;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        unsigned int seed = tea&lt;16&gt;(screen.x * launch_index.y + launch_index.x, frame);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;rtDeclareVariable(rtObject, top_shadower, , );</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;rtBuffer&lt;uchar4, 2&gt; output_buffer;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;static __device__ inline void shade()</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    optix::size_t2 screen = output_buffer.size();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    float t = rayStep;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    float4 color = make_float4(0.f);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        const float3 hit_point = ray.origin + t_hit * ray.direction;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        const float3 normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        for (int i = 0; i &lt; samplesPerFrame; ++i)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            float attenuation = 0.f;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            float3 aa_normal = optix::normalize(make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f));</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            if (::optix::dot(aa_normal, normal) &lt; 0.f)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                aa_normal = -aa_normal;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    while (color.w &lt; 0.9f &amp;&amp; t &lt; farPlane)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        unsigned int hits = 0;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        unsigned int seed = tea&lt;16&gt;(screen.x * launch_index.y + launch_index.x, frame);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            PerRayData_shadow shadow_prd;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            shadow_prd.attenuation = make_float3(0.f);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            ::optix::Ray shadow_ray(hit_point, aa_normal, shadowRayType, sceneEpsilon, rayLength);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            rtTrace(top_shadower, shadow_ray, shadow_prd);</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        const float3 hit_point = ray.origin + t_hit * ray.direction;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        const float3 normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        for (int i = 0; i &lt; samplesPerFrame; ++i)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            float attenuation = 0.f;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            float3 aa_normal = optix::normalize(make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f));</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            if (::optix::dot(aa_normal, normal) &lt; 0.f)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                aa_normal = -aa_normal;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            PerRayData_shadow shadow_prd;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            shadow_prd.attenuation = make_float3(0.f);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            ::optix::Ray shadow_ray(hit_point, aa_normal, shadowRayType, sceneEpsilon, rayLength);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            rtTrace(top_shadower, shadow_ray, shadow_prd);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            attenuation += ::optix::luminance(shadow_prd.attenuation);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            if (attenuation &gt; 0.f)</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                ++hits;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        if (hits &gt; 0)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            const float a = (float)hits / (float)samplesPerFrame;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            const float3 sampleColor = make_float3(a, a, 1.f - a);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            const float alpha = 1.f / (float)samplesPerFrame;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            color = make_float4(make_float3(color) * color.w + (1.f - color.w * alpha) * sampleColor, color.w + alpha);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        t += rayStep;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    }</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    prd.result = make_float3(color);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    prd.importance = color.w;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            attenuation += ::optix::luminance(shadow_prd.attenuation);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            if (attenuation &gt; 0.f)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                ++hits;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        if (hits &gt; 0)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            const float a = (float)hits / (float)samplesPerFrame;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            const float3 sampleColor = make_float3(a, a, 1.f - a);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            const float alpha = 1.f / (float)samplesPerFrame;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            color = make_float4(make_float3(color) * color.w + (1.f - color.w * alpha) * sampleColor, color.w + alpha);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        t += rayStep;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    prd.result = color;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;RT_PROGRAM void any_hit_shadow()</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;{</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    prd_shadow.attenuation = make_float3(1.f);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    rtTerminateRay();</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;RT_PROGRAM void closest_hit_radiance()</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;{</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    shade();</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;RT_PROGRAM void closest_hit_radiance_textured()</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;{</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    shade();</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;RT_PROGRAM void any_hit_shadow()</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;{</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    prd_shadow.attenuation = make_float3(1.f);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    rtTerminateRay();</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;RT_PROGRAM void closest_hit_radiance()</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;{</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    shade();</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

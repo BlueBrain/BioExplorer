@@ -7,5 +7,5 @@ digraph "platform/plugins/openDeck/plugin/common" {
   dir_29ba5d9c75a4ad258b2ca16b7c1d3b0e [shape=box, label="common", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_29ba5d9c75a4ad258b2ca16b7c1d3b0e.html"];
   }
   dir_3066efc1f4040d52e90bf8a29ab3f16b [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_3066efc1f4040d52e90bf8a29ab3f16b.html"];
-  dir_29ba5d9c75a4ad258b2ca16b7c1d3b0e->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="2", labeldistance=1.5 headhref="dir_000095_000065.html"];
+  dir_29ba5d9c75a4ad258b2ca16b7c1d3b0e->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="2", labeldistance=1.5 headhref="dir_000092_000064.html"];
 }

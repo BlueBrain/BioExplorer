@@ -35,12 +35,6 @@ namespace io
 {
 namespace db
 {
-using namespace core;
-using namespace details;
-using namespace common;
-using namespace morphology;
-using namespace connectomics;
-
 using ConnectionPtr = std::shared_ptr<pqxx::connection>;
 
 /**
@@ -97,7 +91,7 @@ public:
      *
      * @return Configuration of the out-of-code read-only scene
      */
-    const OOCSceneConfigurationDetails getSceneConfiguration();
+    const details::OOCSceneConfigurationDetails getSceneConfiguration();
 
     /**
      * @brief Get the Brick object
@@ -130,8 +124,8 @@ public:
      * @param sqlCondition SQL condition
      * @return GeometryNodes Vasculature nodes
      */
-    GeometryNodes getVasculatureNodes(const std::string& populationName, const std::string& sqlCondition = "",
-                                      const std::string& limits = "") const;
+    common::GeometryNodes getVasculatureNodes(const std::string& populationName, const std::string& sqlCondition = "",
+                                              const std::string& limits = "") const;
 
     /**
      * @brief Get the sections for a given population
@@ -158,7 +152,7 @@ public:
      * @param sqlCondition SQL condition
      * @return Vector2d Min and max radius for the node selection
      */
-    Vector2d getVasculatureRadiusRange(const std::string& populationName, const std::string& sqlCondition) const;
+    core::Vector2d getVasculatureRadiusRange(const std::string& populationName, const std::string& sqlCondition) const;
 
     /**
      * @brief Get the Edges for a given population
@@ -166,7 +160,8 @@ public:
      * @param populationName Name of the population
      * @return EdgeNodes
      */
-    GeometryEdges getVasculatureEdges(const std::string& populationName, const std::string& sqlCondition = "") const;
+    common::GeometryEdges getVasculatureEdges(const std::string& populationName,
+                                              const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the bifurcations for a given population
@@ -174,7 +169,7 @@ public:
      * @param populationName Name of the population
      * @return Bifurcations
      */
-    Bifurcations getVasculatureBifurcations(const std::string& populationName) const;
+    common::Bifurcations getVasculatureBifurcations(const std::string& populationName) const;
 
     /**
      * @brief Get information about the simulation Report
@@ -184,7 +179,8 @@ public:
      * @return SimulationReport Information about the simulation Report
      */
 
-    SimulationReport getSimulationReport(const std::string& populationName, const int32_t simulationReportId) const;
+    common::SimulationReport getSimulationReport(const std::string& populationName,
+                                                 const int32_t simulationReportId) const;
 
     /**
      * @brief Get time series from simulation report
@@ -205,7 +201,8 @@ public:
      * statement
      * @return SomaMap A map of somas (position, radius, etc)
      */
-    AstrocyteSomaMap getAstrocytes(const std::string& populationName, const std::string& sqlCondition = "") const;
+    morphology::AstrocyteSomaMap getAstrocytes(const std::string& populationName,
+                                               const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the sections of a given astrocyte
@@ -216,8 +213,8 @@ public:
      * connected to the soma if set to true
      * @return SectionMap A map of sections
      */
-    SectionMap getAstrocyteSections(const std::string& populationName, const int64_t astrocyteId,
-                                    const bool connectedToSomaOnly) const;
+    morphology::SectionMap getAstrocyteSections(const std::string& populationName, const int64_t astrocyteId,
+                                                const bool connectedToSomaOnly) const;
 
     /**
      * @brief Get the end-feet as nodes for a given astrocyte
@@ -226,7 +223,8 @@ public:
      * @param astrocyteId Identifier of the astrocyte
      * @return EndFootNodesMap A map of end-feet
      */
-    EndFootMap getAstrocyteEndFeet(const std::string& vasculaturePopulationName, const uint64_t astrocyteId) const;
+    morphology::EndFootMap getAstrocyteEndFeet(const std::string& vasculaturePopulationName,
+                                               const uint64_t astrocyteId) const;
 
     /**
      * @brief Get the micro-domain for a given astrocyte
@@ -235,7 +233,7 @@ public:
      * @param astrocyteId Identifier of the astrocyte
      * @return Micro-domain triangle mesh
      */
-    TriangleMesh getAstrocyteMicroDomain(const std::string& populationName, const uint64_t astrocyteId) const;
+    core::TriangleMesh getAstrocyteMicroDomain(const std::string& populationName, const uint64_t astrocyteId) const;
 
     /**
      * @brief Get the neurons locations
@@ -245,7 +243,7 @@ public:
      * statement
      * @return NeuronSomaMap A map of neurons (position, type, etc)
      */
-    NeuronSomaMap getNeurons(const std::string& populationName, const std::string& sqlCondition = "") const;
+    morphology::NeuronSomaMap getNeurons(const std::string& populationName, const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the sections of a given neuron
@@ -256,8 +254,8 @@ public:
      * statement
      * @return SectionMap A map of sections
      */
-    SectionMap getNeuronSections(const std::string& populationName, const uint64_t neuronId,
-                                 const std::string& sqlCondition = "") const;
+    morphology::SectionMap getNeuronSections(const std::string& populationName, const uint64_t neuronId,
+                                             const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the synapses attached to a given neuron
@@ -268,8 +266,8 @@ public:
      * statement
      * @return SectionSynapseMap A map of synapses
      */
-    SectionSynapseMap getNeuronSynapses(const std::string& populationName, const uint64_t neuronId,
-                                        const std::string& sqlCondition = "") const;
+    morphology::SectionSynapseMap getNeuronSynapses(const std::string& populationName, const uint64_t neuronId,
+                                                    const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get a selection of spikes from a neuron spike report
@@ -279,8 +277,8 @@ public:
      * @param endTime End time of the selection
      * @return uint64_ts Spiking neuron ids for the specified time selection
      */
-    SpikesMap getNeuronSpikeReportValues(const std::string& populationName, const uint64_t reportId,
-                                         const double startTime, const double endTime) const;
+    morphology::SpikesMap getNeuronSpikeReportValues(const std::string& populationName, const uint64_t reportId,
+                                                     const double startTime, const double endTime) const;
 
     /**
      * @brief Get the Neuron Soma Report Guids
@@ -342,7 +340,7 @@ public:
      * statement
      * @return CellMap A map of cells (position, orientation, type, etc)
      */
-    CellMap getAtlasCells(const uint64_t regionId, const std::string& sqlCondition = "") const;
+    morphology::CellMap getAtlasCells(const uint64_t regionId, const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the mesh of a given region from the brain atlas
@@ -351,7 +349,7 @@ public:
      * statement
      * @return TrianglesMesh A triangles mesh
      */
-    TriangleMesh getAtlasMesh(const uint64_t regionId) const;
+    core::TriangleMesh getAtlasMesh(const uint64_t regionId) const;
 
     /**
      * @brief Get the White Matter streamlines for a given population
@@ -360,8 +358,8 @@ public:
      * @param sqlCondition SQL condition
      * @return WhiteMatterStreamlines White matter streamlines
      */
-    WhiteMatterStreamlines getWhiteMatterStreamlines(const std::string& populationName,
-                                                     const std::string& sqlCondition = "") const;
+    connectomics::WhiteMatterStreamlines getWhiteMatterStreamlines(const std::string& populationName,
+                                                                   const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get positions of synapses
@@ -370,7 +368,7 @@ public:
      * @param sqlCondition SQL condition
      * @return Map of synapses indexed by ID
      */
-    SynapsesMap getSynapses(const std::string& populationName, const std::string& sqlCondition = "") const;
+    morphology::SynapsesMap getSynapses(const std::string& populationName, const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get positions of synapses for efficacy report

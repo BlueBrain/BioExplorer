@@ -31,6 +31,7 @@
 #include "PathTracingRenderer_ispc.h"
 
 using namespace ospray;
+using namespace core;
 
 namespace bioexplorer
 {

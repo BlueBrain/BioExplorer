@@ -38,15 +38,17 @@
 
 #include <omp.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
-namespace morphology
-{
 using namespace common;
+using namespace details;
 using namespace io;
 using namespace db;
 using namespace meshing;
-
+namespace morphology
+{
 const double DEFAULT_MITOCHONDRIA_DENSITY = 0.0459;
 const double DEFAULT_ENDFOOT_RADIUS_RATIO = 1.1;
 const double DEFAULT_ENDFOOT_RADIUS_SHIFTING_RATIO = 0.35;

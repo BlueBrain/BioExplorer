@@ -28,8 +28,6 @@ namespace sonataexplorer
 {
 namespace meshing
 {
-using namespace core;
-
 /**
  * Generated a mesh according to given set of metaballs.
  */
@@ -50,8 +48,8 @@ public:
      * @param defaultMaterialId Default material to apply to the generated mesh
      * @param triangles Generated triangles
      */
-    void generateMesh(const Vector4fs& metaballs, const size_t gridSize, const float threshold,
-                      const size_t defaultMaterialId, TriangleMeshMap& triangles);
+    void generateMesh(const core::Vector4fs& metaballs, const size_t gridSize, const float threshold,
+                      const size_t defaultMaterialId, core::TriangleMeshMap& triangles);
 
 private:
     struct SurfaceVertex
@@ -61,9 +59,9 @@ private:
         {
         }
 
-        Vector3f position;
-        Vector3f normal;
-        Vector3f texCoords;
+        core::Vector3f position;
+        core::Vector3f normal;
+        core::Vector3f texCoords;
         size_t materialId;
     };
 
@@ -89,11 +87,11 @@ private:
 
     void _clear();
 
-    void _buildVerticesAndCubes(const Vector4fs& metaballs, const size_t gridSize, const size_t defaultMaterialId,
+    void _buildVerticesAndCubes(const core::Vector4fs& metaballs, const size_t gridSize, const size_t defaultMaterialId,
                                 const float scale = 5.f);
 
-    void _buildTriangles(const Vector4fs& metaballs, const float threshold, const size_t defaultMaterialId,
-                         TriangleMeshMap& triangles);
+    void _buildTriangles(const core::Vector4fs& metaballs, const float threshold, const size_t defaultMaterialId,
+                         core::TriangleMeshMap& triangles);
 
     SurfaceVertices _edgeVertices;
     Vertices _vertices;

@@ -31,6 +31,8 @@
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
 namespace molecularsystems
@@ -38,7 +40,7 @@ namespace molecularsystems
 using namespace common;
 using namespace details;
 
-EnzymeReaction::EnzymeReaction(Scene& scene, const EnzymeReactionDetails& details, AssemblyPtr enzymeAssembly,
+EnzymeReaction::EnzymeReaction(core::Scene& scene, const EnzymeReactionDetails& details, AssemblyPtr enzymeAssembly,
                                ProteinPtr enzyme, Proteins& substrates, Proteins& products)
     : _scene(scene)
     , _details(details)
@@ -50,38 +52,27 @@ EnzymeReaction::EnzymeReaction(Scene& scene, const EnzymeReactionDetails& detail
 }
 
 /**
- * @brief This code belongs to a function which is a part of an EnzymeReaction
-class. The function is responsible for updating the animation state of the
-enzyme reaction given the current progress. The progress is a value between 0
-and 1 which indicates how far the reaction has progressed.
+ * @brief This code belongs to a function which is a part of an EnzymeReaction class. The function is responsible for
+updating the animation state of the enzyme reaction given the current progress. The progress is a value between 0 and 1
+which indicates how far the reaction has progressed.
 
+The code first retrieves the model descriptor for the enzyme object, and the list of enzyme instances. It then checks if
+the instance ID supplied is within the range of instances and retrieves the transformation of the enzyme instance ideal
+for reaction progress animation.
 
-The code first retrieves the model descriptor for the enzyme object, and the
-list of enzyme instances. It then checks if the instance ID supplied is within
-the range of instances and retrieves the transformation of the enzyme instance
-ideal for reaction progress animation.
-
-
-Then, for each substrate and product molecule in the reaction, the code
-retrieves the instance for the corresponding molecule. It also calculates the
-average direction of all substrate and product molecules relative to the enzyme
+Then, for each substrate and product molecule in the reaction, the code retrieves the instance for the corresponding
+molecule. It also calculates the average direction of all substrate and product molecules relative to the enzyme
 molecule.
 
+The code then propagates the transformation to the substrate and product molecules by appropriately setting the
+transformations and visibility of the instance based on animation progress. Along the way, it checks if the supplied ID
+is within the valid range of molecule instances.
 
-The code then propagates the transformation to the substrate and product
-molecules by appropriately setting the transformations and visibility of the
-instance based on animation progress. Along the way, it checks if the supplied
-ID is within the valid range of molecule instances.
+After this, it retrieves the animation details for the enzyme molecule and uses this to synchronize random numbers used
+in the initial position of the enzyme object. It then calculates the rotation of the enzyme using the slerp function and
+sets the new transformation of the encrypted scene accordingly.
 
-
-After this, it retrieves the animation details for the enzyme molecule and uses
-this to synchronize random numbers used in the initial position of the enzyme
-object. It then calculates the rotation of the enzyme using the slerp function
-and sets the new transformation of the encrypted scene accordingly.
-
-
-Finally, it marks the scene as modified to indicate that a new animation has
-been rendered.
+Finally, it marks the scene as modified to indicate that a new animation has been rendered.
  *
  * @param instanceId
  * @param progress

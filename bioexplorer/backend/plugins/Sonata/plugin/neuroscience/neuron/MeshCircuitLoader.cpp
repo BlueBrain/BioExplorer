@@ -24,10 +24,14 @@
 
 #include <common/Logs.h>
 
+using namespace core;
+
 namespace sonataexplorer
 {
 namespace neuroscience
 {
+using namespace common;
+
 namespace neuron
 {
 const std::string LOADER_NAME = "Circuit with meshes";

@@ -30,18 +30,18 @@ namespace neuroscience
 {
 namespace neuron
 {
-using namespace common;
 class PairSynapsesLoader : public AbstractCircuitLoader
 {
 public:
-    PairSynapsesLoader(Scene &scene, const ApplicationParameters &applicationParameters, PropertyMap &&loaderParams);
+    PairSynapsesLoader(core::Scene &scene, const core::ApplicationParameters &applicationParameters,
+                       core::PropertyMap &&loaderParams);
 
     std::string getName() const final;
 
-    static PropertyMap getCLIProperties();
+    static core::PropertyMap getCLIProperties();
 
-    ModelDescriptorPtr importFromFile(const std::string &filename, const LoaderProgress &callback,
-                                      const PropertyMap &properties) const final;
+    core::ModelDescriptorPtr importFromFile(const std::string &filename, const core::LoaderProgress &callback,
+                                            const core::PropertyMap &properties) const final;
 };
 } // namespace neuron
 } // namespace neuroscience

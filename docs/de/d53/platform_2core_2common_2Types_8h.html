@@ -233,6 +233,8 @@ Typedefs</h2></td></tr>
 <tr class="separator:a20a44af4e95ba32e02511cd3f90e2809"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2308339bc63c98774276aa3b9f2675eb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a2308339bc63c98774276aa3b9f2675eb">core::Volumes</a> = std::vector&lt; VolumePtr &gt;</td></tr>
 <tr class="separator:a2308339bc63c98774276aa3b9f2675eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af24081d0865a1bc75c17fd92f7dec0cf"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#af24081d0865a1bc75c17fd92f7dec0cf">core::VolumesMap</a> = std::map&lt; size_t, Volumes &gt;</td></tr>
+<tr class="separator:af24081d0865a1bc75c17fd92f7dec0cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4163834a271e04972bda640b10e0962b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a4163834a271e04972bda640b10e0962b">core::Texture2DPtr</a> = std::shared_ptr&lt; Texture2D &gt;</td></tr>
 <tr class="separator:a4163834a271e04972bda640b10e0962b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2480e733fbce1cb288dda94147d5badd"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a2480e733fbce1cb288dda94147d5badd">core::TexturesMap</a> = std::map&lt; std::string, Texture2DPtr &gt;</td></tr>
@@ -276,16 +278,6 @@ Enumerations</h2></td></tr>
 , <a class="el" href="../../d9/d0f/namespacecore.html#ad43c1b0a03df44f7b1026c1325ce6de3a3bebbf5cdebccdeb71ff0777ae8d9f9e">core::ai_denoised</a> = 1
  }</td></tr>
 <tr class="separator:ad43c1b0a03df44f7b1026c1325ce6de3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49eab297c0b027757a358a0ee3c37c24"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a49eab297c0b027757a358a0ee3c37c24">core::ProteinColorScheme</a> { <br />
-&#160;&#160;<a class="el" href="../../d9/d0f/namespacecore.html#a49eab297c0b027757a358a0ee3c37c24a334c4a4c42fdb79d7ebc3e73b517e6f8">core::none</a> = 0
-, <a class="el" href="../../d9/d0f/namespacecore.html#a49eab297c0b027757a358a0ee3c37c24a6940e84643265fd66a05efe9c3ae3ebd">core::by_id</a> = 1
-, <a class="el" href="../../d9/d0f/namespacecore.html#a49eab297c0b027757a358a0ee3c37c24aa4cf5a965be375522619966d002b38b1">core::protein_atoms</a> = 2
-, <a class="el" href="../../d9/d0f/namespacecore.html#a49eab297c0b027757a358a0ee3c37c24a78fbe3f5135170e57b4532ca1cb18a6f">core::protein_chains</a> = 3
-, <br />
-&#160;&#160;<a class="el" href="../../d9/d0f/namespacecore.html#a49eab297c0b027757a358a0ee3c37c24ae985c44544e2b5ba12e19af1522e8ac9">core::protein_residues</a> = 4
-<br />
- }</td></tr>
-<tr class="separator:a49eab297c0b027757a358a0ee3c37c24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1328f13d2ee8cfc5146f068672948dc2"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a1328f13d2ee8cfc5146f068672948dc2">core::GeometryQuality</a> { <a class="el" href="../../d9/d0f/namespacecore.html#a1328f13d2ee8cfc5146f068672948dc2a53cced8d281a1a0ace3cb6594daaa4f7">core::low</a>
 , <a class="el" href="../../d9/d0f/namespacecore.html#a1328f13d2ee8cfc5146f068672948dc2a075a3e36a0a52dcbc568c05788e8a713">core::medium</a>
 , <a class="el" href="../../d9/d0f/namespacecore.html#a1328f13d2ee8cfc5146f068672948dc2a8d966b2253a917086c8604959e152243">core::high</a>
@@ -306,6 +298,9 @@ Enumerations</h2></td></tr>
 , <a class="el" href="../../d9/d0f/namespacecore.html#a942b62b36204ca1117f092b071bce51da779dc4beebc1affac992e67d44cfc2bc">core::radiance</a>
 , <a class="el" href="../../d9/d0f/namespacecore.html#a942b62b36204ca1117f092b071bce51dabd711fe2d4a13439b7df45a0fe0b2055">core::irradiance</a>
 , <a class="el" href="../../d9/d0f/namespacecore.html#a942b62b36204ca1117f092b071bce51dad045437cec99510c14217d66b1e140ae">core::brdf_lut</a>
+, <br />
+&#160;&#160;<a class="el" href="../../d9/d0f/namespacecore.html#a942b62b36204ca1117f092b071bce51da210ab9e731c9c36c2c38db15c28a8d1c">core::volume</a>
+, <a class="el" href="../../d9/d0f/namespacecore.html#a942b62b36204ca1117f092b071bce51da6c41ba909cb6f8703d65e48d992d820a">core::transfer_function</a>
 <br />
  }</td></tr>
 <tr class="separator:a942b62b36204ca1117f092b071bce51d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -349,7 +344,7 @@ Enumerations</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a883832a62b24f86cc38ed05b71e6fe56"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
-<tr class="memitem:a883832a62b24f86cc38ed05b71e6fe56"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; std::string, ProteinColorScheme &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a883832a62b24f86cc38ed05b71e6fe56">core::enumMap</a> ()</td></tr>
+<tr class="memitem:a883832a62b24f86cc38ed05b71e6fe56"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; std::string, GeometryQuality &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a883832a62b24f86cc38ed05b71e6fe56">core::enumMap</a> ()</td></tr>
 <tr class="separator:a883832a62b24f86cc38ed05b71e6fe56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -366,12 +361,16 @@ Variables</h2></td></tr>
 <tr class="separator:a1db4439c4828a17b5535e19c3aedc5d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cda79c5b8f6a7e088ca71fe3042d41d"><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a3cda79c5b8f6a7e088ca71fe3042d41d">core::SECONDARY_MODEL_MATERIAL_ID</a> = NO_MATERIAL - 2</td></tr>
 <tr class="separator:a3cda79c5b8f6a7e088ca71fe3042d41d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2be1304a433f78e174e161c8d8df86af"><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a2be1304a433f78e174e161c8d8df86af">core::VOLUME_MATERIAL_ID</a> = NO_MATERIAL - 3</td></tr>
+<tr class="separator:a2be1304a433f78e174e161c8d8df86af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e90452ad3bbd3bbe09004d3fa51bba5"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a0e90452ad3bbd3bbe09004d3fa51bba5">core::IRRADIANCE_MAP</a> = &quot;-irradiance&quot;</td></tr>
 <tr class="separator:a0e90452ad3bbd3bbe09004d3fa51bba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8ae89ba03bcecc88ffe84a9ee17868d"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#af8ae89ba03bcecc88ffe84a9ee17868d">core::RADIANCE_MAP</a> = &quot;-radiance&quot;</td></tr>
 <tr class="separator:af8ae89ba03bcecc88ffe84a9ee17868d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a262e53472e66d720ad4ab4473bb9849d"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a262e53472e66d720ad4ab4473bb9849d">core::BRDF_LUT</a> = &quot;-brdfLUT&quot;</td></tr>
 <tr class="separator:a262e53472e66d720ad4ab4473bb9849d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8034becde2348711bb9a3e0f8ae884aa"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../de/d53/platform_2core_2common_2Types_8h.html#ae1edb59d72f24660ef2132c1812d2340">strings</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a8034becde2348711bb9a3e0f8ae884aa">core::textureTypeToString</a></td></tr>
+<tr class="separator:a8034becde2348711bb9a3e0f8ae884aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="a75572897a1facc0f8e806f0e8ea1bd5e"></a>

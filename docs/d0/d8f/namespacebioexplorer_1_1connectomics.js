@@ -5,5 +5,5 @@ var namespacebioexplorer_1_1connectomics =
     [ "WhiteMatter", "d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html", "d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter" ],
     [ "SynapseEfficacyPtr", "d0/d8f/namespacebioexplorer_1_1connectomics.html#aff18f4dc986a037178276a13dd504be5", null ],
     [ "WhiteMatterPtr", "d0/d8f/namespacebioexplorer_1_1connectomics.html#a83c41c68795044c92cfa132357d01c3e", null ],
-    [ "WhiteMatterStreamlines", "d0/d8f/namespacebioexplorer_1_1connectomics.html#a90adc1f687dd708052593ce9cc2b54af", null ]
+    [ "WhiteMatterStreamlines", "d0/d8f/namespacebioexplorer_1_1connectomics.html#adabe47d8efd77f08214b71948068ddaa", null ]
 ];

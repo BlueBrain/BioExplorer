@@ -37,6 +37,7 @@
 namespace tests
 {
 using namespace bioexplorer;
+using namespace details;
 using namespace molecularsystems;
 
 std::string getFileContents(const std::string& filename)

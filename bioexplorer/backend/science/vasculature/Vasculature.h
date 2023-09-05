@@ -36,13 +36,10 @@ namespace bioexplorer
 {
 namespace vasculature
 {
-using namespace core;
-using namespace common;
-
 /**
  * Load vasculature from database
  */
-class Vasculature : public SDFGeometries
+class Vasculature : public common::SDFGeometries
 {
 public:
     /**
@@ -52,8 +49,8 @@ public:
      * @param details Set of attributes defining how the vasculature should be
      * loaded
      */
-    Vasculature(Scene& scene, const VasculatureDetails& details, const Vector3d& assemblyPosition,
-                const Quaterniond& assemblyRotation);
+    Vasculature(core::Scene& scene, const details::VasculatureDetails& details, const core::Vector3d& assemblyPosition,
+                const core::Quaterniond& assemblyRotation);
 
     /**
      * @brief Apply a radius report to the astrocyte. This modifies vasculature
@@ -61,7 +58,7 @@ public:
      *
      * @param details Details of the report
      */
-    void setRadiusReport(const VasculatureRadiusReportDetails& details);
+    void setRadiusReport(const details::VasculatureRadiusReportDetails& details);
 
     /**
      * @brief Get the number of nodes in the vasculature
@@ -75,17 +72,18 @@ private:
 
     void _logRealismParams();
 
-    void _addGraphSection(ThreadSafeContainer& container, const GeometryNode& srcNode, const GeometryNode& dstNode,
-                          const size_t materialId);
-    void _addSimpleSection(ThreadSafeContainer& container, const GeometryNode& srcNode, const GeometryNode& dstNode,
-                           const size_t materialId, const uint64_t userData);
-    void _addDetailedSection(ThreadSafeContainer& container, const GeometryNodes& nodes, const size_t baseMaterialId,
-                             const doubles& radii, const Vector2d& radiusRange);
-    void _addOrientation(ThreadSafeContainer& container, const GeometryNodes& nodes, const uint64_t sectionId);
+    void _addGraphSection(common::ThreadSafeContainer& container, const common::GeometryNode& srcNode,
+                          const common::GeometryNode& dstNode, const size_t materialId);
+    void _addSimpleSection(common::ThreadSafeContainer& container, const common::GeometryNode& srcNode,
+                           const common::GeometryNode& dstNode, const size_t materialId, const uint64_t userData);
+    void _addDetailedSection(common::ThreadSafeContainer& container, const common::GeometryNodes& nodes,
+                             const size_t baseMaterialId, const doubles& radii, const core::Vector2d& radiusRange);
+    void _addOrientation(common::ThreadSafeContainer& container, const common::GeometryNodes& nodes,
+                         const uint64_t sectionId);
     void _buildModel(const doubles& radii = doubles());
 
-    const VasculatureDetails _details;
-    Scene& _scene;
+    const details::VasculatureDetails _details;
+    core::Scene& _scene;
     uint64_t _nbNodes{0};
 };
 } // namespace vasculature

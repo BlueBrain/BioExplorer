@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('de/dc6/TransferFunction_8cuh_source.ht
 </div><!--header-->
 <div class="contents">
 <a href="../../de/dc6/TransferFunction_8cuh.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;/*</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; * Copyright (c) 2019, EPFL/Blue Brain Project</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; * Copyright (c) 2019-2023, EPFL/Blue Brain Project</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; * All rights reserved. Do not distribute without permission.</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; *</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</div>
@@ -108,39 +108,12 @@ $(document).ready(function(){initNavTree('de/dc6/TransferFunction_8cuh_source.ht
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;#include &lt;optix_world.h&gt;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;template &lt;typename T&gt;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;static __device__ inline T interpolateValues(const float v_min, const float v_max, const float value,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                                             optix::buffer&lt;T, 1&gt;&amp; values)</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    const int num_values = values.size();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    const float v_clamped = min(v_max, max(v_min, value));</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    const float range_per_value = (v_max - v_min) / (num_values - 1);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    const float idx_value = (v_clamped - v_min) / range_per_value;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    const int index = int(floor(idx_value));</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    if (index == num_values - 1)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        return values[index];</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    const float v_low = v_min + float(index) * range_per_value;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    const float t = (v_clamped - v_low) / range_per_value;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    return values[index] * (1.0f - t) + values[index + 1] * t;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;static __device__ inline float4 calcTransferFunctionColor(const float range_min, const float range_max,</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                                                          const float value, optix::buffer&lt;float3, 1&gt;&amp; colors,</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                                                          optix::buffer&lt;float, 1&gt;&amp; opacities)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    const float3 WHITE = make_float3(1.f, 1.f, 1.f);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    const float3 color = interpolateValues&lt;float3&gt;(range_min, range_max, value, colors);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    const float opacity = interpolateValues&lt;float&gt;(range_min, range_max, value, opacities);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    return make_float4(opacity * color + (1.0f - opacity) * WHITE, opacity);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;static __device__ inline float4 calcTransferFunctionColor(const int sampleId, const float2&amp; valueRange,</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                                                          const float value)</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    const float texcoord = (value - valueRange.x) / (valueRange.y - valueRange.x);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    return optix::rtTex1D&lt;float4&gt;(sampleId, texcoord);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

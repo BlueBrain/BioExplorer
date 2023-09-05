@@ -185,8 +185,6 @@ Typedefs</h2></td></tr>
 <tr class="separator:a6b8e4ec36867cb533565eca0e26a4773"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d6090005cfb9019b0d6c520915b7adf"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a8d6090005cfb9019b0d6c520915b7adf">SDFGeometriesPtr</a> = std::shared_ptr&lt; <a class="el" href="../../db/dd2/structospray_1_1SDFGeometries.html">SDFGeometries</a> &gt;</td></tr>
 <tr class="separator:a8d6090005cfb9019b0d6c520915b7adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96e8a9f65476a57be02f18d6b82db974"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a96e8a9f65476a57be02f18d6b82db974">SpikesMap</a> = std::map&lt; uint64_t, float &gt;</td></tr>
-<tr class="separator:a96e8a9f65476a57be02f18d6b82db974"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -204,6 +202,19 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="separator:a43884bcb270b34cb62c4762d144e5787"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdc93aaf6df1e55f824b85f187bf91ec"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#abdc93aaf6df1e55f824b85f187bf91ec">XYZFileFormat</a> { <br />
+&#160;&#160;<a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#abdc93aaf6df1e55f824b85f187bf91ecad415f0e30c471dfdd9bc4f827329ef48">unspecified</a> = 0
+, <a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#abdc93aaf6df1e55f824b85f187bf91eca9e4cbb42b5d6c466ad8c3dd174950bac">xyz_binary</a> = 1
+, <a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#abdc93aaf6df1e55f824b85f187bf91ecad34a1e2b43c12f14e140b83d570383a8">xyzr_binary</a> = 2
+, <a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#abdc93aaf6df1e55f824b85f187bf91eca5da2ae2700a3ad945d2c9d5a619c8fcd">xyzrv_binary</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#abdc93aaf6df1e55f824b85f187bf91ecad649628ba216d8f8a764c8ab204c3144">xyz_ascii</a> = 4
+, <a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#abdc93aaf6df1e55f824b85f187bf91eca44a4be84a01bb0b61c876d93b36cc9c5">xyzr_ascii</a> = 5
+, <a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#abdc93aaf6df1e55f824b85f187bf91ecaba550d0f752fd13169f7c9b7b6866182">xyzrv_ascii</a> = 6
+<br />
+ }</td></tr>
+<tr class="memdesc:abdc93aaf6df1e55f824b85f187bf91ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">File format for export of atom coordinates, radius and charge.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#abdc93aaf6df1e55f824b85f187bf91ec">More...</a><br /></td></tr>
+<tr class="separator:abdc93aaf6df1e55f824b85f187bf91ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -216,54 +227,51 @@ Functions</h2></td></tr>
 <tr class="memitem:abd875ed3e0e2421f483661531a434e87"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#abd875ed3e0e2421f483661531a434e87">trim</a> (std::string &amp;s)</td></tr>
 <tr class="memdesc:abd875ed3e0e2421f483661531a434e87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Left and right trim of a string.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#abd875ed3e0e2421f483661531a434e87">More...</a><br /></td></tr>
 <tr class="separator:abd875ed3e0e2421f483661531a434e87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3c9bab6c795dcd989bde8938e11774d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#aa3c9bab6c795dcd989bde8938e11774d">isClipped</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;position, const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a4200c06cfe8f2933097acc193e376617">Vector4ds</a> &amp;clippingPlanes)</td></tr>
-<tr class="memdesc:aa3c9bab6c795dcd989bde8938e11774d"><td class="mdescLeft">&#160;</td><td class="mdescRight">isClipped Determine if a 3d position is inside a volume defined by clipping planes  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#aa3c9bab6c795dcd989bde8938e11774d">More...</a><br /></td></tr>
-<tr class="separator:aa3c9bab6c795dcd989bde8938e11774d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a150b4f8c46abca9a415c4acb1aa21217"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a150b4f8c46abca9a415c4acb1aa21217">setDefaultTransferFunction</a> (<a class="el" href="../../d1/d11/classcore_1_1Model.html">Model</a> &amp;model, const <a class="el" href="../../d9/d0f/namespacecore.html#a8f279975d6e5e34c03c8ccf909f88719">Vector2d</a> range={0.0, 1.0}, const double alpha=1.0)</td></tr>
-<tr class="memdesc:a150b4f8c46abca9a415c4acb1aa21217"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the default transfer function (Unipolar) to a given model.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a150b4f8c46abca9a415c4acb1aa21217">More...</a><br /></td></tr>
-<tr class="separator:a150b4f8c46abca9a415c4acb1aa21217"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a258ca6ec0ce0e028b15f6f899728086a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#a4200c06cfe8f2933097acc193e376617">Vector4ds</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a258ca6ec0ce0e028b15f6f899728086a">getClippingPlanes</a> (const <a class="el" href="../../d5/d76/classcore_1_1Scene.html">Scene</a> &amp;scene)</td></tr>
-<tr class="memdesc:a258ca6ec0ce0e028b15f6f899728086a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Clipping Planes from the scene.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a258ca6ec0ce0e028b15f6f899728086a">More...</a><br /></td></tr>
-<tr class="separator:a258ca6ec0ce0e028b15f6f899728086a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c1bc4ace664adf9dd90bebced275170"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a8f279975d6e5e34c03c8ccf909f88719">Vector2d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a6c1bc4ace664adf9dd90bebced275170">doublesToVector2d</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;value)</td></tr>
-<tr class="memdesc:a6c1bc4ace664adf9dd90bebced275170"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a vector of doubles into a 2D vector.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a6c1bc4ace664adf9dd90bebced275170">More...</a><br /></td></tr>
-<tr class="separator:a6c1bc4ace664adf9dd90bebced275170"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbe8c9cd99673dd230695010ce1227f2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#afbe8c9cd99673dd230695010ce1227f2">doublesToVector3d</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;value)</td></tr>
-<tr class="memdesc:afbe8c9cd99673dd230695010ce1227f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a vector of doubles into a 3D vector.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#afbe8c9cd99673dd230695010ce1227f2">More...</a><br /></td></tr>
-<tr class="separator:afbe8c9cd99673dd230695010ce1227f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67c24a0ac85fbe6064f4e3146cb4edf4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a67c24a0ac85fbe6064f4e3146cb4edf4">vector3dToDoubles</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;value)</td></tr>
-<tr class="memdesc:a67c24a0ac85fbe6064f4e3146cb4edf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a 3D vector to a vector of doubles.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a67c24a0ac85fbe6064f4e3146cb4edf4">More...</a><br /></td></tr>
-<tr class="separator:a67c24a0ac85fbe6064f4e3146cb4edf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a2d60396621d021f06cea6c4ddb0977"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#ac08765c20593fc500d4a9ee2878ded8f">Vector4d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a2a2d60396621d021f06cea6c4ddb0977">doublesToVector4d</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;value)</td></tr>
-<tr class="memdesc:a2a2d60396621d021f06cea6c4ddb0977"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a vector of doubles into a 4D vector.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a2a2d60396621d021f06cea6c4ddb0977">More...</a><br /></td></tr>
-<tr class="separator:a2a2d60396621d021f06cea6c4ddb0977"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d5005100206bb6f0e8146f8e30e10e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a3d5005100206bb6f0e8146f8e30e10e0">doublesToQuaterniond</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;values)</td></tr>
-<tr class="memdesc:a3d5005100206bb6f0e8146f8e30e10e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a vector of doubles into a Quaternion.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a3d5005100206bb6f0e8146f8e30e10e0">More...</a><br /></td></tr>
-<tr class="separator:a3d5005100206bb6f0e8146f8e30e10e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab09abc57fbb8f60aedb578665dba01ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#a4200c06cfe8f2933097acc193e376617">Vector4ds</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#ab09abc57fbb8f60aedb578665dba01ab">doublesToVector4ds</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;values)</td></tr>
+<tr class="memitem:a9334b324d8911d7e6df9c1fb151c9d1d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a9334b324d8911d7e6df9c1fb151c9d1d">isClipped</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> &amp;position, const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#ab7629763b0d69bff03ff680a522e85d0">Vector4ds</a> &amp;clippingPlanes)</td></tr>
+<tr class="memdesc:a9334b324d8911d7e6df9c1fb151c9d1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">isClipped Determine if a 3d position is inside a volume defined by clipping planes  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a9334b324d8911d7e6df9c1fb151c9d1d">More...</a><br /></td></tr>
+<tr class="separator:a9334b324d8911d7e6df9c1fb151c9d1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4def77c067a61c987258e793db82dd26"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a4def77c067a61c987258e793db82dd26">setDefaultTransferFunction</a> (<a class="el" href="../../d1/d11/classcore_1_1Model.html">core::Model</a> &amp;model, const <a class="el" href="../../d9/d0f/namespacecore.html#a8f279975d6e5e34c03c8ccf909f88719">core::Vector2d</a> range={0.0, 1.0}, const double alpha=1.0)</td></tr>
+<tr class="memdesc:a4def77c067a61c987258e793db82dd26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the default transfer function (Unipolar) to a given model.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a4def77c067a61c987258e793db82dd26">More...</a><br /></td></tr>
+<tr class="separator:a4def77c067a61c987258e793db82dd26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b088dcff603aa0c87b0aef839ccad02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#ab7629763b0d69bff03ff680a522e85d0">Vector4ds</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a1b088dcff603aa0c87b0aef839ccad02">getClippingPlanes</a> (const <a class="el" href="../../d5/d76/classcore_1_1Scene.html">core::Scene</a> &amp;scene)</td></tr>
+<tr class="memdesc:a1b088dcff603aa0c87b0aef839ccad02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Clipping Planes from the scene.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a1b088dcff603aa0c87b0aef839ccad02">More...</a><br /></td></tr>
+<tr class="separator:a1b088dcff603aa0c87b0aef839ccad02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e1770a7c4c6af174fd36ca3030ee3b9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a8f279975d6e5e34c03c8ccf909f88719">Vector2d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a3e1770a7c4c6af174fd36ca3030ee3b9">doublesToVector2d</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;value)</td></tr>
+<tr class="memdesc:a3e1770a7c4c6af174fd36ca3030ee3b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a vector of doubles into a 2D vector.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a3e1770a7c4c6af174fd36ca3030ee3b9">More...</a><br /></td></tr>
+<tr class="separator:a3e1770a7c4c6af174fd36ca3030ee3b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1bcb53dae7ecdf7c4357218be6a4908"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#ad1bcb53dae7ecdf7c4357218be6a4908">doublesToVector3d</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;value)</td></tr>
+<tr class="memdesc:ad1bcb53dae7ecdf7c4357218be6a4908"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a vector of doubles into a 3D vector.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#ad1bcb53dae7ecdf7c4357218be6a4908">More...</a><br /></td></tr>
+<tr class="separator:ad1bcb53dae7ecdf7c4357218be6a4908"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18c06c8b1f3d9f324fc6913398e3b2ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a18c06c8b1f3d9f324fc6913398e3b2ec">vector3dToDoubles</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> &amp;value)</td></tr>
+<tr class="memdesc:a18c06c8b1f3d9f324fc6913398e3b2ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a 3D vector to a vector of doubles.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a18c06c8b1f3d9f324fc6913398e3b2ec">More...</a><br /></td></tr>
+<tr class="separator:a18c06c8b1f3d9f324fc6913398e3b2ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af24a9ca1b754928f7fe831ccdffe115f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#ac08765c20593fc500d4a9ee2878ded8f">Vector4d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#af24a9ca1b754928f7fe831ccdffe115f">doublesToVector4d</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;value)</td></tr>
+<tr class="memdesc:af24a9ca1b754928f7fe831ccdffe115f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a vector of doubles into a 4D vector.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#af24a9ca1b754928f7fe831ccdffe115f">More...</a><br /></td></tr>
+<tr class="separator:af24a9ca1b754928f7fe831ccdffe115f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5668fdbf6c942c12711568c6b009a839"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a5668fdbf6c942c12711568c6b009a839">doublesToQuaterniond</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;values)</td></tr>
+<tr class="memdesc:a5668fdbf6c942c12711568c6b009a839"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a vector of doubles into a Quaternion.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a5668fdbf6c942c12711568c6b009a839">More...</a><br /></td></tr>
+<tr class="separator:a5668fdbf6c942c12711568c6b009a839"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab09abc57fbb8f60aedb578665dba01ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#ab7629763b0d69bff03ff680a522e85d0">Vector4ds</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#ab09abc57fbb8f60aedb578665dba01ab">doublesToVector4ds</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;values)</td></tr>
 <tr class="memdesc:ab09abc57fbb8f60aedb578665dba01ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a vector of doubles into vector of 4D vectors.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#ab09abc57fbb8f60aedb578665dba01ab">More...</a><br /></td></tr>
 <tr class="separator:ab09abc57fbb8f60aedb578665dba01ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc4fb505adbc30d9a1310b2c335d37f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#afc4fb505adbc30d9a1310b2c335d37f9">doublesToMolecularSystemAnimationDetails</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;values)</td></tr>
-<tr class="memdesc:afc4fb505adbc30d9a1310b2c335d37f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a vector of doubles into molecular system animation details.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#afc4fb505adbc30d9a1310b2c335d37f9">More...</a><br /></td></tr>
-<tr class="separator:afc4fb505adbc30d9a1310b2c335d37f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5933d59b0aec3192b8bd13b46cbb188e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html">CellAnimationDetails</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a5933d59b0aec3192b8bd13b46cbb188e">doublesToCellAnimationDetails</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;values)</td></tr>
-<tr class="memdesc:a5933d59b0aec3192b8bd13b46cbb188e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a vector of doubles into cell animation details.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a5933d59b0aec3192b8bd13b46cbb188e">More...</a><br /></td></tr>
-<tr class="separator:a5933d59b0aec3192b8bd13b46cbb188e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed4fabf1739ad002a894a8a4f7468f4a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#aed4fabf1739ad002a894a8a4f7468f4a">doublesToMolecularSystemAnimationDetails</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;values)</td></tr>
+<tr class="memdesc:aed4fabf1739ad002a894a8a4f7468f4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a vector of doubles into molecular system animation details.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#aed4fabf1739ad002a894a8a4f7468f4a">More...</a><br /></td></tr>
+<tr class="separator:aed4fabf1739ad002a894a8a4f7468f4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af85fb0982b63e15598be3a8fc8b70f71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html">CellAnimationDetails</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#af85fb0982b63e15598be3a8fc8b70f71">doublesToCellAnimationDetails</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;values)</td></tr>
+<tr class="memdesc:af85fb0982b63e15598be3a8fc8b70f71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a vector of doubles into cell animation details.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#af85fb0982b63e15598be3a8fc8b70f71">More...</a><br /></td></tr>
+<tr class="separator:af85fb0982b63e15598be3a8fc8b70f71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a402b4b9978bca7fd5d91d58f547de856"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a402b4b9978bca7fd5d91d58f547de856">split</a> (const std::string &amp;s, const std::string &amp;delimiter=<a class="el" href="../../d8/d8e/namespacebioexplorer.html#ad03e28905f0937d5ed9c0771dab1f86c">CONTENTS_DELIMITER</a>)</td></tr>
 <tr class="memdesc:a402b4b9978bca7fd5d91d58f547de856"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits a string according to the delimiter.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a402b4b9978bca7fd5d91d58f547de856">More...</a><br /></td></tr>
 <tr class="separator:a402b4b9978bca7fd5d91d58f547de856"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08b7fdc8a08398a33a3e2737741af18f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/dcd/classcore_1_1Transformation.html">Transformation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a08b7fdc8a08398a33a3e2737741af18f">combineTransformations</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a2bbc9edaf4e4cae30c9bb3d1f5cbeb0c">Transformations</a> &amp;transformations)</td></tr>
-<tr class="memdesc:a08b7fdc8a08398a33a3e2737741af18f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combine a list of transformations.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a08b7fdc8a08398a33a3e2737741af18f">More...</a><br /></td></tr>
-<tr class="separator:a08b7fdc8a08398a33a3e2737741af18f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a404981d548bb5f79f64a94f1748dabce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a404981d548bb5f79f64a94f1748dabce">sphereFilling</a> (const double radius, const uint64_t occurrence, const uint64_t occurrences, const uint64_t rnd, <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;position, <a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a> &amp;rotation, const double ratio=1.0)</td></tr>
-<tr class="memdesc:a404981d548bb5f79f64a94f1748dabce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a position and a rotation of a instance on a sphere using a sphere-filling algorithm.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a404981d548bb5f79f64a94f1748dabce">More...</a><br /></td></tr>
-<tr class="separator:a404981d548bb5f79f64a94f1748dabce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24354afbe476f9296945fb95c26b1253"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a24354afbe476f9296945fb95c26b1253">rayBoxIntersection</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;origin, const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;direction, const <a class="el" href="../../d9/d0f/namespacecore.html#af8525fbf2d49b92c0f085bf707f1fdf8">Boxd</a> &amp;box, const double t0, const double t1, double &amp;t)</td></tr>
-<tr class="memdesc:a24354afbe476f9296945fb95c26b1253"><td class="mdescLeft">&#160;</td><td class="mdescRight">Intersection between a ray and a box.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a24354afbe476f9296945fb95c26b1253">More...</a><br /></td></tr>
-<tr class="separator:a24354afbe476f9296945fb95c26b1253"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67fc46694522ac99ce4f77539bfae861"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a6b6c1d7d7b841f105b0fa319fc2d507d">Vector4f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a67fc46694522ac99ce4f77539bfae861">getBezierPoint</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#aa6d430470c7509a6341822e23dfe9014">Vector4fs</a> &amp;controlPoints, const double t)</td></tr>
-<tr class="memdesc:a67fc46694522ac99ce4f77539bfae861"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Bezier Point from a curve defined by the provided control points.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a67fc46694522ac99ce4f77539bfae861">More...</a><br /></td></tr>
-<tr class="separator:a67fc46694522ac99ce4f77539bfae861"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af04193191eae42b9d48827c106f27122"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/dcd/classcore_1_1Transformation.html">Transformation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#af04193191eae42b9d48827c106f27122">combineTransformations</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#acf16e250a21b3150ab0e9f17d05237d2">Transformations</a> &amp;transformations)</td></tr>
+<tr class="memdesc:af04193191eae42b9d48827c106f27122"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combine a list of transformations.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#af04193191eae42b9d48827c106f27122">More...</a><br /></td></tr>
+<tr class="separator:af04193191eae42b9d48827c106f27122"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a056860a82b23dba0e4e21b781ad2928b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a056860a82b23dba0e4e21b781ad2928b">sphereFilling</a> (const double radius, const uint64_t occurrence, const uint64_t occurrences, const uint64_t rnd, <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> &amp;position, <a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">core::Quaterniond</a> &amp;rotation, const double ratio=1.0)</td></tr>
+<tr class="memdesc:a056860a82b23dba0e4e21b781ad2928b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a position and a rotation of a instance on a sphere using a sphere-filling algorithm.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a056860a82b23dba0e4e21b781ad2928b">More...</a><br /></td></tr>
+<tr class="separator:a056860a82b23dba0e4e21b781ad2928b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c93b30dc5e940c722a47ccf07521f4d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a0c93b30dc5e940c722a47ccf07521f4d">rayBoxIntersection</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> &amp;origin, const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> &amp;direction, const <a class="el" href="../../d9/d0f/namespacecore.html#af8525fbf2d49b92c0f085bf707f1fdf8">core::Boxd</a> &amp;box, const double t0, const double t1, double &amp;t)</td></tr>
+<tr class="memdesc:a0c93b30dc5e940c722a47ccf07521f4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Intersection between a ray and a box.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a0c93b30dc5e940c722a47ccf07521f4d">More...</a><br /></td></tr>
+<tr class="separator:a0c93b30dc5e940c722a47ccf07521f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3dfe1a200a7c54da94b64623c6376fd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#ac3dfe1a200a7c54da94b64623c6376fd">sphereVolume</a> (const double radius)</td></tr>
 <tr class="separator:ac3dfe1a200a7c54da94b64623c6376fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad43ada64d8f6e879c0765778030c73f5"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#ad43ada64d8f6e879c0765778030c73f5">cylinderVolume</a> (const double height, const double radius)</td></tr>
@@ -272,22 +280,22 @@ Functions</h2></td></tr>
 <tr class="separator:a16d3c37155d6097d01af0e1187002d38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1074d4cb02aa80e42c3198b4fed8fc6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#aa1074d4cb02aa80e42c3198b4fed8fc6">capsuleVolume</a> (const double height, const double radius)</td></tr>
 <tr class="separator:aa1074d4cb02aa80e42c3198b4fed8fc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa08dca9ee408f1442f73417e22858f7a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#aa08dca9ee408f1442f73417e22858f7a">transformVector3f</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;v, const <a class="el" href="../../d9/d0f/namespacecore.html#ac43e5b2e7a27eec94a9ffee80b3e0139">Matrix4f</a> &amp;transformation)</td></tr>
-<tr class="separator:aa08dca9ee408f1442f73417e22858f7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e9852dfa65ba0f019812f1791371294"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#a00dbbc950c7e5b91b2bff83faa2c172e">Vector3ds</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a9e9852dfa65ba0f019812f1791371294">getPointsInSphere</a> (const size_t nbPoints, const double innerRadius)</td></tr>
+<tr class="memitem:ae17665a391d3e5276e7651156fbee631"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#ae17665a391d3e5276e7651156fbee631">transformVector3f</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;v, const <a class="el" href="../../d9/d0f/namespacecore.html#ac43e5b2e7a27eec94a9ffee80b3e0139">Matrix4f</a> &amp;transformation)</td></tr>
+<tr class="separator:ae17665a391d3e5276e7651156fbee631"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e9852dfa65ba0f019812f1791371294"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1b859bac754c86e4a2523e621b829092">Vector3ds</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a9e9852dfa65ba0f019812f1791371294">getPointsInSphere</a> (const size_t nbPoints, const double innerRadius)</td></tr>
 <tr class="separator:a9e9852dfa65ba0f019812f1791371294"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a173dab3cb76c81821a341153df9ba48a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a173dab3cb76c81821a341153df9ba48a">mix</a> (const double x, const double y, const double a)</td></tr>
 <tr class="separator:a173dab3cb76c81821a341153df9ba48a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afce16bf0413d48661706ff32617a1a2a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#afce16bf0413d48661706ff32617a1a2a">frac</a> (const double x)</td></tr>
 <tr class="separator:afce16bf0413d48661706ff32617a1a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a333a019ae3e963740d15b109716f488c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a333a019ae3e963740d15b109716f488c">frac</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> v)</td></tr>
-<tr class="separator:a333a019ae3e963740d15b109716f488c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ffbf79c930073bf65a6402d9154d465"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a9ffbf79c930073bf65a6402d9154d465">frac</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> v)</td></tr>
+<tr class="separator:a9ffbf79c930073bf65a6402d9154d465"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48a80e5e5ddcfb93db5ab00e5a48f5a3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a48a80e5e5ddcfb93db5ab00e5a48f5a3">hash</a> (double n)</td></tr>
 <tr class="separator:a48a80e5e5ddcfb93db5ab00e5a48f5a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a669951d76234baae1ea478dc7dd93462"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a669951d76234baae1ea478dc7dd93462">noise</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;x)</td></tr>
 <tr class="separator:a669951d76234baae1ea478dc7dd93462"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ac7b422892936057fef76fa6616a72f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a5ac7b422892936057fef76fa6616a72f">mod</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;v, const int m)</td></tr>
-<tr class="separator:a5ac7b422892936057fef76fa6616a72f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dcb0e7240ae92b5a4dd7ea6528eac25"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a5dcb0e7240ae92b5a4dd7ea6528eac25">mod</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;v, const int m)</td></tr>
+<tr class="separator:a5dcb0e7240ae92b5a4dd7ea6528eac25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52d0f8e307bbf4eff621868e546444eb"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a52d0f8e307bbf4eff621868e546444eb">cells</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;p, const double cellCount)</td></tr>
 <tr class="separator:a52d0f8e307bbf4eff621868e546444eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae749a784b0f2c9bc7cbe86f794f30997"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#ae749a784b0f2c9bc7cbe86f794f30997">worleyNoise</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;p, double cellCount)</td></tr>
@@ -303,12 +311,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a17e2014783afc4f32171cade3aef0e6b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a17e2014783afc4f32171cade3aef0e6b">rnd3</a> (const uint64_t index)</td></tr>
 <tr class="memdesc:a17e2014783afc4f32171cade3aef0e6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a controlled random double between -0.5 and 0.5, currently a sinusoidal function.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a17e2014783afc4f32171cade3aef0e6b">More...</a><br /></td></tr>
 <tr class="separator:a17e2014783afc4f32171cade3aef0e6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1afa8d099a7456261dba97c051581bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#ae1afa8d099a7456261dba97c051581bd">weightedRandomRotation</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a> &amp;q, const uint64_t seed, const uint64_t index, const double weight)</td></tr>
-<tr class="memdesc:ae1afa8d099a7456261dba97c051581bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Randomly alters a quaternion according to the specified parameters.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#ae1afa8d099a7456261dba97c051581bd">More...</a><br /></td></tr>
-<tr class="separator:ae1afa8d099a7456261dba97c051581bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7116f1bb04ffa9d2564db9c441f12d77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a7116f1bb04ffa9d2564db9c441f12d77">randomQuaternion</a> (const uint64_t seed)</td></tr>
-<tr class="memdesc:a7116f1bb04ffa9d2564db9c441f12d77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a random quaternion.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a7116f1bb04ffa9d2564db9c441f12d77">More...</a><br /></td></tr>
-<tr class="separator:a7116f1bb04ffa9d2564db9c441f12d77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a462b2a41d3fd4f6df504bb770c9e911e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a462b2a41d3fd4f6df504bb770c9e911e">weightedRandomRotation</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">core::Quaterniond</a> &amp;q, const uint64_t seed, const uint64_t index, const double weight)</td></tr>
+<tr class="memdesc:a462b2a41d3fd4f6df504bb770c9e911e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Randomly alters a quaternion according to the specified parameters.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a462b2a41d3fd4f6df504bb770c9e911e">More...</a><br /></td></tr>
+<tr class="separator:a462b2a41d3fd4f6df504bb770c9e911e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a4d449812203f53a620f2579b2820aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a6a4d449812203f53a620f2579b2820aa">randomQuaternion</a> (const uint64_t seed)</td></tr>
+<tr class="memdesc:a6a4d449812203f53a620f2579b2820aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a random quaternion.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a6a4d449812203f53a620f2579b2820aa">More...</a><br /></td></tr>
+<tr class="separator:a6a4d449812203f53a620f2579b2820aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae96d05a98438feebac001bdcc6f9447f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#ae96d05a98438feebac001bdcc6f9447f">andCheck</a> (const uint32_t value, const uint32_t test)</td></tr>
 <tr class="memdesc:ae96d05a98438feebac001bdcc6f9447f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check is test is part of value using the AND operator.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#ae96d05a98438feebac001bdcc6f9447f">More...</a><br /></td></tr>
 <tr class="separator:ae96d05a98438feebac001bdcc6f9447f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -318,9 +326,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a0e919e857cb380428959bd94644c87fd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a0e919e857cb380428959bd94644c87fd">valueFromDoubles</a> (const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;array, const size_t index, const double defaultValue)</td></tr>
 <tr class="memdesc:a0e919e857cb380428959bd94644c87fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of an array of double at a given index. Default value if index is out of bounds.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a0e919e857cb380428959bd94644c87fd">More...</a><br /></td></tr>
 <tr class="separator:a0e919e857cb380428959bd94644c87fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e24e91a5dec3b3fd4621f48b1d2c88f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a4e24e91a5dec3b3fd4621f48b1d2c88f">getAlignmentToGrid</a> (const double gridSize, const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;position)</td></tr>
-<tr class="memdesc:a4e24e91a5dec3b3fd4621f48b1d2c88f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Align a 3D position to a given grid.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a4e24e91a5dec3b3fd4621f48b1d2c88f">More...</a><br /></td></tr>
-<tr class="separator:a4e24e91a5dec3b3fd4621f48b1d2c88f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8653181d329511af8e0fc9263ca25392"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a8653181d329511af8e0fc9263ca25392">getAlignmentToGrid</a> (const double gridSize, const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> &amp;position)</td></tr>
+<tr class="memdesc:a8653181d329511af8e0fc9263ca25392"><td class="mdescLeft">&#160;</td><td class="mdescRight">Align a 3D position to a given grid.  <a href="../../da/d0b/namespacebioexplorer_1_1common.html#a8653181d329511af8e0fc9263ca25392">More...</a><br /></td></tr>
+<tr class="separator:a8653181d329511af8e0fc9263ca25392"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -348,7 +356,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01351">1351</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00114">114</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -364,7 +372,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01352">1352</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00115">115</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -380,7 +388,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01344">1344</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00107">107</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -396,7 +404,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01343">1343</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00106">106</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -412,7 +420,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01367">1367</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00130">130</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -428,7 +436,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01366">1366</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00129">129</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -444,7 +452,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01365">1365</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00128">128</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -460,7 +468,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00034">34</a> of file <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html">ThreadSafeContainer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00032">32</a> of file <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html">ThreadSafeContainer.h</a>.</p>
 
 </div>
 </div>
@@ -476,7 +484,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00035">35</a> of file <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html">ThreadSafeContainer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html#l00033">33</a> of file <a class="el" href="../../dd/d8f/ThreadSafeContainer_8h_source.html">ThreadSafeContainer.h</a>.</p>
 
 </div>
 </div>
@@ -492,7 +500,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d92/Node_8h_source.html#l00069">69</a> of file <a class="el" href="../../db/d92/Node_8h_source.html">Node.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d92/Node_8h_source.html#l00074">74</a> of file <a class="el" href="../../db/d92/Node_8h_source.html">Node.h</a>.</p>
 
 </div>
 </div>
@@ -508,7 +516,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d92/Node_8h_source.html#l00068">68</a> of file <a class="el" href="../../db/d92/Node_8h_source.html">Node.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d92/Node_8h_source.html#l00073">73</a> of file <a class="el" href="../../db/d92/Node_8h_source.html">Node.h</a>.</p>
 
 </div>
 </div>
@@ -540,7 +548,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d8d/RNAShape_8h_source.html#l00080">80</a> of file <a class="el" href="../../d8/d8d/RNAShape_8h_source.html">RNAShape.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d8d/RNAShape_8h_source.html#l00078">78</a> of file <a class="el" href="../../d8/d8d/RNAShape_8h_source.html">RNAShape.h</a>.</p>
 
 </div>
 </div>
@@ -556,7 +564,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01375">1375</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00138">138</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -572,23 +580,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d8f/Shape_8h_source.html#l00101">101</a> of file <a class="el" href="../../de/d8f/Shape_8h_source.html">Shape.h</a>.</p>
-
-</div>
-</div>
-<a id="a96e8a9f65476a57be02f18d6b82db974"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96e8a9f65476a57be02f18d6b82db974">&#9670;&nbsp;</a></span>SpikesMap</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#a96e8a9f65476a57be02f18d6b82db974">bioexplorer::common::SpikesMap</a> = typedef std::map&lt;uint64_t, float&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01396">1396</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d8f/Shape_8h_source.html#l00099">99</a> of file <a class="el" href="../../de/d8f/Shape_8h_source.html">Shape.h</a>.</p>
 
 </div>
 </div>
@@ -604,7 +596,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01371">1371</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00134">134</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -633,7 +625,7 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a0a5c60da51c30895756bd229fac959bfac30163615770c8b2b8873288e828de41"></a>outside&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01346">1346</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00109">109</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -664,7 +656,49 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a43884bcb270b34cb62c4762d144e5787a3f71b8c37e1dc6371b5e4ff7edd138c2"></a>synapse_efficacy&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l01388">1388</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00151">151</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a id="abdc93aaf6df1e55f824b85f187bf91ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdc93aaf6df1e55f824b85f187bf91ec">&#9670;&nbsp;</a></span>XYZFileFormat</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="../../da/d0b/namespacebioexplorer_1_1common.html#abdc93aaf6df1e55f824b85f187bf91ec">bioexplorer::common::XYZFileFormat</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>File format for export of atom coordinates, radius and charge. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="abdc93aaf6df1e55f824b85f187bf91ecad415f0e30c471dfdd9bc4f827329ef48"></a>unspecified&#160;</td><td class="fielddoc"><p>Unspecified </p>
+</td></tr>
+<tr><td class="fieldname"><a id="abdc93aaf6df1e55f824b85f187bf91eca9e4cbb42b5d6c466ad8c3dd174950bac"></a>xyz_binary&#160;</td><td class="fielddoc"><p>x, y, z coordinates stored in binary representation (4 byte double) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="abdc93aaf6df1e55f824b85f187bf91ecad34a1e2b43c12f14e140b83d570383a8"></a>xyzr_binary&#160;</td><td class="fielddoc"><p>x, y, z coordinates and radius stored in binary representation (4 byte double) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="abdc93aaf6df1e55f824b85f187bf91eca5da2ae2700a3ad945d2c9d5a619c8fcd"></a>xyzrv_binary&#160;</td><td class="fielddoc"><p>x, y, z coordinates, radius, and charge stored in binary representation (4 byte double) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="abdc93aaf6df1e55f824b85f187bf91ecad649628ba216d8f8a764c8ab204c3144"></a>xyz_ascii&#160;</td><td class="fielddoc"><p>x, y, z coordinates stored in space separated ascii representation. One line per atom </p>
+</td></tr>
+<tr><td class="fieldname"><a id="abdc93aaf6df1e55f824b85f187bf91eca44a4be84a01bb0b61c876d93b36cc9c5"></a>xyzr_ascii&#160;</td><td class="fielddoc"><p>x, y, z coordinates and radius stored in space separated ascii representation. One line per atom </p>
+</td></tr>
+<tr><td class="fieldname"><a id="abdc93aaf6df1e55f824b85f187bf91ecaba550d0f752fd13169f7c9b7b6866182"></a>xyzrv_ascii&#160;</td><td class="fielddoc"><p>x, y, z coordinates, radius, and charge stored in space separated ascii representation. One line per atom </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00177">177</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -705,7 +739,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true is test is part of value using the AND operator, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00599">599</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00582">582</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -734,7 +768,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::string Yes if true, No otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00604">604</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00587">587</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -764,7 +798,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00455">455</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00438">438</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -794,20 +828,20 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00524">524</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00507">507</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a08b7fdc8a08398a33a3e2737741af18f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08b7fdc8a08398a33a3e2737741af18f">&#9670;&nbsp;</a></span>combineTransformations()</h2>
+<a id="af04193191eae42b9d48827c106f27122"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af04193191eae42b9d48827c106f27122">&#9670;&nbsp;</a></span>combineTransformations()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d0/dcd/classcore_1_1Transformation.html">Transformation</a> bioexplorer::common::combineTransformations </td>
+          <td class="memname"><a class="el" href="../../d0/dcd/classcore_1_1Transformation.html">core::Transformation</a> bioexplorer::common::combineTransformations </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a2bbc9edaf4e4cae30c9bb3d1f5cbeb0c">Transformations</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#acf16e250a21b3150ab0e9f17d05237d2">Transformations</a> &amp;&#160;</td>
           <td class="paramname"><em>transformations</em></td><td>)</td>
           <td></td>
         </tr>
@@ -823,7 +857,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Transformation Result of the combination </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00342">342</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00344">344</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -859,7 +893,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00450">450</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00433">433</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -889,18 +923,18 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00445">445</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00428">428</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a5933d59b0aec3192b8bd13b46cbb188e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5933d59b0aec3192b8bd13b46cbb188e">&#9670;&nbsp;</a></span>doublesToCellAnimationDetails()</h2>
+<a id="af85fb0982b63e15598be3a8fc8b70f71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af85fb0982b63e15598be3a8fc8b70f71">&#9670;&nbsp;</a></span>doublesToCellAnimationDetails()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html">CellAnimationDetails</a> bioexplorer::common::doublesToCellAnimationDetails </td>
+          <td class="memname"><a class="el" href="../../d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html">details::CellAnimationDetails</a> bioexplorer::common::doublesToCellAnimationDetails </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;&#160;</td>
           <td class="paramname"><em>values</em></td><td>)</td>
@@ -918,18 +952,18 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>CellAnimationDetails The animation details </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00313">313</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00315">315</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="afc4fb505adbc30d9a1310b2c335d37f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc4fb505adbc30d9a1310b2c335d37f9">&#9670;&nbsp;</a></span>doublesToMolecularSystemAnimationDetails()</h2>
+<a id="aed4fabf1739ad002a894a8a4f7468f4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed4fabf1739ad002a894a8a4f7468f4a">&#9670;&nbsp;</a></span>doublesToMolecularSystemAnimationDetails()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">MolecularSystemAnimationDetails</a> bioexplorer::common::doublesToMolecularSystemAnimationDetails </td>
+          <td class="memname"><a class="el" href="../../df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html">details::MolecularSystemAnimationDetails</a> bioexplorer::common::doublesToMolecularSystemAnimationDetails </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;&#160;</td>
           <td class="paramname"><em>values</em></td><td>)</td>
@@ -947,18 +981,18 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>MolecularSystemAnimationDetails The animation details </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00301">301</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00303">303</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a3d5005100206bb6f0e8146f8e30e10e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d5005100206bb6f0e8146f8e30e10e0">&#9670;&nbsp;</a></span>doublesToQuaterniond()</h2>
+<a id="a5668fdbf6c942c12711568c6b009a839"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5668fdbf6c942c12711568c6b009a839">&#9670;&nbsp;</a></span>doublesToQuaterniond()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a> bioexplorer::common::doublesToQuaterniond </td>
+          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">core::Quaterniond</a> bioexplorer::common::doublesToQuaterniond </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;&#160;</td>
           <td class="paramname"><em>values</em></td><td>)</td>
@@ -976,18 +1010,18 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Quaternion A quaternion </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00279">279</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00281">281</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a6c1bc4ace664adf9dd90bebced275170"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c1bc4ace664adf9dd90bebced275170">&#9670;&nbsp;</a></span>doublesToVector2d()</h2>
+<a id="a3e1770a7c4c6af174fd36ca3030ee3b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e1770a7c4c6af174fd36ca3030ee3b9">&#9670;&nbsp;</a></span>doublesToVector2d()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a8f279975d6e5e34c03c8ccf909f88719">Vector2d</a> bioexplorer::common::doublesToVector2d </td>
+          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a8f279975d6e5e34c03c8ccf909f88719">core::Vector2d</a> bioexplorer::common::doublesToVector2d </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -1005,18 +1039,18 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Vector2d A 2D vector </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00247">247</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00249">249</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="afbe8c9cd99673dd230695010ce1227f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afbe8c9cd99673dd230695010ce1227f2">&#9670;&nbsp;</a></span>doublesToVector3d()</h2>
+<a id="ad1bcb53dae7ecdf7c4357218be6a4908"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1bcb53dae7ecdf7c4357218be6a4908">&#9670;&nbsp;</a></span>doublesToVector3d()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> bioexplorer::common::doublesToVector3d </td>
+          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> bioexplorer::common::doublesToVector3d </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -1034,18 +1068,18 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Vector3d A 3D vector </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00256">256</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00258">258</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a2a2d60396621d021f06cea6c4ddb0977"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a2d60396621d021f06cea6c4ddb0977">&#9670;&nbsp;</a></span>doublesToVector4d()</h2>
+<a id="af24a9ca1b754928f7fe831ccdffe115f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af24a9ca1b754928f7fe831ccdffe115f">&#9670;&nbsp;</a></span>doublesToVector4d()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#ac08765c20593fc500d4a9ee2878ded8f">Vector4d</a> bioexplorer::common::doublesToVector4d </td>
+          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#ac08765c20593fc500d4a9ee2878ded8f">core::Vector4d</a> bioexplorer::common::doublesToVector4d </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -1063,7 +1097,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Vector3d A 4D vector </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00270">270</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00272">272</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1074,7 +1108,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#a4200c06cfe8f2933097acc193e376617">Vector4ds</a> bioexplorer::common::doublesToVector4ds </td>
+          <td class="memname"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#ab7629763b0d69bff03ff680a522e85d0">Vector4ds</a> bioexplorer::common::doublesToVector4ds </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> &amp;&#160;</td>
           <td class="paramname"><em>values</em></td><td>)</td>
@@ -1092,7 +1126,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Quaternion A vector of 4D vectors </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00288">288</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00290">290</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1112,18 +1146,18 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00492">492</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00475">475</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a333a019ae3e963740d15b109716f488c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a333a019ae3e963740d15b109716f488c">&#9670;&nbsp;</a></span>frac() <span class="overload">[2/2]</span></h2>
+<a id="a9ffbf79c930073bf65a6402d9154d465"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ffbf79c930073bf65a6402d9154d465">&#9670;&nbsp;</a></span>frac() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> bioexplorer::common::frac </td>
+          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> bioexplorer::common::frac </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a>&#160;</td>
           <td class="paramname"><em>v</em></td><td>)</td>
@@ -1132,18 +1166,18 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00497">497</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00480">480</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a4e24e91a5dec3b3fd4621f48b1d2c88f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e24e91a5dec3b3fd4621f48b1d2c88f">&#9670;&nbsp;</a></span>getAlignmentToGrid()</h2>
+<a id="a8653181d329511af8e0fc9263ca25392"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8653181d329511af8e0fc9263ca25392">&#9670;&nbsp;</a></span>getAlignmentToGrid()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> bioexplorer::common::getAlignmentToGrid </td>
+          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> bioexplorer::common::getAlignmentToGrid </td>
           <td>(</td>
           <td class="paramtype">const double&#160;</td>
           <td class="paramname"><em>gridSize</em>, </td>
@@ -1151,7 +1185,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> &amp;&#160;</td>
           <td class="paramname"><em>position</em>&#160;</td>
         </tr>
         <tr>
@@ -1172,60 +1206,20 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Vector3d An 3D position aligned to the grid </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00616">616</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00599">599</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a67fc46694522ac99ce4f77539bfae861"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67fc46694522ac99ce4f77539bfae861">&#9670;&nbsp;</a></span>getBezierPoint()</h2>
+<a id="a1b088dcff603aa0c87b0aef839ccad02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b088dcff603aa0c87b0aef839ccad02">&#9670;&nbsp;</a></span>getClippingPlanes()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a6b6c1d7d7b841f105b0fa319fc2d507d">Vector4f</a> bioexplorer::common::getBezierPoint </td>
+          <td class="memname"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#ab7629763b0d69bff03ff680a522e85d0">Vector4ds</a> bioexplorer::common::getClippingPlanes </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#aa6d430470c7509a6341822e23dfe9014">Vector4fs</a> &amp;&#160;</td>
-          <td class="paramname"><em>controlPoints</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const double&#160;</td>
-          <td class="paramname"><em>t</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get the Bezier Point from a curve defined by the provided control points. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">controlPoints</td><td>Curve control points with radius </td></tr>
-    <tr><td class="paramname">t</td><td>The t in the function for a curve can be thought of as describing how far B(t) is from first to last control point. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Vector3f </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00421">421</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a258ca6ec0ce0e028b15f6f899728086a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a258ca6ec0ce0e028b15f6f899728086a">&#9670;&nbsp;</a></span>getClippingPlanes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#a4200c06cfe8f2933097acc193e376617">Vector4ds</a> bioexplorer::common::getClippingPlanes </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d5/d76/classcore_1_1Scene.html">Scene</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d5/d76/classcore_1_1Scene.html">core::Scene</a> &amp;&#160;</td>
           <td class="paramname"><em>scene</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1241,7 +1235,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Vector4ds List of clipping planes </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00234">234</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00236">236</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1261,7 +1255,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00550">550</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00533">533</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1272,7 +1266,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#a00dbbc950c7e5b91b2bff83faa2c172e">Vector3ds</a> bioexplorer::common::getPointsInSphere </td>
+          <td class="memname"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1b859bac754c86e4a2523e621b829092">Vector3ds</a> bioexplorer::common::getPointsInSphere </td>
           <td>(</td>
           <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>nbPoints</em>, </td>
@@ -1291,7 +1285,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00471">471</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00454">454</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1311,12 +1305,12 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00502">502</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00485">485</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="aa3c9bab6c795dcd989bde8938e11774d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3c9bab6c795dcd989bde8938e11774d">&#9670;&nbsp;</a></span>isClipped()</h2>
+<a id="a9334b324d8911d7e6df9c1fb151c9d1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9334b324d8911d7e6df9c1fb151c9d1d">&#9670;&nbsp;</a></span>isClipped()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1324,13 +1318,13 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">bool bioexplorer::common::isClipped </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> &amp;&#160;</td>
           <td class="paramname"><em>position</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#a4200c06cfe8f2933097acc193e376617">Vector4ds</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d8/d8e/namespacebioexplorer.html#ab7629763b0d69bff03ff680a522e85d0">Vector4ds</a> &amp;&#160;</td>
           <td class="paramname"><em>clippingPlanes</em>&#160;</td>
         </tr>
         <tr>
@@ -1351,7 +1345,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the position does not belong to the volume, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00081">81</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00083">83</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1380,7 +1374,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Trimmed string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00064">64</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00066">66</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1416,18 +1410,18 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00487">487</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00470">470</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a5ac7b422892936057fef76fa6616a72f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ac7b422892936057fef76fa6616a72f">&#9670;&nbsp;</a></span>mod()</h2>
+<a id="a5dcb0e7240ae92b5a4dd7ea6528eac25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dcb0e7240ae92b5a4dd7ea6528eac25">&#9670;&nbsp;</a></span>mod()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> bioexplorer::common::mod </td>
+          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> bioexplorer::common::mod </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;&#160;</td>
           <td class="paramname"><em>v</em>, </td>
@@ -1446,7 +1440,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00519">519</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00502">502</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1466,18 +1460,18 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00507">507</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00490">490</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a7116f1bb04ffa9d2564db9c441f12d77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7116f1bb04ffa9d2564db9c441f12d77">&#9670;&nbsp;</a></span>randomQuaternion()</h2>
+<a id="a6a4d449812203f53a620f2579b2820aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a4d449812203f53a620f2579b2820aa">&#9670;&nbsp;</a></span>randomQuaternion()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a> bioexplorer::common::randomQuaternion </td>
+          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">core::Quaterniond</a> bioexplorer::common::randomQuaternion </td>
           <td>(</td>
           <td class="paramtype">const uint64_t&#160;</td>
           <td class="paramname"><em>seed</em></td><td>)</td>
@@ -1495,12 +1489,12 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Quaterniond Random quaternion </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00580">580</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00563">563</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a24354afbe476f9296945fb95c26b1253"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24354afbe476f9296945fb95c26b1253">&#9670;&nbsp;</a></span>rayBoxIntersection()</h2>
+<a id="a0c93b30dc5e940c722a47ccf07521f4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c93b30dc5e940c722a47ccf07521f4d">&#9670;&nbsp;</a></span>rayBoxIntersection()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1508,19 +1502,19 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">bool bioexplorer::common::rayBoxIntersection </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> &amp;&#160;</td>
           <td class="paramname"><em>origin</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> &amp;&#160;</td>
           <td class="paramname"><em>direction</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#af8525fbf2d49b92c0f085bf707f1fdf8">Boxd</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#af8525fbf2d49b92c0f085bf707f1fdf8">core::Boxd</a> &amp;&#160;</td>
           <td class="paramname"><em>box</em>, </td>
         </tr>
         <tr>
@@ -1565,7 +1559,7 @@ Variables</h2></td></tr>
 <dd>
 false The ray does not intersect with the box </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00383">383</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00385">385</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1587,7 +1581,7 @@ false The ray does not intersect with the box </dd></dl>
 <p>Return a random double between -0.5 and 0.5. </p>
 <dl class="section return"><dt>Returns</dt><dd>double A random double between -0.5 and 0.5 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00557">557</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00540">540</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1616,7 +1610,7 @@ false The ray does not intersect with the box </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double A random double between -0.5 and 0.5 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00562">562</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00545">545</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1645,7 +1639,7 @@ false The ray does not intersect with the box </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double A random double between -0.5 and 0.5 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00567">567</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00550">550</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1674,12 +1668,12 @@ false The ray does not intersect with the box </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Trimmed string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00070">70</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00072">72</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a150b4f8c46abca9a415c4acb1aa21217"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a150b4f8c46abca9a415c4acb1aa21217">&#9670;&nbsp;</a></span>setDefaultTransferFunction()</h2>
+<a id="a4def77c067a61c987258e793db82dd26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4def77c067a61c987258e793db82dd26">&#9670;&nbsp;</a></span>setDefaultTransferFunction()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1687,13 +1681,13 @@ false The ray does not intersect with the box </dd></dl>
         <tr>
           <td class="memname">void bioexplorer::common::setDefaultTransferFunction </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d1/d11/classcore_1_1Model.html">Model</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d1/d11/classcore_1_1Model.html">core::Model</a> &amp;&#160;</td>
           <td class="paramname"><em>model</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a8f279975d6e5e34c03c8ccf909f88719">Vector2d</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a8f279975d6e5e34c03c8ccf909f88719">core::Vector2d</a>&#160;</td>
           <td class="paramname"><em>range</em> = <code>{0.0,&#160;1.0}</code>, </td>
         </tr>
         <tr>
@@ -1718,18 +1712,18 @@ false The ray does not intersect with the box </dd></dl>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00097">97</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00099">99</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a404981d548bb5f79f64a94f1748dabce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a404981d548bb5f79f64a94f1748dabce">&#9670;&nbsp;</a></span>sphereFilling()</h2>
+<a id="a056860a82b23dba0e4e21b781ad2928b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a056860a82b23dba0e4e21b781ad2928b">&#9670;&nbsp;</a></span>sphereFilling()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> bioexplorer::common::sphereFilling </td>
+          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> bioexplorer::common::sphereFilling </td>
           <td>(</td>
           <td class="paramtype">const double&#160;</td>
           <td class="paramname"><em>radius</em>, </td>
@@ -1755,13 +1749,13 @@ false The ray does not intersect with the box </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> &amp;&#160;</td>
           <td class="paramname"><em>position</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">core::Quaterniond</a> &amp;&#160;</td>
           <td class="paramname"><em>rotation</em>, </td>
         </tr>
         <tr>
@@ -1792,7 +1786,7 @@ false The ray does not intersect with the box </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Vector3d </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00365">365</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00367">367</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1812,7 +1806,7 @@ false The ray does not intersect with the box </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00440">440</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00423">423</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1852,18 +1846,18 @@ false The ray does not intersect with the box </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;std::string&gt; Vector of strings </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00323">323</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00325">325</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="aa08dca9ee408f1442f73417e22858f7a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa08dca9ee408f1442f73417e22858f7a">&#9670;&nbsp;</a></span>transformVector3f()</h2>
+<a id="ae17665a391d3e5276e7651156fbee631"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae17665a391d3e5276e7651156fbee631">&#9670;&nbsp;</a></span>transformVector3f()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> bioexplorer::common::transformVector3f </td>
+          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">core::Vector3f</a> bioexplorer::common::transformVector3f </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;&#160;</td>
           <td class="paramname"><em>v</em>, </td>
@@ -1882,7 +1876,7 @@ false The ray does not intersect with the box </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00460">460</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00443">443</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1911,7 +1905,7 @@ false The ray does not intersect with the box </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Trimmed string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00076">76</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00078">78</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -1958,12 +1952,12 @@ false The ray does not intersect with the box </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00609">609</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00592">592</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a67c24a0ac85fbe6064f4e3146cb4edf4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67c24a0ac85fbe6064f4e3146cb4edf4">&#9670;&nbsp;</a></span>vector3dToDoubles()</h2>
+<a id="a18c06c8b1f3d9f324fc6913398e3b2ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18c06c8b1f3d9f324fc6913398e3b2ec">&#9670;&nbsp;</a></span>vector3dToDoubles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1971,7 +1965,7 @@ false The ray does not intersect with the box </dd></dl>
         <tr>
           <td class="memname"><a class="el" href="../../d8/d8e/namespacebioexplorer.html#a1c15d089306191219946f1f6768fb2f4">doubles</a> bioexplorer::common::vector3dToDoubles </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">Vector3d</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a543194cfde06c97da6eeb09c4b36917f">core::Vector3d</a> &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1987,20 +1981,20 @@ false The ray does not intersect with the box </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Vector3d Vector of doubles </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00265">265</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00267">267</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
-<a id="ae1afa8d099a7456261dba97c051581bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1afa8d099a7456261dba97c051581bd">&#9670;&nbsp;</a></span>weightedRandomRotation()</h2>
+<a id="a462b2a41d3fd4f6df504bb770c9e911e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a462b2a41d3fd4f6df504bb770c9e911e">&#9670;&nbsp;</a></span>weightedRandomRotation()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a> bioexplorer::common::weightedRandomRotation </td>
+          <td class="memname"><a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">core::Quaterniond</a> bioexplorer::common::weightedRandomRotation </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">Quaterniond</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#ab48ce26bcc63ada2dfa20f21f18c2c9a">core::Quaterniond</a> &amp;&#160;</td>
           <td class="paramname"><em>q</em>, </td>
         </tr>
         <tr>
@@ -2041,7 +2035,7 @@ false The ray does not intersect with the box </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Quaterniond Resulting modified quaternion </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00572">572</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00555">555</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -2071,7 +2065,7 @@ false The ray does not intersect with the box </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00545">545</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00528">528</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -2175,7 +2169,7 @@ false The ray does not intersect with the box </dd></dl>
 <div class="line">    0.870761691473,   0.368350833275,  0.228505271004,  0.3741636072,    0.347291149036,  0.753449262487,</div>
 <div class="line">    0.890757112194,   0.167150644248}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00040">40</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html#l00042">42</a> of file <a class="el" href="../../de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>

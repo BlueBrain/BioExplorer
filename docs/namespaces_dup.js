@@ -10,12 +10,10 @@ var namespaces_dup =
       [ "versions", "de/df1/namespacecheck__version.html#a783f1d7d6e240bc880453cd984248e29", null ]
     ] ],
     [ "core", "d9/d0f/namespacecore.html", "d9/d0f/namespacecore" ],
-    [ "medicalimagingexplorer", "db/dc5/namespacemedicalimagingexplorer.html", "db/dc5/namespacemedicalimagingexplorer" ],
     [ "metabolism", "db/df8/namespacemetabolism.html", "db/df8/namespacemetabolism" ],
     [ "ospray", "d1/d51/namespaceospray.html", "d1/d51/namespaceospray" ],
     [ "servus", "da/ded/namespaceservus.html", null ],
     [ "sonataexplorer", "d4/df1/namespacesonataexplorer.html", "d4/df1/namespacesonataexplorer" ],
-    [ "spaceexplorer", "da/d71/namespacespaceexplorer.html", "da/d71/namespacespaceexplorer" ],
     [ "staticjson", "d7/dd5/namespacestaticjson.html", [
       [ "init", "d7/dd5/namespacestaticjson.html#a9bf4490ae9ee9d86726aa9a5fe31aeea", null ],
       [ "init", "d7/dd5/namespacestaticjson.html#a2d16748e96ff159ab2f2ab8a6608ebdb", null ],

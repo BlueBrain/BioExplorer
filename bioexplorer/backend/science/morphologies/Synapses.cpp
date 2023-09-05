@@ -34,14 +34,17 @@
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
-namespace morphology
-{
 using namespace common;
+using namespace details;
 using namespace io;
 using namespace db;
 
+namespace morphology
+{
 Synapses::Synapses(Scene& scene, const SynapsesDetails& details, const Vector3d& assemblyPosition,
                    const Quaterniond& assemblyRotation)
     : Morphologies(0, assemblyPosition, assemblyRotation)

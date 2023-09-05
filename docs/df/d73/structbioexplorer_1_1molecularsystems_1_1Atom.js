@@ -7,7 +7,7 @@ var structbioexplorer_1_1molecularsystems_1_1Atom =
     [ "iCode", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#a8aac3a27d3fba8bada75a12031248786", null ],
     [ "name", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#a46b2bf70fb7dc442b7f114c69f5cd3bb", null ],
     [ "occupancy", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#a10abab8540d2a46a608390d3ae45cd5a", null ],
-    [ "position", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#a11b30ec5031a33660fd4f378ce2f16e8", null ],
+    [ "position", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#a048600068d77227a7188ec69f2d6abbb", null ],
     [ "radius", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#a6f4296882c84fd861f01ccf0ad908a48", null ],
     [ "reqSeq", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#aa77ed728d8b22d36d3ed7d4524a412b9", null ],
     [ "resName", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html#a8331ebc6914e8a8211032cc6f823378d", null ],

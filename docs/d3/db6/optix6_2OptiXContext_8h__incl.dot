@@ -8,7 +8,7 @@ digraph "platform/engines/optix6/OptiXContext.h"
   Node2 [label="OptiXTypes.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d2c/optix6_2OptiXTypes_8h.html",tooltip=" "];
   Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node3 [label="memory",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node4 [label="platform/core/common\l/Types.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d53/platform_2core_2common_2Types_8h.html",tooltip=" "];
   Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node5 [label="platform/core/common\l/MathTypes.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d55/MathTypes_8h.html",tooltip=" "];
@@ -49,6 +49,7 @@ digraph "platform/engines/optix6/OptiXContext.h"
   Node22 [label="map",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node4 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node4 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node23 [label="optixu/optixpp_namespace.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

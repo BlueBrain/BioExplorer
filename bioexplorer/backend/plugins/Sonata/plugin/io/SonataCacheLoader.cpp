@@ -36,12 +36,15 @@
 
 #include <fstream>
 
+using namespace core;
+
 namespace sonataexplorer
 {
 namespace io
 {
 namespace loader
 {
+using namespace core;
 using namespace neuroscience;
 using namespace neuron;
 
@@ -486,7 +489,7 @@ ModelDescriptorPtr SonataCacheLoader::importFromFile(const std::string& filename
             for (uint64_t i = 0; i < nbElements; ++i)
             {
                 const char* index = (char*)sdfData.geometries.data() + i * sizeof(SDFGeometry) + sizeof(uint64_t);
-                memcpy((char*)index, &DISPLACEMENT_PARAMS, sizeof(Vector3f));
+                memcpy((char*)index, &neuroscience::common::DISPLACEMENT_PARAMS, sizeof(Vector3f));
             }
 
         // SDF Indices
@@ -549,9 +552,9 @@ ModelDescriptorPtr SonataCacheLoader::importFromFile(const std::string& filename
         size_t reportType{0};
         file.read((char*)&reportType, sizeof(size_t));
 
-        switch (static_cast<ReportType>(reportType))
+        switch (static_cast<neuroscience::common::ReportType>(reportType))
         {
-        case ReportType::voltages_from_file:
+        case neuroscience::common::ReportType::voltages_from_file:
         {
             // Report path
             const auto reportPath = _readString(file);
@@ -575,7 +578,7 @@ ModelDescriptorPtr SonataCacheLoader::importFromFile(const std::string& filename
             model->setSimulationHandler(handler);
             break;
         }
-        case ReportType::spikes:
+        case neuroscience::common::ReportType::spikes:
         {
             // Report path
             const auto reportPath = _readString(file);
@@ -886,7 +889,7 @@ void SonataCacheLoader::exportToFile(const ModelDescriptorPtr modelDescriptor, c
         SpikeSimulationHandler* ssh = dynamic_cast<SpikeSimulationHandler*>(handler.get());
         if (vsh)
         {
-            const size_t reportType{static_cast<size_t>(ReportType::voltages_from_file)};
+            const size_t reportType{static_cast<size_t>(neuroscience::common::ReportType::voltages_from_file)};
             file.write((char*)&reportType, sizeof(size_t));
 
             // Report path
@@ -908,7 +911,7 @@ void SonataCacheLoader::exportToFile(const ModelDescriptorPtr modelDescriptor, c
         }
         else if (ssh)
         {
-            const size_t reportType{static_cast<size_t>(ReportType::spikes)};
+            const size_t reportType{static_cast<size_t>(neuroscience::common::ReportType::spikes)};
             file.write((char*)&reportType, sizeof(size_t));
 
             // Report path
@@ -928,7 +931,7 @@ void SonataCacheLoader::exportToFile(const ModelDescriptorPtr modelDescriptor, c
         {
             // Handler is ignored. Only voltage simulation handler is
             // currently supported
-            const size_t reportType{static_cast<size_t>(ReportType::undefined)};
+            const size_t reportType{static_cast<size_t>(neuroscience::common::ReportType::undefined)};
             file.write((char*)&reportType, sizeof(size_t));
         }
     }

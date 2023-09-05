@@ -31,10 +31,6 @@ namespace bioexplorer
 {
 namespace connectomics
 {
-using namespace core;
-using namespace common;
-using namespace details;
-
 /**
  * @brief The SynapseEfficacySimulationHandler handles the reading of simulation
  * information from the database at a soma level. When attached to a
@@ -42,11 +38,12 @@ using namespace details;
  * mapped to the geometry by the BioExplorer advanced renderer
  *
  */
-class SynapseEfficacySimulationHandler : public AbstractSimulationHandler
+class SynapseEfficacySimulationHandler : public core::AbstractSimulationHandler
 {
 public:
     /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
-    SynapseEfficacySimulationHandler(const SynapseEfficacyDetails& details);
+    SynapseEfficacySimulationHandler(const details::SynapseEfficacyDetails& details);
+
     /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
     SynapseEfficacySimulationHandler(const SynapseEfficacySimulationHandler& rhs);
 
@@ -59,8 +56,8 @@ public:
 private:
     void _logSimulationInformation();
 
-    SynapseEfficacyDetails _details;
-    SimulationReport _simulationReport;
+    details::SynapseEfficacyDetails _details;
+    common::SimulationReport _simulationReport;
 
     std::map<uint64_t, floats> _values;
 };

@@ -11,6 +11,8 @@ var optix6_2cuda_2geometry_2GeometryData_8h =
     [ "Cylinder", "d6/d65/structcore_1_1GeometryData_1_1Cylinder.html", "d6/d65/structcore_1_1GeometryData_1_1Cylinder" ],
     [ "Cone", "d1/d73/structcore_1_1GeometryData_1_1Cone.html", "d1/d73/structcore_1_1GeometryData_1_1Cone" ],
     [ "Curves", "d1/da6/structcore_1_1GeometryData_1_1Curves.html", "d1/da6/structcore_1_1GeometryData_1_1Curves" ],
+    [ "Volume", "df/d83/structcore_1_1GeometryData_1_1Volume.html", "df/d83/structcore_1_1GeometryData_1_1Volume" ],
+    [ "StreamLines", "db/da2/structcore_1_1GeometryData_1_1StreamLines.html", "db/da2/structcore_1_1GeometryData_1_1StreamLines" ],
     [ "SphereHitGroupData", "d3/d73/structcore_1_1SphereHitGroupData.html", "d3/d73/structcore_1_1SphereHitGroupData" ],
     [ "float3_as_uints", "d1/dfb/optix6_2cuda_2geometry_2GeometryData_8h.html#a6da293d58682069dcae1939ac0cc50da", null ]
 ];

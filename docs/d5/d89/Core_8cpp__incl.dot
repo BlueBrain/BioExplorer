@@ -119,6 +119,8 @@ digraph "platform/core/Core.cpp"
   Node46 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node50 [label="platform/core/common\l/geometry/Curve.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/de7/Curve_8h.html",tooltip=" "];
   Node50 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 -> Node51 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="platform/core/common\l/geometry/Cylinder.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$d9/d0a/Cylinder_8h.html",tooltip=" "];
   Node1 -> Node59 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node59 [label="platform/core/engineapi\l/Renderer.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$d8/db2/Renderer_8h.html",tooltip=" "];
   Node59 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -137,16 +139,14 @@ digraph "platform/core/Core.cpp"
   Node76 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node76 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node80 [label="platform/core/io/Protein\lLoader.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$d7/d02/ProteinLoader_8h.html",tooltip=" "];
+  Node80 [label="platform/core/io/VolumeLoader.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$dd/d50/VolumeLoader_8h.html",tooltip=" "];
   Node1 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node81 [label="platform/core/io/VolumeLoader.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$dd/d50/VolumeLoader_8h.html",tooltip=" "];
+  Node81 [label="platform/core/io/XYZBLoader.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$dd/d13/XYZBLoader_8h.html",tooltip=" "];
   Node1 -> Node82 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node82 [label="platform/core/io/XYZBLoader.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$dd/d13/XYZBLoader_8h.html",tooltip=" "];
+  Node82 [label="platform/core/pluginapi\l/Plugin.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/def/Plugin_8h.html",tooltip=" "];
+  Node82 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node83 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node83 [label="platform/core/pluginapi\l/Plugin.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/def/Plugin_8h.html",tooltip=" "];
-  Node83 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node83 [label="mutex",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node84 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node84 [label="mutex",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node1 -> Node85 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node85 [label="thread",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node84 [label="thread",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

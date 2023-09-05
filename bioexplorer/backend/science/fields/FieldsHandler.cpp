@@ -32,11 +32,15 @@
 
 #include <fstream>
 
+using namespace core;
+
 namespace bioexplorer
 {
+using namespace common;
+using namespace io;
+
 namespace fields
 {
-using namespace common;
 
 FieldsHandler::FieldsHandler(const Scene& scene, const double voxelSize, const double density)
     : AbstractSimulationHandler()

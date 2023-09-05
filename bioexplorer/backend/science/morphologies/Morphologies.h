@@ -29,9 +29,6 @@ namespace bioexplorer
 {
 namespace morphology
 {
-using namespace core;
-using namespace common;
-
 const double DEFAULT_SPINE_RADIUS = 0.25;
 
 const size_t NB_MATERIALS_PER_MORPHOLOGY = 10;
@@ -52,22 +49,22 @@ const int64_t SOMA_AS_PARENT = -1;
 /**
  * @brief The Morphologies class
  */
-class Morphologies : public SDFGeometries
+class Morphologies : public common::SDFGeometries
 {
 public:
     /**
      * @brief Construct a new Morphologies object
      *
      */
-    Morphologies(const double alignToGrid, const Vector3d& position, const Quaterniond& rotation,
-                 const Vector3f& scale = Vector3d(1.0, 1.0, 1.0));
+    Morphologies(const double alignToGrid, const core::Vector3d& position, const core::Quaterniond& rotation,
+                 const core::Vector3f& scale = core::Vector3d(1.0, 1.0, 1.0));
 
 protected:
     size_t _getNbMitochondrionSegments() const;
 
-    void _addSomaInternals(ThreadSafeContainer& container, const size_t materialId, const Vector3d& somaPosition,
-                           const double somaRadius, const double mitochondriaDensity, const bool useSdf,
-                           const double radiusMultiplier);
+    void _addSomaInternals(common::ThreadSafeContainer& container, const size_t materialId,
+                           const core::Vector3d& somaPosition, const double somaRadius,
+                           const double mitochondriaDensity, const bool useSdf, const double radiusMultiplier);
 
     double _getDistanceToSoma(const SectionMap& sections, const Section& section);
 

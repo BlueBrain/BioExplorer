@@ -30,15 +30,12 @@ namespace bioexplorer
 {
 namespace molecularsystems
 {
-using namespace common;
-using namespace details;
-
 /**
  * @brief A Membrane object implements a 3D structure of a given shape, but with
  * a surface composed of instances of one or several proteins
  *
  */
-class Membrane : public SDFGeometries
+class Membrane : public common::SDFGeometries
 {
 public:
     /**
@@ -46,8 +43,9 @@ public:
      *
      * @param scene The 3D scene where the membrane are added
      */
-    Membrane(const MembraneDetails &details, Scene &scene, const Vector3d &assemblyPosition,
-             const Quaterniond &assemblyRotation, const ShapePtr shape, const ProteinMap &transmembraneProteins);
+    Membrane(const details::MembraneDetails &details, core::Scene &scene, const core::Vector3d &assemblyPosition,
+             const core::Quaterniond &assemblyRotation, const common::ShapePtr shape,
+             const molecularsystems::ProteinMap &transmembraneProteins);
 
     /**
      * @brief Destroy the Membrane object
@@ -68,12 +66,12 @@ private:
     void _processInstances();
     std::string _getElementNameFromId(const size_t id) const;
 
-    Scene &_scene;
-    MembraneDetails _details;
+    core::Scene &_scene;
+    details::MembraneDetails _details;
     uint64_t _nbOccurrences;
-    const ProteinMap &_transmembraneProteins;
-    ProteinMap _lipids;
-    ShapePtr _shape{nullptr};
+    const molecularsystems::ProteinMap &_transmembraneProteins;
+    molecularsystems::ProteinMap _lipids;
+    common::ShapePtr _shape{nullptr};
 };
 } // namespace molecularsystems
 } // namespace bioexplorer

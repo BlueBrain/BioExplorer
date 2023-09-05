@@ -33,14 +33,17 @@
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
-namespace atlas
-{
 using namespace common;
+using namespace details;
 using namespace io;
 using namespace db;
 
+namespace atlas
+{
 Atlas::Atlas(Scene& scene, const AtlasDetails& details, const Vector3d& position, const Quaterniond& rotation)
     : SDFGeometries(NO_GRID_ALIGNMENT, position, rotation, doublesToVector3d(details.scale))
     , _details(details)

@@ -30,8 +30,12 @@
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Model.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
+using namespace morphology;
+
 namespace common
 {
 SDFGeometries::SDFGeometries(const double alignToGrid, const Vector3d& position, const Quaterniond& rotation,
@@ -41,28 +45,6 @@ SDFGeometries::SDFGeometries(const double alignToGrid, const Vector3d& position,
     , _position(position)
     , _rotation(rotation)
 {
-}
-
-void SDFGeometries::addSDFDemo(Model& model)
-{
-    size_t materialId = 0;
-    const bool useSdf = true;
-    const Vector3f displacement{0.1f, 10.f, 0.f};
-
-    ThreadSafeContainer modelContainer(model, _alignToGrid, _position, _rotation);
-    Neighbours neighbours;
-    neighbours.insert(modelContainer.addCone(Vector3d(-1, 0, 0), 0.25, Vector3d(0, 0, 0), 0.1, materialId, useSdf,
-                                             NO_USER_DATA, neighbours, displacement));
-    neighbours.insert(modelContainer.addCone(Vector3d(0, 0, 0), 0.1, Vector3d(1, 0, 0), 0.25, materialId, useSdf,
-                                             NO_USER_DATA, neighbours, displacement));
-    neighbours.insert(modelContainer.addSphere(Vector3d(-0.5, 0, 0), 0.25, materialId, useSdf, NO_USER_DATA, neighbours,
-                                               displacement));
-    neighbours.insert(modelContainer.addSphere(Vector3d(0.5, 0, 0), 0.25, materialId, useSdf, NO_USER_DATA, neighbours,
-                                               displacement));
-    neighbours.insert(modelContainer.addCone(Vector3d(0, 0.25, 0), 0.5, Vector3d(0, 1, 0), 0.0, materialId, useSdf,
-                                             NO_USER_DATA, neighbours, displacement));
-
-    modelContainer.commitToModel();
 }
 
 Vector3d SDFGeometries::_animatedPosition(const Vector4d& position, const uint64_t index) const

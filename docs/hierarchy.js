@@ -53,8 +53,6 @@ var hierarchy =
     [ "bioexplorer::morphology::AstrocyteSoma", "d6/d17/structbioexplorer_1_1morphology_1_1AstrocyteSoma.html", null ],
     [ "bioexplorer::details::AtlasDetails", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails.html", null ],
     [ "bioexplorer::molecularsystems::Atom", "df/d73/structbioexplorer_1_1molecularsystems_1_1Atom.html", null ],
-    [ "core::Atom", "da/d9b/structcore_1_1Atom.html", null ],
-    [ "core::AtomicRadius", "d8/d8e/structcore_1_1AtomicRadius.html", null ],
     [ "sonataexplorer::api::AttachCellGrowthHandler", "d5/de4/structsonataexplorer_1_1api_1_1AttachCellGrowthHandler.html", null ],
     [ "sonataexplorer::api::AttachCircuitSimulationHandler", "d7/db5/structsonataexplorer_1_1api_1_1AttachCircuitSimulationHandler.html", null ],
     [ "bioexplorer::metabolism::AttachHandlerDetails", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html", null ],
@@ -100,7 +98,6 @@ var hierarchy =
           [ "core::OptiXMaterial", "df/d9b/classcore_1_1OptiXMaterial.html", null ]
         ] ],
         [ "core::Renderer", "dd/d5b/classcore_1_1Renderer.html", [
-          [ "bioexplorer::rendering::GolgiStyleRenderer", "d5/df2/classbioexplorer_1_1rendering_1_1GolgiStyleRenderer.html", null ],
           [ "core::OSPRayRenderer", "db/d67/classcore_1_1OSPRayRenderer.html", null ],
           [ "core::OptiXRenderer", "d4/d9b/classcore_1_1OptiXRenderer.html", null ],
           [ "core::OptiXRenderer", "d4/d9b/classcore_1_1OptiXRenderer.html", null ]
@@ -171,7 +168,6 @@ var hierarchy =
     [ "bioexplorer::details::DatabaseAccessDetails", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html", null ],
     [ "bioexplorer::io::db::DBConnector", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html", null ],
     [ "bioexplorer::metabolism::DBConnector", "db/df8/classbioexplorer_1_1metabolism_1_1DBConnector.html", null ],
-    [ "medicalimagingexplorer::dicom::DICOMImageDescriptor", "d9/d24/structmedicalimagingexplorer_1_1dicom_1_1DICOMImageDescriptor.html", null ],
     [ "core::DirectoryFileList", "d6/d42/structcore_1_1DirectoryFileList.html", null ],
     [ "core::DirectoryFiles", "d9/d44/structcore_1_1DirectoryFiles.html", null ],
     [ "core::DynamicLib", "d9/d2d/classcore_1_1DynamicLib.html", null ],
@@ -199,9 +195,7 @@ var hierarchy =
       [ "core::OpenDeckPlugin", "d9/d72/classcore_1_1OpenDeckPlugin.html", null ],
       [ "core::RocketsPlugin", "d1/dfb/classcore_1_1RocketsPlugin.html", null ],
       [ "core::VRPNPlugin", "d5/d90/classcore_1_1VRPNPlugin.html", null ],
-      [ "medicalimagingexplorer::dicom::DICOMPlugin", "dc/d91/classmedicalimagingexplorer_1_1dicom_1_1DICOMPlugin.html", null ],
-      [ "sonataexplorer::SonataExplorerPlugin", "d6/d43/classsonataexplorer_1_1SonataExplorerPlugin.html", null ],
-      [ "spaceexplorer::blackhole::BlackHolePlugin", "d1/d16/classspaceexplorer_1_1blackhole_1_1BlackHolePlugin.html", null ]
+      [ "sonataexplorer::SonataExplorerPlugin", "d6/d43/classsonataexplorer_1_1SonataExplorerPlugin.html", null ]
     ] ],
     [ "bioexplorer::details::FileAccessDetails", "de/d38/structbioexplorer_1_1details_1_1FileAccessDetails.html", null ],
     [ "core::FileContent", "d2/de7/structcore_1_1FileContent.html", null ],
@@ -264,11 +258,9 @@ var hierarchy =
       [ "core::ArchiveLoader", "d6/deb/classcore_1_1ArchiveLoader.html", null ],
       [ "core::MHDVolumeLoader", "d3/dd5/classcore_1_1MHDVolumeLoader.html", null ],
       [ "core::MeshLoader", "df/d21/classcore_1_1MeshLoader.html", null ],
-      [ "core::ProteinLoader", "df/d43/classcore_1_1ProteinLoader.html", null ],
       [ "core::RawVolumeLoader", "db/d96/classcore_1_1RawVolumeLoader.html", null ],
       [ "core::XYZBLoader", "d8/dca/classcore_1_1XYZBLoader.html", null ],
-      [ "medicalimagingexplorer::dicom::DICOMLoader", "d3/d05/classmedicalimagingexplorer_1_1dicom_1_1DICOMLoader.html", null ],
-      [ "sonataexplorer::io::loader::BrickLoader", "d2/d88/classsonataexplorer_1_1io_1_1loader_1_1BrickLoader.html", null ],
+      [ "sonataexplorer::io::loader::SonataCacheLoader", "d3/de0/classsonataexplorer_1_1io_1_1loader_1_1SonataCacheLoader.html", null ],
       [ "sonataexplorer::neuroscience::astrocyte::AstrocyteLoader", "d9/d93/classsonataexplorer_1_1neuroscience_1_1astrocyte_1_1AstrocyteLoader.html", null ],
       [ "sonataexplorer::neuroscience::common::MorphologyLoader", "d5/d4a/classsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyLoader.html", null ],
       [ "sonataexplorer::neuroscience::neuron::AbstractCircuitLoader", "d2/d5b/classsonataexplorer_1_1neuroscience_1_1neuron_1_1AbstractCircuitLoader.html", [
@@ -348,7 +340,6 @@ var hierarchy =
     [ "core::ParametersManager", "dc/d04/classcore_1_1ParametersManager.html", null ],
     [ "core::Params", "d2/dc9/structcore_1_1Params.html", null ],
     [ "Params", "de/db8/structParams.html", null ],
-    [ "core::PDBCellPositions", "dc/d82/structcore_1_1PDBCellPositions.html", null ],
     [ "core::PerRayData_radiance", "d9/d46/structcore_1_1PerRayData__radiance.html", null ],
     [ "PerRayData_radiance", "d3/db2/structPerRayData__radiance.html", null ],
     [ "PerRayData_shadow", "d7/dee/structPerRayData__shadow.html", null ],
@@ -367,7 +358,6 @@ var hierarchy =
     [ "sonataexplorer::meshing::PointCloudMesher", "d3/dce/classsonataexplorer_1_1meshing_1_1PointCloudMesher.html", null ],
     [ "core::Property", "d4/d72/structcore_1_1Property.html", null ],
     [ "core::PropertyMap", "d9/daa/classcore_1_1PropertyMap.html", null ],
-    [ "core::ProteinColorMap", "dc/d47/structcore_1_1ProteinColorMap.html", null ],
     [ "bioexplorer::details::ProteinColorSchemeDetails", "d4/d19/structbioexplorer_1_1details_1_1ProteinColorSchemeDetails.html", null ],
     [ "bioexplorer::details::ProteinDetails", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html", null ],
     [ "bioexplorer::details::ProteinInspectionDetails", "d7/d80/structbioexplorer_1_1details_1_1ProteinInspectionDetails.html", null ],
@@ -382,6 +372,7 @@ var hierarchy =
       [ "bioexplorer::mediamaker::rendering::ShadowRenderer", "d3/d1a/classbioexplorer_1_1mediamaker_1_1rendering_1_1ShadowRenderer.html", null ],
       [ "bioexplorer::rendering::DensityRenderer", "de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html", null ],
       [ "bioexplorer::rendering::FieldsRenderer", "de/d6a/classbioexplorer_1_1rendering_1_1FieldsRenderer.html", null ],
+      [ "bioexplorer::rendering::GolgiStyleRenderer", "d5/df2/classbioexplorer_1_1rendering_1_1GolgiStyleRenderer.html", null ],
       [ "core::AbstractRenderer", "d1/d37/classcore_1_1AbstractRenderer.html", [
         [ "core::BasicRenderer", "da/db1/classcore_1_1BasicRenderer.html", null ],
         [ "core::SimulationRenderer", "d2/db4/classcore_1_1SimulationRenderer.html", [
@@ -390,8 +381,7 @@ var hierarchy =
           [ "core::AdvancedRenderer", "d8/de7/classcore_1_1AdvancedRenderer.html", null ],
           [ "sonataexplorer::CellGrowthRenderer", "d0/d29/classsonataexplorer_1_1CellGrowthRenderer.html", null ],
           [ "sonataexplorer::ProximityDetectionRenderer", "da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html", null ]
-        ] ],
-        [ "spaceexplorer::blackhole::BlackHoleRenderer", "d3/d00/classspaceexplorer_1_1blackhole_1_1BlackHoleRenderer.html", null ]
+        ] ]
       ] ],
       [ "metabolism::rendering::MetabolismRenderer", "d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html", null ]
     ] ],
@@ -401,8 +391,7 @@ var hierarchy =
     [ "bioexplorer::details::Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", null ],
     [ "bioexplorer::mediamaker::Response", "db/df4/structbioexplorer_1_1mediamaker_1_1Response.html", null ],
     [ "sonataexplorer::api::Response", "d5/d25/structsonataexplorer_1_1api_1_1Response.html", null ],
-    [ "spaceexplorer::blackhole::Response", "d6/d31/structspaceexplorer_1_1blackhole_1_1Response.html", null ],
-    [ "bioexplorer::details::RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", null ],
+    [ "bioexplorer::molecularsystems::RGBColorDetails", "d6/d55/structbioexplorer_1_1molecularsystems_1_1RGBColorDetails.html", null ],
     [ "bioexplorer::details::RNASequenceDetails", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html", null ],
     [ "core::RpcDescription", "d4/d63/structcore_1_1RpcDescription.html", [
       [ "core::RpcParameterDescription", "da/d22/structcore_1_1RpcParameterDescription.html", null ]
@@ -445,6 +434,7 @@ var hierarchy =
     [ "bioexplorer::details::SpikeReportVisualizationSettingsDetails", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails.html", null ],
     [ "core::State", "de/d72/structcore_1_1State.html", null ],
     [ "core::Streamline", "df/da1/structcore_1_1Streamline.html", null ],
+    [ "core::GeometryData::StreamLines", "db/da2/structcore_1_1GeometryData_1_1StreamLines.html", null ],
     [ "core::StreamlinesData", "da/d60/structcore_1_1StreamlinesData.html", null ],
     [ "bioexplorer::details::SugarDetails", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html", null ],
     [ "bioexplorer::meshing::SurfaceMesher", "d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html", null ],
@@ -476,6 +466,8 @@ var hierarchy =
     [ "core::Vec2f", "d1/df6/structcore_1_1Vec2f.html", null ],
     [ "core::Vec4f", "dc/d64/structcore_1_1Vec4f.html", null ],
     [ "core::VideoStreamParam", "dd/d66/structcore_1_1VideoStreamParam.html", null ],
+    [ "core::GeometryData::Volume", "df/d83/structcore_1_1GeometryData_1_1Volume.html", null ],
+    [ "core::VolumeGeometry", "db/dee/structcore_1_1VolumeGeometry.html", null ],
     [ "core::VrpnStates", "dd/d38/structcore_1_1VrpnStates.html", null ],
     [ "bioexplorer::details::WhiteMatterDetails", "da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html", null ]
 ];

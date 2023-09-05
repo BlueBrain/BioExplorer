@@ -11,16 +11,16 @@ digraph "bioexplorer/backend/science/morphologies" {
   dir_ac510bb85938e3edc94804e9730a0cfc [shape=box, label="morphologies", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_ac510bb85938e3edc94804e9730a0cfc.html"];
   }
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_ce7c53f7ae7b05cd876b756753a17bbc->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="4", labeldistance=1.5 headhref="dir_000048_000039.html"];
-  dir_ce7c53f7ae7b05cd876b756753a17bbc->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="5", labeldistance=1.5 headhref="dir_000048_000059.html"];
-  dir_250f267abadc546ecc00bd4d0ef83277->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="8", labeldistance=1.5 headhref="dir_000045_000039.html"];
-  dir_250f267abadc546ecc00bd4d0ef83277->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="12", labeldistance=1.5 headhref="dir_000045_000059.html"];
-  dir_250f267abadc546ecc00bd4d0ef83277->dir_d1f54f9136e312278e3013f14979bb60 [headlabel="1", labeldistance=1.5 headhref="dir_000045_000137.html"];
-  dir_5e35986c19ea419782b8bbaa2dbf7d22->dir_ac510bb85938e3edc94804e9730a0cfc [headlabel="3", labeldistance=1.5 headhref="dir_000039_000050.html"];
-  dir_5e35986c19ea419782b8bbaa2dbf7d22->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="22", labeldistance=1.5 headhref="dir_000039_000059.html"];
-  dir_ac510bb85938e3edc94804e9730a0cfc->dir_250f267abadc546ecc00bd4d0ef83277 [headlabel="6", labeldistance=1.5 headhref="dir_000050_000045.html"];
-  dir_ac510bb85938e3edc94804e9730a0cfc->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="15", labeldistance=1.5 headhref="dir_000050_000039.html"];
-  dir_ac510bb85938e3edc94804e9730a0cfc->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="16", labeldistance=1.5 headhref="dir_000050_000059.html"];
-  dir_ac510bb85938e3edc94804e9730a0cfc->dir_ce7c53f7ae7b05cd876b756753a17bbc [headlabel="1", labeldistance=1.5 headhref="dir_000050_000048.html"];
-  dir_ac510bb85938e3edc94804e9730a0cfc->dir_d1f54f9136e312278e3013f14979bb60 [headlabel="2", labeldistance=1.5 headhref="dir_000050_000137.html"];
+  dir_ce7c53f7ae7b05cd876b756753a17bbc->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="4", labeldistance=1.5 headhref="dir_000051_000042.html"];
+  dir_ce7c53f7ae7b05cd876b756753a17bbc->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="5", labeldistance=1.5 headhref="dir_000051_000058.html"];
+  dir_250f267abadc546ecc00bd4d0ef83277->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="8", labeldistance=1.5 headhref="dir_000048_000042.html"];
+  dir_250f267abadc546ecc00bd4d0ef83277->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="12", labeldistance=1.5 headhref="dir_000048_000058.html"];
+  dir_250f267abadc546ecc00bd4d0ef83277->dir_d1f54f9136e312278e3013f14979bb60 [headlabel="1", labeldistance=1.5 headhref="dir_000048_000038.html"];
+  dir_5e35986c19ea419782b8bbaa2dbf7d22->dir_ac510bb85938e3edc94804e9730a0cfc [headlabel="3", labeldistance=1.5 headhref="dir_000042_000053.html"];
+  dir_5e35986c19ea419782b8bbaa2dbf7d22->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="23", labeldistance=1.5 headhref="dir_000042_000058.html"];
+  dir_ac510bb85938e3edc94804e9730a0cfc->dir_250f267abadc546ecc00bd4d0ef83277 [headlabel="6", labeldistance=1.5 headhref="dir_000053_000048.html"];
+  dir_ac510bb85938e3edc94804e9730a0cfc->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="15", labeldistance=1.5 headhref="dir_000053_000042.html"];
+  dir_ac510bb85938e3edc94804e9730a0cfc->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="16", labeldistance=1.5 headhref="dir_000053_000058.html"];
+  dir_ac510bb85938e3edc94804e9730a0cfc->dir_ce7c53f7ae7b05cd876b756753a17bbc [headlabel="1", labeldistance=1.5 headhref="dir_000053_000051.html"];
+  dir_ac510bb85938e3edc94804e9730a0cfc->dir_d1f54f9136e312278e3013f14979bb60 [headlabel="2", labeldistance=1.5 headhref="dir_000053_000038.html"];
 }

@@ -39,14 +39,16 @@
 
 #include <omp.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
-namespace morphology
-{
+using namespace details;
 using namespace common;
 using namespace io;
 using namespace db;
-
+namespace morphology
+{
 const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
 const double DEFAULT_ARROW_RADIUS_RATIO = 10.0;
 const double MAX_SOMA_RADIUS = 10.0;

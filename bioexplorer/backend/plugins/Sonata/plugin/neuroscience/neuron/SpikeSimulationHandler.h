@@ -24,8 +24,8 @@
 
 #include <brain/brain.h>
 #include <platform/core/common/Api.h>
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
 #include <platform/core/common/Types.h>
+#include <platform/core/common/simulation/AbstractSimulationHandler.h>
 #include <platform/core/engineapi/Scene.h>
 
 namespace sonataexplorer
@@ -34,11 +34,9 @@ namespace neuroscience
 {
 namespace neuron
 {
-using namespace core;
-
 typedef std::shared_ptr<brain::SpikeReportReader> SpikeReportReaderPtr;
 
-class SpikeSimulationHandler : public AbstractSimulationHandler
+class SpikeSimulationHandler : public core::AbstractSimulationHandler
 {
 public:
     SpikeSimulationHandler(const std::string& reportPath, const brain::GIDSet& gids);
@@ -50,7 +48,7 @@ public:
     SpikeReportReaderPtr getReport() const { return _spikeReport; }
     const brain::GIDSet& getGIDs() const { return _gids; }
 
-    AbstractSimulationHandlerPtr clone() const final;
+    core::AbstractSimulationHandlerPtr clone() const final;
 
     void setVisualizationSettings(const double restVoltage, const double spikingVoltage, const double timeInterval,
                                   const double decaySpeed);

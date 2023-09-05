@@ -29,9 +29,6 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace details;
-using namespace core;
-
 class SphericalCellDiffusionShape : public Shape
 {
 public:
@@ -48,17 +45,18 @@ public:
                                 const double threshold);
 
     /** @copydoc Shape::getTransformation */
-    Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
-                                     const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
-                                     const double offset) const final;
+    core::Transformation getTransformation(
+        const uint64_t occurrence, const uint64_t nbOccurrences,
+        const details::MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+        const double offset) const final;
 
     /** @copydoc Shape::isInside */
-    bool isInside(const Vector3d& point) const final;
+    bool isInside(const core::Vector3d& point) const final;
 
 private:
-    Transformation _getFilledSphereTransformation(
+    core::Transformation _getFilledSphereTransformation(
         const uint64_t occurrence, const uint64_t nbOccurrences,
-        const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails, const double offset) const;
+        const details::MolecularSystemAnimationDetails& MolecularSystemAnimationDetails, const double offset) const;
 
     double _radius;
     double _frequency;

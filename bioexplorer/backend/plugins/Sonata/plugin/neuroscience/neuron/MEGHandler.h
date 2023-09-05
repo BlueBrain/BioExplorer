@@ -36,13 +36,11 @@ namespace neuroscience
 {
 namespace neuron
 {
-using namespace core;
-
 /**
  * @brief The MEGHandler class handles electro-magnetic fields data
  * structures
  */
-class MEGHandler : public AbstractSimulationHandler
+class MEGHandler : public core::AbstractSimulationHandler
 {
 public:
     /**
@@ -80,7 +78,7 @@ public:
      * @throws An exception if density is greater than 1 or less than or equal
      * to 0.
      */
-    ModelMetadata buildModel(Model& model, const double voxelSize, const double density);
+    core::ModelMetadata buildModel(core::Model& model, const double voxelSize, const double density);
 
     /**
      * @brief Get the Frame Data object
@@ -103,28 +101,28 @@ public:
      * @return AbstractSimulationHandlerPtr Clone of the
      * AbstractSimulationHandler
      */
-    AbstractSimulationHandlerPtr clone() const final;
+    core::AbstractSimulationHandlerPtr clone() const final;
 
     /**
      * @brief Get the Dimensions of the octree
      *
      * @return const Vector3ui& Dimensions of the octree
      */
-    const Vector3ui& getDimensions() const { return _dimensions; }
+    const core::Vector3ui& getDimensions() const { return _dimensions; }
 
     /**
      * @brief Get the voxel spacing information
      *
      * @return const Vector3f& The voxel spacing information
      */
-    const Vector3f& getSpacing() const { return _spacing; }
+    const core::Vector3f& getSpacing() const { return _spacing; }
 
     /**
      * @brief Get the offset of the octree
      *
      * @return const Vector3f& Offset of the octree
      */
-    const Vector3f& getOffset() const { return _offset; }
+    const core::Vector3f& getOffset() const { return _offset; }
 
     /**
      * @brief Returns whether the object is operating in synchronous mode.
@@ -172,12 +170,12 @@ private:
     bool _makeFrameReady(const uint32_t frame);
 
     bool _synchronousMode{false};
-    Vector3ui _dimensions;
-    Vector3f _spacing;
-    Vector3f _offset;
+    core::Vector3ui _dimensions;
+    core::Vector3f _spacing;
+    core::Vector3f _offset;
     uint64_t _startDataIndex{0};
     uint64_t _startFrame{0};
-    Boxd _bounds;
+    core::Boxd _bounds;
     double _voxelSize{0.1};
     double _density{1.0};
     common::Matrix4fs _transformations;

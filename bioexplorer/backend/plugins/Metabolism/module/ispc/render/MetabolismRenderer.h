@@ -28,8 +28,6 @@ namespace metabolism
 {
 namespace rendering
 {
-using namespace ospray;
-
 /**
  * @brief The MetabolismRenderer class allows visualization of atom Metabolism
  * in the 3D scene
@@ -62,7 +60,7 @@ private:
     void** _lightPtr;
     ospray::Data* _lightData;
 
-    Material* _bgMaterial;
+    ospray::Material* _bgMaterial;
 
     float _exposure{1.f};
 

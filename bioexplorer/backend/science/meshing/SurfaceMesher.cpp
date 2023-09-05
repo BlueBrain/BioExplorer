@@ -61,6 +61,8 @@ typedef CGAL::Union_of_balls_3<Traits> Union_of_balls_3;
 #endif
 #endif
 
+using namespace core;
+
 namespace bioexplorer
 {
 namespace meshing

@@ -9,7 +9,7 @@ var structbioexplorer_1_1details_1_1RNASequenceDetails =
     [ "pdbId", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#a8126b59dfe49c547baa13d2f1b17dba0", null ],
     [ "position", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#a5e75815d30455ee741ce1d4ce041b168", null ],
     [ "proteinContents", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#a64ff1ea27e9ec73c0557208bc4bcd36a", null ],
-    [ "representation", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#a140952a7376f00d794b94bb5734f68ae", null ],
+    [ "representation", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#af8a04c16b47f24cebfdb406970b511a8", null ],
     [ "rotation", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#ade25ed5a827beb6daaa7b1b591ab6fc3", null ],
     [ "shape", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#add1ef1b30a05954394f171472e99d524", null ],
     [ "shapeParams", "d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html#aac3796bf41d58b4f279721d6d1a36d56", null ],

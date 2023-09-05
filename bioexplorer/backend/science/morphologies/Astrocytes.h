@@ -32,9 +32,6 @@ namespace bioexplorer
 {
 namespace morphology
 {
-using namespace core;
-using namespace common;
-
 /**
  * Load a population of astrocytes from the database according to specified
  * parameters
@@ -48,31 +45,30 @@ public:
      * @param scene 3D scene into which astrocytes should be loaded
      * @param details Set of attributes defining how astrocytes should be loaded
      */
-    Astrocytes(Scene& scene, const AstrocytesDetails& details, const Vector3d& assemblyPosition,
-               const Quaterniond& assemblyRotation);
+    Astrocytes(core::Scene& scene, const details::AstrocytesDetails& details, const core::Vector3d& assemblyPosition,
+               const core::Quaterniond& assemblyRotation);
 
     /**
-     * @brief Apply a vasculature radius report to the astrocyte. This modifies
-     * the end-feet of the astrocytes according to the vasculature radii defined
-     * in the report
+     * @brief Apply a vasculature radius report to the astrocyte. This modifies the end-feet of the astrocytes according
+     * to the vasculature radii defined in the report
      *
      * @param details Details of the report
      */
-    void setVasculatureRadiusReport(const VasculatureRadiusReportDetails& details);
+    void setVasculatureRadiusReport(const details::VasculatureRadiusReportDetails& details);
 
 private:
     double _getDisplacementValue(const DisplacementElement& element) final;
 
     void _logRealismParams();
     void _buildModel(const doubles& radii = doubles());
-    void _addEndFoot(ThreadSafeContainer& container, const Vector3d& somaCenter, const EndFootMap& endFeet,
-                     const doubles& radii, const size_t materialId);
-    void _addMicroDomain(TriangleMesh& mesh, const uint64_t astrocyteId);
-    void _buildMicroDomain(ThreadSafeContainer& container, const uint64_t astrocyteId, const size_t materialId);
-    const AstrocytesDetails _details;
+    void _addEndFoot(common::ThreadSafeContainer& container, const core::Vector3d& somaCenter,
+                     const EndFootMap& endFeet, const doubles& radii, const size_t materialId);
+    void _addMicroDomain(core::TriangleMesh& mesh, const uint64_t astrocyteId);
+    void _buildMicroDomain(common::ThreadSafeContainer& container, const uint64_t astrocyteId, const size_t materialId);
+    const details::AstrocytesDetails _details;
 
     double _maxDistanceToSoma{0.0};
-    Scene& _scene;
+    core::Scene& _scene;
 };
 } // namespace morphology
 } // namespace bioexplorer

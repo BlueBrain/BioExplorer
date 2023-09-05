@@ -12,7 +12,6 @@ var namespacemembers_vars =
     [ "l", "namespacemembers_vars_l.html", null ],
     [ "m", "namespacemembers_vars_m.html", null ],
     [ "n", "namespacemembers_vars_n.html", null ],
-    [ "o", "namespacemembers_vars_o.html", null ],
     [ "p", "namespacemembers_vars_p.html", null ],
     [ "r", "namespacemembers_vars_r.html", null ],
     [ "s", "namespacemembers_vars_s.html", null ],

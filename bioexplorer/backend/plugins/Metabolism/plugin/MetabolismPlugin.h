@@ -31,8 +31,6 @@ namespace bioexplorer
 {
 namespace metabolism
 {
-using namespace details;
-
 /**
  * @brief This class implements the MetabolismPlugin plugin
  */
@@ -47,7 +45,7 @@ private:
     void _parseCommandLineArguments(int argc, char **argv);
 
     // Metabolism
-    Response _attachHandler(const AttachHandlerDetails &payload);
+    bioexplorer::details::Response _attachHandler(const AttachHandlerDetails &payload);
 
     // Command line arguments
     CommandLineArguments _commandLineArguments;

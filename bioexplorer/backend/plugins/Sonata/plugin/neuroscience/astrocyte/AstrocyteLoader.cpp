@@ -36,13 +36,15 @@
 #include <fstream>
 #include <omp.h>
 
+using namespace core;
+
 namespace sonataexplorer
 {
 namespace neuroscience
 {
+using namespace common;
 namespace astrocyte
 {
-using namespace common;
 
 const std::string LOADER_NAME = "Astrocytes";
 const std::string SUPPORTED_EXTENTION_ASTROCYTES = "astrocytes";

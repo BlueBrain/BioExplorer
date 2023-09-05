@@ -29,10 +29,6 @@ namespace bioexplorer
 {
 namespace morphology
 {
-using namespace core;
-using namespace common;
-using namespace details;
-
 /**
  * Load synapse efficacy information from database
  */
@@ -46,18 +42,18 @@ public:
      * @param details Set of attributes defining how the synapse efficacy should
      * be loaded
      */
-    Synapses(Scene& scene, const SynapsesDetails& details, const Vector3d& assemblyPosition,
-             const Quaterniond& assemblyRotation);
+    Synapses(core::Scene& scene, const details::SynapsesDetails& details, const core::Vector3d& assemblyPosition,
+             const core::Quaterniond& assemblyRotation);
 
 private:
     double _getDisplacementValue(const DisplacementElement& element) final;
 
     void _buildModel();
-    void _addSpine(ThreadSafeContainer& container, const uint64_t guid, const Synapse& synapse,
+    void _addSpine(common::ThreadSafeContainer& container, const uint64_t guid, const Synapse& synapse,
                    const size_t SpineMaterialId);
 
-    const SynapsesDetails _details;
-    Scene& _scene;
+    const details::SynapsesDetails _details;
+    core::Scene& _scene;
 };
 } // namespace morphology
 } // namespace bioexplorer

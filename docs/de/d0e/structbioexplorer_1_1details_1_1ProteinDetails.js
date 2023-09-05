@@ -15,7 +15,7 @@ var structbioexplorer_1_1details_1_1ProteinDetails =
     [ "pdbId", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a0dd39aff9cdcbb92f0fd178d0e6036d0", null ],
     [ "position", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a2bdcb65ee50e79555dc62f3b5a5afb27", null ],
     [ "recenter", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#ae10023b565d13d83c2ee88f84b674892", null ],
-    [ "representation", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#ac71bf6c5ca866c38ef92d2322ed08632", null ],
+    [ "representation", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a58da80c36136004ba5657b4afd01fd07", null ],
     [ "rotation", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a25aa7b45a9de63bcc8b21c18c46f9d4a", null ],
     [ "transmembraneParams", "de/d0e/structbioexplorer_1_1details_1_1ProteinDetails.html#a2f90e724c24cdc0d22baeb30e4f695aa", null ]
 ];

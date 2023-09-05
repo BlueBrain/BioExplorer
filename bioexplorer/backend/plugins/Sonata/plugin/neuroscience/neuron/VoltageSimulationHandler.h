@@ -36,16 +36,13 @@ namespace neuroscience
 {
 namespace neuron
 {
-using namespace core;
-using namespace common;
-
 /**
  * @brief The VoltageSimulationHandler class handles simulation frames for the
  * current circuit. Frames are stored in a memory mapped file that is accessed
  * according to a specified timestamp. The VoltageSimulationHandler class is in
  * charge of keeping the handle to the memory mapped file.
  */
-class VoltageSimulationHandler : public AbstractSimulationHandler
+class VoltageSimulationHandler : public core::AbstractSimulationHandler
 {
 public:
     /**
@@ -62,11 +59,11 @@ public:
     void* getFrameData(const uint32_t frame) final;
 
     const std::string& getReportPath() const { return _reportPath; }
-    CompartmentReportPtr getReport() const { return _compartmentReport; }
+    common::CompartmentReportPtr getReport() const { return _compartmentReport; }
     bool isSynchronized() const { return _synchronousMode; }
     bool isReady() const final;
 
-    AbstractSimulationHandlerPtr clone() const final;
+    core::AbstractSimulationHandlerPtr clone() const final;
 
 private:
     void _triggerLoading(const uint32_t frame);
@@ -75,7 +72,7 @@ private:
     bool _synchronousMode{false};
 
     std::string _reportPath;
-    CompartmentReportPtr _compartmentReport;
+    common::CompartmentReportPtr _compartmentReport;
     std::future<brion::Frame> _currentFrameFuture;
     uint64_t _startFrame{0};
     bool _ready{false};

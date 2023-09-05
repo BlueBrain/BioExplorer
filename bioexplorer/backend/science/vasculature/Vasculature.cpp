@@ -34,10 +34,13 @@
 #include <platform/core/engineapi/Scene.h>
 #include <platform/core/parameters/ParametersManager.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
 namespace vasculature
 {
+using namespace details;
 using namespace common;
 using namespace io;
 using namespace db;
@@ -164,7 +167,7 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container, const Geom
                 Vector4d(node.second.position.x, node.second.position.y, node.second.position.z, node.second.radius));
             ids.push_back(node.first);
         }
-        const auto localPoints = _getProcessedSectionPoints(MorphologyRepresentation::bezier, points);
+        const auto localPoints = _getProcessedSectionPoints(morphology::MorphologyRepresentation::bezier, points);
 
         uint64_t i = 0;
         for (const auto& point : localPoints)

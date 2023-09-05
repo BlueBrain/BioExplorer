@@ -58,8 +58,17 @@
 
 #include <platform/core/engineapi/Model.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
+using namespace details;
+using namespace morphology;
+using namespace connectomics;
+using namespace vasculature;
+using namespace molecularsystems;
+using namespace atlas;
+
 namespace common
 {
 Assembly::Assembly(Scene &scene, const AssemblyDetails &details)

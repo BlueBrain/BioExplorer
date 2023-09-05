@@ -11,5 +11,5 @@ digraph "bioexplorer/backend/plugins/Sonata/module" {
   }
   }
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_6834279abe30ff2d1df4b142df3ad1e2->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="3", labeldistance=1.5 headhref="dir_000026_000059.html"];
+  dir_6834279abe30ff2d1df4b142df3ad1e2->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="3", labeldistance=1.5 headhref="dir_000026_000058.html"];
 }

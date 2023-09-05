@@ -54,11 +54,13 @@ std::string int32_set_to_string(const std::set<int32_t>& s)
 }
 } // namespace
 
+using namespace core;
+
 namespace bioexplorer
 {
+using namespace common;
 namespace io
 {
-using namespace common;
 using namespace db;
 
 OOCManager::OOCManager(Scene& scene, const Camera& camera, const CommandLineArguments& arguments)

@@ -26,6 +26,8 @@
 // ispc exports
 #include "GolgiStyleRenderer_ispc.h"
 
+using namespace core;
+
 namespace bioexplorer
 {
 namespace rendering

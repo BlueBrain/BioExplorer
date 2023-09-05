@@ -28,10 +28,14 @@
 
 #define DEFAULT_NUM_FRAMES 1000
 
+using namespace core;
+
 namespace bioexplorer
 {
 namespace metabolism
 {
+using namespace details;
+
 DBConnector::DBConnector(const CommandLineArguments& args)
 {
     _parseArguments(args);

@@ -11,5 +11,5 @@ digraph "bioexplorer/backend/plugins/Metabolism/module" {
   }
   }
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_05e9676d7aae4bef474e40190bc39637->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="1", labeldistance=1.5 headhref="dir_000019_000059.html"];
+  dir_05e9676d7aae4bef474e40190bc39637->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="1", labeldistance=1.5 headhref="dir_000019_000058.html"];
 }

@@ -32,6 +32,8 @@
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 #include <CGAL/convex_hull_3.h>
 
+using namespace core;
+
 namespace sonataexplorer
 {
 namespace meshing

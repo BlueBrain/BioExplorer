@@ -43,6 +43,9 @@
 #endif
 #define TO_JSON(PARAM, JSON, NAME) JSON[#NAME] = PARAM.NAME
 
+using namespace bioexplorer;
+using namespace details;
+
 std::string to_json(const Response &param)
 {
     try
@@ -470,16 +473,16 @@ bool from_json(AddSpheresDetails &param, const std::string &payload)
     return true;
 }
 
-bool from_json(AddConeDetails &param, const std::string &payload)
+bool from_json(AddConesDetails &param, const std::string &payload)
 {
     try
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, name);
-        FROM_JSON(param, js, origin);
-        FROM_JSON(param, js, target);
-        FROM_JSON(param, js, originRadius);
-        FROM_JSON(param, js, targetRadius);
+        FROM_JSON(param, js, origins);
+        FROM_JSON(param, js, targets);
+        FROM_JSON(param, js, originsRadii);
+        FROM_JSON(param, js, targetsRadii);
         FROM_JSON(param, js, color);
         FROM_JSON(param, js, opacity);
     }
@@ -1096,5 +1099,4 @@ bool from_json(SpikeReportVisualizationSettingsDetails &param, const std::string
     }
     return true;
 }
-
 #endif

@@ -26,13 +26,11 @@
 
 namespace sonataexplorer
 {
-using namespace core;
-
 /**
  * @brief The CellGrowthRenderer class can perform fast transparency
  * and mapping of simulation data on the geometry
  */
-class CellGrowthRenderer : public SimulationRenderer
+class CellGrowthRenderer : public core::SimulationRenderer
 {
 public:
     CellGrowthRenderer();

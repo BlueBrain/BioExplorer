@@ -10,7 +10,7 @@ var structbioexplorer_1_1details_1_1SugarDetails =
     [ "pdbId", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#af80e8ad4745b084d6f93195080e8cdcc", null ],
     [ "proteinName", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#a0301faf94d74950d5c5136d47e9e2d80", null ],
     [ "recenter", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#a1b58d87110ee58997a2fbaf4e1809ce1", null ],
-    [ "representation", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#aefd60167f01711fca2e5c4ce102743f5", null ],
+    [ "representation", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#a428c91783997554d3aed35bbb57fce8d", null ],
     [ "rotation", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#a38015632307016282b0ee41dfcaa8e68", null ],
     [ "siteIndices", "d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#a92de7317004eaa63d241411caa96ccf3", null ]
 ];

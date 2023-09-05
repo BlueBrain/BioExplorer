@@ -29,8 +29,6 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace core;
-
 /**
  * @brief The Node class
  */
@@ -41,7 +39,7 @@ public:
      * @brief Construct a new Node object
      *
      */
-    Node(const Vector3d& scale = Vector3d(1.0, 1.0, 1.0));
+    Node(const core::Vector3d& scale = core::Vector3d(1.0, 1.0, 1.0));
 
     /**
      * @brief Destroy the Node object
@@ -54,22 +52,22 @@ public:
      *
      * @return ModelDescriptorPtr Pointer to the model descriptor
      */
-    const ModelDescriptorPtr getModelDescriptor() const;
+    const core::ModelDescriptorPtr getModelDescriptor() const;
 
     /**
      * @brief Get the bounds of the node
      *
      * @return const Boxf& Bounds of the node
      */
-    const Boxd& getBounds() const { return _bounds; };
+    const core::Boxd& getBounds() const { return _bounds; };
 
 protected:
     void _setMaterialExtraAttributes();
 
-    ModelDescriptorPtr _modelDescriptor{nullptr};
-    Boxd _bounds;
+    core::ModelDescriptorPtr _modelDescriptor{nullptr};
+    core::Boxd _bounds;
     uint32_t _uuid;
-    Vector3d _scale;
+    core::Vector3d _scale;
 };
 
 typedef std::shared_ptr<Node> NodePtr;

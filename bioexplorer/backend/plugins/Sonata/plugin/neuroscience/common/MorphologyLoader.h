@@ -38,8 +38,6 @@ namespace neuroscience
 {
 namespace common
 {
-using namespace core;
-
 struct MorphologyTreeStructure
 {
     std::vector<int> sectionParent;
@@ -48,33 +46,34 @@ struct MorphologyTreeStructure
 };
 
 /** Loads morphologies from SWC and H5, and Circuit Config files */
-class MorphologyLoader : public Loader
+class MorphologyLoader : public core::Loader
 {
 public:
-    MorphologyLoader(Scene& scene, PropertyMap&& loaderParams, const Transformation& transformation = Transformation());
+    MorphologyLoader(core::Scene& scene, core::PropertyMap&& loaderParams,
+                     const core::Transformation& transformation = core::Transformation());
 
     /** @copydoc Loader::getName */
     std::string getName() const final;
 
     /** @copydoc Loader::getSupportedExtensions */
-    std::vector<std::string> getSupportedExtensions() const final;
+    strings getSupportedExtensions() const final;
 
     /** @copydoc Loader::isSupported */
     bool isSupported(const std::string& filename, const std::string& extension) const final;
 
     /** @copydoc Loader::getCLIProperties */
-    static PropertyMap getCLIProperties();
+    static core::PropertyMap getCLIProperties();
 
     /** @copydoc Loader::getProperties */
-    PropertyMap getProperties() const final;
+    core::PropertyMap getProperties() const final;
 
     /** @copydoc Loader::importFromBlob */
-    ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
-                                      const PropertyMap& properties) const final;
+    core::ModelDescriptorPtr importFromBlob(core::Blob&& blob, const core::LoaderProgress& callback,
+                                            const core::PropertyMap& properties) const final;
 
     /** @copydoc Loader::importFromFile */
-    ModelDescriptorPtr importFromFile(const std::string& filename, const LoaderProgress& callback,
-                                      const PropertyMap& properties) const final;
+    core::ModelDescriptorPtr importFromFile(const std::string& filename, const core::LoaderProgress& callback,
+                                            const core::PropertyMap& properties) const final;
 
     /**
      * @brief importMorphology imports a single morphology from a specified URI
@@ -84,9 +83,10 @@ public:
      * @param compartmentReport Compartment report to map to the morphology
      * @return Model container
      */
-    ParallelModelContainer importMorphology(const Gid& gid, const PropertyMap& properties, const std::string& source,
-                                            const uint64_t index, const SynapsesInfo& synapsesInfo,
-                                            const Matrix4f& transformation = Matrix4f(),
+    ParallelModelContainer importMorphology(const Gid& gid, const core::PropertyMap& properties,
+                                            const std::string& source, const uint64_t index,
+                                            const SynapsesInfo& synapsesInfo,
+                                            const core::Matrix4f& transformation = core::Matrix4f(),
                                             CompartmentReportPtr compartmentReport = nullptr,
                                             const float mitochondriaDensity = 0.f) const;
 
@@ -101,9 +101,9 @@ public:
      * existing geometry in the model. Missing materials are created with the
      * default parameters
      */
-    static void createMissingMaterials(Model& model, const bool castUserData = false);
+    static void createMissingMaterials(core::Model& model, const bool castUserData = false);
 
-    static const brain::neuron::SectionTypes getSectionTypesFromProperties(const PropertyMap& properties);
+    static const brain::neuron::SectionTypes getSectionTypesFromProperties(const core::PropertyMap& properties);
 
 private:
     /**
@@ -113,12 +113,12 @@ private:
      * @param diameter Diameter to be corrected and converted in to radius
      * @return Corrected value of a radius according to geometry parameters
      */
-    float _getCorrectedRadius(const PropertyMap& properties, const float diameter) const;
+    float _getCorrectedRadius(const core::PropertyMap& properties, const float diameter) const;
 
-    void _importMorphology(const Gid& gid, const PropertyMap& properties, const std::string& source,
-                           const uint64_t index, const Matrix4f& transformation, ParallelModelContainer& model,
-                           CompartmentReportPtr compartmentReport, const SynapsesInfo& synapsesInfo,
-                           const float mitochondriaDensity = 0.f) const;
+    void _importMorphology(const Gid& gid, const core::PropertyMap& properties, const std::string& source,
+                           const uint64_t index, const core::Matrix4f& transformation,
+                           common::ParallelModelContainer& model, CompartmentReportPtr compartmentReport,
+                           const SynapsesInfo& synapsesInfo, const float mitochondriaDensity = 0.f) const;
 
     /**
      * @brief _importMorphologyAsPoint places sphere at the specified morphology
@@ -129,8 +129,9 @@ private:
      * @param compartmentReport Compartment report to map to the morphology
      * @param scene Scene to which the morphology should be loaded into
      */
-    void _importMorphologyAsPoint(const PropertyMap& properties, const uint64_t index,
-                                  CompartmentReportPtr compartmentReport, ParallelModelContainer& model) const;
+    void _importMorphologyAsPoint(const core::PropertyMap& properties, const uint64_t index,
+                                  common::CompartmentReportPtr compartmentReport,
+                                  common::ParallelModelContainer& model) const;
 
     /**
      * @brief _importMorphologyFromURI imports a morphology from the specified
@@ -143,20 +144,20 @@ private:
      * @param model Model container to whichh the morphology should be loaded
      * into
      */
-    void _importMorphologyFromURI(const Gid& gid, const PropertyMap& properties, const std::string& uri,
-                                  const uint64_t index, const Matrix4f& transformation,
+    void _importMorphologyFromURI(const Gid& gid, const core::PropertyMap& properties, const std::string& uri,
+                                  const uint64_t index, const core::Matrix4f& transformation,
                                   CompartmentReportPtr compartmentReport, ParallelModelContainer& model,
                                   const SynapsesInfo& synapsesInfo, const float mitochondriaDensity) const;
 
-    size_t _addSDFGeometry(SDFMorphologyData& sdfMorphologyData, const SDFGeometry& geometry,
+    size_t _addSDFGeometry(SDFMorphologyData& sdfMorphologyData, const core::SDFGeometry& geometry,
                            const std::set<size_t>& neighbours, const size_t materialId, const int section) const;
 
     /**
      * Creates an SDF soma by adding and connecting the soma children using cone
      * pills
      */
-    void _connectSDFSomaChildren(const PropertyMap& properties, const Vector3f& somaPosition, const float somaRadius,
-                                 const size_t materialId, const uint64_t& userDataOffset,
+    void _connectSDFSomaChildren(const core::PropertyMap& properties, const core::Vector3f& somaPosition,
+                                 const float somaRadius, const size_t materialId, const uint64_t& userDataOffset,
                                  const brain::neuron::Sections& somaChildren,
                                  SDFMorphologyData& sdfMorphologyData) const;
 
@@ -176,13 +177,13 @@ private:
      * Calculates the structure of the morphology tree by finding overlapping
      * beginnings and endings of the sections.
      */
-    MorphologyTreeStructure _calculateMorphologyTreeStructure(const PropertyMap& properties,
+    MorphologyTreeStructure _calculateMorphologyTreeStructure(const core::PropertyMap& properties,
                                                               const brain::neuron::Sections& sections) const;
 
     /**
      * Adds a Soma geometry to the model
      */
-    void _addSomaGeometry(const uint64_t index, const PropertyMap& properties, const brain::neuron::Soma& soma,
+    void _addSomaGeometry(const uint64_t index, const core::PropertyMap& properties, const brain::neuron::Soma& soma,
                           uint64_t offset, ParallelModelContainer& model, SDFMorphologyData& sdfMorphologyData,
                           const bool useSimulationModel, const bool generateInternals, const float mitochondriaDensity,
                           uint32_t& sdfGroupId) const;
@@ -190,7 +191,7 @@ private:
     /**
      * Adds the sphere between the steps in the sections
      */
-    void _addStepSphereGeometry(const bool useSDFGeometry, const bool isDone, const Vector3f& position,
+    void _addStepSphereGeometry(const bool useSDFGeometry, const bool isDone, const core::Vector3f& position,
                                 const float radius, const size_t materialId, const uint64_t& userDataOffset,
                                 ParallelModelContainer& model, SDFMorphologyData& sdfMorphologyData,
                                 const uint32_t sdfGroupId, const float displacementRatio = 1.f) const;
@@ -198,8 +199,8 @@ private:
     /**
      * Adds the cone between the steps in the sections
      */
-    void _addStepConeGeometry(const bool useSDFGeometry, const Vector3f& source, const float sourceRadius,
-                              const Vector3f& target, const float targetRadius, const size_t materialId,
+    void _addStepConeGeometry(const bool useSDFGeometry, const core::Vector3f& source, const float sourceRadius,
+                              const core::Vector3f& target, const float targetRadius, const size_t materialId,
                               const uint64_t& userDataOffset, ParallelModelContainer& model,
                               SDFMorphologyData& sdfMorphologyData, const uint32_t sdfGroupId,
                               const float displacementRatio = 1.f) const;
@@ -210,7 +211,7 @@ private:
      * @param sectionType Section type of the morphology
      * @return Material Id
      */
-    size_t _getMaterialIdFromColorScheme(const PropertyMap& properties,
+    size_t _getMaterialIdFromColorScheme(const core::PropertyMap& properties,
                                          const brain::neuron::SectionType& sectionType) const;
 
     /**
@@ -221,32 +222,32 @@ private:
      */
     float _distanceToSoma(const brain::neuron::Section& section, const size_t sampleId) const;
 
-    void _addSynapse(const PropertyMap& properties, const brain::Synapse& synapse, const SynapseType synapseType,
-                     const brain::neuron::Sections& sections, const Vector3f& somaPosition, const float somaRadius,
-                     const Matrix4f& transformation, const size_t materialId, ParallelModelContainer& model,
-                     SDFMorphologyData& sdfMorphologyData, uint32_t& sdfGroupId) const;
+    void _addSynapse(const core::PropertyMap& properties, const brain::Synapse& synapse, const SynapseType synapseType,
+                     const brain::neuron::Sections& sections, const core::Vector3f& somaPosition,
+                     const float somaRadius, const core::Matrix4f& transformation, const size_t materialId,
+                     ParallelModelContainer& model, SDFMorphologyData& sdfMorphologyData, uint32_t& sdfGroupId) const;
 
-    void _addSomaInternals(const PropertyMap& properties, const uint64_t index, ParallelModelContainer& model,
+    void _addSomaInternals(const core::PropertyMap& properties, const uint64_t index, ParallelModelContainer& model,
                            const size_t materialId, const float somaRadius, const float mitochondriaDensity,
                            SDFMorphologyData& sdfMorphologyData, uint32_t& sdfGroupId) const;
 
-    void _addAxonInternals(const PropertyMap& properties, const float sectionLength, const float sectionVolume,
-                           const brion::Vector4fs& samples, const float mitochondriaDensity, const size_t materialId,
+    void _addAxonInternals(const core::PropertyMap& properties, const float sectionLength, const float sectionVolume,
+                           const core::Vector4fs& samples, const float mitochondriaDensity, const size_t materialId,
                            SDFMorphologyData& sdfMorphologyData, uint32_t& sdfGroupId,
                            ParallelModelContainer& model) const;
 
-    void _addAxonMyelinSheath(const PropertyMap& properties, const float sectionLength, const brion::Vector4fs& samples,
-                              const float mitochondriaDensity, const size_t materialId,
+    void _addAxonMyelinSheath(const core::PropertyMap& properties, const float sectionLength,
+                              const core::Vector4fs& samples, const float mitochondriaDensity, const size_t materialId,
                               SDFMorphologyData& sdfMorphologyData, uint32_t& sdfGroupId,
                               ParallelModelContainer& model) const;
 
     size_t _getNbMitochondrionSegments() const;
 
-    Vector3f _getBezierPoint(const brion::Vector4fs& samples, const float t) const;
+    core::Vector3f _getBezierPoint(const core::Vector4fs& samples, const float t) const;
 
-    size_t _baseMaterialId{NO_MATERIAL};
-    PropertyMap _defaults;
-    Transformation _transformation;
+    size_t _baseMaterialId{core::NO_MATERIAL};
+    core::PropertyMap _defaults;
+    core::Transformation _transformation;
 };
 typedef std::shared_ptr<MorphologyLoader> MorphologyLoaderPtr;
 

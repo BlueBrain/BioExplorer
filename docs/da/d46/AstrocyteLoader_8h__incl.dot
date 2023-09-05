@@ -49,6 +49,7 @@ digraph "bioexplorer/backend/plugins/Sonata/plugin/neuroscience/astrocyte/Astroc
   Node8 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node22 [label="memory",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node8 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node23 [label="platform/core/common\l/loader/Loader.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d0b/Loader_8h.html",tooltip=" "];
   Node23 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -64,5 +65,4 @@ digraph "bioexplorer/backend/plugins/Sonata/plugin/neuroscience/astrocyte/Astroc
   Node24 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node23 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node23 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

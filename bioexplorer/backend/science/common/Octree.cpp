@@ -25,12 +25,12 @@
 
 #include <science/common/Logs.h>
 
+using namespace core;
+
 namespace bioexplorer
 {
 namespace common
 {
-using namespace std;
-
 typedef std::map<uint32_t, OctreeNode> OctreeLevelMap;
 
 Octree::Octree(const floats &events, double voxelSize, const Vector3f &minAABB, const Vector3f &maxAABB)

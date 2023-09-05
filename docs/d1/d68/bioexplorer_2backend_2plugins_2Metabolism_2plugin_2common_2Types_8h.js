@@ -1,7 +1,7 @@
 var bioexplorer_2backend_2plugins_2Metabolism_2plugin_2common_2Types_8h =
 [
-    [ "AttachHandlerDetails", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails" ],
     [ "Location", "df/d9e/structbioexplorer_1_1metabolism_1_1Location.html", "df/d9e/structbioexplorer_1_1metabolism_1_1Location" ],
+    [ "AttachHandlerDetails", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails" ],
     [ "CommandLineArguments", "d1/d68/bioexplorer_2backend_2plugins_2Metabolism_2plugin_2common_2Types_8h.html#ae2c197551f4ec7f494dc906be81dd965", null ],
     [ "Concentrations", "d1/d68/bioexplorer_2backend_2plugins_2Metabolism_2plugin_2common_2Types_8h.html#ac4928ae6c50c49cfab0fa1b146292a26", null ],
     [ "DBConnectorPtr", "d1/d68/bioexplorer_2backend_2plugins_2Metabolism_2plugin_2common_2Types_8h.html#a41badd853a777e32466c35f30e07efd3", null ],

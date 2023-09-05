@@ -35,7 +35,6 @@ var annotated_dup =
         [ "WhiteMatter", "d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html", "d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter" ]
       ] ],
       [ "details", "d0/d1f/namespacebioexplorer_1_1details.html", [
-        [ "RGBColorDetails", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails.html", "df/dc7/structbioexplorer_1_1details_1_1RGBColorDetails" ],
         [ "Response", "d6/d45/structbioexplorer_1_1details_1_1Response.html", "d6/d45/structbioexplorer_1_1details_1_1Response" ],
         [ "FocusOnDetails", "d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails.html", "d7/d6e/structbioexplorer_1_1details_1_1FocusOnDetails" ],
         [ "GeneralSettingsDetails", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails.html", "d0/d14/structbioexplorer_1_1details_1_1GeneralSettingsDetails" ],
@@ -79,7 +78,6 @@ var annotated_dup =
         [ "VasculatureDetails", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails" ],
         [ "VasculatureReportDetails", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails" ],
         [ "VasculatureRadiusReportDetails", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails" ],
-        [ "CellAnimationDetails", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails" ],
         [ "AstrocytesDetails", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails" ],
         [ "NeuronsDetails", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails" ],
         [ "NeuronIdSectionIdDetails", "d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails.html", "d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails" ],
@@ -90,7 +88,8 @@ var annotated_dup =
         [ "WhiteMatterDetails", "da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html", "da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails" ],
         [ "SynapsesDetails", "d5/ddf/structbioexplorer_1_1details_1_1SynapsesDetails.html", "d5/ddf/structbioexplorer_1_1details_1_1SynapsesDetails" ],
         [ "SynapseEfficacyDetails", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails" ],
-        [ "SpikeReportVisualizationSettingsDetails", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails.html", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails" ]
+        [ "SpikeReportVisualizationSettingsDetails", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails.html", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails" ],
+        [ "CellAnimationDetails", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails" ]
       ] ],
       [ "fields", "d9/dc7/namespacebioexplorer_1_1fields.html", [
         [ "FieldsHandler", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler" ]
@@ -120,8 +119,8 @@ var annotated_dup =
         [ "SurfaceMesher", "d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher.html", "d8/df9/classbioexplorer_1_1meshing_1_1SurfaceMesher" ]
       ] ],
       [ "metabolism", "d3/d31/namespacebioexplorer_1_1metabolism.html", [
-        [ "AttachHandlerDetails", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails" ],
         [ "Location", "df/d9e/structbioexplorer_1_1metabolism_1_1Location.html", "df/d9e/structbioexplorer_1_1metabolism_1_1Location" ],
+        [ "AttachHandlerDetails", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails.html", "dd/d21/structbioexplorer_1_1metabolism_1_1AttachHandlerDetails" ],
         [ "DBConnector", "db/df8/classbioexplorer_1_1metabolism_1_1DBConnector.html", "db/df8/classbioexplorer_1_1metabolism_1_1DBConnector" ],
         [ "MetabolismHandler", "d4/dc4/classbioexplorer_1_1metabolism_1_1MetabolismHandler.html", "d4/dc4/classbioexplorer_1_1metabolism_1_1MetabolismHandler" ],
         [ "MetabolismPlugin", "d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html", "d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin" ]
@@ -133,6 +132,7 @@ var annotated_dup =
         [ "EnzymeReaction", "d4/d07/classbioexplorer_1_1molecularsystems_1_1EnzymeReaction.html", "d4/d07/classbioexplorer_1_1molecularsystems_1_1EnzymeReaction" ],
         [ "Glycans", "da/de6/classbioexplorer_1_1molecularsystems_1_1Glycans.html", "da/de6/classbioexplorer_1_1molecularsystems_1_1Glycans" ],
         [ "Membrane", "d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html", "d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane" ],
+        [ "RGBColorDetails", "d6/d55/structbioexplorer_1_1molecularsystems_1_1RGBColorDetails.html", "d6/d55/structbioexplorer_1_1molecularsystems_1_1RGBColorDetails" ],
         [ "Molecule", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule" ],
         [ "Protein", "dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein.html", "dd/da4/classbioexplorer_1_1molecularsystems_1_1Protein" ],
         [ "Nucleotid", "d6/d5b/structbioexplorer_1_1molecularsystems_1_1Nucleotid.html", "d6/d5b/structbioexplorer_1_1molecularsystems_1_1Nucleotid" ],
@@ -242,11 +242,6 @@ var annotated_dup =
       [ "EngineFactory", "d9/d26/classcore_1_1EngineFactory.html", "d9/d26/classcore_1_1EngineFactory" ],
       [ "ArchiveLoader", "d6/deb/classcore_1_1ArchiveLoader.html", "d6/deb/classcore_1_1ArchiveLoader" ],
       [ "MeshLoader", "df/d21/classcore_1_1MeshLoader.html", "df/d21/classcore_1_1MeshLoader" ],
-      [ "PDBCellPositions", "dc/d82/structcore_1_1PDBCellPositions.html", "dc/d82/structcore_1_1PDBCellPositions" ],
-      [ "Atom", "da/d9b/structcore_1_1Atom.html", "da/d9b/structcore_1_1Atom" ],
-      [ "AtomicRadius", "d8/d8e/structcore_1_1AtomicRadius.html", "d8/d8e/structcore_1_1AtomicRadius" ],
-      [ "ProteinColorMap", "dc/d47/structcore_1_1ProteinColorMap.html", "dc/d47/structcore_1_1ProteinColorMap" ],
-      [ "ProteinLoader", "df/d43/classcore_1_1ProteinLoader.html", "df/d43/classcore_1_1ProteinLoader" ],
       [ "MHDVolumeLoader", "d3/dd5/classcore_1_1MHDVolumeLoader.html", "d3/dd5/classcore_1_1MHDVolumeLoader" ],
       [ "RawVolumeLoader", "db/d96/classcore_1_1RawVolumeLoader.html", "db/d96/classcore_1_1RawVolumeLoader" ],
       [ "XYZBLoader", "d8/dca/classcore_1_1XYZBLoader.html", "d8/dca/classcore_1_1XYZBLoader" ],
@@ -285,6 +280,7 @@ var annotated_dup =
       [ "OptiXPerspectiveCamera", "d7/de4/classcore_1_1OptiXPerspectiveCamera.html", "d7/de4/classcore_1_1OptiXPerspectiveCamera" ],
       [ "OptiXRenderer", "d4/d9b/classcore_1_1OptiXRenderer.html", "d4/d9b/classcore_1_1OptiXRenderer" ],
       [ "OptiXScene", "d5/d44/classcore_1_1OptiXScene.html", "d5/d44/classcore_1_1OptiXScene" ],
+      [ "VolumeGeometry", "db/dee/structcore_1_1VolumeGeometry.html", "db/dee/structcore_1_1VolumeGeometry" ],
       [ "OptiXVolume", "d6/d9f/classcore_1_1OptiXVolume.html", "d6/d9f/classcore_1_1OptiXVolume" ],
       [ "BasicLight", "d4/d08/structcore_1_1BasicLight.html", "d4/d08/structcore_1_1BasicLight" ],
       [ "Params", "d2/dc9/structcore_1_1Params.html", "d2/dc9/structcore_1_1Params" ],
@@ -353,13 +349,6 @@ var annotated_dup =
       [ "VrpnStates", "dd/d38/structcore_1_1VrpnStates.html", "dd/d38/structcore_1_1VrpnStates" ],
       [ "VRPNPlugin", "d5/d90/classcore_1_1VRPNPlugin.html", "d5/d90/classcore_1_1VRPNPlugin" ]
     ] ],
-    [ "medicalimagingexplorer", "db/dc5/namespacemedicalimagingexplorer.html", [
-      [ "dicom", "d0/d77/namespacemedicalimagingexplorer_1_1dicom.html", [
-        [ "DICOMPlugin", "dc/d91/classmedicalimagingexplorer_1_1dicom_1_1DICOMPlugin.html", "dc/d91/classmedicalimagingexplorer_1_1dicom_1_1DICOMPlugin" ],
-        [ "DICOMImageDescriptor", "d9/d24/structmedicalimagingexplorer_1_1dicom_1_1DICOMImageDescriptor.html", "d9/d24/structmedicalimagingexplorer_1_1dicom_1_1DICOMImageDescriptor" ],
-        [ "DICOMLoader", "d3/d05/classmedicalimagingexplorer_1_1dicom_1_1DICOMLoader.html", "d3/d05/classmedicalimagingexplorer_1_1dicom_1_1DICOMLoader" ]
-      ] ]
-    ] ],
     [ "metabolism", "db/df8/namespacemetabolism.html", [
       [ "rendering", "d8/de4/namespacemetabolism_1_1rendering.html", [
         [ "MetabolismRenderer", "d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html", "d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer" ]
@@ -406,7 +395,7 @@ var annotated_dup =
       ] ],
       [ "io", "de/d27/namespacesonataexplorer_1_1io.html", [
         [ "loader", "d8/d33/namespacesonataexplorer_1_1io_1_1loader.html", [
-          [ "BrickLoader", "d2/d88/classsonataexplorer_1_1io_1_1loader_1_1BrickLoader.html", "d2/d88/classsonataexplorer_1_1io_1_1loader_1_1BrickLoader" ]
+          [ "SonataCacheLoader", "d3/de0/classsonataexplorer_1_1io_1_1loader_1_1SonataCacheLoader.html", "d3/de0/classsonataexplorer_1_1io_1_1loader_1_1SonataCacheLoader" ]
         ] ]
       ] ],
       [ "meshing", "d0/d3e/namespacesonataexplorer_1_1meshing.html", [
@@ -441,13 +430,6 @@ var annotated_dup =
       [ "CellGrowthRenderer", "d0/d29/classsonataexplorer_1_1CellGrowthRenderer.html", "d0/d29/classsonataexplorer_1_1CellGrowthRenderer" ],
       [ "ProximityDetectionRenderer", "da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html", "da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer" ],
       [ "SonataExplorerPlugin", "d6/d43/classsonataexplorer_1_1SonataExplorerPlugin.html", "d6/d43/classsonataexplorer_1_1SonataExplorerPlugin" ]
-    ] ],
-    [ "spaceexplorer", "da/d71/namespacespaceexplorer.html", [
-      [ "blackhole", "db/dc3/namespacespaceexplorer_1_1blackhole.html", [
-        [ "BlackHoleRenderer", "d3/d00/classspaceexplorer_1_1blackhole_1_1BlackHoleRenderer.html", "d3/d00/classspaceexplorer_1_1blackhole_1_1BlackHoleRenderer" ],
-        [ "Response", "d6/d31/structspaceexplorer_1_1blackhole_1_1Response.html", "d6/d31/structspaceexplorer_1_1blackhole_1_1Response" ],
-        [ "BlackHolePlugin", "d1/d16/classspaceexplorer_1_1blackhole_1_1BlackHolePlugin.html", "d1/d16/classspaceexplorer_1_1blackhole_1_1BlackHolePlugin" ]
-      ] ]
     ] ],
     [ "BasicLight", "d3/d38/structBasicLight.html", "d3/d38/structBasicLight" ],
     [ "Cone", "d9/d5c/structCone.html", "d9/d5c/structCone" ],

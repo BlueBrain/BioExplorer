@@ -26,8 +26,6 @@
 
 namespace sonataexplorer
 {
-using namespace core;
-
 /**
     The ProximityDetectionRenderer uses an algorithm similar to ambient
    occlusion to identify touches between geometries. A color gradient,
@@ -47,7 +45,7 @@ using namespace core;
    that has the same material as the hit surface.
     - spp: Unsigned integer defining the number of samples per pixel
 */
-class ProximityDetectionRenderer : public SimulationRenderer
+class ProximityDetectionRenderer : public core::SimulationRenderer
 {
 public:
     ProximityDetectionRenderer();

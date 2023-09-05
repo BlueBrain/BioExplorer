@@ -33,10 +33,7 @@ namespace bioexplorer
 {
 namespace rendering
 {
-using namespace ospray;
-using namespace core;
-
-class GolgiStyleRenderer : public Renderer
+class GolgiStyleRenderer : public ospray::Renderer
 {
 public:
     GolgiStyleRenderer();
@@ -49,7 +46,7 @@ public:
     void commit() final;
 
 private:
-    AdvancedMaterial* _bgMaterial{nullptr};
+    core::AdvancedMaterial* _bgMaterial{nullptr};
     float _exponent{5.f};
     bool _inverse{false};
 };

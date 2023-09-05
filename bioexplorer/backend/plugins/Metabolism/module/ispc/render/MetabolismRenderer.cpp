@@ -33,6 +33,8 @@
 // ispc exports
 #include "MetabolismRenderer_ispc.h"
 
+using namespace ospray;
+
 namespace metabolism
 {
 namespace rendering

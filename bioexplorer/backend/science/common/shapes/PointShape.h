@@ -29,9 +29,6 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace details;
-using namespace core;
-
 class PointShape : public Shape
 {
 public:
@@ -39,13 +36,13 @@ public:
     PointShape(const Vector4ds& clippingPlanes);
 
     /** @copydoc Shape::getTransformation */
-    Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
-                                     const MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
-                                     const double offset) const final;
+    core::Transformation getTransformation(
+        const uint64_t occurrence, const uint64_t nbOccurrences,
+        const details::MolecularSystemAnimationDetails& MolecularSystemAnimationDetails,
+        const double offset) const final;
 
     /** @copydoc Shape::isInside */
-    bool isInside(const Vector3d& point) const final;
+    bool isInside(const core::Vector3d& point) const final;
 };
-
 } // namespace common
 } // namespace bioexplorer

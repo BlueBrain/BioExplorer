@@ -7,5 +7,5 @@ digraph "bioexplorer/backend/plugins/Metabolism/plugin/io/db" {
   dir_8732d1f007698c46399b542c484c1e73 [shape=box, label="db", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_8732d1f007698c46399b542c484c1e73.html"];
   }
   dir_14d627cccd023aaf4f18eaf1359097e2 [shape=box label="science" fillcolor="white" style="filled" color="red" URL="dir_14d627cccd023aaf4f18eaf1359097e2.html"];
-  dir_8732d1f007698c46399b542c484c1e73->dir_14d627cccd023aaf4f18eaf1359097e2 [headlabel="1", labeldistance=1.5 headhref="dir_000047_000037.html"];
+  dir_8732d1f007698c46399b542c484c1e73->dir_14d627cccd023aaf4f18eaf1359097e2 [headlabel="1", labeldistance=1.5 headhref="dir_000050_000037.html"];
 }

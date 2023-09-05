@@ -29,9 +29,6 @@ namespace bioexplorer
 {
 namespace common
 {
-using namespace details;
-using namespace core;
-
 class CubeShape : public Shape
 {
 public:
@@ -41,18 +38,19 @@ public:
      * @param clippingPlanes Clipping planes to apply to the shape
      * @param size Size of the cube
      */
-    CubeShape(const Vector4ds& clippingPlanes, const Vector3d& size);
+    CubeShape(const Vector4ds& clippingPlanes, const core::Vector3d& size);
 
     /** @copydoc Shape::getTransformation */
-    Transformation getTransformation(const uint64_t occurrence, const uint64_t nbOccurrences,
-                                     const MolecularSystemAnimationDetails& molecularSystemAnimationDetails,
-                                     const double offset) const final;
+    core::Transformation getTransformation(
+        const uint64_t occurrence, const uint64_t nbOccurrences,
+        const details::MolecularSystemAnimationDetails& molecularSystemAnimationDetails,
+        const double offset) const final;
 
     /** @copydoc Shape::isInside */
-    bool isInside(const Vector3d& point) const final;
+    bool isInside(const core::Vector3d& point) const final;
 
 private:
-    Vector3d _size;
+    core::Vector3d _size;
 };
 
 } // namespace common

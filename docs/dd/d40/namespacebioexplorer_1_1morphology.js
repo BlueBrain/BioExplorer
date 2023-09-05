@@ -23,9 +23,43 @@ var namespacebioexplorer_1_1morphology =
     [ "SectionMap", "dd/d40/namespacebioexplorer_1_1morphology.html#afa4a4f15db2b7da0b56d017d2290be6e", null ],
     [ "SectionSynapseMap", "dd/d40/namespacebioexplorer_1_1morphology.html#af9dd97d784c5da1417e0bb1cf0834c2b", null ],
     [ "SegmentSynapseMap", "dd/d40/namespacebioexplorer_1_1morphology.html#a28d0b22397b676a439b7033ac5ddb2ef", null ],
+    [ "SpikesMap", "dd/d40/namespacebioexplorer_1_1morphology.html#a2f62876f7d105a88dc977624f40d0d19", null ],
     [ "SynapsesMap", "dd/d40/namespacebioexplorer_1_1morphology.html#acb692684f79ab84694fdf5d7652b6995", null ],
     [ "SynapsesPtr", "dd/d40/namespacebioexplorer_1_1morphology.html#a3d85829a9778fa87c75b83bd8c910be1", null ],
     [ "Varicosities", "dd/d40/namespacebioexplorer_1_1morphology.html#a25b84cfdf98b9db586e7ac03c90d73b1", null ],
+    [ "MicroDomainRepresentation", "dd/d40/namespacebioexplorer_1_1morphology.html#aee7447751c54a343c4f8600c3f9a1aa3", [
+      [ "mesh", "dd/d40/namespacebioexplorer_1_1morphology.html#aee7447751c54a343c4f8600c3f9a1aa3a09bc81c3aa886b690f84c5aba4109e20", null ],
+      [ "convex_hull", "dd/d40/namespacebioexplorer_1_1morphology.html#aee7447751c54a343c4f8600c3f9a1aa3a347e88bd5b22530d122b5287b14ab329", null ],
+      [ "surface", "dd/d40/namespacebioexplorer_1_1morphology.html#aee7447751c54a343c4f8600c3f9a1aa3ad302e976c9dd527a9521a88c012437c5", null ]
+    ] ],
+    [ "MorphologyColorScheme", "dd/d40/namespacebioexplorer_1_1morphology.html#af47c0b707cfe543dedbe216efc85e699", [
+      [ "none", "dd/d40/namespacebioexplorer_1_1morphology.html#af47c0b707cfe543dedbe216efc85e699a334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
+      [ "section_type", "dd/d40/namespacebioexplorer_1_1morphology.html#af47c0b707cfe543dedbe216efc85e699a20c86a5b1db0b50a86ac8957d072666b", null ],
+      [ "section_orientation", "dd/d40/namespacebioexplorer_1_1morphology.html#af47c0b707cfe543dedbe216efc85e699a0145672d8d7524ce08243e73f26fb560", null ],
+      [ "distance_to_soma", "dd/d40/namespacebioexplorer_1_1morphology.html#af47c0b707cfe543dedbe216efc85e699a3332ad1d462461e9305526d3caf2647f", null ]
+    ] ],
+    [ "MorphologyRealismLevel", "dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16e", [
+      [ "none", "dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16ea334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
+      [ "soma", "dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16ea15a00ab33070d69d3ec3f03a9222034b", null ],
+      [ "axon", "dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16ea805757c5974a71270fa9f9133a54d065", null ],
+      [ "dendrite", "dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16ea45c27ebae6394fc0597ff696a4a1bc51", null ],
+      [ "internals", "dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16ea2007fad87c5e530deecda769e08fab2b", null ],
+      [ "externals", "dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16ea0bf849c9eb83323c8ed98542aa0968a6", null ],
+      [ "spine", "dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16eaa35ecf344c66770b2ba0f0e913747072", null ],
+      [ "end_foot", "dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16ea6de5585ab830cda2a19414f05ca01faf", null ],
+      [ "all", "dd/d40/namespacebioexplorer_1_1morphology.html#af76cd19fe86d500efe3fcfc74d78e16eaa181a603769c1f98ad927e7367c7aa51", null ]
+    ] ],
+    [ "MorphologyRepresentation", "dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5", [
+      [ "graph", "dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5af8b0b924ebd7046dbfa85a856e4682c8", null ],
+      [ "section", "dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5a73d5342eba070f636ac3246f319bf77f", null ],
+      [ "segment", "dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5afdd32b9061681edb52c554bd9bbf0712", null ],
+      [ "orientation", "dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5ada1639422ad8f355d2371428471379b5", null ],
+      [ "bezier", "dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5ab4f49419e540cdfc505f0af52fe7524a", null ]
+    ] ],
+    [ "PopulationColorScheme", "dd/d40/namespacebioexplorer_1_1morphology.html#a510e9d8ea89618eca90c3c703f23a726", [
+      [ "none", "dd/d40/namespacebioexplorer_1_1morphology.html#a510e9d8ea89618eca90c3c703f23a726a334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
+      [ "id", "dd/d40/namespacebioexplorer_1_1morphology.html#a510e9d8ea89618eca90c3c703f23a726ab80bb7740288fda1f201890375a60c8f", null ]
+    ] ],
     [ "DEFAULT_ARROW_RADIUS_RATIO", "dd/d40/namespacebioexplorer_1_1morphology.html#a2687cca206332cb495e657342214a8fb", null ],
     [ "DEFAULT_ENDFOOT_RADIUS_RATIO", "dd/d40/namespacebioexplorer_1_1morphology.html#a592204656c82a9d7ded38185ab0c2639", null ],
     [ "DEFAULT_ENDFOOT_RADIUS_SHIFTING_RATIO", "dd/d40/namespacebioexplorer_1_1morphology.html#a6db22345ec62f76ec06617dcfec4fd61", null ],
@@ -45,8 +79,14 @@ var namespacebioexplorer_1_1morphology =
     [ "MATERIAL_OFFSET_VARICOSITY", "dd/d40/namespacebioexplorer_1_1morphology.html#aabf5ae4709b92b93a4af5a45a86e185a", null ],
     [ "MAX_SOMA_RADIUS", "dd/d40/namespacebioexplorer_1_1morphology.html#a053097045bac0d44614ec009361f739c", null ],
     [ "MITOCHONDRIA_DENSITY", "dd/d40/namespacebioexplorer_1_1morphology.html#a3aa14cd7156d5066d597bc4219aad325", null ],
+    [ "mitochondrionRadius", "dd/d40/namespacebioexplorer_1_1morphology.html#afe3a88dadf7e60cb6c33ad4dcacc1850", null ],
+    [ "mitochondrionSegmentSize", "dd/d40/namespacebioexplorer_1_1morphology.html#a22372c45457a621b984af01a98fb457d", null ],
+    [ "myelinSteathLength", "dd/d40/namespacebioexplorer_1_1morphology.html#aca9db033d3b19e4b606ce02d93891586", null ],
+    [ "myelinSteathRadiusRatio", "dd/d40/namespacebioexplorer_1_1morphology.html#a000b53884d468dfa2460f373bc401cc7", null ],
     [ "NB_MATERIALS_PER_MORPHOLOGY", "dd/d40/namespacebioexplorer_1_1morphology.html#a99016cb703ee14beb585331e6c391921", null ],
     [ "NB_MYELIN_FREE_SEGMENTS", "dd/d40/namespacebioexplorer_1_1morphology.html#ac0b18467df15edbdba9c3343e2eccdca", null ],
+    [ "nbMinSegmentsForVaricosity", "dd/d40/namespacebioexplorer_1_1morphology.html#acd77bc33ec75c093dde77edb8f703025", null ],
     [ "reportTypeAsString", "dd/d40/namespacebioexplorer_1_1morphology.html#afb11d1501c542b5a55708cc23c316eb0", null ],
-    [ "SOMA_AS_PARENT", "dd/d40/namespacebioexplorer_1_1morphology.html#af1d8adaaa1d0d71b9b658e15a62a9cbd", null ]
+    [ "SOMA_AS_PARENT", "dd/d40/namespacebioexplorer_1_1morphology.html#af1d8adaaa1d0d71b9b658e15a62a9cbd", null ],
+    [ "spineRadiusRatio", "dd/d40/namespacebioexplorer_1_1morphology.html#a8057609bc4f7b59c6e3349f384840517", null ]
 ];

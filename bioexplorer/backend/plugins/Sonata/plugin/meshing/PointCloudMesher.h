@@ -22,25 +22,23 @@
 
 #pragma once
 
-#include <platform/core/common/Types.h>
 #include <map>
+#include <platform/core/common/Types.h>
 
 namespace sonataexplorer
 {
 namespace meshing
 {
-using namespace core;
-
-typedef std::map<size_t, std::vector<Vector4f>> PointCloud;
+typedef std::map<size_t, std::vector<core::Vector4f>> PointCloud;
 
 class PointCloudMesher
 {
 public:
     PointCloudMesher();
 
-    bool toConvexHull(Model& model, const PointCloud& pointCloud);
+    bool toConvexHull(core::Model& model, const PointCloud& pointCloud);
 
-    bool toMetaballs(Model& model, const PointCloud& pointCloud, const size_t gridSize, const float threshold);
+    bool toMetaballs(core::Model& model, const PointCloud& pointCloud, const size_t gridSize, const float threshold);
 };
 } // namespace meshing
 } // namespace sonataexplorer

@@ -163,12 +163,6 @@ struct ExitLaterSchedule
 STATICJSON_DECLARE_ENUM(core::GeometryQuality, {"low", core::GeometryQuality::low},
                         {"medium", core::GeometryQuality::medium}, {"high", core::GeometryQuality::high});
 
-STATICJSON_DECLARE_ENUM(core::ProteinColorScheme, {"none", core::ProteinColorScheme::none},
-                        {"by_id", core::ProteinColorScheme::by_id},
-                        {"protein_atoms", core::ProteinColorScheme::protein_atoms},
-                        {"protein_chains", core::ProteinColorScheme::protein_chains},
-                        {"protein_residues", core::ProteinColorScheme::protein_residues});
-
 STATICJSON_DECLARE_ENUM(core::MemoryMode, {"shared", core::MemoryMode::shared},
                         {"replicated", core::MemoryMode::replicated});
 

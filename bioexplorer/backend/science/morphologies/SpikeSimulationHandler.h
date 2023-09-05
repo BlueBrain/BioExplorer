@@ -31,10 +31,6 @@ namespace bioexplorer
 {
 namespace morphology
 {
-using namespace core;
-using namespace io;
-using namespace common;
-
 /**
  * @brief The SpikeSimulationHandler handles the reading of simulation
  * information from the database at a soma level. When attached to a
@@ -42,7 +38,7 @@ using namespace common;
  * mapped to the geometry by the BioExplorer advanced renderer
  *
  */
-class SpikeSimulationHandler : public AbstractSimulationHandler
+class SpikeSimulationHandler : public core::AbstractSimulationHandler
 {
 public:
     /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
@@ -65,7 +61,7 @@ private:
 
     std::string _populationName;
     uint64_t _simulationReportId;
-    SimulationReport _simulationReport;
+    common::SimulationReport _simulationReport;
 
     float _restVoltage{-65.f};
     float _spikingVoltage{-10.f};

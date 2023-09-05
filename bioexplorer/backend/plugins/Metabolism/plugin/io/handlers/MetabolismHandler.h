@@ -33,8 +33,6 @@ namespace bioexplorer
 {
 namespace metabolism
 {
-using namespace core;
-
 /**
  * @brief The MetabolismHandler class handles metabolite concentrations
  */
@@ -55,7 +53,7 @@ public:
 
     bool isReady() const final { return true; }
 
-    AbstractSimulationHandlerPtr clone() const final;
+    core::AbstractSimulationHandlerPtr clone() const final;
 
     void setMetaboliteIds(const int32_ts& metaboliteIds) { _metaboliteIds = metaboliteIds; }
 

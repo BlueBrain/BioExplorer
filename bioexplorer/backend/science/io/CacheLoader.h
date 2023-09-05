@@ -27,21 +27,17 @@
 
 #include <platform/core/parameters/GeometryParameters.h>
 
-using namespace core;
-
 namespace bioexplorer
 {
 namespace io
 {
-using namespace db;
-
 const int32_t UNDEFINED_BOX_ID = std::numeric_limits<int32_t>::max();
 
 /**
  * Load molecular systems from an optimized binary representation of the 3D
  * scene
  */
-class CacheLoader : public Loader
+class CacheLoader : public core::Loader
 {
 public:
     /**
@@ -50,7 +46,7 @@ public:
      * @param scene Scene to which the file contents should be loaded
      * @param loaderParams Loader parameters
      */
-    CacheLoader(Scene& scene, PropertyMap&& loaderParams = {});
+    CacheLoader(core::Scene& scene, core::PropertyMap&& loaderParams = {});
 
     /**
      * @brief Get the name of the loader
@@ -64,7 +60,7 @@ public:
      *
      * @return The list of extensions supported by loaded
      */
-    std::vector<std::string> getSupportedExtensions() const final;
+    strings getSupportedExtensions() const final;
 
     /**
      * @brief Returns whever a file extention is supported by the loader
@@ -81,14 +77,14 @@ public:
      *
      * @return The list of loader command line arguments
      */
-    static PropertyMap getCLIProperties();
+    static core::PropertyMap getCLIProperties();
 
     /**
      * @brief Returns the list of loader properties
      *
      * @return The list of loader properties
      */
-    PropertyMap getProperties() const final;
+    core::PropertyMap getProperties() const final;
 
     /**
      * @brief Imports a 3D scene from an in-memory blob storage
@@ -97,10 +93,10 @@ public:
      * @param callback Callback object providing the status of the loading
      * process
      * @param properties Loader properties
-     * @return A core model if loading is successfull
+     * @return A core model if loading is successful
      */
-    ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
-                                      const PropertyMap& properties) const final;
+    core::ModelDescriptorPtr importFromBlob(core::Blob&& blob, const core::LoaderProgress& callback,
+                                            const core::PropertyMap& properties) const final;
 
     /**
      * @brief Imports a 3D scene from file
@@ -109,10 +105,10 @@ public:
      * @param callback Callback object providing the status of the loading
      * process
      * @param properties Loader properties
-     * @return A core model if loading is successfull
+     * @return A core model if loading is successful
      */
-    ModelDescriptorPtr importFromFile(const std::string& filename, const LoaderProgress& callback,
-                                      const PropertyMap& properties) const final;
+    core::ModelDescriptorPtr importFromFile(const std::string& filename, const core::LoaderProgress& callback,
+                                            const core::PropertyMap& properties) const final;
 
     /**
      * @brief
@@ -122,17 +118,17 @@ public:
      * @param properties
      * @return std::vector<ModelDescriptorPtr>
      */
-    std::vector<ModelDescriptorPtr> importModelsFromFile(const std::string& filename,
-                                                         const int32_t brickId = UNDEFINED_BOX_ID,
-                                                         const LoaderProgress& callback = LoaderProgress(),
-                                                         const PropertyMap& properties = PropertyMap()) const;
+    std::vector<core::ModelDescriptorPtr> importModelsFromFile(
+        const std::string& filename, const int32_t brickId = UNDEFINED_BOX_ID,
+        const core::LoaderProgress& callback = core::LoaderProgress(),
+        const core::PropertyMap& properties = core::PropertyMap()) const;
 
     /**
      * @brief Exports an optimized binary representation the 3D scene to a file
      *
      * @param filename Full path of the file
      */
-    void exportToFile(const std::string& filename, const Boxd& bounds) const;
+    void exportToFile(const std::string& filename, const core::Boxd& bounds) const;
 
     /**
      * @brief
@@ -140,13 +136,13 @@ public:
      * @param brickId
      * @return std::vector<ModelDescriptorPtr>
      */
-    std::vector<ModelDescriptorPtr> importBrickFromDB(const int32_t brickId) const;
+    std::vector<core::ModelDescriptorPtr> importBrickFromDB(const int32_t brickId) const;
 
     /**
      * @brief Exports an optimized binary representation the 3D scene to a DB
      *
      */
-    void exportBrickToDB(const int32_t brickId, const Boxd& bounds) const;
+    void exportBrickToDB(const int32_t brickId, const core::Boxd& bounds) const;
 
     /**
      * @brief Exports atom information from the 3D scene to a file
@@ -154,16 +150,17 @@ public:
      * @param filename Full path of the file
      * @param format File format to be used for the export
      */
-    void exportToXYZ(const std::string& filename, const XYZFileFormat format) const;
+    void exportToXYZ(const std::string& filename, const common::XYZFileFormat format) const;
 
 private:
     std::string _readString(std::stringstream& f) const;
 
-    ModelDescriptorPtr _importModel(std::stringstream& buffer, const int32_t brickId) const;
+    core::ModelDescriptorPtr _importModel(std::stringstream& buffer, const int32_t brickId) const;
 
-    bool _exportModel(const ModelDescriptorPtr modelDescriptor, std::stringstream& buffer, const Boxd& bounds) const;
+    bool _exportModel(const core::ModelDescriptorPtr modelDescriptor, std::stringstream& buffer,
+                      const core::Boxd& bounds) const;
 
-    PropertyMap _defaults;
+    core::PropertyMap _defaults;
 };
 } // namespace io
 } // namespace bioexplorer
