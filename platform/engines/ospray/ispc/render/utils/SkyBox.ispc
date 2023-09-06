@@ -28,15 +28,18 @@ vec4f skyboxMapping(const uniform Renderer* uniform renderer, const varying Ray&
                     const uniform AdvancedMaterial* uniform bgMaterial)
 {
     varying vec4f result = make_vec4f(bgMaterial->Kd);
-
-    const varying float radius = 1e6;
     if (!valid(bgMaterial->map_Kd))
         return result;
 
+    Ray infiniteRay = ray;
+
+    const varying float radius = 1e6;
+    infiniteRay.t = inf;
+
     // solve the equation sphere-ray to find the intersections
-    const varying float a = 2.f * dot(ray.dir, ray.dir);
-    const varying float b = 2.f * dot(ray.org, ray.dir);
-    const varying float c = dot(ray.org, ray.org) - radius * radius;
+    const varying float a = 2.f * dot(infiniteRay.dir, infiniteRay.dir);
+    const varying float b = 2.f * dot(infiniteRay.org, infiniteRay.dir);
+    const varying float c = dot(infiniteRay.org, infiniteRay.org) - radius * radius;
     const varying float d = b * b - 2.f * a * c;
 
     if (d <= 0.f || a == 0.f)
@@ -58,10 +61,10 @@ vec4f skyboxMapping(const uniform Renderer* uniform renderer, const varying Ray&
     else
         t = (t1 < t2) ? t1 : t2;
 
-    if (t < epsilon || t > ray.t)
+    if (t < epsilon || t > infiniteRay.t)
         return result; // Too close to intersection
 
-    const varying vec3f intersection = normalize(ray.org + t * ray.dir);
+    const varying vec3f intersection = normalize(infiniteRay.org + t * infiniteRay.dir);
 
     // Only st needs to be set to sample from Texture2D
     varying DifferentialGeometry dg;

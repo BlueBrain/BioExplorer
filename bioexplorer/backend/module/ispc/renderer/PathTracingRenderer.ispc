@@ -69,7 +69,6 @@ inline vec3f pathTracingContribution(const uniform PathTracingRenderer* uniform 
         // if ray misses scene (no hit occurs), return background colour
         if (localray.geomID < 0)
         {
-            localray.t = inf;
             const vec3f bgcol =
                 make_vec3f(skyboxMapping((Renderer*)self, localray, self->super.super.bgMaterial)) * skypower;
             accucolor = accucolor + mask * bgcol;
@@ -168,7 +167,6 @@ inline vec3f PathTracingRenderer_shadeRay(const uniform PathTracingRenderer* uni
         if (ray.geomID < 0)
         {
             // No intersection. Return skybox color
-            ray.t = inf;
             color = self->super.showBackground
                         ? make_vec3f(skyboxMapping((Renderer*)self, ray, self->super.super.bgMaterial)) *
                               skypower_zerobounce
