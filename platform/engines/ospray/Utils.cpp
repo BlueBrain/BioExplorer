@@ -46,7 +46,7 @@ void toOSPRayProperties(const PropertyMap& object, OSPObject ospObject)
                 osphelper::set(ospObject, prop->name.c_str(), prop->get<int32_t>());
                 break;
             case Property::Type::Bool:
-                osphelper::set(ospObject, prop->name.c_str(), prop->get<bool>());
+                osphelper::set(ospObject, prop->name.c_str(), static_cast<int32_t>(prop->get<bool>()));
                 break;
             case Property::Type::String:
                 osphelper::set(ospObject, prop->name.c_str(), prop->get<std::string>());
