@@ -59,11 +59,6 @@ void OSPRayMaterial::commit()
     if (!_ospMaterial || !isModified())
         return;
 
-    if (getCurrentType() == "simulation")
-        osphelper::set(_ospMaterial, MATERIAL_PROPERTY_APPLY_SIMULATION, true);
-    else
-        ospRemoveParam(_ospMaterial, MATERIAL_PROPERTY_APPLY_SIMULATION);
-
     osphelper::set(_ospMaterial, MATERIAL_PROPERTY_DIFFUSE_COLOR, Vector3f(_diffuseColor));
     osphelper::set(_ospMaterial, MATERIAL_PROPERTY_SPECULAR_COLOR, Vector3f(_specularColor));
     osphelper::set(_ospMaterial, MATERIAL_PROPERTY_SPECULAR_INDEX, static_cast<float>(_specularExponent));
@@ -74,9 +69,10 @@ void OSPRayMaterial::commit()
     osphelper::set(_ospMaterial, MATERIAL_PROPERTY_GLOSSINESS, static_cast<float>(_glossiness));
     osphelper::set(_ospMaterial, MATERIAL_PROPERTY_SHADING_MODE, static_cast<MaterialShadingMode>(_shadingMode));
     osphelper::set(_ospMaterial, MATERIAL_PROPERTY_USER_PARAMETER, static_cast<float>(_userParameter));
-    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_CAST_USER_DATA, static_cast<bool>(_castUserData));
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_CAST_USER_DATA, static_cast<int32_t>(_castUserData));
     osphelper::set(_ospMaterial, MATERIAL_PROPERTY_CLIPPING_MODE, static_cast<MaterialClippingMode>(_clippingMode));
-    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_SKYBOX, _isBackGroundMaterial);
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_CHAMELEON_MODE, static_cast<MaterialChameleonMode>(_chameleonMode));
+    osphelper::set(_ospMaterial, MATERIAL_PROPERTY_NODE_ID, static_cast<int32_t>(_nodeId));
 
     // Properties
     toOSPRayProperties(*this, _ospMaterial);

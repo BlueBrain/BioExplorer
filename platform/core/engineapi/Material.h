@@ -202,6 +202,16 @@ public:
     PLATFORM_API MaterialChameleonMode getChameleonMode() const { return _chameleonMode; }
 
     /**
+     * @brief Sets the cast user data of the material
+     * @param The value to set for the cast user data
+     */
+    PLATFORM_API void setNodeId(const int32_t value) { _updateValue(_nodeId, value); }
+    /**
+     * @brief Returns the cast user data of the material
+     */
+    PLATFORM_API int32_t getNodeId() const { return _nodeId; }
+
+    /**
      * @brief Returns the texture descriptors of the material.
      */
     PLATFORM_API const TextureDescriptors& getTextureDescriptors() const { return _textureDescriptors; }
@@ -259,6 +269,7 @@ protected:
     MaterialShadingMode _shadingMode{MaterialShadingMode::undefined_shading_mode}; // The shading mode of the material
     bool _castUserData{false};                                                     // The cast user data of the material
     MaterialClippingMode _clippingMode{MaterialClippingMode::no_clipping};         // The clipping mode of the material
+    int32_t _nodeId;                                                               // ID attached to the material
     MaterialChameleonMode _chameleonMode{MaterialChameleonMode::undefined_chameleon_mode}; // The chameleon mode of the
                                                                                            // material
 

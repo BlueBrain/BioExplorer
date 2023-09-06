@@ -115,5 +115,4 @@ void AdvancedMaterial::commit()
 
 OSP_REGISTER_MATERIAL(basic, AdvancedMaterial, default);
 OSP_REGISTER_MATERIAL(advanced, AdvancedMaterial, default);
-
 } // namespace core

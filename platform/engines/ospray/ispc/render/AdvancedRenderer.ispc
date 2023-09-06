@@ -278,8 +278,7 @@ inline bool launchRandomRay(const uniform AdvancedRenderer* uniform self, varyin
     backgroundColor = make_vec3f(0.f);
 
     if (dot(randomDirection, normal) < 0.f)
-        // Invert direction of random ray direction is opposite to surface
-        // normal
+        // Invert direction of random ray direction is opposite to surface normal
         randomDirection = neg(randomDirection);
 
     Ray randomRay;
@@ -465,7 +464,7 @@ inline vec4f getVolumeContribution(Volume* uniform volume, const uniform Advance
     float shadowIntensity = 0.f;
 
     // Ray marching
-    uint32 shadingOccurence = 0;
+    uint32 shadingOccurrence = 0;
     for (float t = t0 + epsilon /** (sample.sampleID.z % 100)*/; t < t1 && pathColor.w < 1.f; t += epsilon)
     {
         const vec3f point = ray.org + t * ray.dir;
@@ -480,7 +479,7 @@ inline vec4f getVolumeContribution(Volume* uniform volume, const uniform Advance
             // sampling threshold
             continue;
 
-        if (shadingOccurence == 0)
+        if (shadingOccurrence == 0)
         {
             firstIntersection = t;
             ray.t = t;
@@ -489,23 +488,23 @@ inline vec4f getVolumeContribution(Volume* uniform volume, const uniform Advance
                  ((t1 - t0) * 0.01f);
         }
 
-        // Adapt sampling rate to shading occurence
-        epsilon = (volume->samplingStep + shadingOccurence) / volume->samplingRate;
+        // Adapt sampling rate to shading occurrence
+        epsilon = (volume->samplingStep + shadingOccurrence) / volume->samplingRate;
 
         // Look up the color associated with the volume sample
         vec3f volumeSampleColor = volume->transferFunction->getColorForValue(volume->transferFunction, volumeSample);
 
         // Voxel shading
-        const bool firstShadingOccurence = shadingOccurence == 0;
-        const bool shade = volume->singleShade ? firstShadingOccurence : true;
+        const bool firstShadingOccurrence = shadingOccurrence == 0;
+        const bool shade = volume->singleShade ? firstShadingOccurrence : true;
 
         vec3f gradient;
         DifferentialGeometry dg;
         const bool shadingEnabled = (shade && volume->gradientShadingEnabled);
 
-        const bool aoEnabled = (firstShadingOccurence && self->giStrength > 0.f);
+        const bool aoEnabled = (firstShadingOccurrence && self->giStrength > 0.f);
 
-        const bool shadowsEnabled = (firstShadingOccurence && self->shadows > 0.f);
+        const bool shadowsEnabled = (firstShadingOccurrence && self->shadows > 0.f);
 
         if (shadingEnabled || aoEnabled)
         {
@@ -558,7 +557,7 @@ inline vec4f getVolumeContribution(Volume* uniform volume, const uniform Advance
         // Compose color with according alpha correction
         composite(make_vec4f(volumeSampleColor, sampleOpacity), pathColor, self->volumeAlphaCorrection * epsilon);
 
-        ++shadingOccurence;
+        ++shadingOccurrence;
     }
 
     // Apply shadow to RGB values only
@@ -990,8 +989,7 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
     {
         float totalOpacity = 0.f;
 
-        // Shading attributes store all color contributions for the
-        // current ray
+        // Shading attributes store all color contributions for the current ray
         ShadingAttributes attributes;
         initializeShadingAttributes(self, attributes);
 

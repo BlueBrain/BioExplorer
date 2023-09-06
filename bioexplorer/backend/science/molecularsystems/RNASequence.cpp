@@ -114,11 +114,7 @@ void RNASequence::_buildRNAAsCurve(const Quaterniond& rotation)
     for (const auto& nucleotid : nucleotidMap)
     {
         auto material = model->createMaterial(materialId, nucleotid.second.name);
-        core::PropertyMap props;
-        props.setProperty(
-            {MATERIAL_PROPERTY_CHAMELEON_MODE, static_cast<int>(MaterialChameleonMode::undefined_chameleon_mode)});
         material->setDiffuseColor(nucleotid.second.color);
-        material->updateProperties(props);
         ++materialId;
     }
     PLUGIN_INFO(3, "Created " << materialId << " materials");

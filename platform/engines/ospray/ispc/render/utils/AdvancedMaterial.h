@@ -89,7 +89,7 @@ struct AdvancedMaterial : public ospray::Material
     /*! Clipping mode applied to geometry */
     MaterialChameleonMode chameleonMode{MaterialChameleonMode::undefined_chameleon_mode};
 
-    std::string toString() const override { return "core::AdvancedMaterial"; }
+    std::string toString() const override { return "default"; }
 
     void commit() override;
 };

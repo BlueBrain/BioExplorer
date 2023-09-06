@@ -50,12 +50,7 @@ void Node::_setMaterialExtraAttributes()
 {
     auto materials = _modelDescriptor->getModel().getMaterials();
     for (auto& material : materials)
-    {
-        PropertyMap props;
-        props.setProperty({MATERIAL_PROPERTY_CHAMELEON_MODE, static_cast<int>(MaterialChameleonMode::receiver)});
-        props.setProperty({MATERIAL_PROPERTY_NODE_ID, static_cast<int>(_uuid)});
-        material.second->updateProperties(props);
-    }
+        material.second->setNodeId(_uuid);
 }
 
 } // namespace common
