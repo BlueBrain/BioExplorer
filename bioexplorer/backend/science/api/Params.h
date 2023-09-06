@@ -80,6 +80,7 @@ bool from_json(bioexplorer::details::DatabaseAccessDetails &param, const std::st
 // Models, Color schemes and materials
 bool from_json(bioexplorer::details::ProteinColorSchemeDetails &param, const std::string &payload);
 bool from_json(bioexplorer::details::ModelIdDetails &modelId, const std::string &payload);
+bool from_json(bioexplorer::details::AddModelInstanceDetails &param, const std::string &payload);
 std::string to_json(const bioexplorer::details::ModelBoundsDetails &param);
 bool from_json(bioexplorer::details::MaterialsDetails &materialsDetails, const std::string &payload);
 std::string to_json(const bioexplorer::details::IdsDetails &param);

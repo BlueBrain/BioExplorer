@@ -385,6 +385,12 @@ void BioExplorerPlugin::init()
                                                                      [&](const ModelIdDetails &payload) -> IdsDetails
                                                                      { return _getModelInstances(payload); });
 
+        endPoint = PLUGIN_API_PREFIX + "add-model-instance";
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
+        actionInterface->registerRequest<AddModelInstanceDetails, Response>(endPoint,
+                                                                            [&](const AddModelInstanceDetails &payload)
+                                                                            { return _addModelInstance(payload); });
+
         endPoint = PLUGIN_API_PREFIX + "get-model-name";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
         actionInterface->registerRequest<ModelIdDetails, NameDetails>(endPoint,
@@ -1469,6 +1475,32 @@ IdsDetails BioExplorerPlugin::_getModelInstances(const ModelIdDetails &payload) 
     else
         instanceIds.ids.push_back(0);
     return instanceIds;
+}
+
+Response BioExplorerPlugin::_addModelInstance(const AddModelInstanceDetails &payload) const
+{
+    Response response;
+    try
+    {
+        auto &scene = _api->getScene();
+        auto modelDescriptor = scene.getModel(payload.modelId);
+        if (!modelDescriptor)
+            PLUGIN_THROW("Invalid model Id");
+
+        Transformation tf;
+        const auto translation = doublesToVector3d(payload.translation);
+        const auto rotation = doublesToQuaterniond(payload.rotation);
+        const auto rotationCenter = doublesToVector3d(payload.rotationCenter);
+        const auto scale = doublesToVector3d(payload.scale);
+        tf.setTranslation(translation);
+        tf.setRotation(rotation);
+        tf.setRotationCenter(rotationCenter);
+        tf.setScale(scale);
+        const ModelInstance instance(true, false, tf);
+        modelDescriptor->addInstance(instance);
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
 }
 
 NameDetails BioExplorerPlugin::_getModelName(const ModelIdDetails &payload) const

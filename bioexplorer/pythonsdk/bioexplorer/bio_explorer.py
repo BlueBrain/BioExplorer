@@ -2257,6 +2257,36 @@ class BioExplorer:
         params["maxNbInstances"] = max_number_of_instances
         return self._invoke("get-model-instances", params)
 
+    def add_model_instance(
+        self,
+        model_id,
+        translation=Vector3(),
+        rotation=Quaternion(),
+        rotation_center=Vector3(),
+        scale=Vector3(1.0, 1.0, 1.0),
+    ):
+        """
+        Return the list of instances in the specified model
+
+        :model_id: Id of the model
+        :max_number_of_instances: Maximum number of instances (this can be huge and difficult to
+        handle by the python code)
+        :return: List of instance Ids
+        """
+        assert isinstance(model_id, int)
+        assert isinstance(translation, Vector3)
+        assert isinstance(rotation, Quaternion)
+        assert isinstance(rotation_center, Vector3)
+        assert isinstance(scale, Vector3)
+
+        params = dict()
+        params["modelId"] = model_id
+        params["translation"] = translation.to_list()
+        params["rotation"] = list(rotation)
+        params["rotationCenter"] = rotation_center.to_list()
+        params["scale"] = scale.to_list()
+        return self._invoke("add-model-instance", params)
+
     def get_material_ids(self, model_id):
         """
         Return the list of material Ids for a given model
