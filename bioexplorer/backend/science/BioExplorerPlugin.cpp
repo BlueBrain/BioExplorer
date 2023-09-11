@@ -1124,8 +1124,8 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             tmx.vertices.push_back(position + Vector3d(M, 0, m));
             tmx.vertices.push_back(position + Vector3d(M, 0, M));
             tmx.vertices.push_back(position + Vector3d(m, 0, M));
-            tmx.indices.push_back(Vector3ui(0, 1, 2));
-            tmx.indices.push_back(Vector3ui(2, 3, 0));
+            tmx.indices.push_back(Vector3ui(0, 2, 1));
+            tmx.indices.push_back(Vector3ui(3, 2, 0));
 
             material = model->createMaterial(2, "plane_y");
             material->setDiffuseColor(payload.useColors ? green : grey);
@@ -1148,8 +1148,8 @@ Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
             tmz.vertices.push_back(position + Vector3d(0, m, M));
             tmz.vertices.push_back(position + Vector3d(0, M, M));
             tmz.vertices.push_back(position + Vector3d(0, M, m));
-            tmz.indices.push_back(Vector3ui(0, 1, 2));
-            tmz.indices.push_back(Vector3ui(2, 3, 0));
+            tmz.indices.push_back(Vector3ui(0, 2, 1));
+            tmz.indices.push_back(Vector3ui(3, 2, 0));
         }
 
         // Axis
