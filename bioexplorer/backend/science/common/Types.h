@@ -1091,6 +1091,24 @@ typedef struct
 } ModelIdDetails;
 
 /**
+ * @brief Add instance to model
+ *
+ */
+typedef struct
+{
+    /** Model identifier */
+    size_t modelId;
+    /** Translation */
+    doubles translation;
+    /** Translation */
+    doubles rotation;
+    /** Translation */
+    doubles rotationCenter;
+    /** Translation */
+    doubles scale;
+} AddModelInstanceDetails;
+
+/**
  * @brief Model identifier
  *
  */
