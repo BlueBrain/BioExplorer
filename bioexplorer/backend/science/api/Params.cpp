@@ -939,7 +939,7 @@ bool from_json(NeuronsDetails &param, const std::string &payload)
         FROM_JSON(param, js, loadAxon);
         FROM_JSON(param, js, loadBasalDendrites);
         FROM_JSON(param, js, loadApicalDendrites);
-        FROM_JSON(param, js, loadSynapses);
+        FROM_JSON(param, js, synapsesType);
         FROM_JSON(param, js, generateInternals);
         FROM_JSON(param, js, generateExternals);
         FROM_JSON(param, js, showMembrane);

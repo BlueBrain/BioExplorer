@@ -644,6 +644,13 @@ class BioExplorer:
     SYNAPSE_REPRESENTATION_SPHERE = 0
     SYNAPSE_REPRESENTATION_SPINE = 1
 
+    # Neuron synapses types
+    NEURON_SYNAPSES_NONE = 0
+    NEURON_SYNAPSES_AFFERENT = 1
+    NEURON_SYNAPSES_EFFERENT = 2
+    NEURON_SYNAPSES_DEBUG = 4
+    NEURON_SYNAPSES_ALL = 8
+
     # Material offsets in neurons
     NB_MATERIALS_PER_MORPHOLOGY = 10
     NEURON_MATERIAL_VARICOSITY = 0
@@ -651,7 +658,8 @@ class BioExplorer:
     NEURON_MATERIAL_AXON = 2
     NEURON_MATERIAL_BASAL_DENDRITE = 3
     NEURON_MATERIAL_APICAL_DENDRITE = 4
-    NEURON_MATERIAL_SYNAPSE = 5
+    NEURON_MATERIAL_AFFERENT_SYNAPSE = 5
+    NEURON_MATERIAL_EFFERENT_SYNAPSE = 6
     NEURON_MATERIAL_MITOCHONDRION = 7
     NEURON_MATERIAL_NUCLEUS = 8
     NEURON_MATERIAL_MYELIN_SHEATH = 9
@@ -3306,7 +3314,7 @@ class BioExplorer:
         load_axon=True,
         load_basal_dendrites=True,
         load_apical_dendrites=True,
-        load_synapses=False,
+        synapses_type=NEURON_SYNAPSES_NONE,
         generate_internals=False,
         generate_externals=False,
         generate_varicosities=False,
@@ -3367,7 +3375,7 @@ class BioExplorer:
         params["loadAxon"] = load_axon
         params["loadBasalDendrites"] = load_basal_dendrites
         params["loadApicalDendrites"] = load_apical_dendrites
-        params["loadSynapses"] = load_synapses
+        params["synapsesType"] = synapses_type
         params["generateInternals"] = generate_internals
         params["generateExternals"] = generate_externals
         params["showMembrane"] = show_membrane
