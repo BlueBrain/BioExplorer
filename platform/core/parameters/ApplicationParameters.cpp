@@ -20,6 +20,7 @@
 
 #include "ApplicationParameters.h"
 #include <platform/core/common/Logs.h>
+#include <platform/core/common/Types.h>
 #include <platform/core/parameters/ParametersManager.h>
 
 namespace
@@ -34,7 +35,6 @@ const std::string PARAM_MAX_RENDER_FPS = "max-render-fps";
 const std::string PARAM_MODULE = "module";
 const std::string PARAM_PARALLEL_RENDERING = "parallel-rendering";
 const std::string PARAM_PLUGIN = "plugin";
-const std::string PARAM_STEREO = "stereo";
 const std::string PARAM_WINDOW_SIZE = "window-size";
 const std::string PARAM_ENV_MAP = "env-map";
 const std::string PARAM_SANDBOX_PATH = "sandbox-path";
@@ -78,7 +78,7 @@ ApplicationParameters::ApplicationParameters()
          "JPEG compression rate (100 is full quality) [int]") //
         (PARAM_PARALLEL_RENDERING.c_str(), po::bool_switch(&_parallelRendering)->default_value(false),
          "Enable parallel rendering, equivalent to --osp:mpi") //
-        (PARAM_STEREO.c_str(), po::bool_switch(&_stereo)->default_value(false),
+        (CAMERA_PROPERTY_STEREO.c_str(), po::bool_switch(&_stereo)->default_value(false),
          "Enable stereo rendering") //
         (PARAM_IMAGE_STREAM_FPS.c_str(), po::value<size_t>(&_imageStreamFPS),
          "Image stream FPS (60 default), [int]") //

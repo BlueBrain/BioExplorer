@@ -157,11 +157,11 @@ void _addSphereClippingPerspectiveCamera(Engine& engine)
 {
     PLUGIN_REGISTER_CAMERA(CAMERA_SPHERE_CLIPPING_PERSPECTIVE);
     PropertyMap properties;
-    properties.setProperty({"fovy", 45., .1, 360., {"Field of view"}});
-    properties.setProperty({"aspect", 1., {"Aspect ratio"}});
-    properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
-    properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
-    properties.setProperty({"enableClippingPlanes", true, {"Clipping"}});
+    properties.setProperty({CAMERA_PROPERTY_FOVY, 45., .1, 360., {"Field of view"}});
+    properties.setProperty({CAMERA_PROPERTY_ASPECT, 1., {"Aspect ratio"}});
+    properties.setProperty({CAMERA_PROPERTY_APERTURE_RADIUS, 0., {"Aperture radius"}});
+    properties.setProperty({CAMERA_PROPERTY_FOCUS_DISTANCE, 1., {"Focus Distance"}});
+    properties.setProperty({CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES, true, {"Clipping"}});
     engine.addCameraType(CAMERA_SPHERE_CLIPPING_PERSPECTIVE, properties);
 }
 

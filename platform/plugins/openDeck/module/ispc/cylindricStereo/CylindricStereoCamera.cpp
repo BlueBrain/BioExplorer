@@ -22,10 +22,13 @@
 #include "CylindricStereoCamera.h"
 #include "CylindricStereoCamera_ispc.h"
 
+#include <platform/core/common/Types.h>
+
+using namespace core;
+
 namespace
 {
 constexpr float OPENDECK_FOV_Y = 48.549f;
-constexpr float DEFAULT_INTERPUPILLARY_DISTANCE = 0.0635f;
 } // namespace
 
 namespace ospray
@@ -69,7 +72,8 @@ CylindricStereoCamera::StereoMode CylindricStereoCamera::getStereoMode()
 
 float CylindricStereoCamera::getInterpupillaryDistance(const StereoMode stereoMode)
 {
-    const auto interpupillaryDistance = getParamf("interpupillaryDistance", DEFAULT_INTERPUPILLARY_DISTANCE);
+    const auto interpupillaryDistance =
+        getParamf(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.c_str(), DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
 
     switch (stereoMode)
     {

@@ -24,6 +24,10 @@
 #include "PerspectiveParallaxCamera.h"
 #include "PerspectiveParallaxCamera_ispc.h"
 
+#include <platform/core/common/Types.h>
+
+using namespace core;
+
 namespace ospray
 {
 PerspectiveParallaxCamera::PerspectiveParallaxCamera()
@@ -35,14 +39,15 @@ void PerspectiveParallaxCamera::commit()
 {
     Camera::commit();
 
-    const float fovy = getParamf("fovy", 60.f);
-    float aspectRatio = getParamf("aspect", 1.5f);
+    const float fovy = getParamf(CAMERA_PROPERTY_FOVY.c_str(), DEFAULT_CAMERA_FOVY);
+    float aspectRatio = getParamf(CAMERA_PROPERTY_ASPECT.c_str(), 1.5f);
 
-    const float interpupillaryDistance = getParamf("interpupillaryDistance", 0.0635f);
-    const float zeroParallaxPlane = getParamf("zeroParallaxPlane", 1.f);
+    const float interpupillaryDistance =
+        getParamf(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.c_str(), DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
+    const float zeroParallaxPlane = getParamf(CAMERA_PROPERTY_ZERO_PARALLAX_PLANE.c_str(), 1.f);
 
     float idpOffset = 0.0f;
-    auto bufferTarget = getParamString("buffer_target");
+    auto bufferTarget = getParamString(CAMERA_PROPERTY_BUFFER_TARGET.c_str());
     if (bufferTarget.length() == 2)
     {
         if (bufferTarget.at(1) == 'L')

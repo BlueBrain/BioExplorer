@@ -25,6 +25,7 @@
 #include "OSPRayCamera.h"
 #include "Utils.h"
 
+#include <platform/core/common/Types.h>
 #include <platform/core/engineapi/Scene.h>
 
 namespace core
@@ -47,10 +48,10 @@ void OSPRayCamera::commit()
     const auto dir = glm::rotate(getOrientation(), Vector3d(0., 0., -1.));
     const auto up = glm::rotate(getOrientation(), Vector3d(0., 1., 0.));
 
-    osphelper::set(_camera, "pos", Vector3f(position));
-    osphelper::set(_camera, "dir", Vector3f(dir));
-    osphelper::set(_camera, "up", Vector3f(up));
-    osphelper::set(_camera, "buffer_target", getBufferTarget());
+    osphelper::set(_camera, CAMERA_PROPERTY_POSITION.c_str(), Vector3f(position));
+    osphelper::set(_camera, CAMERA_PROPERTY_DIRECTION.c_str(), Vector3f(dir));
+    osphelper::set(_camera, CAMERA_PROPERTY_UP_VECTOR.c_str(), Vector3f(up));
+    osphelper::set(_camera, CAMERA_PROPERTY_BUFFER_TARGET.c_str(), getBufferTarget());
 
     toOSPRayProperties(*this, _camera);
 
@@ -59,14 +60,14 @@ void OSPRayCamera::commit()
     {
         const auto clipPlanes = convertVectorToFloat(_clipPlanes);
         auto clipPlaneData = ospNewData(clipPlanes.size(), OSP_FLOAT4, clipPlanes.data());
-        ospSetData(_camera, "clipPlanes", clipPlaneData);
+        ospSetData(_camera, CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), clipPlaneData);
         ospRelease(clipPlaneData);
     }
     else
     {
         // ospRemoveParam leaks objects, so we set it to null first
-        ospSetData(_camera, "clipPlanes", nullptr);
-        ospRemoveParam(_camera, "clipPlanes");
+        ospSetData(_camera, CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr);
+        ospRemoveParam(_camera, CAMERA_PROPERTY_CLIPPING_PLANES.c_str());
     }
 
     ospCommit(_camera);
@@ -74,7 +75,7 @@ void OSPRayCamera::commit()
 
 void OSPRayCamera::setEnvironmentMap(const bool environmentMap)
 {
-    osphelper::set(_camera, "environmentMap", environmentMap);
+    osphelper::set(_camera, CAMERA_PROPERTY_ENVIRONMENT_MAP.c_str(), environmentMap);
     ospCommit(_camera);
 }
 

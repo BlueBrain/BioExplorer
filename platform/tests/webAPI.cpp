@@ -27,7 +27,7 @@
 TEST_CASE_FIXTURE(ClientServer, "change_fov")
 {
     core::PropertyMap cameraParams;
-    cameraParams.setProperty({"fovy", 10., .1, 360.});
+    cameraParams.setProperty({CAMERA_PROPERTY_FOVY, 10., .1, 360.});
     CHECK((makeRequest<core::PropertyMap, bool>("set-camera-params",
                                                   cameraParams)));
 }

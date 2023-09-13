@@ -34,7 +34,7 @@ Archiver& operator&(Archiver& ar, Student& s)
     ar.StartObject();
     ar.Member("name") & s.name;
     ar.Member("age") & s.age;
-    ar.Member("height") & s.height;
+    ar.Member(CAMERA_PROPERTY_HEIGHT) & s.height;
     ar.Member("canSwim") & s.canSwim;
     return ar.EndObject();
 }
@@ -252,7 +252,7 @@ Archiver& operator&(Archiver& ar, Box& b)
 {
     ar& static_cast<Shape&>(b);
     ar.Member("width") & b.width_;
-    ar.Member("height") & b.height_;
+    ar.Member(CAMERA_PROPERTY_HEIGHT) & b.height_;
     return ar;
 }
 

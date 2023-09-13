@@ -86,26 +86,26 @@ void OptiXEngine::_createCameras()
     _camera = createCamera();
 
     const bool isStereo = _parametersManager.getApplicationParameters().isStereo();
-    Property stereoProperty{"stereo", isStereo, {"Stereo"}};
+    Property stereoProperty{CAMERA_PROPERTY_STEREO, isStereo, {CAMERA_PROPERTY_STEREO}};
     stereoProperty.markReadOnly();
-    Property fovy{"fovy", 45., .1, 360., {"Field of view"}};
-    Property aspect{"aspect", 1., {"Aspect ratio"}};
+    Property fovy{CAMERA_PROPERTY_FOVY, 45., .1, 360., {"Field of view"}};
+    Property aspect{CAMERA_PROPERTY_ASPECT, 1., {"Aspect ratio"}};
     aspect.markReadOnly();
-    Property eyeSeparation{"interpupillaryDistance", 0.0635, {"Eye separation"}};
+    Property eyeSeparation{CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE, 0.0635, {"Eye separation"}};
 
     auto camera = std::make_shared<OptiXPerspectiveCamera>();
 
     PropertyMap properties;
     properties.setProperty(fovy);
     properties.setProperty(aspect);
-    properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
-    properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
-    properties.setProperty({"height", 1., {"Height"}});
+    properties.setProperty({CAMERA_PROPERTY_APERTURE_RADIUS, 0., {"Aperture radius"}});
+    properties.setProperty({CAMERA_PROPERTY_FOCUS_DISTANCE, 1., {"Focus Distance"}});
+    properties.setProperty({CAMERA_PROPERTY_HEIGHT, 1., {CAMERA_PROPERTY_HEIGHT}});
     if (isStereo)
     {
         properties.setProperty(stereoProperty);
         properties.setProperty(eyeSeparation);
-        properties.setProperty({"zeroParallaxPlane", 1., {"Zero parallax plane"}});
+        properties.setProperty({CAMERA_PROPERTY_ZERO_PARALLAX_PLANE, 1., {"Zero parallax plane"}});
     }
 
     OptiXContext::getInstance().addCamera("perspective", camera);
@@ -116,7 +116,7 @@ void OptiXEngine::_createCameras()
         PropertyMap properties;
         properties.setProperty({"segmentId", 7});
         properties.setProperty(
-            {"interpupillaryDistance", 0.065, {"Eye separation"}});
+            {CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE, 0.065, {"Eye separation"}});
         properties.setProperty(
             {"headPosition", std::array<double, 3>{{0.0, 2.0, 0.0}}});
         properties.setProperty(

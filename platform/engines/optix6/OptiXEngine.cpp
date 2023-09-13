@@ -83,7 +83,7 @@ void OptiXEngine::_createCameras()
     _camera = createCamera();
 
     const bool isStereo = _parametersManager.getApplicationParameters().isStereo();
-    Property stereoProperty{CONTEXT_CAMERA_STEREO, isStereo, {"Stereo"}};
+    Property stereoProperty{CONTEXT_CAMERA_STEREO, isStereo, {CAMERA_PROPERTY_STEREO}};
     Property fovy{CONTEXT_CAMERA_FOVY, 45., .1, 360., {"Field of view"}};
     Property aspect{CONTEXT_CAMERA_ASPECT, 1., {"Aspect ratio"}};
     aspect.markReadOnly();
@@ -96,9 +96,9 @@ void OptiXEngine::_createCameras()
         PropertyMap properties;
         properties.setProperty(fovy);
         properties.setProperty(aspect);
-        properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
-        properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
-        properties.setProperty({"nearClip", 0., 0., 1e6, {"Near clip"}});
+        properties.setProperty({CAMERA_PROPERTY_APERTURE_RADIUS, 0., {"Aperture radius"}});
+        properties.setProperty({CAMERA_PROPERTY_FOCUS_DISTANCE, 1., {"Focus Distance"}});
+        properties.setProperty({CAMERA_PROPERTY_NEAR_CLIP, 0., 0., 1e6, {"Near clip"}});
         properties.setProperty(enableClippingPlanes);
         properties.setProperty(stereoProperty);
         properties.setProperty(eyeSeparation);
@@ -110,7 +110,7 @@ void OptiXEngine::_createCameras()
 
     {
         PropertyMap properties;
-        properties.setProperty({"height", 1., {"Height"}});
+        properties.setProperty({CAMERA_PROPERTY_HEIGHT, 1., {CAMERA_PROPERTY_HEIGHT}});
         properties.setProperty(aspect);
         properties.setProperty(enableClippingPlanes);
 

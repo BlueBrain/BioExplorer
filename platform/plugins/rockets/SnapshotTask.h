@@ -116,7 +116,7 @@ public:
     {
         _scene->commit();
 
-        _camera->updateProperty("aspect",
+        _camera->updateProperty(CAMERA_PROPERTY_ASPECT,
                                 double(_params.size.x) / _params.size.y);
         _camera->commit();
 
@@ -136,8 +136,8 @@ public:
             msg << " " << string_utils::shortenString(_params.name);
         msg << " ...";
 
-        const auto isStereo = _camera->hasProperty("stereo") &&
-                              _camera->getProperty<bool>("stereo");
+        const auto isStereo = _camera->hasProperty(CAMERA_PROPERTY_STEREO) &&
+                              _camera->getProperty<bool>(CAMERA_PROPERTY_STEREO);
         const auto names = isStereo ? strings{"0L", "0R"} : strings{"default"};
         std::vector<FrameBufferPtr> frameBuffers;
         for (const auto& name : names)

@@ -399,4 +399,26 @@ inline std::vector<std::pair<std::string, DataType>> enumMap()
             {"uint16", DataType::UINT16}, {"uint32", DataType::UINT32}, {"int8", DataType::INT8},
             {"int16", DataType::INT16},   {"int32", DataType::INT32}};
 }
+
+///////////////////////////////////////////////////////////////////////////
+
+const std::string CAMERA_PROPERTY_POSITION = "pos";
+const std::string CAMERA_PROPERTY_DIRECTION = "dir";
+const std::string CAMERA_PROPERTY_UP_VECTOR = "up";
+const std::string CAMERA_PROPERTY_APERTURE_RADIUS = "apertureRadius";
+const std::string CAMERA_PROPERTY_FOCUS_DISTANCE = "focusDistance";
+const std::string CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES = "enableClippingPlanes";
+const std::string CAMERA_PROPERTY_CLIPPING_PLANES = "clipPlanes";
+const std::string CAMERA_PROPERTY_ASPECT = "aspect";
+const std::string CAMERA_PROPERTY_HEIGHT = "height";
+const std::string CAMERA_PROPERTY_FOVY = "fovy";
+const std::string CAMERA_PROPERTY_NEAR_CLIP = "nearClip";
+const std::string CAMERA_PROPERTY_BUFFER_TARGET = "buffer_target";
+const std::string CAMERA_PROPERTY_ENVIRONMENT_MAP = "environmentMap";
+const std::string CAMERA_PROPERTY_STEREO = "stereo";
+const std::string CAMERA_PROPERTY_ZERO_PARALLAX_PLANE = "zeroParallaxPlane";
+const std::string CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE = "interpupillaryDistance";
+constexpr float DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE = 0.0635f;
+constexpr float DEFAULT_CAMERA_FOVY = 60.f;
+
 } // namespace core

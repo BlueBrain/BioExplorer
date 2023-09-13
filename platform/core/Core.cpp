@@ -150,8 +150,8 @@ struct Core::Impl : public PluginAPI
 
         const auto windowSize = _parametersManager.getApplicationParameters().getWindowSize();
 
-        if (camera.hasProperty("aspect"))
-            camera.updateProperty("aspect", static_cast<double>(windowSize.x) / static_cast<double>(windowSize.y));
+        if (camera.hasProperty(CAMERA_PROPERTY_ASPECT))
+            camera.updateProperty(CAMERA_PROPERTY_ASPECT, static_cast<double>(windowSize.x) / static_cast<double>(windowSize.y));
 
         for (auto frameBuffer : _frameBuffers)
             frameBuffer->resize(windowSize);

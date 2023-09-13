@@ -22,6 +22,10 @@
 #include "CylindricStereoTrackedCamera.h"
 #include "CylindricStereoTrackedCamera_ispc.h"
 
+#include <platform/core/common/Types.h>
+
+using namespace core;
+
 namespace ospray
 {
 namespace
@@ -56,7 +60,7 @@ void CylindricStereoTrackedCamera::commit()
 {
     Camera::commit();
 
-    const std::string& bufferTarget = getParamString("buffer_target");
+    const std::string& bufferTarget = getParamString(CAMERA_PROPERTY_BUFFER_TARGET.c_str());
     const float cameraScaling = getParamf("cameraScaling", 1.0);
 
     uint8_t bufferId = 255u;
@@ -74,8 +78,7 @@ void CylindricStereoTrackedCamera::commit()
 
     const auto headPosition = _getHeadPosition();
 
-    // The tracking model of the 3d glasses is inversed
-    // so we need to negate CamDu here.
+    // The tracking model of the 3d glasses is inverted so we need to negate CamDu here.
     const auto openDeckCamDU = -_getOpendeckCamDU();
 
     dir = vec3f(0, 0, 1);
