@@ -44,6 +44,7 @@ public:
 
     float apertureRadius;
     float focusDistance;
+    bool useHardwareRandomizer{false};
 };
 
 } // namespace ospray

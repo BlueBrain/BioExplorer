@@ -421,4 +421,6 @@ const std::string CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE = "interpupillaryDista
 constexpr float DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE = 0.0635f;
 constexpr float DEFAULT_CAMERA_FOVY = 60.f;
 
+const std::string PROPERTY_USE_HARDWARE_RANDOMIZER = "useHardwareRandomizer";
+
 } // namespace core

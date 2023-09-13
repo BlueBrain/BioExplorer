@@ -59,6 +59,7 @@ void SphereClippingPerspectiveCamera::commit()
         getParamf(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.c_str(), DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
     enableClippingPlanes = getParam(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES.c_str(), 0);
     clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr) : nullptr;
+    useHardwareRandomizer = getParam(PROPERTY_USE_HARDWARE_RANDOMIZER, 0);
 
     // ------------------------------------------------------------------
     // now, update the local precomputed values
@@ -106,7 +107,7 @@ void SphereClippingPerspectiveCamera::commit()
     ispc::SphereClippingPerspectiveCamera_set(getIE(), (const ispc::vec3f&)org, (const ispc::vec3f&)dir_00,
                                               (const ispc::vec3f&)dir_du, (const ispc::vec3f&)dir_dv, scaledAperture,
                                               aspect, (const ispc::vec3f&)ipd_offset, (const ispc::vec4f*)clipPlaneData,
-                                              numClipPlanes);
+                                              numClipPlanes, useHardwareRandomizer);
 }
 
 OSP_REGISTER_CAMERA(SphereClippingPerspectiveCamera, sphere_clipping_perspective);

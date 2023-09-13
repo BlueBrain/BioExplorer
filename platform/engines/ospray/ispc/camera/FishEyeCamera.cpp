@@ -51,6 +51,7 @@ void FishEyeCamera::commit()
     clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr) : nullptr;
     apertureRadius = getParamf(CAMERA_PROPERTY_APERTURE_RADIUS.c_str(), 0.f);
     focusDistance = getParamf(CAMERA_PROPERTY_FOCUS_DISTANCE.c_str(), 1.f);
+    useHardwareRandomizer = getParam(PROPERTY_USE_HARDWARE_RANDOMIZER, 0);
 
     // ------------------------------------------------------------------
     // now, update the local precomputed values
@@ -74,7 +75,8 @@ void FishEyeCamera::commit()
 
     const auto invDir = -dir;
     ispc::FishEyeCamera_set(getIE(), (const ispc::vec3f&)org, (const ispc::vec3f&)invDir, (const ispc::vec3f&)dirU,
-                            (const ispc::vec3f&)dirV, (const ispc::vec4f*)clipPlaneData, numClipPlanes, apertureRadius);
+                            (const ispc::vec3f&)dirV, (const ispc::vec4f*)clipPlaneData, numClipPlanes, apertureRadius,
+                            useHardwareRandomizer);
 }
 
 OSP_REGISTER_CAMERA(FishEyeCamera, fisheye);

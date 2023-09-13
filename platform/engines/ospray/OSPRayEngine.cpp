@@ -155,7 +155,7 @@ void OSPRayEngine::_createRenderers()
         properties.setProperty({"fogStart", 0.0, 0.0, 1e6, {"Fog start"}});
         properties.setProperty({"fogThickness", 1e6, 1e6, 1e6, {"Fog thickness"}});
         properties.setProperty({"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
-        properties.setProperty({"useHardwareRandomizer", false, {"Use hardware accelerated randomizer"}});
+        properties.setProperty({PROPERTY_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
         properties.setProperty({"showBackground", true, {"Show background"}});
         properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
         properties.setProperty(
@@ -211,6 +211,7 @@ void OSPRayEngine::_createCameras()
     Property stereoProperty{CAMERA_PROPERTY_STEREO, isStereo, {CAMERA_PROPERTY_STEREO}};
     Property fovy{CAMERA_PROPERTY_FOVY, 45., .1, 360., {"Field of view"}};
     Property aspect{CAMERA_PROPERTY_ASPECT, 1., {"Aspect ratio"}};
+    Property useHardwareRandomizer{PROPERTY_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}};
     aspect.markReadOnly();
     Property eyeSeparation{CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE, 0.0635, {"Eye separation"}};
     Property enableClippingPlanes{CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES, true, {"Clipping"}};
@@ -225,6 +226,7 @@ void OSPRayEngine::_createCameras()
         properties.setProperty(enableClippingPlanes);
         properties.setProperty(stereoProperty);
         properties.setProperty(eyeSeparation);
+        properties.setProperty(useHardwareRandomizer);
         addCameraType("perspective", properties);
     }
     {
@@ -265,6 +267,7 @@ void OSPRayEngine::_createCameras()
         properties.setProperty({CAMERA_PROPERTY_APERTURE_RADIUS, 0., {"Aperture radius"}});
         properties.setProperty({CAMERA_PROPERTY_FOCUS_DISTANCE, 1., {"Focus Distance"}});
         properties.setProperty(enableClippingPlanes);
+        properties.setProperty(useHardwareRandomizer);
         addCameraType("fisheye", properties);
     }
 }

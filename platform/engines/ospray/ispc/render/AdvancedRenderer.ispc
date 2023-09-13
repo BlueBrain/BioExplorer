@@ -484,8 +484,7 @@ inline vec4f getVolumeContribution(Volume* uniform volume, const uniform Advance
             firstIntersection = t;
             ray.t = t;
             // Introduce a bit of randomness to smooth the shading
-            t += getRandomValue(self->super.useHardwareRandomizer, sample, self->super.randomNumber) *
-                 ((t1 - t0) * 0.01f);
+            t += getRandomValue(self->super.useHardwareRandomizer, make_vec3ui(sample.sampleID)) * ((t1 - t0) * 0.01f);
         }
 
         // Adapt sampling rate to shading occurrence

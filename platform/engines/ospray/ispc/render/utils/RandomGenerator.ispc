@@ -783,11 +783,11 @@ uniform float randomDistribution[RANDOM_SET_SIZE][RANDOM_SET_SIZE] = {
      0.578310186153,   0.319038199211,  0.0945858634836, 0.995054874102,  0.565477371369, 0.526516256799,
      0.935170684975,   0.25889904757,   0.433976982045,  0.519519047234}};
 
-float getSWRandomValue(const varying ScreenSample& sample, const int randomNumber)
+float getSWRandomValue(const vec3ui& sample)
 {
-    const int x = sample.sampleID.x % RANDOM_SET_SIZE;
-    const int y = sample.sampleID.y % RANDOM_SET_SIZE;
-    return rotate(randomDistribution[x][y], sample.sampleID.z % 8);
+    const int x = sample.x % RANDOM_SET_SIZE;
+    const int y = sample.y % RANDOM_SET_SIZE;
+    return rotate(randomDistribution[x][y], sample.z % 8);
 }
 
 inline vec3f getSWRandomVector(const unsigned int frameBufferWidth, const varying ScreenSample& sample,
@@ -815,9 +815,9 @@ inline vec3f getSWRandomVector(const unsigned int frameBufferWidth, const varyin
     return normalize(cx * tangent + cy * biTangent + cz * normal);
 }
 
-float getRandomValue(const bool useHardware, const varying ScreenSample& sample, const int randomNumber)
+float getRandomValue(const bool useHardware, const vec3ui& sample)
 {
-    return (useHardware ? getHWRandomValue() : getSWRandomValue(sample, randomNumber));
+    return (useHardware ? getHWRandomValue() : getSWRandomValue(sample));
 }
 
 vec3f getRandomVector(const bool useHardware, const unsigned int frameBufferWidth, const varying ScreenSample& sample,

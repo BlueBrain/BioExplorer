@@ -159,7 +159,7 @@ void OptiXEngine::_createRenderers()
         properties.setProperty({"fogStart", 0.0, 0.0, 1e6, {"Fog start"}});
         properties.setProperty({"fogThickness", 1e6, 1e6, 1e6, {"Fog thickness"}});
         properties.setProperty({"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
-        properties.setProperty({"useHardwareRandomizer", false, {"Use hardware accelerated randomizer"}});
+        properties.setProperty({PROPERTY_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
         properties.setProperty({"showBackground", true, {"Show background"}});
         properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
 
