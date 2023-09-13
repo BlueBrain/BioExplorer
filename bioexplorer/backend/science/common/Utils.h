@@ -213,6 +213,13 @@ double worleyNoise(const core::Vector3d& p, const double cellCount);
 size_t getMaterialIdFromOrientation(const core::Vector3d& orientation);
 
 /**
+ * @brief Return a random double between 0 and 1
+ *
+ * @return double A random double between 0 and 1
+ */
+double rnd0();
+
+/**
  * @brief Return a random double between -0.5 and 0.5
  *
  * @return double A random double between -0.5 and 0.5

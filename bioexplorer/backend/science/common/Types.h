@@ -330,8 +330,18 @@ using NeuronsPtr = std::shared_ptr<Neurons>;
 class Synapses;
 using SynapsesPtr = std::shared_ptr<Synapses>;
 
+enum class MorphologySynapseType
+{
+    none = 0,
+    afferent = 1,
+    efferent = 2,
+    debug = 4,
+    all = 8
+};
+
 typedef struct
 {
+    MorphologySynapseType type;
     uint64_t postSynapticNeuronId;
     uint64_t postSynapticSectionId;
     uint64_t postSynapticSegmentId;
@@ -1394,6 +1404,7 @@ typedef struct
     /** Amplitude applied to the radius */
     double amplitude{1.0};
 } VasculatureRadiusReportDetails;
+
 typedef struct
 {
     /** Name of the assembly containing the astrocytes */
@@ -1461,8 +1472,8 @@ typedef struct
     bool loadBasalDendrites{true};
     /** Load apical dendrites if set to true */
     bool loadApicalDendrites{true};
-    /** Load synapses if set to true */
-    bool loadSynapses{false};
+    /** Type of synapses to load */
+    morphology::MorphologySynapseType synapsesType{morphology::MorphologySynapseType::none};
     /** Generate internal components (nucleus and mitochondria) */
     bool generateInternals{false};
     /** Generate external components (myelin steath) */

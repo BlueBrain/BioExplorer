@@ -36,7 +36,7 @@ namespace common
 {
 using namespace core;
 
-const float equalityEpsilon = 0.001f;
+const float equalityEpsilon = 1e-6f;
 
 ThreadSafeContainer::ThreadSafeContainer(Model& model, const double alignToGrid, const Vector3d& position,
                                          const Quaterniond& rotation, const Vector3d& scale)
@@ -93,7 +93,7 @@ uint64_t ThreadSafeContainer::addCone(const Vector3f& sourcePosition, const floa
         _bounds.merge(scaledDstPosition - scaledDstRadius);
         return _addSDFGeometry(materialId, geom, neighbours);
     }
-    if (abs(sourceRadius - targetRadius) < equalityEpsilon)
+    if (fabs(sourceRadius - targetRadius) < equalityEpsilon)
     {
         const auto scaledSrcRadius = sourceRadius * scale.x;
         const auto scaledDstRadius = targetRadius * scale.x;

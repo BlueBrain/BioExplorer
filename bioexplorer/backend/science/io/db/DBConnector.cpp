@@ -743,8 +743,8 @@ SectionMap DBConnector::getNeuronSections(const std::string& populationName, con
     return sections;
 }
 
-SectionSynapseMap DBConnector::getNeuronSynapses(const std::string& populationName, const uint64_t neuronId,
-                                                 const std::string& sqlCondition) const
+SectionSynapseMap DBConnector::getNeuronAfferentSynapses(const std::string& populationName, const uint64_t neuronId,
+                                                         const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION
     SectionSynapseMap sectionSynapseMap;
@@ -776,6 +776,7 @@ SectionSynapseMap DBConnector::getNeuronSynapses(const std::string& populationNa
             const auto preSynapticSectionId = c[0].as<uint64_t>();
             const auto preSynapticSegmentId = c[1].as<uint64_t>();
             Synapse synapse;
+            synapse.type = MorphologySynapseType::afferent;
             synapse.preSynapticSegmentDistance = c[2].as<double>();
             synapse.postSynapticNeuronId = c[3].as<uint64_t>();
             synapse.postSynapticSectionId = c[4].as<uint64_t>();

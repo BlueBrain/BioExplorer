@@ -258,7 +258,7 @@ public:
                                              const std::string& sqlCondition = "") const;
 
     /**
-     * @brief Get the synapses attached to a given neuron
+     * @brief Get the afferent synapses attached to a given neuron
      *
      * @param populationName Name of the population
      * @param neuronId Identifier of the neuron
@@ -266,8 +266,8 @@ public:
      * statement
      * @return SectionSynapseMap A map of synapses
      */
-    morphology::SectionSynapseMap getNeuronSynapses(const std::string& populationName, const uint64_t neuronId,
-                                                    const std::string& sqlCondition = "") const;
+    morphology::SectionSynapseMap getNeuronAfferentSynapses(const std::string& populationName, const uint64_t neuronId,
+                                                            const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get a selection of spikes from a neuron spike report

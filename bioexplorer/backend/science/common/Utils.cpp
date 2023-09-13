@@ -537,6 +537,11 @@ size_t getMaterialIdFromOrientation(const Vector3d& orientation)
     return ((rgb.x & 0x0ff) << 16) | ((rgb.y & 0x0ff) << 8) | (rgb.z & 0x0ff);
 }
 
+double rnd0()
+{
+    return static_cast<double>(rand() % 1000) / 1000.0;
+}
+
 double rnd1()
 {
     return static_cast<double>(rand() % 1000 - 500) / 1000.0;

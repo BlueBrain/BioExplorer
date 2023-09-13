@@ -83,6 +83,8 @@ private:
     void _buildMorphology(common::ThreadSafeContainer& container, const uint64_t neuronId, const NeuronSoma& soma,
                           const uint64_t neuronIndex);
 
+    SectionSynapseMap _buildDebugSynapses(const uint64_t neuronId, const SectionMap& sections);
+
     void _addArrow(common::ThreadSafeContainer& container, const uint64_t neuronId, const core::Vector3d& somaPosition,
                    const core::Quaterniond& somaRotation, const core::Vector4d& srcNode, const core::Vector4d& dstNode,
                    const details::NeuronSectionType sectionType, const size_t baseMaterialId,
@@ -96,7 +98,7 @@ private:
 
     void _addSpine(common::ThreadSafeContainer& container, const uint64_t neuronId, const uint64_t morphologyId,
                    const uint64_t sectionId, const Synapse& synapse, const size_t baseMaterialId,
-                   const core::Vector3d& surfacePosition);
+                   const core::Vector3d& surfacePosition, const double radiusAtSurfacePosition);
 
     void _addSectionInternals(common::ThreadSafeContainer& container, const uint64_t neuronId,
                               const core::Vector3d& somaPosition, const core::Quaterniond& somaRotation,
