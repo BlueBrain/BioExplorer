@@ -56,6 +56,7 @@ void PerspectiveStereoCamera::commit()
         getParamf(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.c_str(), DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
     enableClippingPlanes = getParam(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES.c_str(), 0);
     clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr) : nullptr;
+    useHardwareRandomizer = getParam(PROPERTY_USE_HARDWARE_RANDOMIZER, 0);
 
     dir = normalize(dir);
     vec3f dir_du = normalize(cross(dir, up));
@@ -102,7 +103,7 @@ void PerspectiveStereoCamera::commit()
     ispc::PerspectiveStereoCamera_set(getIE(), (const ispc::vec3f&)org, (const ispc::vec3f&)dir_00,
                                       (const ispc::vec3f&)dir_du, (const ispc::vec3f&)dir_dv, scaledAperture, aspect,
                                       (const ispc::vec3f&)ipd_offset, stereoMode, (const ispc::vec4f*)clipPlaneData,
-                                      numClipPlanes, nearClip);
+                                      numClipPlanes, nearClip, useHardwareRandomizer);
 }
 
 OSP_REGISTER_CAMERA(PerspectiveStereoCamera, perspective);

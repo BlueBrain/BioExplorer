@@ -154,7 +154,7 @@ void _addBioExplorerFieldsRenderer(Engine &engine)
     PLUGIN_REGISTER_RENDERER(RENDERER_FIELDS);
     PropertyMap properties;
     properties.setProperty({"mainExposure", 1., 1., 20., {"Exposure"}});
-    properties.setProperty({"useHardwareRandomizer", false, {"Use hardware accelerated randomizer"}});
+    properties.setProperty({PROPERTY_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
     properties.setProperty({"minRayStep", 0.001, 0.001, 1.0, {"Smallest ray step"}});
     properties.setProperty({"nbRaySteps", 8, 1, 2048, {"Number of ray marching steps"}});
     properties.setProperty({"nbRayRefinementSteps", 8, 1, 1000, {"Number of ray marching refinement steps"}});
@@ -181,7 +181,7 @@ void _addBioExplorerPathTracingRenderer(Engine &engine)
     PLUGIN_REGISTER_RENDERER(RENDERER_PATH_TRACING);
     PropertyMap properties;
     properties.setProperty({"mainExposure", 1., 0.1, 10., {"Exposure"}});
-    properties.setProperty({"useHardwareRandomizer", false, {"Use hardware accelerated randomizer"}});
+    properties.setProperty({PROPERTY_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
     properties.setProperty({"showBackground", false, {"Show background"}});
     properties.setProperty({"aoStrength", 1.0, 0.0001, 10.0, {"Sample search strength"}});
     properties.setProperty({"aoDistance", 1e6, 0.1, 1e6, {"Sample search distance"}});

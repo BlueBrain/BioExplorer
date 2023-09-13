@@ -24,16 +24,9 @@
 #include "math/sampling.ih"
 #include "utils/CameraUtils.ih"
 
-#include <ospray/SDK/camera/Camera.ih>
+#include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
 
-inline float getRandomValue()
-{
-    float r;
-    int nbMaxTries = 10;
-    while (nbMaxTries >= 0 && rdrand(&r) == false)
-        --nbMaxTries;
-    return r;
-}
+#include <ospray/SDK/camera/Camera.ih>
 
 struct PerspectiveStereoCamera
 {
@@ -51,6 +44,9 @@ struct PerspectiveStereoCamera
     // Clip planes
     const uniform vec4f* clipPlanes;
     unsigned int numClipPlanes;
+
+    // Hardware randomizer
+    bool useHardwareRandomizer;
 };
 
 void PerspectiveStereoCamera_initRay(uniform Camera* uniform _self, varying Ray& ray,
@@ -81,12 +77,10 @@ void PerspectiveStereoCamera_initRay(uniform Camera* uniform _self, varying Ray&
 
     if (self->super.doesDOF)
     {
-        float random = 1.f;
-        random = getRandomValue();
+        float random = getRandomValue(self->useHardwareRandomizer, make_vec3ui(screen.x, screen.y, 0.f));
         random = (random == 0.f ? 0.001f : random);
         const vec3f llp = uniformSampleDisk(random * self->scaledAperture, sample.lens);
-        // transform local lens point to focal plane (dir_XX are prescaled in
-        // this case)
+        // transform local lens point to focal plane (dir_XX are prescaled in this case)
         const vec3f lp = (llp.x * self->dir_du) + ((llp.y * self->aspect) * self->dir_dv);
         org = org + lp;
         dir = dir - lp;
@@ -117,7 +111,7 @@ export void PerspectiveStereoCamera_set(void* uniform _self, const uniform vec3f
                                         const uniform float scaledAperture, const uniform float aspect,
                                         const uniform vec3f& ipd_offset, const uniform bool side_by_side,
                                         const uniform vec4f clipPlanes[], const uniform unsigned int numClipPlanes,
-                                        const uniform float nearClip)
+                                        const uniform float nearClip, const uniform bool useHardwareRandomizer)
 {
     uniform PerspectiveStereoCamera* uniform self = (uniform PerspectiveStereoCamera * uniform) _self;
     self->org = org;
@@ -132,4 +126,5 @@ export void PerspectiveStereoCamera_set(void* uniform _self, const uniform vec3f
     self->clipPlanes = clipPlanes;
     self->numClipPlanes = numClipPlanes;
     self->super.nearClip = nearClip;
+    self->useHardwareRandomizer = useHardwareRandomizer;
 }

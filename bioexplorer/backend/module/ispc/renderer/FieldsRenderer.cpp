@@ -23,6 +23,8 @@
 
 #include "FieldsRenderer.h"
 
+#include <platform/core/common/Types.h>
+
 // ospray
 #include <ospray/SDK/common/Data.h>
 #include <ospray/SDK/lights/Light.h>
@@ -52,7 +54,7 @@ void FieldsRenderer::commit()
 
     _bgMaterial = (AdvancedMaterial*)getParamObject("bgMaterial", nullptr);
 
-    _useHardwareRandomizer = getParam("useHardwareRandomizer", 0);
+    _useHardwareRandomizer = getParam(PROPERTY_USE_HARDWARE_RANDOMIZER.c_str(), 0);
 
     _exposure = getParam1f("mainExposure", 1.f);
     _randomNumber = getParam1i("randomNumber", 0);

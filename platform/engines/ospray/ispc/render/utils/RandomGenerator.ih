@@ -28,16 +28,13 @@
 #include <ospray/SDK/math/vec.ih>
 #include <ospray/SDK/render/Renderer.ih>
 
-float getRandomValue(const bool useHardware, const varying ScreenSample& sample, const int randomNumber);
+float getRandomValue(const bool useHardware, const vec3ui& sample);
 
 /**
-    Returns a random direction based on location in the frame buffer, the normal
-   to the surface and rotation parameters for the precomputed hard-coded random
-   distribution.
+    Returns a random direction based on location in the frame buffer, the normal to the surface and rotation parameters
+   for the precomputed hard-coded random distribution.
     @param useHardware Use hardware acceleration
-    @param sample Frame buffer sample being rendered
-    @param randomNumber A random number that introduces noise in the
-   distribution
+    @param sample Sample being rendered
     @return A random direction based on specified parameters
 */
 

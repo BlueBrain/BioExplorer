@@ -66,5 +66,7 @@ public:
     // Stereo
     CameraStereoMode stereoMode;
     double interpupillaryDistance;
+
+    bool useHardwareRandomizer{false};
 };
 } // namespace core

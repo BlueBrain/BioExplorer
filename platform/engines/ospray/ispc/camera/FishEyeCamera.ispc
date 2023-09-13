@@ -22,6 +22,8 @@
 #include "math/sampling.ih"
 #include "utils/CameraUtils.ih"
 
+#include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
+
 #include <ospray/SDK/camera/Camera.ih>
 
 struct FishEyeCamera
@@ -41,16 +43,10 @@ struct FishEyeCamera
     unsigned int numClipPlanes;
 
     float aperture;
-};
 
-inline float getRandomValue()
-{
-    float r;
-    int nbMaxTries = 10;
-    while (nbMaxTries >= 0 && rdrand(&r) == false)
-        --nbMaxTries;
-    return r;
-}
+    // Hardware randomizer
+    bool useHardwareRandomizer;
+};
 
 void FishEyeCamera_initRay(uniform Camera* uniform _self, varying Ray& ray, const varying CameraSample& sample)
 {
@@ -87,12 +83,10 @@ void FishEyeCamera_initRay(uniform Camera* uniform _self, varying Ray& ray, cons
     if (true)
     {
         const float scaledAperture = 0.1f;
-        float random = 1.f;
-        random = getRandomValue();
+        float random = getRandomValue(self->useHardwareRandomizer, make_vec3ui(screen.x, screen.y, 0.f));
         random = (random == 0.f ? 0.001f : random);
         const vec3f llp = uniformSampleDisk(random * self->aperture, sample.lens);
-        // transform local lens point to focal plane (dir_XX are prescaled in
-        // this case)
+        // transform local lens point to focal plane (dir_XX are prescaled in this case)
         const vec3f lp = (llp.x * self->dirU) + (llp.y * self->dirV);
         org = org + lp;
         dir = dir - lp;
@@ -123,7 +117,8 @@ export void* uniform FishEyeCamera_create(void* uniform cppE)
 
 export void FishEyeCamera_set(void* uniform _self, const uniform vec3f& org, const uniform vec3f& dir,
                               const uniform vec3f& dirU, const uniform vec3f& dirV, const uniform vec4f clipPlanes[],
-                              const uniform unsigned int numClipPlanes, const uniform float aperture)
+                              const uniform unsigned int numClipPlanes, const uniform float aperture,
+                              const uniform bool useHardwareRandomizer)
 {
     uniform FishEyeCamera* uniform self = (uniform FishEyeCamera * uniform) _self;
     self->org = org;
@@ -133,4 +128,5 @@ export void FishEyeCamera_set(void* uniform _self, const uniform vec3f& org, con
     self->clipPlanes = clipPlanes;
     self->numClipPlanes = numClipPlanes;
     self->aperture = aperture;
+    self->useHardwareRandomizer = useHardwareRandomizer;
 }

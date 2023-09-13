@@ -23,14 +23,7 @@
 #include "math/sampling.ih"
 #include "ospray/SDK/camera/Camera.ih"
 
-inline float getRandomValue()
-{
-    float r;
-    int nbMaxTries = 10;
-    while (nbMaxTries >= 0 && rdrand(&r) == false)
-        --nbMaxTries;
-    return r;
-}
+#include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
 
 struct SphereClippingPerspectiveCamera
 {
@@ -53,6 +46,9 @@ struct SphereClippingPerspectiveCamera
     // Clip planes
     const uniform vec4f* clipPlanes;
     unsigned int numClipPlanes;
+
+    // Hardware randomizer
+    bool useHardwareRandomizer;
 };
 
 inline void sphereClipRay(const uniform vec4f* clipPlanes, const unsigned int numClipPlanes,
@@ -108,8 +104,7 @@ void SphereClippingPerspectiveCamera_initRay(uniform Camera* uniform _self, vary
 
     if (self->super.doesDOF)
     {
-        float random = 1.f;
-        random = getRandomValue();
+        float random = getRandomValue(self->useHardwareRandomizer, make_vec3ui(screen.x, screen.y, 0.f));
         random = (random == 0.f ? 0.001f : random);
         const vec3f llp = uniformSampleDisk(random * self->scaledAperture, sample.lens);
         // transform local lens point to focal plane (dir_XX are prescaled in
@@ -148,7 +143,8 @@ export void SphereClippingPerspectiveCamera_set(void* uniform _self, const unifo
                                                 const uniform vec3f& dir_dv, const uniform float scaledAperture,
                                                 const uniform float aspect, const uniform vec3f& ipd_offset,
                                                 const uniform vec4f clipPlanes[],
-                                                const uniform unsigned int numClipPlanes)
+                                                const uniform unsigned int numClipPlanes,
+                                                const uniform bool useHardwareRandomizer)
 {
     uniform SphereClippingPerspectiveCamera* uniform self = (uniform SphereClippingPerspectiveCamera * uniform) _self;
     self->org = org;
@@ -161,4 +157,5 @@ export void SphereClippingPerspectiveCamera_set(void* uniform _self, const unifo
     self->ipd_offset = ipd_offset;
     self->clipPlanes = clipPlanes;
     self->numClipPlanes = numClipPlanes;
+    self->useHardwareRandomizer = useHardwareRandomizer;
 }

@@ -46,14 +46,17 @@ public:
     float aspect;
     float apertureRadius;
     float focusDistance;
-    bool architectural;           // orient image plane to be parallel to 'up' and shift
-                                  // the lens
+    bool architectural; // orient image plane to be parallel to 'up' and shift
+                        // the lens
     bool stereo;
     float interpupillaryDistance; // distance between the two cameras (stereo)
 
     // Clip planes
     bool enableClippingPlanes{false};
     Ref<Data> clipPlanes;
+
+    // Hardware randomizer
+    bool useHardwareRandomizer{false};
 };
 
 } // namespace ospray

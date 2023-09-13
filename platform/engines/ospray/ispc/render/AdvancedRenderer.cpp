@@ -78,7 +78,7 @@ void AdvancedRenderer::commit()
     _maxBounces = getParam1i("maxBounces", 3);
     _randomNumber = rand() % 1000;
 
-    _useHardwareRandomizer = getParam("useHardwareRandomizer", 0);
+    _useHardwareRandomizer = getParam(PROPERTY_USE_HARDWARE_RANDOMIZER, 0);
     _showBackground = getParam("showBackground", 0);
 
     _shadows = getParam1f("shadows", 0.f);
