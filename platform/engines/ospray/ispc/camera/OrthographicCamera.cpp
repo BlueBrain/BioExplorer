@@ -17,7 +17,11 @@
 #include "OrthographicCamera.h"
 #include "OrthographicCamera_ispc.h"
 
+#include <platform/core/common/Types.h>
+
 #include <ospray/SDK/common/Data.h>
+
+using namespace core;
 
 namespace ospray
 {
@@ -33,11 +37,10 @@ void OrthographicCamera::commit()
     // ------------------------------------------------------------------
     // first, "parse" the additional expected parameters
     // ------------------------------------------------------------------
-    height = getParamf("height", 1.f); // imgPlane_size_y
-    aspect = getParamf("aspect", 1.f);
-    enableClippingPlanes = getParam("enableClippingPlanes", 0);
-    clipPlanes =
-        enableClippingPlanes ? getParamData("clipPlanes", nullptr) : nullptr;
+    height = getParamf(CAMERA_PROPERTY_HEIGHT.c_str(), 1.f); // imgPlane_size_y
+    aspect = getParamf(CAMERA_PROPERTY_ASPECT.c_str(), 1.f);
+    enableClippingPlanes = getParam(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES.c_str(), 0);
+    clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr) : nullptr;
 
     // ------------------------------------------------------------------
     // now, update the local precomputed values
@@ -54,12 +57,9 @@ void OrthographicCamera::commit()
     const auto clipPlaneData = clipPlanes ? clipPlanes->data : nullptr;
     const size_t numClipPlanes = clipPlanes ? clipPlanes->numItems : 0;
 
-    ispc::OrthographicCamera_set(getIE(), (const ispc::vec3f&)dir,
-                                 (const ispc::vec3f&)pos_00,
-                                 (const ispc::vec3f&)pos_du,
-                                 (const ispc::vec3f&)pos_dv,
-                                 (const ispc::vec4f*)clipPlaneData,
-                                 numClipPlanes);
+    ispc::OrthographicCamera_set(getIE(), (const ispc::vec3f&)dir, (const ispc::vec3f&)pos_00,
+                                 (const ispc::vec3f&)pos_du, (const ispc::vec3f&)pos_dv,
+                                 (const ispc::vec4f*)clipPlaneData, numClipPlanes);
 }
 
 OSP_REGISTER_CAMERA(OrthographicCamera, orthographic);

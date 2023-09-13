@@ -21,8 +21,10 @@
 
 #include "FishEyeCamera.h"
 #include <limits>
-// ispc-side stuff
+
 #include "FishEyeCamera_ispc.h"
+
+#include <platform/core/common/Types.h>
 
 #include <ospray/SDK/common/Data.h>
 
@@ -30,6 +32,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h> // M_PI
 #endif
+
+using namespace core;
 
 namespace ospray
 {
@@ -43,10 +47,10 @@ void FishEyeCamera::commit()
     Camera::commit();
 
     // the default 63.5mm represents the average human IPD
-    enableClippingPlanes = getParam("enableClippingPlanes", 0);
-    clipPlanes = enableClippingPlanes ? getParamData("clipPlanes", nullptr) : nullptr;
-    apertureRadius = getParamf("apertureRadius", 0.f);
-    focusDistance = getParamf("focusDistance", 1.f);
+    enableClippingPlanes = getParam(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES.c_str(), 0);
+    clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr) : nullptr;
+    apertureRadius = getParamf(CAMERA_PROPERTY_APERTURE_RADIUS.c_str(), 0.f);
+    focusDistance = getParamf(CAMERA_PROPERTY_FOCUS_DISTANCE.c_str(), 1.f);
 
     // ------------------------------------------------------------------
     // now, update the local precomputed values

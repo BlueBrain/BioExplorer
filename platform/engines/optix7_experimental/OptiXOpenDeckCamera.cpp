@@ -90,7 +90,7 @@ void OptiXOpenDeckCamera::commit(const OptiXCamera& camera,
     context[CUDA_ATTR_CAMERA_SEGMENT_ID]->setUint(
         camera.getPropertyOrValue<int>("segmentId", 0));
     context["HALF_IPD"]->setFloat(
-        camera.getPropertyOrValue<double>("interpupillaryDistance", 0.065) /
+        camera.getPropertyOrValue<double>(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE, 0.065) /
         2.0);
     context[CUDA_ATTR_CAMERA_HEAD_POS]->setFloat(headPos[0], headPos[1],
                                                  headPos[2]);
@@ -101,9 +101,9 @@ void OptiXOpenDeckCamera::commit(const OptiXCamera& camera,
     context[CUDA_ATTR_CAMERA_V]->setFloat(v.x, v.y, v.z);
     context[CUDA_ATTR_CAMERA_W]->setFloat(w.x, w.y, w.z);
     context[CUDA_ATTR_CAMERA_APERTURE_RADIUS]->setFloat(
-        camera.getPropertyOrValue<double>("apertureRadius", 0.0));
+        camera.getPropertyOrValue<double>(CAMERA_PROPERTY_APERTURE_RADIUS, 0.0));
     context[CUDA_ATTR_CAMERA_FOCAL_SCALE]->setFloat(
-        camera.getPropertyOrValue<double>("focusDistance", 1.0));
+        camera.getPropertyOrValue<double>(CAMERA_PROPERTY_FOCUS_DISTANCE, 1.0));
     context[CUDA_ATTR_CAMERA_BAD_COLOR]->setFloat(1.f, 0.f, 1.f);
     // context[CUDA_ATTR_CAMERA_OFFSET]->setFloat(0, 0);
 }

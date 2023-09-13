@@ -108,14 +108,14 @@ class MovieMaker:
                     up[k] = p0["up"][k] + t_up[k] * float(i)
 
                 t_aperture_radius = (
-                    p1["apertureRadius"] - p0["apertureRadius"]
+                    p1[CAMERA_PROPERTY_APERTURE_RADIUS] - p0[CAMERA_PROPERTY_APERTURE_RADIUS]
                 ) / float(nb_steps_between_control_points)
-                aperture_radius = p0["apertureRadius"] + t_aperture_radius * float(i)
+                aperture_radius = p0[CAMERA_PROPERTY_APERTURE_RADIUS] + t_aperture_radius * float(i)
 
-                t_focus_distance = (p1["focusDistance"] - p0["focusDistance"]) / float(
+                t_focus_distance = (p1[CAMERA_PROPERTY_FOCUS_DISTANCE] - p0[CAMERA_PROPERTY_FOCUS_DISTANCE]) / float(
                     nb_steps_between_control_points
                 )
-                focus_distance = p0["focusDistance"] + t_focus_distance * float(i)
+                focus_distance = p0[CAMERA_PROPERTY_FOCUS_DISTANCE] + t_focus_distance * float(i)
 
                 origins.append(origin)
                 directions.append(direction)
@@ -473,6 +473,7 @@ class MovieMaker:
         self._client.set_renderer(max_accum_frames=spp)
 
         control_points = [self.get_camera()]
+        print(control_points)
         current_animation_frame = int(
             self._client.get_animation_parameters()["current"]
         )

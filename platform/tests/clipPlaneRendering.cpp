@@ -34,7 +34,7 @@ class Demo
 {
 public:
     Demo()
-        : _argv{"clipPlanes",    "demo", "--disable-accumulation",
+        : _argv{CAMERA_PROPERTY_CLIPPING_PLANES,    "demo", "--disable-accumulation",
                 "--window-size", "50",   "50"}
         , _core(_argv.size(), _argv.data())
     {

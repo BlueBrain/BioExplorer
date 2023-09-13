@@ -46,7 +46,7 @@ void OptiXPerspectiveCamera::commit(const OptiXCamera& camera, ::optix::Context 
 {
     auto position = camera.getPosition();
     const auto stereo = camera.getPropertyOrValue<bool>(CONTEXT_CAMERA_STEREO, false);
-    const auto interpupillaryDistance = camera.getPropertyOrValue<double>(CONTEXT_CAMERA_IPD, 0.0635f);
+    const auto interpupillaryDistance = camera.getPropertyOrValue<double>(CONTEXT_CAMERA_IPD, DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
     auto aspect = camera.getPropertyOrValue<double>(CONTEXT_CAMERA_ASPECT, 1.0);
 
     if (stereo)

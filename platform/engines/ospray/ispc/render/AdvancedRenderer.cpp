@@ -95,7 +95,7 @@ void AdvancedRenderer::commit()
     _volumeSpecularExponent = getParam1f("volumeSpecularExponent", 20.f);
     _volumeAlphaCorrection = getParam1f("volumeAlphaCorrection", 0.5f);
 
-    clipPlanes = getParamData("clipPlanes", nullptr);
+    clipPlanes = getParamData(CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr);
     const auto clipPlaneData = clipPlanes ? clipPlanes->data : nullptr;
     const uint32 numClipPlanes = clipPlanes ? clipPlanes->numItems : 0;
 

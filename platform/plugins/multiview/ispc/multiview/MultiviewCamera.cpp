@@ -22,7 +22,11 @@
 #include "MultiviewCamera.h"
 #include "MultiviewCamera_ispc.h"
 
+#include <platform/core/common/Types.h>
+
 #include <ospray/SDK/common/Data.h>
+
+using namespace core;
 
 namespace ospray
 {
@@ -40,14 +44,14 @@ void MultiviewCamera::commit()
 {
     Camera::commit();
 
-    const float fovy = getParamf("fovy", 60.f);
-    const float aspect = getParamf("aspect", 1.66667f);
-    const float apertureRadius = getParamf("apertureRadius", 0.f);
-    const float focusDistance = getParamf("focusDistance", 1.f);
-    const float height = getParamf("height", 10.f); // imgPlane_size_y
+    const float fovy = getParamf(CAMERA_PROPERTY_FOVY.c_str(), DEFAULT_CAMERA_FOVY);
+    const float aspect = getParamf(CAMERA_PROPERTY_ASPECT.c_str(), 1.66667f);
+    const float apertureRadius = getParamf(CAMERA_PROPERTY_APERTURE_RADIUS.c_str(), 0.f);
+    const float focusDistance = getParamf(CAMERA_PROPERTY_FOCUS_DISTANCE.c_str(), 1.f);
+    const float height = getParamf(CAMERA_PROPERTY_HEIGHT.c_str(), 10.f); // imgPlane_size_y
     const float armLength = getParamf("armLength", 5.f);
 
-    clipPlanes = getParamData("clipPlanes", nullptr);
+    clipPlanes = getParamData(CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr);
 
     dir = normalize(dir);
     vec3f dir_du = normalize(cross(dir, up));

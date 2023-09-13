@@ -21,8 +21,10 @@
 
 #include "PanoramicCamera.h"
 #include <limits>
-// ispc-side stuff
+
 #include "PanoramicCamera_ispc.h"
+
+#include <platform/core/common/Types.h>
 
 #include <ospray/SDK/common/Data.h>
 
@@ -30,6 +32,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h> // M_PI
 #endif
+
+using namespace core;
 
 namespace ospray
 {
@@ -46,12 +50,13 @@ void PanoramicCamera::commit()
     // first, "parse" the additional expected parameters
     // ------------------------------------------------------------------
     // FIXME(jonask): When supported by OSPRay use bool
-    stereo = getParam("stereo", 0);
+    stereo = getParam(CAMERA_PROPERTY_STEREO.c_str(), 0);
     half = getParam("half", 0);
     // the default 63.5mm represents the average human IPD
-    interpupillaryDistance = getParamf("interpupillaryDistance", 0.0635f);
-    enableClippingPlanes = getParam("enableClippingPlanes", 0);
-    clipPlanes = enableClippingPlanes ? getParamData("clipPlanes", nullptr) : nullptr;
+    interpupillaryDistance =
+        getParamf(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.c_str(), DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
+    enableClippingPlanes = getParam(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES.c_str(), 0);
+    clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr) : nullptr;
 
     // ------------------------------------------------------------------
     // now, update the local precomputed values
@@ -65,7 +70,7 @@ void PanoramicCamera::commit()
 
     if (stereo)
     {
-        auto bufferTarget = getParamString("buffer_target");
+        auto bufferTarget = getParamString(CAMERA_PROPERTY_BUFFER_TARGET.c_str());
         if (bufferTarget.length() == 2)
         {
             if (bufferTarget.at(1) == 'L')

@@ -65,8 +65,8 @@ const std::string CONTEXT_CAMERA_V = "V";
 const std::string CONTEXT_CAMERA_W = "W";
 const std::string CONTEXT_CAMERA_APERTURE_RADIUS = "aperture_radius";
 const std::string CONTEXT_CAMERA_FOCAL_SCALE = "focal_scale";
-const std::string CONTEXT_CAMERA_FOVY = "fovy";
-const std::string CONTEXT_CAMERA_ASPECT = "aspect";
+const std::string CONTEXT_CAMERA_FOVY = CAMERA_PROPERTY_FOVY;
+const std::string CONTEXT_CAMERA_ASPECT = CAMERA_PROPERTY_ASPECT;
 const std::string CONTEXT_CAMERA_OFFSET = "offset";
 
 // Exception
@@ -74,16 +74,16 @@ const std::string CONTEXT_EXCEPTION_BAD_COLOR = "bad_color";
 
 // Perspective
 const std::string CUDA_FUNC_PERSPECTIVE_CAMERA = "perspectiveCamera";
-const std::string CONTEXT_CAMERA_STEREO = "stereo";
-const std::string CONTEXT_CAMERA_IPD = "interpupillaryDistance";
+const std::string CONTEXT_CAMERA_STEREO = CAMERA_PROPERTY_STEREO;
+const std::string CONTEXT_CAMERA_IPD = CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE;
 const std::string CONTEXT_CAMERA_IPD_OFFSET = "ipd_offset";
 
 // Orthographic
 const std::string CUDA_FUNC_ORTHOGRAPHIC_CAMERA = "orthographicCamera";
-const std::string CONTEXT_CAMERA_HEIGHT = "height";
+const std::string CONTEXT_CAMERA_HEIGHT = CAMERA_PROPERTY_HEIGHT;
 
 // Clipping planes
-const std::string CONTEXT_ENABLE_CLIPPING_PLANES = "enableClippingPlanes";
+const std::string CONTEXT_ENABLE_CLIPPING_PLANES = CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES;
 const std::string CONTEXT_CLIPPING_PLANES = "clippingPlanes";
 const std::string CONTEXT_NB_CLIPPING_PLANES = "nbClippingPlanes";
 

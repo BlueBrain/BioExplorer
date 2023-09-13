@@ -217,8 +217,8 @@ void MediaMakerPlugin::preRender()
         frameBuffer.clear();
 
         auto &camera = _api->getCamera();
-        if (camera.hasProperty("aspect"))
-            camera.updateProperty("aspect",
+        if (camera.hasProperty(CAMERA_PROPERTY_ASPECT))
+            camera.updateProperty(CAMERA_PROPERTY_ASPECT,
                                   static_cast<double>(_frameBufferSize.x) / static_cast<double>(_frameBufferSize.y));
         camera.commit();
 
@@ -292,14 +292,14 @@ void MediaMakerPlugin::_setCamera(const CameraDefinition &payload)
     camera.setOrientation(q);
 
     // Aperture
-    camera.updateProperty("apertureRadius", payload.apertureRadius);
+    camera.updateProperty(CAMERA_PROPERTY_APERTURE_RADIUS, payload.apertureRadius);
 
     // Focus distance
-    camera.updateProperty("focusDistance", payload.focusDistance);
+    camera.updateProperty(CAMERA_PROPERTY_FOCUS_DISTANCE, payload.focusDistance);
 
     // Stereo
-    camera.updateProperty("stereo", payload.interpupillaryDistance != 0.0);
-    camera.updateProperty("interpupillaryDistance", payload.interpupillaryDistance);
+    camera.updateProperty(CAMERA_PROPERTY_STEREO, payload.interpupillaryDistance != 0.0);
+    camera.updateProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE, payload.interpupillaryDistance);
 
     _api->getCamera().markModified();
 }

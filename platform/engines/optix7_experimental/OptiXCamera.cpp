@@ -99,9 +99,9 @@ void OptiXCamera::commit()
     _u = normalize(glm::cross(_w, Vector3f(up)));
     _v = normalize(glm::cross(_u, _w));
 
-    vlen = wlen * tanf(0.5f * getPropertyOrValue<double>("fovy", 45.0) * M_PI / 180.f);
+    vlen = wlen * tanf(0.5f * getPropertyOrValue<double>(CAMERA_PROPERTY_FOVY, 45.0) * M_PI / 180.f);
     _v *= vlen;
-    ulen = vlen * getPropertyOrValue<double>("aspect", 1.0);
+    ulen = vlen * getPropertyOrValue<double>(CAMERA_PROPERTY_ASPECT, 1.0);
     _u *= ulen;
 
     _commitToOptiX();

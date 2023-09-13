@@ -208,20 +208,20 @@ void OSPRayEngine::_createCameras()
     _camera = std::make_shared<OSPRayCamera>();
 
     const bool isStereo = _parametersManager.getApplicationParameters().isStereo();
-    Property stereoProperty{"stereo", isStereo, {"Stereo"}};
-    Property fovy{"fovy", 45., .1, 360., {"Field of view"}};
-    Property aspect{"aspect", 1., {"Aspect ratio"}};
+    Property stereoProperty{CAMERA_PROPERTY_STEREO, isStereo, {CAMERA_PROPERTY_STEREO}};
+    Property fovy{CAMERA_PROPERTY_FOVY, 45., .1, 360., {"Field of view"}};
+    Property aspect{CAMERA_PROPERTY_ASPECT, 1., {"Aspect ratio"}};
     aspect.markReadOnly();
-    Property eyeSeparation{"interpupillaryDistance", 0.0635, {"Eye separation"}};
-    Property enableClippingPlanes{"enableClippingPlanes", true, {"Clipping"}};
+    Property eyeSeparation{CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE, 0.0635, {"Eye separation"}};
+    Property enableClippingPlanes{CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES, true, {"Clipping"}};
 
     {
         PropertyMap properties;
         properties.setProperty(fovy);
         properties.setProperty(aspect);
-        properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
-        properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
-        properties.setProperty({"nearClip", 0., 0., 1e6, {"Near clip"}});
+        properties.setProperty({CAMERA_PROPERTY_APERTURE_RADIUS, 0., {"Aperture radius"}});
+        properties.setProperty({CAMERA_PROPERTY_FOCUS_DISTANCE, 1., {"Focus Distance"}});
+        properties.setProperty({CAMERA_PROPERTY_NEAR_CLIP, 0., 0., 1e6, {"Near clip"}});
         properties.setProperty(enableClippingPlanes);
         properties.setProperty(stereoProperty);
         properties.setProperty(eyeSeparation);
@@ -229,7 +229,7 @@ void OSPRayEngine::_createCameras()
     }
     {
         PropertyMap properties;
-        properties.setProperty({"height", 1., {"Height"}});
+        properties.setProperty({CAMERA_PROPERTY_HEIGHT, 1., {CAMERA_PROPERTY_HEIGHT}});
         properties.setProperty(aspect);
         properties.setProperty(enableClippingPlanes);
         addCameraType("orthographic", properties);
@@ -243,7 +243,7 @@ void OSPRayEngine::_createCameras()
         {
             properties.setProperty(stereoProperty);
             properties.setProperty(eyeSeparation);
-            properties.setProperty({"zeroParallaxPlane", 1., {"Zero parallax plane"}});
+            properties.setProperty({CAMERA_PROPERTY_ZERO_PARALLAX_PLANE, 1., {"Zero parallax plane"}});
         }
         addCameraType("perspectiveParallax", properties);
     }
@@ -262,8 +262,8 @@ void OSPRayEngine::_createCameras()
         PropertyMap properties;
         properties.setProperty(fovy);
         properties.setProperty(aspect);
-        properties.setProperty({"apertureRadius", 0., {"Aperture radius"}});
-        properties.setProperty({"focusDistance", 1., {"Focus Distance"}});
+        properties.setProperty({CAMERA_PROPERTY_APERTURE_RADIUS, 0., {"Aperture radius"}});
+        properties.setProperty({CAMERA_PROPERTY_FOCUS_DISTANCE, 1., {"Focus Distance"}});
         properties.setProperty(enableClippingPlanes);
         addCameraType("fisheye", properties);
     }
