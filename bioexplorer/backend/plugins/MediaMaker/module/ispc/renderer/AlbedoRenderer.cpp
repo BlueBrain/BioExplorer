@@ -23,12 +23,15 @@
 
 #include "AlbedoRenderer.h"
 
+#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
+
 // ospray
 #include <ospray/SDK/lights/Light.h>
 
 // ispc exports
 #include "AlbedoRenderer_ispc.h"
 
+using namespace core;
 using namespace ospray;
 
 namespace bioexplorer
@@ -50,6 +53,8 @@ AlbedoRenderer::AlbedoRenderer()
 }
 
 OSP_REGISTER_RENDERER(AlbedoRenderer, albedo);
+OSP_REGISTER_MATERIAL(albedo, AdvancedMaterial, default);
+
 } // namespace rendering
 } // namespace mediamaker
 } // namespace bioexplorer

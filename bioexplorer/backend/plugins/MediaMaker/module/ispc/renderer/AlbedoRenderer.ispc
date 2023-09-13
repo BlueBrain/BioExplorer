@@ -45,10 +45,8 @@ inline vec3f AlbedoRenderer_shadeRay(const uniform AlbedoRenderer* uniform self,
 
     uniform AdvancedMaterial* material = (uniform AdvancedMaterial*)dg.material;
 
-    vec3f Kd = make_vec3f(0.f);
-    if (!material)
-        Kd = make_vec3f(dg.color);
-    else
+    vec3f Kd = make_vec3f(dg.color);
+    if (material)
         foreach_unique(mat in material)
         {
             Kd = mat->Kd * make_vec3f(dg.color);
@@ -59,9 +57,8 @@ inline vec3f AlbedoRenderer_shadeRay(const uniform AlbedoRenderer* uniform self,
             }
         }
 
-    // Z-Depth
-    sample.z = ray.t;
-    sample.alpha = dg.color.w;
+    sample.z = ray.t;   // Z-Depth
+    sample.alpha = 1.f; // Transparency is not managed by this renderer
 
     return make_vec3f(Kd);
 }
