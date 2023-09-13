@@ -473,7 +473,6 @@ class MovieMaker:
         self._client.set_renderer(max_accum_frames=spp)
 
         control_points = [self.get_camera()]
-        print(control_points)
         current_animation_frame = int(
             self._client.get_animation_parameters()["current"]
         )

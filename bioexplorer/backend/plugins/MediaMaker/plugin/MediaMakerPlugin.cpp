@@ -315,6 +315,9 @@ CameraDefinition MediaMakerPlugin::_getCamera()
     cd.direction = {d.x, d.y, d.z};
     const auto u = glm::rotate(camera.getOrientation(), core::Vector3d(0., 1., 0.));
     cd.up = {u.x, u.y, u.z};
+    cd.apertureRadius = camera.getProperty<double>(CAMERA_PROPERTY_APERTURE_RADIUS);
+    cd.focusDistance = camera.getProperty<double>(CAMERA_PROPERTY_FOCUS_DISTANCE);
+    cd.interpupillaryDistance = camera.getProperty<double>(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE);
     return cd;
 }
 
