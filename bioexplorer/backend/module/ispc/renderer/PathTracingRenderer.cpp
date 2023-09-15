@@ -54,7 +54,7 @@ void PathTracingRenderer::commit()
 
     _bgMaterial = (AdvancedMaterial*)getParamObject("bgMaterial", nullptr);
     _exposure = getParam1f("mainExposure", 1.f);
-    _useHardwareRandomizer = getParam(PROPERTY_USE_HARDWARE_RANDOMIZER.c_str(), 0);
+    _useHardwareRandomizer = getParam(RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER.c_str(), 0);
     _showBackground = getParam("showBackground", 0);
     _aoStrength = getParam1f("aoStrength", 1.f);
     _aoDistance = getParam1f("aoDistance", 100.f);

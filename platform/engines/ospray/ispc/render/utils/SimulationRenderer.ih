@@ -64,7 +64,10 @@ extern "C" unmasked uniform int SimulationRenderer_getBytesPerPrimitive(const vo
 static inline int getBytesPerPrimitive(const void* geometry)
 {
     int bytesPerPrimitive;
-    foreach_unique(g in geometry) { bytesPerPrimitive = SimulationRenderer_getBytesPerPrimitive(g); }
+    foreach_unique(g in geometry)
+    {
+        bytesPerPrimitive = SimulationRenderer_getBytesPerPrimitive(g);
+    }
     return bytesPerPrimitive;
 }
 

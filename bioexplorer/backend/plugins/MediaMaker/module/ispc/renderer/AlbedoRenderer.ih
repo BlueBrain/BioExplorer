@@ -23,11 +23,9 @@
 
 #pragma once
 
-// ospray
-#include <ospray/SDK/common/Model.ih>
-#include <ospray/SDK/render/Renderer.ih>
+#include <platform/engines/ospray/ispc/render/utils/SimulationRenderer.ih>
 
 struct AlbedoRenderer
 {
-    Renderer super;
+    SimulationRenderer super;
 };

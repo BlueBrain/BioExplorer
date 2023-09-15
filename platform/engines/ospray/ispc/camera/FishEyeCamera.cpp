@@ -51,7 +51,7 @@ void FishEyeCamera::commit()
     clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr) : nullptr;
     apertureRadius = getParamf(CAMERA_PROPERTY_APERTURE_RADIUS.c_str(), 0.f);
     focusDistance = getParamf(CAMERA_PROPERTY_FOCUS_DISTANCE.c_str(), 1.f);
-    useHardwareRandomizer = getParam(PROPERTY_USE_HARDWARE_RANDOMIZER, 0);
+    useHardwareRandomizer = getParam(RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, 0);
 
     // ------------------------------------------------------------------
     // now, update the local precomputed values

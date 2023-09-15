@@ -23,8 +23,9 @@
 
 #pragma once
 
-#include <ospray/SDK/common/Material.h>
-#include <ospray/SDK/render/Renderer.h>
+#include <platform/engines/ospray/ispc/render/utils/SimulationRenderer.h>
+
+using namespace core;
 
 namespace bioexplorer
 {
@@ -32,7 +33,7 @@ namespace mediamaker
 {
 namespace rendering
 {
-class AlbedoRenderer : public ospray::Renderer
+class AlbedoRenderer : public SimulationRenderer
 {
 public:
     AlbedoRenderer();

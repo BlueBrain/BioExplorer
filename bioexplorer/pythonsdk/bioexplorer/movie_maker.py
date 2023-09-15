@@ -411,7 +411,7 @@ class MovieMaker:
         elif name == "depth":
             frame_buffer_mode = MovieMaker.FRAME_BUFFER_MODE_DEPTH
             spp = 1
-        elif name in ["albedo", "raycast_Ns", "radiance"]:
+        elif name in ["raycast_Ns", "radiance"]:
             spp = 4
         elif name == "shadow":
             params = self._client.ShadowRendererParams()

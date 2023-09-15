@@ -92,6 +92,9 @@ void _addAlbedoRenderer(core::Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_ALBEDO);
     core::PropertyMap properties;
+    properties.setProperty({"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
+    properties.setProperty(
+        {RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
     engine.addRendererType(RENDERER_ALBEDO, properties);
 }
 
@@ -99,8 +102,11 @@ void _addAmbientOcclusionRenderer(core::Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_AMBIENT_OCCLUSION);
     core::PropertyMap properties;
-    properties.setProperty({"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
+    properties.setProperty({"samplesPerFrame", 1, 1, 256, {"Samples per frame"}});
     properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
+    properties.setProperty({"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
+    properties.setProperty(
+        {RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
     engine.addRendererType(RENDERER_AMBIENT_OCCLUSION, properties);
 }
 
