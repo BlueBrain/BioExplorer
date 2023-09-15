@@ -80,7 +80,6 @@ class MovieMaker:
         self._smoothed_key_frames.clear()
 
         for s in range(len(control_points) - 1):
-
             p0 = control_points[s]
             p1 = control_points[s + 1]
 
@@ -108,14 +107,14 @@ class MovieMaker:
                     up[k] = p0["up"][k] + t_up[k] * float(i)
 
                 t_aperture_radius = (
-                    p1[CAMERA_PROPERTY_APERTURE_RADIUS] - p0[CAMERA_PROPERTY_APERTURE_RADIUS]
+                    p1["apertureRadius"] - p0["apertureRadius"]
                 ) / float(nb_steps_between_control_points)
-                aperture_radius = p0[CAMERA_PROPERTY_APERTURE_RADIUS] + t_aperture_radius * float(i)
+                aperture_radius = p0["apertureRadius"] + t_aperture_radius * float(i)
 
-                t_focus_distance = (p1[CAMERA_PROPERTY_FOCUS_DISTANCE] - p0[CAMERA_PROPERTY_FOCUS_DISTANCE]) / float(
+                t_focus_distance = (p1["focusDistance"] - p0["focusDistance"]) / float(
                     nb_steps_between_control_points
                 )
-                focus_distance = p0[CAMERA_PROPERTY_FOCUS_DISTANCE] + t_focus_distance * float(i)
+                focus_distance = p0["focusDistance"] + t_focus_distance * float(i)
 
                 origins.append(origin)
                 directions.append(direction)
@@ -412,7 +411,7 @@ class MovieMaker:
         elif name == "depth":
             frame_buffer_mode = MovieMaker.FRAME_BUFFER_MODE_DEPTH
             spp = 1
-        elif name in ["albedo", "raycast_Ns"]:
+        elif name in ["albedo", "raycast_Ns", "radiance"]:
             spp = 4
         elif name == "shadow":
             params = self._client.ShadowRendererParams()

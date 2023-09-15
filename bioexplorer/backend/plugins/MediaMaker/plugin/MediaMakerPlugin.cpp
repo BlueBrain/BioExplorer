@@ -41,6 +41,7 @@
 #include <MediaMaker_generated_AmbientOcclusion.cu.ptx.h>
 #include <MediaMaker_generated_Depth.cu.ptx.h>
 #include <MediaMaker_generated_GeometryNormal.cu.ptx.h>
+#include <MediaMaker_generated_Radiance.cu.ptx.h>
 #include <MediaMaker_generated_ShadingNormal.cu.ptx.h>
 #include <MediaMaker_generated_Shadow.cu.ptx.h>
 #include <platform/engines/optix6/OptiXContext.h>
@@ -66,6 +67,7 @@ const std::string RENDERER_DEPTH = "depth";
 const std::string RENDERER_SHADOW = "shadow";
 const std::string RENDERER_SHADING_NORMAL = "raycast_Ns";
 const std::string RENDERER_GEOMETRY_NORMAL = "raycast_Ng";
+const std::string RENDERER_RADIANCE = "radiance";
 
 // Number of floats used to define the camera
 const size_t CAMERA_DEFINITION_SIZE = 12;
@@ -110,6 +112,13 @@ void _addShadowRenderer(core::Engine &engine)
     properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
     properties.setProperty({"softness", 0.0, 0.0, 1.0, {"Shadow softness"}});
     engine.addRendererType(RENDERER_SHADOW, properties);
+}
+
+void _addRadianceRenderer(core::Engine &engine)
+{
+    PLUGIN_REGISTER_RENDERER(RENDERER_RADIANCE);
+    core::PropertyMap properties;
+    engine.addRendererType(RENDERER_RADIANCE, properties);
 }
 
 MediaMakerPlugin::MediaMakerPlugin()
@@ -172,6 +181,7 @@ void MediaMakerPlugin::_createOptiXRenderers()
         {RENDERER_AMBIENT_OCCLUSION, MediaMaker_generated_AmbientOcclusion_cu_ptx},
         {RENDERER_SHADOW, MediaMaker_generated_Shadow_cu_ptx},
         {RENDERER_DEPTH, MediaMaker_generated_Depth_cu_ptx},
+        {RENDERER_RADIANCE, MediaMaker_generated_Radiance_cu_ptx},
     };
     OptiXContext &context = OptiXContext::get();
     for (const auto &renderer : renderers)
@@ -197,6 +207,7 @@ void MediaMakerPlugin::_createRenderers()
     _addDepthRenderer(engine);
     _addAmbientOcclusionRenderer(engine);
     _addShadowRenderer(engine);
+    _addRadianceRenderer(engine);
     engine.addRendererType(RENDERER_GEOMETRY_NORMAL);
     engine.addRendererType(RENDERER_SHADING_NORMAL);
 }

@@ -316,7 +316,8 @@ class MovieScenario:
                 "depth",
                 "shadow",
                 "raycast_Ns",
-                "raycast_Ng"
+                "raycast_Ng",
+                "radiance"
             ],
         )
         parser.add_argument(

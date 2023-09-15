@@ -66,6 +66,7 @@ if(PLATFORM_OSPRAY_ENABLED)
         module/ispc/renderer/DepthRenderer.cpp
         module/ispc/renderer/AlbedoRenderer.cpp
         module/ispc/renderer/ShadowRenderer.cpp
+        module/ispc/renderer/RadianceRenderer.cpp
     )
 
     set(${NAME}_ISPC_SOURCES
@@ -73,6 +74,7 @@ if(PLATFORM_OSPRAY_ENABLED)
         module/ispc/renderer/AlbedoRenderer.ispc
         module/ispc/renderer/DepthRenderer.ispc
         module/ispc/renderer/ShadowRenderer.ispc
+        module/ispc/renderer/RadianceRenderer.ispc
     )
 
     # ==============================================================================
@@ -116,6 +118,7 @@ if(PLATFORM_OPTIX6_ENABLED)
         module/cuda/renderer/AmbientOcclusion.cu
         module/cuda/renderer/Shadow.cu
         module/cuda/renderer/Depth.cu
+        module/cuda/renderer/Radiance.cu
     )
     
     CUDA_WRAP_SRCS(${LIBRARY_NAME} PTX ptx_generated_files ${${NAME}_CU})
