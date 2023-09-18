@@ -29,7 +29,4 @@ const float DEFAULT_SHADING_ALPHA_RATIO = 1.5f;
 const float DEFAULT_SHADING_AMBIENT = 0.2f;
 const float DEFAULT_GRADIENT_OFFSET = 0.001f;
 
-rtDeclareVariable(int, giSamples, , );
-rtDeclareVariable(float, giWeight, , );
-rtDeclareVariable(float, giDistance, , );
 rtDeclareVariable(float, specularExponent, , );

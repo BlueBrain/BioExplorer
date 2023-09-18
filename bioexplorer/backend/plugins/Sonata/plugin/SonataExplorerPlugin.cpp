@@ -133,7 +133,8 @@ void _addGrowthRenderer(Engine& engine)
     properties.setProperty({"shadows", 0., 0., 1., {"Shadow intensity"}});
     properties.setProperty({"softShadows", 0., 0., 1., {"Shadow softness"}});
     properties.setProperty({"shadowDistance", 1e4, 0., 1e4, {"Shadow distance"}});
-    properties.setProperty({PROPERTY_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
+    properties.setProperty(
+        {RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
     engine.addRendererType(RENDERER_CELL_GROWTH, properties);
 }
 
@@ -149,7 +150,8 @@ void _addProximityRenderer(Engine& engine)
     properties.setProperty({"surfaceShadingEnabled", true, {"Surface shading"}});
     properties.setProperty({"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
     properties.setProperty({"exposure", 1., 0.01, 10., {"Exposure"}});
-    properties.setProperty({PROPERTY_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
+    properties.setProperty(
+        {RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
     engine.addRendererType(RENDERER_PROXIMITY, properties);
 }
 
@@ -162,7 +164,8 @@ void _addSphereClippingPerspectiveCamera(Engine& engine)
     properties.setProperty({CAMERA_PROPERTY_APERTURE_RADIUS, 0., {"Aperture radius"}});
     properties.setProperty({CAMERA_PROPERTY_FOCUS_DISTANCE, 1., {"Focus Distance"}});
     properties.setProperty({CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES, true, {"Clipping"}});
-    properties.setProperty({PROPERTY_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
+    properties.setProperty(
+        {RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
     engine.addCameraType(CAMERA_SPHERE_CLIPPING_PERSPECTIVE, properties);
 }
 

@@ -23,12 +23,16 @@
 
 #include "AmbientOcclusionRenderer.h"
 
+#include <platform/core/common/Types.h>
+#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
+
 // ospray
 #include <ospray/SDK/lights/Light.h>
 
 // ispc exports
 #include "AmbientOcclusionRenderer_ispc.h"
 
+using namespace core;
 using namespace ospray;
 
 namespace bioexplorer
@@ -42,8 +46,11 @@ void AmbientOcclusionRenderer::commit()
     Renderer::commit();
     _samplesPerFrame = getParam1i("samplesPerFrame", 16);
     _aoRayLength = getParam1f("rayLength", 1e6f);
+    _maxBounces = getParam1i("maxBounces", 3);
+    _useHardwareRandomizer = getParam(RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, 0);
 
-    ispc::AmbientOcclusionRenderer_set(getIE(), spp, _samplesPerFrame, _aoRayLength);
+    ispc::AmbientOcclusionRenderer_set(getIE(), spp, _samplesPerFrame, _aoRayLength, _maxBounces,
+                                       _useHardwareRandomizer);
 }
 
 AmbientOcclusionRenderer::AmbientOcclusionRenderer()
@@ -52,6 +59,7 @@ AmbientOcclusionRenderer::AmbientOcclusionRenderer()
 }
 
 OSP_REGISTER_RENDERER(AmbientOcclusionRenderer, ambient_occlusion);
+OSP_REGISTER_MATERIAL(ambient_occlusion, AdvancedMaterial, default);
 } // namespace rendering
 } // namespace mediamaker
 } // namespace bioexplorer

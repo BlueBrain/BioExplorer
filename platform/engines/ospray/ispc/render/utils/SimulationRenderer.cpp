@@ -76,7 +76,7 @@ void SimulationRenderer::commit()
     _maxBounces = getParam1i("maxBounces", 3);
     _randomNumber = rand() % 1000;
 
-    _useHardwareRandomizer = getParam(PROPERTY_USE_HARDWARE_RANDOMIZER, 0);
+    _useHardwareRandomizer = getParam(RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, 0);
     _showBackground = getParam("showBackground", 0);
 
     // Transfer function

@@ -204,7 +204,8 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         color += directLightingColor;
 
         // Reflection
-        if (fmaxf(p_Kr) > 0.f && prd.depth < maxBounces)
+        const float reflection = fmaxf(p_Kr);
+        if (reflection > 0.f && prd.depth < maxBounces - 1)
         {
             PerRayData_radiance reflected_prd;
             reflected_prd.result = make_float4(0.f);
@@ -214,11 +215,11 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
             const float3 R = optix::reflect(ray.direction, normal);
             const optix::Ray reflected_ray(hit_point, R, radianceRayType, sceneEpsilon, giDistance);
             rtTrace(top_object, reflected_ray, reflected_prd);
-            color += p_Kr * make_float3(reflected_prd.result);
+            color = color * (1.f - reflection) + Kr * make_float3(reflected_prd.result);
         }
 
         // Refraction
-        if (fmaxf(opacity) < 1.f && prd.depth < maxBounces)
+        if (fmaxf(opacity) < 1.f && prd.depth < maxBounces - 1)
         {
             PerRayData_radiance refracted_prd;
             refracted_prd.result = make_float4(0.f);
@@ -228,7 +229,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
             const float3 refractedNormal = refractedVector(ray.direction, normal, p_refractionIndex, 1.f);
             const optix::Ray refracted_ray(hit_point, refractedNormal, radianceRayType, sceneEpsilon, giDistance);
             rtTrace(top_object, refracted_ray, refracted_prd);
-            color += (1.f - opacity) * make_float3(refracted_prd.result);
+            color = color * opacity + (1.f - opacity) * make_float3(refracted_prd.result);
         }
 
         // Ambient occlusion

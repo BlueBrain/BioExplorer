@@ -100,6 +100,9 @@ rtDeclareVariable(float, softShadows, , );
 rtDeclareVariable(float, fogStart, , );
 rtDeclareVariable(float, fogThickness, , );
 rtDeclareVariable(int, maxBounces, , );
+rtDeclareVariable(int, giSamples, , );
+rtDeclareVariable(float, giWeight, , );
+rtDeclareVariable(float, giDistance, , );
 
 // Clipping planes
 rtBuffer<float4, 1> clippingPlanes;

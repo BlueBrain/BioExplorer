@@ -45,8 +45,10 @@ public:
     void commit() final;
 
 private:
-    int _samplesPerFrame;
+    ospray::uint32 _samplesPerFrame;
     double _aoRayLength;
+    ospray::uint32 _maxBounces;
+    bool _useHardwareRandomizer{false};
 };
 } // namespace rendering
 } // namespace mediamaker
