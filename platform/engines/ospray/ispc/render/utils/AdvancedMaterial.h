@@ -27,6 +27,7 @@
 #pragma once
 
 #include <platform/core/common/CommonTypes.h>
+#include <platform/core/common/Properties.h>
 
 #include <ospray/SDK/common/Material.h>
 #include <ospray/SDK/texture/Texture2D.h>
@@ -89,7 +90,7 @@ struct AdvancedMaterial : public ospray::Material
     /*! Clipping mode applied to geometry */
     MaterialChameleonMode chameleonMode{MaterialChameleonMode::undefined_chameleon_mode};
 
-    std::string toString() const override { return "default"; }
+    std::string toString() const override { return DEFAULT; }
 
     void commit() override;
 };

@@ -23,7 +23,8 @@
 
 #include "FieldsRenderer.h"
 
-#include <platform/core/common/Types.h>
+#include <platform/core/common/Properties.h>
+#include <platform/engines/ospray/OSPRayProperties.h>
 
 // ospray
 #include <ospray/SDK/common/Data.h>
@@ -43,7 +44,7 @@ void FieldsRenderer::commit()
 {
     Renderer::commit();
 
-    _lightData = (ospray::Data*)getParamData("lights");
+    _lightData = (ospray::Data*)getParamData(RENDERER_PROPERTY_LIGHTS);
     _lightArray.clear();
 
     if (_lightData)
@@ -52,29 +53,31 @@ void FieldsRenderer::commit()
 
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
-    _bgMaterial = (AdvancedMaterial*)getParamObject("bgMaterial", nullptr);
+    _bgMaterial = (AdvancedMaterial*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
 
-    _useHardwareRandomizer = getParam(RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER.c_str(), 0);
+    _useHardwareRandomizer =
+        getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(), DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER);
 
-    _exposure = getParam1f("mainExposure", 1.f);
-    _randomNumber = getParam1i("randomNumber", 0);
-    _timestamp = getParam1f("timestamp", 0.f);
+    _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
+    _randomNumber = getParam1i(OSPRAY_RENDERER_PROPERTY_RANDOM_NUMBER, 0);
+    _timestamp = getParam1f(RENDERER_PROPERTY_TIMESTAMP, DEFAULT_RENDERER_TIMESTAMP);
 
     // Sampling
     _minRayStep = getParam1f("minRayStep", 0.1f);
     _nbRaySteps = getParam1i("nbRaySteps", 8);
     _nbRayRefinementSteps = getParam1i("nbRayRefinementSteps", 8);
-    _alphaCorrection = getParam1f("alphaCorrection", 1.0f);
+    _alphaCorrection = getParam1f(RENDERER_PROPERTY_ALPHA_CORRECTION.name.c_str(), DEFAULT_RENDERER_ALPHA_CORRECTION);
 
     // Extra
     _cutoff = getParam1f("cutoff", 1.f);
 
     // Octree
-    _userData = getParamData("simulationData");
+    _userData = getParamData(RENDERER_PROPERTY_USER_DATA);
     _userDataSize = _userData ? _userData->size() : 0;
 
     // Transfer function
-    ospray::TransferFunction* transferFunction = (ospray::TransferFunction*)getParamObject("transferFunction", nullptr);
+    ospray::TransferFunction* transferFunction =
+        (ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, nullptr);
     if (transferFunction)
         ispc::FieldsRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 

@@ -151,7 +151,7 @@ static __device__ void intersect_cone(int primIdx)
             {
                 const float3 surfaceVec = normalize(p1 - V);
                 geometric_normal = shading_normal = cross(cross(v, surfaceVec), surfaceVec);
-                simulation_idx = userData;
+                userDataIndex = userData;
                 texcoord = make_float2(0.f);
                 texcoord3d = make_float3(0.f);
                 if (rtReportIntersection(0))
@@ -172,7 +172,7 @@ static __device__ void intersect_cone(int primIdx)
                 {
                     const float3 surfaceVec = normalize(p2 - V);
                     geometric_normal = shading_normal = cross(cross(v, surfaceVec), surfaceVec);
-                    simulation_idx = userData;
+                    userDataIndex = userData;
                     texcoord = make_float2(0.f);
                     texcoord3d = make_float3(0.f);
                     rtReportIntersection(0);

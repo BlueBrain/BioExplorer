@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -23,9 +21,11 @@
  */
 
 #include "OSPRayMaterial.h"
+#include "OSPRayProperties.h"
 #include "Utils.h"
 
 #include <platform/core/common/Logs.h>
+#include <platform/core/common/Properties.h>
 
 #include <ospray/SDK/common/OSPCommon.h>
 
@@ -39,14 +39,15 @@ struct TextureTypeMaterialAttribute
     std::string attribute;
 };
 
-static TextureTypeMaterialAttribute textureTypeMaterialAttribute[8] = {{TextureType::diffuse, "map_kd"},
-                                                                       {TextureType::normals, "map_bump"},
-                                                                       {TextureType::bump, "map_bump"},
-                                                                       {TextureType::specular, "map_ks"},
-                                                                       {TextureType::emissive, "map_ns"},
-                                                                       {TextureType::opacity, "map_d"},
-                                                                       {TextureType::reflection, "map_reflection"},
-                                                                       {TextureType::refraction, "map_refraction"}};
+static TextureTypeMaterialAttribute textureTypeMaterialAttribute[8] = {
+    {TextureType::diffuse, MATERIAL_PROPERTY_MAP_DIFFUSE_COLOR},
+    {TextureType::normals, MATERIAL_PROPERTY_MAP_BUMP},
+    {TextureType::bump, MATERIAL_PROPERTY_MAP_BUMP},
+    {TextureType::specular, MATERIAL_PROPERTY_MAP_SPECULAR_INDEX},
+    {TextureType::emissive, MATERIAL_PROPERTY_MAP_EMISSION},
+    {TextureType::opacity, MATERIAL_PROPERTY_OPACITY},
+    {TextureType::reflection, MATERIAL_PROPERTY_MAP_REFLECTION},
+    {TextureType::refraction, MATERIAL_PROPERTY_MAP_REFRACTION}};
 
 OSPRayMaterial::~OSPRayMaterial()
 {
@@ -104,7 +105,7 @@ void OSPRayMaterial::commit(const std::string& renderer)
         return;
 
     ospRelease(_ospMaterial);
-    _ospMaterial = ospNewMaterial2(renderer.c_str(), "default");
+    _ospMaterial = ospNewMaterial2(renderer.c_str(), DEFAULT);
     if (!_ospMaterial)
         throw std::runtime_error("Could not create material for renderer '" + renderer + "'");
     _renderer = renderer;
@@ -137,15 +138,15 @@ OSPTexture OSPRayMaterial::_createOSPTexture2D(Texture2DPtr texture)
     CORE_DEBUG("Creating OSPRay texture from " << texture->filename << ": " << texture->width << "x" << texture->height
                                                << "x" << (int)type);
 
-    OSPTexture ospTexture = ospNewTexture("texture2d");
+    OSPTexture ospTexture = ospNewTexture(OSPRAY_MATERIAL_TEXTURE_2D);
 
     const Vector2i size{int(texture->width), int(texture->height)};
 
-    osphelper::set(ospTexture, "type", static_cast<int>(type));
-    osphelper::set(ospTexture, "size", size);
+    osphelper::set(ospTexture, OSPRAY_MATERIAL_PROPERTY_TEXTURE_TYPE, static_cast<int>(type));
+    osphelper::set(ospTexture, OSPRAY_MATERIAL_PROPERTY_TEXTURE_SIZE, size);
     auto textureData =
         ospNewData(texture->getSizeInBytes(), OSP_RAW, texture->getRawData<unsigned char>(), OSP_DATA_SHARED_BUFFER);
-    ospSetObject(ospTexture, "data", textureData);
+    ospSetObject(ospTexture, OSPRAY_MATERIAL_PROPERTY_TEXTURE_DATA, textureData);
     ospRelease(textureData);
     ospCommit(ospTexture);
 

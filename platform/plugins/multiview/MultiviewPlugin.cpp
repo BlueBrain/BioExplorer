@@ -23,13 +23,14 @@
 #include <Version.h>
 
 #include <platform/core/common/Logs.h>
+#include <platform/core/common/Properties.h>
 #include <platform/core/engineapi/Camera.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/parameters/ParametersManager.h>
 #include <platform/core/pluginapi/Plugin.h>
+#include <platform/plugins/multiview/common/CommonStructs.h>
 
 const std::string RENDERER_MULTI_VIEW = "multiview";
-const std::string PARAM_ARM_LENGTH = "armLength";
 
 namespace core
 {
@@ -67,13 +68,13 @@ extern "C" core::ExtensionPlugin* core_plugin_create(const int argc, const char*
     CORE_INFO("Initializing Multi-view plug-in (version " << PACKAGE_VERSION_STRING << ")");
 
     core::PropertyMap properties;
-    properties.setProperty({core::CAMERA_PROPERTY_HEIGHT,
-                            5.0,
+    properties.setProperty(
+        {PARAM_ARM_LENGTH, 5.0, 0.0, 100.0, {"Arm length", "The distance between the cameras and the view center"}});
+    properties.setProperty({core::CAMERA_PROPERTY_HEIGHT.name,
+                            10.0,
                             0.0,
                             100.0,
-                            {"Arm length", "The distance between the cameras and the view center"}});
-    properties.setProperty(
-        {core::CAMERA_PROPERTY_HEIGHT, 10.0, 0.0, 100.0, {"View height", "The height of the viewport in world space"}});
+                            {"View height", "The height of the viewport in world space"}});
 
     if (!properties.parse(argc, argv))
         return nullptr;

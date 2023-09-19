@@ -351,12 +351,12 @@ class NeuromodulationScenario(MovieScenario):
             params.fog_start = scale.x
             params.fog_thickness = 300.0 * scale.x
             params.gi_samples = 0
-            params.gi_weight = 0.2
-            params.gi_distance = 0.25 * scale.x
-            params.shadows = 0.0
-            params.soft_shadows = 1.0
-            params.epsilon_factor = 10.0
-            params.max_bounces = 3
+            params.gi_strength = 0.2
+            params.gi_ray_length = 0.25 * scale.x
+            params.shadow_intensity = 0.0
+            params.soft_shadow_strength = 1.0
+            params.epsilon_multiplier = 10.0
+            params.max_ray_depth = 3
             params.show_background = False
             params.use_hardware_randomizer=False
             self._core.set_renderer_params(params)

@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -34,6 +32,7 @@
 #include "OptiXFrameBuffer.h"
 #include "OptiXOrthographicCamera.h"
 #include "OptiXPerspectiveCamera.h"
+#include "OptiXProperties.h"
 #include "OptiXRenderer.h"
 #include "OptiXScene.h"
 
@@ -83,40 +82,39 @@ void OptiXEngine::_createCameras()
     _camera = createCamera();
 
     const bool isStereo = _parametersManager.getApplicationParameters().isStereo();
-    Property stereoProperty{CONTEXT_CAMERA_STEREO, isStereo, {CAMERA_PROPERTY_STEREO}};
-    Property fovy{CONTEXT_CAMERA_FOVY, 45., .1, 360., {"Field of view"}};
-    Property aspect{CONTEXT_CAMERA_ASPECT, 1., {"Aspect ratio"}};
+    Property stereoProperty{CAMERA_PROPERTY_STEREO.name, isStereo, CAMERA_PROPERTY_STEREO.metaData};
+    Property aspect = CAMERA_PROPERTY_ASPECT_RATIO;
     aspect.markReadOnly();
-    Property eyeSeparation{CONTEXT_CAMERA_IPD, 0.0635, {"Eye separation"}};
-    Property enableClippingPlanes{CONTEXT_ENABLE_CLIPPING_PLANES, true, {"Enable clipping planes"}};
 
     OptiXContext& context = OptiXContext::get();
 
     {
+        PLUGIN_INFO("Registering '" << CAMERA_PROPERTY_TYPE_PERSPECTIVE << "' camera");
         PropertyMap properties;
-        properties.setProperty(fovy);
+        properties.setProperty(CAMERA_PROPERTY_FIELD_OF_VIEW);
         properties.setProperty(aspect);
-        properties.setProperty({CAMERA_PROPERTY_APERTURE_RADIUS, 0., {"Aperture radius"}});
-        properties.setProperty({CAMERA_PROPERTY_FOCUS_DISTANCE, 1., {"Focus Distance"}});
-        properties.setProperty({CAMERA_PROPERTY_NEAR_CLIP, 0., 0., 1e6, {"Near clip"}});
-        properties.setProperty(enableClippingPlanes);
+        properties.setProperty(CAMERA_PROPERTY_APERTURE_RADIUS);
+        properties.setProperty(CAMERA_PROPERTY_FOCAL_DISTANCE);
+        properties.setProperty(CAMERA_PROPERTY_NEAR_CLIP);
+        properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
         properties.setProperty(stereoProperty);
-        properties.setProperty(eyeSeparation);
+        properties.setProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE);
 
         auto camera = std::make_shared<OptiXPerspectiveCamera>();
-        context.addCamera("perspective", camera);
-        addCameraType("perspective", properties);
+        context.addCamera(CAMERA_PROPERTY_TYPE_PERSPECTIVE, camera);
+        addCameraType(CAMERA_PROPERTY_TYPE_PERSPECTIVE, properties);
     }
 
     {
+        PLUGIN_INFO("Registering '" << CAMERA_PROPERTY_TYPE_ORTHOGRAPHIC << "' camera");
         PropertyMap properties;
-        properties.setProperty({CAMERA_PROPERTY_HEIGHT, 1., {CAMERA_PROPERTY_HEIGHT}});
+        properties.setProperty(CAMERA_PROPERTY_HEIGHT);
         properties.setProperty(aspect);
-        properties.setProperty(enableClippingPlanes);
+        properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
 
         auto camera = std::make_shared<OptiXOrthographicCamera>();
-        context.addCamera("orthographic", camera);
-        addCameraType("orthographic", properties);
+        context.addCamera(CAMERA_PROPERTY_TYPE_ORTHOGRAPHIC, camera);
+        addCameraType(CAMERA_PROPERTY_TYPE_ORTHOGRAPHIC, properties);
     }
 }
 
@@ -128,65 +126,65 @@ void OptiXEngine::_createRenderers()
     OptiXContext& context = OptiXContext::get();
 
     { // Advanced renderer
+        PLUGIN_INFO("Registering '" << RENDERER_PROPERTY_TYPE_ADVANCED << "' renderer");
         const std::string CUDA_ADVANCED_SIMULATION_RENDERER = OptiX6Engine_generated_Advanced_cu_ptx;
 
         auto osp = std::make_shared<OptixShaderProgram>();
-        osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER,
-                                                                                 "closest_hit_radiance");
+        osp->closest_hit =
+            context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER,
+                                                                  OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE);
         osp->closest_hit_textured =
             context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER,
-                                                                  "closest_hit_radiance_textured");
-        osp->any_hit =
-            context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER, "any_hit_shadow");
+                                                                  OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE_TEXTURED);
+        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER,
+                                                                             OPTIX_CUDA_FUNCTION_ANY_HIT_SHADOW);
         osp->exception_program =
-            context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER, "exception");
+            context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER,
+                                                                  OPTIX_CUDA_FUNCTION_EXCEPTION);
         context.getOptixContext()->setExceptionProgram(0, osp->exception_program);
-
-        context.addRenderer("advanced", osp);
+        context.addRenderer(RENDERER_PROPERTY_TYPE_ADVANCED, osp);
 
         PropertyMap properties;
-        properties.setProperty({"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
-        properties.setProperty(
-            {"maxDistanceToSecondaryModel", 30., 0.1, 100., {"Maximum distance to secondary model"}});
-        properties.setProperty({"giDistance", 10000.0, {"Global illumination distance"}});
-        properties.setProperty({"giWeight", 0.0, 1.0, 1.0, {"Global illumination weight"}});
-        properties.setProperty({"giSamples", 0, 0, 64, {"Global illumination samples"}});
-        properties.setProperty({"shadows", 0.0, 0.0, 1.0, {"Shadow intensity"}});
-        properties.setProperty({"softShadows", 0.0, 0.0, 1.0, {"Shadow softness"}});
-        properties.setProperty({"softShadowsSamples", 1, 1, 64, {"Soft shadow samples"}});
-        properties.setProperty({"mainExposure", 1.0, 0.01, 10.0, {"Exposure"}});
-        properties.setProperty({"epsilonFactor", 1.0, 1.0, 1000.0, {"Epsilon factor"}});
-        properties.setProperty({"fogStart", 0.0, 0.0, 1e6, {"Fog start"}});
-        properties.setProperty({"fogThickness", 1e6, 1e6, 1e6, {"Fog thickness"}});
-        properties.setProperty({"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
-        properties.setProperty(
-            {RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
-        properties.setProperty({"showBackground", true, {"Show background"}});
-        properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
-
-        addRendererType("advanced", properties);
+        properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
+        properties.setProperty(RENDERER_PROPERTY_MAX_DISTANCE_TO_SECONDARY_MODEL);
+        properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH);
+        properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_STRENGTH);
+        properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_SAMPLES);
+        properties.setProperty(RENDERER_PROPERTY_SHADOW_INTENSITY);
+        properties.setProperty(RENDERER_PROPERTY_SOFT_SHADOW_STRENGTH);
+        properties.setProperty(RENDERER_PROPERTY_SHADOW_SAMPLES);
+        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+        properties.setProperty(RENDERER_PROPERTY_EPSILON_MULTIPLIER);
+        properties.setProperty(RENDERER_PROPERTY_FOG_START);
+        properties.setProperty(RENDERER_PROPERTY_FOG_THICKNESS);
+        properties.setProperty(RENDERER_PROPERTY_MAX_RAY_DEPTH);
+        properties.setProperty(RENDERER_PROPERTY_SHOW_BACKGROUND);
+        properties.setProperty(RENDERER_PROPERTY_MATRIX_FILTER);
+        addRendererType(RENDERER_PROPERTY_TYPE_ADVANCED, properties);
     }
 
     { // Basic simulation / Basic renderer
+        PLUGIN_INFO("Registering '" << RENDERER_PROPERTY_TYPE_BASIC << "' renderer");
         const std::string CUDA_BASIC_SIMULATION_RENDERER = OptiX6Engine_generated_Basic_cu_ptx;
 
         auto osp = std::make_shared<OptixShaderProgram>();
-        osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER,
-                                                                                 "closest_hit_radiance");
+        osp->closest_hit =
+            context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER,
+                                                                  OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE);
         osp->closest_hit_textured =
             context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER,
-                                                                  "closest_hit_radiance_textured");
-        osp->any_hit =
-            context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER, "any_hit_shadow");
-        osp->exception_program =
-            context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER, "exception");
+                                                                  OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE_TEXTURED);
+        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER,
+                                                                             OPTIX_CUDA_FUNCTION_ANY_HIT_SHADOW);
+        osp->exception_program = context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER,
+                                                                                       OPTIX_CUDA_FUNCTION_EXCEPTION);
 
-        context.addRenderer("basic", osp);
+        context.addRenderer(RENDERER_PROPERTY_TYPE_BASIC, osp);
 
         PropertyMap properties;
-        properties.setProperty({"mainExposure", 1.0, 0.01, 10.0, {"Exposure"}});
-        properties.setProperty({"showBackground", true, {"Show background"}});
-        addRendererType("basic", properties);
+        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+        properties.setProperty(RENDERER_PROPERTY_SHOW_BACKGROUND);
+        addRendererType(RENDERER_PROPERTY_TYPE_BASIC, properties);
     }
 }
 

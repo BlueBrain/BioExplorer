@@ -17,7 +17,7 @@
 #include "OrthographicCamera.h"
 #include "OrthographicCamera_ispc.h"
 
-#include <platform/core/common/Types.h>
+#include <platform/core/common/Properties.h>
 
 #include <ospray/SDK/common/Data.h>
 
@@ -34,22 +34,17 @@ void OrthographicCamera::commit()
 {
     Camera::commit();
 
-    // ------------------------------------------------------------------
-    // first, "parse" the additional expected parameters
-    // ------------------------------------------------------------------
-    height = getParamf(CAMERA_PROPERTY_HEIGHT.c_str(), 1.f); // imgPlane_size_y
-    aspect = getParamf(CAMERA_PROPERTY_ASPECT.c_str(), 1.f);
-    enableClippingPlanes = getParam(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES.c_str(), 0);
-    clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr) : nullptr;
+    height = getParamf(CAMERA_PROPERTY_HEIGHT.name.c_str(), DEFAULT_CAMERA_HEIGHT);
+    aspect = getParamf(CAMERA_PROPERTY_ASPECT_RATIO.name.c_str(), DEFAULT_CAMERA_ASPECT_RATIO);
+    enableClippingPlanes =
+        getParam(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES.name.c_str(), DEFAULT_CAMERA_ENABLE_CLIPPING_PLANES);
+    clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES, nullptr) : nullptr;
 
-    // ------------------------------------------------------------------
-    // now, update the local precomputed values
-    // ------------------------------------------------------------------
     dir = normalize(dir);
     vec3f pos_du = normalize(cross(dir, up));
     vec3f pos_dv = cross(pos_du, dir);
 
-    pos_du *= height * aspect; // imgPlane_size_x
+    pos_du *= height * aspect;
     pos_dv *= height;
 
     vec3f pos_00 = pos - 0.5f * pos_du - 0.5f * pos_dv;

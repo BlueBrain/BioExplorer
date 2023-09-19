@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -23,6 +21,7 @@
  */
 
 #include <platform/core/common/Logs.h>
+#include <platform/core/common/Properties.h>
 #include <platform/core/common/scene/ClipPlane.h>
 #include <platform/core/engineapi/Model.h>
 
@@ -30,6 +29,7 @@
 #include "OSPRayFrameBuffer.h"
 #include "OSPRayMaterial.h"
 #include "OSPRayModel.h"
+#include "OSPRayProperties.h"
 #include "OSPRayRenderer.h"
 #include "OSPRayScene.h"
 #include "Utils.h"
@@ -85,7 +85,7 @@ void OSPRayRenderer::commit()
 
     if (lightsChanged || rendererChanged)
     {
-        ospSetData(_renderer, "lights", scene->lightData());
+        ospSetData(_renderer, RENDERER_PROPERTY_LIGHTS, scene->lightData());
         _currLightsData = scene->lightData();
     }
 
@@ -96,15 +96,15 @@ void OSPRayRenderer::commit()
         if (auto simulationModel = scene->getSimulatedModel())
         {
             auto& model = static_cast<OSPRayModel&>(simulationModel->getModel());
-            ospSetObject(_renderer, "secondaryModel", model.getSecondaryModel());
-            ospSetData(_renderer, "simulationData", model.simulationData());
-            ospSetObject(_renderer, "transferFunction", model.transferFunction());
+            ospSetObject(_renderer, RENDERER_PROPERTY_SECONDARY_MODEL, model.getSecondaryModel());
+            ospSetData(_renderer, RENDERER_PROPERTY_USER_DATA, model.simulationData());
+            ospSetObject(_renderer, RENDERER_PROPERTY_TRANSFER_FUNCTION, model.transferFunction());
         }
         else
         {
             // ospRemoveParam leaks objects, so we set it to null first
-            ospSetData(_renderer, "simulationData", nullptr);
-            ospRemoveParam(_renderer, "simulationData");
+            ospSetData(_renderer, RENDERER_PROPERTY_USER_DATA, nullptr);
+            ospRemoveParam(_renderer, RENDERER_PROPERTY_USER_DATA);
         }
 
         // Setting the clip planes in the renderer and the camera
@@ -117,21 +117,21 @@ void OSPRayRenderer::commit()
         _camera->commit();
     }
 
-    osphelper::set(_renderer, "timestamp", static_cast<float>(ap.getFrame()));
-    osphelper::set(_renderer, "randomNumber", rand() % 10000);
-    osphelper::set(_renderer, "bgColor", Vector3f(rp.getBackgroundColor()));
-    osphelper::set(_renderer, "varianceThreshold", static_cast<float>(rp.getVarianceThreshold()));
-    osphelper::set(_renderer, "spp", static_cast<int>(rp.getSamplesPerPixel()));
+    osphelper::set(_renderer, RENDERER_PROPERTY_TIMESTAMP, static_cast<float>(ap.getFrame()));
+    osphelper::set(_renderer, OSPRAY_RENDERER_PROPERTY_RANDOM_NUMBER, rand() % 10000);
+    osphelper::set(_renderer, OSPRAY_RENDERER_PROPERTY_VARIANCE_THRESHOLD,
+                   static_cast<float>(rp.getVarianceThreshold()));
+    osphelper::set(_renderer, OSPRAY_RENDERER_PROPERTY_SAMPLES_PER_PIXEL, static_cast<int>(rp.getSamplesPerPixel()));
 
     if (auto material = std::static_pointer_cast<OSPRayMaterial>(scene->getBackgroundMaterial()))
     {
         material->setDiffuseColor(rp.getBackgroundColor());
         material->commit(_currentOSPRenderer);
-        ospSetObject(_renderer, "bgMaterial", material->getOSPMaterial());
+        ospSetObject(_renderer, RENDERER_PROPERTY_BACKGROUND_MATERIAL, material->getOSPMaterial());
     }
 
-    ospSetObject(_renderer, "camera", _camera->impl());
-    ospSetObject(_renderer, "world", scene->getModel());
+    ospSetObject(_renderer, OSPRAY_RENDERER_PROPERTY_CAMERA, _camera->impl());
+    ospSetObject(_renderer, OSPRAY_RENDERER_PROPERTY_WORLD, scene->getModel());
     ospCommit(_renderer);
 }
 
@@ -140,7 +140,7 @@ void OSPRayRenderer::setCamera(CameraPtr camera)
     _camera = static_cast<OSPRayCamera*>(camera.get());
     assert(_camera);
     if (_renderer)
-        ospSetObject(_renderer, "camera", _camera->impl());
+        ospSetObject(_renderer, OSPRAY_RENDERER_PROPERTY_CAMERA, _camera->impl());
     markModified();
 }
 
@@ -149,18 +149,16 @@ Renderer::PickResult OSPRayRenderer::pick(const Vector2f& pickPos)
     OSPPickResult ospResult;
     osp::vec2f pos{pickPos.x, pickPos.y};
 
-    // HACK: as the time for picking is set to 0.5 and interpolated in a
-    // (default) 0..0 range, the ray.time will be 0. So all geometries that have
-    // a time > 0 (like branches that have distance to the soma for the growing
-    // use-case), cannot be picked. So we make the range as large as possible to
-    // make ray.time be as large as possible.
-    osphelper::set(_camera->impl(), "shutterClose", INFINITY);
+    // HACK: as the time for picking is set to 0.5 and interpolated in a (default) 0..0 range, the ray.time will be 0.
+    // So all geometries that have a time > 0 (like branches that have distance to the soma for the growing use-case),
+    // cannot be picked. So we make the range as large as possible to make ray.time be as large as possible.
+    osphelper::set(_camera->impl(), OSPRAY_RENDERER_PROPERTY_SHUTTER_CLOSE, INFINITY);
     ospCommit(_camera->impl());
 
     ospPick(&ospResult, _renderer, pos);
 
     // UNDO HACK
-    osphelper::set(_camera->impl(), "shutterClose", 0.f);
+    osphelper::set(_camera->impl(), OSPRAY_RENDERER_PROPERTY_SHUTTER_CLOSE, 0.f);
     ospCommit(_camera->impl());
 
     PickResult result;
@@ -178,7 +176,7 @@ void OSPRayRenderer::_createOSPRenderer()
     _destroyRenderer();
     _renderer = newRenderer;
     if (_camera)
-        ospSetObject(_renderer, "camera", _camera->impl());
+        ospSetObject(_renderer, OSPRAY_RENDERER_PROPERTY_CAMERA, _camera->impl());
     _currentOSPRenderer = getCurrentType();
     markModified(false);
 }

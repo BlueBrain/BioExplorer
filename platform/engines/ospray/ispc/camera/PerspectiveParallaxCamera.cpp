@@ -24,7 +24,8 @@
 #include "PerspectiveParallaxCamera.h"
 #include "PerspectiveParallaxCamera_ispc.h"
 
-#include <platform/core/common/Types.h>
+#include <platform/core/common/Properties.h>
+#include <platform/engines/ospray/OSPRayProperties.h>
 
 using namespace core;
 
@@ -39,15 +40,16 @@ void PerspectiveParallaxCamera::commit()
 {
     Camera::commit();
 
-    const float fovy = getParamf(CAMERA_PROPERTY_FOVY.c_str(), DEFAULT_CAMERA_FOVY);
-    float aspectRatio = getParamf(CAMERA_PROPERTY_ASPECT.c_str(), 1.5f);
+    const float fieldOfView = getParamf(CAMERA_PROPERTY_FIELD_OF_VIEW.name.c_str(), DEFAULT_CAMERA_FIELD_OF_VIEW);
+    float aspectRatio = getParamf(CAMERA_PROPERTY_ASPECT_RATIO.name.c_str(), DEFAULT_CAMERA_ASPECT_RATIO);
 
     const float interpupillaryDistance =
-        getParamf(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.c_str(), DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
-    const float zeroParallaxPlane = getParamf(CAMERA_PROPERTY_ZERO_PARALLAX_PLANE.c_str(), 1.f);
+        getParamf(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name.c_str(), DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
+    const float zeroParallaxPlane =
+        getParamf(OSPRAY_CAMERA_PROPERTY_ZERO_PARALLAX_PLANE.name.c_str(), OSPRAY_DEFAULT_CAMERA_ZERO_PARALLAX_PLANE);
 
     float idpOffset = 0.0f;
-    auto bufferTarget = getParamString(CAMERA_PROPERTY_BUFFER_TARGET.c_str());
+    auto bufferTarget = getParamString(CAMERA_PROPERTY_BUFFER_TARGET);
     if (bufferTarget.length() == 2)
     {
         if (bufferTarget.at(1) == 'L')
@@ -62,7 +64,7 @@ void PerspectiveParallaxCamera::commit()
     const vec3f dir_dv = normalize(up);
     dir = -dir;
 
-    const float imgPlane_size_y = 2.f * zeroParallaxPlane * tanf(deg2rad(0.5f * fovy));
+    const float imgPlane_size_y = 2.f * zeroParallaxPlane * tanf(deg2rad(0.5f * fieldOfView));
     const float imgPlane_size_x = imgPlane_size_y * aspectRatio;
 
     ispc::PerspectiveParallaxCamera_set(getIE(), (const ispc::vec3f&)org, (const ispc::vec3f&)dir,

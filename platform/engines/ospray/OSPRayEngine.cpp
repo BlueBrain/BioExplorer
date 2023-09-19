@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -24,6 +22,7 @@
 
 #include "OSPRayEngine.h"
 
+#include <platform/core/common/Properties.h>
 #include <platform/core/common/input/KeyboardHandler.h>
 
 #include <platform/core/parameters/ParametersManager.h>
@@ -32,6 +31,7 @@
 #include "OSPRayCamera.h"
 #include "OSPRayFrameBuffer.h"
 #include "OSPRayMaterial.h"
+#include "OSPRayProperties.h"
 #include "OSPRayRenderer.h"
 #include "OSPRayScene.h"
 
@@ -119,11 +119,11 @@ void OSPRayEngine::commit()
         const auto useDynamicLoadBalancer = _parametersManager.getApplicationParameters().getDynamicLoadBalancer();
         if (_useDynamicLoadBalancer != useDynamicLoadBalancer)
         {
-            ospDeviceSet1i(device, "dynamicLoadBalancer", useDynamicLoadBalancer);
+            ospDeviceSet1i(device, OSPRAY_ENGINE_PROPERTY_LOAD_BALANCER_DYNAMIC, useDynamicLoadBalancer);
             ospDeviceCommit(device);
             _useDynamicLoadBalancer = useDynamicLoadBalancer;
 
-            CORE_INFO("Using " << (useDynamicLoadBalancer ? "dynamic" : "static") << " load balancer");
+            PLUGIN_INFO("Using " << (useDynamicLoadBalancer ? "dynamic" : "static") << " load balancer");
         }
     }
 }
@@ -139,46 +139,42 @@ void OSPRayEngine::_createRenderers()
                                                  _parametersManager.getRenderingParameters());
 
     {
-        CORE_INFO("Registering 'advanced' renderer");
+        PLUGIN_INFO("Registering '" << RENDERER_PROPERTY_TYPE_ADVANCED << "' renderer");
         PropertyMap properties;
-        properties.setProperty({"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
-        properties.setProperty(
-            {"maxDistanceToSecondaryModel", 30., 0.1, 100., {"Maximum distance to secondary model"}});
-        properties.setProperty({"giDistance", 10000.0, {"Global illumination distance"}});
-        properties.setProperty({"giWeight", 0.0, 1.0, 1.0, {"Global illumination weight"}});
-        properties.setProperty({"giSamples", 0, 0, 64, {"Global illumination samples"}});
-        properties.setProperty({"shadows", 0.0, 0.0, 1.0, {"Shadow intensity"}});
-        properties.setProperty({"softShadows", 0.0, 0.0, 1.0, {"Shadow softness"}});
-        properties.setProperty({"softShadowsSamples", 1, 1, 64, {"Soft shadow samples"}});
-        properties.setProperty({"mainExposure", 1.0, 0.01, 10.0, {"Exposure"}});
-        properties.setProperty({"epsilonFactor", 1.0, 1.0, 1000.0, {"Epsilon factor"}});
-        properties.setProperty({"fogStart", 0.0, 0.0, 1e6, {"Fog start"}});
-        properties.setProperty({"fogThickness", 1e6, 1e6, 1e6, {"Fog thickness"}});
-        properties.setProperty({"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
-        properties.setProperty(
-            {RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
-        properties.setProperty({"showBackground", true, {"Show background"}});
-        properties.setProperty({"matrixFilter", false, {"Matrix filter"}});
-        properties.setProperty(
-            {"volumeSamplingThreshold", 0.001, 0.001, 1., {"Threshold under which sampling is ignored"}});
-        properties.setProperty({"volumeSpecularExponent", 20., 1., 100., {"Volume specular exponent"}});
-        properties.setProperty({"volumeAlphaCorrection", 0.5, 0.001, 1., {"Volume alpha correction"}});
-        addRendererType("advanced", properties);
+        properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
+        properties.setProperty(RENDERER_PROPERTY_MAX_DISTANCE_TO_SECONDARY_MODEL);
+        properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH);
+        properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_STRENGTH);
+        properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_SAMPLES);
+        properties.setProperty(RENDERER_PROPERTY_SHADOW_INTENSITY);
+        properties.setProperty(RENDERER_PROPERTY_SOFT_SHADOW_STRENGTH);
+        properties.setProperty(RENDERER_PROPERTY_SHADOW_SAMPLES);
+        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+        properties.setProperty(RENDERER_PROPERTY_EPSILON_MULTIPLIER);
+        properties.setProperty(RENDERER_PROPERTY_FOG_START);
+        properties.setProperty(RENDERER_PROPERTY_FOG_THICKNESS);
+        properties.setProperty(RENDERER_PROPERTY_MAX_RAY_DEPTH);
+        properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
+        properties.setProperty(RENDERER_PROPERTY_SHOW_BACKGROUND);
+        properties.setProperty(RENDERER_PROPERTY_MATRIX_FILTER);
+        properties.setProperty(OSPRAY_RENDERER_VOLUME_SAMPLING_THRESHOLD);
+        properties.setProperty(OSPRAY_RENDERER_VOLUME_SPECULAR_EXPONENT);
+        properties.setProperty(OSPRAY_RENDERER_VOLUME_ALPHA_CORRECTION);
+        addRendererType(RENDERER_PROPERTY_TYPE_ADVANCED, properties);
     }
     {
-        CORE_INFO("Registering 'scivis' renderer");
+        PLUGIN_INFO("Registering '" << RENDERER_PROPERTY_TYPE_SCIVIS << "' renderer");
         PropertyMap properties;
-        properties.setProperty({"aoDistance", 10000., {"Ambient occlusion distance"}});
-        properties.setProperty({"aoSamples", int32_t(1), int32_t(0), int32_t(128), {"Ambient occlusion samples"}});
-        properties.setProperty({"aoTransparencyEnabled", true, {"Ambient occlusion transparency"}});
-        properties.setProperty({"aoWeight", 0., 0., 1., {"Ambient occlusion weight"}});
-        properties.setProperty({"oneSidedLighting", true, {"One-sided lighting"}});
-        properties.setProperty({"shadowsEnabled", false, {"Shadows"}});
-
-        addRendererType("scivis", properties);
+        properties.setProperty(OSPRAY_RENDERER_AMBIENT_OCCLUSION_DISTANCE);
+        properties.setProperty(OSPRAY_RENDERER_AMBIENT_OCCLUSION_SAMPLES);
+        properties.setProperty(OSPRAY_RENDERER_AMBIENT_OCCLUSION_ENABLED);
+        properties.setProperty(OSPRAY_RENDERER_AMBIENT_OCCLUSION_WEIGHT);
+        properties.setProperty(OSPRAY_RENDERER_ONE_SIDED_LIGHTING);
+        properties.setProperty(OSPRAY_RENDERER_SHADOW_ENABLED);
+        addRendererType(RENDERER_PROPERTY_TYPE_SCIVIS, properties);
     }
-    CORE_INFO("Registering 'basic' renderer");
-    addRendererType("basic");
+    PLUGIN_INFO("Registering '" << RENDERER_PROPERTY_TYPE_BASIC << "' renderer");
+    addRendererType(RENDERER_PROPERTY_TYPE_BASIC);
 }
 
 FrameBufferPtr OSPRayEngine::createFrameBuffer(const std::string& name, const Vector2ui& frameSize,
@@ -209,69 +205,62 @@ void OSPRayEngine::_createCameras()
     _camera = std::make_shared<OSPRayCamera>();
 
     const bool isStereo = _parametersManager.getApplicationParameters().isStereo();
-    Property stereoProperty{CAMERA_PROPERTY_STEREO, isStereo, {CAMERA_PROPERTY_STEREO}};
-    Property fovy{CAMERA_PROPERTY_FOVY, 45., .1, 360., {"Field of view"}};
-    Property aspect{CAMERA_PROPERTY_ASPECT, 1., {"Aspect ratio"}};
-    Property useHardwareRandomizer{RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER,
-                                   false,
-                                   {"Use hardware accelerated randomizer"}};
+    Property stereoProperty{CAMERA_PROPERTY_STEREO.name, isStereo, {CAMERA_PROPERTY_STEREO.metaData}};
+    Property aspect = CAMERA_PROPERTY_ASPECT_RATIO;
     aspect.markReadOnly();
-    Property eyeSeparation{CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE, 0.0635, {"Eye separation"}};
-    Property enableClippingPlanes{CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES, true, {"Clipping"}};
-
     {
         PropertyMap properties;
-        properties.setProperty(fovy);
+        properties.setProperty(CAMERA_PROPERTY_FIELD_OF_VIEW);
         properties.setProperty(aspect);
-        properties.setProperty({CAMERA_PROPERTY_APERTURE_RADIUS, 0., {"Aperture radius"}});
-        properties.setProperty({CAMERA_PROPERTY_FOCUS_DISTANCE, 1., {"Focus Distance"}});
-        properties.setProperty({CAMERA_PROPERTY_NEAR_CLIP, 0., 0., 1e6, {"Near clip"}});
-        properties.setProperty(enableClippingPlanes);
+        properties.setProperty(CAMERA_PROPERTY_APERTURE_RADIUS);
+        properties.setProperty(CAMERA_PROPERTY_FOCAL_DISTANCE);
+        properties.setProperty(CAMERA_PROPERTY_NEAR_CLIP);
+        properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
         properties.setProperty(stereoProperty);
-        properties.setProperty(eyeSeparation);
-        properties.setProperty(useHardwareRandomizer);
-        addCameraType("perspective", properties);
+        properties.setProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE);
+        properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
+        addCameraType(CAMERA_PROPERTY_TYPE_PERSPECTIVE, properties);
     }
     {
         PropertyMap properties;
-        properties.setProperty({CAMERA_PROPERTY_HEIGHT, 1., {CAMERA_PROPERTY_HEIGHT}});
+        properties.setProperty(CAMERA_PROPERTY_HEIGHT);
         properties.setProperty(aspect);
-        properties.setProperty(enableClippingPlanes);
-        addCameraType("orthographic", properties);
+        properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
+        addCameraType(CAMERA_PROPERTY_TYPE_ORTHOGRAPHIC, properties);
     }
     {
         PropertyMap properties;
-        properties.setProperty(fovy);
+        properties.setProperty(CAMERA_PROPERTY_FIELD_OF_VIEW);
         properties.setProperty(aspect);
-        properties.setProperty(enableClippingPlanes);
+        properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
         if (isStereo)
         {
             properties.setProperty(stereoProperty);
-            properties.setProperty(eyeSeparation);
-            properties.setProperty({CAMERA_PROPERTY_ZERO_PARALLAX_PLANE, 1., {"Zero parallax plane"}});
+            properties.setProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE);
+            properties.setProperty(OSPRAY_CAMERA_PROPERTY_ZERO_PARALLAX_PLANE);
         }
-        addCameraType("perspectiveParallax", properties);
+        addCameraType(OSPRAY_CAMERA_PROPERTY_TYPE_PERSPECTIVE_PARALLAX, properties);
     }
     {
         PropertyMap properties;
-        properties.setProperty(enableClippingPlanes);
-        properties.setProperty({"half", true, {"Half sphere"}});
+        properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
+        properties.setProperty(OSPRAY_CAMERA_PROPERTY_HALF_SPHERE);
         if (isStereo)
         {
             properties.setProperty(stereoProperty);
-            properties.setProperty(eyeSeparation);
+            properties.setProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE);
         }
-        addCameraType("panoramic", properties);
+        addCameraType(OSPRAY_CAMERA_PROPERTY_TYPE_PANORAMIC, properties);
     }
     {
         PropertyMap properties;
-        properties.setProperty(fovy);
+        properties.setProperty(CAMERA_PROPERTY_FIELD_OF_VIEW);
         properties.setProperty(aspect);
-        properties.setProperty({CAMERA_PROPERTY_APERTURE_RADIUS, 0., {"Aperture radius"}});
-        properties.setProperty({CAMERA_PROPERTY_FOCUS_DISTANCE, 1., {"Focus Distance"}});
-        properties.setProperty(enableClippingPlanes);
-        properties.setProperty(useHardwareRandomizer);
-        addCameraType("fisheye", properties);
+        properties.setProperty(CAMERA_PROPERTY_APERTURE_RADIUS);
+        properties.setProperty(CAMERA_PROPERTY_FOCAL_DISTANCE);
+        properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
+        properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
+        addCameraType(OSPRAY_CAMERA_PROPERTY_TYPE_FISHEYE, properties);
     }
 }
 } // namespace core

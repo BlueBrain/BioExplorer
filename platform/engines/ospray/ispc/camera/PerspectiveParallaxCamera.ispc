@@ -67,10 +67,8 @@ void PerspectiveParallaxCamera_initRay(uniform Camera* uniform _self, varying Ra
     setRay(ray, org, normalize(dir), self->super.nearClip, inf, time);
 }
 
-/*! create a new ispc-side version of a StereoCamera - with given
-    pointer to the c-class version - and return both class pointer and
-    pointer to internal data back via the supplied reference
-    parameters */
+/*! create a new ispc-side version of a StereoCamera - with given pointer to the c-class version - and return both class
+ * pointer and pointer to internal data back via the supplied reference parameters */
 export void* uniform PerspectiveParallaxCamera_create(void* uniform cppE)
 {
     uniform PerspectiveParallaxCamera* uniform self = uniform new uniform PerspectiveParallaxCamera;

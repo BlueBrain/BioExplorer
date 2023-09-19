@@ -64,23 +64,22 @@ __device__ float treeWalker(const uint startIndices, const uint startData, const
     if (depth >= MAX_RECURSION_DEPTH)
         return 0.f;
 
-    const uint begin = simulation_data[startIndices + index * 2];
-    const uint end = simulation_data[startIndices + index * 2 + 1];
+    const uint begin = userData[startIndices + index * 2];
+    const uint end = userData[startIndices + index * 2 + 1];
     const uint idxData = startData + index * 4;
 
-    if (idxData >= simulation_data.size())
+    if (idxData >= userData.size())
         return 0.f;
 
     if (begin == 0 && end == 0)
         // Leaf
-        return simulation_data[idxData + 3] / (distance * distance);
+        return userData[idxData + 3] / (distance * distance);
 
     float voxelValue = 0.f;
     for (uint childIndex = begin; childIndex <= end; ++childIndex)
     {
         const uint idx = startData + childIndex * 4;
-        const float3 childPosition =
-            make_float3(simulation_data[idx], simulation_data[idx + 1], simulation_data[idx + 2]);
+        const float3 childPosition = make_float3(userData[idx], userData[idx + 1], userData[idx + 2]);
         const float3 delta = point - childPosition;
 
         const float d = sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
@@ -90,7 +89,7 @@ __device__ float treeWalker(const uint startIndices, const uint startData, const
             // Child is further than the cutoff distance, no need to evaluate
             // events in the child node, we take the precomputed value of node
             // instead
-            voxelValue += simulation_data[idx + 3] / (d * d);
+            voxelValue += userData[idx + 3] / (d * d);
         }
         else
             // Dive into the child node and compute its contents
@@ -110,12 +109,12 @@ static __device__ inline void shade()
 {
     float4 finalColor = make_float4(0.f);
 
-    const float3 offset = make_float3(simulation_data[0], simulation_data[1], simulation_data[2]);
-    const float3 spacing = make_float3(simulation_data[3], simulation_data[4], simulation_data[5]);
-    const float3 dimensions = make_float3(simulation_data[6], simulation_data[7], simulation_data[8]);
-    const float distance = simulation_data[9] * 5.f;
+    const float3 offset = make_float3(userData[0], userData[1], userData[2]);
+    const float3 spacing = make_float3(userData[3], userData[4], userData[5]);
+    const float3 dimensions = make_float3(userData[6], userData[7], userData[8]);
+    const float distance = userData[9] * 5.f;
     const uint startIndices = 11;
-    const uint startData = startIndices + simulation_data[10];
+    const uint startData = startIndices + userData[10];
     const float diag = fmax(fmax(dimensions.x, dimensions.y), dimensions.z);
     const float t_step = fmax(minRayStep, diag / (float)nbRaySteps);
 

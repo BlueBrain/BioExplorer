@@ -23,6 +23,8 @@
 
 #include "DepthRenderer.h"
 
+#include <plugin/common/Properties.h>
+
 // ospray
 #include <ospray/SDK/lights/Light.h>
 
@@ -30,6 +32,7 @@
 #include "DepthRenderer_ispc.h"
 
 using namespace ospray;
+using namespace core;
 
 namespace bioexplorer
 {
@@ -41,8 +44,8 @@ void DepthRenderer::commit()
 {
     Renderer::commit();
 
-    _infinity = getParam1f("infinity", 1e6f);
-
+    _infinity = getParam1f(MEDIA_MAKER_RENDERER_PROPERTY_DEPTH_INFINITY.name.c_str(),
+                           DEFAULT_MEDIA_MAKER_RENDERER_DEPTH_INFINITY);
     ispc::DepthRenderer_set(getIE(), spp, _infinity);
 }
 

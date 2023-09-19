@@ -29,8 +29,8 @@
 
 using namespace optix;
 
-rtDeclareVariable(float, epsilonFactor, , );
-rtDeclareVariable(int, softShadowsSamples, , );
+rtDeclareVariable(float, epsilonMultiplier, , );
+rtDeclareVariable(int, shadowSamples, , );
 rtDeclareVariable(unsigned int, matrixFilter, , );
 
 static __device__ void phongShadowed(float3 p_Ko)
@@ -50,13 +50,13 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
     float3 Kd = p_Kd;
 
     float3 normal = ::optix::normalize(p_normal);
-    if (fmaxf(opacity) > 0.f && prd.depth < maxBounces)
+    if (fmaxf(opacity) > 0.f && prd.depth < maxRayDepth)
     {
         // User data
-        if (cast_user_data && simulation_data.size() > 0)
+        if (cast_user_data && userData.size() > 0)
         {
             const float4 userDataColor =
-                calcTransferFunctionColor(transfer_function_map, value_range, simulation_data[simulation_idx]);
+                calcTransferFunctionColor(transfer_function_map, value_range, userData[userDataIndex]);
             Kd = Kd * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;
         }
 
@@ -86,34 +86,35 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
             {
                 // Point light
                 float3 pos = light.pos;
-                if (shadows > 0.f && softShadows > 0.f)
-                    // Soft shadows
-                    pos += softShadows * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
+                if (shadowIntensity > 0.f && softShadowStrength > 0.f)
+                    // Soft shadowIntensity
+                    pos += softShadowStrength * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
                 lightDirection = optix::normalize(pos - hit_point);
             }
             else
             {
                 // Directional light
                 lightDirection = -light.pos;
-                if (shadows > 0.f && softShadows > 0.f)
-                    // Soft shadows
-                    lightDirection += softShadows * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
+                if (shadowIntensity > 0.f && softShadowStrength > 0.f)
+                    // Soft shadowIntensity
+                    lightDirection +=
+                        softShadowStrength * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
                 lightDirection = optix::normalize(lightDirection);
             }
             float nDl = optix::dot(normal, lightDirection);
 
             // Shadows
-            if (shadows > 0.f)
+            if (shadowIntensity > 0.f)
             {
                 if (nDl > 0.f && light.casts_shadow)
                 {
                     PerRayData_shadow shadow_prd;
                     shadow_prd.attenuation = make_float3(1.f);
-                    optix::Ray shadow_ray(hit_point, lightDirection, shadowRayType, sceneEpsilon, giDistance);
+                    optix::Ray shadow_ray(hit_point, lightDirection, shadowRayType, sceneEpsilon, giRayLength);
                     rtTrace(top_shadower, shadow_ray, shadow_prd);
 
                     // light_attenuation is zero if completely shadowed
-                    light_attenuation -= shadows * (1.f - ::optix::luminance(shadow_prd.attenuation));
+                    light_attenuation -= shadowIntensity * (1.f - ::optix::luminance(shadow_prd.attenuation));
                 }
             }
 
@@ -205,7 +206,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
 
         // Reflection
         const float reflection = fmaxf(p_Kr);
-        if (reflection > 0.f && prd.depth < maxBounces - 1)
+        if (reflection > 0.f && prd.depth < maxRayDepth - 1)
         {
             PerRayData_radiance reflected_prd;
             reflected_prd.result = make_float4(0.f);
@@ -213,13 +214,13 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
             reflected_prd.depth = prd.depth + 1;
 
             const float3 R = optix::reflect(ray.direction, normal);
-            const optix::Ray reflected_ray(hit_point, R, radianceRayType, sceneEpsilon, giDistance);
+            const optix::Ray reflected_ray(hit_point, R, radianceRayType, sceneEpsilon, giRayLength);
             rtTrace(top_object, reflected_ray, reflected_prd);
             color = color * (1.f - reflection) + Kr * make_float3(reflected_prd.result);
         }
 
         // Refraction
-        if (fmaxf(opacity) < 1.f && prd.depth < maxBounces - 1)
+        if (fmaxf(opacity) < 1.f && prd.depth < maxRayDepth - 1)
         {
             PerRayData_radiance refracted_prd;
             refracted_prd.result = make_float4(0.f);
@@ -227,7 +228,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
             refracted_prd.depth = prd.depth + 1;
 
             const float3 refractedNormal = refractedVector(ray.direction, normal, p_refractionIndex, 1.f);
-            const optix::Ray refracted_ray(hit_point, refractedNormal, radianceRayType, sceneEpsilon, giDistance);
+            const optix::Ray refracted_ray(hit_point, refractedNormal, radianceRayType, sceneEpsilon, giRayLength);
             rtTrace(top_object, refracted_ray, refracted_prd);
             color = color * opacity + (1.f - opacity) * make_float3(refracted_prd.result);
         }
@@ -247,7 +248,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
                 if (optix::dot(aa_normal, normal) < 0.f)
                     aa_normal = -aa_normal;
 
-                const optix::Ray aa_ray(hit_point, aa_normal, shadowRayType, sceneEpsilon, giDistance);
+                const optix::Ray aa_ray(hit_point, aa_normal, shadowRayType, sceneEpsilon, giRayLength);
                 rtTrace(top_object, aa_ray, aa_prd);
                 aa_attenuation += giWeight * ::optix::luminance(aa_prd.attenuation);
 

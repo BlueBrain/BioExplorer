@@ -26,7 +26,7 @@
 
 #include "PerspectiveStereoCamera_ispc.h"
 
-#include <platform/core/common/Types.h>
+#include <platform/core/common/Properties.h>
 
 #include <ospray/SDK/common/Data.h>
 
@@ -46,17 +46,20 @@ void PerspectiveStereoCamera::commit()
 {
     Camera::commit();
 
-    fovy = getParamf(CAMERA_PROPERTY_FOVY.c_str(), DEFAULT_CAMERA_FOVY);
-    aspect = getParamf(CAMERA_PROPERTY_ASPECT.c_str(), 1.f);
-    apertureRadius = getParamf(CAMERA_PROPERTY_APERTURE_RADIUS.c_str(), 0.f);
-    focusDistance = getParamf(CAMERA_PROPERTY_FOCUS_DISTANCE.c_str(), 1.f);
-    nearClip = getParamf(CAMERA_PROPERTY_NEAR_CLIP.c_str(), 0.f);
-    stereoMode = getParam(CAMERA_PROPERTY_STEREO.c_str(), 0) ? CameraStereoMode::side_by_side : CameraStereoMode::mono;
+    fieldOfView = getParamf(CAMERA_PROPERTY_FIELD_OF_VIEW.name.c_str(), DEFAULT_CAMERA_FIELD_OF_VIEW);
+    aspect = getParamf(CAMERA_PROPERTY_ASPECT_RATIO.name.c_str(), DEFAULT_CAMERA_ASPECT_RATIO);
+    apertureRadius = getParamf(CAMERA_PROPERTY_APERTURE_RADIUS.name.c_str(), DEFAULT_CAMERA_APERTURE_RADIUS);
+    focalDistance = getParamf(CAMERA_PROPERTY_FOCAL_DISTANCE.name.c_str(), DEFAULT_CAMERA_FOCAL_DISTANCE);
+    nearClip = getParamf(CAMERA_PROPERTY_NEAR_CLIP.name.c_str(), DEFAULT_CAMERA_NEAR_CLIP);
+    stereoMode = getParam(CAMERA_PROPERTY_STEREO.name.c_str(), DEFAULT_CAMERA_STEREO) ? CameraStereoMode::side_by_side
+                                                                                      : CameraStereoMode::mono;
     interpupillaryDistance =
-        getParamf(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.c_str(), DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
-    enableClippingPlanes = getParam(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES.c_str(), 0);
-    clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr) : nullptr;
-    useHardwareRandomizer = getParam(RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, 0);
+        getParamf(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name.c_str(), DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
+    enableClippingPlanes =
+        getParam(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES.name.c_str(), DEFAULT_CAMERA_ENABLE_CLIPPING_PLANES);
+    clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES, nullptr) : nullptr;
+    useHardwareRandomizer =
+        getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(), DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER);
 
     dir = normalize(dir);
     vec3f dir_du = normalize(cross(dir, up));
@@ -80,7 +83,7 @@ void PerspectiveStereoCamera::commit()
         break;
     }
 
-    double imgPlane_size_y = 2.f * tanf(deg2rad(0.5f * fovy));
+    double imgPlane_size_y = 2.f * tanf(deg2rad(0.5f * fieldOfView));
     double imgPlane_size_x = imgPlane_size_y * aspect;
 
     dir_du *= imgPlane_size_x;
@@ -91,9 +94,9 @@ void PerspectiveStereoCamera::commit()
     double scaledAperture = 0.f;
     if (apertureRadius > 0.f)
     {
-        dir_du *= focusDistance;
-        dir_dv *= focusDistance;
-        dir_00 *= focusDistance;
+        dir_du *= focalDistance;
+        dir_dv *= focalDistance;
+        dir_00 *= focalDistance;
         scaledAperture = apertureRadius / imgPlane_size_x;
     }
 

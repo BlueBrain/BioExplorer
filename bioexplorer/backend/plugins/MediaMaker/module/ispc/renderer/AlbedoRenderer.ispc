@@ -41,7 +41,7 @@ inline vec3f AlbedoRenderer_shadeRay(const uniform AlbedoRenderer* uniform self,
     float oldlocalRefraction = 1.f;
     bool moreRebounds = true;
 
-    while (moreRebounds && depth < self->super.maxBounces && alpha < 1.f)
+    while (moreRebounds && depth < self->super.maxRayDepth && alpha < 1.f)
     {
         traceRay(self->super.super.super.model, ray);
 
@@ -172,7 +172,7 @@ export void* uniform AlbedoRenderer_create(void* uniform cppE)
     return self;
 }
 
-export void AlbedoRenderer_set(void* uniform _self, const uniform int spp, const uniform int maxBounces,
+export void AlbedoRenderer_set(void* uniform _self, const uniform int spp, const uniform int maxRayDepth,
                                const uniform bool useHardwareRandomizer, uniform float* uniform simulationData,
                                const uniform uint64 simulationDataSize)
 {
@@ -180,7 +180,7 @@ export void AlbedoRenderer_set(void* uniform _self, const uniform int spp, const
 
     self->super.super.super.spp = spp;
     self->super.useHardwareRandomizer = useHardwareRandomizer;
-    self->super.maxBounces = maxBounces;
+    self->super.maxRayDepth = maxRayDepth;
     self->super.simulationData = (uniform float* uniform)simulationData;
     self->super.simulationDataSize = simulationDataSize;
 }

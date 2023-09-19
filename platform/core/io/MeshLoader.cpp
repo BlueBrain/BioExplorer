@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -35,6 +33,7 @@
 #include <numeric>
 #include <unordered_map>
 
+#include <platform/core/common/Properties.h>
 #include <platform/core/common/utils/FileSystem.h>
 #include <platform/core/common/utils/StringUtils.h>
 #include <platform/core/engineapi/Material.h>
@@ -281,7 +280,7 @@ ModelMetadata MeshLoader::_postLoad(const aiScene* aiScene, Model& model, const 
                                     const LoaderProgress& callback) const
 {
     // Always create placeholder material since it is not guaranteed to exist
-    model.createMaterial(materialId, "default");
+    model.createMaterial(materialId, DEFAULT);
 
     if (materialId == NO_MATERIAL)
         _createMaterials(model, aiScene, folder);

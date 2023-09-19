@@ -22,7 +22,7 @@
 #include "CylindricStereoCamera.h"
 #include "CylindricStereoCamera_ispc.h"
 
-#include <platform/core/common/Types.h>
+#include <platform/core/common/Properties.h>
 
 using namespace core;
 
@@ -73,7 +73,7 @@ CylindricStereoCamera::StereoMode CylindricStereoCamera::getStereoMode()
 float CylindricStereoCamera::getInterpupillaryDistance(const StereoMode stereoMode)
 {
     const auto interpupillaryDistance =
-        getParamf(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.c_str(), DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
+        getParamf(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name.c_str(), DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
 
     switch (stereoMode)
     {

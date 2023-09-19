@@ -285,7 +285,7 @@ inline bool launchRandomRay(const uniform AdvancedRenderer* uniform self, varyin
     randomRay.org = intersection;
     randomRay.dir = randomDirection;
     randomRay.t0 = epsilon;
-    randomRay.t = self->giDistance;
+    randomRay.t = self->giRayLength;
     randomRay.time = inf;
     randomRay.primID = -1;
     randomRay.geomID = -1;
@@ -341,7 +341,7 @@ inline bool launchRandomRay(const uniform AdvancedRenderer* uniform self, varyin
         else
             moreRebounds = false;
 
-        randomRay.t0 = randomRay.t + self->super.epsilonFactor * dg.epsilon;
+        randomRay.t0 = randomRay.t + self->super.epsilonMultiplier * dg.epsilon;
         randomRay.t = inf;
         randomRay.primID = -1;
         randomRay.geomID = -1;
@@ -430,9 +430,9 @@ inline float getVolumeShadowContributions(Volume* uniform volume, const uniform 
     lightRay.org = point;
     lightRay.geomID = -1;
 
-    if (self->softShadows > 0.f)
+    if (self->softShadowStrength > 0.f)
         lightRay.dir =
-            normalize(lightSample.dir + self->softShadows * getRandomVector(self->super.useHardwareRandomizer,
+            normalize(lightSample.dir + self->softShadowStrength * getRandomVector(self->super.useHardwareRandomizer,
                                                                             self->super.super.super.fb->size.x, sample,
                                                                             lightSample.dir, self->super.randomNumber));
     else
@@ -443,12 +443,12 @@ inline float getVolumeShadowContributions(Volume* uniform volume, const uniform 
     if (lightRay.geomID != -1)
     {
         shadowIntensity += 1.f;
-        return shadowIntensity * self->shadows;
+        return shadowIntensity * self->shadowIntensity;
     }
 
     // Intersection with volume
     shadowIntensity += getVolumeShadowContribution(volume, self, lightRay, sample);
-    return shadowIntensity * self->shadows;
+    return shadowIntensity * self->shadowIntensity;
 }
 
 inline vec4f getVolumeContribution(Volume* uniform volume, const uniform AdvancedRenderer* uniform self,
@@ -503,14 +503,14 @@ inline vec4f getVolumeContribution(Volume* uniform volume, const uniform Advance
 
         const bool aoEnabled = (firstShadingOccurrence && self->giStrength > 0.f);
 
-        const bool shadowsEnabled = (firstShadingOccurrence && self->shadows > 0.f);
+        const bool shadowsEnabled = (firstShadingOccurrence && self->shadowIntensity > 0.f);
 
         if (shadingEnabled || aoEnabled)
         {
             gradient = safe_normalize(volume->computeGradient(volume, point));
             // Setup differential geometry for the volume sample point.
             dg.P = point;
-            dg.epsilon = self->super.epsilonFactor * epsilon;
+            dg.epsilon = self->super.epsilonMultiplier * epsilon;
             dg.Ns = gradient;
         }
 
@@ -569,16 +569,16 @@ inline float shadedLightIntensity(varying ScreenSample& sample, const varying Ra
 {
     float intensity = 0.f;
 
-    const uint32 nbSamples = (attributes.self->softShadows > 0.f ? attributes.self->softShadowsSamples : 1);
+    const uint32 nbSamples = (attributes.self->softShadowStrength > 0.f ? attributes.self->shadowSamples : 1);
 
     for (uint32 s = 0; s < nbSamples; ++s)
     {
         float shadowIntensity = 0.f;
 
         vec3f ld = lightDirection;
-        if (attributes.self->softShadows > 0.f)
-            // Slightly alter light direction for Soft shadows
-            ld = normalize(ld + attributes.self->softShadows *
+        if (attributes.self->softShadowStrength > 0.f)
+            // Slightly alter light direction for Soft shadowIntensity
+            ld = normalize(ld + attributes.self->softShadowStrength *
                                     getRandomVector(attributes.self->super.useHardwareRandomizer,
                                                     attributes.self->super.super.super.fb->size.x, sample,
                                                     attributes.normal, s + attributes.self->super.randomNumber));
@@ -589,8 +589,8 @@ inline float shadedLightIntensity(varying ScreenSample& sample, const varying Ra
         Ray shadowRay;
         shadowRay.org = dg.P;
         shadowRay.dir = ld;
-        shadowRay.t0 = max(0.f, attributes.self->super.epsilonFactor * dg.epsilon);
-        shadowRay.t = attributes.self->giDistance;
+        shadowRay.t0 = max(0.f, attributes.self->super.epsilonMultiplier * dg.epsilon);
+        shadowRay.t = attributes.self->giRayLength;
         shadowRay.time = inf;
         shadowRay.geomID = -1;
         shadowRay.primID = -1;
@@ -641,7 +641,7 @@ inline float shadedLightIntensity(varying ScreenSample& sample, const varying Ra
             }
 
             shadowRay.t0 = shadowRay.t + shadowingGeometry.epsilon;
-            shadowRay.t = attributes.self->giDistance - shadowRay.t0;
+            shadowRay.t = attributes.self->giRayLength - shadowRay.t0;
             shadowRay.primID = -1;
             shadowRay.geomID = -1;
             shadowRay.instID = -1;
@@ -653,7 +653,7 @@ inline float shadedLightIntensity(varying ScreenSample& sample, const varying Ra
     }
     intensity /= (float)nbSamples;
 
-    return clamp(intensity * attributes.self->shadows, 0.f, 1.f);
+    return clamp(intensity * attributes.self->shadowIntensity, 0.f, 1.f);
 }
 
 inline void processBackgroundColor(varying ScreenSample& sample, const varying Ray& ray, ShadingAttributes& attributes)
@@ -706,10 +706,10 @@ inline vec3f getChameleonColor(const uniform AdvancedRenderer* uniform self, Dif
             getRandomVector(self->super.useHardwareRandomizer, self->super.super.super.fb->size.x, sample,
                             neg(attributes.normal), i + self->super.randomNumber);
         Ray ray;
-        ray.org = attributes.origin + randomDirection * (self->super.epsilonFactor + dg.epsilon);
+        ray.org = attributes.origin + randomDirection * (self->super.epsilonMultiplier + dg.epsilon);
         ray.dir = randomDirection;
-        ray.t0 = max(0.f, self->super.epsilonFactor * dg.epsilon);
-        ray.t = self->giDistance;
+        ray.t0 = max(0.f, self->super.epsilonMultiplier * dg.epsilon);
+        ray.t = self->giRayLength;
         ray.time = inf;
         ray.primID = -1;
         ray.geomID = -1;
@@ -984,7 +984,7 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
     ray.t = maxt;
     bool moreRebounds = true;
 
-    while (moreRebounds && depth < self->super.maxBounces && color.w < 1.f)
+    while (moreRebounds && depth < self->super.maxRayDepth && color.w < 1.f)
     {
         float totalOpacity = 0.f;
 
@@ -1029,7 +1029,7 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
                 isClipped(self, dg.P, attributes.clippingMode) || attributes.chameleonMode == emitter;
 
             if (discardIntersection)
-                ray.t0 = ray.t + self->super.epsilonFactor * dg.epsilon;
+                ray.t0 = ray.t + self->super.epsilonMultiplier * dg.epsilon;
             else
             {
                 // Compute simulation contribution
@@ -1057,8 +1057,8 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
                 else
                     processDiffuseShading(self, dg, sample, ray, attributes);
 
-                // Compute shadows
-                if (sample.sampleID.z > 0 && self->shadows > 0.f)
+                // Compute shadowIntensity
+                if (sample.sampleID.z > 0 && self->shadowIntensity > 0.f)
                     processShadows(dg, sample, ray, attributes);
 
                 // Compute volume contribution
@@ -1095,8 +1095,8 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
                     moreRebounds = false;
 
                 // Prepare next ray
-                ray.org = dg.P + ray.dir * (self->super.epsilonFactor * dg.epsilon);
-                ray.t0 = max(0.f, self->super.epsilonFactor * dg.epsilon);
+                ray.org = dg.P + ray.dir * (self->super.epsilonMultiplier * dg.epsilon);
+                ray.t0 = max(0.f, self->super.epsilonMultiplier * dg.epsilon);
                 ++depth;
             }
 
@@ -1149,12 +1149,12 @@ export void* uniform AdvancedRenderer_create(void* uniform cppE)
 }
 
 export void AdvancedRenderer_set(
-    void* uniform _self, void* uniform bgMaterial, const uniform float shadows, const uniform float softShadows,
-    const uniform uint32 softShadowsSamples, const uniform float giStrength, const uniform float giDistance,
+    void* uniform _self, void* uniform bgMaterial, const uniform float shadowIntensity, const uniform float softShadowStrength,
+    const uniform uint32 shadowSamples, const uniform float giStrength, const uniform float giRayLength,
     const uniform uint32 giSamples, const uniform uint32 randomNumber, const uniform float timestamp,
     const uniform uint32 spp, void** uniform lights, const uniform uint32 numLights, const uniform float exposure,
-    const uniform float epsilonFactor, const uniform float fogThickness, const uniform float fogStart,
-    const uniform bool useHardwareRandomizer, const uniform uint32 maxBounces, const uniform bool showBackground,
+    const uniform float epsilonMultiplier, const uniform float fogThickness, const uniform float fogStart,
+    const uniform bool useHardwareRandomizer, const uniform uint32 maxRayDepth, const uniform bool showBackground,
     const uniform bool matrixFilter, uniform float* uniform simulationData, const uniform uint64 simulationDataSize,
     const uniform float volumeSamplingThreshold, const uniform float volumeSpecularExponent,
     const uniform float volumeAlphaCorrection, const uniform vec4f clipPlanes[], const uniform uint32 numClipPlanes)
@@ -1168,21 +1168,21 @@ export void AdvancedRenderer_set(
     self->super.super.numLights = numLights;
 
     self->super.exposure = exposure;
-    self->super.epsilonFactor = epsilonFactor;
+    self->super.epsilonMultiplier = epsilonMultiplier;
     self->super.useHardwareRandomizer = useHardwareRandomizer;
     self->super.showBackground = showBackground;
     self->super.randomNumber = randomNumber;
-    self->super.maxBounces = maxBounces;
+    self->super.maxRayDepth = maxRayDepth;
     self->super.simulationData = (uniform float* uniform)simulationData;
     self->super.simulationDataSize = simulationDataSize;
 
     self->fogThickness = fogThickness;
     self->fogStart = fogStart;
-    self->shadows = shadows;
-    self->softShadows = softShadows;
-    self->softShadowsSamples = softShadowsSamples;
+    self->shadowIntensity = shadowIntensity;
+    self->softShadowStrength = softShadowStrength;
+    self->shadowSamples = shadowSamples;
     self->giStrength = giStrength;
-    self->giDistance = giDistance;
+    self->giRayLength = giRayLength;
     self->giSamples = giSamples;
     self->matrixFilter = matrixFilter;
 

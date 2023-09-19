@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -26,29 +24,6 @@
 
 /** User data */
 #define NO_USER_DATA -1
-
-#define MATERIAL_PROPERTY_OPACITY "d"
-#define MATERIAL_PROPERTY_MAP_OPACITY "map_d"
-#define MATERIAL_PROPERTY_DIFFUSE_COLOR "kd"
-#define MATERIAL_PROPERTY_MAP_DIFFUSE_COLOR "map_kd"
-#define MATERIAL_PROPERTY_SPECULAR_COLOR "ks"
-#define MATERIAL_PROPERTY_MAP_SPECULAR_COLOR "map_ks"
-#define MATERIAL_PROPERTY_SPECULAR_INDEX "ns"
-#define MATERIAL_PROPERTY_MAP_SPECULAR_INDEX "map_ns"
-#define MATERIAL_PROPERTY_MAP_BUMP "map_bump"
-#define MATERIAL_PROPERTY_REFRACTION "refraction"
-#define MATERIAL_PROPERTY_MAP_REFRACTION "map_refraction"
-#define MATERIAL_PROPERTY_REFLECTION "kr"
-#define MATERIAL_PROPERTY_MAP_REFLECTION "map_kr"
-#define MATERIAL_PROPERTY_EMISSION "a"
-#define MATERIAL_PROPERTY_MAP_EMISSION "map_a"
-#define MATERIAL_PROPERTY_SHADING_MODE "shading_mode"
-#define MATERIAL_PROPERTY_USER_PARAMETER "user_parameter"
-#define MATERIAL_PROPERTY_GLOSSINESS "glossiness"
-#define MATERIAL_PROPERTY_CAST_USER_DATA "cast_user_data"
-#define MATERIAL_PROPERTY_CLIPPING_MODE "clipping_mode"
-#define MATERIAL_PROPERTY_CHAMELEON_MODE "chameleon_mode"
-#define MATERIAL_PROPERTY_NODE_ID "node_id"
 
 enum CameraStereoMode
 {

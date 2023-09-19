@@ -57,7 +57,7 @@ static __device__ void dicomShade(const bool textured)
 
     // Shadows
     float light_attenuation = 1.f;
-    if (shadows > 0.f)
+    if (shadowIntensity > 0.f)
     {
         unsigned int num_lights = lights.size();
         for (int i = 0; i < num_lights; ++i)
@@ -70,28 +70,28 @@ static __device__ void dicomShade(const bool textured)
                 if (light.type == BASIC_LIGHT_TYPE_POINT)
                 {
                     float3 pos = light.pos;
-                    if (softShadows > 0.f)
-                        pos += softShadows * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
+                    if (softShadowStrength > 0.f)
+                        pos += softShadowStrength * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
                     lightDirection = normalize(pos - hit_point);
                 }
                 else
                 {
                     lightDirection = -light.pos;
-                    if (softShadows > 0.f)
+                    if (softShadowStrength > 0.f)
                         lightDirection +=
-                            softShadows * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
+                            softShadowStrength * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
                     lightDirection = normalize(lightDirection);
                 }
 
                 PerRayData_shadow shadow_prd;
                 shadow_prd.attenuation = make_float3(1.f);
                 float near = sceneEpsilon + surfaceOffset;
-                float far = giDistance;
+                float far = giRayLength;
                 applyClippingPlanes(hit_point, lightDirection, near, far);
                 Ray shadow_ray(hit_point, lightDirection, shadowRayType, near, far);
                 rtTrace(top_shadower, shadow_ray, shadow_prd);
 
-                light_attenuation -= shadows * (1.f - luminance(shadow_prd.attenuation));
+                light_attenuation -= shadowIntensity * (1.f - luminance(shadow_prd.attenuation));
             }
         }
     }
@@ -109,17 +109,17 @@ static __device__ void dicomShade(const bool textured)
             if (light.type == BASIC_LIGHT_TYPE_POINT)
             {
                 float3 pos = light.pos;
-                if (shadows > 0.f && softShadows > 0.f)
-                    // Soft shadows
-                    pos += softShadows * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
+                if (shadowIntensity > 0.f && softShadowStrength > 0.f)
+                    // Soft shadowIntensity
+                    pos += softShadowStrength * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
                 lightDirection = normalize(pos - hit_point);
             }
             else
             {
                 lightDirection = -light.pos;
-                if (shadows > 0.f && softShadows > 0.f)
-                    // Soft shadows
-                    lightDirection += softShadows * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
+                if (shadowIntensity > 0.f && softShadowStrength > 0.f)
+                    // Soft shadowIntensity
+                    lightDirection += softShadowStrength * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
                 lightDirection = normalize(lightDirection);
             }
             float nDl = dot(normal, lightDirection);
@@ -216,7 +216,7 @@ static __device__ void dicomShade(const bool textured)
 
     // Reflection
     const float reflectionIndex = fmaxf(Kr);
-    if (reflectionIndex > 0.f && voxelColor.w > 0.f && prd.depth < maxBounces)
+    if (reflectionIndex > 0.f && voxelColor.w > 0.f && prd.depth < maxRayDepth)
     {
         PerRayData_radiance reflected_prd;
         reflected_prd.result = make_float4(0.f);
@@ -225,7 +225,7 @@ static __device__ void dicomShade(const bool textured)
 
         const float3 reflectedNormal = reflect(ray.direction, normal);
         float near = sceneEpsilon + surfaceOffset;
-        float far = giDistance;
+        float far = giRayLength;
         applyClippingPlanes(hit_point, reflectedNormal, near, far);
 
         const Ray reflected_ray(hit_point, reflectedNormal, radianceRayType, near, far);
@@ -234,7 +234,7 @@ static __device__ void dicomShade(const bool textured)
     }
 
     // Refraction
-    if (voxelColor.w < 1.f && prd.depth < maxBounces)
+    if (voxelColor.w < 1.f && prd.depth < maxRayDepth)
     {
         PerRayData_radiance refracted_prd;
         refracted_prd.result = make_float4(0.f);
@@ -243,7 +243,7 @@ static __device__ void dicomShade(const bool textured)
 
         const float3 refractedNormal = refractedVector(ray.direction, normal, refraction_index, 1.f);
         float near = sceneEpsilon + surfaceOffset;
-        float far = giDistance;
+        float far = giRayLength;
         applyClippingPlanes(hit_point, refractedNormal, near, far);
 
         const Ray refracted_ray(hit_point, refractedNormal, radianceRayType, near, far);

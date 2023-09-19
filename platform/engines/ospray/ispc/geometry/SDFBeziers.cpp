@@ -21,6 +21,7 @@
 
 // Platform
 #include <platform/core/common/geometry/SDFBezier.h>
+#include <platform/engines/ospray/OSPRayProperties.h>
 
 // ospray
 #include "SDFBeziers.h"
@@ -31,6 +32,8 @@
 
 #include <climits>
 
+using namespace core;
+
 namespace ospray
 {
 SDFBeziers::SDFBeziers()
@@ -40,12 +43,11 @@ SDFBeziers::SDFBeziers()
 
 void SDFBeziers::finalize(ospray::Model* model)
 {
-    data = getParamData("sdfbeziers", nullptr);
+    data = getParamData(OSPRAY_GEOMETRY_PROPERTY_SDF_BEZIERS, nullptr);
     constexpr size_t bytesPerSDFBezier = sizeof(core::SDFBezier);
 
     if (data.ptr == nullptr || bytesPerSDFBezier == 0)
-        throw std::runtime_error(
-            "#ospray:geometry/sdfbeziers: no 'sdfbeziers' data specified");
+        throw std::runtime_error("#ospray:geometry/sdfbeziers: no 'sdfbeziers' data specified");
 
     const size_t numSDFBeziers = data->numBytes / bytesPerSDFBezier;
 
@@ -63,8 +65,7 @@ void SDFBeziers::finalize(ospray::Model* model)
         bounds.extend(bMaxf);
     }
 
-    ispc::SDFBeziersGeometry_set(getIE(), model->getIE(), data->data,
-                                 numSDFBeziers);
+    ispc::SDFBeziersGeometry_set(getIE(), model->getIE(), data->data, numSDFBeziers);
 }
 
 OSP_REGISTER_GEOMETRY(SDFBeziers, sdfbeziers);

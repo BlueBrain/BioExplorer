@@ -24,6 +24,7 @@
 #include "DICOMPlugin.h"
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Properties.h>
 
 #include <platform/core/common/ActionInterface.h>
 #include <platform/core/engineapi/Engine.h>
@@ -36,6 +37,7 @@
 #include <DICOM_generated_DICOM.cu.ptx.h>
 #include <platform/engines/optix6/OptiXCommonStructs.h>
 #include <platform/engines/optix6/OptiXContext.h>
+#include <platform/engines/optix6/OptiXProperties.h>
 #endif
 
 namespace medicalimagingexplorer
@@ -52,16 +54,15 @@ void _addDICOMRenderer(Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_DICOM);
     core::PropertyMap properties;
-    properties.setProperty({"fogStart", 0.0, 0.0, 1e6, {"Fog start"}});
-    properties.setProperty({"fogThickness", 1e6, 1e6, 1e6, {"Fog thickness"}});
-    properties.setProperty({"shadows", 0., 0., 1., {"Shadows"}});
-    properties.setProperty({"softShadows", 0., 0., 1., {"Soft shadows"}});
-    properties.setProperty({"mainExposure", 1., 0.01, 10., {"Exposure"}});
-    properties.setProperty({"specularExponent", 50., 1.0, 100., {"Specular exponent"}});
-    properties.setProperty({"giDistance", 10000.0, {"Global illumination distance"}});
-    properties.setProperty({"surfaceOffset", 1., 0.01, 10., {"Surface offset"}});
-    properties.setProperty(
-        {"maxBounces", 5, 1, static_cast<int>(OPTIX_MAX_TRACE_DEPTH), {"Maximum number of ray bounces"}});
+    properties.setProperty(RENDERER_PROPERTY_FOG_START);
+    properties.setProperty(RENDERER_PROPERTY_FOG_THICKNESS);
+    properties.setProperty(RENDERER_PROPERTY_SHADOW_INTENSITY);
+    properties.setProperty(RENDERER_PROPERTY_SOFT_SHADOW_STRENGTH);
+    properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+    properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH);
+    properties.setProperty(DICOM_RENDERER_PROPERTY_SURFACE_OFFSET);
+    properties.setProperty({RENDERER_PROPERTY_MAX_RAY_DEPTH.name, DEFAULT_RENDERER_MAX_RAY_DEPTH, 1,
+                            static_cast<int>(OPTIX_MAX_TRACE_DEPTH), RENDERER_PROPERTY_MAX_RAY_DEPTH.metaData});
     engine.addRendererType(RENDERER_DICOM, properties);
 }
 
@@ -104,11 +105,14 @@ void DICOMPlugin::_createOptiXRenderers()
         const std::string ptx = renderer.second;
 
         auto osp = std::make_shared<OptixShaderProgram>();
-        osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance");
+        osp->closest_hit =
+            context.getOptixContext()->createProgramFromPTXString(ptx, OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE);
         osp->closest_hit_textured =
-            context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance_textured");
-        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "any_hit_shadow");
-        osp->exception_program = context.getOptixContext()->createProgramFromPTXString(ptx, "exception");
+            context.getOptixContext()->createProgramFromPTXString(ptx,
+                                                                  OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE_TEXTURED);
+        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, OPTIX_CUDA_FUNCTION_ANY_HIT_SHADOW);
+        osp->exception_program =
+            context.getOptixContext()->createProgramFromPTXString(ptx, OPTIX_CUDA_FUNCTION_EXCEPTION);
         context.addRenderer(renderer.first, osp);
     }
 }

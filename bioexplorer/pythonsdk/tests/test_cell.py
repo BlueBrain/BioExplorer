@@ -21,7 +21,15 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer, Cell, Membrane, Protein, Vector2, Vector3, Quaternion
+from bioexplorer import (
+    BioExplorer,
+    Cell,
+    Membrane,
+    Protein,
+    Vector2,
+    Vector3,
+    Quaternion,
+)
 import os
 
 # pylint: disable=no-member
@@ -30,12 +38,12 @@ import os
 
 
 def test_cell():
-    name = 'Cell'
-    resource_folder = os.path.abspath('./tests/test_files')
-    pdb_folder = os.path.join(resource_folder, 'pdb')
-    membrane_folder = os.path.join(pdb_folder, 'membrane')
+    name = "Cell"
+    resource_folder = os.path.abspath("./tests/test_files")
+    pdb_folder = os.path.join(resource_folder, "pdb")
+    membrane_folder = os.path.join(pdb_folder, "membrane")
 
-    bio_explorer = BioExplorer('localhost:5000')
+    bio_explorer = BioExplorer("localhost:5000")
     bio_explorer.reset_scene()
     bio_explorer.start_model_loading_transaction()
 
@@ -51,37 +59,47 @@ def test_cell():
 
     # ACE2 Receptor
     ace2_receptor = Protein(
-        name=name + '_' + bio_explorer.NAME_RECEPTOR,
-        source=os.path.join(pdb_folder, '6m1d.pdb'),
+        name=name + "_" + bio_explorer.NAME_RECEPTOR,
+        source=os.path.join(pdb_folder, "6m1d.pdb"),
         occurrences=membrane_nb_receptors,
-        transmembrane_params=Vector2(-6.0, 5.0))
+        transmembrane_params=Vector2(-6.0, 5.0),
+    )
 
-    membrane = Membrane(lipid_sources=[os.path.join(membrane_folder, 'popc.pdb')])
+    membrane = Membrane(lipid_sources=[os.path.join(membrane_folder, "popc.pdb")])
 
     cell = Cell(
         name=name,
         shape=bio_explorer.ASSEMBLY_SHAPE_SINUSOID,
         shape_params=membrane_size,
         membrane=membrane,
-        proteins=[ace2_receptor])
+        proteins=[ace2_receptor],
+    )
 
     bio_explorer.add_cell(
-        cell=cell, position=Vector3(4.5, -186, 7.0), rotation=Quaternion(1, 0, 0, 0),
-        representation=protein_representation)
+        cell=cell,
+        position=Vector3(4.5, -186, 7.0),
+        rotation=Quaternion(1, 0, 0, 0),
+        representation=protein_representation,
+    )
 
     # Set rendering settings
     bio_explorer.core_api().set_renderer(
-        background_color=[96 / 255, 125 / 255, 139 / 255], current='advanced',
-        samples_per_pixel=1, subsampling=4, max_accum_frames=64)
+        background_color=[96 / 255, 125 / 255, 139 / 255],
+        current="advanced",
+        samples_per_pixel=1,
+        subsampling=4,
+        max_accum_frames=64,
+    )
     params = bio_explorer.core_api().AdvancedRendererParams()
-    params.shadows = 0.75
-    params.soft_shadows = 1.0
+    params.shadow_intensity = 0.75
+    params.soft_shadow_strength = 1.0
     bio_explorer.core_api().set_renderer_params(params)
 
     # Restore image streaming
     bio_explorer.core_api().set_application_parameters(image_stream_fps=20)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import nose
+
     nose.run(defaultTest=__name__)

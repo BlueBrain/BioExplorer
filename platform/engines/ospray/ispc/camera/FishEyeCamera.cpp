@@ -24,7 +24,7 @@
 
 #include "FishEyeCamera_ispc.h"
 
-#include <platform/core/common/Types.h>
+#include <platform/core/common/Properties.h>
 
 #include <ospray/SDK/common/Data.h>
 
@@ -46,28 +46,25 @@ void FishEyeCamera::commit()
 {
     Camera::commit();
 
-    // the default 63.5mm represents the average human IPD
-    enableClippingPlanes = getParam(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES.c_str(), 0);
-    clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr) : nullptr;
-    apertureRadius = getParamf(CAMERA_PROPERTY_APERTURE_RADIUS.c_str(), 0.f);
-    focusDistance = getParamf(CAMERA_PROPERTY_FOCUS_DISTANCE.c_str(), 1.f);
-    useHardwareRandomizer = getParam(RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, 0);
+    enableClippingPlanes =
+        getParam(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES.name.c_str(), DEFAULT_CAMERA_ENABLE_CLIPPING_PLANES);
+    clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES, nullptr) : nullptr;
+    apertureRadius = getParamf(CAMERA_PROPERTY_APERTURE_RADIUS.name.c_str(), DEFAULT_CAMERA_APERTURE_RADIUS);
+    focalDistance = getParamf(CAMERA_PROPERTY_FOCAL_DISTANCE.name.c_str(), DEFAULT_CAMERA_FOCAL_DISTANCE);
+    useHardwareRandomizer =
+        getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(), DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER);
 
-    // ------------------------------------------------------------------
-    // now, update the local precomputed values
-    // ------------------------------------------------------------------
     dir = normalize(dir);
     vec3f dirU = normalize(cross(dir, up));
-    vec3f dirV = cross(dirU, dir); // rotate film to be perpendicular to 'dir'
+    vec3f dirV = cross(dirU, dir);
 
     vec3f org = pos;
 
-    // prescale to focal plane
     if (apertureRadius > 0.f)
     {
-        dirU *= focusDistance;
-        dirV *= focusDistance;
-        dir *= focusDistance;
+        dirU *= focalDistance;
+        dirV *= focalDistance;
+        dir *= focalDistance;
     }
 
     const auto clipPlaneData = clipPlanes ? clipPlanes->data : nullptr;
@@ -80,5 +77,4 @@ void FishEyeCamera::commit()
 }
 
 OSP_REGISTER_CAMERA(FishEyeCamera, fisheye);
-
 } // namespace ospray

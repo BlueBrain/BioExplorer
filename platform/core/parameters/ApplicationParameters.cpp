@@ -20,6 +20,7 @@
 
 #include "ApplicationParameters.h"
 #include <platform/core/common/Logs.h>
+#include <platform/core/common/Properties.h>
 #include <platform/core/common/Types.h>
 #include <platform/core/parameters/ParametersManager.h>
 
@@ -78,7 +79,7 @@ ApplicationParameters::ApplicationParameters()
          "JPEG compression rate (100 is full quality) [int]") //
         (PARAM_PARALLEL_RENDERING.c_str(), po::bool_switch(&_parallelRendering)->default_value(false),
          "Enable parallel rendering, equivalent to --osp:mpi") //
-        (CAMERA_PROPERTY_STEREO.c_str(), po::bool_switch(&_stereo)->default_value(false),
+        (CAMERA_PROPERTY_STEREO.name.c_str(), po::bool_switch(&_stereo)->default_value(DEFAULT_CAMERA_STEREO),
          "Enable stereo rendering") //
         (PARAM_IMAGE_STREAM_FPS.c_str(), po::value<size_t>(&_imageStreamFPS),
          "Image stream FPS (60 default), [int]") //

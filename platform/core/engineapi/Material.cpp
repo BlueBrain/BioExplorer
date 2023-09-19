@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -26,12 +24,13 @@
 
 #include <platform/core/common/ImageManager.h>
 #include <platform/core/common/Logs.h>
+#include <platform/core/common/Properties.h>
 
 namespace core
 {
 Material::Material(const PropertyMap& properties)
 {
-    setCurrentType("default");
+    setCurrentType(DEFAULT);
     _properties.at(_currentType).merge(properties);
 }
 
@@ -60,7 +59,7 @@ bool Material::_loadTexture(const std::string& fileName, const TextureType type)
 
     _textures[fileName] = texture;
     CORE_DEBUG(fileName << ": " << texture->width << "x" << texture->height << "x" << (int)texture->channels << "x"
-                          << (int)texture->depth << " added to the texture cache");
+                        << (int)texture->depth << " added to the texture cache");
     return true;
 }
 

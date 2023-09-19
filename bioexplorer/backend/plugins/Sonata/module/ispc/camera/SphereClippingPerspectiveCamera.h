@@ -45,7 +45,7 @@ public:
     float fovy;
     float aspect;
     float apertureRadius;
-    float focusDistance;
+    float focalDistance;
     bool architectural; // orient image plane to be parallel to 'up' and shift
                         // the lens
     bool stereo;

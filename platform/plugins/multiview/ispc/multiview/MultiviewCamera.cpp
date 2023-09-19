@@ -22,7 +22,8 @@
 #include "MultiviewCamera.h"
 #include "MultiviewCamera_ispc.h"
 
-#include <platform/core/common/Types.h>
+#include <platform/core/common/Properties.h>
+#include <platform/plugins/multiview/common/CommonStructs.h>
 
 #include <ospray/SDK/common/Data.h>
 
@@ -44,14 +45,15 @@ void MultiviewCamera::commit()
 {
     Camera::commit();
 
-    const float fovy = getParamf(CAMERA_PROPERTY_FOVY.c_str(), DEFAULT_CAMERA_FOVY);
-    const float aspect = getParamf(CAMERA_PROPERTY_ASPECT.c_str(), 1.66667f);
-    const float apertureRadius = getParamf(CAMERA_PROPERTY_APERTURE_RADIUS.c_str(), 0.f);
-    const float focusDistance = getParamf(CAMERA_PROPERTY_FOCUS_DISTANCE.c_str(), 1.f);
-    const float height = getParamf(CAMERA_PROPERTY_HEIGHT.c_str(), 10.f); // imgPlane_size_y
-    const float armLength = getParamf("armLength", 5.f);
+    const float fovy = getParamf(CAMERA_PROPERTY_FIELD_OF_VIEW.name.c_str(), DEFAULT_CAMERA_FIELD_OF_VIEW);
+    const float aspect = getParamf(CAMERA_PROPERTY_ASPECT_RATIO.name.c_str(), 1.66667f);
+    const float apertureRadius =
+        getParamf(CAMERA_PROPERTY_APERTURE_RADIUS.name.c_str(), DEFAULT_CAMERA_APERTURE_RADIUS);
+    const float focalDistance = getParamf(CAMERA_PROPERTY_FOCAL_DISTANCE.name.c_str(), DEFAULT_CAMERA_FOCAL_DISTANCE);
+    const float height = getParamf(CAMERA_PROPERTY_HEIGHT.name.c_str(), DEFAULT_CAMERA_HEIGHT);
+    const float armLength = getParamf(PARAM_ARM_LENGTH.c_str(), DEFAULT_PARAM_ARM_LENGTH);
 
-    clipPlanes = getParamData(CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr);
+    clipPlanes = getParamData(CAMERA_PROPERTY_CLIPPING_PLANES, nullptr);
 
     dir = normalize(dir);
     vec3f dir_du = normalize(cross(dir, up));
@@ -71,9 +73,9 @@ void MultiviewCamera::commit()
     // prescale to focal plane
     if (apertureRadius > 0.f)
     {
-        dir_du *= focusDistance;
-        dir_dv *= focusDistance;
-        dir_00 *= focusDistance;
+        dir_du *= focalDistance;
+        dir_dv *= focalDistance;
+        dir_00 *= focalDistance;
         scaledAperture = apertureRadius / imgPlane_size_x;
     }
 

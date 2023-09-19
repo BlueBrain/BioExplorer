@@ -38,8 +38,8 @@ OptiXOrthographicCamera::OptiXOrthographicCamera()
 {
     auto context = OptiXContext::get().getOptixContext();
     _rayGenerationProgram = context->createProgramFromPTXString(PTX_ORTHOGRAPHIC_CAMERA, CUDA_FUNC_ORTHOGRAPHIC_CAMERA);
-    _missProgram = context->createProgramFromPTXString(PTX_MISS, CUDA_FUNC_CAMERA_ENVMAP_MISS);
-    _exceptionProgram = context->createProgramFromPTXString(PTX_ORTHOGRAPHIC_CAMERA, CUDA_FUNC_CAMERA_EXCEPTION);
+    _missProgram = context->createProgramFromPTXString(PTX_MISS, OPTIX_CUDA_FUNCTION_CAMERA_ENVMAP_MISS);
+    _exceptionProgram = context->createProgramFromPTXString(PTX_ORTHOGRAPHIC_CAMERA, OPTIX_CUDA_FUNCTION_EXCEPTION);
 }
 
 void OptiXOrthographicCamera::commit(const OptiXCamera& camera, ::optix::Context context)
@@ -48,8 +48,9 @@ void OptiXOrthographicCamera::commit(const OptiXCamera& camera, ::optix::Context
     const auto target = camera.getTarget();
     const auto orientation = camera.getOrientation();
 
-    const auto height = camera.getPropertyOrValue<double>(CONTEXT_CAMERA_HEIGHT, 1.f);
-    const auto aspect = camera.getPropertyOrValue<double>(CONTEXT_CAMERA_ASPECT, 1.f);
+    const auto height = camera.getPropertyOrValue<double>(CAMERA_PROPERTY_HEIGHT.name.c_str(), DEFAULT_CAMERA_HEIGHT);
+    const auto aspect =
+        camera.getPropertyOrValue<double>(CAMERA_PROPERTY_ASPECT_RATIO.name.c_str(), DEFAULT_CAMERA_ASPECT_RATIO);
 
     const Vector3d dir = normalize(target - position);
 

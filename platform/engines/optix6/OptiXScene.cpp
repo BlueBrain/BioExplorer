@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -46,21 +44,20 @@ OptiXScene::OptiXScene(AnimationParameters& animationParameters, GeometryParamet
     , _lightBuffer(nullptr)
 {
     _backgroundMaterial = std::make_shared<OptiXMaterial>();
-    auto oc = OptiXContext::get().getOptixContext();
+    auto context = OptiXContext::get().getOptixContext();
 
     // To avoid crashes we need to initialize some buffers and variables
     // even if they are not always used in CUDA kernels.
-
     { // Create dummy texture sampler
-        ::optix::TextureSampler sampler = oc->createTextureSampler();
+        ::optix::TextureSampler sampler = context->createTextureSampler();
         sampler->setArraySize(1u);
-        optix::Buffer buffer = oc->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 1, 1);
+        optix::Buffer buffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 1, 1);
         sampler->setBuffer(buffer);
         _dummyTextureSampler = sampler;
     }
 
     // Create dummy simulation data
-    oc["simulation_data"]->setBuffer(oc->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, 0));
+    context[CONTEXT_USER_DATA]->setBuffer(context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, 0));
 }
 
 OptiXScene::~OptiXScene()
@@ -100,7 +97,7 @@ bool OptiXScene::commitLights()
             const Vector3f color = light->_color;
             BasicLight optixLight = {{position.x, position.y, position.z},
                                      {color.x, color.y, color.z},
-                                     1, // Casts shadows
+                                     1, // Casts shadowIntensity
                                      BASIC_LIGHT_TYPE_POINT};
             _optixLights.push_back(optixLight);
             break;
@@ -112,7 +109,7 @@ bool OptiXScene::commitLights()
             const Vector3f color = light->_color;
             BasicLight optixLight = {{direction.x, direction.y, direction.z},
                                      {color.x, color.y, color.z},
-                                     1, // Casts shadows
+                                     1, // Casts shadowIntensity
                                      BASIC_LIGHT_TYPE_DIRECTIONAL};
             _optixLights.push_back(optixLight);
             break;

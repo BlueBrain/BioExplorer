@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -136,8 +134,8 @@ void OptiXModel::_commitSpheres(const size_t materialId)
     _optixSpheres[materialId] = OptiXContext::get().createGeometry(OptixGeometryType::sphere);
     _optixSpheres[materialId]->setPrimitiveCount(spheres.size());
 
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _spheresBuffers[materialId], _optixSpheres[materialId]["spheres"],
-              spheres, sizeof(Sphere) * spheres.size());
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _spheresBuffers[materialId],
+              _optixSpheres[materialId][OPTIX_GEOMETRY_PROPERTY_SPHERES], spheres, sizeof(Sphere) * spheres.size());
 
     // Material
     auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
@@ -169,8 +167,9 @@ void OptiXModel::_commitCylinders(const size_t materialId)
     auto& optixCylinders = _optixCylinders[materialId];
     optixCylinders->setPrimitiveCount(cylinders.size());
 
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _cylindersBuffers[materialId], _optixCylinders[materialId]["cylinders"],
-              cylinders, sizeof(Cylinder) * cylinders.size());
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _cylindersBuffers[materialId],
+              _optixCylinders[materialId][OPTIX_GEOMETRY_PROPERTY_CYLINDERS], cylinders,
+              sizeof(Cylinder) * cylinders.size());
 
     auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
     const auto material = mat.getOptixMaterial();
@@ -200,8 +199,8 @@ void OptiXModel::_commitCones(const size_t materialId)
     auto& optixCones = _optixCones[materialId];
     optixCones->setPrimitiveCount(cones.size());
 
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _conesBuffers[materialId], _optixCones[materialId]["cones"], cones,
-              sizeof(Cone) * cones.size());
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _conesBuffers[materialId],
+              _optixCones[materialId][OPTIX_GEOMETRY_PROPERTY_CONES], cones, sizeof(Cone) * cones.size());
 
     auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
     auto material = mat.getOptixMaterial();
@@ -230,16 +229,20 @@ void OptiXModel::_commitMeshes(const size_t materialId)
     optixMeshes->setPrimitiveCount(meshes.indices.size());
 
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3, _meshesBuffers[materialId].vertices_buffer,
-              _optixMeshes[materialId]["vertices_buffer"], meshes.vertices, meshes.vertices.size());
+              _optixMeshes[materialId][OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_VERTEX], meshes.vertices,
+              meshes.vertices.size());
 
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_INT3, _meshesBuffers[materialId].indices_buffer,
-              _optixMeshes[materialId]["indices_buffer"], meshes.indices, meshes.indices.size());
+              _optixMeshes[materialId][OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_INDEX], meshes.indices,
+              meshes.indices.size());
 
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3, _meshesBuffers[materialId].normal_buffer,
-              _optixMeshes[materialId]["normal_buffer"], meshes.normals, meshes.normals.size());
+              _optixMeshes[materialId][OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_NORMAL], meshes.normals,
+              meshes.normals.size());
 
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT2, _meshesBuffers[materialId].texcoord_buffer,
-              _optixMeshes[materialId]["texcoord_buffer"], meshes.textureCoordinates, meshes.textureCoordinates.size());
+              _optixMeshes[materialId][OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_TEXTURE_COORDINATES],
+              meshes.textureCoordinates, meshes.textureCoordinates.size());
 
     auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
     auto material = mat.getOptixMaterial();
@@ -344,10 +347,12 @@ void OptiXModel::_commitStreamlines(const size_t materialId)
     optixStreamlines->setPrimitiveCount(indexCurve.size());
 
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, _streamlinesBuffers[materialId].vertices_buffer,
-              _optixStreamlines[materialId]["vertices_buffer"], vertexCurve, vertexCurve.size());
+              _optixStreamlines[materialId][OPTIX_GEOMETRY_PROPERTY_STREAMLINE_VERTEX], vertexCurve,
+              vertexCurve.size());
 
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_INT, _streamlinesBuffers[materialId].indices_buffer,
-              _optixStreamlines[materialId]["indices_buffer"], indexCurve, indexCurve.size());
+              _optixStreamlines[materialId][OPTIX_GEOMETRY_PROPERTY_STREAMLINE_MESH_INDEX], indexCurve,
+              indexCurve.size());
 
     auto& material = static_cast<OptiXMaterial&>(*_materials[materialId]);
     auto optixMaterial = material.getOptixMaterial();
@@ -494,8 +499,9 @@ void OptiXModel::commitVolumesBuffers(const size_t materialId)
     for (const auto& volumeGeometry : _volumeGeometries)
         volumeGeometries.push_back(volumeGeometry.second);
 
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _volumesBuffers[materialId], _optixVolumes[materialId]["volumes"],
-              volumeGeometries, sizeof(VolumeGeometry) * volumeGeometries.size());
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _volumesBuffers[materialId],
+              _optixVolumes[materialId][OPTIX_GEOMETRY_PROPERTY_VOLUMES], volumeGeometries,
+              sizeof(VolumeGeometry) * volumeGeometries.size());
 }
 
 BrickedVolumePtr OptiXModel::createBrickedVolume(const Vector3ui& /*dimensions*/, const Vector3f& /*spacing*/,

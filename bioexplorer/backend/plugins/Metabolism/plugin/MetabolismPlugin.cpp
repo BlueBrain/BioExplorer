@@ -26,6 +26,7 @@
 #include <plugin/common/Utils.h>
 
 #include <platform/core/common/ActionInterface.h>
+#include <platform/core/common/Properties.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
@@ -59,12 +60,12 @@ void _addMetabolismRenderer(Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_METABOLISM);
     PropertyMap properties;
-    properties.setProperty({"mainExposure", 1., 1., 10., {"Exposure"}});
+    properties.setProperty(COMMON_PROPERTY_EXPOSURE);
     properties.setProperty({"rayStep", 0.1, 0.01, 10., {"Ray marching step"}});
     properties.setProperty({"nearPlane", 10., 0.01, 1e6, {"Near plane"}});
     properties.setProperty({"farPlane", 50., 0.01, 1e6, {"Far plane"}});
     properties.setProperty({"refinementSteps", 64, 1, 256, {"Refinement steps"}});
-    properties.setProperty({"alphaCorrection", 1., 0.001, 1., {"Alpha correction"}});
+    properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
     properties.setProperty({"noiseFrequency", 1., 0., 100., {"Noise frequency"}});
     properties.setProperty({"noiseAmplitude", 1., 0.00001, 10., {"Noise amplitude"}});
     properties.setProperty({"colorMapPerRegion", true, {"Color map per region"}});

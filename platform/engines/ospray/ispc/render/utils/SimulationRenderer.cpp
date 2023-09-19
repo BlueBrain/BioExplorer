@@ -26,6 +26,7 @@
 #include <platform/engines/ospray/ispc/geometry/Cones.h>
 #include <platform/engines/ospray/ispc/geometry/SDFGeometries.h>
 
+#include <platform/core/common/Properties.h>
 #include <platform/core/common/geometry/Cone.h>
 #include <platform/core/common/geometry/Cylinder.h>
 #include <platform/core/common/geometry/SDFGeometry.h>
@@ -59,28 +60,26 @@ void SimulationRenderer::commit()
 {
     AbstractRenderer::commit();
 
-    _secondaryModel = (ospray::Model*)getParamObject("secondaryModel", nullptr);
-    _maxDistanceToSecondaryModel = getParam1f("maxDistanceToSecondaryModel", 30.f);
-
-    _simulationData = getParamData("simulationData");
+    _secondaryModel = (ospray::Model*)getParamObject(RENDERER_PROPERTY_SECONDARY_MODEL, nullptr);
+    _maxDistanceToSecondaryModel = getParam1f(RENDERER_PROPERTY_MAX_DISTANCE_TO_SECONDARY_MODEL.name.c_str(),
+                                              DEFAULT_RENDERER_MAX_DISTANCE_TO_SECONDARY_MODEL);
+    _simulationData = getParamData(RENDERER_PROPERTY_USER_DATA);
     _simulationDataSize = _simulationData ? _simulationData->size() : 0;
-
-    _alphaCorrection = getParam1f("alphaCorrection", 0.5f);
-    _fogThickness = getParam1f("fogThickness", 1e6f);
-    _fogStart = getParam1f("fogStart", 0.f);
-
-    _exposure = getParam1f("mainExposure", 1.f);
-    _timestamp = getParam1f("timestamp", 0.f);
-    _epsilonFactor = getParam1f("epsilonFactor", 1.f);
-
-    _maxBounces = getParam1i("maxBounces", 3);
+    _alphaCorrection = getParam1f(RENDERER_PROPERTY_ALPHA_CORRECTION.name.c_str(), DEFAULT_RENDERER_ALPHA_CORRECTION);
+    _fogStart = getParam1f(RENDERER_PROPERTY_FOG_START.name.c_str(), DEFAULT_RENDERER_FOG_START);
+    _fogThickness = getParam1f(RENDERER_PROPERTY_FOG_THICKNESS.name.c_str(), DEFAULT_RENDERER_FOG_THICKNESS);
+    _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
+    _timestamp = getParam1f(RENDERER_PROPERTY_TIMESTAMP, DEFAULT_RENDERER_TIMESTAMP);
+    _epsilonFactor = getParam1f(RENDERER_PROPERTY_EPSILON_MULTIPLIER.name.c_str(), DEFAULT_RENDERER_EPSILON_MULTIPLIER);
+    _maxBounces = getParam1i(RENDERER_PROPERTY_MAX_RAY_DEPTH.name.c_str(), DEFAULT_RENDERER_MAX_RAY_DEPTH);
     _randomNumber = rand() % 1000;
-
-    _useHardwareRandomizer = getParam(RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, 0);
-    _showBackground = getParam("showBackground", 0);
+    _useHardwareRandomizer =
+        getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(), DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER);
+    _showBackground = getParam(RENDERER_PROPERTY_SHOW_BACKGROUND.name.c_str(), DEFAULT_RENDERER_SHOW_BACKGROUND);
 
     // Transfer function
-    ospray::TransferFunction* transferFunction = (ospray::TransferFunction*)getParamObject("transferFunction", nullptr);
+    ospray::TransferFunction* transferFunction =
+        (ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, nullptr);
     if (transferFunction)
         ispc::SimulationRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 }

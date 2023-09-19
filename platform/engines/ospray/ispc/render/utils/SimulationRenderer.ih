@@ -46,10 +46,10 @@ struct SimulationRenderer
     // Shading
     float exposure;
     bool showBackground;
-    uint32 maxBounces;
+    uint32 maxRayDepth;
 
     // Geometry
-    float epsilonFactor;
+    float epsilonMultiplier;
 
     // Volumes
     float alphaCorrection;

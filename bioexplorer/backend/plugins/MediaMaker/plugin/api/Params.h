@@ -50,7 +50,7 @@ struct CameraDefinition
     std::vector<double> direction;
     std::vector<double> up;
     double apertureRadius{0.0};
-    double focusDistance{1e6};
+    double focalDistance{1e6};
     double interpupillaryDistance{0.0};
 };
 bool from_json(CameraDefinition &param, const std::string &payload);

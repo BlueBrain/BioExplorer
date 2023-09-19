@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -85,7 +83,7 @@ public:
 protected:
     void parse(const po::variables_map& vm) final;
 
-    std::string _engine{"ospray"};
+    std::string _engine{ENGINE_OSPRAY};
     std::vector<std::string> _modules;
     Vector2d _windowSize;
     bool _benchmarking{false};

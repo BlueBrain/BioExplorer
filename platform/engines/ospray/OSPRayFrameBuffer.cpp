@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -23,6 +21,7 @@
  */
 
 #include "OSPRayFrameBuffer.h"
+#include "OSPRayProperties.h"
 #include "Utils.h"
 
 #include <ospray/SDK/common/OSPCommon.h>
@@ -65,7 +64,7 @@ OSPRayFrameBuffer::~OSPRayFrameBuffer()
 void OSPRayFrameBuffer::resize(const Vector2ui& frameSize)
 {
     if (glm::compMul(frameSize) == 0)
-        throw std::runtime_error("Invalid size for framebuffer resize");
+        throw std::runtime_error("Invalid size for frame buffer resize");
 
     if (_frameBuffer && _frameSize == frameSize)
         return;
@@ -91,7 +90,7 @@ void OSPRayFrameBuffer::_recreate()
     _frameBuffer = ospNewFrameBuffer(size, toOSPFrameBufferFormat(_frameBufferFormat), attributes);
     if (_pixelOp)
         ospSetPixelOp(_frameBuffer, _pixelOp);
-    osphelper::set(_frameBuffer, "name", getName());
+    osphelper::set(_frameBuffer, OSPRAY_FRAME_BUFFER_PROPERTY_NAME, getName());
     ospCommit(_frameBuffer);
 
     _recreateSubsamplingBuffer();
