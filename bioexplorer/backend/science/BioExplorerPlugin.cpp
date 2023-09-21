@@ -28,6 +28,7 @@
 #include <science/common/Assembly.h>
 #include <science/common/GeneralSettings.h>
 #include <science/common/Logs.h>
+#include <science/common/Properties.h>
 #include <science/common/Utils.h>
 #include <science/io/CacheLoader.h>
 #include <science/io/OOCManager.h>
@@ -70,11 +71,6 @@ using namespace vasculature;
 #endif
 
 const std::string PLUGIN_API_PREFIX = "be-";
-const std::string RENDERER_GOLGI_STYLE = "bio_explorer_golgi_style";
-const std::string RENDERER_DENSITY = "bio_explorer_density";
-const std::string RENDERER_FIELDS = "bio_explorer_fields";
-const std::string RENDERER_PATH_TRACING = "bio_explorer_path_tracing";
-const std::string RENDERER_VOXEL = "bio_explorer_voxel";
 
 #if !defined(DOXYGEN_SHOULD_SKIP_THIS)
 
@@ -145,8 +141,9 @@ void _addBioExplorerVoxelRenderer(Engine &engine)
     PLUGIN_REGISTER_RENDERER(RENDERER_VOXEL);
     PropertyMap properties;
     properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
-    properties.setProperty({"simulationThreshold", 0., 0., 1., {"Simulation threshold"}});
+    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_VOXEL_SIMULATION_THRESHOLD);
     properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+    properties.setProperty(RENDERER_PROPERTY_MAX_RAY_DEPTH);
     properties.setProperty(RENDERER_PROPERTY_EPSILON_MULTIPLIER);
     engine.addRendererType(RENDERER_VOXEL, properties);
 }
@@ -155,16 +152,18 @@ void _addBioExplorerFieldsRenderer(Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_FIELDS);
     PropertyMap properties;
-    properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
-    properties.setProperty({"minRayStep", 0.001, 0.001, 1.0, {"Smallest ray step"}});
-    properties.setProperty({"nbRaySteps", 8, 1, 2048, {"Number of ray marching steps"}});
-    properties.setProperty({"nbRayRefinementSteps", 8, 1, 1000, {"Number of ray marching refinement steps"}});
-    properties.setProperty({"cutoff", 2000.0, 0.0, 1e5, {"cutoff"}});
+    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_MIN_RAY_STEP);
+    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_STEPS);
+    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_REFINEMENT_STEPS);
+    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_CUTOFF_DISTANCE);
     properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
     const auto &params = engine.getParametersManager().getApplicationParameters();
     const auto &engineName = params.getEngine();
     if (engineName == ENGINE_OSPRAY)
+    {
+        properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
         properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+    }
     engine.addRendererType(RENDERER_FIELDS, properties);
 }
 
@@ -173,8 +172,8 @@ void _addBioExplorerDensityRenderer(Engine &engine)
     PLUGIN_REGISTER_RENDERER(RENDERER_DENSITY);
     PropertyMap properties;
     properties.setProperty({"rayStep", 2.0, 1.0, 1024.0, {"Ray marching step"}});
-    properties.setProperty({"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
-    properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
+    properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_SAMPLES);
+    properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_STRENGTH);
     properties.setProperty({"farPlane", 1000.0, 1.0, 1e6, {"Far plane"}});
     properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
     const auto &params = engine.getParametersManager().getApplicationParameters();
@@ -188,14 +187,16 @@ void _addBioExplorerPathTracingRenderer(Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_PATH_TRACING);
     PropertyMap properties;
-    properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
     properties.setProperty(RENDERER_PROPERTY_SHOW_BACKGROUND);
-    properties.setProperty({"aoStrength", 1.0, 0.0001, 10.0, {"Sample search strength"}});
-    properties.setProperty({"aoDistance", 1e6, 0.1, 1e6, {"Sample search distance"}});
+    properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_STRENGTH);
+    properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH);
     const auto &params = engine.getParametersManager().getApplicationParameters();
     const auto &engineName = params.getEngine();
     if (engineName == ENGINE_OSPRAY)
+    {
+        properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
         properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+    }
     engine.addRendererType(RENDERER_PATH_TRACING, properties);
 }
 
@@ -203,8 +204,8 @@ void _addBioExplorerGolgiStyleRenderer(Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_GOLGI_STYLE);
     PropertyMap properties;
-    properties.setProperty({"exponent", 5., 0.1, 10., {"Exponent"}});
-    properties.setProperty({"inverse", false, {"Inverse"}});
+    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_GOLGI_EXPONENT);
+    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_GOLGI_INVERSE);
     engine.addRendererType(RENDERER_GOLGI_STYLE, properties);
 }
 

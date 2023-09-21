@@ -45,7 +45,7 @@ void AlbedoRenderer::commit()
     SimulationRenderer::commit();
 
     ispc::AlbedoRenderer_set(getIE(), spp, _maxBounces, _useHardwareRandomizer,
-                             _simulationData ? (float*)_simulationData->data : nullptr, _simulationDataSize);
+                             _userData ? (float*)_userData->data : nullptr, _simulationDataSize);
 }
 
 AlbedoRenderer::AlbedoRenderer()

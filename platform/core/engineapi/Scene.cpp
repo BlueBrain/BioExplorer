@@ -335,6 +335,7 @@ void Scene::buildDefault()
         ++materialId;
     }
 
+/*
     {
         // Lamp
         auto material = model->createMaterial(materialId, "lamp");
@@ -351,6 +352,7 @@ void Scene::buildDefault()
         triangleMesh.indices.push_back(Vector3i(2, 1, 0));
         triangleMesh.indices.push_back(Vector3i(0, 3, 2));
     }
+*/
 #else
     for (size_t materialId = 0; materialId < 10; ++materialId)
     {

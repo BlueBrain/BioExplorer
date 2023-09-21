@@ -6,6 +6,8 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
+ * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -32,6 +34,11 @@ namespace core
 {
 OptiXMaterial::~OptiXMaterial()
 {
+    for (auto textureSampler : _textureSamplers)
+    {
+        RT_DESTROY(textureSampler.second);
+    }
+
     RT_DESTROY(_optixMaterial);
 }
 

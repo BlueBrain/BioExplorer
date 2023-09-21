@@ -36,7 +36,7 @@ const uint OFFSET_VOLUME_TEXTURE_SAMPLER_ID = OFFSET_SPACING + 3;
 const uint OFFSET_TRANSFER_FUNCTION_TEXTURE_SAMPLER_ID = OFFSET_VOLUME_TEXTURE_SAMPLER_ID + 1;
 const uint OFFSET_VALUE_RANGE = OFFSET_TRANSFER_FUNCTION_TEXTURE_SAMPLER_ID + 1;
 
-rtDeclareVariable(unsigned int, volume_size, , );
+rtDeclareVariable(uint, volume_size, , );
 
 rtBuffer<float> volumes;
 
@@ -65,7 +65,7 @@ static __device__ void intersect_volume(int primIdx)
     float t1 = fminf(far);
 
     const ::optix::size_t2 screen = output_buffer.size();
-    unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
+    uint seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
 
     const float diag = min(spacing.x, min(spacing.y, spacing.z));
     const float step = diag / volumeSamplingRate;

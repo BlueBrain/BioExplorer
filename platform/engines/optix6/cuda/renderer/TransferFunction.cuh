@@ -18,11 +18,31 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <optix_world.h>
+#include <platform/engines/optix6/cuda/Context.cuh>
 
 static __device__ inline float4 calcTransferFunctionColor(const int sampleId, const float2& valueRange,
                                                           const float value)
 {
     const float texcoord = (value - valueRange.x) / (valueRange.y - valueRange.x);
     return optix::rtTex1D<float4>(sampleId, texcoord);
+}
+
+/**
+ * @brief Get the User Data object
+ *
+ * Note that the user data index to the user data buffer is currently stored in the x coordinates
+ *
+ * @return Color of the user data value after transfer function is applied
+ */
+static __device__ inline float4 getUserData()
+{
+    float4 color = make_float4(0.f);
+    if (cast_user_data && userDataBuffer.size() > 0)
+    {
+        const ulong idx = userDataIndex;
+        color = (idx >= userDataBuffer.size())
+                    ? bad_color
+                    : calcTransferFunctionColor(transfer_function_map, value_range, userDataBuffer[idx]);
+    }
+    return color;
 }

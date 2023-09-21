@@ -74,7 +74,7 @@ Renderer properties
 static const char* RENDERER_PROPERTY_TYPE_BASIC = "basic";
 static const char* RENDERER_PROPERTY_TYPE_ADVANCED = "advanced";
 
-static const char* RENDERER_PROPERTY_USER_DATA = "userData";
+static const char* RENDERER_PROPERTY_USER_DATA = "userDataBuffer";
 static const char* RENDERER_PROPERTY_SECONDARY_MODEL = "secondaryModel";
 static const char* RENDERER_PROPERTY_TRANSFER_FUNCTION = "transferFunction";
 static const char* RENDERER_PROPERTY_BACKGROUND_MATERIAL = "bgMaterial";

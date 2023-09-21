@@ -32,14 +32,14 @@ using namespace optix;
 #define OFFSET_TEX_COORDS (OFFSET_TIMESTAMP + 1)
 
 // Global variables
-rtDeclareVariable(unsigned int, cylinder_size, , );
+rtDeclareVariable(uint, cylinder_size, , );
 rtBuffer<float> cylinders;
 
 template <bool use_robust_method>
 static __device__ void intersect_cylinder(int primIdx)
 {
     const int idx = primIdx * cylinder_size;
-    const unsigned long userData = *((unsigned long*)(&cylinders[idx + OFFSET_USER_DATA]));
+    const ulong userData = *((ulong*)(&cylinders[idx + OFFSET_USER_DATA]));
 
     const float3 v0 = {cylinders[idx + OFFSET_CENTER], cylinders[idx + OFFSET_CENTER + 1],
                        cylinders[idx + OFFSET_CENTER + 2]};

@@ -25,7 +25,7 @@
 using namespace optix;
 
 // Pass 'seed' by reference to keep randomness state
-__device__ float4 launch(unsigned int& seed, const float2 screen, const bool use_randomness)
+__device__ float4 launch(uint& seed, const float2 screen, const bool use_randomness)
 {
     float3 ray_origin = eye;
 
@@ -91,7 +91,7 @@ RT_PROGRAM void perspectiveCamera()
     const size_t2 screen = output_buffer.size();
     const float2 screen_f = make_float2(screen);
 
-    unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
+    uint seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
 
     const int num_samples = max(1, samples_per_pixel);
     const bool use_randomness = frame > 0 || num_samples > 1;

@@ -23,27 +23,35 @@
 
 #include <platform/engines/optix6/cuda/Helpers.cuh>
 #include <platform/engines/optix6/cuda/Random.cuh>
+#include <platform/engines/optix6/cuda/renderer/TransferFunction.cuh>
 
 using namespace optix;
 
-static __device__ inline void shade()
+static __device__ inline void shade(bool textured)
 {
     const float3 world_shading_normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
     const float3 world_geometric_normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
     float3 normal = faceforward(world_shading_normal, -ray.direction, world_geometric_normal);
 
-    // Glossiness
+    float3 color;
+    if (textured && albedoMetallic_map)
+        color = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
+    else
+        color = Kd;
+
+    const float4 userDataColor = getUserData();
+    color = color * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;
+
+    // Glossiness7
     if (glossiness < 1.f)
     {
         optix::size_t2 screen = output_buffer.size();
-        unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
+        uint seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
         normal = optix::normalize(normal + (1.f - glossiness) *
                                                make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f));
     }
 
-    float3 color = Kd;
     const float3 hit_point = ray.origin + t_hit * ray.direction;
-
     const float opacity = fmaxf(Ko);
     if (opacity > 0.f && prd.depth < maxRayDepth - 1)
     {
@@ -87,10 +95,10 @@ RT_PROGRAM void any_hit_shadow()
 
 RT_PROGRAM void closest_hit_radiance()
 {
-    shade();
+    shade(false);
 }
 
 RT_PROGRAM void closest_hit_radiance_textured()
 {
-    shade();
+    shade(true);
 }

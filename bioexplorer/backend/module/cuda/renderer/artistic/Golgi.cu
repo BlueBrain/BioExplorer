@@ -23,18 +23,10 @@
 
 #include <optix_world.h>
 
-#include <platform/engines/optix6/OptiXCommonStructs.h>
+#include <platform/engines/optix6/cuda/Context.cuh>
 
-// Scene
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
-rtDeclareVariable(PerRayData_radiance, prd, rtPayload, );
-rtDeclareVariable(float3, eye, , );
-rtDeclareVariable(float, t_hit, rtIntersectionDistance, );
 rtDeclareVariable(float, exponent, , );
 rtDeclareVariable(uint, inverse, , );
-
-// Material attributes
-rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
 
 static __device__ inline void shade()
 {

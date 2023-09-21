@@ -31,21 +31,19 @@ static __device__ inline void shade()
 {
     const float3 hit_point = ray.origin + t_hit * ray.direction;
     float3 color = make_float3(0.f);
-    if (prd.depth < maxRayDepth && cast_user_data && userData.size() > 0)
+    if (prd.depth < maxRayDepth)
     {
-        const float4 userDataColor =
-            calcTransferFunctionColor(transfer_function_map, value_range, userData[userDataIndex]);
+        PerRayData_radiance new_prd;
+        const float4 userDataColor = getUserData();
         if (userDataColor.w >= simulationThreshold)
         {
-            color = color * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;
-            prd.importance = userDataColor.w * alphaCorrection;
+            color = color * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w * alphaCorrection;
+            new_prd.importance = userDataColor.w * alphaCorrection;
         }
         else
-            prd.importance = 0.f;
+            new_prd.importance = 0.f;
 
-        PerRayData_radiance new_prd;
         new_prd.depth = prd.depth + 1;
-
         const optix::Ray new_ray = optix::make_Ray(hit_point, ray.direction, radianceRayType, sceneEpsilon, ray.tmax);
         rtTrace(top_object, new_ray, new_prd);
     }

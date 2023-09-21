@@ -53,13 +53,13 @@ static __device__ void dicomShade(const bool textured)
 
     float3 normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
     size_t2 screen = output_buffer.size();
-    unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
+    uint seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
 
     // Shadows
     float light_attenuation = 1.f;
     if (shadowIntensity > 0.f)
     {
-        unsigned int num_lights = lights.size();
+        uint num_lights = lights.size();
         for (int i = 0; i < num_lights; ++i)
         {
             BasicLight light = lights[i];
@@ -99,7 +99,7 @@ static __device__ void dicomShade(const bool textured)
     // Shading
     if (light_attenuation > 0.f && volumeGradientShadingEnabled)
     {
-        unsigned int num_lights = lights.size();
+        uint num_lights = lights.size();
         for (int i = 0; i < num_lights; ++i)
         {
             // Phong

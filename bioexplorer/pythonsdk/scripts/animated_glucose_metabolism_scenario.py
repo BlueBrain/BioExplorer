@@ -723,49 +723,49 @@ class GlucoseMetabolismScenario(MovieScenario):
             {
                 'apertureRadius': aperture,
                 'direction': [-0.0, 0.0, -1.0],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [-0.12309164325388476, -68.17223360869282, 528.224633426888],
                 'up': [-1.0, -6.661338147750939e-16, 0.0]
             },
             {
                 'apertureRadius': aperture,
                 'direction': [-0.0, 0.0, -1.0],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [-0.12309164325388476, -68.17223360869282, 140.11376864318507],
                 'up': [-1.0, -6.661338147750939e-16, 0.0]
             },
             {
                 'apertureRadius': aperture,
                 'direction': [0.0, 1.0, -2.220446049250313e-16],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [-28.5, -67.86393737792969, -2.0],
                 'up': [-0.0, 2.220446049250313e-16, 1.0]
             },
             {
                 'apertureRadius': aperture,
                 'direction': [-0.0, 1.0, -4.440892098500626e-16],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [-29.22458300330654, -18.82142928630076, -2.386302379782111],
                 'up': [0.0, 4.440892098500626e-16, 1.0]
             },
             {
                 'apertureRadius': aperture,
                 'direction': [-0.0, 1.0, -2.220446049250313e-16],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [-29.22458300330654, -0.82142928630076, -2.386302379782111],
                 'up': [0.0, 2.220446049250313e-16, 1.0]
             },
             {
                 'apertureRadius': aperture,
                 'direction': [0.9999970255814865, 1.5866404717910239e-21, -0.0024390219719829798],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [-117.00812364660472, -14.7012431105328, -16.27792336717559],
                 'up': [0.0, 1.0, 6.505232384196665e-19]
             },
             {
                 'apertureRadius': aperture,
                 'direction': [0.9999970255814865, 1.5866404717910239e-21, -0.0024390219719829798],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [-117.00812364660472, -14.7012431105328, -16.27792336717559],
                 'up': [0.0, 1.0, 6.505232384196665e-19]
             }

@@ -417,70 +417,70 @@ class NeuromodulationScenario(MovieScenario):
             {
                 'apertureRadius': aperture,
                 'direction': [-0.8567466019896534, -0.2935542128559732, -0.42404148864668023],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [226503.11469778, 1142396.388033219, 429603.3430434604],
                 'up': [-0.23865856208548414, 0.9545366945220539, -0.1786107207146317]
             },
             {
                 'apertureRadius': aperture,
                 'direction': [-0.8774240248499731, -0.28853039754422877, -0.3832457309730182],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [81533.66171824484, 1092225.2105497972, 342254.1077413495],
                 'up': [-0.24885532118265122, 0.9567656315113919, -0.15056744494639906]
             }, 
             {
                 'apertureRadius': aperture,
                 'direction': [-1.0, 0.0, -2.220446049250313e-16],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [65388.56508492622, 1085758.185925619, 333209.7135301765],
                 'up': [0.0, 1.0, 0.0]
             },
             {
                 'apertureRadius': aperture,
                 'direction': [-1.0, 0.0, -2.220446049250313e-16],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [65388.56508492622, 1085758.185925619, 333209.7135301765],
                 'up': [0.0, 1.0, 0.0]
             },
             {
                 'apertureRadius': aperture,
                 'direction': [-1.0, 0.0, -2.220446049250313e-16],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [65388.56508492622, 1085758.185925619, 333209.7135301765],
                 'up': [0.0, 1.0, 0.0]
             },
             {
                 'apertureRadius': aperture,
                 'direction': [0.24494364376278907, 0.1756421722455308, -0.9534948551036231],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [35140, 1063763, 354702],
                 'up': [0.011431871571080332, 0.982861900325922, 0.1839885789936418]
             }, 
             {
                 'apertureRadius': aperture,
                 'direction': [0.2449436437721276, 0.17564217226494977, -0.953494855097647],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [39734.57699805979, 1077057.9739209255, 336820.2550883301],
                 'up': [0.011431871566109829, 0.9828619003223579, 0.18398857901299054]
             },
             {
                 'apertureRadius': aperture,
                 'direction': [0.2449436437721276, 0.17564217226494977, -0.953494855097647],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [39734.57699805979, 1077057.9739209255, 336820.2550883301],
                 'up': [0.011431871566109829, 0.9828619003223579, 0.18398857901299054]
             },
             {
                 'apertureRadius': aperture,
                 'direction': [0.2449436437721276, 0.17564217226494977, -0.953494855097647],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [39734.57699805979, 1077057.9739209255, 336820.2550883301],
                 'up': [0.011431871566109829, 0.9828619003223579, 0.18398857901299054]
             },
             {
                 'apertureRadius': aperture,
                 'direction': [0.2449436437483312, 0.17564217224481946, -0.9534948551074682],
-                'focusDistance': focus,
+                'focalDistance': focus,
                 'origin': [4741.122617675595, 1051965.1556396896, 473039.665412839],
                 'up': [0.011431871571465562, 0.9828619003261981, 0.18398857899214302]
             }

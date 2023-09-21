@@ -45,7 +45,7 @@ protected:
     ospray::Model* _secondaryModel{nullptr};
     float _maxDistanceToSecondaryModel{30.f};
 
-    ospray::Ref<ospray::Data> _simulationData;
+    ospray::Ref<ospray::Data> _userData;
     ospray::uint64 _simulationDataSize;
 
     bool _useHardwareRandomizer{false};

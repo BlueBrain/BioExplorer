@@ -111,10 +111,10 @@ class MovieMaker:
                 ) / float(nb_steps_between_control_points)
                 aperture_radius = p0["apertureRadius"] + t_aperture_radius * float(i)
 
-                t_focus_distance = (p1["focusDistance"] - p0["focusDistance"]) / float(
+                t_focus_distance = (p1["focalDistance"] - p0["focalDistance"]) / float(
                     nb_steps_between_control_points
                 )
-                focus_distance = p0["focusDistance"] + t_focus_distance * float(i)
+                focus_distance = p0["focalDistance"] + t_focus_distance * float(i)
 
                 origins.append(origin)
                 directions.append(direction)
@@ -165,7 +165,7 @@ class MovieMaker:
                 last["direction"],
                 last["up"],
                 last["apertureRadius"],
-                last["focusDistance"],
+                last["focalDistance"],
             )
         )
 

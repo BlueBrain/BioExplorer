@@ -133,13 +133,6 @@ static const char* CONTEXT_VOLUME_SPECULAR_COLOR = "volumeSpecularColor";
 static const char* CONTEXT_VOLUME_CLIPPING_BOX_LOWER = "volumeClippingBoxLower";
 static const char* CONTEXT_VOLUME_CLIPPING_BOX_UPPER = "volumeClippingBoxUpper";
 
-// Transfer function
-static const char* CONTEXT_TRANSFER_FUNCTION_COLORS = "tfColors";
-static const char* CONTEXT_TRANSFER_FUNCTION_OPACITIES = "tfOpacities";
-static const char* CONTEXT_TRANSFER_FUNCTION_SIZE = "tfMapSize";
-static const char* CONTEXT_TRANSFER_FUNCTION_MINIMUM_VALUE = "tfMinValue";
-static const char* CONTEXT_TRANSFER_FUNCTION_RANGE = "tfRange";
-
 // User data
 static const char* CONTEXT_USER_DATA = RENDERER_PROPERTY_USER_DATA;
 

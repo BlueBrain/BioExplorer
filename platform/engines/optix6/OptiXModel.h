@@ -97,7 +97,7 @@ private:
     std::map<size_t, optix::Geometry> _optixVolumes;
 
     // Meshes
-    struct TriangleMesh
+    struct OptiXTriangleMeshBuffers
     {
         optix::Buffer vertices_buffer;
         optix::Buffer normal_buffer;
@@ -105,7 +105,7 @@ private:
         optix::Buffer indices_buffer;
     };
 
-    std::map<size_t, TriangleMesh> _meshesBuffers;
+    std::map<size_t, OptiXTriangleMeshBuffers> _optixMeshBuffers;
     std::map<size_t, optix::Geometry> _optixMeshes;
 
     // Volume
@@ -126,11 +126,8 @@ private:
     std::map<std::string, optix::Buffer> _optixTextures;
     std::map<std::string, optix::TextureSampler> _optixTextureSamplers;
 
-    // Transfer function
-    optix::Buffer _tfColorsBuffer{nullptr};
-    optix::Buffer _tfOpacitiesBuffer{nullptr};
-
-    optix::Buffer _simulationData{nullptr};
+    // User Data
+    optix::Buffer _userData{nullptr};
 
     bool _boundingBoxBuilt = false;
 };

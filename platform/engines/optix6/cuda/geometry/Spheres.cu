@@ -37,7 +37,7 @@ static __device__ void intersect_sphere(int primIdx)
 {
     const int idx = primIdx * sphere_size;
 
-    const unsigned long userData = *((unsigned long*)(&spheres[idx + OFFSET_USER_DATA]));
+    const ulong userData = *((unsigned long*)(&spheres[idx + OFFSET_USER_DATA]));
     const float3 center = {spheres[idx + OFFSET_CENTER], spheres[idx + OFFSET_CENTER + 1],
                            spheres[idx + OFFSET_CENTER + 2]};
     const float3 O = ray.origin - center;

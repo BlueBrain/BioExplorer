@@ -77,8 +77,8 @@ void AdvancedRenderer::commit()
     _epsilonFactor = getParam1f(RENDERER_PROPERTY_EPSILON_MULTIPLIER.name.c_str(), DEFAULT_RENDERER_EPSILON_MULTIPLIER);
     _maxBounces = getParam1i(RENDERER_PROPERTY_MAX_RAY_DEPTH.name.c_str(), DEFAULT_RENDERER_MAX_RAY_DEPTH);
     _randomNumber = rand() % 1000;
-    _useHardwareRandomizer =
-        getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(), DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER);
+    _useHardwareRandomizer = getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(),
+                                      static_cast<int>(DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER));
     _showBackground = getParam(RENDERER_PROPERTY_SHOW_BACKGROUND.name.c_str(), DEFAULT_RENDERER_SHOW_BACKGROUND);
     _shadows = getParam1f(RENDERER_PROPERTY_SHADOW_INTENSITY.name.c_str(), DEFAULT_RENDERER_SHADOW_INTENSITY);
     _softShadows =
@@ -106,7 +106,7 @@ void AdvancedRenderer::commit()
                                _softShadowsSamples, _giStrength, _giDistance, _giSamples, _randomNumber, _timestamp,
                                spp, _lightPtr, _lightArray.size(), _exposure, _epsilonFactor, _fogThickness, _fogStart,
                                _useHardwareRandomizer, _maxBounces, _showBackground, _matrixFilter,
-                               _simulationData ? (float*)_simulationData->data : nullptr, _simulationDataSize,
+                               _userData ? (float*)_userData->data : nullptr, _simulationDataSize,
                                _volumeSamplingThreshold, _volumeSpecularExponent, _volumeAlphaCorrection,
                                (const ispc::vec4f*)clipPlaneData, numClipPlanes);
 }
