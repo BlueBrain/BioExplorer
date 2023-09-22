@@ -102,7 +102,6 @@ void OptiXRenderer::commit()
     const auto bounds = _scene->getBounds();
     const auto epsilon = bounds.getSize().x / 1000.f;
     context[CONTEXT_RENDERER_SCENE_EPSILON]->setFloat(epsilon);
-
     context[CONTEXT_RENDERER_RADIANCE_RAY_TYPE]->setUint(0);
     context[CONTEXT_RENDERER_SHADOW_RAY_TYPE]->setUint(1);
     context[CONTEXT_RENDERER_AMBIENT_LIGHT_COLOR]->setFloat(bgColor.x, bgColor.y, bgColor.z);

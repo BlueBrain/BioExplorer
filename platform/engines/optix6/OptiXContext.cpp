@@ -126,6 +126,9 @@ OptiXContext::OptiXContext()
 
 OptiXContext::~OptiXContext()
 {
+    RT_DESTROY_MAP(_bounds);
+    RT_DESTROY_MAP(_intersects);
+    RT_DESTROY_MAP(_optixTextureSamplers);
     RT_DESTROY(_optixContext);
 }
 

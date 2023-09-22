@@ -33,16 +33,24 @@ namespace core
 {
 #define BRAYNS_OPTIX_SAMPLE_NAME "braynsOptix7Engine"
 
-#define RT_DESTROY(__object)     \
-    try                          \
-    {                            \
-        if (__object)            \
-            __object->destroy(); \
-    }                            \
-    catch (...)                  \
-    {                            \
-    }                            \
-    __object = nullptr;
+#define RT_DESTROY(__object)         \
+    {                                \
+        try                          \
+        {                            \
+            if (__object)            \
+                __object->destroy(); \
+        }                            \
+        catch (...)                  \
+        {                            \
+        }                            \
+        __object = nullptr;          \
+    }
+
+#define RT_DESTROY_MAP(__map)   \
+    for (auto obj : __map)      \
+    {                           \
+        RT_DESTROY(obj.second); \
+    }
 
 static void context_log_cb(unsigned int level, const char* tag, const char* message, void* /*cbdata */)
 {

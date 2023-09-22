@@ -36,12 +36,6 @@
 
 using namespace optix;
 
-#define RT_DESTROY_MAP(__map)   \
-    for (auto obj : __map)      \
-    {                           \
-        RT_DESTROY(obj.second); \
-    }
-
 namespace core
 {
 template <typename T>

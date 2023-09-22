@@ -31,6 +31,7 @@ Camera properties
 */
 static const char* CAMERA_PROPERTY_TYPE_PERSPECTIVE = "perspective";
 static const char* CAMERA_PROPERTY_TYPE_ORTHOGRAPHIC = "orthographic";
+static const char* CAMERA_PROPERTY_TYPE_ANAGLYPH = "anaglyph";
 
 static const char* CAMERA_PROPERTY_POSITION = "pos";
 static const char* CAMERA_PROPERTY_DIRECTION = "dir";
