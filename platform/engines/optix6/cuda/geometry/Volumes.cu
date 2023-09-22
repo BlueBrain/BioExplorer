@@ -103,7 +103,7 @@ static __device__ void intersect_volume(int primIdx)
                         normal = make_float3(0, 1, 0);
 
                     geometric_normal = shading_normal = normal;
-                    simulation_idx = 0;
+                    userDataIndex = 0;
                     texcoord = make_float2(0.f);
                     texcoord3d = p0;
                     rtReportIntersection(0);

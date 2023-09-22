@@ -60,7 +60,7 @@ TEST_CASE("defaults")
 
     auto& pm = core.getParametersManager();
     const auto& appParams = pm.getApplicationParameters();
-    CHECK(appParams.getEngine() == "ospray");
+    CHECK(appParams.getEngine() == ENGINE_OSPRAY);
     CHECK(appParams.getOsprayModules().empty());
     CHECK_EQ(appParams.getWindowSize(), core::Vector2ui(800, 600));
     CHECK(!appParams.isBenchmarking());
@@ -98,8 +98,7 @@ TEST_CASE("defaults")
 TEST_CASE("bvh_type")
 {
     const char* argv[] = {
-        "core",  "demo", "--default-bvh-flag", "robust", "--default-bvh-flag",
-        "compact",
+        "core", "demo", "--default-bvh-flag", "robust", "--default-bvh-flag", "compact",
     };
     const int argc = sizeof(argv) / sizeof(char*);
     core::Core core(argc, argv);

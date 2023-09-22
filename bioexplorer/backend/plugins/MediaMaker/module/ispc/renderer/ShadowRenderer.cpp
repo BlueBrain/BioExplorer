@@ -23,6 +23,8 @@
 
 #include "ShadowRenderer.h"
 
+#include <platform/core/common/Properties.h>
+
 // ospray
 #include <ospray/SDK/lights/Light.h>
 
@@ -30,6 +32,7 @@
 #include "ShadowRenderer_ispc.h"
 
 using namespace ospray;
+using namespace core;
 
 namespace bioexplorer
 {
@@ -41,7 +44,7 @@ void ShadowRenderer::commit()
 {
     Renderer::commit();
 
-    _lightData = (ospray::Data*)getParamData("lights");
+    _lightData = (ospray::Data*)getParamData(RENDERER_PROPERTY_LIGHTS);
     _lightArray.clear();
 
     if (_lightData)
@@ -49,10 +52,10 @@ void ShadowRenderer::commit()
             _lightArray.push_back(((ospray::Light**)_lightData->data)[i]->getIE());
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
-    _softness = getParam1f("softness", 0.f);
-    _samplesPerFrame = getParam1i("samplesPerFrame", 16);
-    _rayLength = getParam1f("rayLength", 1e6f);
-
+    _softness = getParam1f(RENDERER_PROPERTY_SOFT_SHADOW_STRENGTH.name.c_str(), DEFAULT_RENDERER_SOFT_SHADOW_STRENGTH);
+    _samplesPerFrame = getParam1i(RENDERER_PROPERTY_SHADOW_SAMPLES.name.c_str(), DEFAULT_RENDERER_SHADOW_SAMPLES);
+    _rayLength = getParam1f(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH.name.c_str(),
+                            DEFAULT_RENDERER_GLOBAL_ILLUMINATION_RAY_LENGTH);
     ispc::ShadowRenderer_set(getIE(), spp, _lightPtr, _lightArray.size(), _samplesPerFrame, _rayLength, _softness);
 }
 

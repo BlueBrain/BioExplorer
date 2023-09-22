@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -72,7 +70,7 @@ void OptiXFrameBuffer::resize(const Vector2ui& frameSize)
         return;
 
     if (glm::compMul(frameSize) == 0)
-        throw std::runtime_error("Invalid size for framebuffer resize");
+        throw std::runtime_error("Invalid size for frame buffer resize");
 
     _frameSize = frameSize;
     _cleanup();
@@ -234,5 +232,4 @@ void OptiXFrameBuffer::_initializePostProcessingStages()
 
     _postprocessingStagesInitialized = true;
 }
-
 } // namespace core

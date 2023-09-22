@@ -23,6 +23,7 @@
 #include "MetabolismRenderer.h"
 
 // Platform
+#include <platform/core/common/Properties.h>
 #include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
 // ospray
@@ -45,33 +46,32 @@ void MetabolismRenderer::commit()
 {
     Renderer::commit();
 
-    _lightData = (ospray::Data*)getParamData("lights");
+    _lightData = (ospray::Data*)getParamData(RENDERER_PROPERTY_LIGHTS);
     _lightArray.clear();
     if (_lightData)
         for (size_t i = 0; i < _lightData->size(); ++i)
             _lightArray.push_back(((ospray::Light**)_lightData->data)[i]->getIE());
 
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
-
-    _bgMaterial = (Material*)getParamObject("bgMaterial", nullptr);
-
-    _exposure = getParam1f("mainExposure", 1.f);
+    _bgMaterial = (ospray::Material*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
+    _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
 
     // Sampling
     _nearPlane = getParam1f("nearPlane", 0.f);
     _farPlane = getParam1f("farPlane", 1e6f);
     _rayStep = getParam1f("rayStep", 1.f);
-    _alphaCorrection = getParam1f("alphaCorrection", 1.f);
+    _alphaCorrection = getParam1f(RENDERER_PROPERTY_ALPHA_CORRECTION.name.c_str(), DEFAULT_RENDERER_ALPHA_CORRECTION);
     _refinementSteps = getParam1i("refinementSteps", 64);
     _colorMapPerRegion = getParam("colorMapPerRegion", 0);
     _noiseFrequency = getParam1f("noiseFrequency", 1.f);
     _noiseAmplitude = getParam1f("noiseAmplitude", 1.f);
 
-    _userData = getParamData("simulationData");
+    _userData = getParamData(RENDERER_PROPERTY_USER_DATA);
     _userDataSize = _userData ? _userData->size() : 0;
 
     // Transfer function
-    ospray::TransferFunction* transferFunction = (ospray::TransferFunction*)getParamObject("transferFunction", nullptr);
+    ospray::TransferFunction* transferFunction =
+        (ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, nullptr);
     if (transferFunction)
         ispc::MetabolismRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 

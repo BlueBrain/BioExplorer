@@ -21,6 +21,7 @@
 
 // Platform
 #include <platform/core/common/geometry/Cone.h>
+#include <platform/engines/ospray/OSPRayProperties.h>
 
 // ospray
 #include "Cones.h"
@@ -31,6 +32,8 @@
 
 #include <climits>
 
+using namespace core;
+
 namespace ospray
 {
 Cones::Cones()
@@ -40,7 +43,7 @@ Cones::Cones()
 
 void Cones::finalize(ospray::Model* model)
 {
-    data = getParamData("cones", nullptr);
+    data = getParamData(OSPRAY_GEOMETRY_PROPERTY_CONES, nullptr);
     constexpr size_t bytesPerCone = sizeof(core::Cone);
 
     if (data.ptr == nullptr || bytesPerCone == 0)

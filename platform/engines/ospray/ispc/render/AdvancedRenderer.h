@@ -29,7 +29,7 @@ namespace core
 {
 /**
  * @brief The AdvancedRenderer class is a renderer that can
- * perform global illumination (light shading, shadows, ambient occlusion, color
+ * perform global illumination (light shading, shadowIntensity, ambient occlusion, color
  * bleeding, light emission)
  */
 class AdvancedRenderer : public SimulationRenderer

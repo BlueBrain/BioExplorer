@@ -53,7 +53,7 @@ inline vec3f AmbientOcclusionRenderer_shadeRay(const uniform AmbientOcclusionRen
     float oldlocalRefraction = 1.f;
     bool moreRebounds = true;
 
-    while (moreRebounds && depth < self->maxBounces && alpha < 1.f)
+    while (moreRebounds && depth < self->maxRayDepth && alpha < 1.f)
     {
         traceRay(self->super.model, ray);
 
@@ -187,7 +187,7 @@ export void* uniform AmbientOcclusionRenderer_create(void* uniform cppE)
 }
 
 export void AmbientOcclusionRenderer_set(void* uniform _self, const uniform int spp, const uniform int samplesPerFrame,
-                                         const uniform float aoRayLength, const uniform int maxBounces,
+                                         const uniform float aoRayLength, const uniform int maxRayDepth,
                                          const uniform bool useHardwareRandomizer)
 {
     uniform AmbientOcclusionRenderer* uniform self = (uniform AmbientOcclusionRenderer * uniform) _self;
@@ -195,6 +195,6 @@ export void AmbientOcclusionRenderer_set(void* uniform _self, const uniform int 
     self->super.spp = spp;
     self->samplesPerFrame = samplesPerFrame;
     self->aoRayLength = aoRayLength;
-    self->maxBounces = maxBounces;
+    self->maxRayDepth = maxRayDepth;
     self->useHardwareRandomizer = useHardwareRandomizer;
 }

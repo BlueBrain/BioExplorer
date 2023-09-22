@@ -23,6 +23,8 @@
 
 #include "camera/Camera.h"
 
+#include <platform/core/common/Properties.h>
+
 namespace ospray
 {
 //! Implements a clipped FishEye camera
@@ -34,7 +36,7 @@ struct OSPRAY_SDK_INTERFACE FishEyeCamera : public Camera
 
     //! \brief common function to help printf-debugging
     /*! Every derived class should override this! */
-    virtual std::string toString() const { return "ospray::FishEyeCamera"; }
+    virtual std::string toString() const { return "fisheye"; }
     virtual void commit();
 
 public:
@@ -42,9 +44,10 @@ public:
     bool enableClippingPlanes{false};
     Ref<Data> clipPlanes;
 
-    float apertureRadius;
-    float focusDistance;
-    bool useHardwareRandomizer{false};
+    float apertureRadius{core::DEFAULT_CAMERA_APERTURE_RADIUS};
+    float focalDistance{core::DEFAULT_CAMERA_FOCAL_DISTANCE};
+    float exposure{core::DEFAULT_COMMON_EXPOSURE};
+    bool useHardwareRandomizer{core::DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER};
 };
 
 } // namespace ospray

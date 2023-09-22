@@ -121,7 +121,7 @@ static __device__ void intersect_streamlines(int primIdx)
             float s = dot(p - A, B - A) * (1.f / dot(B - A, B - A));
             s = min(max(s, 0.f), 1.f);
             const float3 PonAxis = A + s * (B - A);
-            simulation_idx = 0;
+            userDataIndex = 0;
             texcoord = make_float2(float(primIdx % MAX_TEXTURE_SIZE) / float(MAX_TEXTURE_SIZE),
                                    float(uint(primIdx / MAX_TEXTURE_SIZE)) /
                                        (float(vertices_buffer.size()) / float(MAX_TEXTURE_SIZE)));

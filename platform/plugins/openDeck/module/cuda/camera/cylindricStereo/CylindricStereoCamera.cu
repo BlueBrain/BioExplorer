@@ -43,9 +43,6 @@ rtDeclareVariable(float3, headUVec, , );
 
 rtDeclareVariable(float, half_ipd, , );
 
-rtDeclareVariable(float, aperture_radius, , ); // Unused for now
-rtDeclareVariable(float, focal_scale, , );     // Unused for now
-
 // Pass 'seed' by reference to keep randomness state
 __device__ float4 launch(unsigned int& seed, const float2 screen, const bool use_randomness)
 {

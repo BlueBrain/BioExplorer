@@ -34,6 +34,7 @@
 #include <science/morphologies/SpikeSimulationHandler.h>
 
 #include <platform/core/common/ActionInterface.h>
+#include <platform/core/common/Properties.h>
 #include <platform/core/common/scene/ClipPlane.h>
 #include <platform/core/engineapi/Camera.h>
 #include <platform/core/engineapi/Engine.h>
@@ -49,6 +50,7 @@
 #include <BioExplorer_generated_PathTracing.cu.ptx.h>
 #include <BioExplorer_generated_Voxel.cu.ptx.h>
 #include <platform/engines/optix6/OptiXContext.h>
+#include <platform/engines/optix6/OptiXProperties.h>
 #endif
 
 using namespace core;
@@ -142,10 +144,10 @@ void _addBioExplorerVoxelRenderer(Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_VOXEL);
     PropertyMap properties;
-    properties.setProperty({"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
+    properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
     properties.setProperty({"simulationThreshold", 0., 0., 1., {"Simulation threshold"}});
-    properties.setProperty({"mainExposure", 1.0, 0.01, 10.0, {"Exposure"}});
-    properties.setProperty({"epsilonFactor", 1.0, 1.0, 1000.0, {"Epsilon factor"}});
+    properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+    properties.setProperty(RENDERER_PROPERTY_EPSILON_MULTIPLIER);
     engine.addRendererType(RENDERER_VOXEL, properties);
 }
 
@@ -153,14 +155,16 @@ void _addBioExplorerFieldsRenderer(Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_FIELDS);
     PropertyMap properties;
-    properties.setProperty({"mainExposure", 1., 1., 20., {"Exposure"}});
-    properties.setProperty(
-        {RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
+    properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
     properties.setProperty({"minRayStep", 0.001, 0.001, 1.0, {"Smallest ray step"}});
     properties.setProperty({"nbRaySteps", 8, 1, 2048, {"Number of ray marching steps"}});
     properties.setProperty({"nbRayRefinementSteps", 8, 1, 1000, {"Number of ray marching refinement steps"}});
     properties.setProperty({"cutoff", 2000.0, 0.0, 1e5, {"cutoff"}});
-    properties.setProperty({"alphaCorrection", 1.0, 0.001, 1.0, {"Alpha correction"}});
+    properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
+    const auto &params = engine.getParametersManager().getApplicationParameters();
+    const auto &engineName = params.getEngine();
+    if (engineName == ENGINE_OSPRAY)
+        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
     engine.addRendererType(RENDERER_FIELDS, properties);
 }
 
@@ -168,12 +172,15 @@ void _addBioExplorerDensityRenderer(Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_DENSITY);
     PropertyMap properties;
-    properties.setProperty({"mainExposure", 1.5, 1., 10., {"Exposure"}});
     properties.setProperty({"rayStep", 2.0, 1.0, 1024.0, {"Ray marching step"}});
     properties.setProperty({"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
     properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
     properties.setProperty({"farPlane", 1000.0, 1.0, 1e6, {"Far plane"}});
-    properties.setProperty({"alphaCorrection", 1.0, 0.001, 1.0, {"Alpha correction"}});
+    properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
+    const auto &params = engine.getParametersManager().getApplicationParameters();
+    const auto &engineName = params.getEngine();
+    if (engineName == ENGINE_OSPRAY)
+        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
     engine.addRendererType(RENDERER_DENSITY, properties);
 }
 
@@ -181,12 +188,14 @@ void _addBioExplorerPathTracingRenderer(Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_PATH_TRACING);
     PropertyMap properties;
-    properties.setProperty({"mainExposure", 1., 0.1, 10., {"Exposure"}});
-    properties.setProperty(
-        {RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
-    properties.setProperty({"showBackground", false, {"Show background"}});
+    properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
+    properties.setProperty(RENDERER_PROPERTY_SHOW_BACKGROUND);
     properties.setProperty({"aoStrength", 1.0, 0.0001, 10.0, {"Sample search strength"}});
     properties.setProperty({"aoDistance", 1e6, 0.1, 1e6, {"Sample search distance"}});
+    const auto &params = engine.getParametersManager().getApplicationParameters();
+    const auto &engineName = params.getEngine();
+    if (engineName == ENGINE_OSPRAY)
+        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
     engine.addRendererType(RENDERER_PATH_TRACING, properties);
 }
 
@@ -606,10 +615,12 @@ void BioExplorerPlugin::_createOptiXRenderers()
         const std::string ptx = renderer.second;
 
         auto osp = std::make_shared<OptixShaderProgram>();
-        osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance");
+        osp->closest_hit =
+            context.getOptixContext()->createProgramFromPTXString(ptx, OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE);
         osp->closest_hit_textured =
-            context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance_textured");
-        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "any_hit_shadow");
+            context.getOptixContext()->createProgramFromPTXString(ptx,
+                                                                  OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE_TEXTURED);
+        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, OPTIX_CUDA_FUNCTION_ANY_HIT_SHADOW);
 
         context.addRenderer(renderer.first, osp);
     }
@@ -1635,7 +1646,7 @@ size_t BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
     const Vector3d center{(offset + size / 2.0)};
 
     const size_t materialId = 0;
-    auto material = model->createMaterial(materialId, "default");
+    auto material = model->createMaterial(materialId, DEFAULT);
 
     TriangleMesh box = createBox(offset, offset + size);
     model->getTriangleMeshes()[materialId] = box;

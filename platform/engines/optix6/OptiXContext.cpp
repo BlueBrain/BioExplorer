@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -40,13 +38,12 @@
 
 namespace
 {
-const std::string DEFAULT_ACCELERATION_STRUCTURE = "Trbvh";
-const std::string CUDA_SPHERES = OptiX6Engine_generated_Spheres_cu_ptx;
-const std::string CUDA_CYLINDERS = OptiX6Engine_generated_Cylinders_cu_ptx;
-const std::string CUDA_CONES = OptiX6Engine_generated_Cones_cu_ptx;
-const std::string CUDA_TRIANGLES_MESH = OptiX6Engine_generated_TriangleMesh_cu_ptx;
-const std::string CUDA_VOLUMES = OptiX6Engine_generated_Volumes_cu_ptx;
-const std::string CUDA_STREAMLINES = OptiX6Engine_generated_Streamlines_cu_ptx;
+static const char* CUDA_SPHERES = OptiX6Engine_generated_Spheres_cu_ptx;
+static const char* CUDA_CYLINDERS = OptiX6Engine_generated_Cylinders_cu_ptx;
+static const char* CUDA_CONES = OptiX6Engine_generated_Cones_cu_ptx;
+static const char* CUDA_TRIANGLES_MESH = OptiX6Engine_generated_TriangleMesh_cu_ptx;
+static const char* CUDA_VOLUMES = OptiX6Engine_generated_Volumes_cu_ptx;
+static const char* CUDA_STREAMLINES = OptiX6Engine_generated_Streamlines_cu_ptx;
 
 template <typename T>
 T white();
@@ -348,31 +345,35 @@ void OptiXContext::_initialize()
     _optixContext->setStackSize(OPTIX_STACK_SIZE);
     _optixContext->setMaxTraceDepth(OPTIX_MAX_TRACE_DEPTH);
 
-    _bounds[OptixGeometryType::cone] = _optixContext->createProgramFromPTXString(CUDA_CONES, CUDA_FUNC_BOUNDS);
+    _bounds[OptixGeometryType::cone] =
+        _optixContext->createProgramFromPTXString(CUDA_CONES, OPTIX_CUDA_FUNCTION_BOUNDS);
     _intersects[OptixGeometryType::cone] =
-        _optixContext->createProgramFromPTXString(CUDA_CONES, CUDA_FUNC_INTERSECTION);
+        _optixContext->createProgramFromPTXString(CUDA_CONES, OPTIX_CUDA_FUNCTION_INTERSECTION);
 
-    _bounds[OptixGeometryType::cylinder] = _optixContext->createProgramFromPTXString(CUDA_CYLINDERS, CUDA_FUNC_BOUNDS);
+    _bounds[OptixGeometryType::cylinder] =
+        _optixContext->createProgramFromPTXString(CUDA_CYLINDERS, OPTIX_CUDA_FUNCTION_BOUNDS);
     _intersects[OptixGeometryType::cylinder] =
-        _optixContext->createProgramFromPTXString(CUDA_CYLINDERS, CUDA_FUNC_INTERSECTION);
+        _optixContext->createProgramFromPTXString(CUDA_CYLINDERS, OPTIX_CUDA_FUNCTION_INTERSECTION);
 
-    _bounds[OptixGeometryType::sphere] = _optixContext->createProgramFromPTXString(CUDA_SPHERES, CUDA_FUNC_BOUNDS);
+    _bounds[OptixGeometryType::sphere] =
+        _optixContext->createProgramFromPTXString(CUDA_SPHERES, OPTIX_CUDA_FUNCTION_BOUNDS);
     _intersects[OptixGeometryType::sphere] =
-        _optixContext->createProgramFromPTXString(CUDA_SPHERES, CUDA_FUNC_INTERSECTION);
+        _optixContext->createProgramFromPTXString(CUDA_SPHERES, OPTIX_CUDA_FUNCTION_INTERSECTION);
 
     _bounds[OptixGeometryType::triangleMesh] =
-        _optixContext->createProgramFromPTXString(CUDA_TRIANGLES_MESH, CUDA_FUNC_BOUNDS);
+        _optixContext->createProgramFromPTXString(CUDA_TRIANGLES_MESH, OPTIX_CUDA_FUNCTION_BOUNDS);
     _intersects[OptixGeometryType::triangleMesh] =
-        _optixContext->createProgramFromPTXString(CUDA_TRIANGLES_MESH, CUDA_FUNC_INTERSECTION);
+        _optixContext->createProgramFromPTXString(CUDA_TRIANGLES_MESH, OPTIX_CUDA_FUNCTION_INTERSECTION);
 
-    _bounds[OptixGeometryType::volume] = _optixContext->createProgramFromPTXString(CUDA_VOLUMES, CUDA_FUNC_BOUNDS);
+    _bounds[OptixGeometryType::volume] =
+        _optixContext->createProgramFromPTXString(CUDA_VOLUMES, OPTIX_CUDA_FUNCTION_BOUNDS);
     _intersects[OptixGeometryType::volume] =
-        _optixContext->createProgramFromPTXString(CUDA_VOLUMES, CUDA_FUNC_INTERSECTION);
+        _optixContext->createProgramFromPTXString(CUDA_VOLUMES, OPTIX_CUDA_FUNCTION_INTERSECTION);
 
     _bounds[OptixGeometryType::streamline] =
-        _optixContext->createProgramFromPTXString(CUDA_STREAMLINES, CUDA_FUNC_BOUNDS);
+        _optixContext->createProgramFromPTXString(CUDA_STREAMLINES, OPTIX_CUDA_FUNCTION_BOUNDS);
     _intersects[OptixGeometryType::streamline] =
-        _optixContext->createProgramFromPTXString(CUDA_STREAMLINES, CUDA_FUNC_INTERSECTION);
+        _optixContext->createProgramFromPTXString(CUDA_STREAMLINES, OPTIX_CUDA_FUNCTION_INTERSECTION);
 
     // Exceptions
     _optixContext[CONTEXT_EXCEPTION_BAD_COLOR]->setFloat(1.0f, 0.0f, 0.0f, 1.f);
@@ -470,11 +471,12 @@ void OptiXContext::_printSystemInformation() const
 ::optix::GeometryGroup OptiXContext::createGeometryGroup(const bool compact)
 {
     auto group = _optixContext->createGeometryGroup();
-    auto accel = _optixContext->createAcceleration(compact ? "Sbvh" : DEFAULT_ACCELERATION_STRUCTURE);
-    accel->setProperty("vertex_buffer_name", "vertices_buffer");
-    accel->setProperty("vertex_buffer_stride", "12");
-    accel->setProperty("index_buffer_name", "indices_buffer");
-    accel->setProperty("index_buffer_stride", "12");
+    auto accel =
+        _optixContext->createAcceleration(compact ? OPTIX_ACCELERATION_TYPE_SBVH : DEFAULT_ACCELERATION_STRUCTURE);
+    accel->setProperty(OPTIX_ACCELERATION_VERTEX_BUFFER_NAME, "vertices_buffer");
+    accel->setProperty(OPTIX_ACCELERATION_VERTEX_BUFFER_STRIDE, "12");
+    accel->setProperty(OPTIX_ACCELERATION_INDEX_BUFFER_NAME, "indices_buffer");
+    accel->setProperty(OPTIX_ACCELERATION_INDEX_BUFFER_STRIDE, "12");
     group->setAcceleration(accel);
     return group;
 }

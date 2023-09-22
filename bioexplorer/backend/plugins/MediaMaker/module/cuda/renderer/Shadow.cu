@@ -24,10 +24,7 @@
 #include <platform/engines/optix6/cuda/Helpers.cuh>
 #include <platform/engines/optix6/cuda/Random.cuh>
 
-// Rendering
-rtDeclareVariable(int, samplesPerFrame, , );
-rtDeclareVariable(float, rayLength, , );
-rtDeclareVariable(float, softness, , );
+rtDeclareVariable(int, shadowSamples, , );
 
 static __device__ inline void shade()
 {
@@ -39,7 +36,7 @@ static __device__ inline void shade()
 
     unsigned int num_lights = lights.size();
     float attenuation = 0.f;
-    for (int s = 0; s < samplesPerFrame; ++s)
+    for (int s = 0; s < shadowSamples; ++s)
     {
         for (int i = 0; i < num_lights; ++i)
         {
@@ -49,18 +46,19 @@ static __device__ inline void shade()
             {
                 // Point light
                 float3 pos = light.pos;
-                if (softness > 0.f)
-                    // Soft shadows
-                    pos += softness * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
+                if (softShadowStrength > 0.f)
+                    // Soft shadowIntensity
+                    pos += softShadowStrength * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
                 lightDirection = optix::normalize(pos - hit_point);
             }
             else
             {
                 // Directional light
                 lightDirection = -light.pos;
-                if (softness > 0.f)
-                    // Soft shadows
-                    lightDirection += softness * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
+                if (softShadowStrength > 0.f)
+                    // Soft shadowIntensity
+                    lightDirection +=
+                        softShadowStrength * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
                 lightDirection = optix::normalize(lightDirection);
             }
             float nDl = optix::dot(normal, lightDirection);
@@ -71,7 +69,7 @@ static __device__ inline void shade()
                 PerRayData_shadow shadow_prd;
                 shadow_prd.attenuation = make_float3(1.f);
                 float near = sceneEpsilon;
-                float far = rayLength;
+                float far = giRayLength;
                 applyClippingPlanes(hit_point, lightDirection, near, far);
                 optix::Ray shadow_ray(hit_point, lightDirection, shadowRayType, near, far);
                 rtTrace(top_shadower, shadow_ray, shadow_prd);
@@ -81,7 +79,7 @@ static __device__ inline void shade()
             }
         }
     }
-    attenuation = ::optix::clamp(attenuation / float(samplesPerFrame), 0.f, 1.f);
+    attenuation = ::optix::clamp(attenuation / float(shadowSamples), 0.f, 1.f);
     prd.result = make_float4(make_float3(attenuation), 1.f);
 }
 

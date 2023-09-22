@@ -31,6 +31,6 @@ struct PathTracingRenderer
     const uniform Light* uniform* uniform lights;
     uint32 numLights;
 
-    float aoStrength;
+    float aoWeight;
     float aoDistance;
 };

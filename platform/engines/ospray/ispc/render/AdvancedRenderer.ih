@@ -28,12 +28,12 @@ struct AdvancedRenderer
     SimulationRenderer super;
 
     // Shading
-    float shadows;
-    float softShadows;
-    uint32 softShadowsSamples;
+    float shadowIntensity;
+    float softShadowStrength;
+    uint32 shadowSamples;
 
     float giStrength;
-    float giDistance;
+    float giRayLength;
     uint32 giSamples;
 
     // Volumes

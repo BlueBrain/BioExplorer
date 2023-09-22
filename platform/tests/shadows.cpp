@@ -22,8 +22,8 @@
 #include <platform/core/Core.h>
 #include <tests/paths.h>
 
-#include <platform/core/common/light/Light.h>
 #include <platform/core/common/Types.h>
+#include <platform/core/common/light/Light.h>
 #include <platform/core/engineapi/Camera.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/FrameBuffer.h>
@@ -40,13 +40,12 @@
 
 TEST_CASE("cylinders")
 {
-    std::vector<const char*> argv = {
-        {"shadows", "--disable-accumulation", "--window-size", "1600", "900",
-         "--plugin", "braynsCircuitViewer", "--no-head-light"}};
+    std::vector<const char*> argv = {{RENDERER_PROPERTY_SHADOW_INTENSITY.name, "--disable-accumulation",
+                                      "--window-size", "1600", "900", "--plugin", "braynsCircuitViewer",
+                                      "--no-head-light"}};
 
     core::Core core(argv.size(), argv.data());
-    core.getParametersManager().getRenderingParameters().setCurrentRenderer(
-        "advanced_simulation");
+    core.getParametersManager().getRenderingParameters().setCurrentRenderer("advanced_simulation");
     core.commit();
     auto& scene = core.getEngine().getScene();
 
@@ -63,8 +62,7 @@ TEST_CASE("cylinders")
     materialRed->setSpecularExponent(10.f);
 
     constexpr size_t materialIdGreen = 1;
-    auto materialGreen =
-        model->createMaterial(materialIdGreen, "Cylinders Green");
+    auto materialGreen = model->createMaterial(materialIdGreen, "Cylinders Green");
     materialGreen->setDiffuseColor(GREEN);
     materialGreen->setSpecularColor(GREEN);
     materialGreen->setSpecularExponent(10.f);
@@ -83,40 +81,34 @@ TEST_CASE("cylinders")
 
         for (size_t row = 0; row < num_rows; ++row)
         {
-            const float start_x =
-                -(static_cast<float>(num_rows - 1) * row_stride * 0.5f);
-            const float start_z =
-                -(static_cast<float>(num_cols - 1) * row_stride * 0.5f);
+            const float start_x = -(static_cast<float>(num_rows - 1) * row_stride * 0.5f);
+            const float start_z = -(static_cast<float>(num_cols - 1) * row_stride * 0.5f);
 
             const float x = start_x + row * row_stride;
             const float z = start_z + col * row_stride;
-            model->addCylinder(materialId,
-                               {{x, 0.0f, z}, {x, height, z}, thickness});
+            model->addCylinder(materialId, {{x, 0.0f, z}, {x, height, z}, thickness});
         }
     }
 
-    auto modelDesc = std::make_shared<core::ModelDescriptor>(std::move(model),
-                                                               "Cylinders");
+    auto modelDesc = std::make_shared<core::ModelDescriptor>(std::move(model), "Cylinders");
     scene.addModel(modelDesc);
     scene.getLightManager().clearLights();
 
-    scene.getLightManager().addLight(std::make_unique<core::DirectionalLight>(
-        core::Vector3f(0.f, 0.f, -1.f), 0, WHITE, 1.0f, true));
+    scene.getLightManager().addLight(
+        std::make_unique<core::DirectionalLight>(core::Vector3f(0.f, 0.f, -1.f), 0, WHITE, 1.0f, true));
     scene.commitLights();
 
     auto& camera = core.getEngine().getCamera();
 
     const double dist = 1.5;
     const double alpha = -std::atan(2 * height / dist);
-    const core::Quaterniond orientation(
-        glm::angleAxis(alpha, core::Vector3d(1.0, 0.0, 0.0)));
+    const core::Quaterniond orientation(glm::angleAxis(alpha, core::Vector3d(1.0, 0.0, 0.0)));
     camera.setOrientation(orientation);
     camera.setPosition(core::Vector3f(0.f, 2 * height, dist));
 
     auto& renderer = core.getEngine().getRenderer();
-    renderer.updateProperty("shadows", 1.);
+    renderer.updateProperty(RENDERER_PROPERTY_SHADOW_INTENSITY.name.c_str(), 1.);
 
     core.commitAndRender();
-    CHECK(compareTestImage("shadowCylinders.png",
-                           core.getEngine().getFrameBuffer()));
+    CHECK(compareTestImage("shadowCylinders.png", core.getEngine().getFrameBuffer()));
 }

@@ -22,7 +22,7 @@
 #include "CylindricStereoTrackedCamera.h"
 #include "CylindricStereoTrackedCamera_ispc.h"
 
-#include <platform/core/common/Types.h>
+#include <platform/core/common/Properties.h>
 
 using namespace core;
 
@@ -60,7 +60,7 @@ void CylindricStereoTrackedCamera::commit()
 {
     Camera::commit();
 
-    const std::string& bufferTarget = getParamString(CAMERA_PROPERTY_BUFFER_TARGET.c_str());
+    const std::string& bufferTarget = getParamString(CAMERA_PROPERTY_BUFFER_TARGET);
     const float cameraScaling = getParamf("cameraScaling", 1.0);
 
     uint8_t bufferId = 255u;

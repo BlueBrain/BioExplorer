@@ -22,6 +22,12 @@
 
 #include "ProximityDetectionRenderer.h"
 
+#include <common/Properties.h>
+
+#include <platform/core/common/Properties.h>
+
+#include <platform/core/common/Properties.h>
+#include <platform/engines/ospray/OSPRayProperties.h>
 #include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
 // ispc exports
@@ -35,13 +41,24 @@ void ProximityDetectionRenderer::commit()
 {
     SimulationRenderer::commit();
 
-    _nearColor = getParam3f("detectionNearColor", ospray::vec3f(0.f, 1.f, 0.f));
-    _farColor = getParam3f("detectionFarColor", ospray::vec3f(1.f, 0.f, 0.f));
-    _detectionDistance = getParam1f("detectionDistance", 1.f);
-    _detectionOnDifferentMaterial = bool(getParam1i("detectionOnDifferentMaterial", 1));
-    _surfaceShadingEnabled = bool(getParam1i("surfaceShadingEnabled", 1));
-    _randomNumber = getParam1i("randomNumber", 0);
-    _alphaCorrection = getParam1f("alphaCorrection", 0.5f);
+    _nearColor = getParam3f(SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_NEAR_COLOR.name.c_str(),
+                            ospray::vec3f(SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_NEAR_COLOR[0],
+                                          SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_NEAR_COLOR[1],
+                                          SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_NEAR_COLOR[2]));
+    _farColor = getParam3f(SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_FAR_COLOR.name.c_str(),
+                           ospray::vec3f(SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_FAR_COLOR[0],
+                                         SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_FAR_COLOR[1],
+                                         SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_FAR_COLOR[2]));
+    _detectionDistance = getParam1f(SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_DISTANCE.name.c_str(),
+                                    SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_DISTANCE);
+    _detectionOnDifferentMaterial =
+        bool(getParam1i(SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_DIFFERENT_MATERIAL.name.c_str(),
+                        SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_DIFFERENT_MATERIAL));
+    _surfaceShadingEnabled =
+        bool(getParam1i(SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_SURFACE_SHADING_ENABLED.name.c_str(),
+                        SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_SURFACE_SHADING_ENABLED));
+    _randomNumber = getParam1i(OSPRAY_RENDERER_PROPERTY_RANDOM_NUMBER, 0);
+    _alphaCorrection = getParam1f(RENDERER_PROPERTY_ALPHA_CORRECTION.name.c_str(), DEFAULT_RENDERER_ALPHA_CORRECTION);
 
     ispc::ProximityDetectionRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr),
                                          (ispc::vec3f&)_nearColor, (ispc::vec3f&)_farColor, _detectionDistance,

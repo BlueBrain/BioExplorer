@@ -26,6 +26,8 @@
 
 #include "AbstractRenderer.h"
 
+#include <platform/core/common/Properties.h>
+
 // ospray
 #include <ospray/SDK/common/Data.h>
 #include <ospray/SDK/lights/Light.h>
@@ -36,7 +38,7 @@ void AbstractRenderer::commit()
 {
     Renderer::commit();
 
-    _lightData = (ospray::Data*)getParamData("lights");
+    _lightData = (ospray::Data*)getParamData(RENDERER_PROPERTY_LIGHTS);
     _lightArray.clear();
 
     if (_lightData)
@@ -45,7 +47,7 @@ void AbstractRenderer::commit()
 
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
-    _timestamp = getParam1f("timestamp", 0.f);
-    _bgMaterial = (core::AdvancedMaterial*)getParamObject("bgMaterial", nullptr);
+    _timestamp = getParam1f(RENDERER_PROPERTY_TIMESTAMP, DEFAULT_RENDERER_TIMESTAMP);
+    _bgMaterial = (core::AdvancedMaterial*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
 }
 } // namespace core

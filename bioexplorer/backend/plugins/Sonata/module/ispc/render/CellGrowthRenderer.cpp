@@ -22,6 +22,9 @@
 
 #include "CellGrowthRenderer.h"
 
+#include <common/Properties.h>
+#include <platform/core/common/Properties.h>
+
 // ospray
 #include <ospray/SDK/common/Data.h>
 
@@ -36,14 +39,15 @@ void CellGrowthRenderer::commit()
 {
     SimulationRenderer::commit();
 
-    _simulationThreshold = getParam1f("simulationThreshold", 0.f);
-
-    _shadows = getParam1f("shadows", 0.f);
-    _softShadows = getParam1f("softShadows", 0.f);
-    _shadowDistance = getParam1f("shadowDistance", 1e4f);
-
-    _useTransferFunctionColor = getParam("tfColor", false);
-
+    _simulationThreshold = getParam1f(SONATA_RENDERER_PROPERTY_CELL_GROWTH_SIMULATION_THRESHOLD.name.c_str(),
+                                      SONATA_DEFAULT_RENDERER_CELL_GROWTH_USE_TRANSFER_FUNCTION_COLOR);
+    _shadows = getParam1f(RENDERER_PROPERTY_SHADOW_INTENSITY.name.c_str(), DEFAULT_RENDERER_SHADOW_INTENSITY);
+    _softShadows =
+        getParam1f(RENDERER_PROPERTY_SOFT_SHADOW_STRENGTH.name.c_str(), DEFAULT_RENDERER_SOFT_SHADOW_STRENGTH);
+    _shadowDistance = getParam1f(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH.name.c_str(),
+                                 DEFAULT_RENDERER_GLOBAL_ILLUMINATION_RAY_LENGTH);
+    _useTransferFunctionColor = getParam(SONATA_RENDERER_PROPERTY_USE_TRANSFER_FUNCTION_COLOR.name.c_str(),
+                                         SONATA_DEFAULT_RENDERER_CELL_GROWTH_USE_TRANSFER_FUNCTION_COLOR);
     ispc::CellGrowthRenderer_set(getIE(), (_secondaryModel ? _secondaryModel->getIE() : nullptr),
                                  (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr, _lightArray.size(),
                                  (_simulationData ? (float*)_simulationData->data : nullptr), _simulationDataSize,

@@ -131,7 +131,7 @@ class Metabolism:
         )
         params = self._core.MetabolismRendererParams()
         params.alpha_correction = alpha_correction
-        params.exposure = exposure
+        params.main_exposure = exposure
         params.near_plane = near_plane
         params.far_plane = far_plane
         params.ray_step = ray_step
@@ -188,6 +188,7 @@ class Metabolism:
 
         The widget allows selection of metabolites and regions that should be rendered
         """
+
         class Updated:
             """Class used to interactively update the Metabolism widget"""
 
@@ -376,7 +377,7 @@ class Metabolism:
                 value = value.lstrip("#")
                 lv = len(value)
                 return tuple(
-                    int(value[i: i + lv // 3], 16) for i in range(0, lv, lv // 3)
+                    int(value[i : i + lv // 3], 16) for i in range(0, lv, lv // 3)
                 )
 
             def _get_data(self, guid):

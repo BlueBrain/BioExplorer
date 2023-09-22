@@ -26,6 +26,9 @@
 
 #include "AdvancedMaterial.h"
 #include "AdvancedMaterial_ispc.h"
+
+#include <platform/core/common/Properties.h>
+
 #include <ospray/SDK/common/Data.h>
 
 namespace core

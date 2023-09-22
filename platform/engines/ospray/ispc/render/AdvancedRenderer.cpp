@@ -26,10 +26,12 @@
 #include "../geometry/Cones.h"
 #include "../geometry/SDFGeometries.h"
 
+#include <platform/core/common/Properties.h>
 #include <platform/core/common/geometry/Cone.h>
 #include <platform/core/common/geometry/Cylinder.h>
 #include <platform/core/common/geometry/SDFGeometry.h>
 #include <platform/core/common/geometry/Sphere.h>
+#include <platform/engines/ospray/OSPRayProperties.h>
 
 // ospray
 #include <ospray/SDK/common/Data.h>
@@ -68,34 +70,35 @@ void AdvancedRenderer::commit()
 {
     SimulationRenderer::commit();
 
-    _alphaCorrection = getParam1f("alphaCorrection", 0.5f);
-    _fogThickness = getParam1f("fogThickness", 1e6f);
-    _fogStart = getParam1f("fogStart", 0.f);
-
-    _exposure = getParam1f("mainExposure", 1.f);
-    _epsilonFactor = getParam1f("epsilonFactor", 1.f);
-
-    _maxBounces = getParam1i("maxBounces", 3);
+    _alphaCorrection = getParam1f(RENDERER_PROPERTY_ALPHA_CORRECTION.name.c_str(), DEFAULT_RENDERER_ALPHA_CORRECTION);
+    _fogStart = getParam1f(RENDERER_PROPERTY_FOG_START.name.c_str(), DEFAULT_RENDERER_FOG_START);
+    _fogThickness = getParam1f(RENDERER_PROPERTY_FOG_THICKNESS.name.c_str(), DEFAULT_RENDERER_FOG_THICKNESS);
+    _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
+    _epsilonFactor = getParam1f(RENDERER_PROPERTY_EPSILON_MULTIPLIER.name.c_str(), DEFAULT_RENDERER_EPSILON_MULTIPLIER);
+    _maxBounces = getParam1i(RENDERER_PROPERTY_MAX_RAY_DEPTH.name.c_str(), DEFAULT_RENDERER_MAX_RAY_DEPTH);
     _randomNumber = rand() % 1000;
+    _useHardwareRandomizer =
+        getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(), DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER);
+    _showBackground = getParam(RENDERER_PROPERTY_SHOW_BACKGROUND.name.c_str(), DEFAULT_RENDERER_SHOW_BACKGROUND);
+    _shadows = getParam1f(RENDERER_PROPERTY_SHADOW_INTENSITY.name.c_str(), DEFAULT_RENDERER_SHADOW_INTENSITY);
+    _softShadows =
+        getParam1f(RENDERER_PROPERTY_SOFT_SHADOW_STRENGTH.name.c_str(), DEFAULT_RENDERER_SOFT_SHADOW_STRENGTH);
+    _softShadowsSamples = getParam1i(RENDERER_PROPERTY_SHADOW_SAMPLES.name.c_str(), DEFAULT_RENDERER_SHADOW_SAMPLES);
+    _giStrength = getParam1f(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_STRENGTH.name.c_str(),
+                             DEFAULT_RENDERER_GLOBAL_ILLUMINATION_STRENGTH);
+    _giDistance = getParam1f(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH.name.c_str(),
+                             DEFAULT_RENDERER_GLOBAL_ILLUMINATION_RAY_LENGTH);
+    _giSamples = getParam1i(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_SAMPLES.name.c_str(),
+                            DEFAULT_RENDERER_GLOBAL_ILLUMINATION_SAMPLES);
+    _matrixFilter = getParam(RENDERER_PROPERTY_MATRIX_FILTER.name.c_str(), DEFAULT_RENDERER_MATRIX_FILTER);
+    _volumeSamplingThreshold = getParam1f(OSPRAY_RENDERER_VOLUME_SAMPLING_THRESHOLD.name.c_str(),
+                                          OSPRAY_DEFAULT_RENDERER_VOLUME_SAMPLING_THRESHOLD);
+    _volumeSpecularExponent = getParam1f(OSPRAY_RENDERER_VOLUME_SPECULAR_EXPONENT.name.c_str(),
+                                         OSPRAY_DEFAULT_RENDERER_VOLUME_SPECULAR_EXPONENT);
+    _volumeAlphaCorrection = getParam1f(OSPRAY_RENDERER_VOLUME_ALPHA_CORRECTION.name.c_str(),
+                                        OSPRAY_DEFAULT_RENDERER_VOLUME_ALPHA_CORRECTION);
 
-    _useHardwareRandomizer = getParam(RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, 0);
-    _showBackground = getParam("showBackground", 0);
-
-    _shadows = getParam1f("shadows", 0.f);
-    _softShadows = getParam1f("softShadows", 0.f);
-    _softShadowsSamples = getParam1i("softShadowsSamples", 1);
-
-    _giStrength = getParam1f("giWeight", 0.f);
-    _giDistance = getParam1f("giDistance", 1e20f);
-    _giSamples = getParam1i("giSamples", 1);
-
-    _matrixFilter = getParam("matrixFilter", 0);
-
-    _volumeSamplingThreshold = getParam1f("volumeSamplingThreshold", 0.001f);
-    _volumeSpecularExponent = getParam1f("volumeSpecularExponent", 20.f);
-    _volumeAlphaCorrection = getParam1f("volumeAlphaCorrection", 0.5f);
-
-    clipPlanes = getParamData(CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr);
+    clipPlanes = getParamData(CAMERA_PROPERTY_CLIPPING_PLANES, nullptr);
     const auto clipPlaneData = clipPlanes ? clipPlanes->data : nullptr;
     const uint32 numClipPlanes = clipPlanes ? clipPlanes->numItems : 0;
 

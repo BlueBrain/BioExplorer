@@ -43,46 +43,41 @@ const float lampWidth = 0.15f;
 
 const core::Vector3f lampCentre = {0.5f, lampHeight, 0.5f};
 
-const core::Vector3f lampPositions[4] = {
-    {lampCentre.x - lampWidth, lampHeight, lampCentre.z - lampWidth},
-    {lampCentre.x + lampWidth, lampHeight, lampCentre.z - lampWidth},
-    {lampCentre.x + lampWidth, lampHeight, lampCentre.z + lampWidth},
-    {lampCentre.x - lampWidth, lampHeight, lampCentre.z + lampWidth}};
+const core::Vector3f lampPositions[4] = {{lampCentre.x - lampWidth, lampHeight, lampCentre.z - lampWidth},
+                                         {lampCentre.x + lampWidth, lampHeight, lampCentre.z - lampWidth},
+                                         {lampCentre.x + lampWidth, lampHeight, lampCentre.z + lampWidth},
+                                         {lampCentre.x - lampWidth, lampHeight, lampCentre.z + lampWidth}};
 } // namespace
 
 TEST_CASE("render_scivis_quadlight")
 {
-    const char* argv[] = {"lights",     "demo",   "--engine",       "ospray",
-                          "--renderer", "scivis", "--no-head-light"};
+    const char* argv[] = {RENDERER_PROPERTY_LIGHTS, "demo", "--engine", ENGINE_OSPRAY, "--renderer", "scivis",
+                          "--no-head-light"};
     const int argc = sizeof(argv) / sizeof(char*);
 
     core::Core core(argc, argv);
 
     core.getEngine().getScene().getLightManager().addLight(
-        std::make_shared<core::QuadLight>(
-            lampPositions[0], (lampPositions[1] - lampPositions[0]),
-            (lampPositions[3] - lampPositions[0]), YELLOW, 1.0f, true));
+        std::make_shared<core::QuadLight>(lampPositions[0], (lampPositions[1] - lampPositions[0]),
+                                          (lampPositions[3] - lampPositions[0]), YELLOW, 1.0f, true));
 
     core.commitAndRender();
 
-    CHECK(compareTestImage("testLightScivisQuadLight.png",
-                           core.getEngine().getFrameBuffer()));
+    CHECK(compareTestImage("testLightScivisQuadLight.png", core.getEngine().getFrameBuffer()));
 }
 
 TEST_CASE("render_scivis_spotlight")
 {
-    const char* argv[] = {"lights",     "demo",   "--engine",       "ospray",
-                          "--renderer", "scivis", "--no-head-light"};
+    const char* argv[] = {RENDERER_PROPERTY_LIGHTS, "demo", "--engine", ENGINE_OSPRAY, "--renderer", "scivis",
+                          "--no-head-light"};
     const int argc = sizeof(argv) / sizeof(char*);
 
     core::Core core(argc, argv);
 
     core.getEngine().getScene().getLightManager().addLight(
-        std::make_shared<core::SpotLight>(lampCentre,
-                                            core::Vector3f(0, -1, 0), 90.f,
-                                            10.f, lampWidth, BLUE, 1.0f, true));
+        std::make_shared<core::SpotLight>(lampCentre, core::Vector3f(0, -1, 0), 90.f, 10.f, lampWidth, BLUE, 1.0f,
+                                          true));
     core.commitAndRender();
 
-    CHECK(compareTestImage("testLightScivisSpotLight.png",
-                           core.getEngine().getFrameBuffer()));
+    CHECK(compareTestImage("testLightScivisSpotLight.png", core.getEngine().getFrameBuffer()));
 }

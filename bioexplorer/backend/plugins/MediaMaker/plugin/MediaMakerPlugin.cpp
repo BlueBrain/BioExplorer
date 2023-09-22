@@ -27,8 +27,10 @@
 #include <Version.h>
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Properties.h>
 
 #include <platform/core/common/ActionInterface.h>
+#include <platform/core/common/Properties.h>
 #include <platform/core/engineapi/Camera.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/FrameBuffer.h>
@@ -45,6 +47,7 @@
 #include <MediaMaker_generated_ShadingNormal.cu.ptx.h>
 #include <MediaMaker_generated_Shadow.cu.ptx.h>
 #include <platform/engines/optix6/OptiXContext.h>
+#include <platform/engines/optix6/OptiXProperties.h>
 #endif
 
 #include <fstream>
@@ -58,17 +61,6 @@ namespace bioexplorer
 namespace mediamaker
 {
 using namespace core;
-
-const std::string PLUGIN_API_PREFIX = "mm-";
-
-const std::string RENDERER_ALBEDO = "albedo";
-const std::string RENDERER_AMBIENT_OCCLUSION = "ambient_occlusion";
-const std::string RENDERER_DEPTH = "depth";
-const std::string RENDERER_SHADOW = "shadow";
-const std::string RENDERER_SHADING_NORMAL = "raycast_Ns";
-const std::string RENDERER_GEOMETRY_NORMAL = "raycast_Ng";
-const std::string RENDERER_RADIANCE = "radiance";
-
 // Number of floats used to define the camera
 const size_t CAMERA_DEFINITION_SIZE = 12;
 
@@ -84,7 +76,7 @@ void _addDepthRenderer(core::Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_DEPTH);
     core::PropertyMap properties;
-    properties.setProperty({"infinity", 1e6, 0., 1e6, {"Infinity"}});
+    properties.setProperty(MEDIA_MAKER_RENDERER_PROPERTY_DEPTH_INFINITY);
     engine.addRendererType(RENDERER_DEPTH, properties);
 }
 
@@ -92,9 +84,8 @@ void _addAlbedoRenderer(core::Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_ALBEDO);
     core::PropertyMap properties;
-    properties.setProperty({"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
-    properties.setProperty(
-        {RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
+    properties.setProperty(RENDERER_PROPERTY_MAX_RAY_DEPTH);
+    properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
     engine.addRendererType(RENDERER_ALBEDO, properties);
 }
 
@@ -102,11 +93,12 @@ void _addAmbientOcclusionRenderer(core::Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_AMBIENT_OCCLUSION);
     core::PropertyMap properties;
-    properties.setProperty({"samplesPerFrame", 1, 1, 256, {"Samples per frame"}});
-    properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
-    properties.setProperty({"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
-    properties.setProperty(
-        {RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
+    auto samples = RENDERER_PROPERTY_GLOBAL_ILLUMINATION_SAMPLES;
+    samples.set(16);
+    properties.setProperty(samples);
+    properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH);
+    properties.setProperty(RENDERER_PROPERTY_MAX_RAY_DEPTH);
+    properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
     engine.addRendererType(RENDERER_AMBIENT_OCCLUSION, properties);
 }
 
@@ -114,9 +106,9 @@ void _addShadowRenderer(core::Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_SHADOW);
     core::PropertyMap properties;
-    properties.setProperty({"samplesPerFrame", 16, 1, 256, {"Samples per frame"}});
-    properties.setProperty({"rayLength", 1e6, 1e-3, 1e6, {"Ray length"}});
-    properties.setProperty({"softness", 0.0, 0.0, 1.0, {"Shadow softness"}});
+    properties.setProperty(RENDERER_PROPERTY_SHADOW_SAMPLES);
+    properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH);
+    properties.setProperty(RENDERER_PROPERTY_SOFT_SHADOW_STRENGTH);
     engine.addRendererType(RENDERER_SHADOW, properties);
 }
 
@@ -196,10 +188,12 @@ void MediaMakerPlugin::_createOptiXRenderers()
         const std::string ptx = renderer.second;
 
         auto osp = std::make_shared<OptixShaderProgram>();
-        osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance");
+        osp->closest_hit =
+            context.getOptixContext()->createProgramFromPTXString(ptx, OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE);
         osp->closest_hit_textured =
-            context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance_textured");
-        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "any_hit_shadow");
+            context.getOptixContext()->createProgramFromPTXString(ptx,
+                                                                  OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE_TEXTURED);
+        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, OPTIX_CUDA_FUNCTION_ANY_HIT_SHADOW);
 
         context.addRenderer(renderer.first, osp);
     }
@@ -234,8 +228,8 @@ void MediaMakerPlugin::preRender()
         frameBuffer.clear();
 
         auto &camera = _api->getCamera();
-        if (camera.hasProperty(CAMERA_PROPERTY_ASPECT))
-            camera.updateProperty(CAMERA_PROPERTY_ASPECT,
+        if (camera.hasProperty(CAMERA_PROPERTY_ASPECT_RATIO.name))
+            camera.updateProperty(CAMERA_PROPERTY_ASPECT_RATIO.name,
                                   static_cast<double>(_frameBufferSize.x) / static_cast<double>(_frameBufferSize.y));
         camera.commit();
 
@@ -247,7 +241,7 @@ void MediaMakerPlugin::preRender()
         cd.direction = {ci[i + 3], ci[i + 4], ci[i + 5]};
         cd.up = {ci[i + 6], ci[i + 7], ci[i + 8]};
         cd.apertureRadius = ci[i + 9];
-        cd.focusDistance = ci[i + 10];
+        cd.focalDistance = ci[i + 10];
         cd.interpupillaryDistance = ci[i + 11];
         _setCamera(cd);
 
@@ -309,14 +303,14 @@ void MediaMakerPlugin::_setCamera(const CameraDefinition &payload)
     camera.setOrientation(q);
 
     // Aperture
-    camera.updateProperty(CAMERA_PROPERTY_APERTURE_RADIUS, payload.apertureRadius);
+    camera.updateProperty(CAMERA_PROPERTY_APERTURE_RADIUS.name, payload.apertureRadius);
 
     // Focus distance
-    camera.updateProperty(CAMERA_PROPERTY_FOCUS_DISTANCE, payload.focusDistance);
+    camera.updateProperty(CAMERA_PROPERTY_FOCAL_DISTANCE.name, payload.focalDistance);
 
     // Stereo
-    camera.updateProperty(CAMERA_PROPERTY_STEREO, payload.interpupillaryDistance != 0.0);
-    camera.updateProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE, payload.interpupillaryDistance);
+    camera.updateProperty(CAMERA_PROPERTY_STEREO.name, payload.interpupillaryDistance != 0.0);
+    camera.updateProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name, payload.interpupillaryDistance);
 
     _api->getCamera().markModified();
 }
@@ -332,9 +326,9 @@ CameraDefinition MediaMakerPlugin::_getCamera()
     cd.direction = {d.x, d.y, d.z};
     const auto u = glm::rotate(camera.getOrientation(), core::Vector3d(0., 1., 0.));
     cd.up = {u.x, u.y, u.z};
-    cd.apertureRadius = camera.getProperty<double>(CAMERA_PROPERTY_APERTURE_RADIUS);
-    cd.focusDistance = camera.getProperty<double>(CAMERA_PROPERTY_FOCUS_DISTANCE);
-    cd.interpupillaryDistance = camera.getProperty<double>(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE);
+    cd.apertureRadius = camera.getProperty<double>(CAMERA_PROPERTY_APERTURE_RADIUS.name);
+    cd.focalDistance = camera.getProperty<double>(CAMERA_PROPERTY_FOCAL_DISTANCE.name);
+    cd.interpupillaryDistance = camera.getProperty<double>(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name);
     return cd;
 }
 

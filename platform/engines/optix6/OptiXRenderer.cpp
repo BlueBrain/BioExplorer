@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -70,8 +68,7 @@ void OptiXRenderer::commit()
 
     const bool updateMaterials = isModified() || rendererChanged || _scene->isModified();
 
-    // If renderer or scene has changed we have to go through all materials in
-    // the scene and update the renderer.
+    // If renderer or scene has changed we have to go through all materials in the scene and update the renderer.
     if (updateMaterials)
     {
         const auto renderProgram = OptiXContext::get().getRenderer(_renderingParameters.getCurrentRenderer());

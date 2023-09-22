@@ -2188,13 +2188,13 @@ class BioExplorer:
             params = self._client.AdvancedRendererParams()
             params.main_exposure = 1.0
             params.gi_samples = 1
-            params.gi_weight = 0.3
-            params.gi_distance = 5000
-            params.shadows = 1.0
-            params.soft_shadows = 0.1
+            params.gi_strength = 0.3
+            params.gi_ray_length = 5000
+            params.shadow_intensity = 1.0
+            params.soft_shadow_strength = 0.1
             params.fog_start = 1200.0
             params.fog_thickness = 300.0
-            params.max_bounces = 1
+            params.max_ray_depth = 1
             params.use_hardware_randomizer = False
             return self._client.set_renderer_params(params)
         return self._client.set_renderer(

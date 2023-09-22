@@ -33,7 +33,7 @@ struct AmbientOcclusionRenderer
 
     uint32 samplesPerFrame;
     float aoRayLength;
-    uint32 maxBounces;
+    uint32 maxRayDepth;
 
     // Randomization
     bool useHardwareRandomizer;

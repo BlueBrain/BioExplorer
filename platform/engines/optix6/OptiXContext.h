@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -24,9 +22,10 @@
 
 #pragma once
 
+#include "OptiXProperties.h"
 #include "OptiXTypes.h"
 
-#include <platform/core/common/Types.h>
+#include <platform/core/common/Properties.h>
 
 #include <optixu/optixpp_namespace.h>
 
@@ -36,120 +35,113 @@
 namespace core
 {
 // Scene
-const std::string CONTEXT_SCENE_TOP_OBJECT = "top_object";
-const std::string CONTEXT_SCENE_TOP_SHADOWER = "top_shadower";
+static const char* CONTEXT_SCENE_TOP_OBJECT = "top_object";
+static const char* CONTEXT_SCENE_TOP_SHADOWER = "top_shadower";
 
 // Renderer
-const std::string CONTEXT_RENDERER_JITTER = "jitter4";
-const std::string CONTEXT_RENDERER_FRAME = "frame";
-const std::string CONTEXT_RENDERER_RADIANCE_RAY_TYPE = "radianceRayType";
-const std::string CONTEXT_RENDERER_SHADOW_RAY_TYPE = "shadowRayType";
-const std::string CONTEXT_RENDERER_SCENE_EPSILON = "sceneEpsilon";
-const std::string CONTEXT_RENDERER_AMBIENT_LIGHT_COLOR = "ambientLightColor";
-const std::string CONTEXT_RENDERER_BACKGROUND_COLOR = "bgColor";
-const std::string CONTEXT_RENDERER_SAMPLES_PER_PIXEL = "samples_per_pixel";
+static const char* CONTEXT_RENDERER_JITTER = "jitter4";
+static const char* CONTEXT_RENDERER_FRAME = "frame";
+static const char* CONTEXT_RENDERER_RADIANCE_RAY_TYPE = "radianceRayType";
+static const char* CONTEXT_RENDERER_SHADOW_RAY_TYPE = "shadowRayType";
+static const char* CONTEXT_RENDERER_SCENE_EPSILON = "sceneEpsilon";
+static const char* CONTEXT_RENDERER_AMBIENT_LIGHT_COLOR = "ambientLightColor";
+static const char* CONTEXT_RENDERER_BACKGROUND_COLOR = "bgColor";
+static const char* CONTEXT_RENDERER_SAMPLES_PER_PIXEL = "samples_per_pixel";
 
 // Camera
-const std::string CUDA_FUNC_CAMERA_EXCEPTION = "exception";
-const std::string CUDA_FUNC_CAMERA_ENVMAP_MISS = "envmap_miss";
-const std::string CUDA_FUNC_BOUNDS = "bounds";
-const std::string CUDA_FUNC_INTERSECTION = "intersect";
-const std::string CUDA_FUNC_ROBUST_INTERSECTION = "robust_intersect";
-const std::string CUDA_FUNC_EXCEPTION = "exception";
-
-const std::string CONTEXT_CAMERA_EYE = "eye";
-const std::string CONTEXT_CAMERA_ORIENTATION = "orientation";
-const std::string CONTEXT_CAMERA_DIR = "dir";
-const std::string CONTEXT_CAMERA_U = "U";
-const std::string CONTEXT_CAMERA_V = "V";
-const std::string CONTEXT_CAMERA_W = "W";
-const std::string CONTEXT_CAMERA_APERTURE_RADIUS = "aperture_radius";
-const std::string CONTEXT_CAMERA_FOCAL_SCALE = "focal_scale";
-const std::string CONTEXT_CAMERA_FOVY = CAMERA_PROPERTY_FOVY;
-const std::string CONTEXT_CAMERA_ASPECT = CAMERA_PROPERTY_ASPECT;
-const std::string CONTEXT_CAMERA_OFFSET = "offset";
+static const char* CONTEXT_CAMERA_EYE = "eye";
+static const char* CONTEXT_CAMERA_ORIENTATION = "orientation";
+static const char* CONTEXT_CAMERA_DIR = "dir";
+static const char* CONTEXT_CAMERA_U = "U";
+static const char* CONTEXT_CAMERA_V = "V";
+static const char* CONTEXT_CAMERA_W = "W";
+static const char* CONTEXT_CAMERA_APERTURE_RADIUS = CAMERA_PROPERTY_APERTURE_RADIUS.name.c_str();
+static const char* CONTEXT_CAMERA_FOCAL_DISTANCE = CAMERA_PROPERTY_FOCAL_DISTANCE.name.c_str();
+static const char* CONTEXT_CAMERA_FIELD_OF_VIEW = CAMERA_PROPERTY_FIELD_OF_VIEW.name.c_str();
+static const char* CONTEXT_CAMERA_ASPECT = CAMERA_PROPERTY_ASPECT_RATIO.name.c_str();
+static const char* CONTEXT_CAMERA_OFFSET = "offset";
 
 // Exception
-const std::string CONTEXT_EXCEPTION_BAD_COLOR = "bad_color";
+static const char* CONTEXT_EXCEPTION_BAD_COLOR = "bad_color";
 
 // Perspective
-const std::string CUDA_FUNC_PERSPECTIVE_CAMERA = "perspectiveCamera";
-const std::string CONTEXT_CAMERA_STEREO = CAMERA_PROPERTY_STEREO;
-const std::string CONTEXT_CAMERA_IPD = CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE;
-const std::string CONTEXT_CAMERA_IPD_OFFSET = "ipd_offset";
+static const char* CUDA_FUNC_PERSPECTIVE_CAMERA = "perspectiveCamera";
+static const char* CONTEXT_CAMERA_STEREO = CAMERA_PROPERTY_STEREO.name.c_str();
+static const char* CONTEXT_CAMERA_IPD = CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name.c_str();
+static const char* CONTEXT_CAMERA_IPD_OFFSET = "ipd_offset";
 
 // Orthographic
-const std::string CUDA_FUNC_ORTHOGRAPHIC_CAMERA = "orthographicCamera";
-const std::string CONTEXT_CAMERA_HEIGHT = CAMERA_PROPERTY_HEIGHT;
+static const char* CUDA_FUNC_ORTHOGRAPHIC_CAMERA = "orthographicCamera";
+static const char* CONTEXT_CAMERA_HEIGHT = CAMERA_PROPERTY_HEIGHT.name.c_str();
 
 // Clipping planes
-const std::string CONTEXT_ENABLE_CLIPPING_PLANES = CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES;
-const std::string CONTEXT_CLIPPING_PLANES = "clippingPlanes";
-const std::string CONTEXT_NB_CLIPPING_PLANES = "nbClippingPlanes";
+static const char* CONTEXT_ENABLE_CLIPPING_PLANES = CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES.name.c_str();
+static const char* CONTEXT_CLIPPING_PLANES = "clippingPlanes";
+static const char* CONTEXT_NB_CLIPPING_PLANES = "nbClippingPlanes";
 
 // Lights
-const std::string CONTEXT_LIGHTS = "lights";
+static const char* CONTEXT_LIGHTS = RENDERER_PROPERTY_LIGHTS;
 
 // Environment
-const std::string CONTEXT_USE_ENVIRONMENT_MAP = "use_envmap";
+static const char* CONTEXT_USE_ENVIRONMENT_MAP = "use_envmap";
 
 // Geometry
-const std::string CONTEXT_SPHERE_SIZE = "sphere_size";
-const std::string CONTEXT_CYLINDER_SIZE = "cylinder_size";
-const std::string CONTEXT_CONE_SIZE = "cone_size";
-const std::string CONTEXT_VOLUME_SIZE = "volume_size";
+static const char* CONTEXT_SPHERE_SIZE = "sphere_size";
+static const char* CONTEXT_CYLINDER_SIZE = "cylinder_size";
+static const char* CONTEXT_CONE_SIZE = "cone_size";
+static const char* CONTEXT_VOLUME_SIZE = "volume_size";
 
 // Material
-const std::string CONTEXT_MATERIAL_KA = "Ka";
-const std::string CONTEXT_MATERIAL_KD = "Kd";
-const std::string CONTEXT_MATERIAL_KS = "Ks";
-const std::string CONTEXT_MATERIAL_KR = "Kr";
-const std::string CONTEXT_MATERIAL_KO = "Ko";
-const std::string CONTEXT_MATERIAL_GLOSSINESS = "glossiness";
-const std::string CONTEXT_MATERIAL_REFRACTION_INDEX = "refraction_index";
-const std::string CONTEXT_MATERIAL_SPECULAR_EXPONENT = "phong_exp";
-const std::string CONTEXT_MATERIAL_SHADING_MODE = "shading_mode";
-const std::string CONTEXT_MATERIAL_USER_PARAMETER = "user_parameter";
-const std::string CONTEXT_MATERIAL_CAST_USER_DATA = "cast_user_data";
-const std::string CONTEXT_MATERIAL_CLIPPING_MODE = "clipping_mode";
-const std::string CONTEXT_MATERIAL_VALUE_RANGE = "value_range";
-const std::string CONTEXT_MATERIAL_RADIANCE_LODS = "radianceLODs";
+static const char* CONTEXT_MATERIAL_KA = "Ka";
+static const char* CONTEXT_MATERIAL_KD = "Kd";
+static const char* CONTEXT_MATERIAL_KS = "Ks";
+static const char* CONTEXT_MATERIAL_KR = "Kr";
+static const char* CONTEXT_MATERIAL_KO = "Ko";
+static const char* CONTEXT_MATERIAL_GLOSSINESS = "glossiness";
+static const char* CONTEXT_MATERIAL_REFRACTION_INDEX = "refraction_index";
+static const char* CONTEXT_MATERIAL_SPECULAR_EXPONENT = "phong_exp";
+static const char* CONTEXT_MATERIAL_SHADING_MODE = "shading_mode";
+static const char* CONTEXT_MATERIAL_USER_PARAMETER = "user_parameter";
+static const char* CONTEXT_MATERIAL_CAST_USER_DATA = "cast_user_data";
+static const char* CONTEXT_MATERIAL_CLIPPING_MODE = "clipping_mode";
+static const char* CONTEXT_MATERIAL_VALUE_RANGE = "value_range";
+static const char* CONTEXT_MATERIAL_RADIANCE_LODS = "radianceLODs";
 
 // Frame buffer
-const std::string CONTEXT_STAGE_TONE_MAPPER = "TonemapperSimple";
-const std::string CONTEXT_STAGE_DENOISER = "DLDenoiser";
-const std::string CONTEXT_INPUT_BUFFER = "input_buffer";
-const std::string CONTEXT_OUTPUT_BUFFER = "output_buffer";
-const std::string CONTEXT_INPUT_ALBEDO_BUFFER = "input_albedo_buffer";
-const std::string CONTEXT_INPUT_NORMAL_BUFFER = "input_normal_buffer";
-const std::string CONTEXT_TONE_MAPPER_EXPOSURE = "exposure";
-const std::string CONTEXT_TONE_MAPPER_GAMMA = "gamma";
-const std::string CONTEXT_DENOISE_BLEND = "blend";
-const std::string CONTEXT_ACCUMULATION_BUFFER = "accum_buffer";
-const std::string CONTEXT_DENOISED_BUFFER = "denoised_buffer";
-const std::string CONTEXT_TONEMAPPED_BUFFER = "tonemapped_buffer";
-const std::string CONTEXT_FRAME_NUMBER = "frame_number";
+static const char* CONTEXT_STAGE_TONE_MAPPER = "TonemapperSimple";
+static const char* CONTEXT_STAGE_DENOISER = "DLDenoiser";
+static const char* CONTEXT_INPUT_BUFFER = "input_buffer";
+static const char* CONTEXT_OUTPUT_BUFFER = "output_buffer";
+static const char* CONTEXT_INPUT_ALBEDO_BUFFER = "input_albedo_buffer";
+static const char* CONTEXT_INPUT_NORMAL_BUFFER = "input_normal_buffer";
+static const char* CONTEXT_TONE_MAPPER_EXPOSURE = "exposure";
+static const char* CONTEXT_TONE_MAPPER_GAMMA = "gamma";
+static const char* CONTEXT_DENOISE_BLEND = "blend";
+static const char* CONTEXT_ACCUMULATION_BUFFER = "accum_buffer";
+static const char* CONTEXT_DENOISED_BUFFER = "denoised_buffer";
+static const char* CONTEXT_TONEMAPPED_BUFFER = "tonemapped_buffer";
+static const char* CONTEXT_FRAME_NUMBER = "frame_number";
 
 // Volume parameters
-const std::string CONTEXT_VOLUME_GRADIENT_SHADING_ENABLED = "volumeGradientShadingEnabled";
-const std::string CONTEXT_VOLUME_ADAPTIVE_MAX_SAMPLING_RATE = "volumeAdaptiveMaxSamplingRate";
-const std::string CONTEXT_VOLUME_ADAPTIVE_SAMPLING = "volumeAdaptiveSampling";
-const std::string CONTEXT_VOLUME_SINGLE_SHADE = "volumeSingleShade";
-const std::string CONTEXT_VOLUME_PRE_INTEGRATION = "volumePreIntegration";
-const std::string CONTEXT_VOLUME_SAMPLING_RATE = "volumeSamplingRate";
-const std::string CONTEXT_VOLUME_SPECULAR_COLOR = "volumeSpecularColor";
-const std::string CONTEXT_VOLUME_CLIPPING_BOX_LOWER = "volumeClippingBoxLower";
-const std::string CONTEXT_VOLUME_CLIPPING_BOX_UPPER = "volumeClippingBoxUpper";
+static const char* CONTEXT_VOLUME_GRADIENT_SHADING_ENABLED = "volumeGradientShadingEnabled";
+static const char* CONTEXT_VOLUME_ADAPTIVE_MAX_SAMPLING_RATE = "volumeAdaptiveMaxSamplingRate";
+static const char* CONTEXT_VOLUME_ADAPTIVE_SAMPLING = "volumeAdaptiveSampling";
+static const char* CONTEXT_VOLUME_SINGLE_SHADE = "volumeSingleShade";
+static const char* CONTEXT_VOLUME_PRE_INTEGRATION = "volumePreIntegration";
+static const char* CONTEXT_VOLUME_SAMPLING_RATE = "volumeSamplingRate";
+static const char* CONTEXT_VOLUME_SPECULAR_COLOR = "volumeSpecularColor";
+static const char* CONTEXT_VOLUME_CLIPPING_BOX_LOWER = "volumeClippingBoxLower";
+static const char* CONTEXT_VOLUME_CLIPPING_BOX_UPPER = "volumeClippingBoxUpper";
 
 // Transfer function
-const std::string CONTEXT_TRANSFER_FUNCTION_COLORS = "tfColors";
-const std::string CONTEXT_TRANSFER_FUNCTION_OPACITIES = "tfOpacities";
-const std::string CONTEXT_TRANSFER_FUNCTION_SIZE = "tfMapSize";
-const std::string CONTEXT_TRANSFER_FUNCTION_MINIMUM_VALUE = "tfMinValue";
-const std::string CONTEXT_TRANSFER_FUNCTION_RANGE = "tfRange";
+static const char* CONTEXT_TRANSFER_FUNCTION_COLORS = "tfColors";
+static const char* CONTEXT_TRANSFER_FUNCTION_OPACITIES = "tfOpacities";
+static const char* CONTEXT_TRANSFER_FUNCTION_SIZE = "tfMapSize";
+static const char* CONTEXT_TRANSFER_FUNCTION_MINIMUM_VALUE = "tfMinValue";
+static const char* CONTEXT_TRANSFER_FUNCTION_RANGE = "tfRange";
 
 // User data
-const std::string CONTEXT_USER_DATA = "simulation_data";
+static const char* CONTEXT_USER_DATA = RENDERER_PROPERTY_USER_DATA;
 
 enum class OptixGeometryType
 {

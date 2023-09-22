@@ -44,7 +44,7 @@ struct OSPRAY_SDK_INTERFACE PerspectiveStereoCamera : public Camera
      *
      * @return std::string The name of the camera
      */
-    virtual std::string toString() const { return "Perspective"; }
+    virtual std::string toString() const { return "perspective"; }
 
     /**
      * @brief Commit the changes to the OSPRay engine
@@ -53,10 +53,10 @@ struct OSPRAY_SDK_INTERFACE PerspectiveStereoCamera : public Camera
     virtual void commit();
 
 public:
-    double fovy;
+    double fieldOfView;
     double aspect;
     double apertureRadius;
-    double focusDistance;
+    double focalDistance;
     bool architectural;
 
     // Clip planes

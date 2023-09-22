@@ -32,11 +32,11 @@ struct SphereClippingPerspectiveCamera
     vec3f org;            //!< position of camera, already contains shift when
                           //! STEREO_{LEFT|RIGHT}
     vec3f dir_00;         //!< direction of ray with screenSample=(0,0); scaled to
-                          //! focusDistance
+                          //! focalDistance
     vec3f dir_du;         //!< delta of ray direction between two pixels in X; scaled to
-                          //! focusDistance
+                          //! focalDistance
     vec3f dir_dv;         //!< delta of ray direction between two pixels in Y; scaled to
-                          //! focusDistance
+                          //! focalDistance
     float scaledAperture; //!< radius of aperture, divided by horizontal image
                           //! plane size
     float aspect;         //!< image plane size x / y

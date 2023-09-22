@@ -38,16 +38,19 @@ OptiXPerspectiveCamera::OptiXPerspectiveCamera()
 {
     auto context = OptiXContext::get().getOptixContext();
     _rayGenerationProgram = context->createProgramFromPTXString(PTX_PERSPECTIVE_CAMERA, CUDA_FUNC_PERSPECTIVE_CAMERA);
-    _missProgram = context->createProgramFromPTXString(PTX_MISS, CUDA_FUNC_CAMERA_ENVMAP_MISS);
-    _exceptionProgram = context->createProgramFromPTXString(PTX_PERSPECTIVE_CAMERA, CUDA_FUNC_CAMERA_EXCEPTION);
+    _missProgram = context->createProgramFromPTXString(PTX_MISS, OPTIX_CUDA_FUNCTION_CAMERA_ENVMAP_MISS);
+    _exceptionProgram = context->createProgramFromPTXString(PTX_PERSPECTIVE_CAMERA, OPTIX_CUDA_FUNCTION_EXCEPTION);
 }
 
 void OptiXPerspectiveCamera::commit(const OptiXCamera& camera, ::optix::Context context)
 {
     auto position = camera.getPosition();
-    const auto stereo = camera.getPropertyOrValue<bool>(CONTEXT_CAMERA_STEREO, false);
-    const auto interpupillaryDistance = camera.getPropertyOrValue<double>(CONTEXT_CAMERA_IPD, DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
-    auto aspect = camera.getPropertyOrValue<double>(CONTEXT_CAMERA_ASPECT, 1.0);
+    const auto stereo = camera.getPropertyOrValue<bool>(CAMERA_PROPERTY_STEREO.name.c_str(), DEFAULT_CAMERA_STEREO);
+    const auto interpupillaryDistance =
+        camera.getPropertyOrValue<double>(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name.c_str(),
+                                          DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
+    auto aspect =
+        camera.getPropertyOrValue<double>(CAMERA_PROPERTY_ASPECT_RATIO.name.c_str(), DEFAULT_CAMERA_ASPECT_RATIO);
 
     if (stereo)
         aspect *= 2.f;
@@ -62,7 +65,10 @@ void OptiXPerspectiveCamera::commit(const OptiXCamera& camera, ::optix::Context 
     u = normalize(glm::cross(w, up));
     v = normalize(glm::cross(u, w));
 
-    vlen = wlen * tanf(0.5f * camera.getPropertyOrValue<double>(CONTEXT_CAMERA_FOVY, 45.0) * M_PI / 180.f);
+    vlen = wlen * tanf(0.5f *
+                       camera.getPropertyOrValue<double>(CAMERA_PROPERTY_FIELD_OF_VIEW.name.c_str(),
+                                                         DEFAULT_CAMERA_FIELD_OF_VIEW) *
+                       M_PI / 180.f);
     v *= vlen;
     ulen = vlen * aspect;
     u *= ulen;
@@ -74,8 +80,10 @@ void OptiXPerspectiveCamera::commit(const OptiXCamera& camera, ::optix::Context 
 
     context[CONTEXT_CAMERA_EYE]->setFloat(position.x, position.y, position.z);
     context[CONTEXT_CAMERA_APERTURE_RADIUS]->setFloat(
-        camera.getPropertyOrValue<double>(CONTEXT_CAMERA_APERTURE_RADIUS, 0.0));
-    context[CONTEXT_CAMERA_FOCAL_SCALE]->setFloat(camera.getPropertyOrValue<double>(CONTEXT_CAMERA_FOCAL_SCALE, 1.0));
+        camera.getPropertyOrValue<double>(CAMERA_PROPERTY_APERTURE_RADIUS.name.c_str(),
+                                          DEFAULT_CAMERA_APERTURE_RADIUS));
+    context[CONTEXT_CAMERA_FOCAL_DISTANCE]->setFloat(
+        camera.getPropertyOrValue<double>(CAMERA_PROPERTY_FOCAL_DISTANCE.name.c_str(), DEFAULT_CAMERA_FOCAL_DISTANCE));
     context[CONTEXT_CAMERA_OFFSET]->setFloat(0, 0);
 
     context[CONTEXT_CAMERA_STEREO]->setUint(stereo);

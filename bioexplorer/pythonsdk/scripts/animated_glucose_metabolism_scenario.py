@@ -680,13 +680,13 @@ class GlucoseMetabolismScenario(MovieScenario):
         if renderer == 'bio_explorer':
             self._be.set_rendering_quality(self._be.RENDERING_QUALITY_HIGH)
             params = self._core.AdvancedRendererParams()
-            params.shadows = 1.0
-            params.soft_shadows = 0.1
+            params.shadow_intensity = 1.0
+            params.soft_shadow_strength = 0.1
             params.use_hardware_randomizer = True
             params.fog_start = 1000.0
             params.fog_thickness = 500.0
-            params.gi_distance = 5.0
-            params.gi_weight = 0.2
+            params.gi_ray_length = 5.0
+            params.gi_strength = 0.2
             params.gi_samples = 1
             params = self._core.set_renderer_params(params)
             params = self._core.set_renderer(head_light=True)

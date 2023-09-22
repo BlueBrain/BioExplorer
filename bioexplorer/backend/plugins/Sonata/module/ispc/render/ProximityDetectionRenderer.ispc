@@ -50,7 +50,7 @@ inline vec3f ProximityDetectionRenderer_shadeRay(const uniform ProximityDetectio
     sample.alpha = 0.f;
 
     int depth = 0;
-    while (color.w < 1.f && depth < self->super.maxBounces)
+    while (color.w < 1.f && depth < self->super.maxRayDepth)
     {
         traceRay(self->super.super.super.model, ray);
 
@@ -214,7 +214,7 @@ export void ProximityDetectionRenderer_set(void* uniform _self, void* uniform bg
                                            const uniform uint32 randomNumber, const uniform float timestamp,
                                            const uniform uint32 spp, const uniform bool surfaceShadingEnabled,
                                            void** uniform lights, uniform uint32 numLights,
-                                           const uniform float alphaCorrection, const uniform uint32 maxBounces,
+                                           const uniform float alphaCorrection, const uniform uint32 maxRayDepth,
                                            const uniform float exposure, const uniform bool useHardwareRandomizer)
 {
     uniform ProximityDetectionRenderer* uniform self = (uniform ProximityDetectionRenderer * uniform) _self;
@@ -229,7 +229,7 @@ export void ProximityDetectionRenderer_set(void* uniform _self, void* uniform bg
     self->super.super.timestamp = timestamp;
 
     // Simulation renderer
-    self->super.maxBounces = maxBounces;
+    self->super.maxRayDepth = maxRayDepth;
     self->super.exposure = exposure;
     self->super.useHardwareRandomizer = useHardwareRandomizer;
     self->super.randomNumber = randomNumber;

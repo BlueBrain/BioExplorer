@@ -29,11 +29,11 @@
 #include <platform/engines/optix6/cuda/Random.cuh>
 
 // Rendering
-rtDeclareVariable(uint, grid, , );
+rtDeclareVariable(uint, displayGrid, , );
 rtDeclareVariable(int, nbDisks, , );
 rtDeclareVariable(float, diskRotationSpeed, , );
 rtDeclareVariable(int, diskTextureLayers, , );
-rtDeclareVariable(float, blackHoleSize, , );
+rtDeclareVariable(float, size, , );
 rtDeclareVariable(float, timestamp, , );
 
 // Port from https://www.shadertoy.com/view/tsBXW3
@@ -53,7 +53,7 @@ static __device__ inline float mod(float v, float u)
     return v - u * floor(v / u);
 }
 
-static __device__ inline float value(const float2& p, float f) // value noise
+static __device__ inline float value(const float2& p, float f)
 {
     float bl = hash(floor(p * f + make_float2(0.f, 0.f)));
     float br = hash(floor(p * f + make_float2(1.f, 0.f)));
@@ -71,8 +71,7 @@ static __device__ inline float4 raymarchDisk(const float3& dir, const float3& ze
 {
     float3 position = zeroPos;
     float lengthPos = ::optix::length(make_float3(position.x, position.z, 0.f));
-    float dist = min(1.f, lengthPos * (1.f / blackHoleSize) * 0.5f) * blackHoleSize * 0.4f * (1.f / diskTextureLayers) /
-                 abs(dir.y);
+    float dist = min(1.f, lengthPos * (1.f / size) * 0.5f) * size * 0.4f * (1.f / diskTextureLayers) / abs(dir.y);
 
     position = position + dist * diskTextureLayers * dir * 0.5f;
 
@@ -89,7 +88,7 @@ static __device__ inline float4 raymarchDisk(const float3& dir, const float3& ze
     redShift = redShift * redShift;
     redShift = ::optix::clamp(redShift, 0.f, 1.f);
 
-    float disMix = ::optix::clamp((lengthPos - blackHoleSize * 2.f) * (1.f / blackHoleSize) * 0.24f, 0.f, 1.f);
+    float disMix = ::optix::clamp((lengthPos - size * 2.f) * (1.f / size) * 0.24f, 0.f, 1.f);
     float3 insideCol = mix(make_float3(1.f, 0.8f, 0.f), make_float3(0.5f, 0.13f, 0.02f) * 0.2f, disMix);
 
     insideCol = insideCol * mix(make_float3(0.4f, 0.2f, 0.1f), make_float3(1.6f, 2.4f, 4.f), redShift);
@@ -107,11 +106,11 @@ static __device__ inline float4 raymarchDisk(const float3& dir, const float3& ze
         float lengthPos = ::optix::length(make_float3(position.x, position.z, 0.f));
         float distMult = 1.;
 
-        distMult *= ::optix::clamp((lengthPos - blackHoleSize * 0.75f) * (1.f / blackHoleSize) * 1.5f, 0.f, 1.f);
-        distMult *= ::optix::clamp((blackHoleSize * 10.f - lengthPos) * (1.f / blackHoleSize) * 0.2f, 0.f, 1.f);
+        distMult *= ::optix::clamp((lengthPos - size * 0.75f) * (1.f / size) * 1.5f, 0.f, 1.f);
+        distMult *= ::optix::clamp((size * 10.f - lengthPos) * (1.f / size) * 0.2f, 0.f, 1.f);
         distMult *= distMult;
 
-        float u = lengthPos + timestamp * blackHoleSize * 0.3f + intensity * blackHoleSize * 0.2f;
+        float u = lengthPos + timestamp * size * 0.3f + intensity * size * 0.2f;
 
         float2 xy;
         float rot = mod(timestamp * diskRotationSpeed, 8192.f);
@@ -122,20 +121,20 @@ static __device__ inline float4 raymarchDisk(const float3& dir, const float3& ze
         const float angle = 0.02f * atan(x);
 
         const float f = 70.f;
-        float noise = value(make_float2(angle, u * (1.f / blackHoleSize) * 0.05f), f);
-        noise = noise * 0.66f + 0.33f * value(make_float2(angle, u * (1.f / blackHoleSize) * 0.05f), f * 2.f);
+        float noise = value(make_float2(angle, u * (1.f / size) * 0.05f), f);
+        noise = noise * 0.66f + 0.33f * value(make_float2(angle, u * (1.f / size) * 0.05f), f * 2.f);
 
         const float extraWidth =
             noise * 1.f * (1.f - ::optix::clamp(i * (1.f / diskTextureLayers) * 2.f - 1.f, 0.f, 1.f));
         const float alpha =
-            ::optix::clamp(noise * (intensity + extraWidth) * ((1.f / blackHoleSize) * 10.f + 0.01f) * dist * distMult,
-                           0.f, 1.f);
+            ::optix::clamp(noise * (intensity + extraWidth) * ((1.f / size) * 10.f + 0.01f) * dist * distMult, 0.f,
+                           1.f);
         const float3 col = 2.f * mix(make_float3(0.3f, 0.2f, 0.15f) * insideCol, insideCol, min(1.f, intensity * 2.f));
 
         const float3 t = col * alpha + make_float3(o) * (1.f - alpha);
         o = make_float4(::optix::clamp(t, make_float3(0.f), make_float3(1.f)), o.w * (1.f - alpha) + alpha);
 
-        lengthPos *= 1.f / blackHoleSize;
+        lengthPos *= 1.f / size;
 
         o = o + make_float4(make_float3(redShift * (intensity * 1.f + 0.5f) * (1.f / diskTextureLayers) * 100.f *
                                         distMult / (lengthPos * lengthPos)),
@@ -166,12 +165,12 @@ static __device__ inline void shade()
             float stepDist = 0.92 * abs(pos.y / (dir.y)); // conservative distance to disk (y==0)
             float farLimit = centDist * 0.5f;             // limit step size far from to black hole
             float closeLimit =
-                centDist * 0.1f + 0.05f * centDist * centDist * (1.f / blackHoleSize); // limit step size closse to BH
+                centDist * 0.1f + 0.05f * centDist * centDist * (1.f / size); // limit step size closse to BH
             stepDist = min(stepDist, min(farLimit, closeLimit));
 
             float invDistSqr = invDist * invDist;
-            float bendForce = stepDist * invDistSqr * blackHoleSize * 0.625f; // bending force
-            dir = ::optix::normalize(dir - (bendForce * invDist) * pos);      // bend ray towards BH
+            float bendForce = stepDist * invDistSqr * size * 0.625f;     // bending force
+            dir = ::optix::normalize(dir - (bendForce * invDist) * pos); // bend ray towards BH
             pos = pos + stepDist * dir;
 
             glow = glow + make_float4(1.2f, 1.1f, 1.f, 1.f) *
@@ -181,16 +180,16 @@ static __device__ inline void shade()
 
         float dist2 = ::optix::length(pos);
 
-        if (dist2 < blackHoleSize * 0.1f) // ray sucked in to BH
+        if (dist2 < size * 0.1f) // ray sucked in to BH
         {
             outCol = make_float4(make_float3(col) * col.w + make_float3(glow) * (1. - col.w), 1.);
             break;
         }
 
-        else if (dist2 > blackHoleSize * 1000.f) // ray escaped BH
+        else if (dist2 > size * 1000.f) // ray escaped BH
         {
             float4 bg;
-            if (grid)
+            if (displayGrid)
                 bg = make_float4((int)((pos.x + 1000.f) * 0.01f) % 2 == 0 ? 1.f : 0.5f,
                                  (int)((pos.y + 1000.f) * 0.01f) % 2 == 0 ? 1.f : 0.5f,
                                  (int)((pos.z + 1000.f) * 0.01f) % 2 == 0 ? 1.f : 0.f, 0.5f);
@@ -203,11 +202,11 @@ static __device__ inline void shade()
             break;
         }
 
-        else if (abs(pos.y) <= blackHoleSize * 0.002f) // ray hit accretion disk
+        else if (abs(pos.y) <= size * 0.002f) // ray hit accretion disk
         {
             float4 diskCol = raymarchDisk(dir, pos); // render disk
             pos.y = 0.f;
-            pos = pos + abs(blackHoleSize * 0.001f / dir.y) * dir;
+            pos = pos + abs(size * 0.001f / dir.y) * dir;
             col =
                 make_float4(make_float3(diskCol) * (1.f - col.w) + make_float3(col), col.w + diskCol.w * (1.f - col.w));
         }

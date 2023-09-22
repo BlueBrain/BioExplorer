@@ -31,10 +31,10 @@ static __device__ inline void shade()
 {
     const float3 hit_point = ray.origin + t_hit * ray.direction;
     float3 color = make_float3(0.f);
-    if (prd.depth < maxBounces && cast_user_data && simulation_data.size() > 0)
+    if (prd.depth < maxRayDepth && cast_user_data && userData.size() > 0)
     {
         const float4 userDataColor =
-            calcTransferFunctionColor(transfer_function_map, value_range, simulation_data[simulation_idx]);
+            calcTransferFunctionColor(transfer_function_map, value_range, userData[userDataIndex]);
         if (userDataColor.w >= simulationThreshold)
         {
             color = color * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;

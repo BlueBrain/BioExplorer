@@ -23,6 +23,8 @@
 
 #include "DensityRenderer.h"
 
+#include <platform/core/common/Properties.h>
+
 // ospray
 #include <ospray/SDK/common/Data.h>
 #include <ospray/SDK/lights/Light.h>
@@ -41,20 +43,21 @@ void DensityRenderer::commit()
 {
     Renderer::commit();
 
-    _bgMaterial = (AdvancedMaterial*)getParamObject("bgMaterial", nullptr);
+    _bgMaterial = (AdvancedMaterial*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
 
-    _exposure = getParam1f("mainExposure", 1.f);
-    _timestamp = getParam1f("timestamp", 0.f);
+    _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
+    _timestamp = getParam1f(RENDERER_PROPERTY_TIMESTAMP, DEFAULT_RENDERER_TIMESTAMP);
 
     // Sampling
     _farPlane = getParam1f("farPlane", 1e6f);
     _rayStep = getParam1f("rayStep", 1.f);
     _samplesPerFrame = getParam1i("samplesPerFrame", 8);
     _searchLength = getParam1f("searchLength", 100.f);
-    _alphaCorrection = getParam1f("alphaCorrection", 1.0f);
+    _alphaCorrection = getParam1f(RENDERER_PROPERTY_ALPHA_CORRECTION.name.c_str(), DEFAULT_RENDERER_ALPHA_CORRECTION);
 
     // Transfer function
-    ospray::TransferFunction* transferFunction = (ospray::TransferFunction*)getParamObject("transferFunction", nullptr);
+    ospray::TransferFunction* transferFunction =
+        (ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, nullptr);
     if (transferFunction)
         ispc::DensityRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 

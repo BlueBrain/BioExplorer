@@ -170,5 +170,4 @@ void OptiXVolume::setVoxels(const void* voxels)
     volumeGeometries[materialId].valueRange = _valueRange;
     _model->commitVolumesBuffers(materialId);
 }
-
 } // namespace core

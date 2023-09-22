@@ -33,8 +33,8 @@ struct CellGrowthRenderer
     float simulationThreshold;
 
     // Shading attributes
-    float shadows;
-    float softShadows;
+    float shadowIntensity;
+    float softShadowStrength;
     float shadowDistance;
 
     // Use transfer function color for shading
@@ -60,8 +60,8 @@ inline float processShadows(const uniform CellGrowthRenderer* uniform self, vary
             continue;
 
         vec3f ld = lightDirection;
-        if (self->softShadows > 0.f)
-            ld = normalize(ld + self->softShadows * getRandomVector(self->super.useHardwareRandomizer,
+        if (self->softShadowStrength > 0.f)
+            ld = normalize(ld + self->softShadowStrength * getRandomVector(self->super.useHardwareRandomizer,
                                                                     self->super.super.super.fb->size.x, sample, dg.Ns,
                                                                     self->super.randomNumber));
 
@@ -72,7 +72,7 @@ inline float processShadows(const uniform CellGrowthRenderer* uniform self, vary
         shadowRay.time = sample.ray.time;
 
         unsigned int iteration = 0;
-        while (shadowIntensity < 1.f && iteration < self->super.maxBounces)
+        while (shadowIntensity < 1.f && iteration < self->super.maxRayDepth)
         {
             ++iteration;
 
@@ -83,7 +83,7 @@ inline float processShadows(const uniform CellGrowthRenderer* uniform self, vary
             traceRay(self->super.super.super.model, shadowRay);
 
             if (shadowRay.geomID < 0)
-                iteration = self->super.maxBounces;
+                iteration = self->super.maxRayDepth;
             else
             {
                 DifferentialGeometry shadowDg;
@@ -91,7 +91,7 @@ inline float processShadows(const uniform CellGrowthRenderer* uniform self, vary
                 const vec4f simulationColor = getSimulationValue(&self->super, &shadowDg, shadowRay.primID);
 
                 if (simulationColor.w > self->simulationThreshold)
-                    shadowIntensity += self->shadows;
+                    shadowIntensity += self->shadowIntensity;
 
                 shadowRay.t0 = shadowRay.t + shadowDg.epsilon;
                 shadowRay.t = self->shadowDistance - shadowRay.t;
@@ -197,7 +197,7 @@ inline vec3f CellGrowthRenderer_shadeRay(const uniform CellGrowthRenderer* unifo
             }
 
             float shadowIntensity = 0.f;
-            if (self->shadows > 0.f)
+            if (self->shadowIntensity > 0.f)
                 shadowIntensity = processShadows(self, sample, dg);
 
             pathColor = cosNL * Kd * clamp(1.f - shadowIntensity, 0.f, 1.f);
@@ -236,8 +236,8 @@ export void CellGrowthRenderer_set(void* uniform _self, void* uniform secondaryM
                                    uniform float* uniform simulationData, const uniform int64 simulationDataSize,
                                    const uniform float alphaCorrection, const uniform float simulationThreshold,
                                    const uniform float exposure, const uniform float fogThickness,
-                                   const uniform float fogStart, const uniform float shadows,
-                                   const uniform float softShadows, const uniform float shadowDistance,
+                                   const uniform float fogStart, const uniform float shadowIntensity,
+                                   const uniform float softShadowStrength, const uniform float shadowDistance,
                                    const uniform bool useTransferFunctionColor,
                                    const uniform bool useHardwareRandomizer)
 {
@@ -264,8 +264,8 @@ export void CellGrowthRenderer_set(void* uniform _self, void* uniform secondaryM
     // Growth
     self->alphaCorrection = alphaCorrection;
     self->simulationThreshold = simulationThreshold;
-    self->shadows = shadows;
-    self->softShadows = softShadows;
+    self->shadowIntensity = shadowIntensity;
+    self->softShadowStrength = softShadowStrength;
     self->shadowDistance = shadowDistance;
     self->useTransferFunctionColor = useTransferFunctionColor;
 }

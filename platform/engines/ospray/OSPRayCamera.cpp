@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -25,7 +23,7 @@
 #include "OSPRayCamera.h"
 #include "Utils.h"
 
-#include <platform/core/common/Types.h>
+#include <platform/core/common/Properties.h>
 #include <platform/core/engineapi/Scene.h>
 
 namespace core
@@ -48,10 +46,10 @@ void OSPRayCamera::commit()
     const auto dir = glm::rotate(getOrientation(), Vector3d(0., 0., -1.));
     const auto up = glm::rotate(getOrientation(), Vector3d(0., 1., 0.));
 
-    osphelper::set(_camera, CAMERA_PROPERTY_POSITION.c_str(), Vector3f(position));
-    osphelper::set(_camera, CAMERA_PROPERTY_DIRECTION.c_str(), Vector3f(dir));
-    osphelper::set(_camera, CAMERA_PROPERTY_UP_VECTOR.c_str(), Vector3f(up));
-    osphelper::set(_camera, CAMERA_PROPERTY_BUFFER_TARGET.c_str(), getBufferTarget());
+    osphelper::set(_camera, CAMERA_PROPERTY_POSITION, Vector3f(position));
+    osphelper::set(_camera, CAMERA_PROPERTY_DIRECTION, Vector3f(dir));
+    osphelper::set(_camera, CAMERA_PROPERTY_UP_VECTOR, Vector3f(up));
+    osphelper::set(_camera, CAMERA_PROPERTY_BUFFER_TARGET, getBufferTarget());
 
     toOSPRayProperties(*this, _camera);
 
@@ -60,14 +58,14 @@ void OSPRayCamera::commit()
     {
         const auto clipPlanes = convertVectorToFloat(_clipPlanes);
         auto clipPlaneData = ospNewData(clipPlanes.size(), OSP_FLOAT4, clipPlanes.data());
-        ospSetData(_camera, CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), clipPlaneData);
+        ospSetData(_camera, CAMERA_PROPERTY_CLIPPING_PLANES, clipPlaneData);
         ospRelease(clipPlaneData);
     }
     else
     {
         // ospRemoveParam leaks objects, so we set it to null first
-        ospSetData(_camera, CAMERA_PROPERTY_CLIPPING_PLANES.c_str(), nullptr);
-        ospRemoveParam(_camera, CAMERA_PROPERTY_CLIPPING_PLANES.c_str());
+        ospSetData(_camera, CAMERA_PROPERTY_CLIPPING_PLANES, nullptr);
+        ospRemoveParam(_camera, CAMERA_PROPERTY_CLIPPING_PLANES);
     }
 
     ospCommit(_camera);
@@ -75,7 +73,7 @@ void OSPRayCamera::commit()
 
 void OSPRayCamera::setEnvironmentMap(const bool environmentMap)
 {
-    osphelper::set(_camera, CAMERA_PROPERTY_ENVIRONMENT_MAP.c_str(), environmentMap);
+    osphelper::set(_camera, CAMERA_PROPERTY_ENVIRONMENT_MAP, environmentMap);
     ospCommit(_camera);
 }
 

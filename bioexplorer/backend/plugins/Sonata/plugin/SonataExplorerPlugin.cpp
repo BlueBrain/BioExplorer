@@ -26,6 +26,7 @@
 #include <Version.h>
 
 #include <common/Logs.h>
+#include <common/Properties.h>
 
 #include <plugin/io/SonataCacheLoader.h>
 #include <plugin/neuroscience/astrocyte/AstrocyteLoader.h>
@@ -44,6 +45,7 @@
 
 #include <platform/core/common/ActionInterface.h>
 #include <platform/core/common/Progress.h>
+#include <platform/core/common/Properties.h>
 #include <platform/core/common/Timer.h>
 #include <platform/core/common/geometry/Streamline.h>
 #include <platform/core/common/utils/ImageUtils.h>
@@ -108,33 +110,20 @@ using namespace astrocyte;
 
 const std::string PLUGIN_API_PREFIX = "se-";
 
-const std::string RENDERER_CELL_GROWTH = "cell_growth";
-const std::string RENDERER_PROXIMITY = "proximity_detection";
-const std::string CAMERA_SPHERE_CLIPPING_PERSPECTIVE = "sphere_clipping_perspective";
-const std::string LOADER_BRICK = "brick";
-const std::string LOADER_SYNAPSE_CIRCUIT = "synapse_circuit";
-const std::string LOADER_MORPHOLOGY = "morphology";
-const std::string LOADER_ADVANCED_CIRCUIT = "advanced_circuit";
-const std::string LOADER_MORPHOLOGY_COLLAGE = "morphology_collage";
-const std::string LOADER_MESH_CIRCUIT = "mesh_circuit";
-const std::string LOADER_PAIR_SYNAPSE = "pair_synapse";
-const std::string LOADER_ASTROCYTES = "pair_synapse";
-
 void _addGrowthRenderer(Engine& engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_CELL_GROWTH);
     PropertyMap properties;
-    properties.setProperty({"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
-    properties.setProperty({"simulationThreshold", 0., 0., 1., {"Simulation threshold"}});
-    properties.setProperty({"exposure", 1., 0.01, 10., {"Exposure"}});
-    properties.setProperty({"fogStart", 0., 0., 1e6, {"Fog start"}});
-    properties.setProperty({"fogThickness", 1e6, 1e6, 1e6, {"Fog thickness"}});
-    properties.setProperty({"tfColor", false, {"Use transfer function color"}});
-    properties.setProperty({"shadows", 0., 0., 1., {"Shadow intensity"}});
-    properties.setProperty({"softShadows", 0., 0., 1., {"Shadow softness"}});
-    properties.setProperty({"shadowDistance", 1e4, 0., 1e4, {"Shadow distance"}});
-    properties.setProperty(
-        {RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
+    properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
+    properties.setProperty(SONATA_RENDERER_PROPERTY_CELL_GROWTH_SIMULATION_THRESHOLD);
+    properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+    properties.setProperty(RENDERER_PROPERTY_FOG_START);
+    properties.setProperty(RENDERER_PROPERTY_FOG_THICKNESS);
+    properties.setProperty(SONATA_RENDERER_PROPERTY_USE_TRANSFER_FUNCTION_COLOR);
+    properties.setProperty(RENDERER_PROPERTY_SHADOW_INTENSITY);
+    properties.setProperty(RENDERER_PROPERTY_SOFT_SHADOW_STRENGTH);
+    properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH);
+    properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
     engine.addRendererType(RENDERER_CELL_GROWTH, properties);
 }
 
@@ -142,16 +131,15 @@ void _addProximityRenderer(Engine& engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_PROXIMITY);
     PropertyMap properties;
-    properties.setProperty({"alphaCorrection", 0.5, 0.001, 1., {"Alpha correction"}});
-    properties.setProperty({"detectionDistance", 1., {"Detection distance"}});
-    properties.setProperty({"detectionFarColor", std::array<double, 3>{{1., 0., 0.}}, {"Detection far color"}});
-    properties.setProperty({"detectionNearColor", std::array<double, 3>{{0., 1., 0.}}, {"Detection near color"}});
-    properties.setProperty({"detectionOnDifferentMaterial", false, {"Detection on different material"}});
-    properties.setProperty({"surfaceShadingEnabled", true, {"Surface shading"}});
-    properties.setProperty({"maxBounces", 3, 1, 100, {"Maximum number of ray bounces"}});
-    properties.setProperty({"exposure", 1., 0.01, 10., {"Exposure"}});
-    properties.setProperty(
-        {RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
+    properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
+    properties.setProperty(SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_DISTANCE);
+    properties.setProperty(SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_FAR_COLOR);
+    properties.setProperty(SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_NEAR_COLOR);
+    properties.setProperty(SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_DIFFERENT_MATERIAL);
+    properties.setProperty(SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_SURFACE_SHADING_ENABLED);
+    properties.setProperty(RENDERER_PROPERTY_MAX_RAY_DEPTH);
+    properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+    properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
     engine.addRendererType(RENDERER_PROXIMITY, properties);
 }
 
@@ -159,13 +147,12 @@ void _addSphereClippingPerspectiveCamera(Engine& engine)
 {
     PLUGIN_REGISTER_CAMERA(CAMERA_SPHERE_CLIPPING_PERSPECTIVE);
     PropertyMap properties;
-    properties.setProperty({CAMERA_PROPERTY_FOVY, 45., .1, 360., {"Field of view"}});
-    properties.setProperty({CAMERA_PROPERTY_ASPECT, 1., {"Aspect ratio"}});
-    properties.setProperty({CAMERA_PROPERTY_APERTURE_RADIUS, 0., {"Aperture radius"}});
-    properties.setProperty({CAMERA_PROPERTY_FOCUS_DISTANCE, 1., {"Focus Distance"}});
-    properties.setProperty({CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES, true, {"Clipping"}});
-    properties.setProperty(
-        {RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, false, {"Use hardware accelerated randomizer"}});
+    properties.setProperty(CAMERA_PROPERTY_FIELD_OF_VIEW);
+    properties.setProperty(CAMERA_PROPERTY_ASPECT_RATIO);
+    properties.setProperty(CAMERA_PROPERTY_APERTURE_RADIUS);
+    properties.setProperty(CAMERA_PROPERTY_FOCAL_DISTANCE);
+    properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
+    properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
     engine.addCameraType(CAMERA_SPHERE_CLIPPING_PERSPECTIVE, properties);
 }
 

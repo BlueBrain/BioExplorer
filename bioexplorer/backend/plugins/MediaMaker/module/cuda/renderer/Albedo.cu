@@ -45,7 +45,7 @@ static __device__ inline void shade()
     const float3 hit_point = ray.origin + t_hit * ray.direction;
 
     const float opacity = fmaxf(Ko);
-    if (opacity > 0.f && prd.depth < maxBounces - 1)
+    if (opacity > 0.f && prd.depth < maxRayDepth - 1)
     {
         // Reflection
         const float reflection = fmaxf(Kr);
@@ -57,7 +57,7 @@ static __device__ inline void shade()
             reflected_prd.depth = prd.depth + 1;
 
             const float3 R = optix::reflect(ray.direction, normal);
-            const optix::Ray reflected_ray(hit_point, R, radianceRayType, sceneEpsilon, giDistance);
+            const optix::Ray reflected_ray(hit_point, R, radianceRayType, sceneEpsilon, giRayLength);
             rtTrace(top_object, reflected_ray, reflected_prd);
             color = color * (1.f - reflection) + Kr * make_float3(reflected_prd.result);
         }
@@ -71,7 +71,7 @@ static __device__ inline void shade()
             refracted_prd.depth = prd.depth + 1;
 
             const float3 refractedNormal = refractedVector(ray.direction, normal, refraction_index, 1.f);
-            const optix::Ray refracted_ray(hit_point, refractedNormal, radianceRayType, sceneEpsilon, giDistance);
+            const optix::Ray refracted_ray(hit_point, refractedNormal, radianceRayType, sceneEpsilon, giRayLength);
             rtTrace(top_object, refracted_ray, refracted_prd);
             color = color * opacity + (1.f - opacity) * make_float3(refracted_prd.result);
         }

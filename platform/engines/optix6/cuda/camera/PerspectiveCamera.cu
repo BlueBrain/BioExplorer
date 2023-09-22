@@ -52,7 +52,7 @@ __device__ float4 launch(unsigned int& seed, const float2 screen, const bool use
     }
 
     const float3 d = p.x * U + p.y * V + W;
-    const float fs = (focusDistance == 0.f ? 1.f : focusDistance);
+    const float fs = (focalDistance == 0.f ? 1.f : focalDistance);
     const float dotD = dot(d, d);
     const float denom = pow(dotD, 1.5f);
     float3 ray_direction = normalize(d);

@@ -23,7 +23,7 @@
 
 #include "AmbientOcclusionRenderer.h"
 
-#include <platform/core/common/Types.h>
+#include <platform/core/common/Properties.h>
 #include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
 // ospray
@@ -44,10 +44,13 @@ namespace rendering
 void AmbientOcclusionRenderer::commit()
 {
     Renderer::commit();
-    _samplesPerFrame = getParam1i("samplesPerFrame", 16);
-    _aoRayLength = getParam1f("rayLength", 1e6f);
-    _maxBounces = getParam1i("maxBounces", 3);
-    _useHardwareRandomizer = getParam(RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER, 0);
+    _samplesPerFrame = getParam1i(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_SAMPLES.name.c_str(),
+                                  DEFAULT_RENDERER_GLOBAL_ILLUMINATION_SAMPLES);
+    _aoRayLength = getParam1f(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH.name.c_str(),
+                              DEFAULT_RENDERER_GLOBAL_ILLUMINATION_RAY_LENGTH);
+    _maxBounces = getParam1i(RENDERER_PROPERTY_MAX_RAY_DEPTH.name.c_str(), DEFAULT_RENDERER_MAX_RAY_DEPTH);
+    _useHardwareRandomizer =
+        getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(), DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER);
 
     ispc::AmbientOcclusionRenderer_set(getIE(), spp, _samplesPerFrame, _aoRayLength, _maxBounces,
                                        _useHardwareRandomizer);

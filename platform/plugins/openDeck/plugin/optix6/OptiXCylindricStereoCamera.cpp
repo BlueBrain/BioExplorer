@@ -44,8 +44,8 @@ OptiXCylindricStereoCamera::OptiXCylindricStereoCamera()
 {
     auto context = OptiXContext::get().getOptixContext();
     _rayGenerationProgram = context->createProgramFromPTXString(PTX_CYLINDRIC_STEREO_CAMERA, CUDA_FUNC_OPENDECK_CAMERA);
-    _missProgram = context->createProgramFromPTXString(PTX_MISS, CUDA_FUNC_CAMERA_ENVMAP_MISS);
-    _exceptionProgram = context->createProgramFromPTXString(PTX_CYLINDRIC_STEREO_CAMERA, CUDA_FUNC_CAMERA_EXCEPTION);
+    _missProgram = context->createProgramFromPTXString(PTX_MISS, OPTIX_CUDA_FUNCTION_CAMERA_ENVMAP_MISS);
+    _exceptionProgram = context->createProgramFromPTXString(PTX_CYLINDRIC_STEREO_CAMERA, OPTIX_CUDA_FUNCTION_EXCEPTION);
 }
 
 void OptiXCylindricStereoCamera::commit(const OptiXCamera& camera, ::optix::Context context)
@@ -73,7 +73,7 @@ void OptiXCylindricStereoCamera::commit(const OptiXCamera& camera, ::optix::Cont
     context[CONTEXT_CAMERA_HEAD_UVEC]->setFloat(headUVec.x, headUVec.y, headUVec.z);
     context[CONTEXT_CAMERA_APERTURE_RADIUS]->setFloat(
         camera.getPropertyOrValue<double>(CONTEXT_CAMERA_APERTURE_RADIUS, 0.0));
-    context[CONTEXT_CAMERA_FOCAL_SCALE]->setFloat(
+    context[CONTEXT_CAMERA_FOCAL_DISTANCE]->setFloat(
         camera.getPropertyOrValue<double>(CONTEXT_CAMERA_FOCUS_DISTANCE, 1.0));
 }
 } // namespace core

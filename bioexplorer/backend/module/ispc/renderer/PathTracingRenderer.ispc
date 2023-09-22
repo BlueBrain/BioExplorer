@@ -257,7 +257,7 @@ inline vec3f PathTracingRenderer_shadeRay(const uniform PathTracingRenderer* uni
             const vec3f specularColor = Ks * powf(cosLR, Ns);
 
             // Path tracing contribution
-            const float ao = self->aoStrength;
+            const float ao = self->aoWeight;
             const vec3f pathTracingColor = ao > 0.f ? Kd * ao * pathTracingContribution(self, sample, sunDirection)
                                                     : Kd * radiance * cosNL + specularColor;
 
@@ -344,7 +344,7 @@ export void PathTracingRenderer_set(void* uniform _self, void* uniform bgMateria
                                     void** uniform lights, uniform int32 numLights,
                                     uniform float* uniform simulationData, const uniform uint64 simulationDataSize,
                                     const uniform float timestamp, const uniform uint32 randomNumber,
-                                    const uniform float exposure, const uniform float aoStrength,
+                                    const uniform float exposure, const uniform float aoWeight,
                                     const uniform float aoDistance, const uniform bool useHardwareRandomizer,
                                     const uniform bool showBackground)
 {
@@ -362,6 +362,6 @@ export void PathTracingRenderer_set(void* uniform _self, void* uniform bgMateria
     self->lights = (const uniform Light* uniform* uniform)lights;
     self->numLights = numLights;
 
-    self->aoStrength = aoStrength;
+    self->aoWeight = aoWeight;
     self->aoDistance = aoDistance;
 }

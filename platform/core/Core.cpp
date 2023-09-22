@@ -29,6 +29,7 @@
 
 #include <platform/core/common/Logs.h>
 #include <platform/core/common/MathTypes.h>
+#include <platform/core/common/Properties.h>
 #include <platform/core/common/PropertyMap.h>
 #include <platform/core/common/Timer.h>
 #include <platform/core/common/input/KeyboardHandler.h>
@@ -150,8 +151,9 @@ struct Core::Impl : public PluginAPI
 
         const auto windowSize = _parametersManager.getApplicationParameters().getWindowSize();
 
-        if (camera.hasProperty(CAMERA_PROPERTY_ASPECT))
-            camera.updateProperty(CAMERA_PROPERTY_ASPECT, static_cast<double>(windowSize.x) / static_cast<double>(windowSize.y));
+        if (camera.hasProperty(CAMERA_PROPERTY_ASPECT_RATIO.name))
+            camera.updateProperty(CAMERA_PROPERTY_ASPECT_RATIO.name,
+                                  static_cast<double>(windowSize.x) / static_cast<double>(windowSize.y));
 
         for (auto frameBuffer : _frameBuffers)
             frameBuffer->resize(windowSize);
@@ -277,7 +279,7 @@ private:
             return;
 
         const auto& ap = _parametersManager.getApplicationParameters();
-        const auto names = ap.isStereo() ? strings{"0L", "0R"} : strings{"default"};
+        const auto names = ap.isStereo() ? strings{"0L", "0R"} : strings{DEFAULT};
         for (const auto& name : names)
             _addFrameBuffer(name);
     }

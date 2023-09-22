@@ -21,9 +21,10 @@
 
 #pragma once
 
-#include <platform/core/common/tasks/Task.h>
-
 #include "ImageGenerator.h"
+
+#include <platform/core/common/Properties.h>
+#include <platform/core/common/tasks/Task.h>
 #include <platform/core/common/utils/StringUtils.h>
 #include <platform/core/engineapi/Camera.h>
 #include <platform/core/engineapi/Engine.h>
@@ -59,8 +60,7 @@ struct SnapshotParams
 class SnapshotFunctor : public TaskFunctor
 {
 public:
-    SnapshotFunctor(Engine& engine, SnapshotParams&& params,
-                    ImageGenerator& imageGenerator)
+    SnapshotFunctor(Engine& engine, SnapshotParams&& params, ImageGenerator& imageGenerator)
         : _params(std::move(params))
         , _camera(engine.createCamera())
         , _imageGenerator(imageGenerator)
@@ -68,34 +68,31 @@ public:
     {
         if (_params.animParams == nullptr)
         {
-            _params.animParams = std::make_unique<AnimationParameters>(
-                engine.getParametersManager().getAnimationParameters());
+            _params.animParams =
+                std::make_unique<AnimationParameters>(engine.getParametersManager().getAnimationParameters());
         }
 
         if (_params.geometryParams == nullptr)
         {
-            _params.geometryParams = std::make_unique<GeometryParameters>(
-                engine.getParametersManager().getGeometryParameters());
+            _params.geometryParams =
+                std::make_unique<GeometryParameters>(engine.getParametersManager().getGeometryParameters());
         }
 
         if (_params.renderingParams == nullptr)
         {
-            _params.renderingParams = std::make_unique<RenderingParameters>(
-                engine.getParametersManager().getRenderingParameters());
+            _params.renderingParams =
+                std::make_unique<RenderingParameters>(engine.getParametersManager().getRenderingParameters());
         }
 
         if (_params.volumeParams == nullptr)
         {
-            _params.volumeParams = std::make_unique<VolumeParameters>(
-                engine.getParametersManager().getVolumeParameters());
+            _params.volumeParams =
+                std::make_unique<VolumeParameters>(engine.getParametersManager().getVolumeParameters());
         }
 
-        _scene =
-            engine.createScene(*_params.animParams, *_params.geometryParams,
-                               *_params.volumeParams);
+        _scene = engine.createScene(*_params.animParams, *_params.geometryParams, *_params.volumeParams);
 
-        _renderer = engine.createRenderer(*_params.animParams,
-                                          *_params.renderingParams);
+        _renderer = engine.createRenderer(*_params.animParams, *_params.renderingParams);
 
         const auto& renderer = engine.getRenderer();
         _renderer->setCurrentType(renderer.getCurrentType());
@@ -116,8 +113,7 @@ public:
     {
         _scene->commit();
 
-        _camera->updateProperty(CAMERA_PROPERTY_ASPECT,
-                                double(_params.size.x) / _params.size.y);
+        _camera->updateProperty(CAMERA_PROPERTY_ASPECT_RATIO.name, double(_params.size.x) / _params.size.y);
         _camera->commit();
 
         if (_params.renderingParams)
@@ -136,17 +132,14 @@ public:
             msg << " " << string_utils::shortenString(_params.name);
         msg << " ...";
 
-        const auto isStereo = _camera->hasProperty(CAMERA_PROPERTY_STEREO) &&
-                              _camera->getProperty<bool>(CAMERA_PROPERTY_STEREO);
-        const auto names = isStereo ? strings{"0L", "0R"} : strings{"default"};
+        const auto isStereo = _camera->hasProperty(CAMERA_PROPERTY_STEREO.name) &&
+                              _camera->getProperty<bool>(CAMERA_PROPERTY_STEREO.name);
+        const auto names = isStereo ? strings{"0L", "0R"} : strings{DEFAULT};
         std::vector<FrameBufferPtr> frameBuffers;
         for (const auto& name : names)
-            frameBuffers.push_back(
-                _engine.createFrameBuffer(name, _params.size,
-                                          FrameBufferFormat::rgba_i8));
+            frameBuffers.push_back(_engine.createFrameBuffer(name, _params.size, FrameBufferFormat::rgba_i8));
 
-        while (frameBuffers[0]->numAccumFrames() !=
-               size_t(_params.samplesPerPixel))
+        while (frameBuffers[0]->numAccumFrames() != size_t(_params.samplesPerPixel))
         {
             for (auto frameBuffer : frameBuffers)
             {
@@ -159,8 +152,7 @@ public:
             }
 
             progress(msg.str(), 1.f / frameBuffers[0]->numAccumFrames(),
-                     float(frameBuffers[0]->numAccumFrames()) /
-                         _params.samplesPerPixel);
+                     float(frameBuffers[0]->numAccumFrames()) / _params.samplesPerPixel);
         }
 
         if (!_params.filePath.empty() && frameBuffers.size() == 1)
@@ -171,17 +163,14 @@ public:
             return ImageGenerator::ImageBase64();
         }
         else
-            return _imageGenerator.createImage(frameBuffers, _params.format,
-                                               _params.quality);
+            return _imageGenerator.createImage(frameBuffers, _params.format, _params.quality);
     }
 
 private:
     void _writeToDisk(FrameBuffer& fb)
     {
         auto image = fb.getImage();
-        auto fif = _params.format == "jpg"
-                       ? FIF_JPEG
-                       : FreeImage_GetFIFFromFormat(_params.format.c_str());
+        auto fif = _params.format == "jpg" ? FIF_JPEG : FreeImage_GetFIFFromFormat(_params.format.c_str());
 
         if (fif == FIF_JPEG)
             image.reset(FreeImage_ConvertTo24Bits(image.get()));

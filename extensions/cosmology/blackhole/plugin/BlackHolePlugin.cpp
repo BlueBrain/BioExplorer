@@ -26,6 +26,7 @@
 #include <Version.h>
 
 #include <plugin/common/Logs.h>
+#include <plugin/common/Properties.h>
 
 #include <platform/core/common/ActionInterface.h>
 #include <platform/core/common/geometry/TriangleMesh.h>
@@ -39,6 +40,7 @@
 #ifdef USE_OPTIX6
 #include <BlackHole_generated_BlackHole.cu.ptx.h>
 #include <platform/engines/optix6/OptiXContext.h>
+#include <platform/engines/optix6/OptiXProperties.h>
 #endif
 
 namespace spaceexplorer
@@ -47,10 +49,8 @@ namespace blackhole
 {
 using namespace core;
 
-const std::string PLUGIN_API_PREFIX = "bh-";
-
-const std::string RENDERER_BLACK_HOLE = "blackhole";
-const double MAX_BLACK_HOLE_SIZE = 100.0;
+static const std::string PLUGIN_API_PREFIX = "bh-";
+static const std::string RENDERER_BLACK_HOLE = "blackhole";
 
 #define CATCH_STD_EXCEPTION()           \
     catch (const std::runtime_error &e) \
@@ -65,14 +65,14 @@ void _addBlackHoleRenderer(Engine &engine)
 {
     PLUGIN_INFO("Registering 'blackhole' renderer");
     PropertyMap properties;
-    properties.setProperty({"mainExposure", 1., 1., 10., {"Exposure"}});
-    properties.setProperty({"nbDisks", 20, 2, 128, {"Number of disks"}});
-    properties.setProperty({"grid", false, {"Display grid"}});
-    properties.setProperty({"timestamp", 0., 0., 8192., {"Timestamp"}});
-    properties.setProperty({"diskRotationSpeed", 3., 1., 10., {"Disk rotation speed"}});
-    properties.setProperty({"diskTextureLayers", 12, 2, 100, {"Disk texture layers"}});
-    properties.setProperty({"blackHoleSize", 0.3, 0.1, MAX_BLACK_HOLE_SIZE, {"Black hole size"}});
-    engine.addRendererType("blackhole", properties);
+    properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+    properties.setProperty(BLACK_HOLE_RENDERER_PROPERTY_NB_DISKS);
+    properties.setProperty(BLACK_HOLE_RENDERER_PROPERTY_DISPLAY_GRID);
+    properties.setProperty(BLACK_HOLE_RENDERER_PROPERTY_TIMESTAMP);
+    properties.setProperty(BLACK_HOLE_RENDERER_PROPERTY_DISK_ROTATION_SPEED);
+    properties.setProperty(BLACK_HOLE_RENDERER_PROPERTY_DISK_TEXTURE_LAYERS);
+    properties.setProperty(BLACK_HOLE_RENDERER_PROPERTY_SIZE);
+    engine.addRendererType(RENDERER_BLACK_HOLE, properties);
 }
 
 BlackHolePlugin::BlackHolePlugin()
@@ -122,8 +122,9 @@ void BlackHolePlugin::_createOptiXRenderers()
         const std::string ptx = renderer.second;
 
         auto osp = std::make_shared<OptixShaderProgram>();
-        osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "closest_hit_radiance");
-        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, "any_hit_shadow");
+        osp->closest_hit =
+            context.getOptixContext()->createProgramFromPTXString(ptx, OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE);
+        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, OPTIX_CUDA_FUNCTION_ANY_HIT_SHADOW);
 
         context.addRenderer(renderer.first, osp);
     }

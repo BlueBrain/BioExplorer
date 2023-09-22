@@ -80,7 +80,7 @@ Property getStereoModeProperty()
 
 Property getInterpupillaryDistanceProperty()
 {
-    return {CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE, 0.0635, 0.0, 10.0, {"Eye separation"}};
+    return CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE;
 }
 
 Property getCameraScalingProperty(const double scaling)

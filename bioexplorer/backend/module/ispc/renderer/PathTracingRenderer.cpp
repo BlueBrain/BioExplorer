@@ -23,7 +23,8 @@
 
 #include "PathTracingRenderer.h"
 
-#include <platform/core/common/Types.h>
+#include <platform/core/common/Properties.h>
+#include <platform/engines/ospray/OSPRayProperties.h>
 
 // ospray
 #include <ospray/SDK/common/Data.h>
@@ -43,7 +44,7 @@ void PathTracingRenderer::commit()
 {
     SimulationRenderer::commit();
 
-    _lightData = (ospray::Data*)getParamData("lights");
+    _lightData = (ospray::Data*)getParamData(RENDERER_PROPERTY_LIGHTS);
     _lightArray.clear();
 
     if (_lightData)
@@ -52,17 +53,18 @@ void PathTracingRenderer::commit()
 
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
-    _bgMaterial = (AdvancedMaterial*)getParamObject("bgMaterial", nullptr);
-    _exposure = getParam1f("mainExposure", 1.f);
-    _useHardwareRandomizer = getParam(RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER.c_str(), 0);
-    _showBackground = getParam("showBackground", 0);
-    _aoStrength = getParam1f("aoStrength", 1.f);
-    _aoDistance = getParam1f("aoDistance", 100.f);
+    _bgMaterial = (AdvancedMaterial*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
+    _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
+    _useHardwareRandomizer =
+        getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(), DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER);
+    _showBackground = getParam(RENDERER_PROPERTY_SHOW_BACKGROUND.name.c_str(), DEFAULT_RENDERER_SHOW_BACKGROUND);
+    _aoWeight = getParam1f(OSPRAY_RENDERER_AMBIENT_OCCLUSION_WEIGHT.name.c_str(), 1.f);
+    _aoDistance = getParam1f(OSPRAY_RENDERER_AMBIENT_OCCLUSION_DISTANCE.name.c_str(), 100.f);
     _randomNumber = rand() % 1000;
 
     ispc::PathTracingRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr,
                                   _lightArray.size(), (_simulationData ? (float*)_simulationData->data : nullptr),
-                                  _simulationDataSize, _timestamp, _randomNumber, _exposure, _aoStrength, _aoDistance,
+                                  _simulationDataSize, _timestamp, _randomNumber, _exposure, _aoWeight, _aoDistance,
                                   _useHardwareRandomizer, _showBackground);
 }
 

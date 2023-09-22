@@ -95,14 +95,14 @@ rtDeclareVariable(uint, showBackground, , );
 rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
 rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
 rtDeclareVariable(float, mainExposure, , );
-rtDeclareVariable(float, shadows, , );
-rtDeclareVariable(float, softShadows, , );
+rtDeclareVariable(float, shadowIntensity, , );
+rtDeclareVariable(float, softShadowStrength, , );
 rtDeclareVariable(float, fogStart, , );
 rtDeclareVariable(float, fogThickness, , );
-rtDeclareVariable(int, maxBounces, , );
+rtDeclareVariable(int, maxRayDepth, , );
 rtDeclareVariable(int, giSamples, , );
 rtDeclareVariable(float, giWeight, , );
-rtDeclareVariable(float, giDistance, , );
+rtDeclareVariable(float, giRayLength, , );
 
 // Clipping planes
 rtBuffer<float4, 1> clippingPlanes;
@@ -111,7 +111,7 @@ rtDeclareVariable(uint, enableClippingPlanes, , );
 
 // Camera
 rtDeclareVariable(float, apertureRadius, , );
-rtDeclareVariable(float, focusDistance, , );
+rtDeclareVariable(float, focalDistance, , );
 rtDeclareVariable(uint, stereo, , );
 rtDeclareVariable(float3, ipd_offset, , );
 
@@ -135,5 +135,5 @@ rtDeclareVariable(float, volumeSamplingRate, , );
 rtDeclareVariable(float3, volumeSpecularColor, , );
 
 // Simulation data
-rtBuffer<float> simulation_data;
-rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
+rtBuffer<float> userData;
+rtDeclareVariable(unsigned long, userDataIndex, attribute userDataIndex, );

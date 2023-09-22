@@ -20,8 +20,10 @@
  */
 
 #include "OSPRayVolume.h"
+#include "OSPRayProperties.h"
 #include "Utils.h"
 
+#include <platform/core/common/Properties.h>
 #include <platform/core/parameters/VolumeParameters.h>
 
 namespace core
@@ -33,33 +35,33 @@ OSPRayVolume::OSPRayVolume(const Vector3ui& dimensions, const Vector3f& spacing,
     , _parameters(params)
     , _volume(ospNewVolume(volumeType.c_str()))
 {
-    osphelper::set(_volume, "dimensions", Vector3i(dimensions));
-    osphelper::set(_volume, "gridSpacing", Vector3f(spacing));
+    osphelper::set(_volume, OSPRAY_VOLUME_PROPERTY_DIMENSIONS, Vector3i(dimensions));
+    osphelper::set(_volume, OSPRAY_VOLUME_PROPERTY_GRID_SPACING, Vector3f(spacing));
 
     switch (type)
     {
     case DataType::FLOAT:
-        osphelper::set(_volume, "voxelType", "float");
+        osphelper::set(_volume, OSPRAY_VOLUME_VOXEL_TYPE, "float");
         _ospType = OSP_FLOAT;
         _dataSize = 4;
         break;
     case DataType::DOUBLE:
-        osphelper::set(_volume, "voxelType", "double");
+        osphelper::set(_volume, OSPRAY_VOLUME_VOXEL_TYPE, "double");
         _ospType = OSP_DOUBLE;
         _dataSize = 8;
         break;
     case DataType::UINT8:
-        osphelper::set(_volume, "voxelType", "uchar");
+        osphelper::set(_volume, OSPRAY_VOLUME_VOXEL_TYPE, "uchar");
         _ospType = OSP_UINT;
         _dataSize = 1;
         break;
     case DataType::UINT16:
-        osphelper::set(_volume, "voxelType", "ushort");
+        osphelper::set(_volume, OSPRAY_VOLUME_VOXEL_TYPE, "ushort");
         _ospType = OSP_UINT2;
         _dataSize = 2;
         break;
     case DataType::INT16:
-        osphelper::set(_volume, "voxelType", "short");
+        osphelper::set(_volume, OSPRAY_VOLUME_VOXEL_TYPE, "short");
         _ospType = OSP_INT2;
         _dataSize = 2;
         break;
@@ -69,7 +71,7 @@ OSPRayVolume::OSPRayVolume(const Vector3ui& dimensions, const Vector3f& spacing,
         throw std::runtime_error("Unsupported voxel type " + std::to_string(int(type)));
     }
 
-    ospSetObject(_volume, "transferFunction", transferFunction);
+    ospSetObject(_volume, RENDERER_PROPERTY_TRANSFER_FUNCTION, transferFunction);
 }
 
 OSPRayVolume::~OSPRayVolume()
@@ -81,7 +83,7 @@ OSPRayBrickedVolume::OSPRayBrickedVolume(const Vector3ui& dimensions, const Vect
                                          const VolumeParameters& params, OSPTransferFunction transferFunction)
     : Volume(dimensions, spacing, type)
     , BrickedVolume(dimensions, spacing, type)
-    , OSPRayVolume(dimensions, spacing, type, params, transferFunction, "block_bricked_volume")
+    , OSPRayVolume(dimensions, spacing, type, params, transferFunction, OSPRAY_VOLUME_PROPERTY_TYPE_BLOCK_BRICKED)
 {
 }
 
@@ -90,14 +92,14 @@ OSPRaySharedDataVolume::OSPRaySharedDataVolume(const Vector3ui& dimensions, cons
                                                OSPTransferFunction transferFunction)
     : Volume(dimensions, spacing, type)
     , SharedDataVolume(dimensions, spacing, type)
-    , OSPRayVolume(dimensions, spacing, type, params, transferFunction, "shared_structured_volume")
+    , OSPRayVolume(dimensions, spacing, type, params, transferFunction, OSPRAY_VOLUME_PROPERTY_TYPE_SHARED_STRUCTURED)
 {
 }
 
 void OSPRayVolume::setDataRange(const Vector2f& range)
 {
     _valueRange = range;
-    osphelper::set(_volume, "voxelRange", _valueRange);
+    osphelper::set(_volume, OSPRAY_VOLUME_VOXEL_RANGE, _valueRange);
     markModified();
 }
 
@@ -114,7 +116,7 @@ void OSPRaySharedDataVolume::setVoxels(const void* voxels)
 {
     OSPData data = ospNewData(glm::compMul(SharedDataVolume::_dimensions), _ospType, voxels, OSP_DATA_SHARED_BUFFER);
     SharedDataVolume::_sizeInBytes += glm::compMul(SharedDataVolume::_dimensions) * _dataSize;
-    ospSetData(_volume, "voxelData", data);
+    ospSetData(_volume, OSPRAY_VOLUME_VOXEL_DATA, data);
     ospRelease(data);
     markModified();
 }
@@ -123,16 +125,16 @@ void OSPRayVolume::commit()
 {
     if (_parameters.isModified())
     {
-        osphelper::set(_volume, "gradientShadingEnabled", _parameters.getGradientShading());
-        osphelper::set(_volume, "adaptiveMaxSamplingRate",
+        osphelper::set(_volume, OSPRAY_VOLUME_GRADIENT_SHADING_ENABLED, _parameters.getGradientShading());
+        osphelper::set(_volume, OSPRAY_VOLUME_ADAPTIVE_MAX_SAMPLING_RATE,
                        static_cast<float>(_parameters.getAdaptiveMaxSamplingRate()));
-        osphelper::set(_volume, "adaptiveSampling", _parameters.getAdaptiveSampling());
-        osphelper::set(_volume, "singleShade", _parameters.getSingleShade());
-        osphelper::set(_volume, "preIntegration", _parameters.getPreIntegration());
-        osphelper::set(_volume, "samplingRate", static_cast<float>(_parameters.getSamplingRate()));
-        osphelper::set(_volume, "specular", Vector3f(_parameters.getSpecular()));
-        osphelper::set(_volume, "volumeClippingBoxLower", Vector3f(_parameters.getClipBox().getMin()));
-        osphelper::set(_volume, "volumeClippingBoxUpper", Vector3f(_parameters.getClipBox().getMax()));
+        osphelper::set(_volume, OSPRAY_VOLUME_ADAPTIVE_SAMPLING, _parameters.getAdaptiveSampling());
+        osphelper::set(_volume, OSPRAY_VOLUME_SINGLE_SHADE, _parameters.getSingleShade());
+        osphelper::set(_volume, OSPRAY_VOLUME_PRE_INTEGRATION, _parameters.getPreIntegration());
+        osphelper::set(_volume, OSPRAY_VOLUME_SAMPLING_RATE, static_cast<float>(_parameters.getSamplingRate()));
+        osphelper::set(_volume, OSPRAY_VOLUME_SPECULAR_EXPONENT, Vector3f(_parameters.getSpecular()));
+        osphelper::set(_volume, OSPRAY_VOLUME_VOLUME_CLIPPING_BOX_LOWER, Vector3f(_parameters.getClipBox().getMin()));
+        osphelper::set(_volume, OSPRAY_VOLUME_VOLUME_CLIPPING_BOX_UPPER, Vector3f(_parameters.getClipBox().getMax()));
     }
     if (isModified() || _parameters.isModified())
         ospCommit(_volume);

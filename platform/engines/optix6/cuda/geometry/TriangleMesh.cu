@@ -56,7 +56,7 @@ rtDeclareVariable(float3, front_hit_point, attribute front_hit_point, );
 
 rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
 rtDeclareVariable(PerRayData_radiance, prd, rtPayload, );
-rtDeclareVariable(unsigned long, simulation_idx, attribute simulation_idx, );
+rtDeclareVariable(unsigned long, userDataIndex, attribute userDataIndex, );
 
 static __device__ void computeWPosDerivatives(float3& ddxwpos, float3& ddywpos, float3 p0, float3 p1, float3 p2,
                                               float2 betaDerivative, float2 gammaDerivative)
@@ -154,7 +154,7 @@ static __device__ void meshIntersect(int primIdx)
             if (DO_REFINE)
                 refine_and_offset_hitpoint(ray.origin + t * ray.direction, ray.direction, geometric_normal, p0,
                                            back_hit_point, front_hit_point);
-            simulation_idx = 0;
+            userDataIndex = 0;
             rtReportIntersection(0);
         }
     }

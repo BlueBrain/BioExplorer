@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -198,9 +196,9 @@ class MeshLoader;
 class Statistics;
 
 /** Supported engines */
-const std::string ENGINE_OSPRAY = "ospray";
-const std::string ENGINE_OPTIX_6 = "optix6";
-const std::string ENGINE_OPTIX_7 = "optix7";
+static const char* ENGINE_OSPRAY = "ospray";
+static const char* ENGINE_OPTIX_6 = "optix6";
+static const char* ENGINE_OPTIX_7 = "optix7";
 
 /** Define the frame buffer format */
 enum class FrameBufferFormat
@@ -230,14 +228,14 @@ enum class GeometryQuality
 /** Some 'special' materials are used by Core to accomplish specific features
  *  such as bounding boxes.
  */
-const size_t NO_MATERIAL = std::numeric_limits<size_t>::max();
-const size_t BOUNDINGBOX_MATERIAL_ID = NO_MATERIAL - 1;
-const size_t SECONDARY_MODEL_MATERIAL_ID = NO_MATERIAL - 2;
-const size_t VOLUME_MATERIAL_ID = NO_MATERIAL - 3;
+static const size_t NO_MATERIAL = std::numeric_limits<size_t>::max();
+static const size_t BOUNDINGBOX_MATERIAL_ID = NO_MATERIAL - 1;
+static const size_t SECONDARY_MODEL_MATERIAL_ID = NO_MATERIAL - 2;
+static const size_t VOLUME_MATERIAL_ID = NO_MATERIAL - 3;
 
-const std::string IRRADIANCE_MAP = "-irradiance";
-const std::string RADIANCE_MAP = "-radiance";
-const std::string BRDF_LUT = "-brdfLUT";
+static const std::string IRRADIANCE_MAP = "-irradiance";
+static const std::string RADIANCE_MAP = "-radiance";
+static const std::string BRDF_LUT = "-brdfLUT";
 
 enum class TextureType : uint8_t
 {
@@ -257,7 +255,7 @@ enum class TextureType : uint8_t
     transfer_function
 };
 
-const strings textureTypeToString{
+static const strings textureTypeToString{
     "albedoMetallic_map", "normalRoughness_map",  "bump_map",      "aoEmissive_map", "map_ns",         "map_d",
     "map_reflection",     "map_refraction",       "map_occlusion", "radiance_map",   "irradiance_map", "brdf_lut",
     "volume_map",         "transfer_function_map"};
@@ -399,28 +397,4 @@ inline std::vector<std::pair<std::string, DataType>> enumMap()
             {"uint16", DataType::UINT16}, {"uint32", DataType::UINT32}, {"int8", DataType::INT8},
             {"int16", DataType::INT16},   {"int32", DataType::INT32}};
 }
-
-///////////////////////////////////////////////////////////////////////////
-
-const std::string CAMERA_PROPERTY_POSITION = "pos";
-const std::string CAMERA_PROPERTY_DIRECTION = "dir";
-const std::string CAMERA_PROPERTY_UP_VECTOR = "up";
-const std::string CAMERA_PROPERTY_APERTURE_RADIUS = "apertureRadius";
-const std::string CAMERA_PROPERTY_FOCUS_DISTANCE = "focusDistance";
-const std::string CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES = "enableClippingPlanes";
-const std::string CAMERA_PROPERTY_CLIPPING_PLANES = "clipPlanes";
-const std::string CAMERA_PROPERTY_ASPECT = "aspect";
-const std::string CAMERA_PROPERTY_HEIGHT = "height";
-const std::string CAMERA_PROPERTY_FOVY = "fovy";
-const std::string CAMERA_PROPERTY_NEAR_CLIP = "nearClip";
-const std::string CAMERA_PROPERTY_BUFFER_TARGET = "buffer_target";
-const std::string CAMERA_PROPERTY_ENVIRONMENT_MAP = "environmentMap";
-const std::string CAMERA_PROPERTY_STEREO = "stereo";
-const std::string CAMERA_PROPERTY_ZERO_PARALLAX_PLANE = "zeroParallaxPlane";
-const std::string CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE = "interpupillaryDistance";
-constexpr float DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE = 0.0635f;
-constexpr float DEFAULT_CAMERA_FOVY = 60.f;
-
-const std::string RENDERER_PROPERTY_NAME_USE_HARDWARE_RANDOMIZER = "useHardwareRandomizer";
-
 } // namespace core

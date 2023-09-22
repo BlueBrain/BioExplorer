@@ -30,6 +30,8 @@
 
 #include <common/Logs.h>
 
+#include <platform/core/common/Properties.h>
+
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>

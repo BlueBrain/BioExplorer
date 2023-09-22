@@ -6,8 +6,6 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published
  * by the Free Software Foundation.
@@ -87,7 +85,7 @@ static __device__ void intersect_cylinder(int primIdx)
                 const float3 P = ray.origin + t_in * ray.direction - v0;
                 const float3 V = cross(P, AB);
                 geometric_normal = shading_normal = cross(AB, V);
-                simulation_idx = userData;
+                userDataIndex = userData;
                 texcoord = make_float2(0.f);
                 texcoord3d = make_float3(0.f);
                 if (rtReportIntersection(0))
@@ -105,7 +103,7 @@ static __device__ void intersect_cylinder(int primIdx)
                     const float3 P = t_out * ray.direction - A;
                     const float3 V = cross(P, AB);
                     geometric_normal = shading_normal = cross(AB, V);
-                    simulation_idx = userData;
+                    userDataIndex = userData;
                     texcoord = make_float2(0.f);
                     texcoord3d = make_float3(0.f);
                     rtReportIntersection(0);

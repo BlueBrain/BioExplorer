@@ -21,6 +21,7 @@
 
 // Platform
 #include <platform/core/common/geometry/SDFGeometry.h>
+#include <platform/engines/ospray/OSPRayProperties.h>
 
 // ospray
 #include "SDFGeometries.h"
@@ -32,6 +33,8 @@
 #include <climits>
 #include <cstddef>
 
+using namespace core;
+
 namespace ospray
 {
 SDFGeometries::SDFGeometries()
@@ -41,9 +44,9 @@ SDFGeometries::SDFGeometries()
 
 void SDFGeometries::finalize(ospray::Model* model)
 {
-    data = getParamData("sdfgeometries", nullptr);
-    neighbours = getParamData("neighbours", nullptr);
-    geometries = getParamData("geometries", nullptr);
+    data = getParamData(OSPRAY_GEOMETRY_PROPERTY_SDF, nullptr);
+    neighbours = getParamData(OSPRAY_GEOMETRY_PROPERTY_SDF_NEIGHBOURS, nullptr);
+    geometries = getParamData(OSPRAY_GEOMETRY_PROPERTY_SDF_GEOMETRIES, nullptr);
 
     if (data.ptr == nullptr)
         throw std::runtime_error(
