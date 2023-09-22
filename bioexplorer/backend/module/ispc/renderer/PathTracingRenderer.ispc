@@ -23,7 +23,6 @@
 
 #include "PathTracingRenderer.ih"
 
-// Platform
 #include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
 #include <platform/engines/ospray/ispc/render/utils/SkyBox.ih>
 
@@ -32,8 +31,8 @@ uniform const float skypower = 3.0f;
 uniform const float skypower_zerobounce = 1.0f;
 
 /**
-    Returns the refracted vector according to the direction of the incident ray,
-   he normal to the surface, and localRefraction indices
+    Returns the refracted vector according to the direction of the incident ray, the normal to the surface, and
+   localRefraction indices
     @param direction Direction of the incident ray
     @param normal Normal to the surface
     @param n1 In localRefraction index

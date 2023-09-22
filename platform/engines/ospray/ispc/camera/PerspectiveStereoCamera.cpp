@@ -37,9 +37,13 @@
 
 namespace core
 {
+namespace engine
+{
+namespace ospray
+{
 PerspectiveStereoCamera::PerspectiveStereoCamera()
 {
-    ispcEquivalent = ispc::PerspectiveStereoCamera_create(this);
+    ispcEquivalent = ::ispc::PerspectiveStereoCamera_create(this);
 }
 
 void PerspectiveStereoCamera::commit()
@@ -63,11 +67,11 @@ void PerspectiveStereoCamera::commit()
                                      static_cast<int>(DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER));
 
     dir = normalize(dir);
-    vec3f dir_du = normalize(cross(dir, up));
-    vec3f dir_dv = cross(dir_du, dir);
+    ::ospray::vec3f dir_du = normalize(cross(dir, up));
+    ::ospray::vec3f dir_dv = cross(dir_du, dir);
 
-    vec3f org = pos;
-    const vec3f ipd_offset = 0.5f * interpupillaryDistance * dir_du;
+    ::ospray::vec3f org = pos;
+    const ::ospray::vec3f ipd_offset = 0.5f * interpupillaryDistance * dir_du;
 
     switch (stereoMode)
     {
@@ -84,13 +88,13 @@ void PerspectiveStereoCamera::commit()
         break;
     }
 
-    double imgPlane_size_y = 2.f * tanf(deg2rad(0.5f * fieldOfView));
+    double imgPlane_size_y = 2.f * tanf(::ospray::deg2rad(0.5f * fieldOfView));
     double imgPlane_size_x = imgPlane_size_y * aspect;
 
     dir_du *= imgPlane_size_x;
     dir_dv *= imgPlane_size_y;
 
-    vec3f dir_00 = dir - 0.5f * dir_du - 0.5f * dir_dv;
+    ::ospray::vec3f dir_00 = dir - 0.5f * dir_du - 0.5f * dir_dv;
 
     double scaledAperture = 0.f;
     if (apertureRadius > 0.f)
@@ -104,11 +108,14 @@ void PerspectiveStereoCamera::commit()
     const auto clipPlaneData = clipPlanes ? clipPlanes->data : nullptr;
     const size_t numClipPlanes = clipPlanes ? clipPlanes->numItems : 0;
 
-    ispc::PerspectiveStereoCamera_set(getIE(), (const ispc::vec3f&)org, (const ispc::vec3f&)dir_00,
-                                      (const ispc::vec3f&)dir_du, (const ispc::vec3f&)dir_dv, scaledAperture, aspect,
-                                      (const ispc::vec3f&)ipd_offset, stereoMode, (const ispc::vec4f*)clipPlaneData,
-                                      numClipPlanes, nearClip, useHardwareRandomizer);
+    ::ispc::PerspectiveStereoCamera_set(getIE(), (const ::ispc::vec3f&)org, (const ::ispc::vec3f&)dir_00,
+                                        (const ::ispc::vec3f&)dir_du, (const ::ispc::vec3f&)dir_dv, scaledAperture,
+                                        aspect, (const ::ispc::vec3f&)ipd_offset, stereoMode,
+                                        (const ::ispc::vec4f*)clipPlaneData, numClipPlanes, nearClip,
+                                        useHardwareRandomizer);
 }
 
 OSP_REGISTER_CAMERA(PerspectiveStereoCamera, perspective);
+} // namespace ospray
+} // namespace engine
 } // namespace core

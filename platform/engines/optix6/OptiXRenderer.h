@@ -29,6 +29,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 /**
    OptiX specific renderer
 
@@ -50,4 +54,6 @@ private:
 
     Timer _timer;
 };
+} // namespace optix
+} // namespace engine
 } // namespace core

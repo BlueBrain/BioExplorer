@@ -22,22 +22,20 @@
 
 #pragma once
 
+#include <common/Properties.h>
+
 #include <platform/engines/ospray/ispc/render/utils/SimulationRenderer.h>
 
 namespace sonataexplorer
 {
 /**
-    The ProximityDetectionRenderer uses an algorithm similar to ambient
-   occlusion to identify touches between geometries. A color gradient,
-   defined by nearColor and farColor, is computed according to the distance
-   between the intersection that is being rendered and the surrounding
-   geometry. nearColor is used when the distance to the surrounding geometry
-   is less than 20% of the detection distance. farColor is used otherwise.
-   The dection distance defines the maximum distance between the
-   intersection and the surrounding geometry.
+    The ProximityDetectionRenderer uses an algorithm similar to ambient occlusion to identify touches between
+   geometries. A color gradient, defined by nearColor and farColor, is computed according to the distance between the
+   intersection that is being rendered and the surrounding geometry. nearColor is used when the distance to the
+   surrounding geometry is less than 20% of the detection distance. farColor is used otherwise. The detection distance
+   defines the maximum distance between the intersection and the surrounding geometry.
 
-    Surrounding geometry is detected by sending random rays from the
-    intersection point of the surface.
+    Surrounding geometry is detected by sending random rays from the intersection point of the surface.
 
     This renderer can be configured using the following entries:
     - detectionDistance: Maximum distance for surrounding geometry detection
@@ -45,16 +43,16 @@ namespace sonataexplorer
    that has the same material as the hit surface.
     - spp: Unsigned integer defining the number of samples per pixel
 */
-class ProximityDetectionRenderer : public core::SimulationRenderer
+class ProximityDetectionRenderer : public core::engine::ospray::SimulationRenderer
 {
 public:
     ProximityDetectionRenderer();
 
     /**
        Returns the class name as a string
-       @return string containing the full name of the class
+       @return string containing the name of the object in the OSPRay context
     */
-    std::string toString() const final { return "ProximityDetectionRenderer"; }
+    std::string toString() const final { return RENDERER_PROXIMITY; }
     /**
        Commits the changes held by the object so that
        attributes become available to the OSPRay rendering engine
@@ -62,12 +60,12 @@ public:
     virtual void commit();
 
 private:
-    ospray::vec3f _nearColor{0.f, 1.f, 0.f};
-    ospray::vec3f _farColor{1.f, 0.f, 0.f};
+    ::ospray::vec3f _nearColor{0.f, 1.f, 0.f};
+    ::ospray::vec3f _farColor{1.f, 0.f, 0.f};
     float _detectionDistance{1.f};
     bool _detectionOnDifferentMaterial{true};
     bool _surfaceShadingEnabled{true};
-    ospray::uint32 _randomNumber{0};
+    ::ospray::uint32 _randomNumber{0};
     float _alphaCorrection{0.5f};
 };
 } // namespace sonataexplorer

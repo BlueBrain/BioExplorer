@@ -38,6 +38,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 OptiXScene::OptiXScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
                        VolumeParameters& volumeParameters)
     : Scene(animationParameters, geometryParameters, volumeParameters)
@@ -51,7 +55,7 @@ OptiXScene::OptiXScene(AnimationParameters& animationParameters, GeometryParamet
     { // Create dummy texture sampler
         ::optix::TextureSampler sampler = context->createTextureSampler();
         sampler->setArraySize(1u);
-        optix::Buffer buffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 1, 1);
+        ::optix::Buffer buffer = context->createBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, 1, 1);
         sampler->setBuffer(buffer);
         _dummyTextureSampler = sampler;
     }
@@ -314,5 +318,6 @@ void OptiXScene::commit()
     // update/set clip planes.
     markModified();
 }
-
+} // namespace optix
+} // namespace engine
 } // namespace core

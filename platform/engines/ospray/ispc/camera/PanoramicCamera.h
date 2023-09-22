@@ -23,33 +23,28 @@
 
 #include "camera/Camera.h"
 
+#include <platform/engines/ospray/OSPRayProperties.h>
+
+namespace core
+{
+namespace engine
+{
 namespace ospray
 {
-//! Implements a clipped panoramic camera
-struct OSPRAY_SDK_INTERFACE PanoramicCamera : public Camera
+struct OSPRAY_SDK_INTERFACE PanoramicCamera : public ::ospray::Camera
 {
-    /*! \brief constructor \internal also creates the ispc-side data structure
-     */
     PanoramicCamera();
 
-    //! \brief common function to help printf-debugging
-    /*! Every derived class should override this! */
-    virtual std::string toString() const { return "ospray::PanoramicCamera"; }
+    virtual std::string toString() const { return OSPRAY_CAMERA_PROPERTY_TYPE_PANORAMIC; }
     virtual void commit();
 
 public:
-    // ------------------------------------------------------------------
-    // the parameters we 'parsed' from our parameters
-    // ------------------------------------------------------------------
     bool stereo{false};
-    float interpupillaryDistance; // distance between the two cameras (stereo)
-
-    // Clip planes
+    float interpupillaryDistance;
     bool enableClippingPlanes{false};
-    Ref<Data> clipPlanes;
-
-    // Dome
+    ::ospray::Ref<::ospray::Data> clipPlanes;
     bool half{false};
 };
-
 } // namespace ospray
+} // namespace engine
+} // namespace core

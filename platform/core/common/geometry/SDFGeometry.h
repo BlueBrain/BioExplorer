@@ -105,13 +105,13 @@ inline Boxd getSDFBoundingBox(const SDFGeometry& geom)
     Boxd bounds;
     switch (geom.type)
     {
-    case core::SDFType::Sphere:
+    case SDFType::Sphere:
     {
         bounds.merge(geom.p0 - Vector3f(geom.r0));
         bounds.merge(geom.p0 + Vector3f(geom.r0));
         break;
     }
-    case core::SDFType::Pill:
+    case SDFType::Pill:
     {
         bounds.merge(geom.p0 - Vector3f(geom.r0));
         bounds.merge(geom.p0 + Vector3f(geom.r0));
@@ -119,8 +119,8 @@ inline Boxd getSDFBoundingBox(const SDFGeometry& geom)
         bounds.merge(geom.p1 + Vector3f(geom.r0));
         break;
     }
-    case core::SDFType::ConePill:
-    case core::SDFType::ConePillSigmoid:
+    case SDFType::ConePill:
+    case SDFType::ConePillSigmoid:
     {
         bounds.merge(geom.p0 - Vector3f(geom.r0));
         bounds.merge(geom.p0 + Vector3f(geom.r0));
@@ -133,5 +133,4 @@ inline Boxd getSDFBoundingBox(const SDFGeometry& geom)
     }
     return bounds;
 }
-
 } // namespace core

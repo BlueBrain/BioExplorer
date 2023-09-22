@@ -21,13 +21,15 @@
 
 #include <ospray/SDK/common/Data.h>
 
-using namespace core;
-
+namespace core
+{
+namespace engine
+{
 namespace ospray
 {
 OrthographicCamera::OrthographicCamera()
 {
-    ispcEquivalent = ispc::OrthographicCamera_create(this);
+    ispcEquivalent = ::ispc::OrthographicCamera_create(this);
 }
 
 void OrthographicCamera::commit()
@@ -41,22 +43,23 @@ void OrthographicCamera::commit()
     clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES, nullptr) : nullptr;
 
     dir = normalize(dir);
-    vec3f pos_du = normalize(cross(dir, up));
-    vec3f pos_dv = cross(pos_du, dir);
+    ::ospray::vec3f pos_du = normalize(cross(dir, up));
+    ::ospray::vec3f pos_dv = cross(pos_du, dir);
 
     pos_du *= height * aspect;
     pos_dv *= height;
 
-    vec3f pos_00 = pos - 0.5f * pos_du - 0.5f * pos_dv;
+    ::ospray::vec3f pos_00 = pos - 0.5f * pos_du - 0.5f * pos_dv;
 
     const auto clipPlaneData = clipPlanes ? clipPlanes->data : nullptr;
     const size_t numClipPlanes = clipPlanes ? clipPlanes->numItems : 0;
 
-    ispc::OrthographicCamera_set(getIE(), (const ispc::vec3f&)dir, (const ispc::vec3f&)pos_00,
-                                 (const ispc::vec3f&)pos_du, (const ispc::vec3f&)pos_dv,
-                                 (const ispc::vec4f*)clipPlaneData, numClipPlanes);
+    ::ispc::OrthographicCamera_set(getIE(), (const ::ispc::vec3f&)dir, (const ::ispc::vec3f&)pos_00,
+                                   (const ::ispc::vec3f&)pos_du, (const ::ispc::vec3f&)pos_dv,
+                                   (const ::ispc::vec4f*)clipPlaneData, numClipPlanes);
 }
 
 OSP_REGISTER_CAMERA(OrthographicCamera, orthographic);
-
 } // namespace ospray
+} // namespace engine
+} // namespace core

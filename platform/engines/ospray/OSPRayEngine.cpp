@@ -41,6 +41,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace ospray
+{
 OSPRayEngine::OSPRayEngine(ParametersManager& parametersManager)
     : Engine(parametersManager)
 {
@@ -263,6 +267,8 @@ void OSPRayEngine::_createCameras()
         addCameraType(OSPRAY_CAMERA_PROPERTY_TYPE_FISHEYE, properties);
     }
 }
+} // namespace ospray
+} // namespace engine
 } // namespace core
 
 extern "C" core::Engine* core_engine_create(int, const char**, core::ParametersManager& parametersManager)
@@ -277,5 +283,5 @@ extern "C" core::Engine* core_engine_create(int, const char**, core::ParametersM
     PLUGIN_INFO("                                                     _|_|              ");
     PLUGIN_INFO("");
 
-    return new core::OSPRayEngine(parametersManager);
+    return new core::engine::ospray::OSPRayEngine(parametersManager);
 }

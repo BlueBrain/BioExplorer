@@ -23,7 +23,7 @@
 
 #include "ospray/SDK/math/vec.ih"
 
-// These are functions needed to handle > 2GB buffers in ispc.
+// These are functions needed to handle > 2GB buffers in ::ispc.
 
 #define INT_MAX 2147483647
 

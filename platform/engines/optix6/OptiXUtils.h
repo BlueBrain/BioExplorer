@@ -31,6 +31,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 #define CORE_OPTIX_SAMPLE_NAME "braynsOptix7Engine"
 
 #define RT_DESTROY(__object)         \
@@ -62,4 +66,6 @@ static void context_log_cb(unsigned int level, const char* tag, const char* mess
 }
 
 void toOptiXProperties(const PropertyMap& object);
+} // namespace optix
+} // namespace engine
 } // namespace core

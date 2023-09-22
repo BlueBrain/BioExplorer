@@ -23,15 +23,12 @@
 
 #include "DensityRenderer.ih"
 
-// Platform
 #include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
 
-// OSPRay
 #include <ospray/SDK/math/sampling.ih>
 
 /**
-    Composes source and destination colors according to specified alpha
-   correction
+    Composes source and destination colors according to specified alpha correction
     @param src Source RGBA color
     @param dst Returned destination RGBA color
     @param alphaCorrection Alpha correction used to blend colors

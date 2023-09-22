@@ -22,12 +22,16 @@
 
 #pragma once
 
-#include <platform/core/engineapi/FrameBuffer.h>
 #include <optixu/optixpp_namespace.h>
+#include <platform/core/engineapi/FrameBuffer.h>
 
 #include <mutex>
 
 namespace core
+{
+namespace engine
+{
+namespace optix
 {
 /**
    OptiX specific frame buffer
@@ -55,10 +59,10 @@ private:
     void _mapUnsafe();
     void _unmapUnsafe();
 
-    optix::Buffer _outputBuffer{nullptr};
-    optix::Buffer _accumBuffer{nullptr};
-    optix::Buffer _tonemappedBuffer{nullptr};
-    optix::Buffer _denoisedBuffer{nullptr};
+    ::optix::Buffer _outputBuffer{nullptr};
+    ::optix::Buffer _accumBuffer{nullptr};
+    ::optix::Buffer _tonemappedBuffer{nullptr};
+    ::optix::Buffer _denoisedBuffer{nullptr};
 
     uint8_t* _colorBuffer{nullptr};
     float* _floatBuffer{nullptr};
@@ -68,12 +72,12 @@ private:
 
     // Post processing
     void _initializePostProcessingStages();
-    optix::CommandList _commandListWithDenoiser{nullptr};
-    optix::CommandList _commandListWithDenoiserAndToneMapper{nullptr};
+    ::optix::CommandList _commandListWithDenoiser{nullptr};
+    ::optix::CommandList _commandListWithDenoiserAndToneMapper{nullptr};
 
-    optix::PostprocessingStage _tonemapStage{nullptr};
-    optix::PostprocessingStage _denoiserStage{nullptr};
-    optix::PostprocessingStage _denoiserWithMappingStage{nullptr};
+    ::optix::PostprocessingStage _tonemapStage{nullptr};
+    ::optix::PostprocessingStage _denoiserStage{nullptr};
+    ::optix::PostprocessingStage _denoiserWithMappingStage{nullptr};
 
     uint64_t _accumulationFrameNumber{1u};
 
@@ -84,4 +88,6 @@ private:
     // protect map/unmap
     std::mutex _mapMutex;
 };
+} // namespace optix
+} // namespace engine
 } // namespace core

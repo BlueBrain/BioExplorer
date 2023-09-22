@@ -24,16 +24,21 @@
 #include "ospray/SDK/geometry/Geometry.h"
 #include <platform/core/common/Types.h>
 
+namespace core
+{
+namespace engine
+{
 namespace ospray
 {
-struct SDFBeziers : public ospray::Geometry
+struct SDFBeziers : public ::ospray::Geometry
 {
-    std::string toString() const final { return "core::SDFBeziers"; }
-    void finalize(ospray::Model* model) final;
+    std::string toString() const final { return "SDFBeziers"; }
+    void finalize(::ospray::Model* model) final;
 
-    ospray::Ref<ospray::Data> data;
+    ::ospray::Ref<::ospray::Data> data;
 
     SDFBeziers();
 };
-
 } // namespace ospray
+} // namespace engine
+} // namespace core

@@ -24,7 +24,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// ospray
 #include <ospray/SDK/camera/PerspectiveCamera.ih>
 #include <ospray/SDK/common/Model.ih>
 #include <ospray/SDK/fb/FrameBuffer.ih>
@@ -32,7 +31,6 @@
 #include <ospray/SDK/render/Renderer.ih>
 #include <ospray/SDK/texture/Texture2D.ih>
 
-// Platform
 #include "AdvancedMaterial.ih"
 #include "RandomGenerator.ih"
 #include "SkyBox.ih"
@@ -41,10 +39,8 @@ struct AbstractRenderer
 {
     Renderer super;
 
-    // Rendering attributes
     const uniform Light* uniform* uniform lights;
     uint32 numLights;
-
     AdvancedMaterial* bgMaterial;
     float timestamp;
 };

@@ -20,12 +20,15 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef OSPRAYENGINE_H
-#define OSPRAYENGINE_H
+#pragma once
 
 #include <platform/core/engineapi/Engine.h>
 
 namespace core
+{
+namespace engine
+{
+namespace ospray
 {
 /**
  * OSPRay implementation of the ray-tracing engine.
@@ -58,6 +61,6 @@ private:
 
     bool _useDynamicLoadBalancer{false};
 };
+} // namespace ospray
+} // namespace engine
 } // namespace core
-
-#endif // OSPRAYENGINE_H

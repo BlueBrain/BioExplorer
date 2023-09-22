@@ -30,6 +30,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace ospray
+{
 class BasicRenderer : public AbstractRenderer
 {
 public:
@@ -37,10 +41,11 @@ public:
 
     /**
        Returns the class name as a string
-       @return string containing the full name of the class
+       @return string containing the name of the object in the OSPRay context
     */
-    std::string toString() const final { return "core::BasicRenderer"; }
+    std::string toString() const final { return RENDERER_PROPERTY_TYPE_BASIC; }
     void commit() final;
 };
-
+} // namespace ospray
+} // namespace engine
 } // namespace core

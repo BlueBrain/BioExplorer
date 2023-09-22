@@ -26,6 +26,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 /**
  * OptiX implementation of the ray-tracing engine.
  */
@@ -55,4 +59,6 @@ private:
     void _createRenderers();
     void _createCameras();
 };
+} // namespace optix
+} // namespace engine
 } // namespace core

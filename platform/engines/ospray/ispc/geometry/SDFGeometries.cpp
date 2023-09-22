@@ -19,30 +19,30 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// Platform
 #include <platform/core/common/geometry/SDFGeometry.h>
 #include <platform/engines/ospray/OSPRayProperties.h>
 
-// ospray
 #include "SDFGeometries.h"
 #include "ospray/SDK/common/Data.h"
 #include "ospray/SDK/common/Model.h"
-// ispc-generated files
+
 #include "SDFGeometries_ispc.h"
 
 #include <climits>
 #include <cstddef>
 
-using namespace core;
-
+namespace core
+{
+namespace engine
+{
 namespace ospray
 {
 SDFGeometries::SDFGeometries()
 {
-    this->ispcEquivalent = ispc::SDFGeometries_create(this);
+    this->ispcEquivalent = ::ispc::SDFGeometries_create(this);
 }
 
-void SDFGeometries::finalize(ospray::Model* model)
+void SDFGeometries::finalize(::ospray::Model* model)
 {
     data = getParamData(OSPRAY_GEOMETRY_PROPERTY_SDF, nullptr);
     neighbours = getParamData(OSPRAY_GEOMETRY_PROPERTY_SDF_NEIGHBOURS, nullptr);
@@ -56,24 +56,25 @@ void SDFGeometries::finalize(ospray::Model* model)
     const size_t numSDFGeometries = data->numItems;
     const size_t numNeighbours = neighbours->numItems;
 
-    bounds = empty;
+    bounds = ::ospray::empty;
     const auto geoms = static_cast<core::SDFGeometry*>(geometries->data);
     for (size_t i = 0; i < numSDFGeometries; i++)
     {
         const auto bd = getSDFBoundingBox(geoms[i]);
         const auto& bMind = bd.getMin();
         const auto& bMaxd = bd.getMax();
-        const auto bMinf = vec3f(bMind[0], bMind[1], bMind[2]);
-        const auto bMaxf = vec3f(bMaxd[0], bMaxd[1], bMaxd[2]);
+        const auto bMinf = ::ospray::vec3f(bMind[0], bMind[1], bMind[2]);
+        const auto bMaxf = ::ospray::vec3f(bMaxd[0], bMaxd[1], bMaxd[2]);
 
         bounds.extend(bMinf);
         bounds.extend(bMaxf);
     }
 
-    ispc::SDFGeometriesGeometry_set(getIE(), model->getIE(), data->data, numSDFGeometries, neighbours->data,
-                                    numNeighbours, geometries->data);
+    ::ispc::SDFGeometriesGeometry_set(getIE(), model->getIE(), data->data, numSDFGeometries, neighbours->data,
+                                      numNeighbours, geometries->data);
 }
 
 OSP_REGISTER_GEOMETRY(SDFGeometries, sdfgeometries);
-
 } // namespace ospray
+} // namespace engine
+} // namespace core

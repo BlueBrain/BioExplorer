@@ -81,6 +81,7 @@ static const char* RENDERER_PROPERTY_TRANSFER_FUNCTION = "transferFunction";
 static const char* RENDERER_PROPERTY_BACKGROUND_MATERIAL = "bgMaterial";
 static const char* RENDERER_PROPERTY_LIGHTS = "lights";
 static const char* RENDERER_PROPERTY_TIMESTAMP = "timestamp";
+static const char* RENDERER_PROPERTY_RANDOM_NUMBER = "randomNumber";
 
 static constexpr bool DEFAULT_RENDERER_SHOW_BACKGROUND = true;
 static constexpr int DEFAULT_RENDERER_MAX_RAY_DEPTH = 3;

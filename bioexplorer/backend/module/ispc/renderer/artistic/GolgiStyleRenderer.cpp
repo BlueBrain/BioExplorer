@@ -25,10 +25,9 @@
 
 #include <science/common/Properties.h>
 
-// ispc exports
-#include "GolgiStyleRenderer_ispc.h"
+#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
-using namespace core;
+#include "GolgiStyleRenderer_ispc.h"
 
 namespace bioexplorer
 {
@@ -42,15 +41,15 @@ void GolgiStyleRenderer::commit()
     _inverse =
         getParam(BIOEXPLORER_RENDERER_PROPERTY_GOLGI_INVERSE.name.c_str(), BIOEXPLORER_DEFAULT_RENDERER_GOLGI_INVERSE);
 
-    ispc::GolgiStyleRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _exponent, _inverse);
+    ::ispc::GolgiStyleRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _exponent, _inverse);
 }
 
 GolgiStyleRenderer::GolgiStyleRenderer()
 {
-    ispcEquivalent = ispc::GolgiStyleRenderer_create(this);
+    ispcEquivalent = ::ispc::GolgiStyleRenderer_create(this);
 }
 
 OSP_REGISTER_RENDERER(GolgiStyleRenderer, bio_explorer_golgi_style);
-OSP_REGISTER_MATERIAL(bio_explorer_golgi_style, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(bio_explorer_golgi_style, core::engine::ospray::AdvancedMaterial, default);
 } // namespace rendering
 } // namespace bioexplorer

@@ -51,17 +51,17 @@ void BlackHoleRenderer::commit()
                                     BLACK_HOLE_DEFAULT_RENDERER_TEXTURE_LAYERS);
     _blackHoleSize = getParam1f(BLACK_HOLE_RENDERER_PROPERTY_SIZE.name.c_str(), BLACK_HOLE_DEFAULT_RENDERER_SIZE);
 
-    ispc::BlackHoleRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _exposure,
-                                _nbDisks, _grid, _diskRotationSpeed, _diskTextureLayers, _blackHoleSize);
+    ::ispc::BlackHoleRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _exposure,
+                                  _nbDisks, _grid, _diskRotationSpeed, _diskTextureLayers, _blackHoleSize);
 }
 
 BlackHoleRenderer::BlackHoleRenderer()
 {
-    ispcEquivalent = ispc::BlackHoleRenderer_create(this);
+    ispcEquivalent = ::ispc::BlackHoleRenderer_create(this);
 }
 
 OSP_REGISTER_RENDERER(BlackHoleRenderer, blackhole);
-OSP_REGISTER_MATERIAL(blackhole, core::AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(blackhole, core::engine::ospray::AdvancedMaterial, default);
 
 } // namespace blackhole
 } // namespace spaceexplorer

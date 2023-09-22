@@ -32,9 +32,13 @@
 #include "OSPRayProperties.h"
 #include "OSPRayRenderer.h"
 #include "OSPRayScene.h"
-#include "Utils.h"
+#include "OSPRayUtils.h"
 
 namespace core
+{
+namespace engine
+{
+namespace ospray
 {
 OSPRayRenderer::OSPRayRenderer(const AnimationParameters& animationParameters,
                                const RenderingParameters& renderingParameters)
@@ -118,7 +122,7 @@ void OSPRayRenderer::commit()
     }
 
     osphelper::set(_renderer, RENDERER_PROPERTY_TIMESTAMP, static_cast<float>(ap.getFrame()));
-    osphelper::set(_renderer, OSPRAY_RENDERER_PROPERTY_RANDOM_NUMBER, rand() % 10000);
+    osphelper::set(_renderer, RENDERER_PROPERTY_RANDOM_NUMBER, rand() % 10000);
     osphelper::set(_renderer, OSPRAY_RENDERER_PROPERTY_VARIANCE_THRESHOLD,
                    static_cast<float>(rp.getVarianceThreshold()));
     osphelper::set(_renderer, OSPRAY_RENDERER_PROPERTY_SAMPLES_PER_PIXEL, static_cast<int>(rp.getSamplesPerPixel()));
@@ -195,4 +199,6 @@ void OSPRayRenderer::setClipPlanes(const Planes& planes)
     markModified(false);
 }
 
+} // namespace ospray
+} // namespace engine
 } // namespace core

@@ -28,6 +28,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace ospray
+{
 class OSPRayVolume : public virtual Volume
 {
 public:
@@ -63,4 +67,6 @@ public:
 
     void setVoxels(const void* voxels) final;
 };
+} // namespace ospray
+} // namespace engine
 } // namespace core

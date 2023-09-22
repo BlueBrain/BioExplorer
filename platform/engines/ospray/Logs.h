@@ -26,6 +26,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace ospray
+{
 #define PLUGIN_PREFIX "OSPRAY_1_ENGINE "
 #define PROGRESS_BAR_SIZE 50
 
@@ -65,4 +69,6 @@ namespace core
         std::cout << "] " << std::min(__pos * 2, uint32_t(PROGRESS_BAR_SIZE * 2)) << "% " << __msg << "\r"; \
         std::cout.flush();                                                                                  \
     }
+} // namespace ospray
+} // namespace engine
 } // namespace core

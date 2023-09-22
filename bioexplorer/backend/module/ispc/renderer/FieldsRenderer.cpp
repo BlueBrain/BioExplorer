@@ -33,7 +33,7 @@
 #include <ospray/SDK/lights/Light.h>
 #include <ospray/SDK/transferFunction/TransferFunction.h>
 
-// ispc exports
+// ::ispc exports
 #include "FieldsRenderer_ispc.h"
 
 using namespace core;
@@ -46,22 +46,23 @@ void FieldsRenderer::commit()
 {
     Renderer::commit();
 
-    _lightData = (ospray::Data*)getParamData(RENDERER_PROPERTY_LIGHTS);
+    _lightData = (::ospray::Data*)getParamData(RENDERER_PROPERTY_LIGHTS);
     _lightArray.clear();
 
     if (_lightData)
         for (size_t i = 0; i < _lightData->size(); ++i)
-            _lightArray.push_back(((ospray::Light**)_lightData->data)[i]->getIE());
+            _lightArray.push_back(((::ospray::Light**)_lightData->data)[i]->getIE());
 
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
-    _bgMaterial = (AdvancedMaterial*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
+    _bgMaterial =
+        (core::engine::ospray::AdvancedMaterial*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
 
     _useHardwareRandomizer = getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(),
                                       static_cast<int>(DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER));
 
     _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
-    _randomNumber = getParam1i(OSPRAY_RENDERER_PROPERTY_RANDOM_NUMBER, 0);
+    _randomNumber = getParam1i(RENDERER_PROPERTY_RANDOM_NUMBER, 0);
     _timestamp = getParam1f(RENDERER_PROPERTY_TIMESTAMP, DEFAULT_RENDERER_TIMESTAMP);
 
     // Sampling
@@ -74,31 +75,32 @@ void FieldsRenderer::commit()
     _alphaCorrection = getParam1f(RENDERER_PROPERTY_ALPHA_CORRECTION.name.c_str(), DEFAULT_RENDERER_ALPHA_CORRECTION);
 
     // Extra
-    _cutoff = getParam1f("cutoff", 1.f);
+    _cutoff = getParam1f(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_CUTOFF_DISTANCE.name.c_str(),
+                         BIOEXPLORER_DEFAULT_RENDERER_FIELDS_CUTOFF_DISTANCE);
 
     // Octree
     _userData = getParamData(RENDERER_PROPERTY_USER_DATA);
     _userDataSize = _userData ? _userData->size() : 0;
 
     // Transfer function
-    ospray::TransferFunction* transferFunction =
-        (ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, nullptr);
+    ::ospray::TransferFunction* transferFunction =
+        (::ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, nullptr);
     if (transferFunction)
-        ispc::FieldsRenderer_setTransferFunction(getIE(), transferFunction->getIE());
+        ::ispc::FieldsRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 
     // Renderer
-    ispc::FieldsRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr),
-                             (_userData ? (float*)_userData->data : nullptr), _userDataSize, _randomNumber, _timestamp,
-                             spp, _lightPtr, _lightArray.size(), _minRayStep, _nbRaySteps, _nbRayRefinementSteps,
-                             _exposure, _useHardwareRandomizer, _cutoff, _alphaCorrection);
+    ::ispc::FieldsRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr),
+                               (_userData ? (float*)_userData->data : nullptr), _userDataSize, _randomNumber,
+                               _timestamp, spp, _lightPtr, _lightArray.size(), _minRayStep, _nbRaySteps,
+                               _nbRayRefinementSteps, _exposure, _useHardwareRandomizer, _cutoff, _alphaCorrection);
 }
 
 FieldsRenderer::FieldsRenderer()
 {
-    ispcEquivalent = ispc::FieldsRenderer_create(this);
+    ispcEquivalent = ::ispc::FieldsRenderer_create(this);
 }
 
 OSP_REGISTER_RENDERER(FieldsRenderer, bio_explorer_fields);
-OSP_REGISTER_MATERIAL(bio_explorer_fields, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(bio_explorer_fields, core::engine::ospray::AdvancedMaterial, default);
 } // namespace rendering
 } // namespace bioexplorer

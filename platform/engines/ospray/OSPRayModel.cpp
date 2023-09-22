@@ -23,26 +23,30 @@
 #include "OSPRayModel.h"
 #include "OSPRayMaterial.h"
 #include "OSPRayProperties.h"
+#include "OSPRayUtils.h"
 #include "OSPRayVolume.h"
-#include "Utils.h"
 
 #include <platform/core/common/simulation/AbstractSimulationHandler.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Scene.h>
 #include <platform/core/parameters/AnimationParameters.h>
 
-namespace core
-{
 namespace
 {
 template <typename VecT>
 OSPData allocateVectorData(const std::vector<VecT>& vec, const OSPDataType ospType, const size_t memoryManagementFlags)
 {
     const size_t totBytes = vec.size() * sizeof(decltype(vec.back()));
-    return ospNewData(totBytes / ospray::sizeOf(ospType), ospType, vec.data(), memoryManagementFlags);
+    return ospNewData(totBytes / ::ospray::sizeOf(ospType), ospType, vec.data(), memoryManagementFlags);
 }
 } // namespace
 
+namespace core
+{
+namespace engine
+{
+namespace ospray
+{
 OSPRayModel::OSPRayModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters)
     : Model(animationParameters, volumeParameters)
 {
@@ -547,4 +551,6 @@ void OSPRayModel::_commitSimulationDataImpl(const float* frameData, const size_t
     _ospSimulationData = ospNewData(frameSize, OSP_FLOAT, frameData, _memoryManagementFlags);
     ospCommit(_ospSimulationData);
 }
+} // namespace ospray
+} // namespace engine
 } // namespace core

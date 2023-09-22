@@ -24,7 +24,7 @@
 
 #include <platform/core/common/PropertyMap.h>
 
-namespace core
+namespace bioexplorer
 {
 /*
 Renderer properties
@@ -48,29 +48,29 @@ static constexpr double BIOEXPLORER_DEFAULT_RENDERER_DENSITY_FAR_PLANE = 1000.0;
 static constexpr double BIOEXPLORER_DEFAULT_RENDERER_GOLGI_EXPONENT = 5.0;
 static constexpr bool BIOEXPLORER_DEFAULT_RENDERER_GOLGI_INVERSE = false;
 
-static const Property BIOEXPLORER_RENDERER_PROPERTY_VOXEL_SIMULATION_THRESHOLD = {
+static const core::Property BIOEXPLORER_RENDERER_PROPERTY_VOXEL_SIMULATION_THRESHOLD = {
     "simulationThreshold", BIOEXPLORER_DEFAULT_RENDERER_VOXEL_SIMULATION_THRESHOLD, 0., 1., {"Simulation threshold"}};
-static const Property BIOEXPLORER_RENDERER_PROPERTY_FIELDS_MIN_RAY_STEP = {
+static const core::Property BIOEXPLORER_RENDERER_PROPERTY_FIELDS_MIN_RAY_STEP = {
     "minRayStep", BIOEXPLORER_DEFAULT_RENDERER_FIELDS_MIN_RAY_STEP, 0.001, 1.0, {"Smallest ray step"}};
-static const Property BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_STEPS = {
+static const core::Property BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_STEPS = {
     "nbRaySteps", BIOEXPLORER_DEFAULT_RENDERER_FIELDS_NB_RAY_STEPS, 1, 2048, {"Number of ray marching steps"}};
-static const Property BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_REFINEMENT_STEPS = {
+static const core::Property BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_REFINEMENT_STEPS = {
     "nbRayRefinementSteps",
     BIOEXPLORER_DEFAULT_RENDERER_FIELDS_NB_RAY_REFINEMENT_STEPS,
     1,
     1000,
     {"Number of ray marching refinement steps"}};
-static const Property BIOEXPLORER_RENDERER_PROPERTY_FIELDS_CUTOFF_DISTANCE = {
+static const core::Property BIOEXPLORER_RENDERER_PROPERTY_FIELDS_CUTOFF_DISTANCE = {
     "cutoff", BIOEXPLORER_DEFAULT_RENDERER_FIELDS_CUTOFF_DISTANCE, 0.0, 1e5, {"Cutoff distance"}};
 
-static const Property BIOEXPLORER_RENDERER_PROPERTY_DENSITY_RAY_STEP = {
+static const core::Property BIOEXPLORER_RENDERER_PROPERTY_DENSITY_RAY_STEP = {
     "rayStep", BIOEXPLORER_DEFAULT_RENDERER_DENSITY_RAY_STEP, 1.0, 1024.0, {"Ray marching step"}};
-static const Property BIOEXPLORER_RENDERER_PROPERTY_DENSITY_FAR_PLANE = {
+static const core::Property BIOEXPLORER_RENDERER_PROPERTY_DENSITY_FAR_PLANE = {
     "farPlane", BIOEXPLORER_DEFAULT_RENDERER_DENSITY_FAR_PLANE, 1.0, 1e6, {"Far plane"}};
 
-static const Property BIOEXPLORER_RENDERER_PROPERTY_GOLGI_EXPONENT = {
+static const core::Property BIOEXPLORER_RENDERER_PROPERTY_GOLGI_EXPONENT = {
     "exponent", BIOEXPLORER_DEFAULT_RENDERER_GOLGI_EXPONENT, 0.1, 10.0, {"Exponent"}};
-static const Property BIOEXPLORER_RENDERER_PROPERTY_GOLGI_INVERSE = {"inverse",
-                                                                     BIOEXPLORER_DEFAULT_RENDERER_GOLGI_INVERSE,
-                                                                     {"Inverse"}};
-} // namespace core
+static const core::Property BIOEXPLORER_RENDERER_PROPERTY_GOLGI_INVERSE = {"inverse",
+                                                                           BIOEXPLORER_DEFAULT_RENDERER_GOLGI_INVERSE,
+                                                                           {"Inverse"}};
+} // namespace bioexplorer

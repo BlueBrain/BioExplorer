@@ -20,7 +20,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// Platform
 #include "AbstractRenderer.ih"
 #include "AdvancedMaterial.ih"
 
@@ -76,8 +75,8 @@ static inline uint64 getOffset(const uniform Geometry* geometry, const varying i
     if (!geometry)
         return 0;
 
-    // The data pointer in all "derived" geometries is just after data members
-    // of the base Geometry struct. That's why array index starts at 1
+    // The data pointer in all "derived" geometries is just after data members of the base Geometry struct. That's why
+    // array index starts at 1
     const uniform uint8* data = *((const uniform uint8**)&geometry[1]);
 
     const int bytesPerPrimitive = getBytesPerPrimitive(geometry->cppEquivalent);

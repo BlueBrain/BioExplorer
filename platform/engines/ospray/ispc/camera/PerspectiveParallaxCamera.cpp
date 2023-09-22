@@ -27,13 +27,15 @@
 #include <platform/core/common/Properties.h>
 #include <platform/engines/ospray/OSPRayProperties.h>
 
-using namespace core;
-
+namespace core
+{
+namespace engine
+{
 namespace ospray
 {
 PerspectiveParallaxCamera::PerspectiveParallaxCamera()
 {
-    ispcEquivalent = ispc::PerspectiveParallaxCamera_create(this);
+    ispcEquivalent = ::ispc::PerspectiveParallaxCamera_create(this);
 }
 
 void PerspectiveParallaxCamera::commit()
@@ -58,20 +60,21 @@ void PerspectiveParallaxCamera::commit()
             idpOffset = +interpupillaryDistance * 0.5f;
     }
 
-    vec3f org = pos;
+    ::ospray::vec3f org = pos;
     dir = normalize(dir);
-    const vec3f dir_du = normalize(cross(dir, up));
-    const vec3f dir_dv = normalize(up);
+    const ::ospray::vec3f dir_du = normalize(cross(dir, up));
+    const ::ospray::vec3f dir_dv = normalize(up);
     dir = -dir;
 
-    const float imgPlane_size_y = 2.f * zeroParallaxPlane * tanf(deg2rad(0.5f * fieldOfView));
+    const float imgPlane_size_y = 2.f * zeroParallaxPlane * tanf(::ospray::deg2rad(0.5f * fieldOfView));
     const float imgPlane_size_x = imgPlane_size_y * aspectRatio;
 
-    ispc::PerspectiveParallaxCamera_set(getIE(), (const ispc::vec3f&)org, (const ispc::vec3f&)dir,
-                                        (const ispc::vec3f&)dir_du, (const ispc::vec3f&)dir_dv, zeroParallaxPlane,
+    ::ispc::PerspectiveParallaxCamera_set(getIE(), (const ::ispc::vec3f&)org, (const ::ispc::vec3f&)dir,
+                                        (const ::ispc::vec3f&)dir_du, (const ::ispc::vec3f&)dir_dv, zeroParallaxPlane,
                                         imgPlane_size_y, imgPlane_size_x, idpOffset);
 }
 
 OSP_REGISTER_CAMERA(PerspectiveParallaxCamera, perspectiveParallax);
-
 } // namespace ospray
+} // namespace engine
+} // namespace core

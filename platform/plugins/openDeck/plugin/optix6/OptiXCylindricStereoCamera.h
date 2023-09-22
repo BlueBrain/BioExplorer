@@ -24,6 +24,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 class OptiXCylindricStereoCamera : public OptiXCameraProgram
 {
 public:
@@ -32,4 +36,6 @@ public:
 
     void commit(const OptiXCamera& camera, ::optix::Context context) final;
 };
+} // namespace optix
+} // namespace engine
 } // namespace core

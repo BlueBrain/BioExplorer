@@ -19,55 +19,56 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// Platform
 #include <platform/core/common/geometry/SDFBezier.h>
 #include <platform/engines/ospray/OSPRayProperties.h>
 
 // ospray
 #include "SDFBeziers.h"
+#include "SDFBeziers_ispc.h"
 #include "ospray/SDK/common/Data.h"
 #include "ospray/SDK/common/Model.h"
-// ispc-generated files
-#include "SDFBeziers_ispc.h"
 
 #include <climits>
 
-using namespace core;
-
+namespace core
+{
+namespace engine
+{
 namespace ospray
 {
 SDFBeziers::SDFBeziers()
 {
-    this->ispcEquivalent = ispc::SDFBeziers_create(this);
+    this->ispcEquivalent = ::ispc::SDFBeziers_create(this);
 }
 
-void SDFBeziers::finalize(ospray::Model* model)
+void SDFBeziers::finalize(::ospray::Model* model)
 {
     data = getParamData(OSPRAY_GEOMETRY_PROPERTY_SDF_BEZIERS, nullptr);
-    constexpr size_t bytesPerSDFBezier = sizeof(core::SDFBezier);
+    constexpr size_t bytesPerSDFBezier = sizeof(SDFBezier);
 
     if (data.ptr == nullptr || bytesPerSDFBezier == 0)
         throw std::runtime_error("#ospray:geometry/sdfbeziers: no 'sdfbeziers' data specified");
 
     const size_t numSDFBeziers = data->numBytes / bytesPerSDFBezier;
 
-    bounds = empty;
-    const auto geoms = static_cast<core::SDFBezier*>(data->data);
+    bounds = ::ospray::empty;
+    const auto geoms = static_cast<SDFBezier*>(data->data);
     for (size_t i = 0; i < numSDFBeziers; i++)
     {
         const auto bd = bezierBounds(geoms[i]);
         const auto& bMind = bd.getMin();
         const auto& bMaxd = bd.getMax();
-        const auto bMinf = vec3f(bMind[0], bMind[1], bMind[2]);
-        const auto bMaxf = vec3f(bMaxd[0], bMaxd[1], bMaxd[2]);
+        const auto bMinf = ::ospray::vec3f(bMind[0], bMind[1], bMind[2]);
+        const auto bMaxf = ::ospray::vec3f(bMaxd[0], bMaxd[1], bMaxd[2]);
 
         bounds.extend(bMinf);
         bounds.extend(bMaxf);
     }
 
-    ispc::SDFBeziersGeometry_set(getIE(), model->getIE(), data->data, numSDFBeziers);
+    ::ispc::SDFBeziersGeometry_set(getIE(), model->getIE(), data->data, numSDFBeziers);
 }
 
 OSP_REGISTER_GEOMETRY(SDFBeziers, sdfbeziers);
-
 } // namespace ospray
+} // namespace engine
+} // namespace core

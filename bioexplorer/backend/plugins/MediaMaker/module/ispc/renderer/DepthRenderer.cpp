@@ -25,14 +25,11 @@
 
 #include <plugin/common/Properties.h>
 
-// ospray
+#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
+
 #include <ospray/SDK/lights/Light.h>
 
-// ispc exports
 #include "DepthRenderer_ispc.h"
-
-using namespace ospray;
-using namespace core;
 
 namespace bioexplorer
 {
@@ -46,15 +43,16 @@ void DepthRenderer::commit()
 
     _infinity = getParam1f(MEDIA_MAKER_RENDERER_PROPERTY_DEPTH_INFINITY.name.c_str(),
                            DEFAULT_MEDIA_MAKER_RENDERER_DEPTH_INFINITY);
-    ispc::DepthRenderer_set(getIE(), spp, _infinity);
+    ::ispc::DepthRenderer_set(getIE(), spp, _infinity);
 }
 
 DepthRenderer::DepthRenderer()
 {
-    ispcEquivalent = ispc::DepthRenderer_create(this);
+    ispcEquivalent = ::ispc::DepthRenderer_create(this);
 }
 
 OSP_REGISTER_RENDERER(DepthRenderer, depth);
+OSP_REGISTER_MATERIAL(depth, core::engine::ospray::AdvancedMaterial, default);
 } // namespace rendering
 } // namespace mediamaker
 } // namespace bioexplorer

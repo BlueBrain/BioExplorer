@@ -32,6 +32,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 class OptiXMaterial : public Material
 {
 public:
@@ -52,4 +56,6 @@ private:
     std::map<TextureType, ::optix::TextureSampler> _textureSamplers;
     Vector2f _valueRange;
 };
+} // namespace optix
+} // namespace engine
 } // namespace core

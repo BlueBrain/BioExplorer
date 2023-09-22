@@ -39,7 +39,7 @@ struct CylindricStereoCamera : public Camera
     void commit() override;
 
 protected:
-    using StereoMode = ospray::PerspectiveCamera::StereoMode;
+    using StereoMode = ::ospray::PerspectiveCamera::StereoMode;
     StereoMode getStereoMode();
     float getInterpupillaryDistance(StereoMode stereoMode);
 };

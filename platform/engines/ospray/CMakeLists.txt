@@ -62,7 +62,7 @@ set(${NAME}_SOURCES
   OSPRayRenderer.cpp
   OSPRayScene.cpp
   OSPRayVolume.cpp
-  Utils.cpp
+  OSPRayUtils.cpp
   ispc/camera/OrthographicCamera.cpp
   ispc/camera/PanoramicCamera.cpp
   ispc/camera/FishEyeCamera.cpp

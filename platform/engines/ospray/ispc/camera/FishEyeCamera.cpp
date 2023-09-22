@@ -33,13 +33,15 @@
 #include <math.h> // M_PI
 #endif
 
-using namespace core;
-
+namespace core
+{
+namespace engine
+{
 namespace ospray
 {
 FishEyeCamera::FishEyeCamera()
 {
-    ispcEquivalent = ispc::FishEyeCamera_create(this);
+    ispcEquivalent = ::ispc::FishEyeCamera_create(this);
 }
 
 void FishEyeCamera::commit()
@@ -55,10 +57,10 @@ void FishEyeCamera::commit()
                                      static_cast<int>(DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER));
 
     dir = normalize(dir);
-    vec3f dirU = normalize(cross(dir, up));
-    vec3f dirV = cross(dirU, dir);
+    ::ospray::vec3f dirU = normalize(cross(dir, up));
+    ::ospray::vec3f dirV = cross(dirU, dir);
 
-    vec3f org = pos;
+    ::ospray::vec3f org = pos;
 
     if (apertureRadius > 0.f)
     {
@@ -71,10 +73,13 @@ void FishEyeCamera::commit()
     const size_t numClipPlanes = clipPlanes ? clipPlanes->numItems : 0;
 
     const auto invDir = -dir;
-    ispc::FishEyeCamera_set(getIE(), (const ispc::vec3f&)org, (const ispc::vec3f&)invDir, (const ispc::vec3f&)dirU,
-                            (const ispc::vec3f&)dirV, (const ispc::vec4f*)clipPlaneData, numClipPlanes, apertureRadius,
-                            useHardwareRandomizer);
+    ::ispc::FishEyeCamera_set(getIE(), (const ::ispc::vec3f&)org, (const ::ispc::vec3f&)invDir,
+                              (const ::ispc::vec3f&)dirU, (const ::ispc::vec3f&)dirV,
+                              (const ::ispc::vec4f*)clipPlaneData, numClipPlanes, apertureRadius,
+                              useHardwareRandomizer);
 }
 
 OSP_REGISTER_CAMERA(FishEyeCamera, fisheye);
 } // namespace ospray
+} // namespace engine
+} // namespace core

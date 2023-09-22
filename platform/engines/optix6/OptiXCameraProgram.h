@@ -26,6 +26,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 class OptiXCamera;
 
 /**
@@ -57,4 +61,6 @@ protected:
     ::optix::Program _missProgram{nullptr};
     ::optix::Program _exceptionProgram{nullptr};
 };
+} // namespace optix
+} // namespace engine
 } // namespace core

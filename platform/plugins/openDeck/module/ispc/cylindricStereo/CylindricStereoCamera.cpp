@@ -35,7 +35,7 @@ namespace ospray
 {
 CylindricStereoCamera::CylindricStereoCamera()
 {
-    ispcEquivalent = ispc::CylindricStereoCamera_create(this);
+    ispcEquivalent = ::ispc::CylindricStereoCamera_create(this);
 }
 
 std::string CylindricStereoCamera::toString() const
@@ -60,8 +60,8 @@ void CylindricStereoCamera::commit()
 
     const auto imgPlane_size_y = 2.0f * tanf(deg2rad(0.5f * OPENDECK_FOV_Y));
 
-    ispc::CylindricStereoCamera_set(getIE(), (const ispc::vec3f&)pos, (const ispc::vec3f&)dir,
-                                    (const ispc::vec3f&)dir_du, (const ispc::vec3f&)dir_dv, imgPlane_size_y, ipd,
+    ::ispc::CylindricStereoCamera_set(getIE(), (const ::ispc::vec3f&)pos, (const ::ispc::vec3f&)dir,
+                                    (const ::ispc::vec3f&)dir_du, (const ::ispc::vec3f&)dir_dv, imgPlane_size_y, ipd,
                                     sideBySide);
 }
 

@@ -23,16 +23,21 @@
 
 #include "ospray/SDK/geometry/Geometry.h"
 
+namespace core
+{
+namespace engine
+{
 namespace ospray
 {
-struct Cones : public ospray::Geometry
+struct Cones : public ::ospray::Geometry
 {
-    std::string toString() const final { return "core::Cones"; }
-    void finalize(ospray::Model* model) final;
+    std::string toString() const final { return "cones"; }
+    void finalize(::ospray::Model* model) final;
 
-    ospray::Ref<ospray::Data> data;
+    ::ospray::Ref<::ospray::Data> data;
 
     Cones();
 };
-
 } // namespace ospray
+} // namespace engine
+} // namespace core

@@ -25,14 +25,9 @@
 
 #include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
-// ospray
 #include <ospray/SDK/lights/Light.h>
 
-// ispc exports
 #include "AlbedoRenderer_ispc.h"
-
-using namespace core;
-using namespace ospray;
 
 namespace bioexplorer
 {
@@ -44,18 +39,17 @@ void AlbedoRenderer::commit()
 {
     SimulationRenderer::commit();
 
-    ispc::AlbedoRenderer_set(getIE(), spp, _maxBounces, _useHardwareRandomizer,
-                             _userData ? (float*)_userData->data : nullptr, _simulationDataSize);
+    ::ispc::AlbedoRenderer_set(getIE(), spp, _maxBounces, _useHardwareRandomizer,
+                               _userData ? (float*)_userData->data : nullptr, _simulationDataSize);
 }
 
 AlbedoRenderer::AlbedoRenderer()
 {
-    ispcEquivalent = ispc::AlbedoRenderer_create(this);
+    ispcEquivalent = ::ispc::AlbedoRenderer_create(this);
 }
 
 OSP_REGISTER_RENDERER(AlbedoRenderer, albedo);
-OSP_REGISTER_MATERIAL(albedo, AdvancedMaterial, default);
-
+OSP_REGISTER_MATERIAL(albedo, core::engine::ospray::AdvancedMaterial, default);
 } // namespace rendering
 } // namespace mediamaker
 } // namespace bioexplorer

@@ -32,6 +32,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 OptiXFrameBuffer::OptiXFrameBuffer(const std::string& name, const Vector2ui& frameSize,
                                    FrameBufferFormat frameBufferFormat, const RenderingParameters& renderingParameters)
     : FrameBuffer(name, frameSize, frameBufferFormat)
@@ -155,7 +159,7 @@ void OptiXFrameBuffer::_unmapUnsafe()
     {
         if (_commandListWithDenoiser && _commandListWithDenoiserAndToneMapper)
         {
-            optix::Variable(_denoiserStage->queryVariable(CONTEXT_DENOISE_BLEND))
+            ::optix::Variable(_denoiserStage->queryVariable(CONTEXT_DENOISE_BLEND))
                 ->setFloat(_renderingParameters.getDenoiseBlend());
             if (useDenoiser)
             {
@@ -232,4 +236,6 @@ void OptiXFrameBuffer::_initializePostProcessingStages()
 
     _postprocessingStagesInitialized = true;
 }
+} // namespace optix
+} // namespace engine
 } // namespace core

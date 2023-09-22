@@ -21,12 +21,16 @@
 
 #include "OSPRayVolume.h"
 #include "OSPRayProperties.h"
-#include "Utils.h"
+#include "OSPRayUtils.h"
 
 #include <platform/core/common/Properties.h>
 #include <platform/core/parameters/VolumeParameters.h>
 
 namespace core
+{
+namespace engine
+{
+namespace ospray
 {
 OSPRayVolume::OSPRayVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type,
                            const VolumeParameters& params, OSPTransferFunction transferFunction,
@@ -140,4 +144,6 @@ void OSPRayVolume::commit()
         ospCommit(_volume);
     resetModified();
 }
+} // namespace ospray
+} // namespace engine
 } // namespace core

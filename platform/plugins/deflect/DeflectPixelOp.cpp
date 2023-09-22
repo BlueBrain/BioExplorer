@@ -50,7 +50,7 @@ const size_t ALIGNMENT = 64;
 
 namespace core
 {
-DeflectPixelOp::Instance::Instance(ospray::FrameBuffer* fb_, DeflectPixelOp& parent)
+DeflectPixelOp::Instance::Instance(::ospray::FrameBuffer* fb_, DeflectPixelOp& parent)
     : _parent(parent)
 {
     fb = fb_;
@@ -88,13 +88,13 @@ void DeflectPixelOp::Instance::endFrame()
         i.second = sharedFuture;
 }
 
-void DeflectPixelOp::Instance::postAccum(ospray::Tile& tile)
+void DeflectPixelOp::Instance::postAccum(::ospray::Tile& tile)
 {
     if (!_parent._deflectStream)
         return;
 
     const auto& fbSize = fb->getNumPixels();
-    ospray::vec2i tileSize{TILE_SIZE, TILE_SIZE};
+    ::ospray::vec2i tileSize{TILE_SIZE, TILE_SIZE};
 
     if (tile.region.lower.x + TILE_SIZE > fbSize.x)
         tileSize.x = fbSize.x % TILE_SIZE;
@@ -132,7 +132,7 @@ void DeflectPixelOp::Instance::postAccum(ospray::Tile& tile)
     }
 }
 
-unsigned char* DeflectPixelOp::Instance::_copyPixels(ospray::Tile& tile, const ospray::vec2i& tileSize)
+unsigned char* DeflectPixelOp::Instance::_copyPixels(::ospray::Tile& tile, const ::ospray::vec2i& tileSize)
 {
     const size_t tileID = tile.region.lower.y / TILE_SIZE * fb->getNumTiles().x + tile.region.lower.x / TILE_SIZE;
 
@@ -219,7 +219,7 @@ void DeflectPixelOp::commit()
     }
 }
 
-ospray::PixelOp::Instance* DeflectPixelOp::createInstance(ospray::FrameBuffer* fb, PixelOp::Instance* /*prev*/)
+ospray::PixelOp::Instance* DeflectPixelOp::createInstance(::ospray::FrameBuffer* fb, PixelOp::Instance* /*prev*/)
 {
     return new Instance(fb, *this);
 }

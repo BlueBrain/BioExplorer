@@ -18,6 +18,12 @@
 
 #include "camera/Camera.h"
 
+#include <platform/core/common/Properties.h>
+
+namespace core
+{
+namespace engine
+{
 namespace ospray
 {
 /*! Implements a straightforward orthographic camera for orthographic
@@ -36,22 +42,21 @@ namespace ospray
   float    aspect; // aspect ratio (x/y)
   </pre>
 */
-struct OSPRAY_SDK_INTERFACE OrthographicCamera : public Camera
+struct OSPRAY_SDK_INTERFACE OrthographicCamera : public ::ospray::Camera
 {
-    /*! \brief constructor \internal also creates the ispc-side data structure
-     */
     OrthographicCamera();
     ~OrthographicCamera() override = default;
 
-    virtual std::string toString() const override { return "orthographic"; }
+    virtual std::string toString() const override { return CAMERA_PROPERTY_TYPE_ORTHOGRAPHIC; }
     virtual void commit() override;
 
-    float height; // size of the camera's image plane in y, in world coordinates
+    float height;
     float aspect;
 
     // Clip planes
     bool enableClippingPlanes{false};
-    Ref<Data> clipPlanes;
+    ::ospray::Ref<::ospray::Data> clipPlanes;
 };
-
 } // namespace ospray
+} // namespace engine
+} // namespace core

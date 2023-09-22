@@ -116,6 +116,10 @@ RTwrapmode wrapModeToOptix(const core::TextureWrapMode mode)
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 std::unique_ptr<OptiXContext> OptiXContext::_context;
 
 OptiXContext::OptiXContext()
@@ -218,7 +222,7 @@ void OptiXContext::setCamera(const std::string& name)
     sampler->setMaxAnisotropy(8.0f);
 
     // Create buffer and populate with texture data
-    optix::Buffer buffer;
+    ::optix::Buffer buffer;
     if (texture->isCubeMap())
         buffer = _optixContext->createCubeBuffer(RT_BUFFER_INPUT, optixFormat, nx, ny, mipMapLevels);
     else
@@ -492,4 +496,6 @@ void OptiXContext::_printSystemInformation() const
     group->setAcceleration(_optixContext->createAcceleration(DEFAULT_ACCELERATION_STRUCTURE));
     return group;
 }
+} // namespace optix
+} // namespace engine
 } // namespace core

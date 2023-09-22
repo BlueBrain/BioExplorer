@@ -21,13 +21,14 @@
  */
 
 #include "SphereClippingPerspectiveCamera.h"
-#include <limits>
-// ispc-side stuff
+
 #include "SphereClippingPerspectiveCamera_ispc.h"
 
 #include <platform/core/common/Properties.h>
 
 #include <ospray/SDK/common/Data.h>
+
+#include <limits>
 
 #ifdef _WIN32
 #define _USE_MATH_DEFINES
@@ -36,20 +37,17 @@
 
 using namespace core;
 
-namespace ospray
+namespace sonataexplorer
 {
 SphereClippingPerspectiveCamera::SphereClippingPerspectiveCamera()
 {
-    ispcEquivalent = ispc::SphereClippingPerspectiveCamera_create(this);
+    ispcEquivalent = ::ispc::SphereClippingPerspectiveCamera_create(this);
 }
 
 void SphereClippingPerspectiveCamera::commit()
 {
     Camera::commit();
 
-    // ------------------------------------------------------------------
-    // first, "parse" the additional expected parameters
-    // ------------------------------------------------------------------
     fovy = getParamf(CAMERA_PROPERTY_FIELD_OF_VIEW.name.c_str(), DEFAULT_CAMERA_FIELD_OF_VIEW);
     aspect = getParamf(CAMERA_PROPERTY_ASPECT_RATIO.name.c_str(), DEFAULT_CAMERA_ASPECT_RATIO);
     apertureRadius = getParamf(CAMERA_PROPERTY_APERTURE_RADIUS.name.c_str(), DEFAULT_CAMERA_APERTURE_RADIUS);
@@ -63,15 +61,12 @@ void SphereClippingPerspectiveCamera::commit()
     useHardwareRandomizer = getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(),
                                      static_cast<int>(DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER));
 
-    // ------------------------------------------------------------------
-    // now, update the local precomputed values
-    // ------------------------------------------------------------------
     dir = normalize(dir);
-    vec3f dir_du = normalize(cross(dir, up));
-    vec3f dir_dv = cross(dir_du, dir); // rotate film to be perpendicular to 'dir'
+    ::ospray::vec3f dir_du = normalize(cross(dir, up));
+    ::ospray::vec3f dir_dv = cross(dir_du, dir);
 
-    vec3f org = pos;
-    const vec3f ipd_offset = 0.5f * interpupillaryDistance * dir_du;
+    ::ospray::vec3f org = pos;
+    const ::ospray::vec3f ipd_offset = 0.5f * interpupillaryDistance * dir_du;
 
     if (stereo)
     {
@@ -85,13 +80,13 @@ void SphereClippingPerspectiveCamera::commit()
         }
     }
 
-    float imgPlane_size_y = 2.f * tanf(deg2rad(0.5f * fovy));
+    float imgPlane_size_y = 2.f * tanf(::ospray::deg2rad(0.5f * fovy));
     float imgPlane_size_x = imgPlane_size_y * aspect;
 
     dir_du *= imgPlane_size_x;
     dir_dv *= imgPlane_size_y;
 
-    vec3f dir_00 = dir - 0.5f * dir_du - 0.5f * dir_dv;
+    ::ospray::vec3f dir_00 = dir - 0.5f * dir_du - 0.5f * dir_dv;
 
     float scaledAperture = 0.f;
     // prescale to focal plane
@@ -106,12 +101,12 @@ void SphereClippingPerspectiveCamera::commit()
     const auto clipPlaneData = clipPlanes ? clipPlanes->data : nullptr;
     const size_t numClipPlanes = clipPlanes ? clipPlanes->numItems : 0;
 
-    ispc::SphereClippingPerspectiveCamera_set(getIE(), (const ispc::vec3f&)org, (const ispc::vec3f&)dir_00,
-                                              (const ispc::vec3f&)dir_du, (const ispc::vec3f&)dir_dv, scaledAperture,
-                                              aspect, (const ispc::vec3f&)ipd_offset, (const ispc::vec4f*)clipPlaneData,
-                                              numClipPlanes, useHardwareRandomizer);
+    ::ispc::SphereClippingPerspectiveCamera_set(getIE(), (const ::ispc::vec3f&)org, (const ::ispc::vec3f&)dir_00,
+                                                (const ::ispc::vec3f&)dir_du, (const ::ispc::vec3f&)dir_dv,
+                                                scaledAperture, aspect, (const ::ispc::vec3f&)ipd_offset,
+                                                (const ::ispc::vec4f*)clipPlaneData, numClipPlanes,
+                                                useHardwareRandomizer);
 }
 
 OSP_REGISTER_CAMERA(SphereClippingPerspectiveCamera, sphere_clipping_perspective);
-
-} // namespace ospray
+} // namespace sonataexplorer

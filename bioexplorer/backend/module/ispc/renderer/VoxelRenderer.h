@@ -23,7 +23,8 @@
 
 #pragma once
 
-// Platform
+#include <science/common/Properties.h>
+
 #include <platform/engines/ospray/ispc/render/utils/SimulationRenderer.h>
 
 namespace bioexplorer
@@ -34,16 +35,16 @@ namespace rendering
  * @brief The VoxelRenderer class can perform fast transparency
  * and mapping of simulation data on the geometry
  */
-class VoxelRenderer : public core::SimulationRenderer
+class VoxelRenderer : public core::engine::ospray::SimulationRenderer
 {
 public:
     VoxelRenderer();
 
     /**
        Returns the class name as a string
-       @return string containing the full name of the class
+       @return string containing the name of the object in the OSPRay context
     */
-    std::string toString() const final { return "VoxelRenderer"; }
+    std::string toString() const final { return RENDERER_VOXEL; }
 
     void commit() final;
 

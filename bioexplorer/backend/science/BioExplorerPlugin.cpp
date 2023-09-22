@@ -609,19 +609,19 @@ void BioExplorerPlugin::_createOptiXRenderers()
         {RENDERER_PATH_TRACING, BioExplorer_generated_PathTracing_cu_ptx},
         {RENDERER_VOXEL, BioExplorer_generated_Voxel_cu_ptx},
     };
-    OptiXContext &context = OptiXContext::get();
+    core::engine::optix::OptiXContext &context = core::engine::optix::OptiXContext::get();
     for (const auto &renderer : renderers)
     {
         PLUGIN_REGISTER_RENDERER(renderer.first);
         const std::string ptx = renderer.second;
 
-        auto osp = std::make_shared<OptixShaderProgram>();
-        osp->closest_hit =
-            context.getOptixContext()->createProgramFromPTXString(ptx, OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE);
-        osp->closest_hit_textured =
-            context.getOptixContext()->createProgramFromPTXString(ptx,
-                                                                  OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE_TEXTURED);
-        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, OPTIX_CUDA_FUNCTION_ANY_HIT_SHADOW);
+        auto osp = std::make_shared<core::engine::optix::OptixShaderProgram>();
+        osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(
+            ptx, core::engine::optix::OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE);
+        osp->closest_hit_textured = context.getOptixContext()->createProgramFromPTXString(
+            ptx, core::engine::optix::OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE_TEXTURED);
+        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(
+            ptx, core::engine::optix::OPTIX_CUDA_FUNCTION_ANY_HIT_SHADOW);
 
         context.addRenderer(renderer.first, osp);
     }

@@ -24,7 +24,7 @@
 
 #include <platform/core/common/PropertyMap.h>
 
-namespace core
+namespace sonataexplorer
 {
 /*
 Loader properties
@@ -57,28 +57,28 @@ static constexpr bool SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_SURFACE_SHADIN
 static constexpr double SONATA_DEFAULT_RENDERER_CELL_GROWTH_SIMULATION_THRESHOLD = 0.0;
 static constexpr bool SONATA_DEFAULT_RENDERER_CELL_GROWTH_USE_TRANSFER_FUNCTION_COLOR = false;
 
-static const Property SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_DISTANCE = {
+static const ::core::Property SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_DISTANCE = {
     "detectionDistance", SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_DISTANCE, {"Detection distance"}};
-static const Property SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_FAR_COLOR = {
+static const ::core::Property SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_FAR_COLOR = {
     "detectionFarColor", SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_FAR_COLOR, {"Detection far color"}};
-static const Property SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_NEAR_COLOR = {
+static const ::core::Property SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_NEAR_COLOR = {
     "detectionNearColor", SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_NEAR_COLOR, {"Detection near color"}};
-static const Property SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_DIFFERENT_MATERIAL = {
+static const ::core::Property SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_DIFFERENT_MATERIAL = {
     "detectionOnDifferentMaterial",
     SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_DIFFERENT_MATERIAL,
     {"Detection on different material"}};
-static const Property SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_SURFACE_SHADING_ENABLED = {
+static const ::core::Property SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_SURFACE_SHADING_ENABLED = {
     "surfaceShadingEnabled", SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_SURFACE_SHADING_ENABLED, {"Surface shading"}};
 
-static const Property SONATA_RENDERER_PROPERTY_CELL_GROWTH_SIMULATION_THRESHOLD = {
+static const ::core::Property SONATA_RENDERER_PROPERTY_CELL_GROWTH_SIMULATION_THRESHOLD = {
     "simulationThreshold",
     SONATA_DEFAULT_RENDERER_CELL_GROWTH_SIMULATION_THRESHOLD,
     0.0,
     1.0,
     {"Simulation threshold"}};
-static const Property SONATA_RENDERER_PROPERTY_USE_TRANSFER_FUNCTION_COLOR = {
+static const ::core::Property SONATA_RENDERER_PROPERTY_USE_TRANSFER_FUNCTION_COLOR = {
     "useTransferFunctionColor",
     SONATA_DEFAULT_RENDERER_CELL_GROWTH_USE_TRANSFER_FUNCTION_COLOR,
     {"Use transfer function color"}};
 
-} // namespace core
+} // namespace sonataexplorer

@@ -26,6 +26,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 /*
 Cuda functions
 */
@@ -66,4 +70,6 @@ static const char* OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_TEXTURE_COORDINATES = "
 static const char* OPTIX_GEOMETRY_PROPERTY_STREAMLINE_VERTEX = "vertices_buffer";
 static const char* OPTIX_GEOMETRY_PROPERTY_STREAMLINE_MESH_INDEX = "indices_buffer";
 
+} // namespace optix
+} // namespace engine
 } // namespace core

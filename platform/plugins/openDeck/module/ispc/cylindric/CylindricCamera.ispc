@@ -44,7 +44,7 @@ void CylindricCamera_initRay(uniform Camera* uniform _self, varying Ray& ray, co
     setRay(ray, org, normalize(dir), self->super.nearClip, inf, time);
 }
 
-/*! create a new ispc-side version of a OpenDeckcamera - with given pointer to
+/*! create a new ::ispc-side version of a OpenDeckcamera - with given pointer to
     the c-class version - and return both class pointer and pointer to internal
     data back via the supplied reference parameters. */
 export void* uniform CylindricCamera_create(void* uniform cppE)

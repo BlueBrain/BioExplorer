@@ -21,10 +21,8 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Platform
 #include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.ih>
 
-// OSPRay
 #include <ospray/SDK/camera/PerspectiveCamera.ih>
 #include <ospray/SDK/common/Model.ih>
 #include <ospray/SDK/fb/FrameBuffer.ih>
@@ -36,32 +34,21 @@ struct FieldsRenderer
 {
     Renderer super;
 
-    // Rendering attributes
     const uniform Light* uniform* uniform lights;
     uint32 numLights;
     AdvancedMaterial* bgMaterial;
-
-    // Transfer function attributes
     const uniform TransferFunction* uniform transferFunction;
-
     float exposure;
     bool useHardwareRandomizer;
-
     float timestamp;
     int randomNumber;
-
     float pixelOpacity;
-
     float minRayStep;
     uint32 nbRaySteps;
     uint32 nbRayRefinementSteps;
     float alphaCorrection;
-
-    // Octree
     float distance;
     float cutoff;
-
-    // Octree
     uniform float* uniform userData;
     uint64 userDataSize;
     vec3f size;

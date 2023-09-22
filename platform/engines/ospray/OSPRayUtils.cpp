@@ -20,7 +20,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "Utils.h"
+#include "OSPRayUtils.h"
 
 #include <platform/core/common/Logs.h>
 #include <platform/core/common/PropertyObject.h>
@@ -28,6 +28,10 @@
 #include <platform/core/common/utils/Utils.h>
 
 namespace core
+{
+namespace engine
+{
+namespace ospray
 {
 void toOSPRayProperties(const PropertyMap& object, OSPObject ospObject)
 {
@@ -87,7 +91,7 @@ auto _toStdArray(const ospcommon::vec_t<T, N>& input)
     return array;
 }
 
-void fromOSPRayProperties(PropertyMap& object, ospray::ManagedObject& ospObject)
+void fromOSPRayProperties(PropertyMap& object, ::ospray::ManagedObject& ospObject)
 {
     for (const auto& prop : object.getProperties())
     {
@@ -108,30 +112,30 @@ void fromOSPRayProperties(PropertyMap& object, ospray::ManagedObject& ospObject)
             prop->set(ospObject.getParamString(prop->name.c_str(), prop->get<std::string>()));
             break;
         case Property::Type::Vec2d:
-            prop->set(
-                _toStdArray<double, 2>(ospObject.getParam<ospcommon::vec2f>(prop->name.c_str(), ospcommon::vec2f())));
+            prop->set(_toStdArray<double, 2>(
+                ospObject.getParam<::ospcommon::vec2f>(prop->name.c_str(), ::ospcommon::vec2f())));
             break;
         case Property::Type::Vec2i:
-            prop->set(
-                _toStdArray<int32_t, 2>(ospObject.getParam<ospcommon::vec2i>(prop->name.c_str(), ospcommon::vec2i())));
+            prop->set(_toStdArray<int32_t, 2>(
+                ospObject.getParam<::ospcommon::vec2i>(prop->name.c_str(), ::ospcommon::vec2i())));
             break;
         case Property::Type::Vec3d:
-            prop->set(
-                _toStdArray<double, 3>(ospObject.getParam<ospcommon::vec3f>(prop->name.c_str(), ospcommon::vec3f())));
+            prop->set(_toStdArray<double, 3>(
+                ospObject.getParam<::ospcommon::vec3f>(prop->name.c_str(), ::ospcommon::vec3f())));
             break;
         case Property::Type::Vec3i:
-            prop->set(
-                _toStdArray<int32_t, 3>(ospObject.getParam<ospcommon::vec3i>(prop->name.c_str(), ospcommon::vec3i())));
+            prop->set(_toStdArray<int32_t, 3>(
+                ospObject.getParam<::ospcommon::vec3i>(prop->name.c_str(), ::ospcommon::vec3i())));
             break;
         case Property::Type::Vec4d:
-            prop->set(
-                _toStdArray<double, 4>(ospObject.getParam<ospcommon::vec4f>(prop->name.c_str(), ospcommon::vec4f())));
+            prop->set(_toStdArray<double, 4>(
+                ospObject.getParam<::ospcommon::vec4f>(prop->name.c_str(), ::ospcommon::vec4f())));
             break;
         }
     }
 }
 
-ospcommon::affine3f transformationToAffine3f(const Transformation& transformation)
+::ospcommon::affine3f transformationToAffine3f(const Transformation& transformation)
 {
     // https://stackoverflow.com/a/18436193
     const auto& quat = transformation.getRotation();
@@ -139,20 +143,21 @@ ospcommon::affine3f transformationToAffine3f(const Transformation& transformatio
     const float y = asin(2 * (quat.w * quat.y - quat.z * quat.x));
     const float z = atan2(2 * (quat.w * quat.z + quat.x * quat.y), 1 - 2 * (quat.y * quat.y + quat.z * quat.z));
 
-    ospcommon::affine3f rot{ospcommon::one};
-    rot = ospcommon::affine3f::rotate({1, 0, 0}, x) * rot;
-    rot = ospcommon::affine3f::rotate({0, 1, 0}, y) * rot;
-    rot = ospcommon::affine3f::rotate({0, 0, 1}, z) * rot;
+    ospcommon::affine3f rot{::ospcommon::one};
+    rot = ::ospcommon::affine3f::rotate({1, 0, 0}, x) * rot;
+    rot = ::ospcommon::affine3f::rotate({0, 1, 0}, y) * rot;
+    rot = ::ospcommon::affine3f::rotate({0, 0, 1}, z) * rot;
 
     const auto& rotationCenter = transformation.getRotationCenter();
     const auto& translation = transformation.getTranslation();
     const auto& scale = transformation.getScale();
 
-    return ospcommon::affine3f::scale({float(scale.x), float(scale.y), float(scale.z)}) *
-           ospcommon::affine3f::translate({float(translation.x), float(translation.y), float(translation.z)}) *
-           ospcommon::affine3f::translate({float(rotationCenter.x), float(rotationCenter.y), float(rotationCenter.z)}) *
+    return ::ospcommon::affine3f::scale({float(scale.x), float(scale.y), float(scale.z)}) *
+           ::ospcommon::affine3f::translate({float(translation.x), float(translation.y), float(translation.z)}) *
+           ::ospcommon::affine3f::translate(
+               {float(rotationCenter.x), float(rotationCenter.y), float(rotationCenter.z)}) *
            rot *
-           ospcommon::affine3f::translate(
+           ::ospcommon::affine3f::translate(
                {float(-rotationCenter.x), float(-rotationCenter.y), float(-rotationCenter.z)});
 }
 
@@ -165,7 +170,7 @@ void addInstance(OSPModel rootModel, OSPModel modelToAdd, const Transformation& 
     ospRelease(instance);
 }
 
-void addInstance(OSPModel rootModel, OSPModel modelToAdd, const ospcommon::affine3f& affine)
+void addInstance(OSPModel rootModel, OSPModel modelToAdd, const ::ospcommon::affine3f& affine)
 {
     OSPGeometry instance = ospNewInstance(modelToAdd, (osp::affine3f&)affine);
     ospCommit(instance);
@@ -216,4 +221,6 @@ void set(OSPObject obj, const char* id, const Vector4f& v)
     ospSet4fv(obj, id, glm::value_ptr(v));
 }
 } // namespace osphelper
+} // namespace ospray
+} // namespace engine
 } // namespace core

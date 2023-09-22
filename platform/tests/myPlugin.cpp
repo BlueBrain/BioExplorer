@@ -123,11 +123,11 @@ public:
 class MyRenderer : public core::AbstractRenderer
 {
 public:
-    MyRenderer() { ispcEquivalent = ispc::BasicRenderer_create(this); }
+    MyRenderer() { ispcEquivalent = ::ispc::BasicRenderer_create(this); }
     void commit() final
     {
         AbstractRenderer::commit();
-        ispc::BasicRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _lightPtr,
+        ::ispc::BasicRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _lightPtr,
                                 _lightArray.size());
     }
 };

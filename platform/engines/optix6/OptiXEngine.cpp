@@ -39,6 +39,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 OptiXEngine::OptiXEngine(ParametersManager& parametersManager)
     : Engine(parametersManager)
 {
@@ -242,6 +246,8 @@ Vector2ui OptiXEngine::getMinimumFrameSize() const
 {
     return {1, 1};
 }
+} // namespace optix
+} // namespace engine
 } // namespace core
 
 extern "C" core::Engine* core_engine_create(int, const char**, core::ParametersManager& parametersManager)
@@ -256,5 +262,5 @@ extern "C" core::Engine* core_engine_create(int, const char**, core::ParametersM
     PLUGIN_INFO("           _|                                                ");
     PLUGIN_INFO("");
 
-    return new core::OptiXEngine(parametersManager);
+    return new core::engine::optix::OptiXEngine(parametersManager);
 }

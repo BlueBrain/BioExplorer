@@ -33,7 +33,6 @@
 #include <platform/core/common/geometry/Sphere.h>
 #include <platform/engines/ospray/OSPRayProperties.h>
 
-// ospray
 #include <ospray/SDK/common/Data.h>
 #include <ospray/SDK/common/Model.h>
 #include <ospray/SDK/geometry/Cylinders.h>
@@ -42,29 +41,30 @@
 #include <ospray/SDK/lights/Light.h>
 #include <ospray/SDK/transferFunction/TransferFunction.h>
 
-// ispc exports
 #include "AdvancedRenderer_ispc.h"
-
-using namespace ospray;
 
 extern "C"
 {
     int AdvancedRenderer_getBytesPerPrimitive(const void* geometry)
     {
-        const ospray::Geometry* base = static_cast<const ospray::Geometry*>(geometry);
-        if (dynamic_cast<const ospray::Spheres*>(base))
+        const ::ospray::Geometry* base = static_cast<const ::ospray::Geometry*>(geometry);
+        if (dynamic_cast<const ::ospray::Spheres*>(base))
             return sizeof(core::Sphere);
-        else if (dynamic_cast<const ospray::Cylinders*>(base))
+        else if (dynamic_cast<const ::ospray::Cylinders*>(base))
             return sizeof(core::Cylinder);
-        else if (dynamic_cast<const ospray::Cones*>(base))
-            return sizeof(core::Cone);
-        else if (dynamic_cast<const ospray::SDFGeometries*>(base))
-            return sizeof(core::SDFGeometry);
+        else if (dynamic_cast<const ::core::engine::ospray::Cones*>(base))
+            return sizeof(::core::Cone);
+        else if (dynamic_cast<const ::core::engine::ospray::SDFGeometries*>(base))
+            return sizeof(::core::SDFGeometry);
         return 0;
     }
 }
 
 namespace core
+{
+namespace engine
+{
+namespace ospray
 {
 void AdvancedRenderer::commit()
 {
@@ -102,19 +102,21 @@ void AdvancedRenderer::commit()
     const auto clipPlaneData = clipPlanes ? clipPlanes->data : nullptr;
     const uint32 numClipPlanes = clipPlanes ? clipPlanes->numItems : 0;
 
-    ispc::AdvancedRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _shadows, _softShadows,
+    ::ispc::AdvancedRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _shadows, _softShadows,
                                _softShadowsSamples, _giStrength, _giDistance, _giSamples, _randomNumber, _timestamp,
                                spp, _lightPtr, _lightArray.size(), _exposure, _epsilonFactor, _fogThickness, _fogStart,
                                _useHardwareRandomizer, _maxBounces, _showBackground, _matrixFilter,
                                _userData ? (float*)_userData->data : nullptr, _simulationDataSize,
                                _volumeSamplingThreshold, _volumeSpecularExponent, _volumeAlphaCorrection,
-                               (const ispc::vec4f*)clipPlaneData, numClipPlanes);
+                               (const ::ispc::vec4f*)clipPlaneData, numClipPlanes);
 }
 
 AdvancedRenderer::AdvancedRenderer()
 {
-    ispcEquivalent = ispc::AdvancedRenderer_create(this);
+    ispcEquivalent = ::ispc::AdvancedRenderer_create(this);
 }
 
 OSP_REGISTER_RENDERER(AdvancedRenderer, advanced);
+} // namespace ospray
+} // namespace engine
 } // namespace core

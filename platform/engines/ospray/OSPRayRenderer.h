@@ -20,8 +20,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef OSPRAYRENDERER_H
-#define OSPRAYRENDERER_H
+#pragma once
 
 #include <platform/core/common/Types.h>
 #include <platform/core/engineapi/Renderer.h>
@@ -31,6 +30,10 @@
 #include "OSPRayCamera.h"
 
 namespace core
+{
+namespace engine
+{
+namespace ospray
 {
 class OSPRayRenderer : public Renderer
 {
@@ -60,6 +63,6 @@ private:
     void _commitRendererMaterials();
     void _destroyRenderer();
 };
+} // namespace ospray
+} // namespace engine
 } // namespace core
-
-#endif // OSPRAYRENDERER_H

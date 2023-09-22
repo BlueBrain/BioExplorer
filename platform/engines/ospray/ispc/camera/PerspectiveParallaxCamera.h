@@ -23,23 +23,26 @@
 
 #pragma once
 
+#include <platform/engines/ospray/OSPRayProperties.h>
+
 #include <ospray/SDK/camera/Camera.h>
 
+namespace core
+{
+namespace engine
+{
 namespace ospray
 {
 /**
- * This camera is an extension of the regular ospray
- * stereoscopic camera. It has an additional option
- * to select the distance of the zero-parallax plane.
+ * This camera is an extension of the regular ospray stereoscopic camera. It has an additional option to select the
+ * distance of the zero-parallax plane.
  */
-struct PerspectiveParallaxCamera : public Camera
+struct PerspectiveParallaxCamera : public ::ospray::Camera
 {
     PerspectiveParallaxCamera();
     virtual ~PerspectiveParallaxCamera() override = default;
 
-    //! \brief common function to help printf-debugging
-    /*! Every derived class should override this! */
-    virtual std::string toString() const override { return "perspectiveParallax"; }
+    virtual std::string toString() const override { return OSPRAY_CAMERA_PROPERTY_TYPE_PERSPECTIVE_PARALLAX; }
     virtual void commit() override;
 
     typedef enum
@@ -50,5 +53,6 @@ struct PerspectiveParallaxCamera : public Camera
         OSP_STEREO_SIDE_BY_SIDE
     } StereoMode;
 };
-
 } // namespace ospray
+} // namespace engine
+} // namespace core

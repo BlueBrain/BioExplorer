@@ -30,8 +30,10 @@
 
 namespace core
 {
-using namespace ospray;
-
+namespace engine
+{
+namespace ospray
+{
 /**
  * The SimulationRenderer class implements a parent renderer for
  * all BioExplorer renderers that need to render simulation data
@@ -42,11 +44,11 @@ public:
     void commit() override;
 
 protected:
-    ospray::Model* _secondaryModel{nullptr};
+    ::ospray::Model* _secondaryModel{nullptr};
     float _maxDistanceToSecondaryModel{30.f};
 
-    ospray::Ref<ospray::Data> _userData;
-    ospray::uint64 _simulationDataSize;
+    ::ospray::Ref<::ospray::Data> _userData;
+    ::ospray::uint64 _simulationDataSize;
 
     bool _useHardwareRandomizer{false};
     bool _showBackground{false};
@@ -57,9 +59,11 @@ protected:
     double _fogThickness{1e6};
     double _fogStart{0.0};
 
-    ospray::uint32 _maxBounces{3};
-    ospray::uint32 _randomNumber{0};
+    ::ospray::uint32 _maxBounces{3};
+    ::ospray::uint32 _randomNumber{0};
 
     float _alphaCorrection{0.5f};
 };
+} // namespace ospray
+} // namespace engine
 } // namespace core

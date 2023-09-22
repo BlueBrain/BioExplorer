@@ -29,6 +29,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 const std::string PTX_CYLINDRIC_STEREO_CAMERA = CorePluginOpenDeck_generated_CylindricStereoCamera_cu_ptx;
 const std::string PTX_MISS = OptiX6Engine_generated_Constantbg_cu_ptx;
 const std::string CUDA_FUNC_OPENDECK_CAMERA = "openDeckCamera";
@@ -76,4 +80,6 @@ void OptiXCylindricStereoCamera::commit(const OptiXCamera& camera, ::optix::Cont
     context[CONTEXT_CAMERA_FOCAL_DISTANCE]->setFloat(
         camera.getPropertyOrValue<double>(CONTEXT_CAMERA_FOCUS_DISTANCE, 1.0));
 }
+} // namespace optix
+} // namespace engine
 } // namespace core
