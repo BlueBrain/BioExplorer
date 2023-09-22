@@ -31,7 +31,7 @@
 
 namespace core
 {
-#define BRAYNS_OPTIX_SAMPLE_NAME "braynsOptix7Engine"
+#define CORE_OPTIX_SAMPLE_NAME "braynsOptix7Engine"
 
 #define RT_DESTROY(__object)         \
     {                                \
@@ -46,10 +46,14 @@ namespace core
         __object = nullptr;          \
     }
 
-#define RT_DESTROY_MAP(__map)   \
-    for (auto obj : __map)      \
-    {                           \
-        RT_DESTROY(obj.second); \
+#define RT_DESTROY_MAP(__map)       \
+    {                               \
+        for (auto obj : __map)      \
+        {                           \
+            RT_DESTROY(obj.second); \
+            obj.second = nullptr;   \
+        }                           \
+        __map.clear();              \
     }
 
 static void context_log_cb(unsigned int level, const char* tag, const char* message, void* /*cbdata */)

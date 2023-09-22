@@ -22,6 +22,8 @@
 
 #include <optixu/optixpp_namespace.h>
 
+#include "OptiXUtils.h"
+
 namespace core
 {
 class OptiXCamera;
@@ -33,14 +35,18 @@ class OptiXCamera;
 class OptiXCameraProgram
 {
 public:
-    virtual ~OptiXCameraProgram() = default;
+    virtual ~OptiXCameraProgram()
+    {
+        RT_DESTROY(_rayGenerationProgram);
+        RT_DESTROY(_missProgram);
+        RT_DESTROY(_exceptionProgram);
+    }
 
     ::optix::Program getRayGenerationProgram() { return _rayGenerationProgram; }
     ::optix::Program getMissProgram() { return _missProgram; }
     ::optix::Program getExceptionProgram() { return _exceptionProgram; }
     /**
-     * @brief commit Virtual method for commiting camera specific variables to
-     * the context
+     * @brief commit Virtual method for committing camera specific variables to the context
      * @param camera The main core camera
      * @param context The OptiX context
      */

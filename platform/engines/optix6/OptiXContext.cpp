@@ -126,8 +126,10 @@ OptiXContext::OptiXContext()
 
 OptiXContext::~OptiXContext()
 {
-    RT_DESTROY_MAP(_bounds);
-    RT_DESTROY_MAP(_intersects);
+    _rendererPrograms.clear();
+    _cameraPrograms.clear();
+    RT_DESTROY_MAP(_optixBoundsPrograms);
+    RT_DESTROY_MAP(_optixIntersectionPrograms);
     RT_DESTROY_MAP(_optixTextureSamplers);
     RT_DESTROY(_optixContext);
 }
@@ -147,26 +149,26 @@ OptiXContext& OptiXContext::get()
 
 void OptiXContext::addRenderer(const std::string& name, OptiXShaderProgramPtr program)
 {
-    _rendererProgram[name] = program;
+    _rendererPrograms[name] = program;
 }
 
 OptiXShaderProgramPtr OptiXContext::getRenderer(const std::string& name)
 {
-    auto it = _rendererProgram.find(name);
-    if (it == _rendererProgram.end())
+    auto it = _rendererPrograms.find(name);
+    if (it == _rendererPrograms.end())
         throw std::runtime_error("Shader program not found for renderer '" + name + "'");
     return it->second;
 }
 
 void OptiXContext::addCamera(const std::string& name, OptiXCameraProgramPtr program)
 {
-    _cameraProgram[name] = program;
+    _cameraPrograms[name] = program;
 }
 
 OptiXCameraProgramPtr OptiXContext::getCamera(const std::string& name)
 {
-    auto it = _cameraProgram.find(name);
-    if (it == _cameraProgram.end())
+    auto it = _cameraPrograms.find(name);
+    if (it == _cameraPrograms.end())
         throw std::runtime_error("Camera program not found for camera '" + name + "'");
     return it->second;
 }
@@ -348,34 +350,34 @@ void OptiXContext::_initialize()
     _optixContext->setStackSize(OPTIX_STACK_SIZE);
     _optixContext->setMaxTraceDepth(OPTIX_MAX_TRACE_DEPTH);
 
-    _bounds[OptixGeometryType::cone] =
+    _optixBoundsPrograms[OptixGeometryType::cone] =
         _optixContext->createProgramFromPTXString(CUDA_CONES, OPTIX_CUDA_FUNCTION_BOUNDS);
-    _intersects[OptixGeometryType::cone] =
+    _optixIntersectionPrograms[OptixGeometryType::cone] =
         _optixContext->createProgramFromPTXString(CUDA_CONES, OPTIX_CUDA_FUNCTION_INTERSECTION);
 
-    _bounds[OptixGeometryType::cylinder] =
+    _optixBoundsPrograms[OptixGeometryType::cylinder] =
         _optixContext->createProgramFromPTXString(CUDA_CYLINDERS, OPTIX_CUDA_FUNCTION_BOUNDS);
-    _intersects[OptixGeometryType::cylinder] =
+    _optixIntersectionPrograms[OptixGeometryType::cylinder] =
         _optixContext->createProgramFromPTXString(CUDA_CYLINDERS, OPTIX_CUDA_FUNCTION_INTERSECTION);
 
-    _bounds[OptixGeometryType::sphere] =
+    _optixBoundsPrograms[OptixGeometryType::sphere] =
         _optixContext->createProgramFromPTXString(CUDA_SPHERES, OPTIX_CUDA_FUNCTION_BOUNDS);
-    _intersects[OptixGeometryType::sphere] =
+    _optixIntersectionPrograms[OptixGeometryType::sphere] =
         _optixContext->createProgramFromPTXString(CUDA_SPHERES, OPTIX_CUDA_FUNCTION_INTERSECTION);
 
-    _bounds[OptixGeometryType::triangleMesh] =
+    _optixBoundsPrograms[OptixGeometryType::triangleMesh] =
         _optixContext->createProgramFromPTXString(CUDA_TRIANGLES_MESH, OPTIX_CUDA_FUNCTION_BOUNDS);
-    _intersects[OptixGeometryType::triangleMesh] =
+    _optixIntersectionPrograms[OptixGeometryType::triangleMesh] =
         _optixContext->createProgramFromPTXString(CUDA_TRIANGLES_MESH, OPTIX_CUDA_FUNCTION_INTERSECTION);
 
-    _bounds[OptixGeometryType::volume] =
+    _optixBoundsPrograms[OptixGeometryType::volume] =
         _optixContext->createProgramFromPTXString(CUDA_VOLUMES, OPTIX_CUDA_FUNCTION_BOUNDS);
-    _intersects[OptixGeometryType::volume] =
+    _optixIntersectionPrograms[OptixGeometryType::volume] =
         _optixContext->createProgramFromPTXString(CUDA_VOLUMES, OPTIX_CUDA_FUNCTION_INTERSECTION);
 
-    _bounds[OptixGeometryType::streamline] =
+    _optixBoundsPrograms[OptixGeometryType::streamline] =
         _optixContext->createProgramFromPTXString(CUDA_STREAMLINES, OPTIX_CUDA_FUNCTION_BOUNDS);
-    _intersects[OptixGeometryType::streamline] =
+    _optixIntersectionPrograms[OptixGeometryType::streamline] =
         _optixContext->createProgramFromPTXString(CUDA_STREAMLINES, OPTIX_CUDA_FUNCTION_INTERSECTION);
 
     // Exceptions
@@ -466,8 +468,8 @@ void OptiXContext::_printSystemInformation() const
 ::optix::Geometry OptiXContext::createGeometry(const OptixGeometryType type)
 {
     ::optix::Geometry geometry = _optixContext->createGeometry();
-    geometry->setBoundingBoxProgram(_bounds[type]);
-    geometry->setIntersectionProgram(_intersects[type]);
+    geometry->setBoundingBoxProgram(_optixBoundsPrograms[type]);
+    geometry->setIntersectionProgram(_optixIntersectionPrograms[type]);
     return geometry;
 }
 

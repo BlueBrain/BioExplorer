@@ -24,6 +24,7 @@
 
 #include "OptiXProperties.h"
 #include "OptiXTypes.h"
+#include "OptiXUtils.h"
 
 #include <platform/core/common/Properties.h>
 
@@ -148,6 +149,14 @@ enum class OptixGeometryType
 
 struct OptixShaderProgram
 {
+    ~OptixShaderProgram()
+    {
+        RT_DESTROY(any_hit);
+        RT_DESTROY(closest_hit);
+        RT_DESTROY(closest_hit_textured);
+        RT_DESTROY(exception_program);
+    }
+
     ::optix::Program any_hit{nullptr};
     ::optix::Program closest_hit{nullptr};
     ::optix::Program closest_hit_textured{nullptr};
@@ -193,11 +202,11 @@ private:
 
     ::optix::Context _optixContext{nullptr};
 
-    std::map<std::string, OptiXShaderProgramPtr> _rendererProgram;
-    std::map<std::string, OptiXCameraProgramPtr> _cameraProgram;
+    std::map<std::string, OptiXShaderProgramPtr> _rendererPrograms;
+    std::map<std::string, OptiXCameraProgramPtr> _cameraPrograms;
 
-    std::map<OptixGeometryType, ::optix::Program> _bounds;
-    std::map<OptixGeometryType, ::optix::Program> _intersects;
+    std::map<OptixGeometryType, ::optix::Program> _optixBoundsPrograms;
+    std::map<OptixGeometryType, ::optix::Program> _optixIntersectionPrograms;
 
     std::unordered_map<void*, ::optix::TextureSampler> _optixTextureSamplers;
     std::mutex _mutex;
