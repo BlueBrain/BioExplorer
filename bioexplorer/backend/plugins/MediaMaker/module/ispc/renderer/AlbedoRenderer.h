@@ -23,9 +23,9 @@
 
 #pragma once
 
-#include <platform/engines/ospray/ispc/render/utils/SimulationRenderer.h>
+#include <plugin/common/Properties.h>
 
-using namespace core;
+#include <platform/engines/ospray/ispc/render/utils/SimulationRenderer.h>
 
 namespace bioexplorer
 {
@@ -33,16 +33,16 @@ namespace mediamaker
 {
 namespace rendering
 {
-class AlbedoRenderer : public SimulationRenderer
+class AlbedoRenderer : public core::engine::ospray::SimulationRenderer
 {
 public:
     AlbedoRenderer();
 
     /**
        Returns the class name as a string
-       @return string containing the full name of the class
+       @return string containing the name of the object in the OSPRay context
     */
-    std::string toString() const final { return "albedo"; }
+    std::string toString() const final { return RENDERER_ALBEDO; }
     void commit() final;
 };
 } // namespace rendering

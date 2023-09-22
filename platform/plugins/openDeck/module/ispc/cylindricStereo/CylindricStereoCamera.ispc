@@ -70,7 +70,7 @@ void CylindricStereoCamera_initRay(uniform Camera* uniform _self, varying Ray& r
     setRay(ray, org, normalize(dir), self->super.nearClip, inf, time);
 }
 
-/*! create a new ispc-side version of a OpenDeckCylinderStereoCamera - with
+/*! create a new ::ispc-side version of a OpenDeckCylinderStereoCamera - with
     given pointer to the c-class version - and return both class pointer and
     pointer to internal data back via the supplied reference parameters. */
 export void* uniform CylindricStereoCamera_create(void* uniform cppE)

@@ -20,14 +20,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef OSPRAYCAMERA_H
-#define OSPRAYCAMERA_H
+#pragma once
 
 #include <platform/core/engineapi/Camera.h>
 
 #include <ospray.h>
 
 namespace core
+{
+namespace engine
+{
+namespace ospray
 {
 /**
    OPSRAY specific camera
@@ -67,5 +70,6 @@ private:
 
     void _createOSPCamera();
 };
+} // namespace ospray
+} // namespace engine
 } // namespace core
-#endif // OSPRAYCAMERA_H

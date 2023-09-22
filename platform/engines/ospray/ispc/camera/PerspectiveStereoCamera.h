@@ -26,12 +26,15 @@
 #include "camera/Camera.h"
 
 #include <platform/core/common/CommonTypes.h>
+#include <platform/core/common/Properties.h>
 
 namespace core
 {
-using namespace ospray;
-
-struct OSPRAY_SDK_INTERFACE PerspectiveStereoCamera : public Camera
+namespace engine
+{
+namespace ospray
+{
+struct OSPRAY_SDK_INTERFACE PerspectiveStereoCamera : public ::ospray::Camera
 {
     /**
      * @brief Construct a new Perspective Stereo Camera object
@@ -44,7 +47,7 @@ struct OSPRAY_SDK_INTERFACE PerspectiveStereoCamera : public Camera
      *
      * @return std::string The name of the camera
      */
-    virtual std::string toString() const { return "perspective"; }
+    virtual std::string toString() const { return CAMERA_PROPERTY_TYPE_PERSPECTIVE; }
 
     /**
      * @brief Commit the changes to the OSPRay engine
@@ -61,7 +64,7 @@ public:
 
     // Clip planes
     bool enableClippingPlanes{false};
-    Ref<Data> clipPlanes;
+    ::ospray::Ref<::ospray::Data> clipPlanes;
 
     // Stereo
     CameraStereoMode stereoMode;
@@ -69,4 +72,6 @@ public:
 
     bool useHardwareRandomizer{false};
 };
+} // namespace ospray
+} // namespace engine
 } // namespace core

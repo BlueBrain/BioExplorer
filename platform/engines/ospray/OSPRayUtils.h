@@ -22,11 +22,15 @@
 
 #pragma once
 
-#include <platform/core/common/Types.h>
 #include <ospray/SDK/common/Managed.h>
 #include <ospray/SDK/common/OSPCommon.h>
+#include <platform/core/common/Types.h>
 
 namespace core
+{
+namespace engine
+{
+namespace ospray
 {
 /**
  * Set all the properties from the current property map of the given object to
@@ -37,14 +41,14 @@ void toOSPRayProperties(const PropertyMap& object, OSPObject ospObject);
 
 /** Update all the properties in the property map from the given ospray object.
  */
-void fromOSPRayProperties(PropertyMap& object, ospray::ManagedObject& ospObject);
+void fromOSPRayProperties(PropertyMap& object, ::ospray::ManagedObject& ospObject);
 
 /** Convert a core::Transformation to an ospcommon::affine3f. */
 ospcommon::affine3f transformationToAffine3f(const Transformation& transformation);
 
 /** Helper to add the given model as an instance to the given root model. */
 void addInstance(OSPModel rootModel, OSPModel modelToAdd, const Transformation& transform);
-void addInstance(OSPModel rootModel, OSPModel modelToAdd, const ospcommon::affine3f& affine);
+void addInstance(OSPModel rootModel, OSPModel modelToAdd, const ::ospcommon::affine3f& affine);
 
 /** Helper to convert a vector of double tuples to a vector of float tuples. */
 template <size_t S>
@@ -79,4 +83,6 @@ void set(OSPObject obj, const char* id, const Vector3i& v);
 
 void set(OSPObject obj, const char* id, const Vector4f& v);
 } // namespace osphelper
+} // namespace ospray
+} // namespace engine
 } // namespace core

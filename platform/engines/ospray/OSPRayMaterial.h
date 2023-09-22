@@ -20,13 +20,16 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef OSPRAYMATERIAL_H
-#define OSPRAYMATERIAL_H
+#pragma once
 
-#include <platform/core/engineapi/Material.h>
 #include <ospray.h>
+#include <platform/core/engineapi/Material.h>
 
 namespace core
+{
+namespace engine
+{
+namespace ospray
 {
 class OSPRayMaterial : public Material
 {
@@ -54,6 +57,6 @@ private:
     bool _isBackGroundMaterial{false};
     std::string _renderer;
 };
+} // namespace ospray
+} // namespace engine
 } // namespace core
-
-#endif // OSPRAYMATERIAL_H

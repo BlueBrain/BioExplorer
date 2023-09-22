@@ -26,6 +26,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace ospray
+{
 /*
 Camera properties
 */
@@ -56,7 +60,6 @@ static const char* OSPRAY_RENDERER_PROPERTY_WORLD = "world";
 static const char* OSPRAY_RENDERER_PROPERTY_VARIANCE_THRESHOLD = "varianceThreshold";
 static const char* OSPRAY_RENDERER_PROPERTY_SAMPLES_PER_PIXEL = "spp";
 static const char* OSPRAY_RENDERER_PROPERTY_SHUTTER_CLOSE = "shutterClose";
-static const char* OSPRAY_RENDERER_PROPERTY_RANDOM_NUMBER = "randomNumber";
 
 static constexpr double OSPRAY_DEFAULT_RENDERER_VOLUME_SAMPLING_THRESHOLD = 0.001;
 static constexpr double OSPRAY_DEFAULT_RENDERER_VOLUME_SPECULAR_EXPONENT = 20.0;
@@ -204,4 +207,6 @@ static const char* OSPRAY_MODEL_PROPERTY_DYNAMIC_SCENE = "dynamicScene";
 static const char* OSPRAY_MODEL_PROPERTY_COMPACT_MODE = "compactMode";
 static const char* OSPRAY_MODEL_PROPERTY_ROBUST_MODE = "robustMode";
 
+} // namespace ospray
+} // namespace engine
 } // namespace core

@@ -41,14 +41,14 @@ extern "C"
 {
     int SimulationRenderer_getBytesPerPrimitive(const void* geometry)
     {
-        const ospray::Geometry* base = static_cast<const ospray::Geometry*>(geometry);
-        if (dynamic_cast<const ospray::Spheres*>(base))
+        const ::ospray::Geometry* base = static_cast<const ::ospray::Geometry*>(geometry);
+        if (dynamic_cast<const ::ospray::Spheres*>(base))
             return sizeof(core::Sphere);
-        else if (dynamic_cast<const ospray::Cylinders*>(base))
+        else if (dynamic_cast<const ::ospray::Cylinders*>(base))
             return sizeof(core::Cylinder);
-        else if (dynamic_cast<const ospray::Cones*>(base))
+        else if (dynamic_cast<const core::engine::ospray::Cones*>(base))
             return sizeof(core::Cone);
-        else if (dynamic_cast<const ospray::SDFGeometries*>(base))
+        else if (dynamic_cast<const core::engine::ospray::SDFGeometries*>(base))
             return sizeof(core::SDFGeometry);
         return 0;
     }
@@ -56,11 +56,15 @@ extern "C"
 
 namespace core
 {
+namespace engine
+{
+namespace ospray
+{
 void SimulationRenderer::commit()
 {
     AbstractRenderer::commit();
 
-    _secondaryModel = (ospray::Model*)getParamObject(RENDERER_PROPERTY_SECONDARY_MODEL, nullptr);
+    _secondaryModel = (::ospray::Model*)getParamObject(RENDERER_PROPERTY_SECONDARY_MODEL, nullptr);
     _maxDistanceToSecondaryModel = getParam1f(RENDERER_PROPERTY_MAX_DISTANCE_TO_SECONDARY_MODEL.name.c_str(),
                                               DEFAULT_RENDERER_MAX_DISTANCE_TO_SECONDARY_MODEL);
     _userData = getParamData(RENDERER_PROPERTY_USER_DATA);
@@ -78,9 +82,11 @@ void SimulationRenderer::commit()
     _showBackground = getParam(RENDERER_PROPERTY_SHOW_BACKGROUND.name.c_str(), DEFAULT_RENDERER_SHOW_BACKGROUND);
 
     // Transfer function
-    ospray::TransferFunction* transferFunction =
-        (ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, nullptr);
+    ::ospray::TransferFunction* transferFunction =
+        (::ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, nullptr);
     if (transferFunction)
-        ispc::SimulationRenderer_setTransferFunction(getIE(), transferFunction->getIE());
+        ::ispc::SimulationRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 }
+} // namespace ospray
+} // namespace engine
 } // namespace core

@@ -34,43 +34,47 @@
 
 namespace core
 {
-typedef ospray::vec3f Color;
+namespace engine
+{
+namespace ospray
+{
+typedef ::ospray::vec3f Color;
 
-struct AdvancedMaterial : public ospray::Material
+struct AdvancedMaterial : public ::ospray::Material
 {
     /*! opacity: 0 (transparent), 1 (opaque) */
-    ospray::Texture2D* map_d;
+    ::ospray::Texture2D* map_d;
     float d;
 
     /*! refraction index */
-    ospray::Texture2D* map_Refraction;
+    ::ospray::Texture2D* map_Refraction;
     float refraction;
 
     /*! reflection index */
-    ospray::Texture2D* map_Reflection;
+    ::ospray::Texture2D* map_Reflection;
     float reflection;
 
     /*! radiance: 0 (none), 1 (full) */
-    ospray::Texture2D* map_a;
+    ::ospray::Texture2D* map_a;
     float a;
 
     /*! diffuse  reflectance: 0 (none), 1 (full) */
-    ospray::Texture2D* map_Kd;
+    ::ospray::Texture2D* map_Kd;
     Color Kd;
 
     /*! specular reflectance: 0 (none), 1 (full) */
-    ospray::Texture2D* map_Ks;
+    ::ospray::Texture2D* map_Ks;
     Color Ks;
 
     /*! specular exponent: 0 (diffuse), infinity (specular) */
-    ospray::Texture2D* map_Ns;
+    ::ospray::Texture2D* map_Ns;
     float Ns;
 
     /*! Glossiness: 0 (none), 1 (full) */
     float glossiness;
 
     /*! bump map */
-    ospray::Texture2D* map_Bump;
+    ::ospray::Texture2D* map_Bump;
 
     /*! User defined parameter */
     float userParameter;
@@ -94,4 +98,6 @@ struct AdvancedMaterial : public ospray::Material
 
     void commit() override;
 };
+} // namespace ospray
+} // namespace engine
 } // namespace core

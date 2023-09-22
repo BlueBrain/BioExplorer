@@ -24,11 +24,10 @@
 
 #include <common/Properties.h>
 #include <platform/core/common/Properties.h>
+#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
-// ospray
 #include <ospray/SDK/common/Data.h>
 
-// ispc exports
 #include "CellGrowthRenderer_ispc.h"
 
 using namespace core;
@@ -48,18 +47,19 @@ void CellGrowthRenderer::commit()
                                  DEFAULT_RENDERER_GLOBAL_ILLUMINATION_RAY_LENGTH);
     _useTransferFunctionColor = getParam(SONATA_RENDERER_PROPERTY_USE_TRANSFER_FUNCTION_COLOR.name.c_str(),
                                          SONATA_DEFAULT_RENDERER_CELL_GROWTH_USE_TRANSFER_FUNCTION_COLOR);
-    ispc::CellGrowthRenderer_set(getIE(), (_secondaryModel ? _secondaryModel->getIE() : nullptr),
-                                 (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr, _lightArray.size(),
-                                 (_userData ? (float*)_userData->data : nullptr), _simulationDataSize,
-                                 _alphaCorrection, _simulationThreshold, _exposure, _fogThickness, _fogStart, _shadows,
-                                 _softShadows, _shadowDistance, _useTransferFunctionColor, _useHardwareRandomizer);
+    ::ispc::CellGrowthRenderer_set(getIE(), (_secondaryModel ? _secondaryModel->getIE() : nullptr),
+                                   (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr, _lightArray.size(),
+                                   (_userData ? (float*)_userData->data : nullptr), _simulationDataSize,
+                                   _alphaCorrection, _simulationThreshold, _exposure, _fogThickness, _fogStart,
+                                   _shadows, _softShadows, _shadowDistance, _useTransferFunctionColor,
+                                   _useHardwareRandomizer);
 }
 
 CellGrowthRenderer::CellGrowthRenderer()
 {
-    ispcEquivalent = ispc::CellGrowthRenderer_create(this);
+    ispcEquivalent = ::ispc::CellGrowthRenderer_create(this);
 }
 
 OSP_REGISTER_RENDERER(CellGrowthRenderer, cell_growth);
-OSP_REGISTER_MATERIAL(cell_growth, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(cell_growth, core::engine::ospray::AdvancedMaterial, default);
 } // namespace sonataexplorer

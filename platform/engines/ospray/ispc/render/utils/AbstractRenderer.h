@@ -24,26 +24,25 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef ABSTRACTRENDERER_H
-#define ABSTRACTRENDERER_H
+#pragma once
 
-// obj
 #include "AdvancedMaterial.h"
 
-// ospray
 #include <ospray/SDK/common/Material.h>
 #include <ospray/SDK/render/Renderer.h>
 
-// system
 #include <vector>
 
 namespace core
 {
+namespace engine
+{
+namespace ospray
+{
 /**
- * The AbstractRenderer class implements a base renderer for all Core custom
- * implementations
+ * The AbstractRenderer class implements a base renderer for all Core custom implementations
  */
-class AbstractRenderer : public ospray::Renderer
+class AbstractRenderer : public ::ospray::Renderer
 {
 public:
     void commit() override;
@@ -52,14 +51,14 @@ protected:
     std::vector<void*> _lightArray;
     void** _lightPtr;
 
-    ospray::Data* _lightData;
+    ::ospray::Data* _lightData;
 
-    core::AdvancedMaterial* _bgMaterial;
+    AdvancedMaterial* _bgMaterial;
     float _timestamp;
 
     bool _useHardwareRandomizer;
-    ospray::uint32 _randomNumber;
+    ::ospray::uint32 _randomNumber;
 };
+} // namespace ospray
+} // namespace engine
 } // namespace core
-
-#endif // ABSTRACTRENDERER_H

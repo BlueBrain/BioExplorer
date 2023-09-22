@@ -116,7 +116,7 @@ void MultiviewCamera_initRay(uniform Camera* uniform _self, varying Ray& ray, co
     }
 }
 
-/*! create a new ispc-side version of a Multiview camera - with given pointer to
+/*! create a new ::ispc-side version of a Multiview camera - with given pointer to
     the c-class version - and return both class pointer and pointer to internal
     data back via the supplied reference parameters. */
 export void* uniform MultiviewCamera_create(void* uniform cppE)

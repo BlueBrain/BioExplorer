@@ -22,7 +22,7 @@
 
 #include "OSPRayMaterial.h"
 #include "OSPRayProperties.h"
-#include "Utils.h"
+#include "OSPRayUtils.h"
 
 #include <platform/core/common/Logs.h>
 #include <platform/core/common/Properties.h>
@@ -32,6 +32,10 @@
 #include <cassert>
 
 namespace core
+{
+namespace engine
+{
+namespace ospray
 {
 struct TextureTypeMaterialAttribute
 {
@@ -152,4 +156,6 @@ OSPTexture OSPRayMaterial::_createOSPTexture2D(Texture2DPtr texture)
 
     return ospTexture;
 }
+} // namespace ospray
+} // namespace engine
 } // namespace core

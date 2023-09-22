@@ -24,30 +24,31 @@
 #include "camera/Camera.h"
 
 #include <platform/core/common/Properties.h>
+#include <platform/engines/ospray/OSPRayProperties.h>
 
+namespace core
+{
+namespace engine
+{
 namespace ospray
 {
-//! Implements a clipped FishEye camera
-struct OSPRAY_SDK_INTERFACE FishEyeCamera : public Camera
+struct OSPRAY_SDK_INTERFACE FishEyeCamera : public ::ospray::Camera
 {
-    /*! \brief constructor \internal also creates the ispc-side data structure
-     */
     FishEyeCamera();
 
-    //! \brief common function to help printf-debugging
-    /*! Every derived class should override this! */
-    virtual std::string toString() const { return "fisheye"; }
+    virtual std::string toString() const { return OSPRAY_CAMERA_PROPERTY_TYPE_FISHEYE; }
     virtual void commit();
 
 public:
     // Clip planes
     bool enableClippingPlanes{false};
-    Ref<Data> clipPlanes;
+    ::ospray::Ref<::ospray::Data> clipPlanes;
 
-    float apertureRadius{core::DEFAULT_CAMERA_APERTURE_RADIUS};
-    float focalDistance{core::DEFAULT_CAMERA_FOCAL_DISTANCE};
-    float exposure{core::DEFAULT_COMMON_EXPOSURE};
-    bool useHardwareRandomizer{core::DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER};
+    float apertureRadius{DEFAULT_CAMERA_APERTURE_RADIUS};
+    float focalDistance{DEFAULT_CAMERA_FOCAL_DISTANCE};
+    float exposure{DEFAULT_COMMON_EXPOSURE};
+    bool useHardwareRandomizer{DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER};
 };
-
 } // namespace ospray
+} // namespace engine
+} // namespace core

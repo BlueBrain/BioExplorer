@@ -101,7 +101,7 @@ void FishEyeCamera_initRay(uniform Camera* uniform _self, varying Ray& ray, cons
     setRay(ray, org, dir, nearClip, farClip, time);
 }
 
-/*! create a new ispc-side version of a PerspectiveCamera - with given
+/*! create a new ::ispc-side version of a PerspectiveCamera - with given
     pointer to the c-class version - and return both class pointer and
     pointer to internal data back via the supplied reference
     parameters */

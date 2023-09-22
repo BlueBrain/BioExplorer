@@ -23,21 +23,26 @@
 
 #include "ospray/SDK/geometry/Geometry.h"
 
+namespace core
+{
+namespace engine
+{
 namespace ospray
 {
-struct SDFGeometries : public ospray::Geometry
+struct SDFGeometries : public ::ospray::Geometry
 {
-    std::string toString() const final { return "core::SDFGeometries"; }
-    void finalize(ospray::Model* model) final;
+    std::string toString() const final { return "SDFGeometries"; }
+    void finalize(::ospray::Model* model) final;
 
-    ospray::Ref<ospray::Data> data;
-    ospray::Ref<ospray::Data> neighbours;
-    ospray::Ref<ospray::Data> geometries;
+    ::ospray::Ref<::ospray::Data> data;
+    ::ospray::Ref<::ospray::Data> neighbours;
+    ::ospray::Ref<::ospray::Data> geometries;
 
     SDFGeometries();
 
 private:
     std::vector<void*> ispcMaterials_;
 };
-
 } // namespace ospray
+} // namespace engine
+} // namespace core

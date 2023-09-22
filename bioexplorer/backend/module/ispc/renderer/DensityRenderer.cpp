@@ -26,12 +26,10 @@
 #include <platform/core/common/Properties.h>
 #include <science/common/Properties.h>
 
-// ospray
 #include <ospray/SDK/common/Data.h>
 #include <ospray/SDK/lights/Light.h>
 #include <ospray/SDK/transferFunction/TransferFunction.h>
 
-// ispc exports
 #include "DensityRenderer_ispc.h"
 
 using namespace core;
@@ -44,7 +42,8 @@ void DensityRenderer::commit()
 {
     Renderer::commit();
 
-    _bgMaterial = (AdvancedMaterial*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
+    _bgMaterial =
+        (core::engine::ospray::AdvancedMaterial*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
 
     _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
     _timestamp = getParam1f(RENDERER_PROPERTY_TIMESTAMP, DEFAULT_RENDERER_TIMESTAMP);
@@ -61,22 +60,22 @@ void DensityRenderer::commit()
     _alphaCorrection = getParam1f(RENDERER_PROPERTY_ALPHA_CORRECTION.name.c_str(), DEFAULT_RENDERER_ALPHA_CORRECTION);
 
     // Transfer function
-    ospray::TransferFunction* transferFunction =
-        (ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, nullptr);
+    ::ospray::TransferFunction* transferFunction =
+        (::ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, nullptr);
     if (transferFunction)
-        ispc::DensityRenderer_setTransferFunction(getIE(), transferFunction->getIE());
+        ::ispc::DensityRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 
     // Renderer
-    ispc::DensityRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _farPlane,
-                              _searchLength, _rayStep, _samplesPerFrame, _exposure, _alphaCorrection);
+    ::ispc::DensityRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _farPlane,
+                                _searchLength, _rayStep, _samplesPerFrame, _exposure, _alphaCorrection);
 }
 
 DensityRenderer::DensityRenderer()
 {
-    ispcEquivalent = ispc::DensityRenderer_create(this);
+    ispcEquivalent = ::ispc::DensityRenderer_create(this);
 }
 
 OSP_REGISTER_RENDERER(DensityRenderer, bio_explorer_density);
-OSP_REGISTER_MATERIAL(bio_explorer_density, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(bio_explorer_density, core::engine::ospray::AdvancedMaterial, default);
 } // namespace rendering
 } // namespace bioexplorer

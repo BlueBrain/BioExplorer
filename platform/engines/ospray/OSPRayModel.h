@@ -28,6 +28,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace ospray
+{
 class OSPRayModel : public Model
 {
 public:
@@ -101,4 +105,6 @@ private:
 
     MaterialPtr createMaterialImpl(const PropertyMap& properties = {}) final;
 };
+} // namespace ospray
+} // namespace engine
 } // namespace core

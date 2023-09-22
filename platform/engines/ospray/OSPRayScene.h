@@ -20,8 +20,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef OSPRAYSCENE_H
-#define OSPRAYSCENE_H
+#pragma once
 
 #include <platform/core/common/Types.h>
 #include <platform/core/engineapi/Scene.h>
@@ -29,6 +28,10 @@
 #include <ospray.h>
 
 namespace core
+{
+namespace engine
+{
+namespace ospray
 {
 /**
 
@@ -72,5 +75,6 @@ private:
 
     ModelDescriptors _activeModels;
 };
+} // namespace ospray
+} // namespace engine
 } // namespace core
-#endif // OSPRAYSCENE_H

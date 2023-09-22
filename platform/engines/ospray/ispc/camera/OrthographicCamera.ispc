@@ -54,7 +54,7 @@ void OrthographicCamera_initRay(uniform Camera* uniform _self, varying Ray& ray,
     setRay(ray, org, dir, nearClip, farClip, time);
 }
 
-/*! create a new ispc-side version of a orthographiccamera - with given
+/*! create a new ::ispc-side version of a orthographiccamera - with given
     pointer to the c-class version - and return both class pointer and
     pointer to internal data back via the supplied reference
     parameters */

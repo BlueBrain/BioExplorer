@@ -37,17 +37,17 @@ namespace core
  * The ospray module to load is called "deflect", and the pixel op name for
  * creating it is "DeflectPixelOp".
  */
-class DeflectPixelOp : public ospray::PixelOp
+class DeflectPixelOp : public ::ospray::PixelOp
 {
 public:
-    struct Instance : public ospray::PixelOp::Instance
+    struct Instance : public ::ospray::PixelOp::Instance
     {
-        Instance(ospray::FrameBuffer* fb_, DeflectPixelOp& parent);
+        Instance(::ospray::FrameBuffer* fb_, DeflectPixelOp& parent);
         ~Instance();
 
         void beginFrame() final;
         void endFrame() final;
-        void postAccum(ospray::Tile& tile) final;
+        void postAccum(::ospray::Tile& tile) final;
         std::string toString() const final { return "DeflectPixelOp"; }
         struct PixelsDeleter
         {
@@ -59,7 +59,7 @@ public:
         DeflectPixelOp& _parent;
         std::vector<Pixels> _pixels;
 
-        unsigned char* _copyPixels(ospray::Tile& tile, const ospray::vec2i& tileSize);
+        unsigned char* _copyPixels(::ospray::Tile& tile, const ::ospray::vec2i& tileSize);
     };
 
     /**
@@ -73,7 +73,7 @@ public:
      */
     void commit() final;
 
-    ospray::PixelOp::Instance* createInstance(ospray::FrameBuffer* fb, PixelOp::Instance* prev) final;
+    ::ospray::PixelOp::Instance* createInstance(::ospray::FrameBuffer* fb, PixelOp::Instance* prev) final;
 
 private:
     /** @internal finish pendings sends before closing the stream. */

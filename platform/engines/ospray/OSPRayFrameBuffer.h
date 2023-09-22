@@ -20,15 +20,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef OSPRAYFRAMEBUFFER_H
-#define OSPRAYFRAMEBUFFER_H
+#pragma once
 
-#include <platform/core/engineapi/FrameBuffer.h>
 #include <ospray.h>
+#include <platform/core/engineapi/FrameBuffer.h>
 
 #include <mutex>
 
 namespace core
+{
+namespace engine
+{
+namespace ospray
 {
 class OSPRayFrameBuffer : public FrameBuffer
 {
@@ -70,5 +73,6 @@ private:
     // protect map/unmap vs ospRenderFrame
     std::mutex _mapMutex;
 };
+} // namespace ospray
+} // namespace engine
 } // namespace core
-#endif // OSPRAYFRAMEBUFFER_H

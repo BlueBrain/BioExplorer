@@ -48,7 +48,7 @@ vec3f _rotateVectorByQuat(const vec3f& v, const vec4f& q)
 
 CylindricStereoTrackedCamera::CylindricStereoTrackedCamera()
 {
-    ispcEquivalent = ispc::CylindricStereoTrackedCamera_create(this);
+    ispcEquivalent = ::ispc::CylindricStereoTrackedCamera_create(this);
 }
 
 std::string CylindricStereoTrackedCamera::toString() const
@@ -86,9 +86,9 @@ void CylindricStereoTrackedCamera::commit()
     const auto dir_du = vec3f(1, 0, 0);
     const auto dir_dv = vec3f(0, 1, 0);
 
-    ispc::CylindricStereoTrackedCamera_set(getIE(), (const ispc::vec3f&)org, (const ispc::vec3f&)headPosition,
-                                           (const ispc::vec3f&)dir, (const ispc::vec3f&)dir_du,
-                                           (const ispc::vec3f&)dir_dv, (const ispc::vec3f&)openDeckCamDU, ipd, bufferId,
+    ::ispc::CylindricStereoTrackedCamera_set(getIE(), (const ::ispc::vec3f&)org, (const ::ispc::vec3f&)headPosition,
+                                           (const ::ispc::vec3f&)dir, (const ::ispc::vec3f&)dir_du,
+                                           (const ::ispc::vec3f&)dir_dv, (const ::ispc::vec3f&)openDeckCamDU, ipd, bufferId,
                                            cameraScaling);
 }
 

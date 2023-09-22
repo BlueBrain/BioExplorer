@@ -22,26 +22,20 @@
 
 #pragma once
 
+#include <common/Properties.h>
+
 #include <ospray/SDK/camera/Camera.h>
 
-namespace ospray
+namespace sonataexplorer
 {
-//! Implements a clipped perspective camera
-struct SphereClippingPerspectiveCamera : Camera
+struct SphereClippingPerspectiveCamera : ::ospray::Camera
 {
-    /*! \brief constructor \internal also creates the ispc-side data structure
-     */
     SphereClippingPerspectiveCamera();
 
-    //! \brief common function to help printf-debugging
-    /*! Every derived class should override this! */
-    virtual std::string toString() const { return "ospray::SphereClippingPerspectiveCamera"; }
+    virtual std::string toString() const { return CAMERA_SPHERE_CLIPPING_PERSPECTIVE; }
     virtual void commit();
 
 public:
-    // ------------------------------------------------------------------
-    // the parameters we 'parsed' from our parameters
-    // ------------------------------------------------------------------
     float fovy;
     float aspect;
     float apertureRadius;
@@ -50,13 +44,8 @@ public:
                         // the lens
     bool stereo;
     float interpupillaryDistance; // distance between the two cameras (stereo)
-
-    // Clip planes
     bool enableClippingPlanes{false};
-    Ref<Data> clipPlanes;
-
-    // Hardware randomizer
+    ::ospray::Ref<::ospray::Data> clipPlanes;
     bool useHardwareRandomizer{false};
 };
-
-} // namespace ospray
+} // namespace sonataexplorer

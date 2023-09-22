@@ -22,38 +22,35 @@
  */
 #include "VoxelRenderer.h"
 
-// ospray
+#include <science/common/Properties.h>
+
 #include <ospray/SDK/common/Data.h>
 
-// ispc exports
 #include "VoxelRenderer_ispc.h"
-
-using namespace core;
 
 namespace bioexplorer
 {
 namespace rendering
 {
-using namespace ospray;
-
 void VoxelRenderer::commit()
 {
     SimulationRenderer::commit();
 
-    _simulationThreshold = getParam1f("simulationThreshold", 0.f);
+    _simulationThreshold = getParam1f(BIOEXPLORER_RENDERER_PROPERTY_VOXEL_SIMULATION_THRESHOLD.name.c_str(),
+                                      BIOEXPLORER_DEFAULT_RENDERER_VOXEL_SIMULATION_THRESHOLD);
 
-    ispc::VoxelRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp,
-                            (_userData ? (float*)_userData->data : nullptr), _simulationDataSize,
-                            _alphaCorrection, _simulationThreshold, _exposure);
+    ::ispc::VoxelRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp,
+                              (_userData ? (float*)_userData->data : nullptr), _simulationDataSize, _alphaCorrection,
+                              _simulationThreshold, _exposure);
 }
 
 VoxelRenderer::VoxelRenderer()
 {
-    ispcEquivalent = ispc::VoxelRenderer_create(this);
+    ispcEquivalent = ::ispc::VoxelRenderer_create(this);
 }
 
 OSP_REGISTER_RENDERER(VoxelRenderer, bio_explorer_voxel);
-OSP_REGISTER_MATERIAL(bio_explorer_voxel, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(bio_explorer_voxel, core::engine::ospray::AdvancedMaterial, default);
 
 } // namespace rendering
 } // namespace bioexplorer

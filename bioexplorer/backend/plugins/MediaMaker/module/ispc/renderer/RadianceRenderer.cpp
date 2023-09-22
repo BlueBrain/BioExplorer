@@ -28,7 +28,7 @@
 // ospray
 #include <ospray/SDK/lights/Light.h>
 
-// ispc exports
+// ::ispc exports
 #include "RadianceRenderer_ispc.h"
 
 using namespace core;
@@ -44,17 +44,16 @@ void RadianceRenderer::commit()
 {
     Renderer::commit();
 
-    ispc::RadianceRenderer_set(getIE(), spp);
+    ::ispc::RadianceRenderer_set(getIE(), spp);
 }
 
 RadianceRenderer::RadianceRenderer()
 {
-    ispcEquivalent = ispc::RadianceRenderer_create(this);
+    ispcEquivalent = ::ispc::RadianceRenderer_create(this);
 }
 
 OSP_REGISTER_RENDERER(RadianceRenderer, radiance);
-OSP_REGISTER_MATERIAL(radiance, AdvancedMaterial, default);
-
+OSP_REGISTER_MATERIAL(radiance, core::engine::ospray::AdvancedMaterial, default);
 } // namespace rendering
 } // namespace mediamaker
 } // namespace bioexplorer

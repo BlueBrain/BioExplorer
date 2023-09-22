@@ -25,7 +25,7 @@
 #include "OSPRayModel.h"
 #include "OSPRayProperties.h"
 #include "OSPRayVolume.h"
-#include "Utils.h"
+#include "OSPRayUtils.h"
 
 #include <platform/core/common/ImageManager.h>
 #include <platform/core/common/Logs.h>
@@ -37,6 +37,10 @@
 #include <platform/core/parameters/VolumeParameters.h>
 
 namespace core
+{
+namespace engine
+{
+namespace ospray
 {
 OSPRayScene::OSPRayScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
                          VolumeParameters& volumeParameters)
@@ -290,4 +294,6 @@ ModelDescriptorPtr OSPRayScene::getSimulatedModel()
     }
     return ModelDescriptorPtr{};
 }
+} // namespace ospray
+} // namespace engine
 } // namespace core

@@ -23,30 +23,30 @@
 
 #pragma once
 
-// Platform
+#include <science/common/Properties.h>
+
 #include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
-// OSPRay
 #include <ospray/SDK/render/Renderer.h>
 
 namespace bioexplorer
 {
 namespace rendering
 {
-class GolgiStyleRenderer : public ospray::Renderer
+class GolgiStyleRenderer : public ::ospray::Renderer
 {
 public:
     GolgiStyleRenderer();
 
     /**
        Returns the class name as a string
-       @return string containing the full name of the class
+       @return string containing the name of the object in the OSPRay context
     */
-    std::string toString() const final { return "core::GolgiStyleRenderer"; }
+    std::string toString() const final { return RENDERER_GOLGI_STYLE; }
     void commit() final;
 
 private:
-    core::AdvancedMaterial* _bgMaterial{nullptr};
+    core::engine::ospray::AdvancedMaterial* _bgMaterial{nullptr};
     float _exponent{5.f};
     bool _inverse{false};
 };

@@ -24,7 +24,9 @@
 
 #include <platform/core/common/PropertyMap.h>
 
-namespace core
+namespace bioexplorer
+{
+namespace mediamaker
 {
 static const std::string PLUGIN_API_PREFIX = "mm-";
 
@@ -37,5 +39,6 @@ static const char* RENDERER_GEOMETRY_NORMAL = "raycast_Ng";
 static const char* RENDERER_RADIANCE = "radiance";
 
 static constexpr double DEFAULT_MEDIA_MAKER_RENDERER_DEPTH_INFINITY = 1.6;
-static const Property MEDIA_MAKER_RENDERER_PROPERTY_DEPTH_INFINITY = {"infinity", 1e6, 0., 1e6, {"Infinity"}};
-} // namespace core
+static const core::Property MEDIA_MAKER_RENDERER_PROPERTY_DEPTH_INFINITY = {"infinity", 1e6, 0., 1e6, {"Infinity"}};
+} // namespace mediamaker
+} // namespace bioexplorer

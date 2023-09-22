@@ -23,10 +23,10 @@
 
 #pragma once
 
-// Platform
+#include <science/common/Properties.h>
+
 #include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
-// OSPRay
 #include <ospray/SDK/render/Renderer.h>
 
 namespace bioexplorer
@@ -38,7 +38,7 @@ namespace rendering
  * @brief The DensityRenderer class allows visualization of atom density in the
  * 3D scene
  */
-class DensityRenderer : public ospray::Renderer
+class DensityRenderer : public ::ospray::Renderer
 {
 public:
     /**
@@ -50,9 +50,9 @@ public:
     /**
      * @brief Returns the class name as a string
      *
-     * @return A string containing the full name of the class
+     * @return A string containing the name of the object in the OSPRay context
      */
-    std::string toString() const final { return "bio_explorer_density"; }
+    std::string toString() const final { return RENDERER_DENSITY; }
 
     /**
      * @brief Commit the changes to the OSPRay engine
@@ -64,9 +64,9 @@ private:
     // Shading attributes
     std::vector<void*> _lightArray;
     void** _lightPtr;
-    ospray::Data* _lightData;
+    ::ospray::Data* _lightData;
 
-    core::AdvancedMaterial* _bgMaterial;
+    core::engine::ospray::AdvancedMaterial* _bgMaterial;
 
     double _timestamp{0.f};
     double _exposure{1.f};
@@ -76,7 +76,7 @@ private:
     double _rayStep;
     double _searchLength;
     double _farPlane;
-    ospray::uint32 _samplesPerFrame;
+    ::ospray::uint32 _samplesPerFrame;
 };
 } // namespace rendering
 } // namespace bioexplorer

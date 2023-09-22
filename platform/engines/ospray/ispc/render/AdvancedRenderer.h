@@ -27,6 +27,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace ospray
+{
 /**
  * @brief The AdvancedRenderer class is a renderer that can
  * perform global illumination (light shading, shadowIntensity, ambient occlusion, color
@@ -44,9 +48,9 @@ public:
     /**
      * @brief Returns the class name as a string
      *
-     * @return A string containing the full name of the class
+     * @return A string containing the name of the object in the OSPRay context
      */
-    std::string toString() const final { return "advanced_renderer"; }
+    std::string toString() const final { return RENDERER_PROPERTY_TYPE_ADVANCED; }
 
     /**
      * @brief Commit the changes to the OSPRay engine
@@ -58,19 +62,21 @@ private:
     // Shading
     double _shadows{0.f};
     double _softShadows{0.f};
-    ospray::uint32 _softShadowsSamples{1};
+    ::ospray::uint32 _softShadowsSamples{1};
     double _giStrength{0.f};
     double _giDistance{1e6};
-    ospray::uint32 _giSamples{1};
+    ::ospray::uint32 _giSamples{1};
     bool _matrixFilter{false};
 
     // Volumes
     float _volumeSamplingThreshold{1.f};
-    ospray::int32 _volumeSamplesPerRay{32};
+    ::ospray::int32 _volumeSamplesPerRay{32};
     float _volumeSpecularExponent{10.f};
     float _volumeAlphaCorrection{0.5f};
 
     // Clip planes
-    ospray::Ref<ospray::Data> clipPlanes;
+    ::ospray::Ref<::ospray::Data> clipPlanes;
 };
+} // namespace ospray
+} // namespace engine
 } // namespace core

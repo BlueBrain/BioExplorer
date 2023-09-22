@@ -124,7 +124,7 @@ void SphereClippingPerspectiveCamera_initRay(uniform Camera* uniform _self, vary
     setRay(ray, org, direction, nearClip, farClip, time);
 }
 
-/*! create a new ispc-side version of a SphereClippingPerspectiveCamera - with
+/*! create a new ::ispc-side version of a SphereClippingPerspectiveCamera - with
    given pointer to the c-class version - and return both class pointer and
     pointer to internal data back via the supplied reference
     parameters */

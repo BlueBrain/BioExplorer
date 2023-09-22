@@ -22,16 +22,13 @@
 
 #include "MetabolismRenderer.h"
 
-// Platform
 #include <platform/core/common/Properties.h>
 #include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
-// ospray
 #include <ospray/SDK/common/Data.h>
 #include <ospray/SDK/lights/Light.h>
 #include <ospray/SDK/transferFunction/TransferFunction.h>
 
-// ispc exports
 #include "MetabolismRenderer_ispc.h"
 
 using namespace ospray;
@@ -46,14 +43,14 @@ void MetabolismRenderer::commit()
 {
     Renderer::commit();
 
-    _lightData = (ospray::Data*)getParamData(RENDERER_PROPERTY_LIGHTS);
+    _lightData = (::ospray::Data*)getParamData(RENDERER_PROPERTY_LIGHTS);
     _lightArray.clear();
     if (_lightData)
         for (size_t i = 0; i < _lightData->size(); ++i)
-            _lightArray.push_back(((ospray::Light**)_lightData->data)[i]->getIE());
+            _lightArray.push_back(((::ospray::Light**)_lightData->data)[i]->getIE());
 
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
-    _bgMaterial = (ospray::Material*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
+    _bgMaterial = (::ospray::Material*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
     _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
 
     // Sampling
@@ -70,25 +67,24 @@ void MetabolismRenderer::commit()
     _userDataSize = _userData ? _userData->size() : 0;
 
     // Transfer function
-    ospray::TransferFunction* transferFunction =
-        (ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, nullptr);
+    ::ospray::TransferFunction* transferFunction =
+        (::ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, nullptr);
     if (transferFunction)
-        ispc::MetabolismRenderer_setTransferFunction(getIE(), transferFunction->getIE());
+        ::ispc::MetabolismRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 
     // Renderer
-    ispc::MetabolismRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr,
-                                 _lightArray.size(), (_userData ? (float*)_userData->data : nullptr), _userDataSize,
-                                 _nearPlane, _farPlane, _rayStep, _refinementSteps, _exposure, _alphaCorrection,
-                                 _colorMapPerRegion, _noiseFrequency, _noiseAmplitude);
+    ::ispc::MetabolismRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr,
+                                   _lightArray.size(), (_userData ? (float*)_userData->data : nullptr), _userDataSize,
+                                   _nearPlane, _farPlane, _rayStep, _refinementSteps, _exposure, _alphaCorrection,
+                                   _colorMapPerRegion, _noiseFrequency, _noiseAmplitude);
 }
 
 MetabolismRenderer::MetabolismRenderer()
 {
-    ispcEquivalent = ispc::MetabolismRenderer_create(this);
+    ispcEquivalent = ::ispc::MetabolismRenderer_create(this);
 }
 
 OSP_REGISTER_RENDERER(MetabolismRenderer, metabolism);
-OSP_REGISTER_MATERIAL(metabolism, AdvancedMaterial, default);
-
+OSP_REGISTER_MATERIAL(metabolism, core::engine::ospray::AdvancedMaterial, default);
 } // namespace rendering
 } // namespace metabolism

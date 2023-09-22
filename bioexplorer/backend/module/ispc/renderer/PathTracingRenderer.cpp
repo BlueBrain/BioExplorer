@@ -30,10 +30,9 @@
 #include <ospray/SDK/common/Data.h>
 #include <ospray/SDK/lights/Light.h>
 
-// ispc exports
+// ::ispc exports
 #include "PathTracingRenderer_ispc.h"
 
-using namespace ospray;
 using namespace core;
 
 namespace bioexplorer
@@ -44,36 +43,37 @@ void PathTracingRenderer::commit()
 {
     SimulationRenderer::commit();
 
-    _lightData = (ospray::Data*)getParamData(RENDERER_PROPERTY_LIGHTS);
+    _lightData = (::ospray::Data*)getParamData(RENDERER_PROPERTY_LIGHTS);
     _lightArray.clear();
 
     if (_lightData)
         for (size_t i = 0; i < _lightData->size(); ++i)
-            _lightArray.push_back(((ospray::Light**)_lightData->data)[i]->getIE());
+            _lightArray.push_back(((::ospray::Light**)_lightData->data)[i]->getIE());
 
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
-    _bgMaterial = (AdvancedMaterial*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
+    _bgMaterial =
+        (core::engine::ospray::AdvancedMaterial*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
     _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
     _useHardwareRandomizer = getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(),
                                       static_cast<int>(DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER));
     _showBackground = getParam(RENDERER_PROPERTY_SHOW_BACKGROUND.name.c_str(), DEFAULT_RENDERER_SHOW_BACKGROUND);
-    _aoWeight = getParam1f(OSPRAY_RENDERER_AMBIENT_OCCLUSION_WEIGHT.name.c_str(), 1.f);
-    _aoDistance = getParam1f(OSPRAY_RENDERER_AMBIENT_OCCLUSION_DISTANCE.name.c_str(), 100.f);
+    _aoWeight = getParam1f(core::engine::ospray::OSPRAY_RENDERER_AMBIENT_OCCLUSION_WEIGHT.name.c_str(), 1.f);
+    _aoDistance = getParam1f(core::engine::ospray::OSPRAY_RENDERER_AMBIENT_OCCLUSION_DISTANCE.name.c_str(), 100.f);
     _randomNumber = rand() % 1000;
 
-    ispc::PathTracingRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr,
-                                  _lightArray.size(), (_userData ? (float*)_userData->data : nullptr),
-                                  _simulationDataSize, _timestamp, _randomNumber, _exposure, _aoWeight, _aoDistance,
-                                  _useHardwareRandomizer, _showBackground);
+    ::ispc::PathTracingRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _lightPtr,
+                                    _lightArray.size(), (_userData ? (float*)_userData->data : nullptr),
+                                    _simulationDataSize, _timestamp, _randomNumber, _exposure, _aoWeight, _aoDistance,
+                                    _useHardwareRandomizer, _showBackground);
 }
 
 PathTracingRenderer::PathTracingRenderer()
 {
-    ispcEquivalent = ispc::PathTracingRenderer_create(this);
+    ispcEquivalent = ::ispc::PathTracingRenderer_create(this);
 }
 
 OSP_REGISTER_RENDERER(PathTracingRenderer, bio_explorer_path_tracing);
-OSP_REGISTER_MATERIAL(bio_explorer_path_tracing, AdvancedMaterial, default);
+OSP_REGISTER_MATERIAL(bio_explorer_path_tracing, core::engine::ospray::AdvancedMaterial, default);
 } // namespace rendering
 } // namespace bioexplorer

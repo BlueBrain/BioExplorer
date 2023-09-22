@@ -29,7 +29,6 @@
 
 #include <science/io/db/DBConnector.h>
 
-// Platform
 #include <platform/core/common/CommonTypes.h>
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
@@ -126,7 +125,6 @@ void Synapses::_addSpine(ThreadSafeContainer& container, const uint64_t guid, co
     const auto l = 6.f * radius;
 
     const auto origin = synapse.postSynapticSurfacePosition;
-    // const auto target = origin + normalize(direction) * l;
     const auto target = synapse.preSynapticSurfacePosition;
 
     // Create random shape between origin and target
@@ -151,6 +149,5 @@ void Synapses::_addSpine(ThreadSafeContainer& container, const uint64_t guid, co
         container.addCone(middle, spineMiddleRadius, target, spineLargeRadius, SpineMaterialId, useSdf, NO_USER_DATA,
                           neighbours, displacement);
 }
-
 } // namespace morphology
 } // namespace bioexplorer

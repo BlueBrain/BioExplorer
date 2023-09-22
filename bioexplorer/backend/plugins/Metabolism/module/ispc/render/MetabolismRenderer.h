@@ -32,7 +32,7 @@ namespace rendering
  * @brief The MetabolismRenderer class allows visualization of atom Metabolism
  * in the 3D scene
  */
-class MetabolismRenderer : public ospray::Renderer
+class MetabolismRenderer : public ::ospray::Renderer
 {
 public:
     /**
@@ -44,7 +44,7 @@ public:
     /**
      * @brief Returns the class name as a string
      *
-     * @return A string containing the full name of the class
+     * @return A string containing the name of the object in the OSPRay context
      */
     std::string toString() const final { return "bio_explorer_Metabolism"; }
 
@@ -58,23 +58,23 @@ private:
     // Shading attributes
     std::vector<void*> _lightArray;
     void** _lightPtr;
-    ospray::Data* _lightData;
+    ::ospray::Data* _lightData;
 
-    ospray::Material* _bgMaterial;
+    ::ospray::Material* _bgMaterial;
 
     float _exposure{1.f};
 
     float _nearPlane{100.f};
     float _farPlane{1.f};
     float _rayStep{0.1f};
-    ospray::uint32 _refinementSteps;
+    ::ospray::uint32 _refinementSteps;
     float _alphaCorrection{1.f};
     float _noiseFrequency{1.f};
     float _noiseAmplitude{1.f};
     bool _colorMapPerRegion{false};
 
-    ospray::Ref<ospray::Data> _userData;
-    ospray::uint64 _userDataSize;
+    ::ospray::Ref<ospray::Data> _userData;
+    ::ospray::uint64 _userDataSize;
 };
 } // namespace rendering
 } // namespace metabolism

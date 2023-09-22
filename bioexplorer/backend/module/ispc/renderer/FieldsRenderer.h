@@ -23,10 +23,10 @@
 
 #pragma once
 
-// Platform
+#include <science/common/Properties.h>
+
 #include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
 
-// OSPRay
 #include <ospray/SDK/render/Renderer.h>
 
 namespace bioexplorer
@@ -34,13 +34,11 @@ namespace bioexplorer
 namespace rendering
 {
 /**
- * @brief The FieldsRenderer class allows visualization of magnetic
- * fields created by atoms in the 3D scene. An Octree acceleration structure has
- * to be built by the be_build_fields API in order to feed the renderer with the
- * information needed to compute the value of the field for every point in the
- * 3D space
+ * @brief The FieldsRenderer class allows visualization of magnetic fields created by atoms in the 3D scene. An Octree
+ * acceleration structure has to be built by the be_build_fields API in order to feed the renderer with the information
+ * needed to compute the value of the field for every point in the 3D space
  */
-class FieldsRenderer : public ospray::Renderer
+class FieldsRenderer : public ::ospray::Renderer
 {
 public:
     /**
@@ -52,9 +50,9 @@ public:
     /**
      * @brief Returns the class name as a string
      *
-     * @return A string containing the full name of the class
+     * @return A string containing the name of the object in the OSPRay context
      */
-    std::string toString() const final { return "bio_explorer_fields"; }
+    std::string toString() const final { return RENDERER_FIELDS; }
 
     /**
      * @brief Commit the changes to the OSPRay engine
@@ -66,12 +64,12 @@ private:
     // Shading attributes
     std::vector<void*> _lightArray;
     void** _lightPtr;
-    ospray::Data* _lightData;
+    ::ospray::Data* _lightData;
 
-    core::AdvancedMaterial* _bgMaterial;
+    core::engine::ospray::AdvancedMaterial* _bgMaterial;
 
     bool _useHardwareRandomizer{false};
-    ospray::uint32 _randomNumber{0};
+    ::ospray::uint32 _randomNumber{0};
 
     double _timestamp{0.f};
     double _exposure{1.f};
@@ -80,12 +78,12 @@ private:
 
     // Octree
     double _minRayStep;
-    ospray::uint32 _nbRaySteps;
-    ospray::uint32 _nbRayRefinementSteps;
+    ::ospray::uint32 _nbRaySteps;
+    ::ospray::uint32 _nbRayRefinementSteps;
 
     double _cutoff;
-    ospray::Ref<ospray::Data> _userData;
-    ospray::uint64 _userDataSize;
+    ::ospray::Ref<::ospray::Data> _userData;
+    ::ospray::uint64 _userDataSize;
 };
 } // namespace rendering
 } // namespace bioexplorer

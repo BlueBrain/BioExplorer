@@ -23,6 +23,8 @@
 
 #pragma once
 
+#include <plugin/common/Properties.h>
+
 #include <ospray/SDK/common/Material.h>
 #include <ospray/SDK/render/Renderer.h>
 
@@ -32,22 +34,22 @@ namespace mediamaker
 {
 namespace rendering
 {
-class ShadowRenderer : public ospray::Renderer
+class ShadowRenderer : public ::ospray::Renderer
 {
 public:
     ShadowRenderer();
 
     /**
        Returns the class name as a string
-       @return string containing the full name of the class
+       @return string containing the name of the object in the OSPRay context
     */
-    std::string toString() const final { return "depth"; }
+    std::string toString() const final { return RENDERER_SHADOW; }
     void commit() final;
 
 private:
     std::vector<void*> _lightArray;
     void** _lightPtr;
-    ospray::Data* _lightData;
+    ::ospray::Data* _lightData;
 
     int _samplesPerFrame;
     double _rayLength;

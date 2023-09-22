@@ -22,28 +22,33 @@
 
 #include "OSPRayFrameBuffer.h"
 #include "OSPRayProperties.h"
-#include "Utils.h"
+#include "OSPRayUtils.h"
 
 #include <ospray/SDK/common/OSPCommon.h>
 #include <platform/core/common/Logs.h>
 
-namespace core
-{
 namespace
 {
-OSPFrameBufferFormat toOSPFrameBufferFormat(const FrameBufferFormat frameBufferFormat)
+OSPFrameBufferFormat toOSPFrameBufferFormat(const core::FrameBufferFormat frameBufferFormat)
 {
     switch (frameBufferFormat)
     {
-    case FrameBufferFormat::rgba_i8:
+    case core::FrameBufferFormat::rgba_i8:
         return OSP_FB_RGBA8;
-    case FrameBufferFormat::rgb_f32:
+    case core::FrameBufferFormat::rgb_f32:
         return OSP_FB_RGBA32F;
     default:
         return OSP_FB_NONE;
     }
 }
 } // namespace
+
+namespace core
+{
+namespace engine
+{
+namespace ospray
+{
 OSPRayFrameBuffer::OSPRayFrameBuffer(const std::string& name, const Vector2ui& frameSize,
                                      const FrameBufferFormat frameBufferFormat)
     : FrameBuffer(name, frameSize, frameBufferFormat)
@@ -231,4 +236,6 @@ void OSPRayFrameBuffer::updatePixelOp(const PropertyMap& properties)
         ospCommit(_pixelOp);
     }
 }
+} // namespace ospray
+} // namespace engine
 } // namespace core

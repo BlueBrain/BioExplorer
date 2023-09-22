@@ -21,12 +21,16 @@
  */
 
 #include "OSPRayCamera.h"
-#include "Utils.h"
+#include "OSPRayUtils.h"
 
 #include <platform/core/common/Properties.h>
 #include <platform/core/engineapi/Scene.h>
 
 namespace core
+{
+namespace engine
+{
+namespace ospray
 {
 OSPRayCamera::~OSPRayCamera()
 {
@@ -96,4 +100,6 @@ void OSPRayCamera::_createOSPCamera()
     _currentOSPCamera = getCurrentType();
     markModified(false);
 }
+} // namespace ospray
+} // namespace engine
 } // namespace core

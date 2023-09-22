@@ -29,14 +29,14 @@ namespace spaceexplorer
 {
 namespace blackhole
 {
-class BlackHoleRenderer : public core::AbstractRenderer
+class BlackHoleRenderer : public core::engine::ospray::AbstractRenderer
 {
 public:
     BlackHoleRenderer();
 
     /**
        Returns the class name as a string
-       @return string containing the full name of the class
+       @return string containing the name of the object in the OSPRay context
     */
     std::string toString() const final { return "blackhole"; }
     void commit() final;
@@ -44,10 +44,10 @@ public:
 private:
     // Shading attributes
     float _exposure{1.f};
-    ospray::uint32 _nbDisks;
+    ::ospray::uint32 _nbDisks;
     bool _grid{false};
     float _diskRotationSpeed{3.0};
-    ospray::uint32 _diskTextureLayers{12};
+    ::ospray::uint32 _diskTextureLayers{12};
     float _blackHoleSize{0.3f};
 };
 } // namespace blackhole

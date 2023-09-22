@@ -23,6 +23,8 @@
 
 #pragma once
 
+#include <plugin/common/Properties.h>
+
 #include <ospray/SDK/common/Material.h>
 #include <ospray/SDK/render/Renderer.h>
 
@@ -32,22 +34,22 @@ namespace mediamaker
 {
 namespace rendering
 {
-class AmbientOcclusionRenderer : public ospray::Renderer
+class AmbientOcclusionRenderer : public ::ospray::Renderer
 {
 public:
     AmbientOcclusionRenderer();
 
     /**
        Returns the class name as a string
-       @return string containing the full name of the class
+       @return string containing the name of the object in the OSPRay context
     */
-    std::string toString() const final { return "depth"; }
+    std::string toString() const final { return RENDERER_AMBIENT_OCCLUSION; }
     void commit() final;
 
 private:
-    ospray::uint32 _samplesPerFrame;
+    ::ospray::uint32 _samplesPerFrame;
     double _aoRayLength;
-    ospray::uint32 _maxBounces;
+    ::ospray::uint32 _maxBounces;
     bool _useHardwareRandomizer{false};
 };
 } // namespace rendering
