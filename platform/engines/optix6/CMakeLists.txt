@@ -40,6 +40,7 @@ if(CMAKE_VERSION VERSION_GREATER "3.6" AND CMAKE_VERSION VERSION_LESS "3.10")
 endif()
 
 set(${NAME}_CU
+  cuda/camera/AnaglyphCamera.cu
   cuda/camera/PerspectiveCamera.cu
   cuda/camera/OrthographicCamera.cu
   cuda/Constantbg.cu
@@ -66,6 +67,7 @@ set(${NAME}_SOURCES
   OptiXFrameBuffer.cpp
   OptiXScene.cpp
   OptiXCamera.cpp
+  OptiXAnaglyphCamera.cpp
   OptiXPerspectiveCamera.cpp
   OptiXOrthographicCamera.cpp
   OptiXRenderer.cpp
@@ -81,6 +83,7 @@ set_source_files_properties(
   OptiXFrameBuffer.cpp
   OptiXScene.cpp
   OptiXCamera.cpp
+  OptiXAnaglyphCamera.cpp
   OptiXPerspectiveCamera.cpp
   OptiXOrthographicCamera.cpp
   OptiXRenderer.cpp

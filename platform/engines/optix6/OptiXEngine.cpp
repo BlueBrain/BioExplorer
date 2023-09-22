@@ -27,6 +27,7 @@
 #include <platform/core/parameters/ParametersManager.h>
 
 #include "Logs.h"
+#include "OptiXAnaglyphCamera.h"
 #include "OptiXCamera.h"
 #include "OptiXEngine.h"
 #include "OptiXFrameBuffer.h"
@@ -91,6 +92,7 @@ void OptiXEngine::_createCameras()
     {
         PLUGIN_INFO("Registering '" << CAMERA_PROPERTY_TYPE_PERSPECTIVE << "' camera");
         PropertyMap properties;
+        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
         properties.setProperty(CAMERA_PROPERTY_FIELD_OF_VIEW);
         properties.setProperty(aspect);
         properties.setProperty(CAMERA_PROPERTY_APERTURE_RADIUS);
@@ -108,6 +110,7 @@ void OptiXEngine::_createCameras()
     {
         PLUGIN_INFO("Registering '" << CAMERA_PROPERTY_TYPE_ORTHOGRAPHIC << "' camera");
         PropertyMap properties;
+        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
         properties.setProperty(CAMERA_PROPERTY_HEIGHT);
         properties.setProperty(aspect);
         properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
@@ -115,6 +118,23 @@ void OptiXEngine::_createCameras()
         auto camera = std::make_shared<OptiXOrthographicCamera>();
         context.addCamera(CAMERA_PROPERTY_TYPE_ORTHOGRAPHIC, camera);
         addCameraType(CAMERA_PROPERTY_TYPE_ORTHOGRAPHIC, properties);
+    }
+
+    {
+        PLUGIN_INFO("Registering '" << CAMERA_PROPERTY_TYPE_ANAGLYPH << "' camera");
+        PropertyMap properties;
+        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+        properties.setProperty(CAMERA_PROPERTY_FIELD_OF_VIEW);
+        properties.setProperty(aspect);
+        properties.setProperty(CAMERA_PROPERTY_APERTURE_RADIUS);
+        properties.setProperty(CAMERA_PROPERTY_FOCAL_DISTANCE);
+        properties.setProperty(CAMERA_PROPERTY_NEAR_CLIP);
+        properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
+        properties.setProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE);
+
+        auto camera = std::make_shared<OptiXAnaglyphCamera>();
+        context.addCamera(CAMERA_PROPERTY_TYPE_ANAGLYPH, camera);
+        addCameraType(CAMERA_PROPERTY_TYPE_ANAGLYPH, properties);
     }
 }
 
