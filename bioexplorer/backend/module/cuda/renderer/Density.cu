@@ -40,8 +40,8 @@ static __device__ inline void shade()
 
     while (color.w < 0.9f && t < farPlane)
     {
-        unsigned int hits = 0;
-        unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
+        uint hits = 0;
+        uint seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
 
         const float3 hit_point = ray.origin + t_hit * ray.direction;
         const float3 normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));

@@ -119,13 +119,6 @@ rtDeclareVariable(float3, ipd_offset, , );
 rtBuffer<BasicLight> lights;
 rtDeclareVariable(float3, ambientLightColor, , );
 
-// Transfer function
-rtBuffer<float3> tfColors;
-rtBuffer<float> tfOpacities;
-rtDeclareVariable(float, tfMinValue, , );
-rtDeclareVariable(float, tfRange, , );
-rtDeclareVariable(uint, tfSize, , );
-
 // Volume shading
 rtDeclareVariable(uint, volumeGradientShadingEnabled, , );
 rtDeclareVariable(uint, volumeAdaptiveSampling, , );
@@ -134,6 +127,6 @@ rtDeclareVariable(uint, volumeSingleShade, , );
 rtDeclareVariable(float, volumeSamplingRate, , );
 rtDeclareVariable(float3, volumeSpecularColor, , );
 
-// Simulation data
-rtBuffer<float> userData;
-rtDeclareVariable(unsigned long, userDataIndex, attribute userDataIndex, );
+// User data
+rtBuffer<float> userDataBuffer;
+rtDeclareVariable(ulong, userDataIndex, attribute userDataIndex, );

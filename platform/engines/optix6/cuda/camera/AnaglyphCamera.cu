@@ -24,39 +24,17 @@
 
 using namespace optix;
 
-// Pass 'seed' by reference to keep randomness state
-__device__ float4 launch(uint& seed, const float2 screen, const bool use_randomness)
+__device__ float4 trace(const float3 ray_origin, const float3 offset, const float2 screen, const float2 subpixel_jitter)
 {
-    float3 ray_origin = eye;
-
-    // Subpixel jitter: send the ray through a different position inside the  pixel each time, to provide antialiasing.
-    const float2 subpixel_jitter =
-        use_randomness ? make_float2(rnd(seed) - 0.5f, rnd(seed) - 0.5f) : make_float2(0.f, 0.f);
-
-    // Normalized pixel position (from -0.5 to 0.5)
     float2 p = (make_float2(launch_index) + subpixel_jitter) / screen * 2.f - 1.f;
-    if (stereo)
-    {
-        p.x /= 2.f;
-        if (p.x < 0.f)
-        {
-            ray_origin -= ipd_offset;
-            p.x += 0.25f;
-        }
-        else
-        {
-            // p.x += sample.x / 2.f;
-            ray_origin += ipd_offset;
-            p.x -= 0.25f;
-        }
-    }
+    float3 origin = ray_origin + offset;
 
     const float3 d = p.x * U + p.y * V + W;
     const float fs = (focalDistance == 0.f ? 1.f : focalDistance);
     const float dotD = dot(d, d);
     const float denom = pow(dotD, 1.5f);
     float3 ray_direction = normalize(d);
-    const float3 ray_target = ray_origin + fs * ray_direction;
+    const float3 ray_target = origin + fs * ray_direction;
 
     PerRayData_radiance prd;
     prd.importance = 1.f;
@@ -68,8 +46,8 @@ __device__ float4 launch(uint& seed, const float2 screen, const bool use_randomn
     {
         // Lens sampling
         const float2 sample = optix::square_to_disk(make_float2(jitter4.z, jitter4.w));
-        ray_origin = ray_origin + apertureRadius * (sample.x * normalize(U) + sample.y * normalize(V));
-        ray_direction = normalize(ray_target - ray_origin);
+        origin = origin + apertureRadius * (sample.x * normalize(U) + sample.y * normalize(V));
+        ray_direction = normalize(ray_target - origin);
     }
 
     float near = sceneEpsilon;
@@ -77,13 +55,33 @@ __device__ float4 launch(uint& seed, const float2 screen, const bool use_randomn
 
     // Clipping planes
     if (enableClippingPlanes)
-        applyClippingPlanes(ray_origin, ray_direction, near, far);
+        applyClippingPlanes(origin, ray_direction, near, far);
 
     // Tracing
-    optix::Ray ray(ray_origin, ray_direction, radiance_ray_type, near, far);
+    const optix::Ray ray(origin, ray_direction, radiance_ray_type, near, far);
     rtTrace(top_object, ray, prd);
 
-    return make_float4(make_float3(prd.result) * mainExposure, prd.result.w);
+    return prd.result;
+}
+
+// Pass 'seed' by reference to keep randomness state
+__device__ float4 launch(uint& seed, const float2 screen, const bool use_randomness)
+{
+    float3 ray_origin = eye;
+
+    // Subpixel jitter: send the ray through a different position inside the  pixel each time, to provide antialiasing.
+    const float2 subpixel_jitter =
+        use_randomness ? make_float2(rnd(seed) - 0.5f, rnd(seed) - 0.5f) : make_float2(0.f, 0.f);
+
+    const float4 colorLeft = trace(ray_origin, -ipd_offset, screen, subpixel_jitter);
+    const float4 leftAnaglyphColor =
+        make_float4(colorLeft.x * 0.299f + colorLeft.y * 0.587f + colorLeft.z * 0.114f, 0.f, 0.f, colorLeft.w);
+
+    const float4 colorRight = trace(ray_origin, ipd_offset, screen, subpixel_jitter);
+    const float4 rightAnaglyphColor = make_float4(0.f, colorRight.y, colorRight.z, colorRight.w);
+
+    const float4 result = leftAnaglyphColor + rightAnaglyphColor;
+    return make_float4(make_float3(result) * mainExposure, result.w);
 }
 
 RT_PROGRAM void perspectiveCamera()

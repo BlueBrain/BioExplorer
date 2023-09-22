@@ -69,6 +69,21 @@ OptiXModel::OptiXModel(AnimationParameters& animationParameters, VolumeParameter
 
 OptiXModel::~OptiXModel()
 {
+    RT_DESTROY_MAP(_optixSpheres);
+    RT_DESTROY_MAP(_optixCylinders)
+    RT_DESTROY_MAP(_optixCones)
+    RT_DESTROY_MAP(_optixVolumes)
+    RT_DESTROY_MAP(_optixMeshes)
+    RT_DESTROY_MAP(_optixStreamlines)
+    RT_DESTROY_MAP(_optixTextures)
+    RT_DESTROY_MAP(_optixTextureSamplers)
+    for (auto optixMeshBuffer : _optixMeshBuffers)
+    {
+        RT_DESTROY(optixMeshBuffer.second.vertices_buffer);
+        RT_DESTROY(optixMeshBuffer.second.normal_buffer);
+        RT_DESTROY(optixMeshBuffer.second.texcoord_buffer);
+        RT_DESTROY(optixMeshBuffer.second.indices_buffer);
+    }
     RT_DESTROY(_geometryGroup);
     RT_DESTROY(_boundingBoxGroup);
 }
@@ -228,19 +243,19 @@ void OptiXModel::_commitMeshes(const size_t materialId)
     auto& optixMeshes = _optixMeshes[materialId];
     optixMeshes->setPrimitiveCount(meshes.indices.size());
 
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3, _meshesBuffers[materialId].vertices_buffer,
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3, _optixMeshBuffers[materialId].vertices_buffer,
               _optixMeshes[materialId][OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_VERTEX], meshes.vertices,
               meshes.vertices.size());
 
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_INT3, _meshesBuffers[materialId].indices_buffer,
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_INT3, _optixMeshBuffers[materialId].indices_buffer,
               _optixMeshes[materialId][OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_INDEX], meshes.indices,
               meshes.indices.size());
 
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3, _meshesBuffers[materialId].normal_buffer,
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3, _optixMeshBuffers[materialId].normal_buffer,
               _optixMeshes[materialId][OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_NORMAL], meshes.normals,
               meshes.normals.size());
 
-    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT2, _meshesBuffers[materialId].texcoord_buffer,
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT2, _optixMeshBuffers[materialId].texcoord_buffer,
               _optixMeshes[materialId][OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_TEXTURE_COORDINATES],
               meshes.textureCoordinates, meshes.textureCoordinates.size());
 
@@ -567,7 +582,7 @@ void OptiXModel::_commitTransferFunctionImpl(const Vector3fs& colors, const floa
 void OptiXModel::_commitSimulationDataImpl(const float* frameData, const size_t frameSize)
 {
     auto context = OptiXContext::get().getOptixContext();
-    setBufferRaw(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _simulationData, context[CONTEXT_USER_DATA], frameData, frameSize,
+    setBufferRaw(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _userData, context[CONTEXT_USER_DATA], frameData, frameSize,
                  frameSize * sizeof(float));
 }
 } // namespace core

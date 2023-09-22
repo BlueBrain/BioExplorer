@@ -25,6 +25,8 @@
 #include <optixu/optixu_math_namespace.h>
 #include <optixu/optixu_matrix_namespace.h>
 
+#include <platform/engines/optix6/cuda/Context.cuh>
+
 using namespace optix;
 
 // This is to be plugged into an RTgeometry object to represent
@@ -36,8 +38,6 @@ rtBuffer<float3> normal_buffer;
 rtBuffer<float2> texcoord_buffer;
 rtBuffer<int3> indices_buffer;
 
-rtDeclareVariable(float2, texcoord, attribute texcoord, );
-rtDeclareVariable(float3, texcoord3d, attribute texcoord3d, );
 rtDeclareVariable(float3, v0, attribute v0, );
 rtDeclareVariable(float3, v1, attribute v1, );
 rtDeclareVariable(float3, v2, attribute v2, );
@@ -48,15 +48,9 @@ rtDeclareVariable(float2, ddx, attribute ddx, );
 rtDeclareVariable(float2, ddy, attribute ddy, );
 rtDeclareVariable(float3, ddxWPos, attribute ddxWPos, );
 rtDeclareVariable(float3, ddyWPos, attribute ddyWPos, );
-rtDeclareVariable(float3, geometric_normal, attribute geometric_normal, );
-rtDeclareVariable(float3, shading_normal, attribute shading_normal, );
 
 rtDeclareVariable(float3, back_hit_point, attribute back_hit_point, );
 rtDeclareVariable(float3, front_hit_point, attribute front_hit_point, );
-
-rtDeclareVariable(optix::Ray, ray, rtCurrentRay, );
-rtDeclareVariable(PerRayData_radiance, prd, rtPayload, );
-rtDeclareVariable(unsigned long, userDataIndex, attribute userDataIndex, );
 
 static __device__ void computeWPosDerivatives(float3& ddxwpos, float3& ddywpos, float3 p0, float3 p1, float3 p2,
                                               float2 betaDerivative, float2 gammaDerivative)
@@ -142,6 +136,7 @@ static __device__ void meshIntersect(int primIdx)
                 t1 = texcoord_buffer[v_idx.y];
                 t2 = texcoord_buffer[v_idx.z];
 
+                userDataIndex = 0;
                 texcoord = t1 * beta + t2 * gamma + t0 * (1.f - beta - gamma);
                 texcoord3d = make_float3(0.f);
 
@@ -154,7 +149,6 @@ static __device__ void meshIntersect(int primIdx)
             if (DO_REFINE)
                 refine_and_offset_hitpoint(ray.origin + t * ray.direction, ray.direction, geometric_normal, p0,
                                            back_hit_point, front_hit_point);
-            userDataIndex = 0;
             rtReportIntersection(0);
         }
     }

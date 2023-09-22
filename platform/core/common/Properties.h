@@ -31,6 +31,7 @@ Camera properties
 */
 static const char* CAMERA_PROPERTY_TYPE_PERSPECTIVE = "perspective";
 static const char* CAMERA_PROPERTY_TYPE_ORTHOGRAPHIC = "orthographic";
+static const char* CAMERA_PROPERTY_TYPE_ANAGLYPH = "anaglyph";
 
 static const char* CAMERA_PROPERTY_POSITION = "pos";
 static const char* CAMERA_PROPERTY_DIRECTION = "dir";
@@ -74,7 +75,7 @@ Renderer properties
 static const char* RENDERER_PROPERTY_TYPE_BASIC = "basic";
 static const char* RENDERER_PROPERTY_TYPE_ADVANCED = "advanced";
 
-static const char* RENDERER_PROPERTY_USER_DATA = "userData";
+static const char* RENDERER_PROPERTY_USER_DATA = "userDataBuffer";
 static const char* RENDERER_PROPERTY_SECONDARY_MODEL = "secondaryModel";
 static const char* RENDERER_PROPERTY_TRANSFER_FUNCTION = "transferFunction";
 static const char* RENDERER_PROPERTY_BACKGROUND_MATERIAL = "bgMaterial";

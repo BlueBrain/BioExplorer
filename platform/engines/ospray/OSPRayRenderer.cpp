@@ -113,7 +113,7 @@ void OSPRayRenderer::commit()
             planes.push_back(clipPlane->getPlane());
 
         setClipPlanes(planes);
-
+        _camera->setClipPlanes(planes);
         _camera->commit();
     }
 

@@ -24,6 +24,7 @@
 #include "DensityRenderer.h"
 
 #include <platform/core/common/Properties.h>
+#include <science/common/Properties.h>
 
 // ospray
 #include <ospray/SDK/common/Data.h>
@@ -49,10 +50,14 @@ void DensityRenderer::commit()
     _timestamp = getParam1f(RENDERER_PROPERTY_TIMESTAMP, DEFAULT_RENDERER_TIMESTAMP);
 
     // Sampling
-    _farPlane = getParam1f("farPlane", 1e6f);
-    _rayStep = getParam1f("rayStep", 1.f);
-    _samplesPerFrame = getParam1i("samplesPerFrame", 8);
-    _searchLength = getParam1f("searchLength", 100.f);
+    _farPlane = getParam1f(BIOEXPLORER_RENDERER_PROPERTY_DENSITY_FAR_PLANE.name.c_str(),
+                           BIOEXPLORER_DEFAULT_RENDERER_DENSITY_FAR_PLANE);
+    _rayStep = getParam1f(BIOEXPLORER_RENDERER_PROPERTY_DENSITY_RAY_STEP.name.c_str(),
+                          BIOEXPLORER_DEFAULT_RENDERER_DENSITY_RAY_STEP);
+    _samplesPerFrame = getParam1i(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_SAMPLES.name.c_str(),
+                                  DEFAULT_RENDERER_GLOBAL_ILLUMINATION_RAY_LENGTH);
+    _searchLength = getParam1f(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_STRENGTH.name.c_str(),
+                               DEFAULT_RENDERER_GLOBAL_ILLUMINATION_RAY_LENGTH);
     _alphaCorrection = getParam1f(RENDERER_PROPERTY_ALPHA_CORRECTION.name.c_str(), DEFAULT_RENDERER_ALPHA_CORRECTION);
 
     // Transfer function

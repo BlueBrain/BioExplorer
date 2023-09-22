@@ -85,7 +85,10 @@ void _addAlbedoRenderer(core::Engine &engine)
     PLUGIN_REGISTER_RENDERER(RENDERER_ALBEDO);
     core::PropertyMap properties;
     properties.setProperty(RENDERER_PROPERTY_MAX_RAY_DEPTH);
-    properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
+    auto &params = engine.getParametersManager().getApplicationParameters();
+    const auto &engineName = params.getEngine();
+    if (engineName == ENGINE_OSPRAY)
+        properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
     engine.addRendererType(RENDERER_ALBEDO, properties);
 }
 
@@ -98,6 +101,10 @@ void _addAmbientOcclusionRenderer(core::Engine &engine)
     properties.setProperty(samples);
     properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH);
     properties.setProperty(RENDERER_PROPERTY_MAX_RAY_DEPTH);
+    auto &params = engine.getParametersManager().getApplicationParameters();
+    const auto &engineName = params.getEngine();
+    if (engineName == ENGINE_OSPRAY)
+        properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
     properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
     engine.addRendererType(RENDERER_AMBIENT_OCCLUSION, properties);
 }

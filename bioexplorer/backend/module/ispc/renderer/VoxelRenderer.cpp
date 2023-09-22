@@ -43,7 +43,7 @@ void VoxelRenderer::commit()
     _simulationThreshold = getParam1f("simulationThreshold", 0.f);
 
     ispc::VoxelRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp,
-                            (_simulationData ? (float*)_simulationData->data : nullptr), _simulationDataSize,
+                            (_userData ? (float*)_userData->data : nullptr), _simulationDataSize,
                             _alphaCorrection, _simulationThreshold, _exposure);
 }
 

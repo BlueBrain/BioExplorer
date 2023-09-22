@@ -363,7 +363,7 @@ void OptiXContext::_createCameraModules()
     size_t sizeof_log = sizeof(log);
     size_t inputSize = 0;
     const char* input =
-        sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "PerspectiveCamera.cu", inputSize);
+        sutil::getInputData(CORE_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "PerspectiveCamera.cu", inputSize);
 
     PLUGIN_CHECK_LOG(optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
                                               &_state.pipeline_compile_options, input, inputSize, log, &sizeof_log,
@@ -417,7 +417,7 @@ void OptiXContext::_createShadingModules()
     char log[2048];
     size_t sizeof_log = sizeof(log);
     size_t inputSize = 0;
-    const char* input = sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "Material.cu", inputSize);
+    const char* input = sutil::getInputData(CORE_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "Material.cu", inputSize);
     PLUGIN_CHECK_LOG(optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
                                               &_state.pipeline_compile_options, input, inputSize, log, &sizeof_log,
                                               &_state.shading_module));
@@ -535,20 +535,20 @@ void OptiXContext::_createGeometryModules()
     PLUGIN_INFO("Creating OptiX Geometry Modules");
     // Spheres
     size_t inputSize = 0;
-    const char* spheres = sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "Spheres.cu", inputSize);
+    const char* spheres = sutil::getInputData(CORE_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "Spheres.cu", inputSize);
     char log[2048];
     size_t sizeof_log = sizeof(log);
     PLUGIN_CHECK_LOG(optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
                                               &_state.pipeline_compile_options, spheres, inputSize, log, &sizeof_log,
                                               &_state.sphere_module));
     // Cylinders
-    const char* cylinders = sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "Cylinders.cu", inputSize);
+    const char* cylinders = sutil::getInputData(CORE_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "Cylinders.cu", inputSize);
     PLUGIN_CHECK_LOG(optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
                                               &_state.pipeline_compile_options, cylinders, inputSize, log, &sizeof_log,
                                               &_state.cylinder_module));
 
     // Cones
-    const char* cones = sutil::getInputData(BRAYNS_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "Cones.cu", inputSize);
+    const char* cones = sutil::getInputData(CORE_OPTIX_SAMPLE_NAME, OPTIX_SAMPLE_DIR, "Cones.cu", inputSize);
     PLUGIN_CHECK_LOG(optixModuleCreateFromPTX(_state.context, &_state.module_compile_options,
                                               &_state.pipeline_compile_options, cones, inputSize, log, &sizeof_log,
                                               &_state.cone_module));

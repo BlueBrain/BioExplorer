@@ -31,7 +31,7 @@ using namespace optix;
 
 rtDeclareVariable(float, epsilonMultiplier, , );
 rtDeclareVariable(int, shadowSamples, , );
-rtDeclareVariable(unsigned int, matrixFilter, , );
+rtDeclareVariable(uint, matrixFilter, , );
 
 static __device__ void phongShadowed(float3 p_Ko)
 {
@@ -41,30 +41,26 @@ static __device__ void phongShadowed(float3 p_Ko)
 }
 
 static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 p_Kr, float3 p_Ko,
-                                  float p_refractionIndex, float p_phong_exp, float p_glossiness,
-                                  unsigned int p_shadingMode, float p_user_parameter, float3 p_normal)
+                                  float p_refractionIndex, float p_phong_exp, float p_glossiness, uint p_shadingMode,
+                                  float p_user_parameter, float3 p_normal)
 {
     const float3 hit_point = ray.origin + t_hit * ray.direction;
     float3 color = make_float3(0.f);
     float3 opacity = p_Ko;
-    float3 Kd = p_Kd;
+    float3 l_Kd = p_Kd;
 
     float3 normal = ::optix::normalize(p_normal);
     if (fmaxf(opacity) > 0.f && prd.depth < maxRayDepth)
     {
         // User data
-        if (cast_user_data && userData.size() > 0)
-        {
-            const float4 userDataColor =
-                calcTransferFunctionColor(transfer_function_map, value_range, userData[userDataIndex]);
-            Kd = Kd * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;
-        }
+        const float4 userDataColor = getUserData();
+        l_Kd = l_Kd * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;
 
         const float userParameter = p_user_parameter;
 
         // Randomness
         optix::size_t2 screen = output_buffer.size();
-        unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
+        uint seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
 
         // Glossiness
         if (p_glossiness < 1.f)
@@ -73,7 +69,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
 
         // compute direct lighting
         float3 directLightingColor = make_float3(0.f, 0.f, 0.f);
-        unsigned int num_lights = lights.size();
+        uint num_lights = lights.size();
         for (int i = 0; i < num_lights; ++i)
         {
             // Surface
@@ -141,7 +137,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
                     }
 
                     // Diffuse
-                    directLightingColor += light_attenuation * Kd * nDl * pDl * Lc;
+                    directLightingColor += light_attenuation * l_Kd * nDl * pDl * Lc;
                     const float3 H = optix::normalize(lightDirection - ray.direction);
                     const float nDh = optix::dot(normal, H);
                     if (nDh > 0.f)
@@ -159,13 +155,13 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
                     float cosNL = max(0.f, optix::dot(optix::normalize(eye - hit_point), normal));
                     const uint angleAsInt = cosNL * userParameter;
                     cosNL = (float)angleAsInt / userParameter;
-                    directLightingColor += light_attenuation * Kd * cosNL * Lc;
+                    directLightingColor += light_attenuation * l_Kd * cosNL * Lc;
                     break;
                 }
                 case MaterialShadingMode::basic:
                 {
                     const float cosNL = optix::max(0.f, optix::dot(optix::normalize(eye - hit_point), normal));
-                    directLightingColor += light_attenuation * Kd * cosNL * Lc;
+                    directLightingColor += light_attenuation * l_Kd * cosNL * Lc;
                     break;
                 }
                 case MaterialShadingMode::electron:
@@ -173,7 +169,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
                 {
                     float cosNL = max(0.f, optix::dot(optix::normalize(eye - hit_point), normal));
                     cosNL = 1.f - pow(cosNL, userParameter);
-                    directLightingColor += light_attenuation * Kd * cosNL * Lc;
+                    directLightingColor += light_attenuation * l_Kd * cosNL * Lc;
                     if (p_shadingMode == MaterialShadingMode::electron_transparency)
                         opacity *= cosNL;
                     break;
@@ -183,20 +179,20 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
                     const int3 point = make_int3(userParameter * (hit_point + make_float3(1e2f)));
                     const int3 p = make_int3(point.x % 2, point.y % 2, point.z % 2);
                     if ((p.x == p.y && p.z == 1) || (p.x != p.y && p.z == 0))
-                        directLightingColor += light_attenuation * Kd;
+                        directLightingColor += light_attenuation * l_Kd;
                     else
-                        directLightingColor += light_attenuation * (1.f - Kd);
+                        directLightingColor += light_attenuation * (1.f - l_Kd);
                     break;
                 }
                 case MaterialShadingMode::goodsell:
                 {
                     const float cosNL = max(0.f, optix::dot(optix::normalize(eye - hit_point), normal));
-                    directLightingColor += light_attenuation * Kd * (cosNL > userParameter ? 1.f : 0.5f);
+                    directLightingColor += light_attenuation * l_Kd * (cosNL > userParameter ? 1.f : 0.5f);
                     break;
                 }
                 default:
                 {
-                    directLightingColor += light_attenuation * Kd;
+                    directLightingColor += light_attenuation * l_Kd;
                     break;
                 }
                 }
@@ -238,7 +234,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         {
             float aa_attenuation = 0.f;
             float3 cb_color = make_float3(0.f);
-            for (unsigned int i = 0; i < giSamples; ++i)
+            for (uint i = 0; i < giSamples; ++i)
             {
                 // Ambient occlusion
                 PerRayData_shadow aa_prd;
@@ -297,9 +293,9 @@ RT_PROGRAM void any_hit_shadow()
 
 static __device__ inline void shade(bool textured)
 {
-    float3 world_shading_normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
-    float3 world_geometric_normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
-    float3 ffnormal = faceforward(world_shading_normal, -ray.direction, world_geometric_normal);
+    const float3 world_shading_normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
+    const float3 world_geometric_normal = normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
+    const float3 normal = faceforward(world_shading_normal, -ray.direction, world_geometric_normal);
 
     float3 p_Kd = Kd;
     float3 p_Ko = Ko;
@@ -316,7 +312,7 @@ static __device__ inline void shade(bool textured)
             p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
     }
 
-    phongShade(p_Kd, Ka, Ks, Kr, p_Ko, refraction_index, phong_exp, glossiness, shading_mode, user_parameter, ffnormal);
+    phongShade(p_Kd, Ka, Ks, Kr, p_Ko, refraction_index, phong_exp, glossiness, shading_mode, user_parameter, normal);
 }
 
 RT_PROGRAM void closest_hit_radiance()

@@ -63,8 +63,8 @@ void SimulationRenderer::commit()
     _secondaryModel = (ospray::Model*)getParamObject(RENDERER_PROPERTY_SECONDARY_MODEL, nullptr);
     _maxDistanceToSecondaryModel = getParam1f(RENDERER_PROPERTY_MAX_DISTANCE_TO_SECONDARY_MODEL.name.c_str(),
                                               DEFAULT_RENDERER_MAX_DISTANCE_TO_SECONDARY_MODEL);
-    _simulationData = getParamData(RENDERER_PROPERTY_USER_DATA);
-    _simulationDataSize = _simulationData ? _simulationData->size() : 0;
+    _userData = getParamData(RENDERER_PROPERTY_USER_DATA);
+    _simulationDataSize = _userData ? _userData->size() : 0;
     _alphaCorrection = getParam1f(RENDERER_PROPERTY_ALPHA_CORRECTION.name.c_str(), DEFAULT_RENDERER_ALPHA_CORRECTION);
     _fogStart = getParam1f(RENDERER_PROPERTY_FOG_START.name.c_str(), DEFAULT_RENDERER_FOG_START);
     _fogThickness = getParam1f(RENDERER_PROPERTY_FOG_THICKNESS.name.c_str(), DEFAULT_RENDERER_FOG_THICKNESS);
@@ -73,8 +73,8 @@ void SimulationRenderer::commit()
     _epsilonFactor = getParam1f(RENDERER_PROPERTY_EPSILON_MULTIPLIER.name.c_str(), DEFAULT_RENDERER_EPSILON_MULTIPLIER);
     _maxBounces = getParam1i(RENDERER_PROPERTY_MAX_RAY_DEPTH.name.c_str(), DEFAULT_RENDERER_MAX_RAY_DEPTH);
     _randomNumber = rand() % 1000;
-    _useHardwareRandomizer =
-        getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(), DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER);
+    _useHardwareRandomizer = getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(),
+                                      static_cast<int>(DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER));
     _showBackground = getParam(RENDERER_PROPERTY_SHOW_BACKGROUND.name.c_str(), DEFAULT_RENDERER_SHOW_BACKGROUND);
 
     // Transfer function

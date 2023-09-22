@@ -20,40 +20,20 @@
 
 #pragma once
 
-#include <optixu/optixu_vector_types.h>
+#include <memory>
 
-const size_t BASIC_LIGHT_TYPE_POINT = 0;
-const size_t BASIC_LIGHT_TYPE_DIRECTIONAL = 1;
+#include <optixu/optixpp_namespace.h>
 
-const size_t OPTIX_STACK_SIZE = 1200;
-const size_t OPTIX_RAY_TYPE_COUNT = 2;
-const size_t OPTIX_ENTRY_POINT_COUNT = 1;
-const size_t OPTIX_MAX_TRACE_DEPTH = 31;
+#include "OptiXCameraProgram.h"
 
-const size_t MAX_TEXTURE_SIZE = 16384;
-
-struct BasicLight
+namespace core
 {
-    union
-    {
-        ::optix::float3 pos;
-        ::optix::float3 dir;
-    };
-    ::optix::float3 color;
-    int casts_shadow;
-    int type;
-};
-
-struct PerRayData_radiance
+class OptiXAnaglyphCamera : public OptiXCameraProgram
 {
-    ::optix::float4 result;
-    float importance;
-    int depth;
-    ::optix::float3 rayDdx;
-    ::optix::float3 rayDdy;
-};
+public:
+    OptiXAnaglyphCamera();
+    ~OptiXAnaglyphCamera() final = default;
 
-struct PerRayData_shadow
-{
-    ::optix::float3 attenuation;
+    void commit(const OptiXCamera& camera, ::optix::Context context) final;
 };
+} // namespace core

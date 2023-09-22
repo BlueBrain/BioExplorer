@@ -62,7 +62,7 @@ public:
 
 private:
     details::VasculatureReportDetails _details;
-    std::vector<doubles> _simulationData;
+    std::vector<doubles> _userData;
     bool _showVariations{false};
 
     common::SimulationReport _simulationReport;

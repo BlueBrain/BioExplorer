@@ -27,25 +27,17 @@
 
 static __device__ inline void shade(bool textured)
 {
-    float3 world_shading_normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
-    float3 world_geometric_normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
+    const float3 world_shading_normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
+    const float3 world_geometric_normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
+    const float3 normal = optix::faceforward(world_shading_normal, -ray.direction, world_geometric_normal);
 
-    float3 p_normal = optix::faceforward(world_shading_normal, -ray.direction, world_geometric_normal);
-
-    float3 p_Kd;
+    float3 color;
     if (textured && albedoMetallic_map)
-        p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
+        color = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
     else
-        p_Kd = Kd;
+        color = Kd;
 
-    if (userData.size() > 0)
-    {
-        const float4 userDataColor =
-            calcTransferFunctionColor(transfer_function_map, value_range, userData[userDataIndex]);
-        p_Kd = p_Kd * (1.f - userDataColor.w) + make_float3(userDataColor) * userDataColor.w;
-    }
-
-    prd.result = make_float4(p_Kd * max(0.f, optix::dot(-ray.direction, p_normal)), 1.f);
+    prd.result = make_float4(color * max(0.f, optix::dot(-ray.direction, normal)), 1.f);
 }
 
 RT_PROGRAM void any_hit_shadow()

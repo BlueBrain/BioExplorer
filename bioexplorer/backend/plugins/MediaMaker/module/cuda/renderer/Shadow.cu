@@ -29,12 +29,12 @@ rtDeclareVariable(int, shadowSamples, , );
 static __device__ inline void shade()
 {
     optix::size_t2 screen = output_buffer.size();
-    unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
+    uint seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
 
     const float3 hit_point = ray.origin + t_hit * ray.direction;
     const float3 normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
 
-    unsigned int num_lights = lights.size();
+    uint num_lights = lights.size();
     float attenuation = 0.f;
     for (int s = 0; s < shadowSamples; ++s)
     {

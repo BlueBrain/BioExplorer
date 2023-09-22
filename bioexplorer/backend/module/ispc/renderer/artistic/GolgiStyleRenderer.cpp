@@ -23,6 +23,8 @@
 
 #include "GolgiStyleRenderer.h"
 
+#include <science/common/Properties.h>
+
 // ispc exports
 #include "GolgiStyleRenderer_ispc.h"
 
@@ -35,8 +37,10 @@ namespace rendering
 void GolgiStyleRenderer::commit()
 {
     Renderer::commit();
-    _exponent = getParam1f("exponent", 1.f);
-    _inverse = getParam("inverse", 0);
+    _exponent = getParam1f(BIOEXPLORER_RENDERER_PROPERTY_GOLGI_EXPONENT.name.c_str(),
+                           BIOEXPLORER_DEFAULT_RENDERER_GOLGI_EXPONENT);
+    _inverse =
+        getParam(BIOEXPLORER_RENDERER_PROPERTY_GOLGI_INVERSE.name.c_str(), BIOEXPLORER_DEFAULT_RENDERER_GOLGI_INVERSE);
 
     ispc::GolgiStyleRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _exponent, _inverse);
 }

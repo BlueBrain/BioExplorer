@@ -25,7 +25,10 @@
 
 static __device__ inline void shade()
 {
-    prd.result = make_float4(optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal)), 1.f);
+    const float3 world_shading_normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, shading_normal));
+    const float3 normal =
+        optix::dot(world_shading_normal, ray.direction) > 0.f ? -world_shading_normal : world_shading_normal;
+    prd.result = make_float4(optix::normalize(0.5 + 0.5 * normal), 1.f);
 }
 
 RT_PROGRAM void any_hit_shadow()

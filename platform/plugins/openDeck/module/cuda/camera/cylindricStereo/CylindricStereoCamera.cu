@@ -35,7 +35,7 @@ static const float FULL_ANGLE = ANGLE_PER_BORDER_SEGMENT + OPENDECK_BEZEL_ANGLE;
 
 using namespace optix;
 
-rtDeclareVariable(unsigned int, segmentID, , ); // even segmentsID are right eye
+rtDeclareVariable(uint, segmentID, , ); // even segmentsID are right eye
                                                 // buffers and odd are left eye
                                                 // buffers
 rtDeclareVariable(float3, headPos, , );
@@ -44,7 +44,7 @@ rtDeclareVariable(float3, headUVec, , );
 rtDeclareVariable(float, half_ipd, , );
 
 // Pass 'seed' by reference to keep randomness state
-__device__ float4 launch(unsigned int& seed, const float2 screen, const bool use_randomness)
+__device__ float4 launch(uint& seed, const float2 screen, const bool use_randomness)
 {
     float eyeDelta = 0.0f;
     float alpha = 0.0f;
@@ -55,7 +55,7 @@ __device__ float4 launch(unsigned int& seed, const float2 screen, const bool use
     if (segmentID <= 13 && segmentID % 2 == 0)
     {
         eyeDelta = half_ipd;
-        unsigned int angularOffset = segmentID / 2;
+        uint angularOffset = segmentID / 2;
 
         if (segmentID == 0)
             alpha = sample.x * FULL_ANGLE;
@@ -67,7 +67,7 @@ __device__ float4 launch(unsigned int& seed, const float2 screen, const bool use
     else if (segmentID <= 13 && segmentID % 2 == 1)
     {
         eyeDelta = -half_ipd;
-        unsigned int angularOffset = segmentID / 2;
+        uint angularOffset = segmentID / 2;
         if (segmentID == 1)
             alpha = sample.x * FULL_ANGLE;
         else if (segmentID == 13)
@@ -146,7 +146,7 @@ RT_PROGRAM void openDeckCamera()
     const size_t2 screen = output_buffer.size();
     const float2 screen_f = make_float2(screen);
 
-    unsigned int seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
+    uint seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
 
     const int num_samples = max(1, samples_per_pixel);
     // We enable randomness if we are using subpixel sampling or accumulation

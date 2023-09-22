@@ -29,7 +29,7 @@
 #include <iomanip>
 #include <iostream>
 
-#define BRAYNS_OPTIX_SAMPLE_NAME "braynsOptix7Engine"
+#define CORE_OPTIX_SAMPLE_NAME "coreOptix7Engine"
 
 static void context_log_cb(unsigned int level, const char* tag, const char* message, void* /*cbdata */)
 {

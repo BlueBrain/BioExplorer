@@ -54,14 +54,14 @@ void SphereClippingPerspectiveCamera::commit()
     aspect = getParamf(CAMERA_PROPERTY_ASPECT_RATIO.name.c_str(), DEFAULT_CAMERA_ASPECT_RATIO);
     apertureRadius = getParamf(CAMERA_PROPERTY_APERTURE_RADIUS.name.c_str(), DEFAULT_CAMERA_APERTURE_RADIUS);
     focalDistance = getParamf(CAMERA_PROPERTY_FOCAL_DISTANCE.name.c_str(), DEFAULT_CAMERA_FOCAL_DISTANCE);
-    stereo = getParam(CAMERA_PROPERTY_STEREO.name.c_str(), DEFAULT_CAMERA_STEREO);
+    stereo = getParam(CAMERA_PROPERTY_STEREO.name.c_str(), static_cast<int>(DEFAULT_CAMERA_STEREO));
     interpupillaryDistance =
         getParamf(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name.c_str(), DEFAULT_CAMERA_INTERPUPILLARY_DISTANCE);
     enableClippingPlanes =
         getParam(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES.name.c_str(), DEFAULT_CAMERA_ENABLE_CLIPPING_PLANES);
     clipPlanes = enableClippingPlanes ? getParamData(CAMERA_PROPERTY_CLIPPING_PLANES, nullptr) : nullptr;
-    useHardwareRandomizer =
-        getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(), DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER);
+    useHardwareRandomizer = getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(),
+                                     static_cast<int>(DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER));
 
     // ------------------------------------------------------------------
     // now, update the local precomputed values

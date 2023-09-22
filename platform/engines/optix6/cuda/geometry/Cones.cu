@@ -36,7 +36,7 @@ using namespace optix;
 #define OFFSET_TEX_COORDS (OFFSET_TIMESTAMP + 1)
 
 // Global variables
-rtDeclareVariable(unsigned int, cone_size, , );
+rtDeclareVariable(uint, cone_size, , );
 rtBuffer<float> cones;
 
 template <bool use_robust_method>
@@ -44,7 +44,7 @@ static __device__ void intersect_cone(int primIdx)
 {
     const int idx = primIdx * cone_size;
 
-    const unsigned long userData = *((unsigned long*)(&cones[idx + OFFSET_USER_DATA]));
+    const ulong userData = *((ulong*)(&cones[idx + OFFSET_USER_DATA]));
 
     float3 v0 = {cones[idx + OFFSET_CENTER], cones[idx + OFFSET_CENTER + 1], cones[idx + OFFSET_CENTER + 2]};
     float3 v1 = {cones[idx + OFFSET_UP], cones[idx + OFFSET_UP + 1], cones[idx + OFFSET_UP + 2]};

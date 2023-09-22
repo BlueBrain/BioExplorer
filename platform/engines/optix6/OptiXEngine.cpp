@@ -27,6 +27,7 @@
 #include <platform/core/parameters/ParametersManager.h>
 
 #include "Logs.h"
+#include "OptiXAnaglyphCamera.h"
 #include "OptiXCamera.h"
 #include "OptiXEngine.h"
 #include "OptiXFrameBuffer.h"
@@ -91,6 +92,7 @@ void OptiXEngine::_createCameras()
     {
         PLUGIN_INFO("Registering '" << CAMERA_PROPERTY_TYPE_PERSPECTIVE << "' camera");
         PropertyMap properties;
+        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
         properties.setProperty(CAMERA_PROPERTY_FIELD_OF_VIEW);
         properties.setProperty(aspect);
         properties.setProperty(CAMERA_PROPERTY_APERTURE_RADIUS);
@@ -108,6 +110,7 @@ void OptiXEngine::_createCameras()
     {
         PLUGIN_INFO("Registering '" << CAMERA_PROPERTY_TYPE_ORTHOGRAPHIC << "' camera");
         PropertyMap properties;
+        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
         properties.setProperty(CAMERA_PROPERTY_HEIGHT);
         properties.setProperty(aspect);
         properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
@@ -115,6 +118,23 @@ void OptiXEngine::_createCameras()
         auto camera = std::make_shared<OptiXOrthographicCamera>();
         context.addCamera(CAMERA_PROPERTY_TYPE_ORTHOGRAPHIC, camera);
         addCameraType(CAMERA_PROPERTY_TYPE_ORTHOGRAPHIC, properties);
+    }
+
+    {
+        PLUGIN_INFO("Registering '" << CAMERA_PROPERTY_TYPE_ANAGLYPH << "' camera");
+        PropertyMap properties;
+        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+        properties.setProperty(CAMERA_PROPERTY_FIELD_OF_VIEW);
+        properties.setProperty(aspect);
+        properties.setProperty(CAMERA_PROPERTY_APERTURE_RADIUS);
+        properties.setProperty(CAMERA_PROPERTY_FOCAL_DISTANCE);
+        properties.setProperty(CAMERA_PROPERTY_NEAR_CLIP);
+        properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
+        properties.setProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE);
+
+        auto camera = std::make_shared<OptiXAnaglyphCamera>();
+        context.addCamera(CAMERA_PROPERTY_TYPE_ANAGLYPH, camera);
+        addCameraType(CAMERA_PROPERTY_TYPE_ANAGLYPH, properties);
     }
 }
 
@@ -129,20 +149,20 @@ void OptiXEngine::_createRenderers()
         PLUGIN_INFO("Registering '" << RENDERER_PROPERTY_TYPE_ADVANCED << "' renderer");
         const std::string CUDA_ADVANCED_SIMULATION_RENDERER = OptiX6Engine_generated_Advanced_cu_ptx;
 
-        auto osp = std::make_shared<OptixShaderProgram>();
-        osp->closest_hit =
+        auto renderer = std::make_shared<OptixShaderProgram>();
+        renderer->closest_hit =
             context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER,
                                                                   OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE);
-        osp->closest_hit_textured =
+        renderer->closest_hit_textured =
             context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER,
                                                                   OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE_TEXTURED);
-        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER,
-                                                                             OPTIX_CUDA_FUNCTION_ANY_HIT_SHADOW);
-        osp->exception_program =
+        renderer->any_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER,
+                                                                                  OPTIX_CUDA_FUNCTION_ANY_HIT_SHADOW);
+        renderer->exception_program =
             context.getOptixContext()->createProgramFromPTXString(CUDA_ADVANCED_SIMULATION_RENDERER,
                                                                   OPTIX_CUDA_FUNCTION_EXCEPTION);
-        context.getOptixContext()->setExceptionProgram(0, osp->exception_program);
-        context.addRenderer(RENDERER_PROPERTY_TYPE_ADVANCED, osp);
+        context.getOptixContext()->setExceptionProgram(0, renderer->exception_program);
+        context.addRenderer(RENDERER_PROPERTY_TYPE_ADVANCED, renderer);
 
         PropertyMap properties;
         properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
@@ -167,19 +187,20 @@ void OptiXEngine::_createRenderers()
         PLUGIN_INFO("Registering '" << RENDERER_PROPERTY_TYPE_BASIC << "' renderer");
         const std::string CUDA_BASIC_SIMULATION_RENDERER = OptiX6Engine_generated_Basic_cu_ptx;
 
-        auto osp = std::make_shared<OptixShaderProgram>();
-        osp->closest_hit =
+        auto renderer = std::make_shared<OptixShaderProgram>();
+        renderer->closest_hit =
             context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER,
                                                                   OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE);
-        osp->closest_hit_textured =
+        renderer->closest_hit_textured =
             context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER,
                                                                   OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE_TEXTURED);
-        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER,
-                                                                             OPTIX_CUDA_FUNCTION_ANY_HIT_SHADOW);
-        osp->exception_program = context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER,
-                                                                                       OPTIX_CUDA_FUNCTION_EXCEPTION);
+        renderer->any_hit = context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER,
+                                                                                  OPTIX_CUDA_FUNCTION_ANY_HIT_SHADOW);
+        renderer->exception_program =
+            context.getOptixContext()->createProgramFromPTXString(CUDA_BASIC_SIMULATION_RENDERER,
+                                                                  OPTIX_CUDA_FUNCTION_EXCEPTION);
 
-        context.addRenderer(RENDERER_PROPERTY_TYPE_BASIC, osp);
+        context.addRenderer(RENDERER_PROPERTY_TYPE_BASIC, renderer);
 
         PropertyMap properties;
         properties.setProperty(COMMON_PROPERTY_EXPOSURE);
