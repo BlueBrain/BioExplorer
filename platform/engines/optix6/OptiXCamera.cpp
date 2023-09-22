@@ -28,6 +28,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 void OptiXCamera::commit()
 {
     if (_currentCamera != getCurrentType())
@@ -41,4 +45,6 @@ void OptiXCamera::commit()
     toOptiXProperties(getPropertyMap());
     cameraProgram->commit(*this, context);
 }
+} // namespace optix
+} // namespace engine
 } // namespace core

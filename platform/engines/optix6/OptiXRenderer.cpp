@@ -31,6 +31,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 OptiXRenderer::OptiXRenderer(const AnimationParameters& animationParameters,
                              const RenderingParameters& renderingParameters)
     : Renderer(animationParameters, renderingParameters)
@@ -44,8 +48,8 @@ void OptiXRenderer::render(FrameBufferPtr frameBuffer)
         return;
 
     // Provide a random seed to the renderer
-    optix::float4 jitter = {(float)rand() / (float)RAND_MAX, (float)rand() / (float)RAND_MAX,
-                            (float)rand() / (float)RAND_MAX, (float)rand() / (float)RAND_MAX};
+    ::optix::float4 jitter = {(float)rand() / (float)RAND_MAX, (float)rand() / (float)RAND_MAX,
+                              (float)rand() / (float)RAND_MAX, (float)rand() / (float)RAND_MAX};
     auto context = OptiXContext::get().getOptixContext();
     context[CONTEXT_RENDERER_JITTER]->setFloat(jitter);
     context[CONTEXT_RENDERER_FRAME]->setUint(frameBuffer->numAccumFrames());
@@ -113,4 +117,6 @@ void OptiXRenderer::commit()
 }
 
 void OptiXRenderer::setCamera(CameraPtr /*camera*/) {}
+} // namespace optix
+} // namespace engine
 } // namespace core

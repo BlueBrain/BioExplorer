@@ -30,6 +30,10 @@ using namespace optix;
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const Vector3f& spacing,
                          const DataType dataType, const VolumeParameters& params)
     : Volume(dimensions, spacing, dataType)
@@ -170,4 +174,6 @@ void OptiXVolume::setVoxels(const void* voxels)
     volumeGeometries[materialId].valueRange = _valueRange;
     _model->commitVolumesBuffers(materialId);
 }
+} // namespace optix
+} // namespace engine
 } // namespace core

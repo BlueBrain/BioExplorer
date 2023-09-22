@@ -32,6 +32,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 class OptiXModel : public Model
 {
 public:
@@ -85,28 +89,28 @@ private:
     std::map<size_t, ::optix::Geometry> _optixSpheres;
 
     // Cylinders
-    std::map<size_t, optix::Buffer> _cylindersBuffers;
-    std::map<size_t, optix::Geometry> _optixCylinders;
+    std::map<size_t, ::optix::Buffer> _cylindersBuffers;
+    std::map<size_t, ::optix::Geometry> _optixCylinders;
 
     // Cones
-    std::map<size_t, optix::Buffer> _conesBuffers;
-    std::map<size_t, optix::Geometry> _optixCones;
+    std::map<size_t, ::optix::Buffer> _conesBuffers;
+    std::map<size_t, ::optix::Geometry> _optixCones;
 
     // Volumes
-    std::map<size_t, optix::Buffer> _volumesBuffers;
-    std::map<size_t, optix::Geometry> _optixVolumes;
+    std::map<size_t, ::optix::Buffer> _volumesBuffers;
+    std::map<size_t, ::optix::Geometry> _optixVolumes;
 
     // Meshes
     struct OptiXTriangleMeshBuffers
     {
-        optix::Buffer vertices_buffer;
-        optix::Buffer normal_buffer;
-        optix::Buffer texcoord_buffer;
-        optix::Buffer indices_buffer;
+        ::optix::Buffer vertices_buffer;
+        ::optix::Buffer normal_buffer;
+        ::optix::Buffer texcoord_buffer;
+        ::optix::Buffer indices_buffer;
     };
 
     std::map<size_t, OptiXTriangleMeshBuffers> _optixMeshBuffers;
-    std::map<size_t, optix::Geometry> _optixMeshes;
+    std::map<size_t, ::optix::Geometry> _optixMeshes;
 
     // Volume
     ::optix::Buffer _volumeBuffer{nullptr};
@@ -115,20 +119,22 @@ private:
     // Streamlines
     struct Streamlines
     {
-        optix::Buffer vertices_buffer;
-        optix::Buffer color_buffer;
-        optix::Buffer indices_buffer;
+        ::optix::Buffer vertices_buffer;
+        ::optix::Buffer color_buffer;
+        ::optix::Buffer indices_buffer;
     };
     std::map<size_t, Streamlines> _streamlinesBuffers;
-    std::map<size_t, optix::Geometry> _optixStreamlines;
+    std::map<size_t, ::optix::Geometry> _optixStreamlines;
 
     // Materials and textures
-    std::map<std::string, optix::Buffer> _optixTextures;
-    std::map<std::string, optix::TextureSampler> _optixTextureSamplers;
+    std::map<std::string, ::optix::Buffer> _optixTextures;
+    std::map<std::string, ::optix::TextureSampler> _optixTextureSamplers;
 
     // User Data
-    optix::Buffer _userData{nullptr};
+    ::optix::Buffer _userData{nullptr};
 
     bool _boundingBoxBuilt = false;
 };
+} // namespace optix
+} // namespace engine
 } // namespace core

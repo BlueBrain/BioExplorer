@@ -38,9 +38,13 @@ using namespace optix;
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 template <typename T>
-void setBufferRaw(RTbuffertype bufferType, RTformat bufferFormat, optix::Handle<optix::BufferObj>& buffer,
-                  optix::Handle<optix::VariableObj> geometry, T* src, const size_t numElements, const size_t bytes)
+void setBufferRaw(RTbuffertype bufferType, RTformat bufferFormat, ::optix::Handle<::optix::BufferObj>& buffer,
+                  ::optix::Handle<::optix::VariableObj> geometry, T* src, const size_t numElements, const size_t bytes)
 {
     auto context = OptiXContext::get().getOptixContext();
     if (!buffer)
@@ -56,8 +60,8 @@ void setBufferRaw(RTbuffertype bufferType, RTformat bufferFormat, optix::Handle<
 }
 
 template <typename T>
-void setBuffer(RTbuffertype bufferType, RTformat bufferFormat, optix::Handle<optix::BufferObj>& buffer,
-               optix::Handle<optix::VariableObj> geometry, const std::vector<T>& src, const size_t numElements)
+void setBuffer(RTbuffertype bufferType, RTformat bufferFormat, ::optix::Handle<::optix::BufferObj>& buffer,
+               ::optix::Handle<::optix::VariableObj> geometry, const std::vector<T>& src, const size_t numElements)
 {
     setBufferRaw(bufferType, bufferFormat, buffer, geometry, src.data(), numElements, sizeof(T) * src.size());
 }
@@ -585,4 +589,6 @@ void OptiXModel::_commitSimulationDataImpl(const float* frameData, const size_t 
     setBufferRaw(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _userData, context[CONTEXT_USER_DATA], frameData, frameSize,
                  frameSize * sizeof(float));
 }
+} // namespace optix
+} // namespace engine
 } // namespace core

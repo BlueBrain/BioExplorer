@@ -29,6 +29,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 /**
    OptiX specific camera
 
@@ -46,4 +50,6 @@ public:
 private:
     std::string _currentCamera;
 };
+} // namespace optix
+} // namespace engine
 } // namespace core

@@ -28,6 +28,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 void toOptiXProperties(const PropertyMap& object)
 {
     try
@@ -90,4 +94,6 @@ void toOptiXProperties(const PropertyMap& object)
         CORE_ERROR("Failed to apply properties for OptiX object" << e.what());
     }
 }
+} // namespace optix
+} // namespace engine
 } // namespace core

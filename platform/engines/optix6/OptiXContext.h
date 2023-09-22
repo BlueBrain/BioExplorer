@@ -35,6 +35,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 // Scene
 static const char* CONTEXT_SCENE_TOP_OBJECT = "top_object";
 static const char* CONTEXT_SCENE_TOP_SHADOWER = "top_shadower";
@@ -211,4 +215,6 @@ private:
     std::unordered_map<void*, ::optix::TextureSampler> _optixTextureSamplers;
     std::mutex _mutex;
 };
+} // namespace optix
+} // namespace engine
 } // namespace core

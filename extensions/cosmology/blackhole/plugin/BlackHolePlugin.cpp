@@ -115,16 +115,17 @@ void BlackHolePlugin::_createOptiXRenderers()
     std::map<std::string, std::string> renderers = {
         {RENDERER_BLACK_HOLE, BlackHole_generated_BlackHole_cu_ptx},
     };
-    OptiXContext &context = OptiXContext::get();
+    core::engine::optix::OptiXContext &context = core::engine::optix::OptiXContext::get();
     for (const auto &renderer : renderers)
     {
         PLUGIN_REGISTER_RENDERER(renderer.first);
         const std::string ptx = renderer.second;
 
-        auto osp = std::make_shared<OptixShaderProgram>();
-        osp->closest_hit =
-            context.getOptixContext()->createProgramFromPTXString(ptx, OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE);
-        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(ptx, OPTIX_CUDA_FUNCTION_ANY_HIT_SHADOW);
+        auto osp = std::make_shared<core::engine::optix::OptixShaderProgram>();
+        osp->closest_hit = context.getOptixContext()->createProgramFromPTXString(
+            ptx, core::engine::optix::OPTIX_CUDA_FUNCTION_CLOSEST_HIT_RADIANCE);
+        osp->any_hit = context.getOptixContext()->createProgramFromPTXString(
+            ptx, core::engine::optix::OPTIX_CUDA_FUNCTION_ANY_HIT_SHADOW);
 
         context.addRenderer(renderer.first, osp);
     }

@@ -31,6 +31,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 /**
 
    OptiX specific scene
@@ -61,20 +65,22 @@ private:
     void _commitVolumeParameters();
     void _commitClippingPlanes();
 
-    optix::Buffer _lightBuffer{nullptr};
+    ::optix::Buffer _lightBuffer{nullptr};
     std::vector<BasicLight> _optixLights;
     ::optix::Group _rootGroup{nullptr};
 
     // Material Lookup tables
-    optix::Buffer _colorMapBuffer{nullptr};
-    optix::Buffer _emissionIntensityMapBuffer{nullptr};
+    ::optix::Buffer _colorMapBuffer{nullptr};
+    ::optix::Buffer _emissionIntensityMapBuffer{nullptr};
     ::optix::TextureSampler _backgroundTextureSampler{nullptr};
     ::optix::TextureSampler _dummyTextureSampler{nullptr};
 
     // Volumes
-    optix::Buffer _volumeBuffer;
+    ::optix::Buffer _volumeBuffer;
 
     // Clipping planes
-    optix::Buffer _clipPlanesBuffer{nullptr};
+    ::optix::Buffer _clipPlanesBuffer{nullptr};
 };
+} // namespace optix
+} // namespace engine
 } // namespace core

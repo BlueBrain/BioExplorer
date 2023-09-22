@@ -32,6 +32,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 class OptiXVolume : public SharedDataVolume
 {
 public:
@@ -57,5 +61,6 @@ protected:
 private:
     OptiXModel* _model{nullptr};
 };
-
+} // namespace optix
+} // namespace engine
 } // namespace core

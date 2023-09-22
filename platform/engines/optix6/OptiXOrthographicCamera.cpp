@@ -33,6 +33,10 @@ const std::string PTX_MISS = OptiX6Engine_generated_Constantbg_cu_ptx;
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 OptiXOrthographicCamera::OptiXOrthographicCamera()
     : OptiXCameraProgram()
 {
@@ -65,4 +69,6 @@ void OptiXOrthographicCamera::commit(const OptiXCamera& camera, ::optix::Context
     context[CONTEXT_CAMERA_W]->setFloat(position.x, position.y, position.z);
     context[CONTEXT_CAMERA_DIR]->setFloat(dir.x, dir.y, dir.z);
 }
+} // namespace optix
+} // namespace engine
 } // namespace core

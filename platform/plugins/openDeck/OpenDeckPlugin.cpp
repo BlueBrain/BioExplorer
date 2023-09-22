@@ -152,8 +152,8 @@ void OpenDeckPlugin::init()
 #ifdef USE_OPTIX6
     if (engineName == ENGINE_OPTIX_6)
     {
-        OptiXContext& context = OptiXContext::get();
-        context.addCamera(CAMERA_CYLINDRIC_STEREO, std::make_shared<OptiXCylindricStereoCamera>());
+        core::engine::optix::OptiXContext& context = core::engine::optix::OptiXContext::get();
+        context.addCamera(CAMERA_CYLINDRIC_STEREO, std::make_shared<core::engine::optix::OptiXCylindricStereoCamera>());
         engine.addCameraType(CAMERA_CYLINDRIC_STEREO, getCylindricStereoProperties());
     }
 #endif

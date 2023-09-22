@@ -32,6 +32,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 OptiXMaterial::~OptiXMaterial()
 {
     for (auto textureSampler : _textureSamplers)
@@ -77,4 +81,6 @@ void OptiXMaterial::commit()
         }
     }
 }
+} // namespace optix
+} // namespace engine
 } // namespace core

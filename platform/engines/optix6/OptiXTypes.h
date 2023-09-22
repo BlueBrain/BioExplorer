@@ -28,6 +28,10 @@
 
 namespace core
 {
+namespace engine
+{
+namespace optix
+{
 class OptiXCamera;
 using OptiXCameraPtr = std::shared_ptr<OptiXCamera>;
 class OptiXCameraProgram;
@@ -42,5 +46,6 @@ struct VolumeGeometry
     float transferFunctionSamplerId;
     Vector2f valueRange;
 };
-
+} // namespace optix
+} // namespace engine
 } // namespace core
