@@ -103,12 +103,13 @@ void AdvancedRenderer::commit()
     const uint32 numClipPlanes = clipPlanes ? clipPlanes->numItems : 0;
 
     ::ispc::AdvancedRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _shadows, _softShadows,
-                               _softShadowsSamples, _giStrength, _giDistance, _giSamples, _randomNumber, _timestamp,
-                               spp, _lightPtr, _lightArray.size(), _exposure, _epsilonFactor, _fogThickness, _fogStart,
-                               _useHardwareRandomizer, _maxBounces, _showBackground, _matrixFilter,
-                               _userData ? (float*)_userData->data : nullptr, _simulationDataSize,
-                               _volumeSamplingThreshold, _volumeSpecularExponent, _volumeAlphaCorrection,
-                               (const ::ispc::vec4f*)clipPlaneData, numClipPlanes);
+                                 _softShadowsSamples, _giStrength, _giDistance, _giSamples, _randomNumber, _timestamp,
+                                 spp, _lightPtr, _lightArray.size(), _exposure, _epsilonFactor, _fogThickness,
+                                 _fogStart, _useHardwareRandomizer, _maxBounces, _showBackground, _matrixFilter,
+                                 _userData ? (float*)_userData->data : nullptr, _simulationDataSize,
+                                 _volumeSamplingThreshold, _volumeSpecularExponent, _volumeAlphaCorrection,
+                                 (const ::ispc::vec4f*)clipPlaneData, numClipPlanes, _anaglyphEnabled,
+                                 (ispc::vec3f&)_anaglyphIpdOffset);
 }
 
 AdvancedRenderer::AdvancedRenderer()

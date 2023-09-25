@@ -35,6 +35,7 @@ endif()
 
 set(${NAME}_ISPC_SOURCES
   ispc/camera/utils/CameraUtils.ispc
+  ispc/camera/AnaglyphCamera.ispc
   ispc/camera/OrthographicCamera.ispc
   ispc/camera/PanoramicCamera.ispc
   ispc/camera/PerspectiveStereoCamera.ispc
@@ -63,6 +64,7 @@ set(${NAME}_SOURCES
   OSPRayScene.cpp
   OSPRayVolume.cpp
   OSPRayUtils.cpp
+  ispc/camera/AnaglyphCamera.cpp
   ispc/camera/OrthographicCamera.cpp
   ispc/camera/PanoramicCamera.cpp
   ispc/camera/FishEyeCamera.cpp
@@ -89,6 +91,7 @@ set(${NAME}_HEADERS
   OSPRayRenderer.h
   OSPRayScene.h
   OSPRayVolume.h
+  ispc/camera/AnaglyphCamera.h
   ispc/camera/OrthographicCamera.h
   ispc/camera/PanoramicCamera.h 
   ispc/camera/PerspectiveStereoCamera.h

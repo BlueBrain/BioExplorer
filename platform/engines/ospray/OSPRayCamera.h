@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include "OSPRayEngine.h"
+
 #include <platform/core/engineapi/Camera.h>
 
 #include <ospray.h>
@@ -40,7 +42,11 @@ namespace ospray
 class OSPRayCamera : public Camera
 {
 public:
-    OSPRayCamera() = default;
+    OSPRayCamera(OSPRayEngine* engine)
+        : _engine(engine)
+    {
+    }
+
     ~OSPRayCamera();
 
     /**
@@ -69,6 +75,7 @@ private:
     Planes _clipPlanes;
 
     void _createOSPCamera();
+    OSPRayEngine* _engine;
 };
 } // namespace ospray
 } // namespace engine

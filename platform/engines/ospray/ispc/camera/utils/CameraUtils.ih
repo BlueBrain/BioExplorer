@@ -23,3 +23,13 @@
 
 void clipRay(const uniform vec4f* clipPlanes, const unsigned int numClipPlanes, const varying vec3f& position,
              const varying vec3f& direction, varying float& near, varying float& far);
+
+inline vec3f getAnaglyphLeftColor(const vec3f& color)
+{
+    return make_vec3f(color.x * 0.299f + color.y * 0.587f + color.z * 0.114f, 0.f, 0.f);
+}
+
+inline vec3f getAnaglyphRightColor(const vec3f& color)
+{
+    return make_vec3f(0.f, color.y, color.z);
+}

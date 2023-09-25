@@ -43,4 +43,6 @@ struct AbstractRenderer
     uint32 numLights;
     AdvancedMaterial* bgMaterial;
     float timestamp;
+    bool anaglyphEnabled;
+    vec3f anaglyphIpdOffset;
 };

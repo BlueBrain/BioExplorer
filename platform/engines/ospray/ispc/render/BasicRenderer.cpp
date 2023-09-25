@@ -39,7 +39,7 @@ void BasicRenderer::commit()
     AbstractRenderer::commit();
 
     ::ispc::BasicRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _lightPtr,
-                              _lightArray.size());
+                              _lightArray.size(), _anaglyphEnabled, (ispc::vec3f&)_anaglyphIpdOffset);
 }
 
 BasicRenderer::BasicRenderer()

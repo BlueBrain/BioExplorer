@@ -25,6 +25,8 @@
 #include <platform/core/common/scene/ClipPlane.h>
 #include <platform/core/engineapi/Model.h>
 
+#include <platform/engines/ospray/ispc/camera/AnaglyphCamera.h>
+
 #include "OSPRayCamera.h"
 #include "OSPRayFrameBuffer.h"
 #include "OSPRayMaterial.h"
@@ -118,8 +120,8 @@ void OSPRayRenderer::commit()
 
         setClipPlanes(planes);
         _camera->setClipPlanes(planes);
-        _camera->commit();
     }
+    _camera->commit();
 
     osphelper::set(_renderer, RENDERER_PROPERTY_TIMESTAMP, static_cast<float>(ap.getFrame()));
     osphelper::set(_renderer, RENDERER_PROPERTY_RANDOM_NUMBER, rand() % 10000);

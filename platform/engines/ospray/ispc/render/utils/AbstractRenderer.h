@@ -50,14 +50,13 @@ public:
 protected:
     std::vector<void*> _lightArray;
     void** _lightPtr;
-
     ::ospray::Data* _lightData;
-
     AdvancedMaterial* _bgMaterial;
     float _timestamp;
-
     bool _useHardwareRandomizer;
     ::ospray::uint32 _randomNumber;
+    bool _anaglyphEnabled;
+    ::ospray::vec3f _anaglyphIpdOffset;
 };
 } // namespace ospray
 } // namespace engine

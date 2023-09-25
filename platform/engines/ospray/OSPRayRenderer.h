@@ -50,6 +50,12 @@ public:
 
     void setClipPlanes(const Planes& planes);
 
+    /**
+       Gets the OSPRay implementation of the renderer object
+       @return OSPRay implementation of the renderer object
+    */
+    OSPRenderer impl() { return _renderer; }
+
 private:
     OSPRayCamera* _camera{nullptr};
     OSPRenderer _renderer{nullptr};

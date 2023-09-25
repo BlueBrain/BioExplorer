@@ -52,7 +52,8 @@ void BlackHoleRenderer::commit()
     _blackHoleSize = getParam1f(BLACK_HOLE_RENDERER_PROPERTY_SIZE.name.c_str(), BLACK_HOLE_DEFAULT_RENDERER_SIZE);
 
     ::ispc::BlackHoleRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _exposure,
-                                  _nbDisks, _grid, _diskRotationSpeed, _diskTextureLayers, _blackHoleSize);
+                                  _nbDisks, _grid, _diskRotationSpeed, _diskTextureLayers, _blackHoleSize,
+                                  _anaglyphEnabled, (ispc::vec3f&)_anaglyphIpdOffset);
 }
 
 BlackHoleRenderer::BlackHoleRenderer()

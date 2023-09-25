@@ -24,6 +24,8 @@
 
 #include "BasicRenderer.ih"
 
+#include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
+
 /**
     Renderer a pixel color according to a given location in the screen space.
     @param self Pointer to current renderer
@@ -84,7 +86,22 @@ void BasicRenderer_renderSample(uniform Renderer* uniform _self, void* uniform p
 {
     uniform BasicRenderer* uniform self = (uniform BasicRenderer * uniform) _self;
     sample.ray.time = self->abstract.timestamp;
-    sample.rgb = BasicRenderer_shadeRay(self, sample);
+    if (self->abstract.anaglyphEnabled)
+    {
+        ScreenSample s = sample;
+        s.ray.org = s.ray.org - self->abstract.anaglyphIpdOffset;
+        const vec3f colorLeft = BasicRenderer_shadeRay(self, s);
+        const vec3f leftAnaglyphColor = getAnaglyphLeftColor(colorLeft);
+
+        s = sample;
+        s.ray.org = s.ray.org + self->abstract.anaglyphIpdOffset;
+        const vec3f colorRight = BasicRenderer_shadeRay(self, s);
+        const vec3f rightAnaglyphColor = getAnaglyphRightColor(colorRight);
+
+        sample.rgb = leftAnaglyphColor + rightAnaglyphColor;
+    }
+    else
+        sample.rgb = BasicRenderer_shadeRay(self, sample);
 }
 
 // Exports (called from C++)
@@ -97,9 +114,13 @@ export void* uniform BasicRenderer_create(void* uniform cppE)
 }
 
 export void BasicRenderer_set(void* uniform _self, void* uniform bgMaterial, const uniform float& timestamp,
-                              const uniform int& spp, void** uniform lights, uniform int32 numLights)
+                              const uniform int& spp, void** uniform lights, uniform int32 numLights,
+                              const uniform bool anaglyphEnabled, const uniform vec3f& anaglyphIpdOffset)
 {
     uniform BasicRenderer* uniform self = (uniform BasicRenderer * uniform) _self;
+
+    self->abstract.anaglyphEnabled = anaglyphEnabled;
+    self->abstract.anaglyphIpdOffset = anaglyphIpdOffset;
 
     self->abstract.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
     self->abstract.timestamp = timestamp;
