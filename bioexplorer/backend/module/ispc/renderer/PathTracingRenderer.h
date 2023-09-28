@@ -50,19 +50,8 @@ public:
 
 private:
     // Shading attributes
-    std::vector<void*> _lightArray;
-    void** _lightPtr;
-    ::ospray::Data* _lightData;
-
-    core::engine::ospray::AdvancedMaterial* _bgMaterial;
-
-    double _exposure{1.f};
     double _aoWeight{1.f};
     double _aoDistance{100.f};
-    ::ospray::uint32 _randomNumber{0};
-    double _timestamp{0.f};
-    bool _useHardwareRandomizer{false};
-    bool _showBackground{false};
 };
 } // namespace rendering
 } // namespace bioexplorer

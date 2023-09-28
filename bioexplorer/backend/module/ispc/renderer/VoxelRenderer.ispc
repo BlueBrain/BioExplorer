@@ -23,6 +23,7 @@
 
 #include "VoxelRenderer.ih"
 
+#include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
 #include <platform/engines/ospray/ispc/render/utils/RendererUtils.ih>
 #include <platform/engines/ospray/ispc/render/utils/SkyBox.ih>
 
@@ -93,14 +94,30 @@ inline vec3f VoxelRenderer_shadeRay(const uniform VoxelRenderer* uniform self, v
     // Alpha
     sample.alpha = pathColor.w;
 
-    return make_vec3f(pathColor) * self->super.exposure;
+    return make_vec3f(pathColor) * self->super.super.exposure;
 }
 
 void VoxelRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
                                 varying ScreenSample& sample)
 {
     uniform VoxelRenderer* uniform self = (uniform VoxelRenderer * uniform) _self;
-    sample.rgb = VoxelRenderer_shadeRay(self, sample);
+    sample.ray.time = self->super.super.timestamp;
+    if (self->super.super.anaglyphEnabled)
+    {
+        ScreenSample s = sample;
+        s.ray.org = s.ray.org - self->super.super.anaglyphIpdOffset;
+        const vec3f colorLeft = VoxelRenderer_shadeRay(self, s);
+        const vec3f leftAnaglyphColor = getAnaglyphLeftColor(colorLeft);
+
+        s = sample;
+        s.ray.org = s.ray.org + self->super.super.anaglyphIpdOffset;
+        const vec3f colorRight = VoxelRenderer_shadeRay(self, s);
+        const vec3f rightAnaglyphColor = getAnaglyphRightColor(colorRight);
+
+        sample.rgb = leftAnaglyphColor + rightAnaglyphColor;
+    }
+    else
+        sample.rgb = VoxelRenderer_shadeRay(self, sample);
 }
 
 // Exports (called from C++)
@@ -115,20 +132,25 @@ export void* uniform VoxelRenderer_create(void* uniform cppE)
 export void VoxelRenderer_set(void* uniform _self, void* uniform bgMaterial, const uniform uint32 spp,
                               uniform float* uniform simulationData, const uniform uint64 simulationDataSize,
                               const uniform float alphaCorrection, const uniform float simulationThreshold,
-                              const uniform float exposure)
+                              const uniform float exposure, const uniform bool anaglyphEnabled,
+                              const uniform vec3f& anaglyphIpdOffset)
 {
     uniform VoxelRenderer* uniform self = (uniform VoxelRenderer * uniform) _self;
 
     // OSPRay
     self->super.super.super.spp = spp;
 
-    // User data renderer
+    // Abstract
+    self->super.super.anaglyphEnabled = anaglyphEnabled;
+    self->super.super.anaglyphIpdOffset = anaglyphIpdOffset;
     self->super.super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.super.exposure = exposure;
+
+    // Simulation
     self->super.simulationData = (uniform float* uniform)simulationData;
     self->super.simulationDataSize = simulationDataSize;
-    self->super.exposure = exposure;
     self->super.alphaCorrection = alphaCorrection;
 
-    // Renderer specific parameters
+    // Voxel
     self->simulationThreshold = simulationThreshold;
 }

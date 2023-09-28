@@ -23,6 +23,7 @@
 
 #include "BlackHoleRenderer.ih"
 
+#include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
 #include <platform/engines/ospray/ispc/render/utils/SkyBox.ih>
 
 // Port from https://www.shadertoy.com/view/tsBXW3
@@ -238,7 +239,7 @@ inline vec3f BlackHoleRenderer_shadeRay(const uniform BlackHoleRenderer* uniform
     if (outCol.x == 100.f)
         outCol = make_vec4f(make_vec3f(col) + make_vec3f(glow) * (col.w + glow.w), 1.f);
 
-    return clamp(make_vec3f(outCol * self->exposure), make_vec3f(0.f), make_vec3f(1.f));
+    return clamp(make_vec3f(outCol * self->super.exposure), make_vec3f(0.f), make_vec3f(1.f));
 }
 
 void BlackHoleRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
@@ -246,7 +247,22 @@ void BlackHoleRenderer_renderSample(uniform Renderer* uniform _self, void* unifo
 {
     uniform BlackHoleRenderer* uniform self = (uniform BlackHoleRenderer * uniform) _self;
     sample.ray.time = self->super.timestamp;
-    sample.rgb = BlackHoleRenderer_shadeRay(self, sample);
+    if (self->super.anaglyphEnabled)
+    {
+        ScreenSample s = sample;
+        s.ray.org = s.ray.org - self->super.anaglyphIpdOffset;
+        const vec3f colorLeft = BlackHoleRenderer_shadeRay(self, s);
+        const vec3f leftAnaglyphColor = getAnaglyphLeftColor(colorLeft);
+
+        s = sample;
+        s.ray.org = s.ray.org + self->super.anaglyphIpdOffset;
+        const vec3f colorRight = BlackHoleRenderer_shadeRay(self, s);
+        const vec3f rightAnaglyphColor = getAnaglyphRightColor(colorRight);
+
+        sample.rgb = leftAnaglyphColor + rightAnaglyphColor;
+    }
+    else
+        sample.rgb = BlackHoleRenderer_shadeRay(self, sample);
 }
 
 // Exports (called from C++)
@@ -261,16 +277,19 @@ export void* uniform BlackHoleRenderer_create(void* uniform cppE)
 export void BlackHoleRenderer_set(void* uniform _self, void* uniform bgMaterial, const uniform float timestamp,
                                   const uniform int spp, const uniform float exposure, const uniform int nbDisks,
                                   const uniform bool grid, const uniform float diskRotationSpeed,
-                                  const uniform uint32 diskTextureLayers, const uniform float blackHoleSize)
+                                  const uniform uint32 diskTextureLayers, const uniform float blackHoleSize,
+                                  const uniform bool anaglyphEnabled, const uniform vec3f& anaglyphIpdOffset)
 {
     uniform BlackHoleRenderer* uniform self = (uniform BlackHoleRenderer * uniform) _self;
 
-    self->super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
-
     self->super.super.spp = spp;
-    self->super.timestamp = timestamp;
 
-    self->exposure = exposure;
+    self->super.anaglyphEnabled = anaglyphEnabled;
+    self->super.anaglyphIpdOffset = anaglyphIpdOffset;
+    self->super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.timestamp = timestamp;
+    self->super.exposure = exposure;
+
     self->nbDisks = nbDisks;
     self->grid = grid;
     self->diskRotationSpeed = diskRotationSpeed;

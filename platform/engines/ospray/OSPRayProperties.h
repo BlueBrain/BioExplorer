@@ -60,10 +60,13 @@ static const char* OSPRAY_RENDERER_PROPERTY_WORLD = "world";
 static const char* OSPRAY_RENDERER_PROPERTY_VARIANCE_THRESHOLD = "varianceThreshold";
 static const char* OSPRAY_RENDERER_PROPERTY_SAMPLES_PER_PIXEL = "spp";
 static const char* OSPRAY_RENDERER_PROPERTY_SHUTTER_CLOSE = "shutterClose";
+static const char* OSPRAY_RENDERER_PROPERTY_ANAGLYPH_ENABLED = "anaglyphEnabled";
+static const char* OSPRAY_RENDERER_PROPERTY_ANAGLYPH_IPD_OFFSET = "anaglyphIpdOffset";
 
 static constexpr double OSPRAY_DEFAULT_RENDERER_VOLUME_SAMPLING_THRESHOLD = 0.001;
 static constexpr double OSPRAY_DEFAULT_RENDERER_VOLUME_SPECULAR_EXPONENT = 20.0;
 static constexpr double OSPRAY_DEFAULT_RENDERER_VOLUME_ALPHA_CORRECTION = 0.5;
+static constexpr bool DEFAULT_RENDERER_ANAGLYPH_ENABLED = false;
 
 static const Property OSPRAY_RENDERER_AMBIENT_OCCLUSION_DISTANCE = {"aoDistance",
                                                                     10000.,

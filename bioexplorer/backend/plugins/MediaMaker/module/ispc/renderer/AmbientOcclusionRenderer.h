@@ -49,7 +49,7 @@ public:
 private:
     ::ospray::uint32 _samplesPerFrame;
     double _aoRayLength;
-    ::ospray::uint32 _maxBounces;
+    ::ospray::uint32 _maxRayDepth;
     bool _useHardwareRandomizer{false};
 };
 } // namespace rendering

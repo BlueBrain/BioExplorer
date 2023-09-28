@@ -44,28 +44,9 @@ namespace rendering
 {
 void FieldsRenderer::commit()
 {
-    Renderer::commit();
-
-    _lightData = (::ospray::Data*)getParamData(RENDERER_PROPERTY_LIGHTS);
-    _lightArray.clear();
-
-    if (_lightData)
-        for (size_t i = 0; i < _lightData->size(); ++i)
-            _lightArray.push_back(((::ospray::Light**)_lightData->data)[i]->getIE());
-
-    _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
-
-    _bgMaterial =
-        (core::engine::ospray::AdvancedMaterial*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
-
-    _useHardwareRandomizer = getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(),
-                                      static_cast<int>(DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER));
+    AbstractRenderer::commit();
 
     _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
-    _randomNumber = getParam1i(RENDERER_PROPERTY_RANDOM_NUMBER, 0);
-    _timestamp = getParam1f(RENDERER_PROPERTY_TIMESTAMP, DEFAULT_RENDERER_TIMESTAMP);
-
-    // Sampling
     _minRayStep = getParam1f(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_MIN_RAY_STEP.name.c_str(),
                              BIOEXPLORER_DEFAULT_RENDERER_FIELDS_MIN_RAY_STEP);
     _nbRaySteps = getParam1i(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_STEPS.name.c_str(),
@@ -73,8 +54,6 @@ void FieldsRenderer::commit()
     _nbRayRefinementSteps = getParam1i(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_REFINEMENT_STEPS.name.c_str(),
                                        BIOEXPLORER_DEFAULT_RENDERER_FIELDS_NB_RAY_REFINEMENT_STEPS);
     _alphaCorrection = getParam1f(RENDERER_PROPERTY_ALPHA_CORRECTION.name.c_str(), DEFAULT_RENDERER_ALPHA_CORRECTION);
-
-    // Extra
     _cutoff = getParam1f(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_CUTOFF_DISTANCE.name.c_str(),
                          BIOEXPLORER_DEFAULT_RENDERER_FIELDS_CUTOFF_DISTANCE);
 
@@ -88,11 +67,11 @@ void FieldsRenderer::commit()
     if (transferFunction)
         ::ispc::FieldsRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 
-    // Renderer
     ::ispc::FieldsRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr),
                                (_userData ? (float*)_userData->data : nullptr), _userDataSize, _randomNumber,
                                _timestamp, spp, _lightPtr, _lightArray.size(), _minRayStep, _nbRaySteps,
-                               _nbRayRefinementSteps, _exposure, _useHardwareRandomizer, _cutoff, _alphaCorrection);
+                               _nbRayRefinementSteps, _exposure, _useHardwareRandomizer, _cutoff, _alphaCorrection,
+                               _anaglyphEnabled, (ispc::vec3f&)_anaglyphIpdOffset);
 }
 
 FieldsRenderer::FieldsRenderer()

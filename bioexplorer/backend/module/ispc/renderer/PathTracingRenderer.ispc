@@ -23,10 +23,10 @@
 
 #include "PathTracingRenderer.ih"
 
+#include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
 #include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
 #include <platform/engines/ospray/ispc/render/utils/SkyBox.ih>
 
-uniform const uint16 NB_MAX_REBOUNDS = 20;
 uniform const float skypower = 3.0f;
 uniform const float skypower_zerobounce = 1.0f;
 
@@ -140,7 +140,7 @@ inline vec3f PathTracingRenderer_shadeRay(const uniform PathTracingRenderer* uni
     Ray ray = sample.ray;
     vec3f color = make_vec3f(0.f);
 
-    const uniform Light* uniform light = self->lights[0];
+    const uniform Light* uniform light = self->super.super.lights[0];
     const vec2f s = make_vec2f(0.5f);
     DifferentialGeometry dg;
     const varying Light_SampleRes lightSample = light->sample(light, dg, s);
@@ -155,7 +155,7 @@ inline vec3f PathTracingRenderer_shadeRay(const uniform PathTracingRenderer* uni
     sample.alpha = 0.f;
 
     bool moreRebounds = true;
-    while (moreRebounds && depth < NB_MAX_REBOUNDS && pathOpacity > 0.f)
+    while (moreRebounds && depth < self->super.maxRayDepth && pathOpacity > 0.f)
     {
         float opacity = 1.f;
         float reflection = 0.f;
@@ -166,7 +166,7 @@ inline vec3f PathTracingRenderer_shadeRay(const uniform PathTracingRenderer* uni
         if (ray.geomID < 0)
         {
             // No intersection. Return skybox color
-            color = self->super.showBackground
+            color = self->super.super.showBackground
                         ? make_vec3f(skyboxMapping((Renderer*)self, ray, self->super.super.bgMaterial)) *
                               skypower_zerobounce
                         : make_vec3f(0.f);
@@ -319,7 +319,7 @@ inline vec3f PathTracingRenderer_shadeRay(const uniform PathTracingRenderer* uni
         }
     }
 
-    return clamp(color * self->super.exposure, make_vec3f(0.f), make_vec3f(1.f));
+    return clamp(color * self->super.super.exposure, make_vec3f(0.f), make_vec3f(1.f));
 }
 
 void PathTracingRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
@@ -327,7 +327,22 @@ void PathTracingRenderer_renderSample(uniform Renderer* uniform _self, void* uni
 {
     uniform PathTracingRenderer* uniform self = (uniform PathTracingRenderer * uniform) _self;
     sample.ray.time = self->super.super.timestamp;
-    sample.rgb = PathTracingRenderer_shadeRay(self, sample);
+    if (self->super.super.anaglyphEnabled)
+    {
+        ScreenSample s = sample;
+        s.ray.org = s.ray.org - self->super.super.anaglyphIpdOffset;
+        const vec3f colorLeft = PathTracingRenderer_shadeRay(self, s);
+        const vec3f leftAnaglyphColor = getAnaglyphLeftColor(colorLeft);
+
+        s = sample;
+        s.ray.org = s.ray.org + self->super.super.anaglyphIpdOffset;
+        const vec3f colorRight = PathTracingRenderer_shadeRay(self, s);
+        const vec3f rightAnaglyphColor = getAnaglyphRightColor(colorRight);
+
+        sample.rgb = leftAnaglyphColor + rightAnaglyphColor;
+    }
+    else
+        sample.rgb = PathTracingRenderer_shadeRay(self, sample);
 }
 
 // Exports (called from C++)
@@ -345,22 +360,31 @@ export void PathTracingRenderer_set(void* uniform _self, void* uniform bgMateria
                                     const uniform float timestamp, const uniform uint32 randomNumber,
                                     const uniform float exposure, const uniform float aoWeight,
                                     const uniform float aoDistance, const uniform bool useHardwareRandomizer,
-                                    const uniform bool showBackground)
+                                    const uniform bool showBackground, const uniform uint32 maxRayDepth,
+                                    const uniform bool anaglyphEnabled, const uniform vec3f& anaglyphIpdOffset)
 {
     uniform PathTracingRenderer* uniform self = (uniform PathTracingRenderer * uniform) _self;
 
+    self->super.super.super.spp = spp;
+
+    // Abstract
+    self->super.super.anaglyphEnabled = anaglyphEnabled;
+    self->super.super.anaglyphIpdOffset = anaglyphIpdOffset;
     self->super.super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.super.lights = (const uniform Light* uniform* uniform)lights;
+    self->super.super.numLights = numLights;
+    self->super.super.timestamp = timestamp;
+    self->super.super.exposure = exposure;
+    self->super.super.showBackground = showBackground;
+
+    // Simulation
     self->super.simulationData = (uniform float* uniform)simulationData;
     self->super.simulationDataSize = simulationDataSize;
-    self->super.super.timestamp = timestamp;
-    self->super.exposure = exposure;
     self->super.randomNumber = randomNumber;
     self->super.useHardwareRandomizer = useHardwareRandomizer;
-    self->super.showBackground = showBackground;
+    self->super.maxRayDepth = maxRayDepth;
 
-    self->lights = (const uniform Light* uniform* uniform)lights;
-    self->numLights = numLights;
-
+    // Path tracing
     self->aoWeight = aoWeight;
     self->aoDistance = aoDistance;
 }

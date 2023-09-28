@@ -48,11 +48,11 @@ void AmbientOcclusionRenderer::commit()
                                   DEFAULT_RENDERER_GLOBAL_ILLUMINATION_SAMPLES);
     _aoRayLength = getParam1f(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH.name.c_str(),
                               DEFAULT_RENDERER_GLOBAL_ILLUMINATION_RAY_LENGTH);
-    _maxBounces = getParam1i(RENDERER_PROPERTY_MAX_RAY_DEPTH.name.c_str(), DEFAULT_RENDERER_MAX_RAY_DEPTH);
+    _maxRayDepth = getParam1i(RENDERER_PROPERTY_MAX_RAY_DEPTH.name.c_str(), DEFAULT_RENDERER_MAX_RAY_DEPTH);
     _useHardwareRandomizer = getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(),
                                       static_cast<int>(DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER));
 
-    ::ispc::AmbientOcclusionRenderer_set(getIE(), spp, _samplesPerFrame, _aoRayLength, _maxBounces,
+    ::ispc::AmbientOcclusionRenderer_set(getIE(), spp, _samplesPerFrame, _aoRayLength, _maxRayDepth,
                                        _useHardwareRandomizer);
 }
 

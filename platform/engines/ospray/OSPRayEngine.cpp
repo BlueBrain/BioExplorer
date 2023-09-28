@@ -195,7 +195,7 @@ ScenePtr OSPRayEngine::createScene(AnimationParameters& animationParameters, Geo
 
 CameraPtr OSPRayEngine::createCamera() const
 {
-    return std::make_shared<OSPRayCamera>();
+    return std::make_shared<OSPRayCamera>(const_cast<OSPRayEngine*>(this));
 }
 
 RendererPtr OSPRayEngine::createRenderer(const AnimationParameters& animationParameters,
@@ -206,7 +206,7 @@ RendererPtr OSPRayEngine::createRenderer(const AnimationParameters& animationPar
 
 void OSPRayEngine::_createCameras()
 {
-    _camera = std::make_shared<OSPRayCamera>();
+    _camera = std::make_shared<OSPRayCamera>(this);
 
     const bool isStereo = _parametersManager.getApplicationParameters().isStereo();
     Property stereoProperty{CAMERA_PROPERTY_STEREO.name, isStereo, {CAMERA_PROPERTY_STEREO.metaData}};
@@ -231,6 +231,18 @@ void OSPRayEngine::_createCameras()
         properties.setProperty(aspect);
         properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
         addCameraType(CAMERA_PROPERTY_TYPE_ORTHOGRAPHIC, properties);
+    }
+    {
+        PropertyMap properties;
+        properties.setProperty(CAMERA_PROPERTY_FIELD_OF_VIEW);
+        properties.setProperty(aspect);
+        properties.setProperty(CAMERA_PROPERTY_APERTURE_RADIUS);
+        properties.setProperty(CAMERA_PROPERTY_FOCAL_DISTANCE);
+        properties.setProperty(CAMERA_PROPERTY_NEAR_CLIP);
+        properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
+        properties.setProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE);
+        properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
+        addCameraType(CAMERA_PROPERTY_TYPE_ANAGLYPH, properties);
     }
     {
         PropertyMap properties;

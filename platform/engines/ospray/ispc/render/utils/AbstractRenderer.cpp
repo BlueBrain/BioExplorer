@@ -27,8 +27,8 @@
 #include "AbstractRenderer.h"
 
 #include <platform/core/common/Properties.h>
+#include <platform/engines/ospray/OSPRayProperties.h>
 
-// ospray
 #include <ospray/SDK/common/Data.h>
 #include <ospray/SDK/lights/Light.h>
 
@@ -44,15 +44,17 @@ void AbstractRenderer::commit()
 
     _lightData = (::ospray::Data*)getParamData(RENDERER_PROPERTY_LIGHTS);
     _lightArray.clear();
-
     if (_lightData)
         for (size_t i = 0; i < _lightData->size(); ++i)
             _lightArray.push_back(((::ospray::Light**)_lightData->data)[i]->getIE());
-
     _lightPtr = _lightArray.empty() ? nullptr : &_lightArray[0];
 
-    _timestamp = getParam1f(RENDERER_PROPERTY_TIMESTAMP, DEFAULT_RENDERER_TIMESTAMP);
+    _timestamp = getParam1f(RENDERER_PROPERTY_TIMESTAMP.name.c_str(), DEFAULT_RENDERER_TIMESTAMP);
     _bgMaterial = (AdvancedMaterial*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
+    _useHardwareRandomizer = getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(),
+                                      static_cast<int>(DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER));
+    _anaglyphEnabled = getParam(OSPRAY_RENDERER_PROPERTY_ANAGLYPH_ENABLED, DEFAULT_RENDERER_ANAGLYPH_ENABLED);
+    _anaglyphIpdOffset = getParam3f(OSPRAY_RENDERER_PROPERTY_ANAGLYPH_IPD_OFFSET, ::ospray::vec3f());
 }
 } // namespace ospray
 } // namespace engine

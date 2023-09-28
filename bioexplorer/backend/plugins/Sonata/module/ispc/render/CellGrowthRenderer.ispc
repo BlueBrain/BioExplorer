@@ -20,6 +20,7 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
 #include <platform/engines/ospray/ispc/render/utils/SimulationRenderer.ih>
 
 #include <platform/core/common/CommonTypes.h>
@@ -62,8 +63,8 @@ inline float processShadows(const uniform CellGrowthRenderer* uniform self, vary
         vec3f ld = lightDirection;
         if (self->softShadowStrength > 0.f)
             ld = normalize(ld + self->softShadowStrength * getRandomVector(self->super.useHardwareRandomizer,
-                                                                    self->super.super.super.fb->size.x, sample, dg.Ns,
-                                                                    self->super.randomNumber));
+                                                                           self->super.super.super.fb->size.x, sample,
+                                                                           dg.Ns, self->super.randomNumber));
 
         Ray shadowRay;
         setRay(shadowRay, dg.P, ld);
@@ -212,14 +213,30 @@ inline vec3f CellGrowthRenderer_shadeRay(const uniform CellGrowthRenderer* unifo
         ray.instID = -1;
     }
 
-    return make_vec3f(pathColor) * self->super.exposure;
+    return make_vec3f(pathColor) * self->super.super.exposure;
 }
 
 void CellGrowthRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
                                      varying ScreenSample& sample)
 {
     uniform CellGrowthRenderer* uniform self = (uniform CellGrowthRenderer * uniform) _self;
-    sample.rgb = CellGrowthRenderer_shadeRay(self, sample);
+    sample.ray.time = self->super.super.timestamp;
+    if (self->super.super.anaglyphEnabled)
+    {
+        ScreenSample s = sample;
+        s.ray.org = s.ray.org - self->super.super.anaglyphIpdOffset;
+        const vec3f colorLeft = CellGrowthRenderer_shadeRay(self, s);
+        const vec3f leftAnaglyphColor = getAnaglyphLeftColor(colorLeft);
+
+        s = sample;
+        s.ray.org = s.ray.org + self->super.super.anaglyphIpdOffset;
+        const vec3f colorRight = CellGrowthRenderer_shadeRay(self, s);
+        const vec3f rightAnaglyphColor = getAnaglyphRightColor(colorRight);
+
+        sample.rgb = leftAnaglyphColor + rightAnaglyphColor;
+    }
+    else
+        sample.rgb = CellGrowthRenderer_shadeRay(self, sample);
 }
 
 // Exports (called from C++)
@@ -239,7 +256,8 @@ export void CellGrowthRenderer_set(void* uniform _self, void* uniform secondaryM
                                    const uniform float fogStart, const uniform float shadowIntensity,
                                    const uniform float softShadowStrength, const uniform float shadowDistance,
                                    const uniform bool useTransferFunctionColor,
-                                   const uniform bool useHardwareRandomizer)
+                                   const uniform bool useHardwareRandomizer, const uniform bool anaglyphEnabled,
+                                   const uniform vec3f& anaglyphIpdOffset)
 {
     uniform CellGrowthRenderer* uniform self = (uniform CellGrowthRenderer * uniform) _self;
 
@@ -247,16 +265,18 @@ export void CellGrowthRenderer_set(void* uniform _self, void* uniform secondaryM
     self->super.super.super.spp = spp;
 
     // Abstract
+    self->super.super.anaglyphEnabled = anaglyphEnabled;
+    self->super.super.anaglyphIpdOffset = anaglyphIpdOffset;
     self->super.super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
     self->super.super.lights = (const uniform Light* uniform* uniform)lights;
     self->super.super.numLights = numLights;
+    self->super.super.exposure = exposure;
 
     // Simulation
     self->super.useHardwareRandomizer = useHardwareRandomizer;
     self->super.secondaryModel = (uniform Model * uniform) secondaryModel;
     self->super.simulationData = (uniform float* uniform)simulationData;
     self->super.simulationDataSize = simulationDataSize;
-    self->super.exposure = exposure;
 
     self->super.fogThickness = fogThickness;
     self->super.fogStart = fogStart;

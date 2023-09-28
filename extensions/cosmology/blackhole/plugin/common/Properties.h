@@ -32,7 +32,6 @@ namespace blackhole
 {
 static constexpr int BLACK_HOLE_DEFAULT_RENDERER_NB_DISKS = 20;
 static constexpr bool BLACK_HOLE_DEFAULT_RENDERER_DISPLAY_GRID = false;
-static constexpr double BLACK_HOLE_DEFAULT_RENDERER_TIMESTAMP = 0.0;
 static constexpr double BLACK_HOLE_DEFAULT_RENDERER_DISK_ROTATION_SPEED = 3.0;
 static constexpr int BLACK_HOLE_DEFAULT_RENDERER_TEXTURE_LAYERS = 12;
 static constexpr double BLACK_HOLE_DEFAULT_RENDERER_SIZE = 12;
@@ -43,8 +42,6 @@ static const Property BLACK_HOLE_RENDERER_PROPERTY_NB_DISKS = {
 static const Property BLACK_HOLE_RENDERER_PROPERTY_DISPLAY_GRID = {"displayGrid",
                                                                    BLACK_HOLE_DEFAULT_RENDERER_DISPLAY_GRID,
                                                                    {"Display grid"}};
-static const Property BLACK_HOLE_RENDERER_PROPERTY_TIMESTAMP = {
-    "timestamp", BLACK_HOLE_DEFAULT_RENDERER_TIMESTAMP, 0.0, 8192.0, {"Timestamp"}};
 static const Property BLACK_HOLE_RENDERER_PROPERTY_DISK_ROTATION_SPEED = {
     "diskRotationSpeed", BLACK_HOLE_DEFAULT_RENDERER_DISK_ROTATION_SPEED, 1., 10., {"Disk rotation speed"}};
 static const Property BLACK_HOLE_RENDERER_PROPERTY_DISK_TEXTURE_LAYERS = {

@@ -21,6 +21,8 @@
  */
 
 #include "OSPRayCamera.h"
+#include "OSPRayProperties.h"
+#include "OSPRayRenderer.h"
 #include "OSPRayUtils.h"
 
 #include <platform/core/common/Properties.h>
@@ -39,39 +41,61 @@ OSPRayCamera::~OSPRayCamera()
 
 void OSPRayCamera::commit()
 {
-    if (!isModified())
-        return;
-
-    const bool cameraChanged = _currentOSPCamera != getCurrentType();
-    if (cameraChanged)
-        _createOSPCamera();
-
-    const auto position = getPosition();
-    const auto dir = glm::rotate(getOrientation(), Vector3d(0., 0., -1.));
-    const auto up = glm::rotate(getOrientation(), Vector3d(0., 1., 0.));
-
-    osphelper::set(_camera, CAMERA_PROPERTY_POSITION, Vector3f(position));
-    osphelper::set(_camera, CAMERA_PROPERTY_DIRECTION, Vector3f(dir));
-    osphelper::set(_camera, CAMERA_PROPERTY_UP_VECTOR, Vector3f(up));
-    osphelper::set(_camera, CAMERA_PROPERTY_BUFFER_TARGET, getBufferTarget());
-
-    toOSPRayProperties(*this, _camera);
-
-    // Clip planes
-    if (!_clipPlanes.empty())
+    // Anaglyph property is handled by the camera, but processed by the renderer
+    Vector3f anaglyphIpdOffset;
+    bool anaglyphEnabled = false;
+    if (getCurrentType() == CAMERA_PROPERTY_TYPE_ANAGLYPH)
     {
-        const auto clipPlanes = convertVectorToFloat(_clipPlanes);
-        auto clipPlaneData = ospNewData(clipPlanes.size(), OSP_FLOAT4, clipPlanes.data());
-        ospSetData(_camera, CAMERA_PROPERTY_CLIPPING_PLANES, clipPlaneData);
-        ospRelease(clipPlaneData);
-    }
-    else
-    {
-        // ospRemoveParam leaks objects, so we set it to null first
-        ospSetData(_camera, CAMERA_PROPERTY_CLIPPING_PLANES, nullptr);
-        ospRemoveParam(_camera, CAMERA_PROPERTY_CLIPPING_PLANES);
+        const Vector3d dir = getOrientation() * UP_VECTOR;
+        const double d = dot(dir, UP_VECTOR);
+        const Vector3d dir_du = (d > 0.999 ? Vector3d(1, 0, 0) : normalize(cross(dir, UP_VECTOR))); // Avoid gimble lock
+        const double interpupillaryDistance = getProperty<double>(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name.c_str());
+        anaglyphIpdOffset = 0.5f * interpupillaryDistance * dir_du;
+        anaglyphEnabled = true;
     }
 
+    Renderer& renderer = _engine->getRenderer();
+    OSPRayRenderer* ospRenderer = dynamic_cast<OSPRayRenderer*>(&renderer);
+    if (ospRenderer)
+        if (ospRenderer->impl())
+        {
+            osphelper::set(ospRenderer->impl(), OSPRAY_RENDERER_PROPERTY_ANAGLYPH_IPD_OFFSET, anaglyphIpdOffset);
+            osphelper::set(ospRenderer->impl(), OSPRAY_RENDERER_PROPERTY_ANAGLYPH_ENABLED,
+                           static_cast<int>(anaglyphEnabled));
+        }
+
+    if (isModified())
+    {
+        const bool cameraChanged = _currentOSPCamera != getCurrentType();
+        if (cameraChanged)
+            _createOSPCamera();
+
+        const auto position = getPosition();
+        const auto dir = glm::rotate(getOrientation(), Vector3d(0., 0., -1.));
+        const auto up = glm::rotate(getOrientation(), Vector3d(0., 1., 0.));
+
+        osphelper::set(_camera, CAMERA_PROPERTY_POSITION, Vector3f(position));
+        osphelper::set(_camera, CAMERA_PROPERTY_DIRECTION, Vector3f(dir));
+        osphelper::set(_camera, CAMERA_PROPERTY_UP_VECTOR, Vector3f(up));
+        osphelper::set(_camera, CAMERA_PROPERTY_BUFFER_TARGET, getBufferTarget());
+
+        toOSPRayProperties(*this, _camera);
+
+        // Clip planes
+        if (!_clipPlanes.empty())
+        {
+            const auto clipPlanes = convertVectorToFloat(_clipPlanes);
+            auto clipPlaneData = ospNewData(clipPlanes.size(), OSP_FLOAT4, clipPlanes.data());
+            ospSetData(_camera, CAMERA_PROPERTY_CLIPPING_PLANES, clipPlaneData);
+            ospRelease(clipPlaneData);
+        }
+        else
+        {
+            // ospRemoveParam leaks objects, so we set it to null first
+            ospSetData(_camera, CAMERA_PROPERTY_CLIPPING_PLANES, nullptr);
+            ospRemoveParam(_camera, CAMERA_PROPERTY_CLIPPING_PLANES);
+        }
+    }
     ospCommit(_camera);
 }
 

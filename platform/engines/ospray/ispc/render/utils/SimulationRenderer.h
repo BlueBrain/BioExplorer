@@ -51,15 +51,12 @@ protected:
     ::ospray::uint64 _simulationDataSize;
 
     bool _useHardwareRandomizer{false};
-    bool _showBackground{false};
-
-    double _exposure{1.0};
     double _epsilonFactor{1.0};
 
     double _fogThickness{1e6};
     double _fogStart{0.0};
 
-    ::ospray::uint32 _maxBounces{3};
+    ::ospray::uint32 _maxRayDepth{3};
     ::ospray::uint32 _randomNumber{0};
 
     float _alphaCorrection{0.5f};

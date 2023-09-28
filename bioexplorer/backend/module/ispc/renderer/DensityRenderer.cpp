@@ -40,19 +40,11 @@ namespace rendering
 {
 void DensityRenderer::commit()
 {
-    Renderer::commit();
-
-    _bgMaterial =
-        (core::engine::ospray::AdvancedMaterial*)getParamObject(RENDERER_PROPERTY_BACKGROUND_MATERIAL, nullptr);
-
+    AbstractRenderer::commit();
     _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
-    _timestamp = getParam1f(RENDERER_PROPERTY_TIMESTAMP, DEFAULT_RENDERER_TIMESTAMP);
-
-    // Sampling
-    _farPlane = getParam1f(BIOEXPLORER_RENDERER_PROPERTY_DENSITY_FAR_PLANE.name.c_str(),
-                           BIOEXPLORER_DEFAULT_RENDERER_DENSITY_FAR_PLANE);
-    _rayStep = getParam1f(BIOEXPLORER_RENDERER_PROPERTY_DENSITY_RAY_STEP.name.c_str(),
-                          BIOEXPLORER_DEFAULT_RENDERER_DENSITY_RAY_STEP);
+    _farPlane =
+        getParam1f(BIOEXPLORER_RENDERER_PROPERTY_FAR_PLANE.name.c_str(), BIOEXPLORER_DEFAULT_RENDERER_FAR_PLANE);
+    _rayStep = getParam1f(BIOEXPLORER_RENDERER_PROPERTY_RAY_STEP.name.c_str(), BIOEXPLORER_DEFAULT_RENDERER_RAY_STEP);
     _samplesPerFrame = getParam1i(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_SAMPLES.name.c_str(),
                                   DEFAULT_RENDERER_GLOBAL_ILLUMINATION_RAY_LENGTH);
     _searchLength = getParam1f(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_STRENGTH.name.c_str(),
@@ -65,9 +57,9 @@ void DensityRenderer::commit()
     if (transferFunction)
         ::ispc::DensityRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 
-    // Renderer
     ::ispc::DensityRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _farPlane,
-                                _searchLength, _rayStep, _samplesPerFrame, _exposure, _alphaCorrection);
+                                _searchLength, _rayStep, _samplesPerFrame, _exposure, _alphaCorrection,
+                                _anaglyphEnabled, (ispc::vec3f&)_anaglyphIpdOffset);
 }
 
 DensityRenderer::DensityRenderer()

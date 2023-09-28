@@ -57,14 +57,13 @@ void ProximityDetectionRenderer::commit()
     _surfaceShadingEnabled =
         bool(getParam1i(SONATA_RENDERER_PROPERTY_PROXIMITY_DETECTION_SURFACE_SHADING_ENABLED.name.c_str(),
                         SONATA_DEFAULT_RENDERER_PROXIMITY_DETECTION_SURFACE_SHADING_ENABLED));
-    _randomNumber = getParam1i(core::RENDERER_PROPERTY_RANDOM_NUMBER, 0);
     _alphaCorrection = getParam1f(RENDERER_PROPERTY_ALPHA_CORRECTION.name.c_str(), DEFAULT_RENDERER_ALPHA_CORRECTION);
-
     ::ispc::ProximityDetectionRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr),
                                            (ispc::vec3f&)_nearColor, (ispc::vec3f&)_farColor, _detectionDistance,
                                            _detectionOnDifferentMaterial, _randomNumber, _timestamp, spp,
                                            _surfaceShadingEnabled, _lightPtr, _lightArray.size(), _alphaCorrection,
-                                           _maxBounces, _exposure, _useHardwareRandomizer);
+                                           _maxRayDepth, _exposure, _useHardwareRandomizer, _anaglyphEnabled,
+                                           (ispc::vec3f&)_anaglyphIpdOffset);
 }
 
 ProximityDetectionRenderer::ProximityDetectionRenderer()

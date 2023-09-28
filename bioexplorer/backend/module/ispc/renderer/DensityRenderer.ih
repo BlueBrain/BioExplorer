@@ -21,24 +21,14 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.ih>
-#include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
-
-#include <ospray/SDK/camera/PerspectiveCamera.ih>
-#include <ospray/SDK/common/Model.ih>
-#include <ospray/SDK/fb/FrameBuffer.ih>
-#include <ospray/SDK/lights/Light.ih>
-#include <ospray/SDK/render/Renderer.ih>
-#include <ospray/SDK/texture/Texture2D.ih>
+#include <platform/engines/ospray/ispc/render/utils/AbstractRenderer.ih>
 
 struct DensityRenderer
 {
-    Renderer super;
+    AbstractRenderer super;
 
-    AdvancedMaterial* bgMaterial;
     const uniform TransferFunction* uniform transferFunction;
     float exposure;
-    float timestamp;
     float farPlane;
     float searchLength;
     float rayStep;

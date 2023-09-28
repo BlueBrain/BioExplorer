@@ -20,6 +20,7 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
 #include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.ih>
 #include <platform/engines/ospray/ispc/render/utils/RendererUtils.ih>
 #include <platform/engines/ospray/ispc/render/utils/SimulationRenderer.ih>
@@ -59,7 +60,7 @@ inline vec3f ProximityDetectionRenderer_shadeRay(const uniform ProximityDetectio
             vec4f bgColor = skyboxMapping((Renderer*)self, ray, (AdvancedMaterial*)self->super.super.bgMaterial);
             bgColor.w = 1.f;
             composite(bgColor, color, self->alphaCorrection);
-            return make_vec3f(color) * self->super.exposure;
+            return make_vec3f(color) * self->super.super.exposure;
         }
 
         sample.alpha = 1.f;
@@ -186,7 +187,7 @@ inline vec3f ProximityDetectionRenderer_shadeRay(const uniform ProximityDetectio
         ++depth;
     }
 
-    return make_vec3f(color) * self->super.exposure;
+    return make_vec3f(color) * self->super.super.exposure;
 }
 
 void ProximityDetectionRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
@@ -194,7 +195,22 @@ void ProximityDetectionRenderer_renderSample(uniform Renderer* uniform _self, vo
 {
     uniform ProximityDetectionRenderer* uniform self = (uniform ProximityDetectionRenderer * uniform) _self;
     sample.ray.time = self->super.super.timestamp;
-    sample.rgb = ProximityDetectionRenderer_shadeRay(self, sample);
+    if (self->super.super.anaglyphEnabled)
+    {
+        ScreenSample s = sample;
+        s.ray.org = s.ray.org - self->super.super.anaglyphIpdOffset;
+        const vec3f colorLeft = ProximityDetectionRenderer_shadeRay(self, s);
+        const vec3f leftAnaglyphColor = getAnaglyphLeftColor(colorLeft);
+
+        s = sample;
+        s.ray.org = s.ray.org + self->super.super.anaglyphIpdOffset;
+        const vec3f colorRight = ProximityDetectionRenderer_shadeRay(self, s);
+        const vec3f rightAnaglyphColor = getAnaglyphRightColor(colorRight);
+
+        sample.rgb = leftAnaglyphColor + rightAnaglyphColor;
+    }
+    else
+        sample.rgb = ProximityDetectionRenderer_shadeRay(self, sample);
 }
 
 // Exports (called from C++)
@@ -215,7 +231,8 @@ export void ProximityDetectionRenderer_set(void* uniform _self, void* uniform bg
                                            const uniform uint32 spp, const uniform bool surfaceShadingEnabled,
                                            void** uniform lights, uniform uint32 numLights,
                                            const uniform float alphaCorrection, const uniform uint32 maxRayDepth,
-                                           const uniform float exposure, const uniform bool useHardwareRandomizer)
+                                           const uniform float exposure, const uniform bool useHardwareRandomizer,
+                                           const uniform bool anaglyphEnabled, const uniform vec3f& anaglyphIpdOffset)
 {
     uniform ProximityDetectionRenderer* uniform self = (uniform ProximityDetectionRenderer * uniform) _self;
 
@@ -223,14 +240,16 @@ export void ProximityDetectionRenderer_set(void* uniform _self, void* uniform bg
     self->super.super.super.spp = spp;
 
     // Abstract Renderer
+    self->super.super.anaglyphEnabled = anaglyphEnabled;
+    self->super.super.anaglyphIpdOffset = anaglyphIpdOffset;
     self->super.super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
     self->super.super.lights = (const uniform Light* uniform* uniform)lights;
     self->super.super.numLights = numLights;
     self->super.super.timestamp = timestamp;
+    self->super.super.exposure = exposure;
 
     // Simulation renderer
     self->super.maxRayDepth = maxRayDepth;
-    self->super.exposure = exposure;
     self->super.useHardwareRandomizer = useHardwareRandomizer;
     self->super.randomNumber = randomNumber;
 

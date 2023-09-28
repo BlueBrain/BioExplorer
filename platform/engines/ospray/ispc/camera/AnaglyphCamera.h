@@ -23,51 +23,54 @@
 
 #pragma once
 
-#include <science/common/Properties.h>
+#include "camera/Camera.h"
 
-#include <platform/engines/ospray/ispc/render/utils/AbstractRenderer.h>
+#include <platform/core/common/CommonTypes.h>
+#include <platform/core/common/Properties.h>
 
-namespace bioexplorer
+namespace core
 {
-namespace rendering
+namespace engine
 {
-
-/**
- * @brief The DensityRenderer class allows visualization of atom density in the
- * 3D scene
- */
-class DensityRenderer : public ::core::engine::ospray::AbstractRenderer
+namespace ospray
 {
-public:
+struct OSPRAY_SDK_INTERFACE AnaglyphCamera : public ::ospray::Camera
+{
     /**
-     * @brief Construct a new Bio Explorer Density Renderer object
+     * @brief Construct a new Perspective Stereo Camera object
      *
      */
-    DensityRenderer();
+    AnaglyphCamera();
 
     /**
-     * @brief Returns the class name as a string
+     * @brief Returns the name of the camera
      *
-     * @return A string containing the name of the object in the OSPRay context
+     * @return std::string The name of the camera
      */
-    std::string toString() const final { return RENDERER_DENSITY; }
+    virtual std::string toString() const { return CAMERA_PROPERTY_TYPE_PERSPECTIVE; }
 
     /**
      * @brief Commit the changes to the OSPRay engine
      *
      */
-    void commit() final;
+    virtual void commit();
 
-private:
-    // Shading attributes
-    double _exposure{1.f};
+public:
+    double fieldOfView;
+    double aspect;
+    double apertureRadius;
+    double focalDistance;
+    bool architectural;
 
-    double _alphaCorrection{1.f};
+    // Clip planes
+    bool enableClippingPlanes{false};
+    ::ospray::Ref<::ospray::Data> clipPlanes;
 
-    double _rayStep;
-    double _searchLength;
-    double _farPlane;
-    ::ospray::uint32 _samplesPerFrame;
+    // Stereo
+    double interpupillaryDistance;
+
+    bool useHardwareRandomizer{false};
 };
-} // namespace rendering
-} // namespace bioexplorer
+} // namespace ospray
+} // namespace engine
+} // namespace core

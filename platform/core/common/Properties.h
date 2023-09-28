@@ -80,7 +80,6 @@ static const char* RENDERER_PROPERTY_SECONDARY_MODEL = "secondaryModel";
 static const char* RENDERER_PROPERTY_TRANSFER_FUNCTION = "transferFunction";
 static const char* RENDERER_PROPERTY_BACKGROUND_MATERIAL = "bgMaterial";
 static const char* RENDERER_PROPERTY_LIGHTS = "lights";
-static const char* RENDERER_PROPERTY_TIMESTAMP = "timestamp";
 static const char* RENDERER_PROPERTY_RANDOM_NUMBER = "randomNumber";
 
 static constexpr bool DEFAULT_RENDERER_SHOW_BACKGROUND = true;
@@ -99,6 +98,7 @@ static constexpr double DEFAULT_RENDERER_ALPHA_CORRECTION = 1.0;
 static constexpr double DEFAULT_RENDERER_MAX_DISTANCE_TO_SECONDARY_MODEL = 30.0;
 static constexpr double DEFAULT_RENDERER_TIMESTAMP = 0.0;
 
+static const Property RENDERER_PROPERTY_TIMESTAMP = {"timestamp", 0.0, 0.0, 1e6, {"Timestamp"}};
 static const Property RENDERER_PROPERTY_SHOW_BACKGROUND = {"showBackground", true, {"Show background"}};
 static const Property RENDERER_PROPERTY_MAX_RAY_DEPTH = {
     "maxRayDepth", DEFAULT_RENDERER_MAX_RAY_DEPTH, 1, 30, {"Maximum ray depth"}};

@@ -23,11 +23,12 @@
 
 #include "AdvancedRenderer.ih"
 
-#include "utils/AdvancedMaterial.ih"
-#include "utils/Consts.ih"
-#include "utils/RandomGenerator.ih"
-#include "utils/RendererUtils.ih"
-#include "utils/SkyBox.ih"
+#include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
+#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.ih>
+#include <platform/engines/ospray/ispc/render/utils/Consts.ih>
+#include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
+#include <platform/engines/ospray/ispc/render/utils/RendererUtils.ih>
+#include <platform/engines/ospray/ispc/render/utils/SkyBox.ih>
 
 #include <platform/core/common/CommonTypes.h>
 
@@ -431,8 +432,8 @@ inline float getVolumeShadowContributions(Volume* uniform volume, const uniform 
     lightRay.geomID = -1;
 
     if (self->softShadowStrength > 0.f)
-        lightRay.dir =
-            normalize(lightSample.dir + self->softShadowStrength * getRandomVector(self->super.useHardwareRandomizer,
+        lightRay.dir = normalize(lightSample.dir +
+                                 self->softShadowStrength * getRandomVector(self->super.useHardwareRandomizer,
                                                                             self->super.super.super.fb->size.x, sample,
                                                                             lightSample.dir, self->super.randomNumber));
     else
@@ -974,7 +975,7 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
 
     vec4f color = make_vec4f(0.f);
     vec3f bgColor = make_vec3f(0.f);
-    if (self->super.showBackground)
+    if (self->super.super.showBackground)
         bgColor = make_vec3f(skyboxMapping((Renderer*)self, ray, (AdvancedMaterial*)self->super.super.bgMaterial));
 
     uint32 depth = 0;
@@ -1007,7 +1008,7 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
             totalOpacity += attributes.volumeIntensity;
 
             // Background
-            if (self->super.showBackground)
+            if (self->super.super.showBackground)
             {
                 processBackgroundColor(sample, ray, attributes);
                 bgColor = make_vec3f(attributes.bgColor);
@@ -1122,7 +1123,7 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
 
     // Final color
     sample.alpha = min(1.f, color.w);
-    vec3f finalColor = (make_vec3f(color) * (1.f - fog) + fog * bgColor) * self->super.exposure;
+    vec3f finalColor = (make_vec3f(color) * (1.f - fog) + fog * bgColor) * self->super.super.exposure;
 
     if (self->matrixFilter)
         finalColor = make_vec3f(finalColor.x * 0.666f, finalColor.y * 0.8f, finalColor.z * 0.666f);
@@ -1135,8 +1136,23 @@ void AdvancedRenderer_renderSample(uniform Renderer* uniform _self, void* unifor
                                    varying ScreenSample& sample)
 {
     uniform AdvancedRenderer* uniform self = (uniform AdvancedRenderer * uniform) _self;
-    sample.ray.time = inf;
-    sample.rgb = AdvancedRenderer_shadeRay(self, sample);
+    sample.ray.time = self->super.super.timestamp;
+    if (self->super.super.anaglyphEnabled)
+    {
+        ScreenSample s = sample;
+        s.ray.org = s.ray.org - self->super.super.anaglyphIpdOffset;
+        const vec3f colorLeft = AdvancedRenderer_shadeRay(self, s);
+        const vec3f leftAnaglyphColor = getAnaglyphLeftColor(colorLeft);
+
+        s = sample;
+        s.ray.org = s.ray.org + self->super.super.anaglyphIpdOffset;
+        const vec3f colorRight = AdvancedRenderer_shadeRay(self, s);
+        const vec3f rightAnaglyphColor = getAnaglyphRightColor(colorRight);
+
+        sample.rgb = leftAnaglyphColor + rightAnaglyphColor;
+    }
+    else
+        sample.rgb = AdvancedRenderer_shadeRay(self, sample);
 }
 
 // Exports (called from C++)
@@ -1148,16 +1164,20 @@ export void* uniform AdvancedRenderer_create(void* uniform cppE)
     return self;
 }
 
-export void AdvancedRenderer_set(
-    void* uniform _self, void* uniform bgMaterial, const uniform float shadowIntensity, const uniform float softShadowStrength,
-    const uniform uint32 shadowSamples, const uniform float giStrength, const uniform float giRayLength,
-    const uniform uint32 giSamples, const uniform uint32 randomNumber, const uniform float timestamp,
-    const uniform uint32 spp, void** uniform lights, const uniform uint32 numLights, const uniform float exposure,
-    const uniform float epsilonMultiplier, const uniform float fogThickness, const uniform float fogStart,
-    const uniform bool useHardwareRandomizer, const uniform uint32 maxRayDepth, const uniform bool showBackground,
-    const uniform bool matrixFilter, uniform float* uniform simulationData, const uniform uint64 simulationDataSize,
-    const uniform float volumeSamplingThreshold, const uniform float volumeSpecularExponent,
-    const uniform float volumeAlphaCorrection, const uniform vec4f clipPlanes[], const uniform uint32 numClipPlanes)
+export void AdvancedRenderer_set(void* uniform _self, void* uniform bgMaterial, const uniform float shadowIntensity,
+                                 const uniform float softShadowStrength, const uniform uint32 shadowSamples,
+                                 const uniform float giStrength, const uniform float giRayLength,
+                                 const uniform uint32 giSamples, const uniform uint32 randomNumber,
+                                 const uniform float timestamp, const uniform uint32 spp, void** uniform lights,
+                                 const uniform uint32 numLights, const uniform float exposure,
+                                 const uniform float epsilonMultiplier, const uniform float fogThickness,
+                                 const uniform float fogStart, const uniform bool useHardwareRandomizer,
+                                 const uniform uint32 maxRayDepth, const uniform bool showBackground,
+                                 const uniform bool matrixFilter, uniform float* uniform simulationData,
+                                 const uniform uint64 simulationDataSize, const uniform float volumeSamplingThreshold,
+                                 const uniform float volumeSpecularExponent, const uniform float volumeAlphaCorrection,
+                                 const uniform vec4f clipPlanes[], const uniform uint32 numClipPlanes,
+                                 const uniform bool anaglyphEnabled, const uniform vec3f& anaglyphIpdOffset)
 {
     uniform AdvancedRenderer* uniform self = (uniform AdvancedRenderer * uniform) _self;
 
@@ -1166,11 +1186,13 @@ export void AdvancedRenderer_set(
     self->super.super.timestamp = timestamp;
     self->super.super.lights = (const uniform Light* uniform* uniform)lights;
     self->super.super.numLights = numLights;
+    self->super.super.anaglyphEnabled = anaglyphEnabled;
+    self->super.super.anaglyphIpdOffset = anaglyphIpdOffset;
+    self->super.super.exposure = exposure;
+    self->super.super.showBackground = showBackground;
 
-    self->super.exposure = exposure;
     self->super.epsilonMultiplier = epsilonMultiplier;
     self->super.useHardwareRandomizer = useHardwareRandomizer;
-    self->super.showBackground = showBackground;
     self->super.randomNumber = randomNumber;
     self->super.maxRayDepth = maxRayDepth;
     self->super.simulationData = (uniform float* uniform)simulationData;

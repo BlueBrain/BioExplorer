@@ -25,15 +25,13 @@
 
 #include <science/common/Properties.h>
 
-#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
-
-#include <ospray/SDK/render/Renderer.h>
+#include <platform/engines/ospray/ispc/render/utils/AbstractRenderer.h>
 
 namespace bioexplorer
 {
 namespace rendering
 {
-class GolgiStyleRenderer : public ::ospray::Renderer
+class GolgiStyleRenderer : public ::core::engine::ospray::AbstractRenderer
 {
 public:
     GolgiStyleRenderer();
@@ -46,7 +44,6 @@ public:
     void commit() final;
 
 private:
-    core::engine::ospray::AdvancedMaterial* _bgMaterial{nullptr};
     float _exponent{5.f};
     bool _inverse{false};
 };
