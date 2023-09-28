@@ -35,13 +35,13 @@ namespace rendering
 {
 void GolgiStyleRenderer::commit()
 {
-    Renderer::commit();
+    AbstractRenderer::commit();
     _exponent = getParam1f(BIOEXPLORER_RENDERER_PROPERTY_GOLGI_EXPONENT.name.c_str(),
                            BIOEXPLORER_DEFAULT_RENDERER_GOLGI_EXPONENT);
     _inverse =
         getParam(BIOEXPLORER_RENDERER_PROPERTY_GOLGI_INVERSE.name.c_str(), BIOEXPLORER_DEFAULT_RENDERER_GOLGI_INVERSE);
-
-    ::ispc::GolgiStyleRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _exponent, _inverse);
+    ::ispc::GolgiStyleRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp, _exponent, _inverse,
+                                   _anaglyphEnabled, (ispc::vec3f&)_anaglyphIpdOffset);
 }
 
 GolgiStyleRenderer::GolgiStyleRenderer()

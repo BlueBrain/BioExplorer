@@ -25,9 +25,7 @@
 
 #include <science/common/Properties.h>
 
-#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
-
-#include <ospray/SDK/render/Renderer.h>
+#include <platform/engines/ospray/ispc/render/utils/AbstractRenderer.h>
 
 namespace bioexplorer
 {
@@ -38,7 +36,7 @@ namespace rendering
  * acceleration structure has to be built by the be_build_fields API in order to feed the renderer with the information
  * needed to compute the value of the field for every point in the 3D space
  */
-class FieldsRenderer : public ::ospray::Renderer
+class FieldsRenderer : public ::core::engine::ospray::AbstractRenderer
 {
 public:
     /**
@@ -61,17 +59,9 @@ public:
     void commit() final;
 
 private:
-    // Shading attributes
-    std::vector<void*> _lightArray;
-    void** _lightPtr;
-    ::ospray::Data* _lightData;
-
-    core::engine::ospray::AdvancedMaterial* _bgMaterial;
-
     bool _useHardwareRandomizer{false};
     ::ospray::uint32 _randomNumber{0};
 
-    double _timestamp{0.f};
     double _exposure{1.f};
 
     double _alphaCorrection{1.f};

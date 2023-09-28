@@ -75,7 +75,7 @@ void AdvancedRenderer::commit()
     _fogThickness = getParam1f(RENDERER_PROPERTY_FOG_THICKNESS.name.c_str(), DEFAULT_RENDERER_FOG_THICKNESS);
     _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
     _epsilonFactor = getParam1f(RENDERER_PROPERTY_EPSILON_MULTIPLIER.name.c_str(), DEFAULT_RENDERER_EPSILON_MULTIPLIER);
-    _maxBounces = getParam1i(RENDERER_PROPERTY_MAX_RAY_DEPTH.name.c_str(), DEFAULT_RENDERER_MAX_RAY_DEPTH);
+    _maxRayDepth = getParam1i(RENDERER_PROPERTY_MAX_RAY_DEPTH.name.c_str(), DEFAULT_RENDERER_MAX_RAY_DEPTH);
     _randomNumber = rand() % 1000;
     _useHardwareRandomizer = getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(),
                                       static_cast<int>(DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER));
@@ -105,7 +105,7 @@ void AdvancedRenderer::commit()
     ::ispc::AdvancedRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _shadows, _softShadows,
                                  _softShadowsSamples, _giStrength, _giDistance, _giSamples, _randomNumber, _timestamp,
                                  spp, _lightPtr, _lightArray.size(), _exposure, _epsilonFactor, _fogThickness,
-                                 _fogStart, _useHardwareRandomizer, _maxBounces, _showBackground, _matrixFilter,
+                                 _fogStart, _useHardwareRandomizer, _maxRayDepth, _showBackground, _matrixFilter,
                                  _userData ? (float*)_userData->data : nullptr, _simulationDataSize,
                                  _volumeSamplingThreshold, _volumeSpecularExponent, _volumeAlphaCorrection,
                                  (const ::ispc::vec4f*)clipPlaneData, numClipPlanes, _anaglyphEnabled,

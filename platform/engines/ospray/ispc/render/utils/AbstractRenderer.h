@@ -49,13 +49,15 @@ public:
 
 protected:
     std::vector<void*> _lightArray;
-    void** _lightPtr;
-    ::ospray::Data* _lightData;
-    AdvancedMaterial* _bgMaterial;
+    void** _lightPtr{nullptr};
+    ::ospray::Data* _lightData{nullptr};
+    AdvancedMaterial* _bgMaterial{nullptr};
+    bool _showBackground{false};
+    double _exposure{1.0};
     float _timestamp;
-    bool _useHardwareRandomizer;
-    ::ospray::uint32 _randomNumber;
-    bool _anaglyphEnabled;
+    bool _useHardwareRandomizer{false};
+    ::ospray::uint32 _randomNumber{0};
+    bool _anaglyphEnabled{false};
     ::ospray::vec3f _anaglyphIpdOffset;
 };
 } // namespace ospray

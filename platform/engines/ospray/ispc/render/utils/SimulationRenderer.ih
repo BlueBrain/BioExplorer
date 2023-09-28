@@ -43,8 +43,6 @@ struct SimulationRenderer
     float fogStart;
 
     // Shading
-    float exposure;
-    bool showBackground;
     uint32 maxRayDepth;
 
     // Geometry

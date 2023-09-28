@@ -975,7 +975,7 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
 
     vec4f color = make_vec4f(0.f);
     vec3f bgColor = make_vec3f(0.f);
-    if (self->super.showBackground)
+    if (self->super.super.showBackground)
         bgColor = make_vec3f(skyboxMapping((Renderer*)self, ray, (AdvancedMaterial*)self->super.super.bgMaterial));
 
     uint32 depth = 0;
@@ -1008,7 +1008,7 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
             totalOpacity += attributes.volumeIntensity;
 
             // Background
-            if (self->super.showBackground)
+            if (self->super.super.showBackground)
             {
                 processBackgroundColor(sample, ray, attributes);
                 bgColor = make_vec3f(attributes.bgColor);
@@ -1123,7 +1123,7 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
 
     // Final color
     sample.alpha = min(1.f, color.w);
-    vec3f finalColor = (make_vec3f(color) * (1.f - fog) + fog * bgColor) * self->super.exposure;
+    vec3f finalColor = (make_vec3f(color) * (1.f - fog) + fog * bgColor) * self->super.super.exposure;
 
     if (self->matrixFilter)
         finalColor = make_vec3f(finalColor.x * 0.666f, finalColor.y * 0.8f, finalColor.z * 0.666f);
@@ -1188,11 +1188,11 @@ export void AdvancedRenderer_set(void* uniform _self, void* uniform bgMaterial, 
     self->super.super.numLights = numLights;
     self->super.super.anaglyphEnabled = anaglyphEnabled;
     self->super.super.anaglyphIpdOffset = anaglyphIpdOffset;
+    self->super.super.exposure = exposure;
+    self->super.super.showBackground = showBackground;
 
-    self->super.exposure = exposure;
     self->super.epsilonMultiplier = epsilonMultiplier;
     self->super.useHardwareRandomizer = useHardwareRandomizer;
-    self->super.showBackground = showBackground;
     self->super.randomNumber = randomNumber;
     self->super.maxRayDepth = maxRayDepth;
     self->super.simulationData = (uniform float* uniform)simulationData;

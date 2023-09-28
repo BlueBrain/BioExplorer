@@ -239,7 +239,7 @@ inline vec3f BlackHoleRenderer_shadeRay(const uniform BlackHoleRenderer* uniform
     if (outCol.x == 100.f)
         outCol = make_vec4f(make_vec3f(col) + make_vec3f(glow) * (col.w + glow.w), 1.f);
 
-    return clamp(make_vec3f(outCol * self->exposure), make_vec3f(0.f), make_vec3f(1.f));
+    return clamp(make_vec3f(outCol * self->super.exposure), make_vec3f(0.f), make_vec3f(1.f));
 }
 
 void BlackHoleRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
@@ -282,14 +282,14 @@ export void BlackHoleRenderer_set(void* uniform _self, void* uniform bgMaterial,
 {
     uniform BlackHoleRenderer* uniform self = (uniform BlackHoleRenderer * uniform) _self;
 
+    self->super.super.spp = spp;
+
     self->super.anaglyphEnabled = anaglyphEnabled;
     self->super.anaglyphIpdOffset = anaglyphIpdOffset;
     self->super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
-
-    self->super.super.spp = spp;
     self->super.timestamp = timestamp;
+    self->super.exposure = exposure;
 
-    self->exposure = exposure;
     self->nbDisks = nbDisks;
     self->grid = grid;
     self->diskRotationSpeed = diskRotationSpeed;

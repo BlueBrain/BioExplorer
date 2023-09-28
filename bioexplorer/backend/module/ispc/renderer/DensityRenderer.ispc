@@ -23,7 +23,7 @@
 
 #include "DensityRenderer.ih"
 
-#include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
+#include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
 
 #include <ospray/SDK/math/sampling.ih>
 
@@ -54,7 +54,7 @@ inline vec3f DensityRenderer_shadeRay(const uniform DensityRenderer* uniform sel
     }
 
     // init TEA RNG //
-    uniform FrameBuffer* uniform fb = self->super.fb;
+    uniform FrameBuffer* uniform fb = self->super.super.fb;
     RandomTEA rng_state;
     varying RandomTEA* const uniform rng = &rng_state;
     RandomTEA__Constructor(rng, 0x290374, (fb->size.x * sample.sampleID.y) + sample.sampleID.x);
@@ -81,7 +81,7 @@ inline vec3f DensityRenderer_shadeRay(const uniform DensityRenderer* uniform sel
 
             Ray ao_ray;
             setRay(ao_ray, p, ao_dir, 0.f, self->searchLength);
-            if (isOccluded(self->super.model, ao_ray))
+            if (isOccluded(self->super.super.model, ao_ray))
                 ++hits;
         }
 
@@ -111,16 +111,31 @@ void DensityRenderer_renderSample(uniform Renderer* uniform _self, void* uniform
                                   varying ScreenSample& sample)
 {
     uniform DensityRenderer* uniform self = (uniform DensityRenderer * uniform) _self;
-    sample.ray.time = self->timestamp;
-    sample.rgb = DensityRenderer_shadeRay(self, sample);
+    sample.ray.time = self->super.timestamp;
+    if (self->super.anaglyphEnabled)
+    {
+        ScreenSample s = sample;
+        s.ray.org = s.ray.org - self->super.anaglyphIpdOffset;
+        const vec3f colorLeft = DensityRenderer_shadeRay(self, s);
+        const vec3f leftAnaglyphColor = getAnaglyphLeftColor(colorLeft);
+
+        s = sample;
+        s.ray.org = s.ray.org + self->super.anaglyphIpdOffset;
+        const vec3f colorRight = DensityRenderer_shadeRay(self, s);
+        const vec3f rightAnaglyphColor = getAnaglyphRightColor(colorRight);
+
+        sample.rgb = leftAnaglyphColor + rightAnaglyphColor;
+    }
+    else
+        sample.rgb = DensityRenderer_shadeRay(self, sample);
 }
 
 // Exports (called from C++)
 export void* uniform DensityRenderer_create(void* uniform cppE)
 {
     uniform DensityRenderer* uniform self = uniform new uniform DensityRenderer;
-    Renderer_Constructor(&self->super, cppE);
-    self->super.renderSample = DensityRenderer_renderSample;
+    Renderer_Constructor(&self->super.super, cppE);
+    self->super.super.renderSample = DensityRenderer_renderSample;
     return self;
 }
 
@@ -128,17 +143,21 @@ export void DensityRenderer_set(void* uniform _self, void* uniform bgMaterial, c
                                 const uniform int& spp, const uniform float& farPlane,
                                 const uniform float& searchLength, const uniform float& rayStep,
                                 const uniform int32& samplesPerFrame, const uniform float& exposure,
-                                const uniform float& alphaCorrection)
+                                const uniform float& alphaCorrection, const uniform bool anaglyphEnabled,
+                                const uniform vec3f& anaglyphIpdOffset)
 {
     uniform DensityRenderer* uniform self = (uniform DensityRenderer * uniform) _self;
 
     // OSPRay
-    self->super.spp = spp;
+    self->super.super.spp = spp;
 
-    // Bio explorer
-    self->bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
+    // Abstract
+    self->super.anaglyphEnabled = anaglyphEnabled;
+    self->super.anaglyphIpdOffset = anaglyphIpdOffset;
+    self->super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.timestamp = timestamp;
 
-    self->timestamp = timestamp;
+    // Density
     self->exposure = exposure;
 
     self->rayStep = rayStep;

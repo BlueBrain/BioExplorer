@@ -41,7 +41,7 @@ void VoxelRenderer::commit()
 
     ::ispc::VoxelRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), spp,
                               (_userData ? (float*)_userData->data : nullptr), _simulationDataSize, _alphaCorrection,
-                              _simulationThreshold, _exposure);
+                              _simulationThreshold, _exposure, _anaglyphEnabled, (ispc::vec3f&)_anaglyphIpdOffset);
 }
 
 VoxelRenderer::VoxelRenderer()

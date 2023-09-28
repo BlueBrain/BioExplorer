@@ -25,9 +25,7 @@
 
 #include <science/common/Properties.h>
 
-#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.h>
-
-#include <ospray/SDK/render/Renderer.h>
+#include <platform/engines/ospray/ispc/render/utils/AbstractRenderer.h>
 
 namespace bioexplorer
 {
@@ -38,7 +36,7 @@ namespace rendering
  * @brief The DensityRenderer class allows visualization of atom density in the
  * 3D scene
  */
-class DensityRenderer : public ::ospray::Renderer
+class DensityRenderer : public ::core::engine::ospray::AbstractRenderer
 {
 public:
     /**
@@ -62,13 +60,6 @@ public:
 
 private:
     // Shading attributes
-    std::vector<void*> _lightArray;
-    void** _lightPtr;
-    ::ospray::Data* _lightData;
-
-    core::engine::ospray::AdvancedMaterial* _bgMaterial;
-
-    double _timestamp{0.f};
     double _exposure{1.f};
 
     double _alphaCorrection{1.f};

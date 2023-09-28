@@ -171,15 +171,15 @@ void _addBioExplorerDensityRenderer(Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_DENSITY);
     PropertyMap properties;
-    properties.setProperty({"rayStep", 2.0, 1.0, 1024.0, {"Ray marching step"}});
     properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_SAMPLES);
     properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_STRENGTH);
-    properties.setProperty({"farPlane", 1000.0, 1.0, 1e6, {"Far plane"}});
     properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
     const auto &params = engine.getParametersManager().getApplicationParameters();
     const auto &engineName = params.getEngine();
     if (engineName == ENGINE_OSPRAY)
         properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_RAY_STEP);
+    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FAR_PLANE);
     engine.addRendererType(RENDERER_DENSITY, properties);
 }
 
@@ -190,6 +190,7 @@ void _addBioExplorerPathTracingRenderer(Engine &engine)
     properties.setProperty(RENDERER_PROPERTY_SHOW_BACKGROUND);
     properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_STRENGTH);
     properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH);
+    properties.setProperty(RENDERER_PROPERTY_MAX_RAY_DEPTH);
     const auto &params = engine.getParametersManager().getApplicationParameters();
     const auto &engineName = params.getEngine();
     if (engineName == ENGINE_OSPRAY)

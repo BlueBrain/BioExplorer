@@ -23,7 +23,7 @@
 
 #include "FieldsRenderer.ih"
 
-#include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
+#include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
 
 const float EPSILON = 1e-6f;
 
@@ -135,16 +135,31 @@ void FieldsRenderer_renderSample(uniform Renderer* uniform _self, void* uniform 
                                  varying ScreenSample& sample)
 {
     uniform FieldsRenderer* uniform self = (uniform FieldsRenderer * uniform) _self;
-    sample.ray.time = self->timestamp;
-    sample.rgb = FieldsRenderer_shadeRay(self, sample);
+    sample.ray.time = self->super.timestamp;
+    if (self->super.anaglyphEnabled)
+    {
+        ScreenSample s = sample;
+        s.ray.org = s.ray.org - self->super.anaglyphIpdOffset;
+        const vec3f colorLeft = FieldsRenderer_shadeRay(self, s);
+        const vec3f leftAnaglyphColor = getAnaglyphLeftColor(colorLeft);
+
+        s = sample;
+        s.ray.org = s.ray.org + self->super.anaglyphIpdOffset;
+        const vec3f colorRight = FieldsRenderer_shadeRay(self, s);
+        const vec3f rightAnaglyphColor = getAnaglyphRightColor(colorRight);
+
+        sample.rgb = leftAnaglyphColor + rightAnaglyphColor;
+    }
+    else
+        sample.rgb = FieldsRenderer_shadeRay(self, sample);
 }
 
 // Exports (called from C++)
 export void* uniform FieldsRenderer_create(void* uniform cppE)
 {
     uniform FieldsRenderer* uniform self = uniform new uniform FieldsRenderer;
-    Renderer_Constructor(&self->super, cppE);
-    self->super.renderSample = FieldsRenderer_renderSample;
+    Renderer_Constructor(&self->super.super, cppE);
+    self->super.super.renderSample = FieldsRenderer_renderSample;
     return self;
 }
 
@@ -154,20 +169,23 @@ export void FieldsRenderer_set(void* uniform _self, void* uniform bgMaterial, un
                                const uniform int32 numLights, const uniform float& minRayStep,
                                const uniform int32& nbRaySteps, const uniform int32& nbRayRefinementSteps,
                                const uniform float& exposure, const uniform bool& useHardwareRandomizer,
-                               const uniform float& cutoff, const uniform float& alphaCorrection)
+                               const uniform float& cutoff, const uniform float& alphaCorrection,
+                               const uniform bool anaglyphEnabled, const uniform vec3f& anaglyphIpdOffset)
 {
     uniform FieldsRenderer* uniform self = (uniform FieldsRenderer * uniform) _self;
 
     // OSPRay
-    self->super.spp = spp;
+    self->super.super.spp = spp;
 
-    self->lights = (const uniform Light* uniform* uniform)lights;
-    self->numLights = numLights;
+    // Abstract
+    self->super.anaglyphEnabled = anaglyphEnabled;
+    self->super.anaglyphIpdOffset = anaglyphIpdOffset;
+    self->super.lights = (const uniform Light* uniform* uniform)lights;
+    self->super.numLights = numLights;
+    self->super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
+    self->super.timestamp = timestamp;
 
-    // Bio explorer
-    self->bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
-
-    self->timestamp = timestamp;
+    // Fields
     self->exposure = exposure;
     self->useHardwareRandomizer = useHardwareRandomizer;
 

@@ -25,16 +25,10 @@
 
 #include <platform/engines/ospray/ispc/render/utils/AbstractRenderer.ih>
 
-// ospray
-#include <ospray/SDK/common/Model.ih>
-#include <ospray/SDK/render/Renderer.ih>
-
 struct BlackHoleRenderer
 {
     AbstractRenderer super;
 
-    // Rendering attributes
-    float exposure;
     uint32 nbDisks;
     bool grid;
     float diskRotationSpeed;

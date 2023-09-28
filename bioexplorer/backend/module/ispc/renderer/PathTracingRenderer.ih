@@ -27,10 +27,6 @@ struct PathTracingRenderer
 {
     SimulationRenderer super;
 
-    // Rendering attributes
-    const uniform Light* uniform* uniform lights;
-    uint32 numLights;
-
     float aoWeight;
     float aoDistance;
 };

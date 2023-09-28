@@ -43,12 +43,12 @@
 #include <platform/engines/optix6/OptiXProperties.h>
 #endif
 
+using namespace core;
+
 namespace spaceexplorer
 {
 namespace blackhole
 {
-using namespace core;
-
 static const std::string PLUGIN_API_PREFIX = "bh-";
 static const std::string RENDERER_BLACK_HOLE = "blackhole";
 
@@ -68,7 +68,7 @@ void _addBlackHoleRenderer(Engine &engine)
     properties.setProperty(COMMON_PROPERTY_EXPOSURE);
     properties.setProperty(BLACK_HOLE_RENDERER_PROPERTY_NB_DISKS);
     properties.setProperty(BLACK_HOLE_RENDERER_PROPERTY_DISPLAY_GRID);
-    properties.setProperty(BLACK_HOLE_RENDERER_PROPERTY_TIMESTAMP);
+    properties.setProperty(RENDERER_PROPERTY_TIMESTAMP);
     properties.setProperty(BLACK_HOLE_RENDERER_PROPERTY_DISK_ROTATION_SPEED);
     properties.setProperty(BLACK_HOLE_RENDERER_PROPERTY_DISK_TEXTURE_LAYERS);
     properties.setProperty(BLACK_HOLE_RENDERER_PROPERTY_SIZE);

@@ -213,7 +213,7 @@ inline vec3f CellGrowthRenderer_shadeRay(const uniform CellGrowthRenderer* unifo
         ray.instID = -1;
     }
 
-    return make_vec3f(pathColor) * self->super.exposure;
+    return make_vec3f(pathColor) * self->super.super.exposure;
 }
 
 void CellGrowthRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
@@ -270,13 +270,13 @@ export void CellGrowthRenderer_set(void* uniform _self, void* uniform secondaryM
     self->super.super.bgMaterial = (uniform AdvancedMaterial * uniform) bgMaterial;
     self->super.super.lights = (const uniform Light* uniform* uniform)lights;
     self->super.super.numLights = numLights;
+    self->super.super.exposure = exposure;
 
     // Simulation
     self->super.useHardwareRandomizer = useHardwareRandomizer;
     self->super.secondaryModel = (uniform Model * uniform) secondaryModel;
     self->super.simulationData = (uniform float* uniform)simulationData;
     self->super.simulationDataSize = simulationDataSize;
-    self->super.exposure = exposure;
 
     self->super.fogThickness = fogThickness;
     self->super.fogStart = fogStart;

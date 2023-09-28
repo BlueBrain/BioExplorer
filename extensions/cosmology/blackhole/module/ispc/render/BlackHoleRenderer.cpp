@@ -40,11 +40,8 @@ void BlackHoleRenderer::commit()
 {
     AbstractRenderer::commit();
 
-    _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
     _grid = getParam(BLACK_HOLE_RENDERER_PROPERTY_DISPLAY_GRID.name.c_str(), BLACK_HOLE_DEFAULT_RENDERER_DISPLAY_GRID);
     _nbDisks = getParam1i(BLACK_HOLE_RENDERER_PROPERTY_NB_DISKS.name.c_str(), BLACK_HOLE_DEFAULT_RENDERER_NB_DISKS);
-    _timestamp =
-        getParam1f(BLACK_HOLE_RENDERER_PROPERTY_DISPLAY_GRID.name.c_str(), BLACK_HOLE_DEFAULT_RENDERER_TIMESTAMP);
     _diskRotationSpeed = getParam1f(BLACK_HOLE_RENDERER_PROPERTY_DISK_ROTATION_SPEED.name.c_str(),
                                     BLACK_HOLE_DEFAULT_RENDERER_DISK_ROTATION_SPEED);
     _diskTextureLayers = getParam1i(BLACK_HOLE_RENDERER_PROPERTY_DISK_TEXTURE_LAYERS.name.c_str(),

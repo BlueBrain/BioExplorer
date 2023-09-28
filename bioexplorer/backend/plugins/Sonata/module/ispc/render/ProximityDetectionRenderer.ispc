@@ -60,7 +60,7 @@ inline vec3f ProximityDetectionRenderer_shadeRay(const uniform ProximityDetectio
             vec4f bgColor = skyboxMapping((Renderer*)self, ray, (AdvancedMaterial*)self->super.super.bgMaterial);
             bgColor.w = 1.f;
             composite(bgColor, color, self->alphaCorrection);
-            return make_vec3f(color) * self->super.exposure;
+            return make_vec3f(color) * self->super.super.exposure;
         }
 
         sample.alpha = 1.f;
@@ -187,7 +187,7 @@ inline vec3f ProximityDetectionRenderer_shadeRay(const uniform ProximityDetectio
         ++depth;
     }
 
-    return make_vec3f(color) * self->super.exposure;
+    return make_vec3f(color) * self->super.super.exposure;
 }
 
 void ProximityDetectionRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
@@ -246,10 +246,10 @@ export void ProximityDetectionRenderer_set(void* uniform _self, void* uniform bg
     self->super.super.lights = (const uniform Light* uniform* uniform)lights;
     self->super.super.numLights = numLights;
     self->super.super.timestamp = timestamp;
+    self->super.super.exposure = exposure;
 
     // Simulation renderer
     self->super.maxRayDepth = maxRayDepth;
-    self->super.exposure = exposure;
     self->super.useHardwareRandomizer = useHardwareRandomizer;
     self->super.randomNumber = randomNumber;
 
