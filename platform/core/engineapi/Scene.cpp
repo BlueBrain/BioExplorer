@@ -251,7 +251,7 @@ void Scene::buildDefault()
     CORE_INFO("Building default Cornell Box scene");
 
     auto model = createModel();
-#if 1
+#if 0
     const Vector3f WHITE = {1.f, 1.f, 1.f};
 
     const Vector3f positions[8] = {

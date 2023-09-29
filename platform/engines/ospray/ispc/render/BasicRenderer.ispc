@@ -45,7 +45,7 @@ inline vec3f BasicRenderer_shadeRay(const uniform BasicRenderer* uniform self, v
     if (ray.geomID < 0)
     {
         // No intersection, use environment map or background color
-        const vec4f bgSample = skyboxMapping((Renderer*)self, ray, self->abstract.bgMaterial);
+        vec4f bgSample = skyboxMapping((Renderer*)self, ray, self->abstract.bgMaterial);
         sample.alpha = bgSample.w;
         return make_vec3f(bgSample);
     }

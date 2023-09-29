@@ -39,11 +39,15 @@ namespace ospray
 {
 void AdvancedMaterial::commit()
 {
-    if (ispcEquivalent == nullptr)
+    if (!ispcEquivalent)
         ispcEquivalent = ::ispc::AdvancedMaterial_create(this);
 
-    // Opacity
+// Opacity
+#if 0
     d = getParam1f(MATERIAL_PROPERTY_OPACITY, 1.f);
+#else
+    d = getParam1f("opacity", 1.f);
+#endif
     map_d = (::ospray::Texture2D*)getParamObject(MATERIAL_PROPERTY_MAP_OPACITY, nullptr);
     auto xform_d = getTextureTransform(MATERIAL_PROPERTY_MAP_OPACITY);
 

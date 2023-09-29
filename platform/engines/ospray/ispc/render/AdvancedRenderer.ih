@@ -28,6 +28,7 @@ struct AdvancedRenderer
     SimulationRenderer super;
 
     // Shading
+    bool fastPreview;
     float shadowIntensity;
     float softShadowStrength;
     uint32 shadowSamples;

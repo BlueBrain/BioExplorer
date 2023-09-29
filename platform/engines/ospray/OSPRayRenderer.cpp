@@ -138,6 +138,22 @@ void OSPRayRenderer::commit()
 
     ospSetObject(_renderer, OSPRAY_RENDERER_PROPERTY_CAMERA, _camera->impl());
     ospSetObject(_renderer, OSPRAY_RENDERER_PROPERTY_WORLD, scene->getModel());
+
+    // Clip planes
+    if (!_clipPlanes.empty())
+    {
+        const auto clipPlanes = convertVectorToFloat(_clipPlanes);
+        auto clipPlaneData = ospNewData(clipPlanes.size(), OSP_FLOAT4, clipPlanes.data());
+        ospSetData(_renderer, CAMERA_PROPERTY_CLIPPING_PLANES, clipPlaneData);
+        ospRelease(clipPlaneData);
+    }
+    else
+    {
+        // ospRemoveParam leaks objects, so we set it to null first
+        ospSetData(_renderer, CAMERA_PROPERTY_CLIPPING_PLANES, nullptr);
+        ospRemoveParam(_renderer, CAMERA_PROPERTY_CLIPPING_PLANES);
+    }
+
     ospCommit(_renderer);
 }
 
