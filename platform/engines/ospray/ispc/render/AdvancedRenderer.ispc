@@ -58,8 +58,8 @@ struct ShadingAttributes
     MaterialClippingMode clippingMode;
     vec3f indirectColor;
     float indirectIntensity;
-    vec3f simulationColor;
-    float simulationIntensity;
+    vec3f userDataColor;
+    float userDataIntensity;
     vec3f volumeColor;
     float volumeIntensity;
     vec3f shadingContribution;
@@ -106,8 +106,8 @@ inline void initializeShadingAttributes(const uniform AdvancedRenderer* uniform 
 
     // Simulation contribution
     attributes.castUserData = false;
-    attributes.simulationColor = make_vec3f(0.f);
-    attributes.simulationIntensity = 0.f;
+    attributes.userDataColor = make_vec3f(0.f);
+    attributes.userDataIntensity = 0.f;
 
     // Volume
     attributes.volumeColor = make_vec3f(0.f);
@@ -167,6 +167,9 @@ inline void setGeometryShadingAttributes(const uniform AdvancedRenderer* uniform
     // Model Id
     attributes.nodeId = 0;
 
+    // Update reflected shading normal
+    attributes.reflectedNormal = ray.dir - 2.f * dot(ray.dir, attributes.normal) * attributes.normal;
+
     // Process material attributes
     const uniform Material* material = dg.material;
     const uniform AdvancedMaterial* objMaterial = (const uniform AdvancedMaterial*)material;
@@ -175,9 +178,7 @@ inline void setGeometryShadingAttributes(const uniform AdvancedRenderer* uniform
         // Diffuse color
         attributes.diffuseColor = make_vec3f(dg.color);
 
-        // if no material is defined, localOpacity is stored in the
-        // alpha
-        // component of the RGBA color
+        // if no material is defined, localOpacity is stored in the alpha component of the RGBA color
         attributes.opacity = dg.color.w;
         return;
     }
@@ -263,9 +264,6 @@ inline void setGeometryShadingAttributes(const uniform AdvancedRenderer* uniform
         // Clipping planes
         attributes.clippingMode = mat->clippingMode;
     }
-
-    // Update reflected shading normal
-    attributes.reflectedNormal = ray.dir - 2.f * dot(ray.dir, attributes.normal) * attributes.normal;
 }
 
 inline bool launchRandomRay(const uniform AdvancedRenderer* uniform self, varying ScreenSample& sample,
@@ -282,11 +280,12 @@ inline bool launchRandomRay(const uniform AdvancedRenderer* uniform self, varyin
         // Invert direction of random ray direction is opposite to surface normal
         randomDirection = neg(randomDirection);
 
+    float nearClip = epsilon;
+    float farClip = self->giRayLength;
+
     Ray randomRay;
     randomRay.org = intersection;
     randomRay.dir = randomDirection;
-    randomRay.t0 = epsilon;
-    randomRay.t = self->giRayLength;
     randomRay.time = inf;
     randomRay.primID = -1;
     randomRay.geomID = -1;
@@ -296,6 +295,9 @@ inline bool launchRandomRay(const uniform AdvancedRenderer* uniform self, varyin
     bool hit = false;
     while (moreRebounds)
     {
+        clipRay(self->clipPlanes, self->numClipPlanes, intersection, randomDirection, nearClip, farClip);
+        randomRay.t0 = nearClip;
+        randomRay.t = farClip;
         traceRay(self->super.super.super.model, randomRay);
 
         if (randomRay.geomID < 0)
@@ -342,8 +344,8 @@ inline bool launchRandomRay(const uniform AdvancedRenderer* uniform self, varyin
         else
             moreRebounds = false;
 
-        randomRay.t0 = randomRay.t + self->super.epsilonMultiplier * dg.epsilon;
-        randomRay.t = inf;
+        nearClip = randomRay.t + self->super.epsilonMultiplier * dg.epsilon;
+        farClip = self->giRayLength - randomRay.t;
         randomRay.primID = -1;
         randomRay.geomID = -1;
         randomRay.instID = -1;
@@ -575,7 +577,6 @@ inline float shadedLightIntensity(varying ScreenSample& sample, const varying Ra
     for (uint32 s = 0; s < nbSamples; ++s)
     {
         float shadowIntensity = 0.f;
-
         vec3f ld = lightDirection;
         if (attributes.self->softShadowStrength > 0.f)
             // Slightly alter light direction for Soft shadowIntensity
@@ -587,34 +588,37 @@ inline float shadedLightIntensity(varying ScreenSample& sample, const varying Ra
         if (dot(ld, lightDirection) < 0.f)
             ld = neg(ld);
 
+        float nearClip = attributes.self->super.epsilonMultiplier * dg.epsilon;
+        float farClip = attributes.self->giRayLength;
+
         Ray shadowRay;
         shadowRay.org = dg.P;
         shadowRay.dir = ld;
-        shadowRay.t0 = max(0.f, attributes.self->super.epsilonMultiplier * dg.epsilon);
-        shadowRay.t = attributes.self->giRayLength;
-        shadowRay.time = inf;
+        shadowRay.time = ray.time;
         shadowRay.geomID = -1;
         shadowRay.primID = -1;
         shadowRay.instID = -1;
 
         while (shadowIntensity < 1.f)
         {
+            clipRay(attributes.self->clipPlanes, attributes.self->numClipPlanes, shadowRay.org, shadowRay.dir, nearClip,
+                    farClip);
+
+            shadowRay.t0 = nearClip;
+            shadowRay.t = farClip;
             traceRay(attributes.self->super.super.super.model, shadowRay);
 
-            if (shadowRay.geomID == -1)
+            if (shadowRay.geomID < 0)
                 break;
 
             DifferentialGeometry shadowingGeometry;
-            postIntersect(attributes.self->super.super.super.model, shadowingGeometry, shadowRay,
-                          DG_NG | DG_NS | DG_NORMALIZE | DG_TANGENTS | DG_FACEFORWARD | DG_MATERIALID | DG_COLOR |
-                              DG_TEXCOORD);
+            postIntersect(attributes.self->super.super.super.model, shadowingGeometry, shadowRay, DG_MATERIALID);
 
             if (!isClipped(attributes.self, shadowingGeometry.P, attributes.clippingMode))
             {
                 uniform AdvancedMaterial* objMaterial = (uniform AdvancedMaterial*)shadowingGeometry.material;
 
                 float opacity = 1.f;
-
                 if (objMaterial == 0)
                     opacity = 1.f - shadowingGeometry.color.w;
                 else
@@ -637,18 +641,16 @@ inline float shadedLightIntensity(varying ScreenSample& sample, const varying Ra
                             }
                         }
                     }
-
                 shadowIntensity += opacity;
             }
 
-            shadowRay.t0 = shadowRay.t + shadowingGeometry.epsilon;
-            shadowRay.t = attributes.self->giRayLength - shadowRay.t0;
-            shadowRay.primID = -1;
-            shadowRay.geomID = -1;
-            shadowRay.instID = -1;
+            // Prepare next ray
+            nearClip = shadowRay.t + shadowingGeometry.epsilon;
+            // farClip = attributes.self->giRayLength - shadowRay.t0;
 
-            if (shadowRay.t < 0.f)
-                break;
+            shadowRay.geomID = -1;
+            shadowRay.primID = -1;
+            shadowRay.instID = -1;
         }
         intensity += shadowIntensity;
     }
@@ -914,8 +916,8 @@ inline void processGoodsellShading(const uniform AdvancedRenderer* uniform self,
     attributes.specularColor = make_vec3f(0.f);
 }
 
-inline void processSimulationContribution(varying ScreenSample& sample, ShadingAttributes& attributes,
-                                          const uint32 materialID, const varying uint32 primID)
+inline void processUserDataContribution(varying ScreenSample& sample, ShadingAttributes& attributes,
+                                        const uint32 materialID, const varying uint32 primID)
 {
     if (!attributes.castUserData)
         return;
@@ -923,9 +925,9 @@ inline void processSimulationContribution(varying ScreenSample& sample, ShadingA
     if (!attributes.self->super.simulationData)
         return;
 
-    const vec4f simulationColor = getSimulationValue(&attributes.self->super, attributes.dg, primID);
-    attributes.simulationColor = make_vec3f(simulationColor);
-    attributes.simulationIntensity = simulationColor.w;
+    const vec4f userDataColor = getSimulationValue(&attributes.self->super, attributes.dg, primID);
+    attributes.userDataColor = make_vec3f(userDataColor);
+    attributes.userDataIntensity = userDataColor.w;
 }
 
 inline void processVolumeContribution(varying ScreenSample& sample, varying Ray& ray, ShadingAttributes& attributes,
@@ -944,8 +946,8 @@ inline void processVolumeContribution(varying ScreenSample& sample, varying Ray&
 inline void processFinalContribution(ShadingAttributes& attributes)
 {
     // Surface shading
-    vec3f totalContributions = attributes.simulationColor * attributes.simulationIntensity +
-                               attributes.shadingContribution * (1.f - attributes.simulationIntensity) +
+    vec3f totalContributions = attributes.userDataColor * attributes.userDataIntensity +
+                               attributes.shadingContribution * (1.f - attributes.userDataIntensity) +
                                attributes.specularColor;
 
     // Shadow contribution
@@ -971,18 +973,17 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
 {
     Ray ray = sample.ray;
 
-    float maxt = self->fogStart + self->fogThickness;
-
     vec4f color = make_vec4f(0.f);
     vec3f bgColor = make_vec3f(0.f);
     if (self->super.super.showBackground)
         bgColor = make_vec3f(skyboxMapping((Renderer*)self, ray, (AdvancedMaterial*)self->super.super.bgMaterial));
 
-    uint32 depth = 0;
-    float oldlocalRefraction = 1.f;
+    sample.z = inf;
 
-    sample.z = maxt;
-    ray.t = maxt;
+    uint32 depth = 0;
+    float oldRefraction = 1.f;
+    float nearClip = ray.t0;
+    float farClip = ray.t;
     bool moreRebounds = true;
 
     while (moreRebounds && depth < self->super.maxRayDepth && color.w < 1.f)
@@ -996,6 +997,9 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
         float firstIntersection = inf;
 
         // Trace ray
+        clipRay(attributes.self->clipPlanes, attributes.self->numClipPlanes, ray.org, ray.dir, nearClip, farClip);
+        ray.t0 = nearClip;
+        ray.t = farClip;
         traceRay(self->super.super.super.model, ray);
 
         if (ray.geomID < 0)
@@ -1022,7 +1026,6 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
                           DG_NG | DG_NS | DG_NORMALIZE | DG_TANGENTS | DG_MATERIALID | DG_COLOR | DG_FACEFORWARD |
                               DG_TEXCOORD);
 
-            // Get intersection information
             // Initialize geometry shading attributes
             setGeometryShadingAttributes(self, dg, sample, ray, attributes);
 
@@ -1030,13 +1033,14 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
                 isClipped(self, dg.P, attributes.clippingMode) || attributes.chameleonMode == emitter;
 
             if (discardIntersection)
-                ray.t0 = ray.t + self->super.epsilonMultiplier * dg.epsilon;
+                nearClip = ray.t + self->super.epsilonMultiplier * dg.epsilon;
             else
             {
-                // Compute simulation contribution
-                processSimulationContribution(sample, attributes, dg.materialID, ray.primID);
+                // Compute user data contribution
+                processUserDataContribution(sample, attributes, dg.materialID, ray.primID);
 
-                if (sample.sampleID.z > 0)
+                const bool processIndirectLighting = (self->fastPreview ? (sample.sampleID.z > 0) : true);
+                if (processIndirectLighting)
                     // Compute indirect lighting contribution
                     computeIndirectShading(dg, sample, attributes);
 
@@ -1059,7 +1063,7 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
                     processDiffuseShading(self, dg, sample, ray, attributes);
 
                 // Compute shadowIntensity
-                if (sample.sampleID.z > 0 && self->shadowIntensity > 0.f)
+                if (processIndirectLighting && self->shadowIntensity > 0.f)
                     processShadows(dg, sample, ray, attributes);
 
                 // Compute volume contribution
@@ -1069,7 +1073,7 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
                 if (depth == 0)
                     sample.z = ray.t;
 
-                // Alpha
+                // Opacity
                 totalOpacity += (1.f - attributes.reflection) * attributes.opacity;
 
                 // Prepare ray for next iteration
@@ -1086,8 +1090,8 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
                 if (doRefraction)
                 {
                     // Refraction
-                    ray.dir = refractedVector(ray.dir, attributes.normal, oldlocalRefraction, attributes.refraction);
-                    oldlocalRefraction = attributes.refraction;
+                    ray.dir = refractedVector(ray.dir, attributes.normal, oldRefraction, attributes.refraction);
+                    oldRefraction = attributes.refraction;
                 }
                 else if (doReflection)
                     // Reflection
@@ -1096,13 +1100,11 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
                     moreRebounds = false;
 
                 // Prepare next ray
-                ray.org = dg.P + ray.dir * (self->super.epsilonMultiplier * dg.epsilon);
-                ray.t0 = max(0.f, self->super.epsilonMultiplier * dg.epsilon);
+                ray.org = dg.P + ray.dir * self->super.epsilonMultiplier * dg.epsilon;
+                nearClip = 0.f;
+                farClip = self->fogStart + self->fogThickness;
                 ++depth;
             }
-
-            maxt -= ray.t;
-            ray.t = maxt;
             ray.primID = -1;
             ray.geomID = -1;
             ray.instID = -1;
@@ -1164,20 +1166,18 @@ export void* uniform AdvancedRenderer_create(void* uniform cppE)
     return self;
 }
 
-export void AdvancedRenderer_set(void* uniform _self, void* uniform bgMaterial, const uniform float shadowIntensity,
-                                 const uniform float softShadowStrength, const uniform uint32 shadowSamples,
-                                 const uniform float giStrength, const uniform float giRayLength,
-                                 const uniform uint32 giSamples, const uniform uint32 randomNumber,
-                                 const uniform float timestamp, const uniform uint32 spp, void** uniform lights,
-                                 const uniform uint32 numLights, const uniform float exposure,
-                                 const uniform float epsilonMultiplier, const uniform float fogThickness,
-                                 const uniform float fogStart, const uniform bool useHardwareRandomizer,
-                                 const uniform uint32 maxRayDepth, const uniform bool showBackground,
-                                 const uniform bool matrixFilter, uniform float* uniform simulationData,
-                                 const uniform uint64 simulationDataSize, const uniform float volumeSamplingThreshold,
-                                 const uniform float volumeSpecularExponent, const uniform float volumeAlphaCorrection,
-                                 const uniform vec4f clipPlanes[], const uniform uint32 numClipPlanes,
-                                 const uniform bool anaglyphEnabled, const uniform vec3f& anaglyphIpdOffset)
+export void AdvancedRenderer_set(
+    void* uniform _self, void* uniform bgMaterial, const uniform float shadowIntensity,
+    const uniform float softShadowStrength, const uniform uint32 shadowSamples, const uniform float giStrength,
+    const uniform float giRayLength, const uniform uint32 giSamples, const uniform uint32 randomNumber,
+    const uniform float timestamp, const uniform uint32 spp, void** uniform lights, const uniform uint32 numLights,
+    const uniform float exposure, const uniform float epsilonMultiplier, const uniform float fogThickness,
+    const uniform float fogStart, const uniform bool useHardwareRandomizer, const uniform uint32 maxRayDepth,
+    const uniform bool showBackground, const uniform bool matrixFilter, uniform float* uniform simulationData,
+    const uniform uint64 simulationDataSize, const uniform float volumeSamplingThreshold,
+    const uniform float volumeSpecularExponent, const uniform float volumeAlphaCorrection,
+    const uniform vec4f clipPlanes[], const uniform uint32 numClipPlanes, const uniform bool anaglyphEnabled,
+    const uniform vec3f& anaglyphIpdOffset, const uniform bool fastPreview)
 {
     uniform AdvancedRenderer* uniform self = (uniform AdvancedRenderer * uniform) _self;
 
@@ -1198,6 +1198,7 @@ export void AdvancedRenderer_set(void* uniform _self, void* uniform bgMaterial, 
     self->super.simulationData = (uniform float* uniform)simulationData;
     self->super.simulationDataSize = simulationDataSize;
 
+    self->fastPreview = fastPreview;
     self->fogThickness = fogThickness;
     self->fogStart = fogStart;
     self->shadowIntensity = shadowIntensity;

@@ -145,6 +145,7 @@ void OSPRayEngine::_createRenderers()
     {
         PLUGIN_INFO("Registering '" << RENDERER_PROPERTY_TYPE_ADVANCED << "' renderer");
         PropertyMap properties;
+        properties.setProperty(RENDERER_PROPERTY_FAST_PREVIEW);
         properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
         properties.setProperty(RENDERER_PROPERTY_MAX_DISTANCE_TO_SECONDARY_MODEL);
         properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH);
@@ -177,8 +178,10 @@ void OSPRayEngine::_createRenderers()
         properties.setProperty(OSPRAY_RENDERER_SHADOW_ENABLED);
         addRendererType(RENDERER_PROPERTY_TYPE_SCIVIS, properties);
     }
-    PLUGIN_INFO("Registering '" << RENDERER_PROPERTY_TYPE_BASIC << "' renderer");
-    addRendererType(RENDERER_PROPERTY_TYPE_BASIC);
+    {
+        PLUGIN_INFO("Registering '" << RENDERER_PROPERTY_TYPE_BASIC << "' renderer");
+        addRendererType(RENDERER_PROPERTY_TYPE_BASIC);
+    }
 }
 
 FrameBufferPtr OSPRayEngine::createFrameBuffer(const std::string& name, const Vector2ui& frameSize,

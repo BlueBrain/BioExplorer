@@ -70,16 +70,8 @@ void AdvancedRenderer::commit()
 {
     SimulationRenderer::commit();
 
+    _fastPreview = getParam(RENDERER_PROPERTY_FAST_PREVIEW.name.c_str(), DEFAULT_RENDERER_FAST_PREVIEW);
     _alphaCorrection = getParam1f(RENDERER_PROPERTY_ALPHA_CORRECTION.name.c_str(), DEFAULT_RENDERER_ALPHA_CORRECTION);
-    _fogStart = getParam1f(RENDERER_PROPERTY_FOG_START.name.c_str(), DEFAULT_RENDERER_FOG_START);
-    _fogThickness = getParam1f(RENDERER_PROPERTY_FOG_THICKNESS.name.c_str(), DEFAULT_RENDERER_FOG_THICKNESS);
-    _exposure = getParam1f(COMMON_PROPERTY_EXPOSURE.name.c_str(), DEFAULT_COMMON_EXPOSURE);
-    _epsilonFactor = getParam1f(RENDERER_PROPERTY_EPSILON_MULTIPLIER.name.c_str(), DEFAULT_RENDERER_EPSILON_MULTIPLIER);
-    _maxRayDepth = getParam1i(RENDERER_PROPERTY_MAX_RAY_DEPTH.name.c_str(), DEFAULT_RENDERER_MAX_RAY_DEPTH);
-    _randomNumber = rand() % 1000;
-    _useHardwareRandomizer = getParam(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER.name.c_str(),
-                                      static_cast<int>(DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER));
-    _showBackground = getParam(RENDERER_PROPERTY_SHOW_BACKGROUND.name.c_str(), DEFAULT_RENDERER_SHOW_BACKGROUND);
     _shadows = getParam1f(RENDERER_PROPERTY_SHADOW_INTENSITY.name.c_str(), DEFAULT_RENDERER_SHADOW_INTENSITY);
     _softShadows =
         getParam1f(RENDERER_PROPERTY_SOFT_SHADOW_STRENGTH.name.c_str(), DEFAULT_RENDERER_SOFT_SHADOW_STRENGTH);
@@ -101,7 +93,6 @@ void AdvancedRenderer::commit()
     clipPlanes = getParamData(CAMERA_PROPERTY_CLIPPING_PLANES, nullptr);
     const auto clipPlaneData = clipPlanes ? clipPlanes->data : nullptr;
     const uint32 numClipPlanes = clipPlanes ? clipPlanes->numItems : 0;
-
     ::ispc::AdvancedRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _shadows, _softShadows,
                                  _softShadowsSamples, _giStrength, _giDistance, _giSamples, _randomNumber, _timestamp,
                                  spp, _lightPtr, _lightArray.size(), _exposure, _epsilonFactor, _fogThickness,
@@ -109,7 +100,7 @@ void AdvancedRenderer::commit()
                                  _userData ? (float*)_userData->data : nullptr, _simulationDataSize,
                                  _volumeSamplingThreshold, _volumeSpecularExponent, _volumeAlphaCorrection,
                                  (const ::ispc::vec4f*)clipPlaneData, numClipPlanes, _anaglyphEnabled,
-                                 (ispc::vec3f&)_anaglyphIpdOffset);
+                                 (ispc::vec3f&)_anaglyphIpdOffset, _fastPreview);
 }
 
 AdvancedRenderer::AdvancedRenderer()

@@ -82,6 +82,7 @@ static const char* RENDERER_PROPERTY_BACKGROUND_MATERIAL = "bgMaterial";
 static const char* RENDERER_PROPERTY_LIGHTS = "lights";
 static const char* RENDERER_PROPERTY_RANDOM_NUMBER = "randomNumber";
 
+static constexpr bool DEFAULT_RENDERER_FAST_PREVIEW = false;
 static constexpr bool DEFAULT_RENDERER_SHOW_BACKGROUND = true;
 static constexpr int DEFAULT_RENDERER_MAX_RAY_DEPTH = 3;
 static constexpr double DEFAULT_RENDERER_SHADOW_INTENSITY = 0.0;
@@ -130,6 +131,7 @@ static const Property RENDERER_PROPERTY_MAX_DISTANCE_TO_SECONDARY_MODEL = {
     0.1,
     100.0,
     {"Maximum distance to secondary model"}};
+static const Property RENDERER_PROPERTY_FAST_PREVIEW = {"fastPreview", DEFAULT_RENDERER_FAST_PREVIEW, {"Fast preview"}};
 
 /*
 Material properties

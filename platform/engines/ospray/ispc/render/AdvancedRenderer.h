@@ -60,6 +60,7 @@ public:
 
 private:
     // Shading
+    bool _fastPreview{false};
     double _shadows{0.f};
     double _softShadows{0.f};
     ::ospray::uint32 _softShadowsSamples{1};

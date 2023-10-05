@@ -67,7 +67,12 @@ void OSPRayMaterial::commit()
     osphelper::set(_ospMaterial, MATERIAL_PROPERTY_DIFFUSE_COLOR, Vector3f(_diffuseColor));
     osphelper::set(_ospMaterial, MATERIAL_PROPERTY_SPECULAR_COLOR, Vector3f(_specularColor));
     osphelper::set(_ospMaterial, MATERIAL_PROPERTY_SPECULAR_INDEX, static_cast<float>(_specularExponent));
+#if 0
+    // For some unknown reason, this simply does not work!?!
     osphelper::set(_ospMaterial, MATERIAL_PROPERTY_OPACITY, static_cast<float>(_opacity));
+#else
+    osphelper::set(_ospMaterial, "opacity", static_cast<float>(_opacity));
+#endif
     osphelper::set(_ospMaterial, MATERIAL_PROPERTY_REFRACTION, static_cast<float>(_refractionIndex));
     osphelper::set(_ospMaterial, MATERIAL_PROPERTY_REFLECTION, static_cast<float>(_reflectionIndex));
     osphelper::set(_ospMaterial, MATERIAL_PROPERTY_EMISSION, static_cast<float>(_emission));
