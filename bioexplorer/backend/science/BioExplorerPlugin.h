@@ -109,6 +109,7 @@ private:
 
     // Models
     details::NameDetails _getModelName(const details::ModelIdDetails &payload) const;
+    details::ModelTransformationDetails _getModelTransformation(const details::ModelIdDetails &payload) const;
     details::ModelBoundsDetails _getModelBounds(const details::ModelIdDetails &payload) const;
     details::IdsDetails _getModelIds() const;
     details::IdsDetails _getModelInstances(const details::ModelIdDetails &payload) const;

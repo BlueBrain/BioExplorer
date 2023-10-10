@@ -234,6 +234,39 @@ class Bounds:
         return Bounds(self.min_aabb, self.max_aabb, self.center, self.size)
 
 
+class Transformation:
+    """
+    Transformation describes an object transformation defined by a translation, a rotation, a
+    rotation center and a scale
+    """
+
+    def __init__(
+        self,
+        translation=Vector3(),
+        rotation=Quaternion(),
+        rotation_center=Vector3(),
+        scale=Vector3(),
+    ):
+        """
+        Class describing an object transformation defined by a translation, a rotation, a
+        rotation center and a scale
+
+        Args:
+            translation (Vector3, optional): Translation. Defaults to Vector3().
+            rotation (Quaternion, optional): Rotation. Defaults to Quaternion().
+            rotation_center (Vector3, optional): Rotation center. Defaults to Vector3().
+            scale (Vector3, optional): Scale. Defaults to Vector3().
+        """
+        assert isinstance(translation, Vector3)
+        assert isinstance(rotation, Quaternion)
+        assert isinstance(rotation_center, Vector3)
+        assert isinstance(scale, Vector3)
+        self.translation = translation
+        self.rotation = rotation
+        self.rotation_center = rotation_center
+        self.scale = scale
+
+
 class CellAnimationParams:
     """Parameters used to introduce some sinusoidal function in a cell structure"""
 
@@ -2217,6 +2250,29 @@ class BioExplorer:
         params["modelId"] = model_id
         params["maxNbInstances"] = 0
         return self._invoke("get-model-name", params)
+
+    def get_model_transformation(self, model_id):
+        """
+        Return the transformation of a model in the current scene
+
+        :return: Transformation of a model in the current scene
+        """
+        assert isinstance(model_id, int)
+
+        params = dict()
+        params["modelId"] = model_id
+        params["maxNbInstances"] = 0
+        t = self._invoke("get-model-transformation", params)
+        tr = t["translation"]
+        ro = t["rotation"]
+        rc = t["rotationCenter"]
+        s = t["scale"]
+        return Transformation(
+            translation=Vector3(tr[0], tr[1], tr[2]),
+            rotation=Quaternion(ro[0], ro[1], ro[2], ro[3]),
+            rotation_center=Vector3(rc[0], rc[1], rc[2]),
+            scale=Vector3(s[0], s[1], s[2]),
+        )
 
     def get_model_bounds(self, model_id):
         """

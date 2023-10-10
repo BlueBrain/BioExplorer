@@ -410,6 +410,13 @@ void BioExplorerPlugin::init()
                                                                       [&](const ModelIdDetails &payload) -> NameDetails
                                                                       { return _getModelName(payload); });
 
+        endPoint = PLUGIN_API_PREFIX + "get-model-transformation";
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
+        actionInterface->registerRequest<ModelIdDetails, ModelTransformationDetails>(
+            endPoint,
+            [&](const ModelIdDetails &payload) -> ModelTransformationDetails
+            { return _getModelTransformation(payload); });
+
         endPoint = PLUGIN_API_PREFIX + "get-model-bounds";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
         actionInterface->registerRequest<ModelIdDetails, ModelBoundsDetails>(
@@ -1543,6 +1550,26 @@ NameDetails BioExplorerPlugin::_getModelName(const ModelIdDetails &payload) cons
     if (modelDescriptor)
         modelName.name = modelDescriptor->getName();
     return modelName;
+}
+
+ModelTransformationDetails BioExplorerPlugin::_getModelTransformation(const ModelIdDetails &payload) const
+{
+    ModelTransformationDetails transformation;
+    auto &scene = _api->getScene();
+    auto modelDescriptor = scene.getModel(payload.modelId);
+    if (modelDescriptor)
+    {
+        const auto t = modelDescriptor->getTransformation();
+        const auto tr = t.getTranslation();
+        const auto ro = t.getRotation();
+        const auto rc = t.getRotationCenter();
+        const auto s = t.getScale();
+        transformation.translation = {tr.x, tr.y, tr.z};
+        transformation.rotation = {ro.x, ro.y, ro.z, ro.w};
+        transformation.rotationCenter = {rc.x, rc.y, rc.z};
+        transformation.scale = {s.x, s.y, s.z};
+    }
+    return transformation;
 }
 
 ModelBoundsDetails BioExplorerPlugin::_getModelBounds(const ModelIdDetails &payload) const

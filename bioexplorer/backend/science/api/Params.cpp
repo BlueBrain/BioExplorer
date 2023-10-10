@@ -578,6 +578,24 @@ bool from_json(AddModelInstanceDetails &param, const std::string &payload)
     return true;
 }
 
+std::string to_json(const ModelTransformationDetails &param)
+{
+    try
+    {
+        nlohmann::json js;
+        TO_JSON(param, js, translation);
+        TO_JSON(param, js, rotation);
+        TO_JSON(param, js, rotationCenter);
+        TO_JSON(param, js, scale);
+        return js.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
+
 std::string to_json(const ModelBoundsDetails &param)
 {
     try
