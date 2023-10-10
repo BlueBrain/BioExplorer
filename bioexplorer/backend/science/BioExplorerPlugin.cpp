@@ -1243,7 +1243,9 @@ Response BioExplorerPlugin::_addSpheres(const AddSpheresDetails &payload)
             model->addSphere(materialId, {position, static_cast<float>(payload.radii[i])});
         }
         model->updateBounds();
-        scene.addModel(std::make_shared<ModelDescriptor>(std::move(model), payload.name));
+        ModelMetadata metadata;
+        metadata["Number of spheres"] = std::to_string(payload.radii.size());
+        scene.addModel(std::make_shared<ModelDescriptor>(std::move(model), payload.name, metadata));
     }
     CATCH_STD_EXCEPTION()
     return response;
@@ -1279,6 +1281,8 @@ Response BioExplorerPlugin::_addCones(const AddConesDetails &payload)
         material->setOpacity(payload.opacity);
 
         PLUGIN_INFO(3, "Adding cones " + payload.name + " to the scene");
+        uint64_t nbCones = 0;
+        uint64_t nbCylinders = 0;
         for (uint64_t i = 0; i < payload.originsRadii.size(); ++i)
         {
             const auto origin = Vector3d(origins[i * 3], origins[i * 3 + 1], origins[i * 3 + 2]);
@@ -1286,11 +1290,20 @@ Response BioExplorerPlugin::_addCones(const AddConesDetails &payload)
             const auto originRadius = payload.originsRadii[i];
             const auto targetRadius = payload.targetsRadii[i];
             if (originRadius == targetRadius)
+            {
                 model->addCylinder(0, {origin, target, static_cast<float>(originRadius)});
+                ++nbCylinders;
+            }
             else
+            {
                 model->addCone(0, {origin, target, static_cast<float>(originRadius), static_cast<float>(targetRadius)});
+                ++nbCones;
+            }
         }
-        scene.addModel(std::make_shared<ModelDescriptor>(std::move(model), payload.name));
+        ModelMetadata metadata;
+        metadata["Number of cones"] = std::to_string(nbCones);
+        metadata["Number of cylinders"] = std::to_string(nbCylinders);
+        scene.addModel(std::make_shared<ModelDescriptor>(std::move(model), payload.name, metadata));
     }
     CATCH_STD_EXCEPTION()
     return response;
@@ -1417,6 +1430,7 @@ Response BioExplorerPlugin::_addStreamlines(const AddStreamlinesDetails &payload
         auto material = model->createMaterial(0, "Streamlines");
         material->setDiffuseColor({1, 1, 1});
 
+        uint64_t nbStreamlines = 0;
         for (uint64_t index = 0; index < nbIndices - 1; ++index)
         {
             // Create streamline geometry
@@ -1455,9 +1469,12 @@ Response BioExplorerPlugin::_addStreamlines(const AddStreamlinesDetails &payload
 
             const Streamline streamline(points, colors, radii);
             model->addStreamline(materialId, streamline);
+            ++nbStreamlines;
         }
 
-        auto modelDescriptor = std::make_shared<core::ModelDescriptor>(std::move(model), name);
+        ModelMetadata metadata;
+        metadata["Number of streamlines"] = std::to_string(nbStreamlines);
+        auto modelDescriptor = std::make_shared<core::ModelDescriptor>(std::move(model), name, metadata);
         scene.addModel(modelDescriptor);
 
         PLUGIN_INFO(1, nbIndices << " streamlines added");

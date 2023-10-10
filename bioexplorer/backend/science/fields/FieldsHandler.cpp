@@ -160,7 +160,7 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize, con
     _frameSize = _frameData.size();
 
     PLUGIN_INFO(1, "--------------------------------------------");
-    PLUGIN_INFO(1, "Octree information");
+    PLUGIN_INFO(1, "Octree information (" << events.size() / 5 << " events)");
     PLUGIN_INFO(1, "--------------------------------------------");
     PLUGIN_INFO(1, "Scene AABB        : " << bounds);
     PLUGIN_INFO(1, "Scene dimension   : " << sceneSize);
