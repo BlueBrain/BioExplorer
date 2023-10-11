@@ -1101,6 +1101,22 @@ typedef struct
 } ModelIdDetails;
 
 /**
+ * @brief Model transformation
+ *
+ */
+typedef struct
+{
+    /** Translation */
+    doubles translation;
+    /** Rotation */
+    doubles rotation;
+    /** Rotation center */
+    doubles rotationCenter;
+    /** Scale */
+    doubles scale;
+} ModelTransformationDetails;
+
+/**
  * @brief Add instance to model
  *
  */
@@ -1110,11 +1126,11 @@ typedef struct
     size_t modelId;
     /** Translation */
     doubles translation;
-    /** Translation */
+    /** Rotation */
     doubles rotation;
-    /** Translation */
+    /** Rotation center */
     doubles rotationCenter;
-    /** Translation */
+    /** Scale */
     doubles scale;
 } AddModelInstanceDetails;
 

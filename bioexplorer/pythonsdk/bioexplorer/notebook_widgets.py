@@ -21,6 +21,8 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import numpy as np
+from scipy.spatial.transform import Rotation as R
 import math
 import random
 import threading
@@ -30,6 +32,7 @@ import os
 import io
 from ipywidgets import (
     FloatSlider,
+    FloatText,
     Select,
     HBox,
     VBox,
@@ -635,7 +638,7 @@ class Widgets:
         hide_aabb_btn.on_click(hide_aabbs)
         adjust_camera_btn.on_click(adjust_camera)
 
-        hbox = HBox([model_select, hbox_params], layout=DEFAULT_GRID_LAYOUT)
+        hbox = HBox([model_select, hbox_params], layout=Widgets.DEFAULT_GRID_LAYOUT)
         display(hbox)
 
     def display_model_focus(self, max_number_of_instances=1e6):
@@ -1060,3 +1063,129 @@ class Widgets:
         w_z.observe(update_z, "value")
         hbox = HBox([w_x, w_y, w_z], layout=Widgets.DEFAULT_GRID_LAYOUT)
         display(hbox)
+
+    def display_model_transformation(self, model_id):
+        """
+        The code is a versatile user interface element designed to enable users to manipulate and transform models within a 3D scene. It provides intuitive controls for translating, rotating, and scaling objects with precision and ease.
+
+        Translation Controls: The widget includes handles or controls that allow users to move the object along the X, Y, and Z axes. Users can click and drag these handles to relocate the object within the workspace.
+
+        Rotation Controls: It offers handles for rotating the object around different axes. Users can rotate the model by dragging these handles, ensuring precise orientation adjustments.
+
+        Scaling Controls: The widget provides controls for resizing the model uniformly or independently along each axis.
+
+        Args:
+            model_id (integer): Id of the model on which the transformation will be applied
+        """
+        tf = self._be.get_model_transformation(model_id)
+
+        x, y, z = self._get_euler_from_quaternion(tf.rotation)
+        rotation_x = FloatSlider(
+            description="x", min=-180.0, max=180.0, value=x, STYLE=Widgets.STYLE
+        )
+        rotation_y = FloatSlider(
+            description="y", min=-180.0, max=180.0, value=y, STYLE=Widgets.STYLE
+        )
+        rotation_z = FloatSlider(
+            description="z", min=-180.0, max=180.0, value=z, STYLE=Widgets.STYLE
+        )
+        rotation_label = Label("Rotation")
+        rotation_hbox1 = HBox([rotation_label])
+        rotation_hbox2 = HBox([rotation_x, rotation_y, rotation_z])
+        rotation_box = VBox(
+            [rotation_hbox1, rotation_hbox2],
+            STYLE=Widgets.STYLE,
+            layout=Widgets.DEFAULT_GRID_LAYOUT,
+        )
+        display(rotation_box)
+
+        rotation_center_x = FloatText(value=tf.rotation_center.x, description="x")
+        rotation_center_y = FloatText(value=tf.rotation_center.y, description="y")
+        rotation_center_z = FloatText(value=tf.rotation_center.z, description="z")
+        rotation_center_label = Label("Rotation center")
+        rotation_center_hbox1 = HBox([rotation_center_label])
+        rotation_center_hbox2 = HBox(
+            [rotation_center_x, rotation_center_y, rotation_center_z]
+        )
+        rotation_center_box = VBox(
+            [rotation_center_hbox1, rotation_center_hbox2],
+            layout=Widgets.DEFAULT_GRID_LAYOUT,
+        )
+        display(rotation_center_box)
+
+        translation_x = FloatText(value=tf.translation.x, description="x")
+        translation_y = FloatText(value=tf.translation.y, description="y")
+        translation_z = FloatText(value=tf.translation.z, description="z")
+        translation_label = Label("Translation")
+        translation_hbox1 = HBox([translation_label])
+        translation_hbox2 = HBox([translation_x, translation_y, translation_z])
+        translation_box = VBox(
+            [translation_hbox1, translation_hbox2], layout=Widgets.DEFAULT_GRID_LAYOUT
+        )
+        display(translation_box)
+
+        scale_x = FloatText(value=tf.scale.x, description="x")
+        scale_y = FloatText(value=tf.scale.y, description="y")
+        scale_z = FloatText(value=tf.scale.z, description="z")
+        scale_label = Label("Scale")
+        scale_hbox1 = HBox([scale_label])
+        scale_hbox2 = HBox([scale_x, scale_y, scale_z])
+        scale_box = VBox([scale_hbox1, scale_hbox2], layout=Widgets.DEFAULT_GRID_LAYOUT)
+        display(scale_box)
+
+        def update(v):
+            transformation = {
+                "rotation": self._get_euler_to_quaternion(
+                    rotation_z.value * math.pi / 180.0,
+                    rotation_y.value * math.pi / 180.0,
+                    rotation_x.value * math.pi / 180.0,
+                ),
+                "rotation_center": [
+                    rotation_center_x.value,
+                    rotation_center_y.value,
+                    rotation_center_z.value,
+                ],
+                "scale": [scale_x.value, scale_y.value, scale_z.value],
+                "translation": [
+                    translation_x.value,
+                    translation_y.value,
+                    translation_z.value,
+                ],
+            }
+            self._client.update_model(id=model_id, transformation=transformation)
+
+        rotation_x.observe(update, "value")
+        rotation_y.observe(update, "value")
+        rotation_z.observe(update, "value")
+
+        rotation_center_x.observe(update, names="value")
+        rotation_center_y.observe(update, names="value")
+        rotation_center_z.observe(update, names="value")
+
+        translation_x.observe(update, names="value")
+        translation_y.observe(update, names="value")
+        translation_z.observe(update, names="value")
+
+        scale_x.observe(update, names="value")
+        scale_y.observe(update, names="value")
+        scale_z.observe(update, names="value")
+
+    def _get_euler_from_quaternion(self, q):
+        rotation = R.from_quat(np.array(list(q)))
+        euler_angles_radians = rotation.as_euler("xyz", degrees=False)
+        return np.degrees(euler_angles_radians)
+
+    def _get_euler_to_quaternion(self, x, y, z):
+        qx = np.sin(z / 2.0) * np.cos(y / 2.0) * np.cos(x / 2.0) - np.cos(
+            z / 2.0
+        ) * np.sin(y / 2.0) * np.sin(x / 2.0)
+        qy = np.cos(z / 2.0) * np.sin(y / 2.0) * np.cos(x / 2.0) + np.sin(
+            z / 2.0
+        ) * np.cos(y / 2.0) * np.sin(x / 2.0)
+        qz = np.cos(z / 2.0) * np.cos(y / 2.0) * np.sin(x / 2.0) - np.sin(
+            z / 2.0
+        ) * np.sin(y / 2.0) * np.cos(x / 2.0)
+        qw = np.cos(z / 2.0) * np.cos(y / 2.0) * np.cos(x / 2.0) + np.sin(
+            z / 2.0
+        ) * np.sin(y / 2.0) * np.sin(x / 2.0)
+        return [qx, qy, qz, qw]
