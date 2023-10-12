@@ -310,14 +310,18 @@ void MediaMakerPlugin::_setCamera(const CameraDefinition &payload)
     camera.setOrientation(q);
 
     // Aperture
-    camera.updateProperty(CAMERA_PROPERTY_APERTURE_RADIUS.name, payload.apertureRadius);
+    if (camera.hasProperty(CAMERA_PROPERTY_APERTURE_RADIUS.name))
+        camera.updateProperty(CAMERA_PROPERTY_APERTURE_RADIUS.name, payload.apertureRadius);
 
     // Focus distance
-    camera.updateProperty(CAMERA_PROPERTY_FOCAL_DISTANCE.name, payload.focalDistance);
+    if (camera.hasProperty(CAMERA_PROPERTY_FOCAL_DISTANCE.name))
+        camera.updateProperty(CAMERA_PROPERTY_FOCAL_DISTANCE.name, payload.focalDistance);
 
     // Stereo
-    camera.updateProperty(CAMERA_PROPERTY_STEREO.name, payload.interpupillaryDistance != 0.0);
-    camera.updateProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name, payload.interpupillaryDistance);
+    if (camera.hasProperty(CAMERA_PROPERTY_STEREO.name))
+        camera.updateProperty(CAMERA_PROPERTY_STEREO.name, payload.interpupillaryDistance != 0.0);
+    if (camera.hasProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name))
+        camera.updateProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name, payload.interpupillaryDistance);
 
     _api->getCamera().markModified();
 }
@@ -333,9 +337,12 @@ CameraDefinition MediaMakerPlugin::_getCamera()
     cd.direction = {d.x, d.y, d.z};
     const auto u = glm::rotate(camera.getOrientation(), core::Vector3d(0., 1., 0.));
     cd.up = {u.x, u.y, u.z};
-    cd.apertureRadius = camera.getProperty<double>(CAMERA_PROPERTY_APERTURE_RADIUS.name);
-    cd.focalDistance = camera.getProperty<double>(CAMERA_PROPERTY_FOCAL_DISTANCE.name);
-    cd.interpupillaryDistance = camera.getProperty<double>(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name);
+    if (camera.hasProperty(CAMERA_PROPERTY_APERTURE_RADIUS.name))
+        cd.apertureRadius = camera.getProperty<double>(CAMERA_PROPERTY_APERTURE_RADIUS.name);
+    if (camera.hasProperty(CAMERA_PROPERTY_FOCAL_DISTANCE.name))
+        cd.focalDistance = camera.getProperty<double>(CAMERA_PROPERTY_FOCAL_DISTANCE.name);
+    if (camera.hasProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name))
+        cd.interpupillaryDistance = camera.getProperty<double>(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name);
     return cd;
 }
 
