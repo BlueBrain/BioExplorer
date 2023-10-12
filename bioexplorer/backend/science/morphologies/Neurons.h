@@ -74,6 +74,11 @@ private:
 
     void _buildNeurons();
 
+    void _buildContours(common::ThreadSafeContainer& container, const NeuronSomaMap& somas,
+                        const size_t baseMaterialId);
+
+    void _buildSurface(const NeuronSomaMap& somas);
+
     void _buildSomasOnly(common::ThreadSafeContainer& container, const NeuronSomaMap& somas,
                          const size_t baseMaterialId);
 

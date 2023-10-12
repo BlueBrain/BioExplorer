@@ -74,13 +74,13 @@ SurfaceMesher::SurfaceMesher(const uint32_t uuid)
 {
 }
 
-ModelDescriptorPtr SurfaceMesher::generateSurface(core::Scene& scene, const std::string& pdbId, const Vector4ds& atoms,
+ModelDescriptorPtr SurfaceMesher::generateSurface(core::Scene& scene, const std::string& name, const Vector4ds& points,
                                                   const double shrinkfactor)
 {
 #ifdef USE_CGAL
     ModelDescriptorPtr modelDescriptor{nullptr};
     MeshLoader meshLoader(scene);
-    const std::string filename = GeneralSettings::getInstance()->getMeshFolder() + pdbId + ".off";
+    const std::string filename = GeneralSettings::getInstance()->getMeshFolder() + name + ".off";
     try
     {
         PLUGIN_INFO(3, "Trying to load surface from cache " << filename);
@@ -94,10 +94,10 @@ ModelDescriptorPtr SurfaceMesher::generateSurface(core::Scene& scene, const std:
     }
 
     std::list<Weighted_point> l;
-    for (const auto& atom : atoms)
-        l.push_front(Weighted_point(Point_3(atom.x, atom.y, atom.z), atom.w));
+    for (const auto& point : points)
+        l.push_front(Weighted_point(Point_3(point.x, point.y, point.z), point.w));
 
-    PLUGIN_INFO(3, "Constructing skin surface from " << l.size() << " atoms");
+    PLUGIN_INFO(3, "Constructing skin surface from " << l.size() << " point");
 
     Polyhedron polyhedron;
     Skin_surface_3 skinSurface(l.begin(), l.end(), shrinkfactor);
@@ -115,17 +115,17 @@ ModelDescriptorPtr SurfaceMesher::generateSurface(core::Scene& scene, const std:
 #endif
 }
 
-ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(core::Scene& scene, const std::string& pdbId,
-                                                       const Vector4ds& atoms)
+ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(core::Scene& scene, const std::string& name,
+                                                       const Vector4ds& points)
 {
 #ifdef USE_CGAL
     std::list<Weighted_point> l;
-    for (const auto& atom : atoms)
-        l.push_front(Weighted_point(Point_3(atom.x, atom.y, atom.z), atom.w));
+    for (const auto& point : points)
+        l.push_front(Weighted_point(Point_3(point.x, point.y, point.z), point.w));
 
     ModelDescriptorPtr modelDescriptor{nullptr};
     MeshLoader meshLoader(scene);
-    const std::string filename = GeneralSettings::getInstance()->getMeshFolder() + pdbId + ".off";
+    const std::string filename = GeneralSettings::getInstance()->getMeshFolder() + name + ".off";
     try
     {
         PLUGIN_INFO(3, "Trying to load union of balls from cache " << filename);
@@ -138,7 +138,7 @@ ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(core::Scene& scene, const
         PLUGIN_INFO(3, "Failed to load union of balls from cache (" << e.what() << "), constructing it...");
     }
 
-    PLUGIN_INFO(3, "Constructing union of balls from " << l.size() << " atoms");
+    PLUGIN_INFO(3, "Constructing union of balls from " << l.size() << " points");
 
     Polyhedron polyhedron;
     Union_of_balls_3 union_of_balls(l.begin(), l.end());

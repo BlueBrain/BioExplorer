@@ -438,7 +438,9 @@ enum class MorphologyRepresentation
     section = 1,
     segment = 2,
     orientation = 3,
-    bezier = 4
+    bezier = 4,
+    contour = 5,
+    surface = 6
 };
 
 enum class MorphologyRealismLevel

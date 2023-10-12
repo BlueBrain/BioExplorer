@@ -37,6 +37,11 @@
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
 
+#ifdef USE_CGAL
+#include <science/meshing/PointCloudMesher.h>
+#include <science/meshing/SurfaceMesher.h>
+#endif
+
 #include <omp.h>
 
 using namespace core;
@@ -47,6 +52,10 @@ using namespace details;
 using namespace common;
 using namespace io;
 using namespace db;
+#ifdef USE_CGAL
+using namespace meshing;
+#endif
+
 namespace morphology
 {
 const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
@@ -133,6 +142,56 @@ void Neurons::_logRealismParams()
     PLUGIN_INFO(1, "----------------------------------------------------");
 }
 
+void Neurons::_buildContours(ThreadSafeContainer& container, const NeuronSomaMap& somas, const size_t baseMaterialId)
+{
+#ifdef USE_CGAL
+    uint64_t progress = 0;
+    PointCloud pointCloud;
+
+    for (const auto soma : somas)
+    {
+        PLUGIN_PROGRESS("Loading somas", progress, somas.size());
+        ++progress;
+
+        const Vector3d position = soma.second.position;
+        pointCloud[baseMaterialId].push_back({position.x, position.y, position.z, _details.radiusMultiplier});
+    }
+
+    PointCloudMesher pcm;
+    pcm.toConvexHull(container, pointCloud);
+#else
+    PLUGIN_THROW("The BioExplorer was not compiled with the CGAL library")
+#endif
+}
+
+void Neurons::_buildSurface(const NeuronSomaMap& somas)
+{
+#ifdef USE_CGAL
+    uint64_t progress = 0;
+    PointCloud pointCloud;
+    size_t materialId = 0;
+
+    for (const auto soma : somas)
+    {
+        PLUGIN_PROGRESS("Loading somas", progress, somas.size());
+        ++progress;
+
+        const Vector3d position = soma.second.position;
+        pointCloud[materialId].push_back({position.x, position.y, position.z, _details.radiusMultiplier});
+    }
+
+    SurfaceMesher sm(_uuid);
+    _modelDescriptor = sm.generateSurface(_scene, _details.assemblyName, pointCloud[materialId]);
+    if (_modelDescriptor)
+        _scene.addModel(_modelDescriptor);
+    else
+        PLUGIN_THROW("Failed to generate surface")
+
+#else
+    PLUGIN_THROW("The BioExplorer was not compiled with the CGAL library")
+#endif
+}
+
 void Neurons::_buildNeurons()
 {
     const auto& connector = DBConnector::getInstance();
@@ -164,13 +223,34 @@ void Neurons::_buildNeurons()
         _details.loadSomas && !_details.loadAxon && !_details.loadApicalDendrites && !_details.loadBasalDendrites;
 
     ThreadSafeContainers containers;
-    if (somasOnly || _details.morphologyRepresentation == MorphologyRepresentation::orientation)
+    if (somasOnly || _details.morphologyRepresentation == MorphologyRepresentation::orientation ||
+        _details.morphologyRepresentation == MorphologyRepresentation::contour)
     {
         ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation, _scale);
-        if (_details.morphologyRepresentation == MorphologyRepresentation::orientation)
+        switch (_details.morphologyRepresentation)
+        {
+        case MorphologyRepresentation::orientation:
+        {
             _buildOrientations(container, somas, baseMaterialId);
-        else
+            break;
+        }
+        case MorphologyRepresentation::contour:
+        {
+            _buildContours(container, somas, baseMaterialId);
+            break;
+        }
+        case MorphologyRepresentation::surface:
+        {
+            _buildSurface(somas);
+            return;
+            break;
+        }
+        default:
+        {
             _buildSomasOnly(container, somas, baseMaterialId);
+            break;
+        }
+        }
         containers.push_back(container);
     }
     else
