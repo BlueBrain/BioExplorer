@@ -36,18 +36,18 @@ public:
 
     /** Generates a triangle based mesh model
      *
-     * @param atoms atoms used to generate the mesh
+     * @param points points used to generate the mesh
      * @param triangles Generated triangles
      */
-    core::ModelDescriptorPtr generateSurface(core::Scene& scene, const std::string& pdbId, const Vector4ds& atoms,
+    core::ModelDescriptorPtr generateSurface(core::Scene& scene, const std::string& name, const Vector4ds& points,
                                              const double shrinkfactor = 0.5);
 
     /** Generates a triangle based mesh model
      *
-     * @param atoms atoms used to generate the mesh
+     * @param points points used to generate the mesh
      * @param triangles Generated triangles
      */
-    core::ModelDescriptorPtr generateUnionOfBalls(core::Scene& scene, const std::string& pdbId, const Vector4ds& atoms);
+    core::ModelDescriptorPtr generateUnionOfBalls(core::Scene& scene, const std::string& name, const Vector4ds& points);
 
 private:
     uint32_t _uuid;
