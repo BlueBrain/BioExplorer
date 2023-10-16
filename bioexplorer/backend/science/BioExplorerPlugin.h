@@ -24,7 +24,7 @@
 #pragma once
 
 #include <science/api/Params.h>
-#include <science/fields/FieldsHandler.h>
+#include <science/fields/PointFieldsHandler.h>
 #include <science/vasculature/Vasculature.h>
 
 #include <platform/core/pluginapi/ExtensionPlugin.h>

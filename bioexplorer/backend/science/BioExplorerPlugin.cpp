@@ -1724,7 +1724,7 @@ Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
             if (modelDescriptor->getName() == "Fields")
                 PLUGIN_THROW("BioExplorer can only handle one single fields model");
 
-        FieldsHandlerPtr handler = std::make_shared<FieldsHandler>(scene, payload.voxelSize, payload.density);
+        FieldsHandlerPtr handler = std::make_shared<PointFieldsHandler>(scene, payload.voxelSize, payload.density);
         const auto modelId = _attachFieldsHandler(handler);
         response.contents = std::to_string(modelId);
     }
@@ -1738,7 +1738,7 @@ Response BioExplorerPlugin::_importFieldsFromFile(const FileAccessDetails &paylo
     try
     {
         PLUGIN_INFO(3, "Importing Fields from " << payload.filename);
-        FieldsHandlerPtr handler = std::make_shared<FieldsHandler>(payload.filename);
+        FieldsHandlerPtr handler = std::make_shared<PointFieldsHandler>(payload.filename);
         _attachFieldsHandler(handler);
     }
     CATCH_STD_EXCEPTION()
@@ -1758,11 +1758,11 @@ Response BioExplorerPlugin::_exportFieldsToFile(const ModelIdFileAccessDetails &
             auto handler = modelDetails->getModel().getSimulationHandler();
             if (handler)
             {
-                FieldsHandler *fieldsHandler = dynamic_cast<FieldsHandler *>(handler.get());
-                if (!fieldsHandler)
+                PointFieldsHandler *handler = dynamic_cast<PointFieldsHandler *>(handler.get());
+                if (!handler)
                     PLUGIN_THROW("Model has no fields handler");
 
-                fieldsHandler->exportToFile(payload.filename);
+                handler->exportToFile(payload.filename);
             }
             else
                 PLUGIN_THROW("Model has no handler");

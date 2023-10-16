@@ -64,7 +64,7 @@ set(${NAME}_SOURCES
     science/common/octree/PointOctreeNode.cpp
     science/common/octree/VectorOctree.cpp
     science/common/octree/VectorOctreeNode.cpp
-    science/fields/FieldsHandler.cpp
+    science/fields/PointFieldsHandler.cpp
     science/io/CacheLoader.cpp
     science/io/OOCManager.cpp
     science/io/db/DBConnector.cpp
@@ -137,7 +137,7 @@ set(${NAME}_PUBLIC_HEADERS
     science/common/Octree.h
     science/common/OctreeNode.h
     science/meshing/PointCloudMesher.h
-    science/fields/FieldsHandler.h
+    science/fields/PointFieldsHandler.h
     science/meshing/SurfaceMesher.h
     science/api/Params.h
     science/BioExplorerPlugin.h
