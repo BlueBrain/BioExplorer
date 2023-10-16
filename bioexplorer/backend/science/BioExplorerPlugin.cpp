@@ -49,6 +49,7 @@
 #include <BioExplorer_generated_Golgi.cu.ptx.h>
 #include <BioExplorer_generated_PathTracing.cu.ptx.h>
 #include <BioExplorer_generated_PointFields.cu.ptx.h>
+#include <BioExplorer_generated_VectorFields.cu.ptx.h>
 #include <BioExplorer_generated_Voxel.cu.ptx.h>
 #include <platform/engines/optix6/OptiXContext.h>
 #include <platform/engines/optix6/OptiXProperties.h>
@@ -148,9 +149,9 @@ void _addBioExplorerVoxelRenderer(Engine &engine)
     engine.addRendererType(RENDERER_VOXEL, properties);
 }
 
-void _addBioExplorerFieldsRenderer(Engine &engine)
+void _addBioExplorerPointFieldsRenderer(Engine &engine)
 {
-    PLUGIN_REGISTER_RENDERER(RENDERER_FIELDS);
+    PLUGIN_REGISTER_RENDERER(RENDERER_POINT_FIELDS);
     PropertyMap properties;
     properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_MIN_RAY_STEP);
     properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_STEPS);
@@ -164,7 +165,27 @@ void _addBioExplorerFieldsRenderer(Engine &engine)
         properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
         properties.setProperty(COMMON_PROPERTY_EXPOSURE);
     }
-    engine.addRendererType(RENDERER_FIELDS, properties);
+    engine.addRendererType(RENDERER_POINT_FIELDS, properties);
+}
+
+void _addBioExplorerVectorFieldsRenderer(Engine &engine)
+{
+    PLUGIN_REGISTER_RENDERER(RENDERER_VECTOR_FIELDS);
+    PropertyMap properties;
+    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_MIN_RAY_STEP);
+    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_STEPS);
+    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_REFINEMENT_STEPS);
+    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_CUTOFF_DISTANCE);
+    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_SHOW_VECTOR_DIRECTIONS);
+    properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
+    const auto &params = engine.getParametersManager().getApplicationParameters();
+    const auto &engineName = params.getEngine();
+    if (engineName == ENGINE_OSPRAY)
+    {
+        properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
+        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+    }
+    engine.addRendererType(RENDERER_VECTOR_FIELDS, properties);
 }
 
 void _addBioExplorerDensityRenderer(Engine &engine)
@@ -613,7 +634,8 @@ void BioExplorerPlugin::_createOptiXRenderers()
     std::map<std::string, std::string> renderers = {
         {RENDERER_GOLGI_STYLE, BioExplorer_generated_Golgi_cu_ptx},
         {RENDERER_DENSITY, BioExplorer_generated_Density_cu_ptx},
-        {RENDERER_FIELDS, BioExplorer_generated_PointFields_cu_ptx},
+        {RENDERER_POINT_FIELDS, BioExplorer_generated_PointFields_cu_ptx},
+        {RENDERER_VECTOR_FIELDS, BioExplorer_generated_VectorFields_cu_ptx},
         {RENDERER_PATH_TRACING, BioExplorer_generated_PathTracing_cu_ptx},
         {RENDERER_VOXEL, BioExplorer_generated_Voxel_cu_ptx},
     };
@@ -641,7 +663,8 @@ void BioExplorerPlugin::_createRenderers()
     // Renderers
     auto &engine = _api->getEngine();
     _addBioExplorerVoxelRenderer(engine);
-    _addBioExplorerFieldsRenderer(engine);
+    _addBioExplorerPointFieldsRenderer(engine);
+    _addBioExplorerVectorFieldsRenderer(engine);
     _addBioExplorerDensityRenderer(engine);
     _addBioExplorerPathTracingRenderer(engine);
     _addBioExplorerGolgiStyleRenderer(engine);
@@ -1684,6 +1707,10 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
 
 size_t BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
 {
+    // Force Octree initialization (if not already done) by specifying a negative frame number
+    handler->getFrameData(-1);
+
+    // Build box around the octree
     auto &scene = _api->getScene();
     auto model = scene.createModel();
     const auto &spacing = Vector3d(handler->getSpacing());
@@ -1724,9 +1751,25 @@ Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
             if (modelDescriptor->getName() == "Fields")
                 PLUGIN_THROW("BioExplorer can only handle one single fields model");
 
-        FieldsHandlerPtr handler = std::make_shared<PointFieldsHandler>(scene, payload.voxelSize, payload.density);
-        const auto modelId = _attachFieldsHandler(handler);
-        response.contents = std::to_string(modelId);
+        switch (payload.dataType)
+        {
+        case FieldDataType::point:
+        {
+            auto handler = std::make_shared<PointFieldsHandler>(scene, payload.voxelSize, payload.density);
+            const auto modelId = _attachFieldsHandler(handler);
+            response.contents = std::to_string(modelId);
+            break;
+        }
+        case FieldDataType::vector:
+        {
+            auto handler = std::make_shared<VectorFieldsHandler>(scene, payload.voxelSize, payload.density);
+            const auto modelId = _attachFieldsHandler(handler);
+            response.contents = std::to_string(modelId);
+            break;
+        }
+        default:
+            PLUGIN_THROW("Unknown field data type");
+        }
     }
     CATCH_STD_EXCEPTION()
     return response;
@@ -1738,7 +1781,7 @@ Response BioExplorerPlugin::_importFieldsFromFile(const FileAccessDetails &paylo
     try
     {
         PLUGIN_INFO(3, "Importing Fields from " << payload.filename);
-        FieldsHandlerPtr handler = std::make_shared<PointFieldsHandler>(payload.filename);
+        PointFieldsHandlerPtr handler = std::make_shared<PointFieldsHandler>(payload.filename);
         _attachFieldsHandler(handler);
     }
     CATCH_STD_EXCEPTION()
@@ -1758,11 +1801,11 @@ Response BioExplorerPlugin::_exportFieldsToFile(const ModelIdFileAccessDetails &
             auto handler = modelDetails->getModel().getSimulationHandler();
             if (handler)
             {
-                PointFieldsHandler *handler = dynamic_cast<PointFieldsHandler *>(handler.get());
-                if (!handler)
+                PointFieldsHandler *pointFieldsHandler = dynamic_cast<PointFieldsHandler *>(handler.get());
+                if (!pointFieldsHandler)
                     PLUGIN_THROW("Model has no fields handler");
 
-                handler->exportToFile(payload.filename);
+                pointFieldsHandler->exportToFile(payload.filename);
             }
             else
                 PLUGIN_THROW("Model has no handler");

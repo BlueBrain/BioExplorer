@@ -1205,6 +1205,15 @@ typedef struct
     int32_ts clippingModes;
 } MaterialsDetails;
 
+/** Field data type */
+enum class FieldDataType
+{
+    /** Point field (spheres) */
+    point = 0,
+    /** Vector field */
+    vector = 1
+};
+
 /**
  * @brief Structure containing information about how to build magnetic
  * fields from atom positions and charge
@@ -1216,6 +1225,8 @@ typedef struct
     double voxelSize;
     /** Density of atoms to consider (Between 0 and 1) */
     double density;
+    /** Field type*/
+    FieldDataType dataType;
 } BuildFieldsDetails;
 
 // IO

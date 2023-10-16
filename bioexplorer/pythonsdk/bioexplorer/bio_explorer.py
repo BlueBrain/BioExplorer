@@ -706,6 +706,10 @@ class BioExplorer:
     ASTROCYTE_MATERIAL_MITOCHONDRION = 7
     ASTROCYTE_MATERIAL_NUCLEUS = 8
 
+    # Field data types
+    FIELD_DATA_TYPE_POINT = 0
+    FIELD_DATA_TYPE_VECTOR = 1
+
     def __init__(self, url="localhost:5000"):
         """Create a new BioExplorer instance"""
         self._url = url
@@ -2783,12 +2787,13 @@ class BioExplorer:
             return tf
         return None
 
-    def build_fields(self, voxel_size, density=1.0):
+    def build_fields(self, voxel_size, density=1.0, data_type=FIELD_DATA_TYPE_POINT):
         """
         Build fields acceleration structures and creates according data handler
 
         :voxel_size: Voxel size
         :voxel_size: Density of atoms to consider (between 0 and 1)
+        :data_type: Type of field (FIELD_DATA_TYPE_POINT or FIELD_DATA_TYPE_VECTOR)
         :return: Result of the request submission
         """
         if self._client is None:
@@ -2797,6 +2802,7 @@ class BioExplorer:
         params = dict()
         params["voxelSize"] = voxel_size
         params["density"] = density
+        params["dataType"] = data_type
         return self._invoke_and_check("build-fields", params)
 
     def import_fields_from_file(self, filename):

@@ -59,7 +59,7 @@ inline vec3f ProximityDetectionRenderer_shadeRay(const uniform ProximityDetectio
         {
             vec4f bgColor = skyboxMapping((Renderer*)self, ray, (AdvancedMaterial*)self->super.super.bgMaterial);
             bgColor.w = 1.f;
-            composite(bgColor, color, self->alphaCorrection);
+            compose(bgColor, color, self->alphaCorrection);
             return make_vec3f(color) * self->super.super.exposure;
         }
 
@@ -104,7 +104,7 @@ inline vec3f ProximityDetectionRenderer_shadeRay(const uniform ProximityDetectio
             {
                 const float a = ao_ray.t / self->detectionDistance;
                 const vec4f touchColor = make_vec4f(a > nearFarThreshold ? self->nearColor : self->farColor, 1.f);
-                composite(touchColor, color, self->alphaCorrection);
+                compose(touchColor, color, self->alphaCorrection);
                 sample.alpha = 1.f;
                 if (depth == 0)
                     sample.z = ray.t;
@@ -172,8 +172,7 @@ inline vec3f ProximityDetectionRenderer_shadeRay(const uniform ProximityDetectio
                     }
 
                     const vec4f shadedColor = make_vec4f(Kd * cosNL * radiance, 1.f);
-
-                    composite(shadedColor, color, self->alphaCorrection);
+                    compose(shadedColor, color, self->alphaCorrection);
                 }
             }
             break;

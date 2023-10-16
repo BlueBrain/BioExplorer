@@ -31,6 +31,7 @@ rtDeclareVariable(float, cutoff, , );
 rtDeclareVariable(float, minRayStep, , );
 rtDeclareVariable(int, nbRaySteps, , );
 rtDeclareVariable(float, alphaCorrection, , );
+rtDeclareVariable(uint, showVectorDirections, , );
 
 static __device__ inline bool intersection(const float3& volumeOffset, const float3& volumeDimensions,
                                            const float3& volumeElementSpacing, const optix::Ray& ray, float& t0,
@@ -56,54 +57,59 @@ https://www.thanassis.space/cudarenderer-BVH.html#recursion
 */
 
 #define MAX_RECURSION_DEPTH 10
-#define DATA_SIZE 4
+#define DATA_SIZE 6
 
 template <int depth>
-__device__ float treeWalker(const uint startIndices, const uint startData, const float3& point, const float distance,
-                            const float cutoff, const uint index)
+__device__ float3 treeWalker(const uint startIndices, const uint startData, const float3& point, const float distance,
+                             const float cutoff, const uint index, const float3 offset, const float3 spacing)
 {
     if (depth >= MAX_RECURSION_DEPTH)
-        return 0.f;
+        return make_float3(0.f);
 
     const uint begin = userDataBuffer[startIndices + index * 2];
     const uint end = userDataBuffer[startIndices + index * 2 + 1];
     const uint idxData = startData + index * DATA_SIZE;
 
     if (idxData >= userDataBuffer.size())
-        return 0.f;
+        return make_float3(0.f);
 
     if (begin == 0 && end == 0)
+    {
         // Leaf
-        return userDataBuffer[idxData + 3] / (distance * distance);
+        const float3 vectorDirection =
+            make_float3(userDataBuffer[idxData + 3], userDataBuffer[idxData + 4], userDataBuffer[idxData + 5]);
+        return vectorDirection / (distance * distance);
+    }
 
-    float voxelValue = 0.f;
+    float3 voxelValue = make_float3(0.f);
     for (uint childIndex = begin; childIndex <= end; ++childIndex)
     {
         const uint idx = startData + childIndex * DATA_SIZE;
         const float3 childPosition = make_float3(userDataBuffer[idx], userDataBuffer[idx + 1], userDataBuffer[idx + 2]);
-        const float3 delta = point - childPosition;
-
-        const float d = sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
+        const float d = length(point - childPosition);
 
         if (d >= cutoff)
         {
-            // Child is further than the cutoff distance, no need to evaluate
-            // events in the child node, we take the precomputed value of node
-            // instead
-            voxelValue += userDataBuffer[idx + 3] / (d * d);
+            // Child is further than the cutoff distance, no need to evaluate events in the child node, we take the
+            // precomputed value of node instead
+            const float3 vectorDirection =
+                make_float3(userDataBuffer[idx + 3], userDataBuffer[idx + 4], userDataBuffer[idx + 5]);
+            voxelValue += vectorDirection / (d * d);
         }
         else
             // Dive into the child node and compute its contents
-            voxelValue += treeWalker<depth + 1>(startIndices, startData, point, d, cutoff / 2.f, childIndex);
+            voxelValue +=
+                treeWalker<depth + 1>(startIndices, startData, point, d, cutoff / 2.f, childIndex, offset, spacing);
     }
     return voxelValue;
 }
 
 template <>
-__device__ float treeWalker<MAX_RECURSION_DEPTH>(const uint startIndices, const uint startData, const float3& point,
-                                                 const float distance, const float cutoff, const uint index)
+__device__ float3 treeWalker<MAX_RECURSION_DEPTH>(const uint startIndices, const uint startData, const float3& point,
+                                                  const float distance, const float cutoff, const uint index,
+                                                  const float3 offset, const float3 spacing)
 {
-    return 0.f;
+    return make_float3(0.f);
 }
 
 static __device__ inline void shade()
@@ -136,10 +142,18 @@ static __device__ inline void shade()
         const float3 p = ray.origin + t * ray.direction;
         const float3 point = (p - offset) / spacing;
 
-        const float sampleValue = treeWalker<0>(startIndices, startData, point, distance, cutoff, 0);
-        const float4 sampleColor = calcTransferFunctionColor(transfer_function_map, value_range, sampleValue);
-        if (sampleColor.w > 0.f)
-            compose(sampleColor, finalColor, alphaCorrection);
+        const float3 sampleValue = treeWalker<0>(startIndices, startData, point, distance, cutoff, 0, offset, spacing);
+        const float vectorLength = length(sampleValue);
+        const float4 mapColor = calcTransferFunctionColor(transfer_function_map, value_range, vectorLength);
+        if (mapColor.w > 0.f)
+            if (showVectorDirections)
+            {
+                const float3 v = normalize(sampleValue);
+                const float3 vectorColor = make_float3(0.5f + v.x * 0.5f, 0.5f + v.y * 0.5f, 0.5f + v.z * 0.5f);
+                compose(make_float4(vectorColor, mapColor.w), finalColor, alphaCorrection);
+            }
+            else
+                compose(mapColor, finalColor, alphaCorrection);
 
         t += t_step;
     }

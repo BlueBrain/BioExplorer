@@ -31,7 +31,8 @@ Renderer properties
 */
 static const char* RENDERER_GOLGI_STYLE = "bio_explorer_golgi_style";
 static const char* RENDERER_DENSITY = "bio_explorer_density";
-static const char* RENDERER_FIELDS = "point_fields";
+static const char* RENDERER_POINT_FIELDS = "point_fields";
+static const char* RENDERER_VECTOR_FIELDS = "vector_fields";
 static const char* RENDERER_PATH_TRACING = "bio_explorer_path_tracing";
 static const char* RENDERER_VOXEL = "bio_explorer_voxel";
 
@@ -47,6 +48,7 @@ static constexpr double BIOEXPLORER_DEFAULT_RENDERER_FAR_PLANE = 1000.0;
 
 static constexpr double BIOEXPLORER_DEFAULT_RENDERER_GOLGI_EXPONENT = 5.0;
 static constexpr bool BIOEXPLORER_DEFAULT_RENDERER_GOLGI_INVERSE = false;
+static constexpr bool BIOEXPLORER_DEFAULT_RENDERER_FIELDS_SHOW_VECTOR_DIRECTIONS = false;
 
 static const core::Property BIOEXPLORER_RENDERER_PROPERTY_VOXEL_SIMULATION_THRESHOLD = {
     "simulationThreshold", BIOEXPLORER_DEFAULT_RENDERER_VOXEL_SIMULATION_THRESHOLD, 0., 1., {"Simulation threshold"}};
@@ -62,6 +64,8 @@ static const core::Property BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_REFINEME
     {"Number of ray marching refinement steps"}};
 static const core::Property BIOEXPLORER_RENDERER_PROPERTY_FIELDS_CUTOFF_DISTANCE = {
     "cutoff", BIOEXPLORER_DEFAULT_RENDERER_FIELDS_CUTOFF_DISTANCE, 0.0, 1e5, {"Cutoff distance"}};
+static const core::Property BIOEXPLORER_RENDERER_PROPERTY_FIELDS_SHOW_VECTOR_DIRECTIONS = {
+    "showVectorDirections", BIOEXPLORER_DEFAULT_RENDERER_FIELDS_SHOW_VECTOR_DIRECTIONS, {"Show vector directions"}};
 
 static const core::Property BIOEXPLORER_RENDERER_PROPERTY_RAY_STEP = {
     "rayStep", BIOEXPLORER_DEFAULT_RENDERER_RAY_STEP, 1.0, 1024.0, {"Ray marching step"}};

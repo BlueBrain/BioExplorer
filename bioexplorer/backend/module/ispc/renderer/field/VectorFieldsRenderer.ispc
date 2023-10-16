@@ -21,14 +21,14 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "PointFieldsRenderer.ih"
+#include "VectorFieldsRenderer.ih"
 
 #include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
 #include <platform/engines/ospray/ispc/render/utils/RendererUtils.ih>
 
-#define DATA_SIZE 4
+#define DATA_SIZE 6
 
-float treeWalker(const uniform PointFieldsRenderer* uniform self, const vec3f& point, const varying float distance,
+vec3f treeWalker(const uniform VectorFieldsRenderer* uniform self, const vec3f& point, const varying float distance,
                  const varying float cutoff, const varying int32 index = 0)
 {
     const uint64 begin = self->userData[self->startIndices + index * 2];
@@ -36,32 +36,40 @@ float treeWalker(const uniform PointFieldsRenderer* uniform self, const vec3f& p
     const uint64 idxData = self->startData + index * DATA_SIZE;
 
     if (idxData >= self->userDataSize)
-        return 0.f;
+        return make_vec3f(0.f);
 
     if (begin == 0 && end == 0)
+    {
         // Leaf
-        return self->userData[idxData + 3] / (distance * distance);
+        const vec3f vectorDirection =
+            make_vec3f(self->userData[idxData + 3], self->userData[idxData + 4], self->userData[idxData + 5]);
+        return vectorDirection / (distance * distance);
+    }
 
-    float voxelValue = 0.f;
+    vec3f voxelValue = make_vec3f(0.f);
     for (unsigned int64 childIndex = begin; childIndex <= end; ++childIndex)
     {
         const uint64 idx = self->startData + childIndex * DATA_SIZE;
         const vec3f childPosition = make_vec3f(self->userData[idx], self->userData[idx + 1], self->userData[idx + 2]);
         const float d = length(point - childPosition);
+
         if (d >= cutoff)
         {
             // Child is further than the cutoff distance, no need to evaluate events in the child node, we take the
-            // precomputed value of node instead
-            voxelValue += self->userData[idx + 3] / (d * d);
+            // precomputed value of node  instead
+            const vec3f vectorDirection =
+                make_vec3f(self->userData[idx + 3], self->userData[idx + 4], self->userData[idx + 5]);
+            voxelValue = voxelValue + vectorDirection / (d * d);
         }
         else
             // Dive into the child node and compute its contents
-            voxelValue += treeWalker(self, point, d, cutoff / 2.f, childIndex);
+            voxelValue = voxelValue + treeWalker(self, point, d, cutoff / 2.f, childIndex);
     }
     return voxelValue;
 }
 
-inline vec3f PointFieldsRenderer_shadeRay(const uniform PointFieldsRenderer* uniform self, varying ScreenSample& sample)
+inline vec3f VectorFieldsRenderer_shadeRay(const uniform VectorFieldsRenderer* uniform self,
+                                           varying ScreenSample& sample)
 {
     const Ray ray = sample.ray;
 
@@ -88,13 +96,21 @@ inline vec3f PointFieldsRenderer_shadeRay(const uniform PointFieldsRenderer* uni
     {
         const vec3f p = ray.org + t * ray.dir;
         const vec3f point = (p - self->offset) / self->spacing;
-        float value = treeWalker(self, point, self->distance, self->cutoff);
-        value = clamp(value, self->transferFunction->valueRange.x, self->transferFunction->valueRange.y);
-        const float sampleOpacity = self->transferFunction->getOpacityForValue(self->transferFunction, value);
-        if (sampleOpacity > 0.f)
+        const vec3f sampleValue = treeWalker(self, point, self->distance, self->cutoff);
+        const float vectorLength =
+            clamp(length(sampleValue), self->transferFunction->valueRange.x, self->transferFunction->valueRange.y);
+        const float mapOpacity = self->transferFunction->getOpacityForValue(self->transferFunction, vectorLength);
+        if (mapOpacity > 0.f)
         {
-            const vec3f sampleColor = self->transferFunction->getColorForValue(self->transferFunction, value);
-            compose(make_vec4f(sampleColor, sampleOpacity), finalColor, self->alphaCorrection);
+            const vec3f mapColor = self->transferFunction->getColorForValue(self->transferFunction, vectorLength);
+            if (self->showVectorDirections)
+            {
+                const vec3f v = normalize(sampleValue);
+                const vec3f vectorColor = make_vec3f(0.5f + v.x * 0.5f, 0.5f + v.y * 0.5f, 0.5f + v.z * 0.5f);
+                compose(make_vec4f(vectorColor, mapOpacity), finalColor, self->alphaCorrection);
+            }
+            else
+                compose(make_vec4f(mapColor, mapOpacity), finalColor, self->alphaCorrection);
         }
 
         t += step;
@@ -104,48 +120,49 @@ inline vec3f PointFieldsRenderer_shadeRay(const uniform PointFieldsRenderer* uni
     return clamp(make_vec3f(finalColor) * self->exposure, make_vec3f(0.f), make_vec3f(1.f));
 }
 
-void PointFieldsRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
-                                      varying ScreenSample& sample)
+void VectorFieldsRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
+                                       varying ScreenSample& sample)
 {
-    uniform PointFieldsRenderer* uniform self = (uniform PointFieldsRenderer * uniform) _self;
+    uniform VectorFieldsRenderer* uniform self = (uniform VectorFieldsRenderer * uniform) _self;
     sample.ray.time = self->super.timestamp;
     if (self->super.anaglyphEnabled)
     {
         ScreenSample s = sample;
         s.ray.org = s.ray.org - self->super.anaglyphIpdOffset;
-        const vec3f colorLeft = PointFieldsRenderer_shadeRay(self, s);
+        const vec3f colorLeft = VectorFieldsRenderer_shadeRay(self, s);
         const vec3f leftAnaglyphColor = getAnaglyphLeftColor(colorLeft);
 
         s = sample;
         s.ray.org = s.ray.org + self->super.anaglyphIpdOffset;
-        const vec3f colorRight = PointFieldsRenderer_shadeRay(self, s);
+        const vec3f colorRight = VectorFieldsRenderer_shadeRay(self, s);
         const vec3f rightAnaglyphColor = getAnaglyphRightColor(colorRight);
 
         sample.rgb = leftAnaglyphColor + rightAnaglyphColor;
     }
     else
-        sample.rgb = PointFieldsRenderer_shadeRay(self, sample);
+        sample.rgb = VectorFieldsRenderer_shadeRay(self, sample);
 }
 
 // Exports (called from C++)
-export void* uniform PointFieldsRenderer_create(void* uniform cppE)
+export void* uniform VectorFieldsRenderer_create(void* uniform cppE)
 {
-    uniform PointFieldsRenderer* uniform self = uniform new uniform PointFieldsRenderer;
+    uniform VectorFieldsRenderer* uniform self = uniform new uniform VectorFieldsRenderer;
     Renderer_Constructor(&self->super.super, cppE);
-    self->super.super.renderSample = PointFieldsRenderer_renderSample;
+    self->super.super.renderSample = VectorFieldsRenderer_renderSample;
     return self;
 }
 
-export void PointFieldsRenderer_set(void* uniform _self, void* uniform bgMaterial, uniform float* uniform userData,
-                                    const uniform uint64 userDataSize, const uniform int& randomNumber,
-                                    const uniform float& timestamp, const uniform int& spp, void** uniform lights,
-                                    const uniform int32 numLights, const uniform float& minRayStep,
-                                    const uniform int32& nbRaySteps, const uniform int32& nbRayRefinementSteps,
-                                    const uniform float& exposure, const uniform bool& useHardwareRandomizer,
-                                    const uniform float& cutoff, const uniform float& alphaCorrection,
-                                    const uniform bool anaglyphEnabled, const uniform vec3f& anaglyphIpdOffset)
+export void VectorFieldsRenderer_set(void* uniform _self, void* uniform bgMaterial, uniform float* uniform userData,
+                                     const uniform uint64 userDataSize, const uniform int& randomNumber,
+                                     const uniform float& timestamp, const uniform int& spp, void** uniform lights,
+                                     const uniform int32 numLights, const uniform float& minRayStep,
+                                     const uniform int32& nbRaySteps, const uniform int32& nbRayRefinementSteps,
+                                     const uniform float& exposure, const uniform bool& useHardwareRandomizer,
+                                     const uniform float& cutoff, const uniform float& alphaCorrection,
+                                     const uniform bool& showVectorDirections, const uniform bool& anaglyphEnabled,
+                                     const uniform vec3f& anaglyphIpdOffset)
 {
-    uniform PointFieldsRenderer* uniform self = (uniform PointFieldsRenderer * uniform) _self;
+    uniform VectorFieldsRenderer* uniform self = (uniform VectorFieldsRenderer * uniform) _self;
 
     // OSPRay
     self->super.super.spp = spp;
@@ -168,6 +185,7 @@ export void PointFieldsRenderer_set(void* uniform _self, void* uniform bgMateria
     self->alphaCorrection = alphaCorrection;
 
     self->cutoff = cutoff;
+    self->showVectorDirections = showVectorDirections;
 
     self->userData = userData;
     self->userDataSize = userDataSize;
@@ -180,8 +198,8 @@ export void PointFieldsRenderer_set(void* uniform _self, void* uniform bgMateria
     self->startData = (userData ? self->startIndices + userData[10] : 0);
 }
 
-export void PointFieldsRenderer_setTransferFunction(void* uniform _self, void* uniform value)
+export void VectorFieldsRenderer_setTransferFunction(void* uniform _self, void* uniform value)
 {
-    uniform PointFieldsRenderer* uniform self = (uniform PointFieldsRenderer * uniform) _self;
+    uniform VectorFieldsRenderer* uniform self = (uniform VectorFieldsRenderer * uniform) _self;
     self->transferFunction = (TransferFunction * uniform) value;
 }

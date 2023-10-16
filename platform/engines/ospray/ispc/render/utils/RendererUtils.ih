@@ -25,13 +25,12 @@
 #include <ospray/SDK/math/vec.ih>
 
 /**
-   Composes source and destination colors according to specified alpha
-   correction
-   @param src Source RGBA color
-   @param dst Returned destination RGBA color
-   @param alphaCorrection Alpha correction used to blend colors
+    Composes source and destination colors according to specified alpha correction
+    @param src Source RGBA color
+    @param dst Returned destination RGBA color
+    @param alphaCorrection Alpha correction used to blend colors
 */
-void composite(const varying vec4f& src, varying vec4f& dst, const varying float alphaCorrection);
+void compose(const varying vec4f& src, varying vec4f& dst, const varying float alphaCorrection);
 
 /**
    Returns the refracted vector according to the direction of the incident ray,

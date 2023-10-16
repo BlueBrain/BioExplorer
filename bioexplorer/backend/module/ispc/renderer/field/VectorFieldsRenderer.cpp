@@ -21,7 +21,7 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "PointFieldsRenderer.h"
+#include "VectorFieldsRenderer.h"
 
 #include <science/common/Properties.h>
 
@@ -34,7 +34,7 @@
 #include <ospray/SDK/transferFunction/TransferFunction.h>
 
 // ::ispc exports
-#include "PointFieldsRenderer_ispc.h"
+#include "VectorFieldsRenderer_ispc.h"
 
 using namespace core;
 
@@ -42,7 +42,7 @@ namespace bioexplorer
 {
 namespace rendering
 {
-void PointFieldsRenderer::commit()
+void VectorFieldsRenderer::commit()
 {
     AbstractRenderer::commit();
 
@@ -56,6 +56,8 @@ void PointFieldsRenderer::commit()
     _alphaCorrection = getParam1f(RENDERER_PROPERTY_ALPHA_CORRECTION.name.c_str(), DEFAULT_RENDERER_ALPHA_CORRECTION);
     _cutoff = getParam1f(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_CUTOFF_DISTANCE.name.c_str(),
                          BIOEXPLORER_DEFAULT_RENDERER_FIELDS_CUTOFF_DISTANCE);
+    _showVectorDirections = getParam(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_SHOW_VECTOR_DIRECTIONS.name.c_str(),
+                                     BIOEXPLORER_DEFAULT_RENDERER_FIELDS_SHOW_VECTOR_DIRECTIONS);
 
     // Octree
     _userData = getParamData(RENDERER_PROPERTY_USER_DATA);
@@ -65,21 +67,22 @@ void PointFieldsRenderer::commit()
     ::ospray::TransferFunction* transferFunction =
         (::ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, nullptr);
     if (transferFunction)
-        ::ispc::PointFieldsRenderer_setTransferFunction(getIE(), transferFunction->getIE());
+        ::ispc::VectorFieldsRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 
-    ::ispc::PointFieldsRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr),
-                                    (_userData ? (float*)_userData->data : nullptr), _userDataSize, _randomNumber,
-                                    _timestamp, spp, _lightPtr, _lightArray.size(), _minRayStep, _nbRaySteps,
-                                    _nbRayRefinementSteps, _exposure, _useHardwareRandomizer, _cutoff, _alphaCorrection,
-                                    _anaglyphEnabled, (ispc::vec3f&)_anaglyphIpdOffset);
+    ::ispc::VectorFieldsRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr),
+                                     (_userData ? (float*)_userData->data : nullptr), _userDataSize, _randomNumber,
+                                     _timestamp, spp, _lightPtr, _lightArray.size(), _minRayStep, _nbRaySteps,
+                                     _nbRayRefinementSteps, _exposure, _useHardwareRandomizer, _cutoff,
+                                     _alphaCorrection, _showVectorDirections, _anaglyphEnabled,
+                                     (ispc::vec3f&)_anaglyphIpdOffset);
 }
 
-PointFieldsRenderer::PointFieldsRenderer()
+VectorFieldsRenderer::VectorFieldsRenderer()
 {
-    ispcEquivalent = ::ispc::PointFieldsRenderer_create(this);
+    ispcEquivalent = ::ispc::VectorFieldsRenderer_create(this);
 }
 
-OSP_REGISTER_RENDERER(PointFieldsRenderer, point_fields);
-OSP_REGISTER_MATERIAL(point_fields, core::engine::ospray::AdvancedMaterial, default);
+OSP_REGISTER_RENDERER(VectorFieldsRenderer, vector_fields);
+OSP_REGISTER_MATERIAL(vector_fields, core::engine::ospray::AdvancedMaterial, default);
 } // namespace rendering
 } // namespace bioexplorer

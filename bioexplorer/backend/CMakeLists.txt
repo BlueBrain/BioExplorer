@@ -64,7 +64,9 @@ set(${NAME}_SOURCES
     science/common/octree/PointOctreeNode.cpp
     science/common/octree/VectorOctree.cpp
     science/common/octree/VectorOctreeNode.cpp
+    science/fields/FieldsHandler.cpp
     science/fields/PointFieldsHandler.cpp
+    science/fields/VectorFieldsHandler.cpp
     science/io/CacheLoader.cpp
     science/io/OOCManager.cpp
     science/io/db/DBConnector.cpp
@@ -137,7 +139,9 @@ set(${NAME}_PUBLIC_HEADERS
     science/common/Octree.h
     science/common/OctreeNode.h
     science/meshing/PointCloudMesher.h
+    science/fields/FieldsHandler.h
     science/fields/PointFieldsHandler.h
+    science/fields/VectorFieldsHandler.h
     science/meshing/SurfaceMesher.h
     science/api/Params.h
     science/BioExplorerPlugin.h
@@ -162,6 +166,7 @@ if(PLATFORM_OSPRAY_ENABLED)
     list(APPEND ${NAME}_SOURCES
         module/ispc/renderer/artistic/GolgiStyleRenderer.cpp
         module/ispc/renderer/field/PointFieldsRenderer.cpp
+        module/ispc/renderer/field/VectorFieldsRenderer.cpp
         module/ispc/renderer/DensityRenderer.cpp
         module/ispc/renderer/PathTracingRenderer.cpp
         module/ispc/renderer/VoxelRenderer.cpp
@@ -170,6 +175,7 @@ if(PLATFORM_OSPRAY_ENABLED)
     set(${NAME}_ISPC_SOURCES
         module/ispc/renderer/artistic/GolgiStyleRenderer.ispc
         module/ispc/renderer/field/PointFieldsRenderer.ispc
+        module/ispc/renderer/field/VectorFieldsRenderer.ispc
         module/ispc/renderer/DensityRenderer.ispc
         module/ispc/renderer/PathTracingRenderer.ispc
         module/ispc/renderer/VoxelRenderer.ispc
@@ -211,6 +217,7 @@ if(PLATFORM_OPTIX6_ENABLED)
     set(${NAME}_CU
         module/cuda/renderer/artistic/Golgi.cu
         module/cuda/renderer/field/PointFields.cu
+        module/cuda/renderer/field/VectorFields.cu
         module/cuda/renderer/Density.cu
         module/cuda/renderer/PathTracing.cu
         module/cuda/renderer/Voxel.cu
