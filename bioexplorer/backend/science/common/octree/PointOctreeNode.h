@@ -23,18 +23,18 @@
 
 #pragma once
 
-#include <platform/core/common/Types.h>
+#include <science/common/Types.h>
 
 namespace bioexplorer
 {
 namespace common
 {
 /**
- * @brief The OctreeNode class implement a spherical node of the Octree
+ * @brief The PointOctreeNode class implement a spherical node of the Octree
  * acceleration structure used by the Fields renderer
  *
  */
-class OctreeNode
+class PointOctreeNode
 {
 public:
     /**
@@ -43,7 +43,7 @@ public:
      * @param The center of the node
      * @param The node size
      */
-    OctreeNode(const core::Vector3f& center, const double size);
+    PointOctreeNode(const core::Vector3f& center, const double size);
 
     /**
      * @brief Add a value to the node
@@ -57,14 +57,14 @@ public:
      *
      * @param The node child
      */
-    void setChild(OctreeNode* child);
+    void setChild(PointOctreeNode* child);
 
     /**
      * @brief Get the node children
      *
      * @return A vector of nodes
      */
-    const std::vector<OctreeNode*>& getChildren() const;
+    const std::vector<PointOctreeNode*>& getChildren() const;
 
     /**
      * @brief Get the center of the node
@@ -86,7 +86,7 @@ private:
     core::Vector3f _center;
     core::Vector3f _size;
 
-    std::vector<OctreeNode*> _children;
+    std::vector<PointOctreeNode*> _children;
 };
 } // namespace common
 } // namespace bioexplorer

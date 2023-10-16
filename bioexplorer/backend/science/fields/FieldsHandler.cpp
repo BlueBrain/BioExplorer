@@ -24,8 +24,8 @@
 #include "FieldsHandler.h"
 
 #include <science/common/Logs.h>
-#include <science/common/Octree.h>
 #include <science/common/Utils.h>
+#include <science/common/octree/PointOctree.h>
 
 #include <platform/core/common/scene/ClipPlane.h>
 #include <platform/core/engineapi/Model.h>
@@ -65,14 +65,14 @@ FieldsHandler::FieldsHandler(const std::string& filename)
 
 void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize, const double density)
 {
-    PLUGIN_INFO(3, "Building Octree");
+    PLUGIN_INFO(3, "Building Point Octree");
 
     if (density > 1.f || density <= 0.f)
         PLUGIN_THROW("Density should be higher > 0 and <= 1");
 
     const auto& clipPlanes = getClippingPlanes(scene);
 
-    floats events;
+    OctreePoints points;
     uint32_t count{0};
     const uint32_t densityRatio = 1.f / density;
 
@@ -106,11 +106,11 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize, con
                             bounds.merge(center + sphere.radius);
                             bounds.merge(center - sphere.radius);
 
-                            events.push_back(center.x);
-                            events.push_back(center.y);
-                            events.push_back(center.z);
-                            events.push_back(sphere.radius);
-                            events.push_back(sphere.radius);
+                            OctreePoint point;
+                            point.position = center;
+                            point.radius = sphere.radius;
+                            point.value = sphere.radius;
+                            points.push_back(point);
                         }
                         ++count;
                     }
@@ -136,7 +136,7 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize, con
     const Vector3f maxAABB = center + extendedHalfSize;
 
     // Build acceleration structure
-    const Octree accelerator(events, voxelSize, minAABB, maxAABB);
+    const PointOctree accelerator(points, voxelSize, minAABB, maxAABB);
     const uint32_t volumeSize = accelerator.getVolumeSize();
     _offset = center - extendedHalfSize;
     _dimensions = accelerator.getVolumeDimensions();
@@ -160,7 +160,7 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize, con
     _frameSize = _frameData.size();
 
     PLUGIN_INFO(1, "--------------------------------------------");
-    PLUGIN_INFO(1, "Octree information (" << events.size() / 5 << " events)");
+    PLUGIN_INFO(1, "Point Octree information (" << points.size() << " points)");
     PLUGIN_INFO(1, "--------------------------------------------");
     PLUGIN_INFO(1, "Scene AABB        : " << bounds);
     PLUGIN_INFO(1, "Scene dimension   : " << sceneSize);
@@ -170,7 +170,7 @@ void FieldsHandler::_buildOctree(const Scene& scene, const double voxelSize, con
     PLUGIN_INFO(1, "Volume size       : " << volumeSize << " bytes");
     PLUGIN_INFO(1, "Indices size      : " << indices.size());
     PLUGIN_INFO(1, "Data size         : " << _frameSize);
-    PLUGIN_INFO(1, "Octree depth      : " << accelerator.getOctreeDepth());
+    PLUGIN_INFO(1, "PointOctree depth      : " << accelerator.getOctreeDepth());
     PLUGIN_INFO(1, "--------------------------------------------");
 }
 
@@ -215,7 +215,7 @@ void FieldsHandler::importFromFile(const std::string& filename)
     _spacing = {_frameData[3], _frameData[4], _frameData[5]};
     _dimensions = {_frameData[6], _frameData[7], _frameData[8]};
 
-    PLUGIN_INFO(3, "Octree: dimensions=" << _dimensions << ", offset=" << _offset << ", spacing=" << _spacing);
+    PLUGIN_INFO(3, "PointOctree: dimensions=" << _dimensions << ", offset=" << _offset << ", spacing=" << _spacing);
 
     file.close();
 }

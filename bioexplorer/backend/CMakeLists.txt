@@ -60,8 +60,10 @@ set(${NAME}_SOURCES
     science/common/shapes/PointShape.cpp
     science/common/Assembly.cpp
     science/common/ThreadSafeContainer.cpp
-    science/common/Octree.cpp
-    science/common/OctreeNode.cpp
+    science/common/octree/PointOctree.cpp
+    science/common/octree/PointOctreeNode.cpp
+    science/common/octree/VectorOctree.cpp
+    science/common/octree/VectorOctreeNode.cpp
     science/fields/FieldsHandler.cpp
     science/io/CacheLoader.cpp
     science/io/OOCManager.cpp

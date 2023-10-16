@@ -176,6 +176,21 @@ enum class XYZFileFormat
        ascii representation. One line per atom*/
     xyzrv_ascii = 6
 };
+
+typedef struct
+{
+    core::Vector3d position;
+    core::Vector3d direction;
+} OctreeVector;
+using OctreeVectors = std::vector<OctreeVector>;
+
+typedef struct
+{
+    core::Vector3d position;
+    double radius;
+    double value;
+} OctreePoint;
+using OctreePoints = std::vector<OctreePoint>;
 } // namespace common
 
 namespace molecularsystems

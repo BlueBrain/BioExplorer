@@ -25,22 +25,22 @@
 
 #include <platform/core/common/Types.h>
 
-#include "OctreeNode.h"
+#include "PointOctreeNode.h"
 
 namespace bioexplorer
 {
 namespace common
 {
 /**
- * @brief The Octree class implements the Octree acceleration structure used by
+ * @brief The PointOctree class implements the PointOctree acceleration structure used by
  * the FieldsRenderer class to render magnetic fields
  *
  */
-class Octree
+class PointOctree
 {
 public:
     /**
-     * @brief Construct a new Octree object
+     * @brief Construct a new PointOctree object
      *
      * @param events Events used to build the tree. Events contain x, y, z
      * coordinates, as well as a radius, and a value
@@ -48,13 +48,14 @@ public:
      * @param minAABB Lower bound of the scene bounding box
      * @param maxAABB Upper bound of the scene bounding box
      */
-    Octree(const floats &events, double voxelSize, const glm::vec3 &minAABB, const glm::vec3 &maxAABB);
+    PointOctree(const bioexplorer::common::OctreePoints &events, double voxelSize, const glm::vec3 &minAABB,
+                const glm::vec3 &maxAABB);
 
     /**
-     * @brief Destroy the Octree object
+     * @brief Destroy the PointOctree object
      *
      */
-    ~Octree();
+    ~PointOctree();
 
     /**
      * @brief Get the volume dimentions defined by the scene and the voxel sizes
@@ -71,35 +72,35 @@ public:
     uint32_t getVolumeSize() const { return _volumeSize; }
 
     /**
-     * @brief Get the size of the Octree
+     * @brief Get the size of the PointOctree
      *
-     * @return The size of the Octree
+     * @return The size of the PointOctree
      */
     uint32_t getOctreeSize() const { return _octreeSize; }
 
     /**
-     * @brief Get the depth of the Octree
+     * @brief Get the depth of the PointOctree
      *
-     * @return The depth of the Octree
+     * @return The depth of the PointOctree
      */
     uint32_t getOctreeDepth() const { return _depth; }
 
     /**
-     * @brief Get a flattened representation of the Octree indices
+     * @brief Get a flattened representation of the PointOctree indices
      *
-     * @return A flattened representation of the Octree indices
+     * @return A flattened representation of the PointOctree indices
      */
     const uint32_ts &getFlatIndices() const { return _flatIndices; }
 
     /**
-     * @brief Get a flattened representation of the Octree data (node values)
+     * @brief Get a flattened representation of the PointOctree data (node values)
      *
-     * @return A flattened representation of the Octree data (node values)
+     * @return A flattened representation of the PointOctree data (node values)
      */
     const floats &getFlatData() const { return _flatData; }
 
 private:
-    void _flattenChildren(OctreeNode *node, uint32_t level);
+    void _flattenChildren(PointOctreeNode *node, uint32_t level);
 
     inline uint32_t _pow2roundup(uint32_t x)
     {
