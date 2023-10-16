@@ -32,18 +32,18 @@ namespace bioexplorer
 namespace rendering
 {
 /**
- * @brief The FieldsRenderer class allows visualization of magnetic fields created by atoms in the 3D scene. An Octree
- * acceleration structure has to be built by the be_build_fields API in order to feed the renderer with the information
- * needed to compute the value of the field for every point in the 3D space
+ * @brief The PointFieldsRenderer class allows visualization of magnetic fields created by atoms in the 3D scene. An
+ * Octree acceleration structure has to be built by the be_build_fields API in order to feed the renderer with the
+ * information needed to compute the value of the field for every point in the 3D space
  */
-class FieldsRenderer : public ::core::engine::ospray::AbstractRenderer
+class PointFieldsRenderer : public ::core::engine::ospray::AbstractRenderer
 {
 public:
     /**
      * @brief Construct a new Bio Explorer Fields Renderer object
      *
      */
-    FieldsRenderer();
+    PointFieldsRenderer();
 
     /**
      * @brief Returns the class name as a string

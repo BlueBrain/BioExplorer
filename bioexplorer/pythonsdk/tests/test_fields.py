@@ -45,9 +45,9 @@ def test_fields():
 
     # Virus
     bio_explorer.core_api().set_renderer(
-        current='bio_explorer_fields',
+        current='point_fields',
         samples_per_pixel=1, subsampling=8, max_accum_frames=8)
-    params = bio_explorer.core_api().BioExplorerFieldsRendererParams()
+    params = bio_explorer.core_api().PointFieldsRendererParams()
     params.cutoff = 2000
     params.max_steps = 2048
     params.threshold = 0.05

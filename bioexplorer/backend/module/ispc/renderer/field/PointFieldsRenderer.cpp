@@ -21,7 +21,7 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "FieldsRenderer.h"
+#include "PointFieldsRenderer.h"
 
 #include <science/common/Properties.h>
 
@@ -42,7 +42,7 @@ namespace bioexplorer
 {
 namespace rendering
 {
-void FieldsRenderer::commit()
+void PointFieldsRenderer::commit()
 {
     AbstractRenderer::commit();
 
@@ -74,12 +74,12 @@ void FieldsRenderer::commit()
                                _anaglyphEnabled, (ispc::vec3f&)_anaglyphIpdOffset);
 }
 
-FieldsRenderer::FieldsRenderer()
+PointFieldsRenderer::PointFieldsRenderer()
 {
     ispcEquivalent = ::ispc::FieldsRenderer_create(this);
 }
 
-OSP_REGISTER_RENDERER(FieldsRenderer, bio_explorer_fields);
-OSP_REGISTER_MATERIAL(bio_explorer_fields, core::engine::ospray::AdvancedMaterial, default);
+OSP_REGISTER_RENDERER(PointFieldsRenderer, point_fields);
+OSP_REGISTER_MATERIAL(point_fields, core::engine::ospray::AdvancedMaterial, default);
 } // namespace rendering
 } // namespace bioexplorer

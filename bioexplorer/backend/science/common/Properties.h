@@ -31,7 +31,7 @@ Renderer properties
 */
 static const char* RENDERER_GOLGI_STYLE = "bio_explorer_golgi_style";
 static const char* RENDERER_DENSITY = "bio_explorer_density";
-static const char* RENDERER_FIELDS = "bio_explorer_fields";
+static const char* RENDERER_FIELDS = "point_fields";
 static const char* RENDERER_PATH_TRACING = "bio_explorer_path_tracing";
 static const char* RENDERER_VOXEL = "bio_explorer_voxel";
 

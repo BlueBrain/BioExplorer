@@ -46,9 +46,9 @@
 
 #ifdef USE_OPTIX6
 #include <BioExplorer_generated_Density.cu.ptx.h>
-#include <BioExplorer_generated_Fields.cu.ptx.h>
 #include <BioExplorer_generated_Golgi.cu.ptx.h>
 #include <BioExplorer_generated_PathTracing.cu.ptx.h>
+#include <BioExplorer_generated_PointFields.cu.ptx.h>
 #include <BioExplorer_generated_Voxel.cu.ptx.h>
 #include <platform/engines/optix6/OptiXContext.h>
 #include <platform/engines/optix6/OptiXProperties.h>
@@ -613,7 +613,7 @@ void BioExplorerPlugin::_createOptiXRenderers()
     std::map<std::string, std::string> renderers = {
         {RENDERER_GOLGI_STYLE, BioExplorer_generated_Golgi_cu_ptx},
         {RENDERER_DENSITY, BioExplorer_generated_Density_cu_ptx},
-        {RENDERER_FIELDS, BioExplorer_generated_Fields_cu_ptx},
+        {RENDERER_FIELDS, BioExplorer_generated_PointFields_cu_ptx},
         {RENDERER_PATH_TRACING, BioExplorer_generated_PathTracing_cu_ptx},
         {RENDERER_VOXEL, BioExplorer_generated_Voxel_cu_ptx},
     };

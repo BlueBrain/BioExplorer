@@ -2757,12 +2757,12 @@ class BioExplorer:
 
         # Rendering settings
         self._client.set_renderer(
-            current="bio_explorer_fields",
+            current="point_fields",
             samples_per_pixel=1,
             subsampling=8,
             max_accum_frames=samples_per_pixel,
         )
-        params = self._client.BioExplorerFieldsRendererParams()
+        params = self._client.PointFieldsRendererParams()
         params.cutoff = 5000
         params.main_exposure = 10.0
         params.alpha_correction = 0.1

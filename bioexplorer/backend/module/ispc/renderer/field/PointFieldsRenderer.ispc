@@ -21,13 +21,13 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "FieldsRenderer.ih"
+#include "PointFieldsRenderer.ih"
 
 #include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
 
 const float EPSILON = 1e-6f;
 
-float treeWalker(const uniform FieldsRenderer* uniform self, const vec3f& point, const varying float distance,
+float treeWalker(const uniform PointFieldsRenderer* uniform self, const vec3f& point, const varying float distance,
                  const varying float cutoff, const varying int32 index = 0)
 {
     const uint64 begin = self->userData[self->startIndices + index * 2];
@@ -81,7 +81,7 @@ inline void composite(const varying vec4f& src, varying vec4f& dst, const varyin
     dst.w += (alpha * (1.f - dst.w));
 }
 
-inline vec3f FieldsRenderer_shadeRay(const uniform FieldsRenderer* uniform self, varying ScreenSample& sample)
+inline vec3f FieldsRenderer_shadeRay(const uniform PointFieldsRenderer* uniform self, varying ScreenSample& sample)
 {
     const Ray ray = sample.ray;
 
@@ -134,7 +134,7 @@ inline vec3f FieldsRenderer_shadeRay(const uniform FieldsRenderer* uniform self,
 void FieldsRenderer_renderSample(uniform Renderer* uniform _self, void* uniform perFrameData,
                                  varying ScreenSample& sample)
 {
-    uniform FieldsRenderer* uniform self = (uniform FieldsRenderer * uniform) _self;
+    uniform PointFieldsRenderer* uniform self = (uniform PointFieldsRenderer * uniform) _self;
     sample.ray.time = self->super.timestamp;
     if (self->super.anaglyphEnabled)
     {
@@ -157,7 +157,7 @@ void FieldsRenderer_renderSample(uniform Renderer* uniform _self, void* uniform 
 // Exports (called from C++)
 export void* uniform FieldsRenderer_create(void* uniform cppE)
 {
-    uniform FieldsRenderer* uniform self = uniform new uniform FieldsRenderer;
+    uniform PointFieldsRenderer* uniform self = uniform new uniform PointFieldsRenderer;
     Renderer_Constructor(&self->super.super, cppE);
     self->super.super.renderSample = FieldsRenderer_renderSample;
     return self;
@@ -172,7 +172,7 @@ export void FieldsRenderer_set(void* uniform _self, void* uniform bgMaterial, un
                                const uniform float& cutoff, const uniform float& alphaCorrection,
                                const uniform bool anaglyphEnabled, const uniform vec3f& anaglyphIpdOffset)
 {
-    uniform FieldsRenderer* uniform self = (uniform FieldsRenderer * uniform) _self;
+    uniform PointFieldsRenderer* uniform self = (uniform PointFieldsRenderer * uniform) _self;
 
     // OSPRay
     self->super.super.spp = spp;
@@ -209,6 +209,6 @@ export void FieldsRenderer_set(void* uniform _self, void* uniform bgMaterial, un
 
 export void FieldsRenderer_setTransferFunction(void* uniform _self, void* uniform value)
 {
-    uniform FieldsRenderer* uniform self = (uniform FieldsRenderer * uniform) _self;
+    uniform PointFieldsRenderer* uniform self = (uniform PointFieldsRenderer * uniform) _self;
     self->transferFunction = (TransferFunction * uniform) value;
 }
