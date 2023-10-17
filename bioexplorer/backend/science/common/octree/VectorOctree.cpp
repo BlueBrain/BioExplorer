@@ -23,6 +23,7 @@
 
 #include "VectorOctree.h"
 
+#include <science/common/CommonTypes.h>
 #include <science/common/Logs.h>
 
 using namespace core;
@@ -32,7 +33,6 @@ namespace bioexplorer
 namespace common
 {
 typedef std::map<uint32_t, VectorOctreeNode> VectorOctreeLevelMap;
-const auto dataSize = sizeof(OctreeVector) / sizeof(double);
 
 VectorOctree::VectorOctree(const OctreeVectors &vectors, double voxelSize, const Vector3d &minAABB,
                            const Vector3d &maxAABB)
@@ -137,7 +137,7 @@ VectorOctree::VectorOctree(const OctreeVectors &vectors, double voxelSize, const
 
     // Needs to be initialized with zeros
     _flatIndices.resize(totalNodeNumber * 2u, 0);
-    _flatData.resize(totalNodeNumber * dataSize);
+    _flatData.resize(totalNodeNumber * FIELD_VECTOR_DATA_SIZE);
 
     // The root node
     _flattenChildren(&(octree[_depth - 1u].at(0)), _depth - 1u);
@@ -153,25 +153,26 @@ VectorOctree::~VectorOctree() {}
 void VectorOctree::_flattenChildren(VectorOctreeNode *node, uint32_t level)
 {
     const std::vector<VectorOctreeNode *> children = node->getChildren();
-
+    const auto &position = node->getCenter();
+    const auto &direction = node->getValue();
     if ((children.empty()) || (level == 0))
     {
-        _flatData[_offsetPerLevel[level] * dataSize] = node->getCenter().x;
-        _flatData[_offsetPerLevel[level] * dataSize + 1] = node->getCenter().y;
-        _flatData[_offsetPerLevel[level] * dataSize + 2] = node->getCenter().z;
-        _flatData[_offsetPerLevel[level] * dataSize + 3] = node->getValue().x;
-        _flatData[_offsetPerLevel[level] * dataSize + 4] = node->getValue().y;
-        _flatData[_offsetPerLevel[level] * dataSize + 5] = node->getValue().z;
+        _flatData[_offsetPerLevel[level] * FIELD_VECTOR_DATA_SIZE + FIELD_VECTOR_OFFSET_POSITION_X] = position.x;
+        _flatData[_offsetPerLevel[level] * FIELD_VECTOR_DATA_SIZE + FIELD_VECTOR_OFFSET_POSITION_Y] = position.y;
+        _flatData[_offsetPerLevel[level] * FIELD_VECTOR_DATA_SIZE + FIELD_VECTOR_OFFSET_POSITION_Z] = position.z;
+        _flatData[_offsetPerLevel[level] * FIELD_VECTOR_DATA_SIZE + FIELD_VECTOR_OFFSET_DIRECTION_X] = direction.x;
+        _flatData[_offsetPerLevel[level] * FIELD_VECTOR_DATA_SIZE + FIELD_VECTOR_OFFSET_DIRECTION_Y] = direction.y;
+        _flatData[_offsetPerLevel[level] * FIELD_VECTOR_DATA_SIZE + FIELD_VECTOR_OFFSET_DIRECTION_Z] = direction.z;
 
         _offsetPerLevel[level] += 1u;
         return;
     }
-    _flatData[_offsetPerLevel[level] * dataSize] = node->getCenter().x;
-    _flatData[_offsetPerLevel[level] * dataSize + 1] = node->getCenter().y;
-    _flatData[_offsetPerLevel[level] * dataSize + 2] = node->getCenter().z;
-    _flatData[_offsetPerLevel[level] * dataSize + 3] = node->getValue().x;
-    _flatData[_offsetPerLevel[level] * dataSize + 4] = node->getValue().y;
-    _flatData[_offsetPerLevel[level] * dataSize + 5] = node->getValue().z;
+    _flatData[_offsetPerLevel[level] * FIELD_VECTOR_DATA_SIZE + FIELD_VECTOR_OFFSET_POSITION_X] = position.x;
+    _flatData[_offsetPerLevel[level] * FIELD_VECTOR_DATA_SIZE + FIELD_VECTOR_OFFSET_POSITION_Y] = position.y;
+    _flatData[_offsetPerLevel[level] * FIELD_VECTOR_DATA_SIZE + FIELD_VECTOR_OFFSET_POSITION_Z] = position.z;
+    _flatData[_offsetPerLevel[level] * FIELD_VECTOR_DATA_SIZE + FIELD_VECTOR_OFFSET_DIRECTION_X] = direction.x;
+    _flatData[_offsetPerLevel[level] * FIELD_VECTOR_DATA_SIZE + FIELD_VECTOR_OFFSET_DIRECTION_Y] = direction.y;
+    _flatData[_offsetPerLevel[level] * FIELD_VECTOR_DATA_SIZE + FIELD_VECTOR_OFFSET_DIRECTION_Z] = direction.z;
 
     _flatIndices[_offsetPerLevel[level] * 2u] = _offsetPerLevel[level - 1];
     _flatIndices[_offsetPerLevel[level] * 2u + 1] = _offsetPerLevel[level - 1] + children.size() - 1u;

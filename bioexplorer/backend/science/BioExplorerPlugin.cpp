@@ -161,10 +161,7 @@ void _addBioExplorerPointFieldsRenderer(Engine &engine)
     const auto &params = engine.getParametersManager().getApplicationParameters();
     const auto &engineName = params.getEngine();
     if (engineName == ENGINE_OSPRAY)
-    {
-        properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
         properties.setProperty(COMMON_PROPERTY_EXPOSURE);
-    }
     engine.addRendererType(RENDERER_POINT_FIELDS, properties);
 }
 
@@ -181,10 +178,7 @@ void _addBioExplorerVectorFieldsRenderer(Engine &engine)
     const auto &params = engine.getParametersManager().getApplicationParameters();
     const auto &engineName = params.getEngine();
     if (engineName == ENGINE_OSPRAY)
-    {
-        properties.setProperty(COMMON_PROPERTY_USE_HARDWARE_RANDOMIZER);
         properties.setProperty(COMMON_PROPERTY_EXPOSURE);
-    }
     engine.addRendererType(RENDERER_VECTOR_FIELDS, properties);
 }
 

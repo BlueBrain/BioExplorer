@@ -23,6 +23,7 @@
 
 #include "PointOctree.h"
 
+#include <science/common/CommonTypes.h>
 #include <science/common/Logs.h>
 
 using namespace core;
@@ -32,16 +33,12 @@ namespace bioexplorer
 namespace common
 {
 typedef std::map<uint32_t, PointOctreeNode> PointOctreeLevelMap;
-const auto dataSize = sizeof(OctreePoint) / sizeof(double);
 
 PointOctree::PointOctree(const OctreePoints &events, double voxelSize, const Vector3f &minAABB, const Vector3f &maxAABB)
     : _volumeDimensions(Vector3ui(0u, 0u, 0u))
     , _volumeSize(0u)
 {
     PLUGIN_INFO(3, "Nb of events : " << events.size() / 5);
-
-    // **************** PointOctree creations *******************
-    // *****************************************************
     Vector3ui octreeSize(_pow2roundup(std::ceil((maxAABB.x - minAABB.x) / voxelSize)),
                          _pow2roundup(std::ceil((maxAABB.y - minAABB.y) / voxelSize)),
                          _pow2roundup(std::ceil((maxAABB.z - minAABB.z) / voxelSize)));
@@ -119,9 +116,6 @@ PointOctree::PointOctree(const OctreePoints &events, double voxelSize, const Vec
     for (uint32_t i = 0; i < octree.size(); ++i)
         PLUGIN_DEBUG("Number of leaves [" << i << "]: " << octree[i].size());
 
-    // **************** PointOctree flattening *******************
-    // ******************************************************
-
     _offsetPerLevel.resize(_depth);
     _offsetPerLevel[_depth - 1u] = 0;
     uint32_t previousOffset = 0u;
@@ -138,14 +132,10 @@ PointOctree::PointOctree(const OctreePoints &events, double voxelSize, const Vec
 
     // need to be initialized with zeros
     _flatIndices.resize(totalNodeNumber * 2u, 0);
-    _flatData.resize(totalNodeNumber * dataSize);
+    _flatData.resize(totalNodeNumber * FIELD_POINT_DATA_SIZE);
 
     // The root node
     _flattenChildren(&(octree[_depth - 1u].at(0)), _depth - 1u);
-
-    // **************** PointOctree flattening end *****************
-    // ********************************************************
-
     _volumeDimensions =
         Vector3ui(std::ceil((maxAABB.x - minAABB.x) / voxelSize), std::ceil((maxAABB.y - minAABB.y) / voxelSize),
                   std::ceil((maxAABB.z - minAABB.z) / voxelSize));
@@ -157,21 +147,22 @@ PointOctree::~PointOctree() {}
 void PointOctree::_flattenChildren(PointOctreeNode *node, uint32_t level)
 {
     const std::vector<PointOctreeNode *> children = node->getChildren();
-
+    const auto &position = node->getCenter();
+    const auto value = node->getValue();
     if ((children.empty()) || (level == 0))
     {
-        _flatData[_offsetPerLevel[level] * 4u] = node->getCenter().x;
-        _flatData[_offsetPerLevel[level] * 4u + 1] = node->getCenter().y;
-        _flatData[_offsetPerLevel[level] * 4u + 2] = node->getCenter().z;
-        _flatData[_offsetPerLevel[level] * 4u + 3] = node->getValue();
+        _flatData[_offsetPerLevel[level] * FIELD_POINT_DATA_SIZE + FIELD_POINT_OFFSET_POSITION_X] = position.x;
+        _flatData[_offsetPerLevel[level] * FIELD_POINT_DATA_SIZE + FIELD_POINT_OFFSET_POSITION_Y] = position.y;
+        _flatData[_offsetPerLevel[level] * FIELD_POINT_DATA_SIZE + FIELD_POINT_OFFSET_POSITION_Z] = position.z;
+        _flatData[_offsetPerLevel[level] * FIELD_POINT_DATA_SIZE + FIELD_POINT_OFFSET_VALUE] = value;
 
         _offsetPerLevel[level] += 1u;
         return;
     }
-    _flatData[_offsetPerLevel[level] * 4u] = node->getCenter().x;
-    _flatData[_offsetPerLevel[level] * 4u + 1] = node->getCenter().y;
-    _flatData[_offsetPerLevel[level] * 4u + 2] = node->getCenter().z;
-    _flatData[_offsetPerLevel[level] * 4u + 3] = node->getValue();
+    _flatData[_offsetPerLevel[level] * FIELD_POINT_DATA_SIZE + FIELD_POINT_OFFSET_POSITION_X] = position.x;
+    _flatData[_offsetPerLevel[level] * FIELD_POINT_DATA_SIZE + FIELD_POINT_OFFSET_POSITION_Y] = position.y;
+    _flatData[_offsetPerLevel[level] * FIELD_POINT_DATA_SIZE + FIELD_POINT_OFFSET_POSITION_Z] = position.z;
+    _flatData[_offsetPerLevel[level] * FIELD_POINT_DATA_SIZE + FIELD_POINT_OFFSET_VALUE] = value;
 
     _flatIndices[_offsetPerLevel[level] * 2u] = _offsetPerLevel[level - 1];
     _flatIndices[_offsetPerLevel[level] * 2u + 1] = _offsetPerLevel[level - 1] + children.size() - 1u;

@@ -31,3 +31,4 @@ jsonschema~=4.17.3
 sqlalchemy~=1.4.31
 psycopg2-binary~=2.9.2
 tqdm~=4.62.0
+scipy~=1.11.3

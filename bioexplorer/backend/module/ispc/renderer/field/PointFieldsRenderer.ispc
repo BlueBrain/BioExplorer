@@ -23,36 +23,39 @@
 
 #include "PointFieldsRenderer.ih"
 
-#include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
-#include <platform/engines/ospray/ispc/render/utils/RendererUtils.ih>
+#include <science/common/CommonTypes.h>
 
-#define DATA_SIZE 4
+#include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
+#include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
+#include <platform/engines/ospray/ispc/render/utils/RendererUtils.ih>
 
 float treeWalker(const uniform PointFieldsRenderer* uniform self, const vec3f& point, const varying float distance,
                  const varying float cutoff, const varying int32 index = 0)
 {
     const uint64 begin = self->userData[self->startIndices + index * 2];
     const uint64 end = self->userData[self->startIndices + index * 2 + 1];
-    const uint64 idxData = self->startData + index * DATA_SIZE;
+    const uint64 idxData = self->startData + index * FIELD_POINT_DATA_SIZE;
 
     if (idxData >= self->userDataSize)
         return 0.f;
 
     if (begin == 0 && end == 0)
         // Leaf
-        return self->userData[idxData + 3] / (distance * distance);
+        return self->userData[idxData + FIELD_POINT_OFFSET_VALUE] / (distance * distance);
 
     float voxelValue = 0.f;
-    for (unsigned int64 childIndex = begin; childIndex <= end; ++childIndex)
+    for (uint64 childIndex = begin; childIndex <= end; ++childIndex)
     {
-        const uint64 idx = self->startData + childIndex * DATA_SIZE;
-        const vec3f childPosition = make_vec3f(self->userData[idx], self->userData[idx + 1], self->userData[idx + 2]);
+        const uint64 idx = self->startData + childIndex * FIELD_POINT_DATA_SIZE;
+        const vec3f childPosition = make_vec3f(self->userData[idx + FIELD_POINT_OFFSET_POSITION_X],
+                                               self->userData[idx + FIELD_POINT_OFFSET_POSITION_Y],
+                                               self->userData[idx + FIELD_POINT_OFFSET_POSITION_Z]);
         const float d = length(point - childPosition);
         if (d >= cutoff)
         {
             // Child is further than the cutoff distance, no need to evaluate events in the child node, we take the
             // precomputed value of node instead
-            voxelValue += self->userData[idx + 3] / (d * d);
+            voxelValue += self->userData[idx + FIELD_POINT_OFFSET_VALUE] / (d * d);
         }
         else
             // Dive into the child node and compute its contents
@@ -63,6 +66,7 @@ float treeWalker(const uniform PointFieldsRenderer* uniform self, const vec3f& p
 
 inline vec3f PointFieldsRenderer_shadeRay(const uniform PointFieldsRenderer* uniform self, varying ScreenSample& sample)
 {
+    vec4f finalColor = make_vec4f(0.f);
     const Ray ray = sample.ray;
 
     if (sample.sampleID.z == 0)
@@ -73,23 +77,21 @@ inline vec3f PointFieldsRenderer_shadeRay(const uniform PointFieldsRenderer* uni
 
     const uniform box3f box = make_box3f(self->offset, self->offset + self->size * self->spacing);
 
+    const float diag = max(max(self->size.x, self->size.y), self->size.z);
+    const float t_step = max(self->minRayStep, diag / (float)self->nbRaySteps);
+
     float t0, t1;
     intersectBox(ray, box, t0, t1);
-    t0 = max(self->minRayStep, t0);
 
-    const vec3f s = self->size * self->spacing;
-    const float diag = min(min(s.x, s.y), s.z);
-    const float step = max(self->minRayStep, diag / self->nbRaySteps);
-    const float sampleStep = sample.sampleID.z % self->nbRayRefinementSteps;
-    float t = t0 + sampleStep * step / self->nbRayRefinementSteps;
+    const float random =
+        t_step * (float)(sample.sampleID.z % self->nbRayRefinementSteps) / (float)(self->nbRayRefinementSteps);
 
-    vec4f finalColor = make_vec4f(0.f);
-    while (finalColor.w < 0.95f && t < t1)
+    float t = max(0.f, t0) + random;
+    while (t < t1 && finalColor.w < 1.f)
     {
         const vec3f p = ray.org + t * ray.dir;
         const vec3f point = (p - self->offset) / self->spacing;
         float value = treeWalker(self, point, self->distance, self->cutoff);
-        value = clamp(value, self->transferFunction->valueRange.x, self->transferFunction->valueRange.y);
         const float sampleOpacity = self->transferFunction->getOpacityForValue(self->transferFunction, value);
         if (sampleOpacity > 0.f)
         {
@@ -97,7 +99,7 @@ inline vec3f PointFieldsRenderer_shadeRay(const uniform PointFieldsRenderer* uni
             compose(make_vec4f(sampleColor, sampleOpacity), finalColor, self->alphaCorrection);
         }
 
-        t += step;
+        t += t_step;
     }
 
     sample.alpha = finalColor.w;
@@ -172,12 +174,18 @@ export void PointFieldsRenderer_set(void* uniform _self, void* uniform bgMateria
     self->userData = userData;
     self->userDataSize = userDataSize;
 
-    self->offset = (userData ? make_vec3f(userData[0], userData[1], userData[2]) : make_vec3f(0.f));
-    self->spacing = (userData ? make_vec3f(userData[3], userData[4], userData[5]) : make_vec3f(0.f));
-    self->size = (userData ? make_vec3f(userData[6], userData[7], userData[8]) : make_vec3f(0.f));
-    self->distance = (userData ? userData[9] * 5.f : 0.f); // Octree size * 5
-    self->startIndices = 11;
-    self->startData = (userData ? self->startIndices + userData[10] : 0);
+    self->offset = (userData ? make_vec3f(userData[OCTREE_DATA_OFFSET_X], userData[OCTREE_DATA_OFFSET_Y],
+                                          userData[OCTREE_DATA_OFFSET_Z])
+                             : make_vec3f(0.f));
+    self->spacing = (userData ? make_vec3f(userData[OCTREE_DATA_SPACING_X], userData[OCTREE_DATA_SPACING_Y],
+                                           userData[OCTREE_DATA_SPACING_Z])
+                              : make_vec3f(0.f));
+    self->size = (userData ? make_vec3f(userData[OCTREE_DATA_DIMENSION_X], userData[OCTREE_DATA_DIMENSION_Y],
+                                        userData[OCTREE_DATA_DIMENSION_Z])
+                           : make_vec3f(0.f));
+    self->distance = (userData ? userData[OCTREE_DATA_INITIAL_DISTANCE] * 5.f : 0.f); // Octree size * 5
+    self->startIndices = OCTREE_DATA_INDICES;
+    self->startData = (userData ? self->startIndices + userData[OCTREE_DATA_VALUES] : 0);
 }
 
 export void PointFieldsRenderer_setTransferFunction(void* uniform _self, void* uniform value)

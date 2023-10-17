@@ -23,17 +23,17 @@
 
 #include "VectorFieldsRenderer.ih"
 
+#include <science/common/CommonTypes.h>
+
 #include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
 #include <platform/engines/ospray/ispc/render/utils/RendererUtils.ih>
-
-#define DATA_SIZE 6
 
 vec3f treeWalker(const uniform VectorFieldsRenderer* uniform self, const vec3f& point, const varying float distance,
                  const varying float cutoff, const varying int32 index = 0)
 {
     const uint64 begin = self->userData[self->startIndices + index * 2];
     const uint64 end = self->userData[self->startIndices + index * 2 + 1];
-    const uint64 idxData = self->startData + index * DATA_SIZE;
+    const uint64 idxData = self->startData + index * FIELD_VECTOR_DATA_SIZE;
 
     if (idxData >= self->userDataSize)
         return make_vec3f(0.f);
@@ -41,24 +41,28 @@ vec3f treeWalker(const uniform VectorFieldsRenderer* uniform self, const vec3f& 
     if (begin == 0 && end == 0)
     {
         // Leaf
-        const vec3f vectorDirection =
-            make_vec3f(self->userData[idxData + 3], self->userData[idxData + 4], self->userData[idxData + 5]);
+        const vec3f vectorDirection = make_vec3f(self->userData[idxData + FIELD_VECTOR_OFFSET_DIRECTION_X],
+                                                 self->userData[idxData + FIELD_VECTOR_OFFSET_DIRECTION_Y],
+                                                 self->userData[idxData + FIELD_VECTOR_OFFSET_DIRECTION_Z]);
         return vectorDirection / (distance * distance);
     }
 
     vec3f voxelValue = make_vec3f(0.f);
     for (unsigned int64 childIndex = begin; childIndex <= end; ++childIndex)
     {
-        const uint64 idx = self->startData + childIndex * DATA_SIZE;
-        const vec3f childPosition = make_vec3f(self->userData[idx], self->userData[idx + 1], self->userData[idx + 2]);
+        const uint64 idx = self->startData + childIndex * FIELD_VECTOR_DATA_SIZE;
+        const vec3f childPosition = make_vec3f(self->userData[idx + FIELD_VECTOR_OFFSET_POSITION_X],
+                                               self->userData[idx + FIELD_VECTOR_OFFSET_POSITION_Y],
+                                               self->userData[idx + FIELD_VECTOR_OFFSET_POSITION_Z]);
         const float d = length(point - childPosition);
 
         if (d >= cutoff)
         {
             // Child is further than the cutoff distance, no need to evaluate events in the child node, we take the
             // precomputed value of node  instead
-            const vec3f vectorDirection =
-                make_vec3f(self->userData[idx + 3], self->userData[idx + 4], self->userData[idx + 5]);
+            const vec3f vectorDirection = make_vec3f(self->userData[idx + FIELD_VECTOR_OFFSET_DIRECTION_X],
+                                                     self->userData[idx + FIELD_VECTOR_OFFSET_DIRECTION_Y],
+                                                     self->userData[idx + FIELD_VECTOR_OFFSET_DIRECTION_Z]);
             voxelValue = voxelValue + vectorDirection / (d * d);
         }
         else
@@ -71,6 +75,7 @@ vec3f treeWalker(const uniform VectorFieldsRenderer* uniform self, const vec3f& 
 inline vec3f VectorFieldsRenderer_shadeRay(const uniform VectorFieldsRenderer* uniform self,
                                            varying ScreenSample& sample)
 {
+    vec4f finalColor = make_vec4f(0.f);
     const Ray ray = sample.ray;
 
     if (sample.sampleID.z == 0)
@@ -81,18 +86,17 @@ inline vec3f VectorFieldsRenderer_shadeRay(const uniform VectorFieldsRenderer* u
 
     const uniform box3f box = make_box3f(self->offset, self->offset + self->size * self->spacing);
 
+    const float diag = max(max(self->size.x, self->size.y), self->size.z);
+    const float t_step = max(self->minRayStep, diag / (float)self->nbRaySteps);
+
     float t0, t1;
     intersectBox(ray, box, t0, t1);
-    t0 = max(self->minRayStep, t0);
 
-    const vec3f s = self->size * self->spacing;
-    const float diag = min(min(s.x, s.y), s.z);
-    const float step = max(self->minRayStep, diag / self->nbRaySteps);
-    const float sampleStep = sample.sampleID.z % self->nbRayRefinementSteps;
-    float t = t0 + sampleStep * step / self->nbRayRefinementSteps;
+    const float random =
+        t_step * (float)(sample.sampleID.z % self->nbRayRefinementSteps) / (float)(self->nbRayRefinementSteps);
 
-    vec4f finalColor = make_vec4f(0.f);
-    while (finalColor.w < 0.95f && t < t1)
+    float t = max(0.f, t0) + random;
+    while (t < t1 && finalColor.w < 1.f)
     {
         const vec3f p = ray.org + t * ray.dir;
         const vec3f point = (p - self->offset) / self->spacing;
@@ -113,7 +117,7 @@ inline vec3f VectorFieldsRenderer_shadeRay(const uniform VectorFieldsRenderer* u
                 compose(make_vec4f(mapColor, mapOpacity), finalColor, self->alphaCorrection);
         }
 
-        t += step;
+        t += t_step;
     }
 
     sample.alpha = finalColor.w;
