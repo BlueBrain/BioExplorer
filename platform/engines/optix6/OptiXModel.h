@@ -64,11 +64,15 @@ public:
     ::optix::GeometryGroup getBoundingBoxGroup() const { return _boundingBoxGroup; }
 
     auto& getVolumeGeometries() { return _volumeGeometries; }
-    void commitVolumesBuffers(const size_t materialId);
+
+    void createSampler(const size_t materialId, const ::optix::Buffer& buffer, const size_t size,
+                       const TextureType textureType, const RTtextureindexmode textureIndexMode,
+                       const Vector2f& valueRange = Vector2f());
 
 protected:
     void _commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities, const Vector2d valueRange) final;
     void _commitSimulationDataImpl(const float* frameData, const size_t frameSize) final;
+    void _commitVolumesBuffers(const size_t materialId);
 
 private:
     void _commitSpheres(const size_t materialId);

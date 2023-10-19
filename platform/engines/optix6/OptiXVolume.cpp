@@ -143,36 +143,33 @@ void OptiXVolume::setVoxels(const void* voxels)
     buffer->unmap();
 
     // Volume as texture
-    const size_t materialId = VOLUME_MATERIAL_ID;
-    auto material = static_cast<OptiXMaterial*>(_model->getMaterial(materialId).get());
-    material->setValueRange(_valueRange);
-    auto& textureSamplers = material->getTextureSamplers();
-    const auto it = textureSamplers.find(TextureType::volume);
-    if (it != textureSamplers.end())
-        textureSamplers.erase(it);
+    _model->createSampler(VOLUME_MATERIAL_ID, buffer, volumeSize, TextureType::volume, RT_TEXTURE_INDEX_ARRAY_INDEX,
+                          _valueRange);
+}
 
-    TextureSampler sampler = context->createTextureSampler();
-    sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
-    sampler->setWrapMode(1, RT_WRAP_CLAMP_TO_EDGE);
-    sampler->setWrapMode(2, RT_WRAP_CLAMP_TO_EDGE);
-    sampler->setIndexingMode(RT_TEXTURE_INDEX_NORMALIZED_COORDINATES);
-    sampler->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
-    sampler->setBuffer(0u, 0u, buffer);
-    sampler->setFilteringModes(RT_FILTER_LINEAR, RT_FILTER_LINEAR, RT_FILTER_NONE);
-    sampler->setMaxAnisotropy(8.0f);
-    sampler->validate();
-    textureSamplers.insert(std::make_pair(TextureType::volume, sampler));
-    auto optixMaterial = material->getOptixMaterial();
-    const auto textureName = textureTypeToString[static_cast<uint8_t>(TextureType::volume)];
-    optixMaterial[textureName]->setInt(sampler->getId());
-    material->commit();
-
-    const auto volumeSamplerId = sampler->getId();
+void OptiXVolume::setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values)
+{
+    const auto materialId = VOLUME_MATERIAL_ID;
     auto& volumeGeometries = _model->getVolumeGeometries();
+    volumeGeometries[materialId].offset = offset;
+    auto context = OptiXContext::get().getOptixContext();
+    {
+        // Octree indices as texture
+        Buffer buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_INT, indices.size(), 1u);
+        memcpy(buffer->map(), indices.data(), indices.size() * sizeof(uint32_t));
+        buffer->unmap();
+        _model->createSampler(materialId, buffer, indices.size(), TextureType::octree_indices,
+                              RT_TEXTURE_INDEX_ARRAY_INDEX);
+    }
 
-    volumeGeometries[materialId].volumeSamplerId = volumeSamplerId;
-    volumeGeometries[materialId].valueRange = _valueRange;
-    _model->commitVolumesBuffers(materialId);
+    {
+        // Octree values as texture
+        Buffer buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, values.size(), 1u);
+        memcpy(buffer->map(), values.data(), values.size() * sizeof(float));
+        buffer->unmap();
+        _model->createSampler(materialId, buffer, values.size(), TextureType::octree_values,
+                              RT_TEXTURE_INDEX_ARRAY_INDEX);
+    }
 }
 } // namespace optix
 } // namespace engine

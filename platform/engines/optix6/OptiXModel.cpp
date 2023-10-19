@@ -481,6 +481,7 @@ SharedDataVolumePtr OptiXModel::createSharedDataVolume(const Vector3ui& dimensio
         CORE_THROW("Only one volume per model is currently supported");
 
     auto context = OptiXContext::get().getOptixContext();
+
     const size_t materialId = VOLUME_MATERIAL_ID;
     auto volume = std::make_shared<OptiXVolume>(this, dimensions, spacing, type, _volumeParameters);
     _geometries->_volumes.push_back(volume);
@@ -489,7 +490,7 @@ SharedDataVolumePtr OptiXModel::createSharedDataVolume(const Vector3ui& dimensio
 
     VolumeGeometry volumeGeometry;
     volumeGeometry.dimensions = volume->getDimensions();
-    volumeGeometry.position = volume->getOffset();
+    volumeGeometry.offset = volume->getOffset();
     volumeGeometry.spacing = volume->getElementSpacing();
 
     _volumeGeometries[materialId] = volumeGeometry;
@@ -509,7 +510,7 @@ SharedDataVolumePtr OptiXModel::createSharedDataVolume(const Vector3ui& dimensio
     return volume;
 }
 
-void OptiXModel::commitVolumesBuffers(const size_t materialId)
+void OptiXModel::_commitVolumesBuffers(const size_t materialId)
 {
     if (_volumeGeometries.empty())
         return;
@@ -542,6 +543,8 @@ void OptiXModel::_commitTransferFunctionImpl(const Vector3fs& colors, const floa
     Buffer buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, nbColors, 1u);
     memcpy(buffer->map(), colormap.data(), sizeof(Vector4f) * colormap.size());
     buffer->unmap();
+
+    // TODO: Use createSampler function!!!
 
     TextureSampler sampler = context->createTextureSampler();
     sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
@@ -580,7 +583,7 @@ void OptiXModel::_commitTransferFunctionImpl(const Vector3fs& colors, const floa
     }
 
     // Update volume buffers with transfer function texture sampler Id and range
-    commitVolumesBuffers(VOLUME_MATERIAL_ID);
+    _commitVolumesBuffers(VOLUME_MATERIAL_ID);
 }
 
 void OptiXModel::_commitSimulationDataImpl(const float* frameData, const size_t frameSize)
@@ -589,6 +592,60 @@ void OptiXModel::_commitSimulationDataImpl(const float* frameData, const size_t 
     setBufferRaw(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _userData, context[CONTEXT_USER_DATA], frameData, frameSize,
                  frameSize * sizeof(float));
 }
+
+void OptiXModel::createSampler(const size_t materialId, const Buffer& buffer, const size_t size,
+                               const TextureType textureType, const RTtextureindexmode textureIndexType,
+                               const Vector2f& valueRange)
+{
+    auto context = OptiXContext::get().getOptixContext();
+    auto material = static_cast<OptiXMaterial*>(getMaterial(materialId).get());
+    auto optixMaterial = material->getOptixMaterial();
+    material->setValueRange(valueRange);
+    auto& textureSamplers = material->getTextureSamplers();
+    const auto it = textureSamplers.find(textureType);
+    if (it != textureSamplers.end())
+        textureSamplers.erase(it);
+
+    TextureSampler sampler = context->createTextureSampler();
+    const auto samplerId = sampler->getId();
+    auto filteringMode = RT_FILTER_LINEAR;
+    switch (textureType)
+    {
+    case TextureType::volume:
+        _volumeGeometries[materialId].volumeSamplerId = samplerId;
+        break;
+    case TextureType::transfer_function:
+        _volumeGeometries[materialId].transferFunctionSamplerId = samplerId;
+        _volumeGeometries[materialId].valueRange = valueRange;
+        break;
+    case TextureType::octree_indices:
+        _volumeGeometries[materialId].octreeIndicesSamplerId = samplerId;
+        filteringMode = RT_FILTER_NEAREST;
+        break;
+    case TextureType::octree_values:
+        _volumeGeometries[materialId].octreeValuesSamplerId = samplerId;
+        filteringMode = RT_FILTER_NEAREST;
+        break;
+    }
+
+    sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
+    sampler->setWrapMode(1, RT_WRAP_CLAMP_TO_EDGE);
+    sampler->setWrapMode(2, RT_WRAP_CLAMP_TO_EDGE);
+    sampler->setIndexingMode(textureIndexType);
+    sampler->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
+    sampler->setBuffer(0u, 0u, buffer);
+    sampler->setFilteringModes(filteringMode, filteringMode, RT_FILTER_NONE);
+    sampler->setMaxAnisotropy(8.0f);
+    sampler->validate();
+
+    textureSamplers.insert(std::make_pair(textureType, sampler));
+    const auto textureName = textureTypeToString[static_cast<uint8_t>(textureType)];
+    optixMaterial[textureName]->setInt(samplerId);
+    material->commit();
+
+    _commitVolumesBuffers(materialId);
+}
+
 } // namespace optix
 } // namespace engine
 } // namespace core

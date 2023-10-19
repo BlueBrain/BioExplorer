@@ -23,8 +23,7 @@
 
 #include "VectorFieldsRenderer.ih"
 
-#include <science/common/CommonTypes.h>
-
+#include <platform/core/common/CommonTypes.h>
 #include <platform/engines/ospray/ispc/camera/utils/CameraUtils.ih>
 #include <platform/engines/ospray/ispc/render/utils/RendererUtils.ih>
 

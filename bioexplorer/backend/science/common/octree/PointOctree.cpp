@@ -23,8 +23,9 @@
 
 #include "PointOctree.h"
 
-#include <science/common/CommonTypes.h>
 #include <science/common/Logs.h>
+
+#include <platform/core/common/CommonTypes.h>
 
 using namespace core;
 

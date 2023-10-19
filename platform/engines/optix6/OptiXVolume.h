@@ -46,6 +46,7 @@ public:
     void commit() final{};
 
     void setVoxels(const void* voxels) final;
+    void setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values);
 
 protected:
     void _createBox(OptiXModel* model);
@@ -53,7 +54,7 @@ protected:
     float _getVoxelValue(const void* voxels, const uint16_t x, const uint16_t y, const uint16_t z) const;
 
     const VolumeParameters& _parameters;
-    const Vector3f _offset{0.f, 0.f, 0.f};
+    const Vector3f _offset;
 
     RTformat _dataType{RT_FORMAT_UNSIGNED_BYTE};
     uint64_t _dataTypeSize{1};

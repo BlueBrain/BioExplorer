@@ -308,6 +308,12 @@ static __device__ inline void shade(bool textured)
             p_Kd = make_float3(voxelColor);
             p_Ko = make_float3(voxelColor.w);
         }
+        else if (octree_indices_map != 0 && octree_values_map != 0)
+        {
+            const float4 voxelColor = calcTransferFunctionColor(transfer_function_map, value_range, texcoord.x);
+            p_Kd = make_float3(voxelColor);
+            p_Ko = make_float3(voxelColor.w);
+        }
         else
             p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
     }

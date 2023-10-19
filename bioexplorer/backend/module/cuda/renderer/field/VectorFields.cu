@@ -21,8 +21,7 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <science/common/CommonTypes.h>
-
+#include <platform/core/common/CommonTypes.h>
 #include <platform/engines/optix6/cuda/Context.cuh>
 #include <platform/engines/optix6/cuda/Environment.cuh>
 #include <platform/engines/optix6/cuda/Random.cuh>

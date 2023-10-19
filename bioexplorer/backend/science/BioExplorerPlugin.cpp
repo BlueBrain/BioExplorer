@@ -1715,9 +1715,9 @@ size_t BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
     const size_t materialId = 0;
     auto material = model->createMaterial(materialId, DEFAULT);
 
-    TriangleMesh box = createBox(offset, offset + size);
-    model->getTriangleMeshes()[materialId] = box;
-    model->updateBounds();
+    // TriangleMesh box = createBox(offset, offset + size);
+    // model->getTriangleMeshes()[materialId] = box;
+    // model->updateBounds();
     model->setSimulationHandler(handler);
     setDefaultTransferFunction(*model);
 

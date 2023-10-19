@@ -44,6 +44,8 @@ static __device__ void dicomShade(const bool textured)
             const float voxelValue = rtTex3D<float>(volume_map, texcoord3d.x, texcoord3d.y, texcoord3d.z);
             voxelColor = calcTransferFunctionColor(transfer_function_map, value_range, voxelValue);
         }
+        else if (octree_indices_map != 0 && octree_values_map != 0)
+            voxelColor = calcTransferFunctionColor(transfer_function_map, value_range, texcoord.x);
         else
             voxelColor = make_float4(make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y)),
                                      luminance(Ko));
@@ -119,7 +121,8 @@ static __device__ void dicomShade(const bool textured)
                 lightDirection = -light.pos;
                 if (shadowIntensity > 0.f && softShadowStrength > 0.f)
                     // Soft shadowIntensity
-                    lightDirection += softShadowStrength * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
+                    lightDirection +=
+                        softShadowStrength * make_float3(rnd(seed) - 0.5f, rnd(seed) - 0.5f, rnd(seed) - 0.5f);
                 lightDirection = normalize(lightDirection);
             }
             float nDl = dot(normal, lightDirection);
