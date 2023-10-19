@@ -387,6 +387,9 @@ void OptiXContext::_initialize()
     // Exceptions
     _optixContext[CONTEXT_EXCEPTION_BAD_COLOR]->setFloat(1.0f, 0.0f, 0.0f, 1.f);
 
+    // Volumes
+    _optixContext[CONTEXT_VOLUME_SIZE]->setUint(sizeof(VolumeGeometry) / sizeof(float));
+
     PLUGIN_DEBUG("Context created");
 }
 

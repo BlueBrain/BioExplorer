@@ -42,7 +42,7 @@ public:
     /**
      * @brief Default constructor
      */
-    VectorFieldsHandler(core::Scene& scene, const double voxelSize, const double density);
+    VectorFieldsHandler(const core::Scene& scene, core::Model& model, const double voxelSize, const double density);
 
     /**
      * @brief Construct a new VectorFieldsHandler from a file
@@ -60,8 +60,6 @@ public:
 
 private:
     void _buildOctree() final;
-
-    core::Scene& _scene;
 };
 typedef std::shared_ptr<VectorFieldsHandler> VectorFieldsHandlerPtr;
 } // namespace fields

@@ -38,6 +38,7 @@ const uint OFFSET_TRANSFER_FUNCTION_TEXTURE_SAMPLER_ID = OFFSET_VOLUME_TEXTURE_S
 const uint OFFSET_VALUE_RANGE = OFFSET_TRANSFER_FUNCTION_TEXTURE_SAMPLER_ID + 1;
 const uint OFFSET_OCTREE_INDICES_SAMPLER_ID = OFFSET_VALUE_RANGE + 2;
 const uint OFFSET_OCTREE_VALUES_SAMPLER_ID = OFFSET_OCTREE_INDICES_SAMPLER_ID + 1;
+const uint OFFSET_OCTREE_TYPE = OFFSET_OCTREE_VALUES_SAMPLER_ID + 1;
 
 rtDeclareVariable(uint, volume_size, , );
 
@@ -51,8 +52,59 @@ https://www.thanassis.space/cudarenderer-BVH.html#recursion
 #define MAX_RECURSION_DEPTH 15
 
 template <int depth>
-__device__ float3 treeWalker(const int volumeOctreeIndicesId, const int volumeOctreeValuesId, const float3& point,
-                             const float distance, const float cutoff, const uint index)
+__device__ float treeWalker(const int volumeOctreeIndicesId, const int volumeOctreeValuesId, const float3& point,
+                            const float distance, const float cutoff, const uint index)
+{
+    if (depth >= MAX_RECURSION_DEPTH)
+        return 0.f;
+
+    const uint begin = optix::rtTex1D<uint32_t>(volumeOctreeIndicesId, index * 2);
+    const uint end = optix::rtTex1D<uint32_t>(volumeOctreeIndicesId, index * 2 + 1);
+    const uint idxData = index * FIELD_POINT_DATA_SIZE;
+
+    if (begin == 0 && end == 0)
+    {
+        // Leaf
+        const float value = optix::rtTex1D<float>(volumeOctreeValuesId, idxData + FIELD_POINT_OFFSET_VALUE);
+        return value / (distance * distance);
+    }
+
+    float voxelValue = 0.f;
+    for (uint childIndex = begin; childIndex <= end; ++childIndex)
+    {
+        const uint idx = childIndex * FIELD_POINT_DATA_SIZE;
+        const float3 childPosition =
+            make_float3(optix::rtTex1D<float>(volumeOctreeValuesId, idx + FIELD_POINT_OFFSET_POSITION_X),
+                        optix::rtTex1D<float>(volumeOctreeValuesId, idx + FIELD_POINT_OFFSET_POSITION_Y),
+                        optix::rtTex1D<float>(volumeOctreeValuesId, idx + FIELD_POINT_OFFSET_POSITION_Z));
+        const float d = length(point - childPosition);
+
+        if (d >= cutoff)
+        {
+            // Child is further than the cutoff distance, no need to evaluate events in the child node, we take the
+            // precomputed value of node instead
+            const float value = optix::rtTex1D<float>(volumeOctreeValuesId, idx + FIELD_POINT_OFFSET_VALUE);
+            voxelValue += value / (d * d);
+        }
+        else
+            // Dive into the child node and compute its contents
+            voxelValue +=
+                treeWalker<depth + 1>(volumeOctreeIndicesId, volumeOctreeValuesId, point, d, cutoff / 2.f, childIndex);
+    }
+    return voxelValue;
+}
+
+template <>
+__device__ float treeWalker<MAX_RECURSION_DEPTH>(const int volumeOctreeIndicesId, const int volumeOctreeValuesId,
+                                                 const float3& point, const float distance, const float cutoff,
+                                                 const uint index)
+{
+    return 0.f;
+}
+
+template <int depth>
+__device__ float3 treeWalker3(const int volumeOctreeIndicesId, const int volumeOctreeValuesId, const float3& point,
+                              const float distance, const float cutoff, const uint index)
 {
     if (depth >= MAX_RECURSION_DEPTH)
         return make_float3(0.f);
@@ -94,15 +146,15 @@ __device__ float3 treeWalker(const int volumeOctreeIndicesId, const int volumeOc
         else
             // Dive into the child node and compute its contents
             voxelValue +=
-                treeWalker<depth + 1>(volumeOctreeIndicesId, volumeOctreeValuesId, point, d, cutoff / 2.f, childIndex);
+                treeWalker3<depth + 1>(volumeOctreeIndicesId, volumeOctreeValuesId, point, d, cutoff / 2.f, childIndex);
     }
     return voxelValue;
 }
 
 template <>
-__device__ float3 treeWalker<MAX_RECURSION_DEPTH>(const int volumeOctreeIndicesId, const int volumeOctreeValuesId,
-                                                  const float3& point, const float distance, const float cutoff,
-                                                  const uint index)
+__device__ float3 treeWalker3<MAX_RECURSION_DEPTH>(const int volumeOctreeIndicesId, const int volumeOctreeValuesId,
+                                                   const float3& point, const float distance, const float cutoff,
+                                                   const uint index)
 {
     return make_float3(0.f);
 }
@@ -115,13 +167,20 @@ static __device__ float get_voxel_value(const int idx, const float3& point)
 
     const int volumeOctreeIndicesId = static_cast<int>(volumes[idx + OFFSET_OCTREE_INDICES_SAMPLER_ID]);
     const int volumeOctreeValuesId = static_cast<int>(volumes[idx + OFFSET_OCTREE_VALUES_SAMPLER_ID]);
+    const int volumeOctreeType = static_cast<int>(volumes[idx + OFFSET_OCTREE_TYPE]);
     if (volumeOctreeIndicesId != 0 && volumeOctreeValuesId != 0)
     {
-        const float distance = volumeSpecularColor.x; // 64.f * 5.f; // !!!! TO BE CHANGED !!!!
-        const float cutoff = volumeSpecularColor.y;   // 100.f;        // !!!! TO BE CHANGED !!!!
-        const float3 sampleValue =
-            treeWalker<0>(volumeOctreeIndicesId, volumeOctreeValuesId, point, distance, cutoff, 0u);
-        return length(sampleValue);
+        const float distance = volumeSpecularColor.x; // TODO: Move to volumeUserParameter
+        const float cutoff = volumeSpecularColor.y;
+        switch (volumeOctreeType)
+        {
+        case OctreeDataType::point:
+            return treeWalker<0>(volumeOctreeIndicesId, volumeOctreeValuesId, point, distance, cutoff, 0u);
+        case OctreeDataType::vector:
+            const float3 sampleValue =
+                treeWalker3<0>(volumeOctreeIndicesId, volumeOctreeValuesId, point, distance, cutoff, 0u);
+            return length(sampleValue);
+        }
     }
     return 0.f;
 }

@@ -47,6 +47,7 @@ struct VolumeGeometry
     Vector2f valueRange;
     float octreeIndicesSamplerId;
     float octreeValuesSamplerId;
+    float octreeDataType;
 };
 } // namespace optix
 } // namespace engine

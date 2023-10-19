@@ -1699,40 +1699,6 @@ Response BioExplorerPlugin::_setMaterials(const MaterialsDetails &payload)
     return response;
 }
 
-size_t BioExplorerPlugin::_attachFieldsHandler(FieldsHandlerPtr handler)
-{
-    // Force Octree initialization (if not already done) by specifying a negative frame number
-    handler->getFrameData(-1);
-
-    // Build box around the octree
-    auto &scene = _api->getScene();
-    auto model = scene.createModel();
-    const auto &spacing = Vector3d(handler->getSpacing());
-    const auto &size = Vector3d(handler->getDimensions()) * spacing;
-    const auto &offset = Vector3d(handler->getOffset());
-    const Vector3d center{(offset + size / 2.0)};
-
-    const size_t materialId = 0;
-    auto material = model->createMaterial(materialId, DEFAULT);
-
-    // TriangleMesh box = createBox(offset, offset + size);
-    // model->getTriangleMeshes()[materialId] = box;
-    // model->updateBounds();
-    model->setSimulationHandler(handler);
-    setDefaultTransferFunction(*model);
-
-    ModelMetadata metadata;
-    metadata["Center"] = std::to_string(center.x) + "," + std::to_string(center.y) + "," + std::to_string(center.z);
-    metadata["Size"] = std::to_string(size.x) + "," + std::to_string(size.y) + "," + std::to_string(size.z);
-    metadata["Spacing"] = std::to_string(spacing.x) + "," + std::to_string(spacing.y) + "," + std::to_string(spacing.z);
-    auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), "Fields", metadata);
-    scene.addModel(modelDescriptor);
-
-    size_t modelId = modelDescriptor->getModelID();
-    PLUGIN_INFO(3, "Fields model " << modelId << " was successfully created");
-    return modelId;
-}
-
 Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
 {
     Response response;
@@ -1745,25 +1711,35 @@ Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
             if (modelDescriptor->getName() == "Fields")
                 PLUGIN_THROW("BioExplorer can only handle one single fields model");
 
+        auto model = scene.createModel();
+        if (!model)
+            throw std::runtime_error("Failed to create model");
+
         switch (payload.dataType)
         {
         case FieldDataType::point:
         {
-            auto handler = std::make_shared<PointFieldsHandler>(scene, payload.voxelSize, payload.density);
-            const auto modelId = _attachFieldsHandler(handler);
-            response.contents = std::to_string(modelId);
+            auto handler = std::make_shared<PointFieldsHandler>(scene, *model, payload.voxelSize, payload.density);
+            // Force Octree initialization (if not already done) by specifying a negative frame number
+            handler->getFrameData(-1);
+            model->setSimulationHandler(handler);
             break;
         }
         case FieldDataType::vector:
         {
-            auto handler = std::make_shared<VectorFieldsHandler>(scene, payload.voxelSize, payload.density);
-            const auto modelId = _attachFieldsHandler(handler);
-            response.contents = std::to_string(modelId);
+            auto handler = std::make_shared<VectorFieldsHandler>(scene, *model, payload.voxelSize, payload.density);
+            // Force Octree initialization (if not already done) by specifying a negative frame number
+            handler->getFrameData(-1);
+            model->setSimulationHandler(handler);
             break;
         }
         default:
             PLUGIN_THROW("Unknown field data type");
         }
+        setDefaultTransferFunction(*model);
+        auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), "Fields");
+        scene.addModel(modelDescriptor);
+        response.contents = std::to_string(modelDescriptor->getModelID());
     }
     CATCH_STD_EXCEPTION()
     return response;
@@ -1775,8 +1751,16 @@ Response BioExplorerPlugin::_importFieldsFromFile(const FileAccessDetails &paylo
     try
     {
         PLUGIN_INFO(3, "Importing Fields from " << payload.filename);
+        auto &scene = _api->getScene();
+        auto model = scene.createModel();
+        if (!model)
+            throw std::runtime_error("Failed to create model");
         PointFieldsHandlerPtr handler = std::make_shared<PointFieldsHandler>(payload.filename);
-        _attachFieldsHandler(handler);
+        model->setSimulationHandler(handler);
+        setDefaultTransferFunction(*model);
+        auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), "Fields");
+        scene.addModel(modelDescriptor);
+        response.contents = std::to_string(modelDescriptor->getModelID());
     }
     CATCH_STD_EXCEPTION()
     return response;

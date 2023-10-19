@@ -45,15 +45,14 @@ using namespace io;
 
 namespace fields
 {
-VectorFieldsHandler::VectorFieldsHandler(Scene& scene, const double voxelSize, const double density)
-    : FieldsHandler(scene, voxelSize, density)
-    , _scene(scene)
+VectorFieldsHandler::VectorFieldsHandler(const Scene& scene, core::Model& model, const double voxelSize,
+                                         const double density)
+    : FieldsHandler(scene, model, voxelSize, density)
 {
 }
 
 VectorFieldsHandler::VectorFieldsHandler(Scene& scene, const std::string& filename)
     : FieldsHandler(filename)
-    , _scene(scene)
 {
 }
 
@@ -66,14 +65,14 @@ void VectorFieldsHandler::_buildOctree()
 {
     PLUGIN_INFO(3, "Building Vector Octree");
 
-    const auto& clipPlanes = getClippingPlanes(_scene);
+    const auto& clipPlanes = getClippingPlanes(*_scene);
 
     OctreeVectors vectors;
     uint32_t count{0};
     const uint32_t densityRatio = 1.f / _density;
 
     Boxd bounds;
-    const auto& modelDescriptors = _scene.getModelDescriptors();
+    const auto& modelDescriptors = _scene->getModelDescriptors();
     for (const auto modelDescriptor : modelDescriptors)
     {
         const auto& instances = modelDescriptor->getInstances();
@@ -160,7 +159,7 @@ void VectorFieldsHandler::_buildOctree()
     _frameSize = _frameData.size();
 
     PLUGIN_INFO(1, "--------------------------------------------");
-    PLUGIN_INFO(1, "Point Octree information (" << vectors.size() << " vectors)");
+    PLUGIN_INFO(1, "Vector Octree information (" << vectors.size() << " vectors)");
     PLUGIN_INFO(1, "--------------------------------------------");
     PLUGIN_INFO(1, "Scene AABB        : " << bounds);
     PLUGIN_INFO(1, "Scene dimension   : " << sceneSize);
@@ -175,14 +174,9 @@ void VectorFieldsHandler::_buildOctree()
     PLUGIN_INFO(1, "--------------------------------------------");
 
 #ifdef USE_OPTIX6
-    auto model = _scene.createModel();
-    if (!model)
-        throw std::runtime_error("Failed to create model");
-    auto volume = model->createSharedDataVolume(_dimensions, _spacing, DataType::FLOAT);
+    auto volume = _model->createSharedDataVolume(_dimensions, _spacing, DataType::FLOAT);
     auto optixVolume = dynamic_cast<core::engine::optix::OptiXVolume*>(volume.get());
-    optixVolume->setOctree(_offset, indices, data);
-    auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), "Octree");
-    _scene.addModel(modelDescriptor);
+    optixVolume->setOctree(_offset, indices, data, OctreeDataType::vector);
 #endif
     _octreeInitialized = true;
 }

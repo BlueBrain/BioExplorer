@@ -147,11 +147,13 @@ void OptiXVolume::setVoxels(const void* voxels)
                           _valueRange);
 }
 
-void OptiXVolume::setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values)
+void OptiXVolume::setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
+                            const OctreeDataType dataType)
 {
     const auto materialId = VOLUME_MATERIAL_ID;
     auto& volumeGeometries = _model->getVolumeGeometries();
     volumeGeometries[materialId].offset = offset;
+    volumeGeometries[materialId].octreeDataType = dataType;
     auto context = OptiXContext::get().getOptixContext();
     {
         // Octree indices as texture

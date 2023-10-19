@@ -125,7 +125,6 @@ private:
     details::Response _buildPointCloud(const details::BuildPointCloudDetails &payload);
 
     // Fields
-    size_t _attachFieldsHandler(fields::FieldsHandlerPtr handler);
     details::Response _buildFields(const details::BuildFieldsDetails &payload);
     details::Response _exportFieldsToFile(const details::ModelIdFileAccessDetails &payload);
     details::Response _importFieldsFromFile(const details::FileAccessDetails &payload);

@@ -42,7 +42,7 @@ public:
     /**
      * @brief Default constructor
      */
-    FieldsHandler(const core::Scene& scene, const double voxelSize, const double density);
+    FieldsHandler(const core::Scene& scene, core::Model& model, const double voxelSize, const double density);
 
     /**
      * @brief Construct a new FieldsHandler from a file
@@ -114,6 +114,8 @@ public:
      */
     const core::Vector3f& getOffset() const { return _offset; }
 
+    ::core::Model* getModel() { return _model; }
+
 protected:
     virtual void _buildOctree() = 0;
 
@@ -122,6 +124,7 @@ protected:
     core::Vector3f _offset;
 
     const core::Scene* _scene{nullptr};
+    core::Model* _model{nullptr};
     double _voxelSize;
     double _density;
 

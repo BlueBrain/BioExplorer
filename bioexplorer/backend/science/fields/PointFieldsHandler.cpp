@@ -30,6 +30,10 @@
 #include <platform/core/common/scene/ClipPlane.h>
 #include <platform/core/engineapi/Model.h>
 
+#ifdef USE_OPTIX6
+#include <platform/engines/optix6/OptiXVolume.h>
+#endif
+
 #include <fstream>
 
 using namespace core;
@@ -42,8 +46,9 @@ using namespace io;
 namespace fields
 {
 
-PointFieldsHandler::PointFieldsHandler(const Scene& scene, const double voxelSize, const double density)
-    : FieldsHandler(scene, voxelSize, density)
+PointFieldsHandler::PointFieldsHandler(const Scene& scene, core::Model& model, const double voxelSize,
+                                       const double density)
+    : FieldsHandler(scene, model, voxelSize, density)
 {
 }
 
@@ -164,6 +169,11 @@ void PointFieldsHandler::_buildOctree()
     PLUGIN_INFO(1, "PointOctree depth      : " << accelerator.getOctreeDepth());
     PLUGIN_INFO(1, "--------------------------------------------");
 
+#ifdef USE_OPTIX6
+    auto volume = _model->createSharedDataVolume(_dimensions, _spacing, DataType::FLOAT);
+    auto optixVolume = dynamic_cast<core::engine::optix::OptiXVolume*>(volume.get());
+    optixVolume->setOctree(_offset, indices, data, OctreeDataType::point);
+#endif
     _octreeInitialized = true;
 }
 } // namespace fields

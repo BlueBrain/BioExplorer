@@ -61,6 +61,12 @@ enum MaterialChameleonMode
     receiver = 2
 };
 
+enum OctreeDataType
+{
+    point,
+    vector
+};
+
 #define OCTREE_DATA_OFFSET_X 0
 #define OCTREE_DATA_OFFSET_Y 1
 #define OCTREE_DATA_OFFSET_Z 2

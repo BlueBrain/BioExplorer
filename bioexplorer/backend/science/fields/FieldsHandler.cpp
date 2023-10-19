@@ -38,9 +38,10 @@ using namespace io;
 namespace fields
 {
 
-FieldsHandler::FieldsHandler(const Scene& scene, const double voxelSize, const double density)
+FieldsHandler::FieldsHandler(const Scene& scene, Model& model, const double voxelSize, const double density)
     : AbstractSimulationHandler()
     , _scene(&scene)
+    , _model(&model)
     , _voxelSize(voxelSize)
     , _density(density)
 {

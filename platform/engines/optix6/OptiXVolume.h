@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <platform/core/common/CommonTypes.h>
 #include <platform/core/common/transferFunction/TransferFunction.h>
 #include <platform/core/engineapi/SharedDataVolume.h>
 
@@ -46,7 +47,8 @@ public:
     void commit() final{};
 
     void setVoxels(const void* voxels) final;
-    void setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values);
+    void setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
+                   const OctreeDataType dataType);
 
 protected:
     void _createBox(OptiXModel* model);

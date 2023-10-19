@@ -485,7 +485,6 @@ SharedDataVolumePtr OptiXModel::createSharedDataVolume(const Vector3ui& dimensio
     const size_t materialId = VOLUME_MATERIAL_ID;
     auto volume = std::make_shared<OptiXVolume>(this, dimensions, spacing, type, _volumeParameters);
     _geometries->_volumes.push_back(volume);
-    context[CONTEXT_VOLUME_SIZE]->setUint(sizeof(VolumeGeometry) / sizeof(float));
     _optixVolumes[materialId] = OptiXContext::get().createGeometry(OptixGeometryType::volume);
 
     VolumeGeometry volumeGeometry;
