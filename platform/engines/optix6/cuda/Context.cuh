@@ -123,8 +123,10 @@ rtDeclareVariable(float3, ambientLightColor, , );
 
 // Volume shading
 rtDeclareVariable(uint, volumeGradientShadingEnabled, , );
+rtDeclareVariable(float, volumeGradientOffset, , );
 rtDeclareVariable(uint, volumeAdaptiveSampling, , );
 rtDeclareVariable(float, volumeAdaptiveMaxSamplingRate, , );
+rtDeclareVariable(float3, volumeUserParameters, , );
 rtDeclareVariable(uint, volumeSingleShade, , );
 rtDeclareVariable(float, volumeSamplingRate, , );
 rtDeclareVariable(float3, volumeSpecularColor, , );

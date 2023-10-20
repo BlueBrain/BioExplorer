@@ -101,6 +101,7 @@ static const char* OSPRAY_VOLUME_VOXEL_RANGE = "voxelRange";
 static const char* OSPRAY_VOLUME_VOXEL_DATA = "voxelData";
 
 static const char* OSPRAY_VOLUME_GRADIENT_SHADING_ENABLED = "gradientShadingEnabled";
+static const char* OSPRAY_VOLUME_GRADIENT_OFFSET = "gradientOffset";
 static const char* OSPRAY_VOLUME_ADAPTIVE_MAX_SAMPLING_RATE = "adaptiveMaxSamplingRate";
 static const char* OSPRAY_VOLUME_ADAPTIVE_SAMPLING = "adaptiveSampling";
 static const char* OSPRAY_VOLUME_SINGLE_SHADE = "singleShade";
@@ -109,6 +110,7 @@ static const char* OSPRAY_VOLUME_SAMPLING_RATE = "samplingRate";
 static const char* OSPRAY_VOLUME_SPECULAR_EXPONENT = "specular";
 static const char* OSPRAY_VOLUME_VOLUME_CLIPPING_BOX_LOWER = "volumeClippingBoxLower";
 static const char* OSPRAY_VOLUME_VOLUME_CLIPPING_BOX_UPPER = "volumeClippingBoxUpper";
+static const char* OSPRAY_VOLUME_USER_PARAMETERS = "userParameters";
 
 /*
 Material properties

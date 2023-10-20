@@ -148,6 +148,7 @@ void OptiXScene::_commitVolumeParameters()
 {
     auto context = OptiXContext::get().getOptixContext();
     context[CONTEXT_VOLUME_GRADIENT_SHADING_ENABLED]->setUint(_volumeParameters.getGradientShading());
+    context[CONTEXT_VOLUME_GRADIENT_OFFSET]->setFloat(_volumeParameters.getGradientOffset());
     context[CONTEXT_VOLUME_ADAPTIVE_MAX_SAMPLING_RATE]->setFloat(_volumeParameters.getAdaptiveMaxSamplingRate());
     context[CONTEXT_VOLUME_ADAPTIVE_SAMPLING]->setUint(_volumeParameters.getAdaptiveSampling());
     context[CONTEXT_VOLUME_SINGLE_SHADE]->setUint(_volumeParameters.getSingleShade());
@@ -155,6 +156,8 @@ void OptiXScene::_commitVolumeParameters()
     context[CONTEXT_VOLUME_SAMPLING_RATE]->setFloat(_volumeParameters.getSamplingRate());
     const Vector3f specular = _volumeParameters.getSpecular();
     context[CONTEXT_VOLUME_SPECULAR_COLOR]->setFloat(specular.x, specular.y, specular.z);
+    const Vector3f userParameters = _volumeParameters.getUserParameters();
+    context[CONTEXT_VOLUME_USER_PARAMETERS]->setFloat(userParameters.x, userParameters.y, userParameters.z);
     const auto boxLower = _volumeParameters.getClipBox().getMin();
     context[CONTEXT_VOLUME_CLIPPING_BOX_LOWER]->setFloat(boxLower.x, boxLower.y, boxLower.z);
     const auto boxUpper = _volumeParameters.getClipBox().getMin();

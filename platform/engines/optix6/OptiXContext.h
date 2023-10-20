@@ -129,6 +129,7 @@ static const char* CONTEXT_FRAME_NUMBER = "frame_number";
 
 // Volume parameters
 static const char* CONTEXT_VOLUME_GRADIENT_SHADING_ENABLED = "volumeGradientShadingEnabled";
+static const char* CONTEXT_VOLUME_GRADIENT_OFFSET = "volumeGradientOffset";
 static const char* CONTEXT_VOLUME_ADAPTIVE_MAX_SAMPLING_RATE = "volumeAdaptiveMaxSamplingRate";
 static const char* CONTEXT_VOLUME_ADAPTIVE_SAMPLING = "volumeAdaptiveSampling";
 static const char* CONTEXT_VOLUME_SINGLE_SHADE = "volumeSingleShade";
@@ -137,6 +138,7 @@ static const char* CONTEXT_VOLUME_SAMPLING_RATE = "volumeSamplingRate";
 static const char* CONTEXT_VOLUME_SPECULAR_COLOR = "volumeSpecularColor";
 static const char* CONTEXT_VOLUME_CLIPPING_BOX_LOWER = "volumeClippingBoxLower";
 static const char* CONTEXT_VOLUME_CLIPPING_BOX_UPPER = "volumeClippingBoxUpper";
+static const char* CONTEXT_VOLUME_USER_PARAMETERS = "volumeUserParameters";
 
 // User data
 static const char* CONTEXT_USER_DATA = RENDERER_PROPERTY_USER_DATA;

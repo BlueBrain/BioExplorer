@@ -130,6 +130,7 @@ void OSPRayVolume::commit()
     if (_parameters.isModified())
     {
         osphelper::set(_volume, OSPRAY_VOLUME_GRADIENT_SHADING_ENABLED, _parameters.getGradientShading());
+        osphelper::set(_volume, OSPRAY_VOLUME_GRADIENT_OFFSET, static_cast<float>(_parameters.getGradientOffset()));
         osphelper::set(_volume, OSPRAY_VOLUME_ADAPTIVE_MAX_SAMPLING_RATE,
                        static_cast<float>(_parameters.getAdaptiveMaxSamplingRate()));
         osphelper::set(_volume, OSPRAY_VOLUME_ADAPTIVE_SAMPLING, _parameters.getAdaptiveSampling());
@@ -137,6 +138,7 @@ void OSPRayVolume::commit()
         osphelper::set(_volume, OSPRAY_VOLUME_PRE_INTEGRATION, _parameters.getPreIntegration());
         osphelper::set(_volume, OSPRAY_VOLUME_SAMPLING_RATE, static_cast<float>(_parameters.getSamplingRate()));
         osphelper::set(_volume, OSPRAY_VOLUME_SPECULAR_EXPONENT, Vector3f(_parameters.getSpecular()));
+        osphelper::set(_volume, OSPRAY_VOLUME_USER_PARAMETERS, Vector3f(_parameters.getUserParameters()));
         osphelper::set(_volume, OSPRAY_VOLUME_VOLUME_CLIPPING_BOX_LOWER, Vector3f(_parameters.getClipBox().getMin()));
         osphelper::set(_volume, OSPRAY_VOLUME_VOLUME_CLIPPING_BOX_UPPER, Vector3f(_parameters.getClipBox().getMax()));
     }

@@ -170,8 +170,8 @@ static __device__ float get_voxel_value(const int idx, const float3& point)
     const int volumeOctreeType = static_cast<int>(volumes[idx + OFFSET_OCTREE_TYPE]);
     if (volumeOctreeIndicesId != 0 && volumeOctreeValuesId != 0)
     {
-        const float distance = volumeSpecularColor.x; // TODO: Move to volumeUserParameter
-        const float cutoff = volumeSpecularColor.y;
+        const float distance = volumeUserParameters.x;
+        const float cutoff = volumeUserParameters.y;
         switch (volumeOctreeType)
         {
         case OctreeDataType::point:
@@ -238,7 +238,7 @@ static __device__ void intersect_volume(int primIdx)
                                                      {0, 1, 0},  {0, 0, -1}, {0, 0, 1}};
                         for (const auto& position : positions)
                         {
-                            const float3 p1 = p0 + (position * DEFAULT_GRADIENT_OFFSET);
+                            const float3 p1 = p0 + (position * volumeGradientOffset);
                             const float v = get_voxel_value(idx, p1);
                             normal += v * position;
                         }
