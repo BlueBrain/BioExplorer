@@ -159,11 +159,11 @@ __device__ float3 treeWalker3<MAX_RECURSION_DEPTH>(const int volumeOctreeIndices
     return make_float3(0.f);
 }
 
-static __device__ float get_voxel_value(const int idx, const float3& point)
+static __device__ float4 get_voxel_value(const int idx, const float3& point)
 {
     const int volumeSamplerId = static_cast<int>(volumes[idx + OFFSET_VOLUME_TEXTURE_SAMPLER_ID]);
     if (volumeSamplerId != 0)
-        return optix::rtTex3D<float>(volumeSamplerId, point.x, point.y, point.z);
+        return make_float4(0.f, 0.f, 0.f, optix::rtTex3D<float>(volumeSamplerId, point.x, point.y, point.z));
 
     const int volumeOctreeIndicesId = static_cast<int>(volumes[idx + OFFSET_OCTREE_INDICES_SAMPLER_ID]);
     const int volumeOctreeValuesId = static_cast<int>(volumes[idx + OFFSET_OCTREE_VALUES_SAMPLER_ID]);
@@ -175,14 +175,15 @@ static __device__ float get_voxel_value(const int idx, const float3& point)
         switch (volumeOctreeType)
         {
         case OctreeDataType::point:
-            return treeWalker<0>(volumeOctreeIndicesId, volumeOctreeValuesId, point, distance, cutoff, 0u);
+            return make_float4(0.f, 0.f, 0.f,
+                               treeWalker<0>(volumeOctreeIndicesId, volumeOctreeValuesId, point, distance, cutoff, 0u));
         case OctreeDataType::vector:
             const float3 sampleValue =
                 treeWalker3<0>(volumeOctreeIndicesId, volumeOctreeValuesId, point, distance, cutoff, 0u);
-            return length(sampleValue);
+            return make_float4(normalize(sampleValue), length(sampleValue));
         }
     }
-    return 0.f;
+    return make_float4(0.f);
 }
 
 template <bool use_robust_method>
@@ -211,9 +212,9 @@ static __device__ void intersect_volume(int primIdx)
     const ::optix::size_t2 screen = output_buffer.size();
     uint seed = tea<16>(screen.x * launch_index.y + launch_index.x, frame);
 
-    const float diag = min(spacing.x, min(spacing.y, spacing.z));
-    const float step = diag / volumeSamplingRate;
-    const float random = rnd(seed) * step * 5.f;
+    const float diag = max(spacing.x, max(spacing.y, spacing.z));
+    const float step = max(0.1f, diag / volumeSamplingRate);
+    const float random = rnd(seed) * step;
 
     // Apply ray clipping
     t0 = max(t0, ray.tmin);
@@ -226,30 +227,29 @@ static __device__ void intersect_volume(int primIdx)
         {
             const float3 p = ray.origin + t * ray.direction;
             const float3 p0 = (p - offset) / spacing;
-            const float voxelValue = get_voxel_value(idx, p0);
-            const float4 voxelColor = calcTransferFunctionColor(transferFunctionSamplerId, valueRange, voxelValue);
+            const float4 voxelValue = get_voxel_value(idx, p0);
+            const float4 voxelColor = calcTransferFunctionColor(transferFunctionSamplerId, valueRange, voxelValue.w);
             if (voxelColor.w > 0.f)
                 if (rtPotentialIntersection(t - sceneEpsilon))
                 {
-                    float3 normal = make_float3(0.f);
+                    float3 normal = make_float3(voxelValue);
                     if (volumeGradientShadingEnabled)
                     {
+                        normal = make_float3(0);
                         const float3 positions[6] = {{-1, 0, 0}, {1, 0, 0},  {0, -1, 0},
                                                      {0, 1, 0},  {0, 0, -1}, {0, 0, 1}};
                         for (const auto& position : positions)
                         {
                             const float3 p1 = p0 + (position * volumeGradientOffset);
-                            const float v = get_voxel_value(idx, p1);
-                            normal += v * position;
+                            const float4 voxelValue = get_voxel_value(idx, p1);
+                            normal += voxelValue.w * position;
                         }
                         normal = ::optix::normalize(-1.f * normal);
                     }
-                    else
-                        normal = make_float3(0, 1, 0);
 
                     geometric_normal = shading_normal = normal;
                     userDataIndex = 0;
-                    texcoord = make_float2(voxelValue, 0.f);
+                    texcoord = make_float2(voxelValue.w, 0.f);
                     texcoord3d = p0;
                     rtReportIntersection(0);
                     break;
