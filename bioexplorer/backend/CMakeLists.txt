@@ -210,8 +210,6 @@ if(PLATFORM_OPTIX6_ENABLED)
     
     set(${NAME}_CU
         module/cuda/renderer/artistic/Golgi.cu
-        module/cuda/renderer/field/PointFields.cu
-        module/cuda/renderer/field/VectorFields.cu
         module/cuda/renderer/Density.cu
         module/cuda/renderer/PathTracing.cu
         module/cuda/renderer/Voxel.cu

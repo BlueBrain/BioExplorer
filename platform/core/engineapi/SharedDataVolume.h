@@ -59,9 +59,32 @@ public:
      */
     PLATFORM_API void mapData(uint8_ts&& buffer);
 
+    /**
+     * @brief Get the Memory Buffer object
+     *
+     * @return const uint8_ts&
+     */
     const uint8_ts& getMemoryBuffer() const { return _memoryBuffer; }
+
+    /**
+     * @brief Get the Octree Indices object
+     *
+     * @return const uint32_ts&
+     */
     const uint32_ts& getOctreeIndices() const { return _octreeIndices; }
+
+    /**
+     * @brief Get the Octree Values object
+     *
+     * @return const floats&
+     */
     const floats& getOctreeValues() const { return _octreeValues; }
+
+    /**
+     * @brief Get the Octree Data Type object
+     *
+     * @return OctreeDataType
+     */
     OctreeDataType getOctreeDataType() const { return _octreeDataType; }
 
 protected:

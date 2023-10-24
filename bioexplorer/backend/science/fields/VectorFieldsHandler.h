@@ -42,15 +42,8 @@ public:
     /**
      * @brief Default constructor
      */
-    VectorFieldsHandler(const core::Scene& scene, core::Model& model, const double voxelSize, const double density,
+    VectorFieldsHandler(core::Engine& engine, core::Model& model, const double voxelSize, const double density,
                         const uint32_ts& modelIds);
-
-    /**
-     * @brief Construct a new VectorFieldsHandler from a file
-     *
-     * @param filename Full path of the file
-     */
-    VectorFieldsHandler(core::Scene& scene, const std::string& filename);
 
     /**
      * @brief Clone the AbstractSimulationHandler

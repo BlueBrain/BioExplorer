@@ -26,7 +26,6 @@
 #include <platform/core/common/simulation/AbstractSimulationHandler.h>
 
 #include <platform/core/common/Types.h>
-#include <platform/core/engineapi/Scene.h>
 
 namespace bioexplorer
 {
@@ -42,15 +41,8 @@ public:
     /**
      * @brief Default constructor
      */
-    FieldsHandler(const core::Scene& scene, core::Model& model, const double voxelSize, const double density,
+    FieldsHandler(core::Engine& engine, core::Model& model, const double voxelSize, const double density,
                   const uint32_ts& modelIds);
-
-    /**
-     * @brief Construct a new FieldsHandler from a file
-     *
-     * @param filename Full path of the file
-     */
-    FieldsHandler(const std::string& filename);
 
     /**
      * @brief Construct a new FieldsHandler object
@@ -79,20 +71,6 @@ public:
      * @return false The data is not yet available
      */
     bool isReady() const final { return true; }
-
-    /**
-     * @brief Export the octree information to a file
-     *
-     * @param filename Full path of the file
-     */
-    void exportToFile(const std::string& filename) const;
-
-    /**
-     * @brief Import the octree information from a file
-     *
-     * @param filename Full path of the file
-     */
-    void importFromFile(const std::string& filename);
 
     /**
      * @brief Get the Dimensions of the octree
@@ -124,7 +102,7 @@ protected:
     core::Vector3f _spacing;
     core::Vector3f _offset;
 
-    const core::Scene* _scene{nullptr};
+    core::Engine& _engine;
     uint32_ts _modelIds;
     core::Model* _model{nullptr};
     double _voxelSize;

@@ -2811,40 +2811,6 @@ class BioExplorer:
         params["modelIds"] = model_ids
         return self._invoke_and_check("build-fields", params)
 
-    def import_fields_from_file(self, filename):
-        """
-        Imports fields acceleration structures from file
-
-        :filename: Octree filename
-        :return: Result of the request submission
-        """
-        if self._client is None:
-            return
-
-        params = dict()
-        params["filename"] = filename
-        params["lowBounds"] = Vector3().to_list()
-        params["highBounds"] = Vector3().to_list()
-        params["fileFormat"] = BioExplorer.FILE_FORMAT_UNSPECIFIED
-        return self._invoke_and_check("import-fields-from-file", params)
-
-    def export_fields_to_file(self, model_id, filename):
-        """
-        Exports fields acceleration structures to file
-
-        :model_id: id of the model containing the fields
-        :filename: Octree filename
-        :return: Result of the request submission
-        """
-        assert isinstance(model_id, int)
-        if self._client is None:
-            return
-
-        params = dict()
-        params["modelId"] = model_id
-        params["filename"] = filename
-        return self._invoke_and_check("export-fields-to-file", params)
-
     def add_grid(
         self,
         min_value,

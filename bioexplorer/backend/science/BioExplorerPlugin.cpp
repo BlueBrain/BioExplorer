@@ -48,8 +48,6 @@
 #include <BioExplorer_generated_Density.cu.ptx.h>
 #include <BioExplorer_generated_Golgi.cu.ptx.h>
 #include <BioExplorer_generated_PathTracing.cu.ptx.h>
-#include <BioExplorer_generated_PointFields.cu.ptx.h>
-#include <BioExplorer_generated_VectorFields.cu.ptx.h>
 #include <BioExplorer_generated_Voxel.cu.ptx.h>
 #include <platform/engines/optix6/OptiXContext.h>
 #include <platform/engines/optix6/OptiXProperties.h>
@@ -158,10 +156,7 @@ void _addBioExplorerPointFieldsRenderer(Engine &engine)
     properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_REFINEMENT_STEPS);
     properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_CUTOFF_DISTANCE);
     properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
-    const auto &params = engine.getParametersManager().getApplicationParameters();
-    const auto &engineName = params.getEngine();
-    if (engineName == ENGINE_OSPRAY)
-        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+    properties.setProperty(COMMON_PROPERTY_EXPOSURE);
     engine.addRendererType(RENDERER_POINT_FIELDS, properties);
 }
 
@@ -175,10 +170,7 @@ void _addBioExplorerVectorFieldsRenderer(Engine &engine)
     properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_CUTOFF_DISTANCE);
     properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_SHOW_VECTOR_DIRECTIONS);
     properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
-    const auto &params = engine.getParametersManager().getApplicationParameters();
-    const auto &engineName = params.getEngine();
-    if (engineName == ENGINE_OSPRAY)
-        properties.setProperty(COMMON_PROPERTY_EXPOSURE);
+    properties.setProperty(COMMON_PROPERTY_EXPOSURE);
     engine.addRendererType(RENDERER_VECTOR_FIELDS, properties);
 }
 
@@ -453,16 +445,6 @@ void BioExplorerPlugin::init()
         actionInterface->registerRequest<BuildFieldsDetails, Response>(endPoint, [&](const BuildFieldsDetails &payload)
                                                                        { return _buildFields(payload); });
 
-        endPoint = PLUGIN_API_PREFIX + "export-fields-to-file";
-        PLUGIN_REGISTER_ENDPOINT(endPoint);
-        actionInterface->registerRequest<ModelIdFileAccessDetails, Response>(
-            endPoint, [&](const ModelIdFileAccessDetails &payload) { return _exportFieldsToFile(payload); });
-
-        endPoint = PLUGIN_API_PREFIX + "import-fields-from-file";
-        PLUGIN_REGISTER_ENDPOINT(endPoint);
-        actionInterface->registerRequest<FileAccessDetails, Response>(endPoint, [&](const FileAccessDetails &payload)
-                                                                      { return _importFieldsFromFile(payload); });
-
         endPoint = PLUGIN_API_PREFIX + "build-point-cloud";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
         actionInterface->registerRequest<BuildPointCloudDetails, Response>(endPoint,
@@ -628,8 +610,6 @@ void BioExplorerPlugin::_createOptiXRenderers()
     std::map<std::string, std::string> renderers = {
         {RENDERER_GOLGI_STYLE, BioExplorer_generated_Golgi_cu_ptx},
         {RENDERER_DENSITY, BioExplorer_generated_Density_cu_ptx},
-        {RENDERER_POINT_FIELDS, BioExplorer_generated_PointFields_cu_ptx},
-        {RENDERER_VECTOR_FIELDS, BioExplorer_generated_VectorFields_cu_ptx},
         {RENDERER_PATH_TRACING, BioExplorer_generated_PathTracing_cu_ptx},
         {RENDERER_VOXEL, BioExplorer_generated_Voxel_cu_ptx},
     };
@@ -1705,6 +1685,7 @@ Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
     try
     {
         PLUGIN_INFO(3, "Building Fields from models");
+        auto &engine = _api->getEngine();
         auto &scene = _api->getScene();
         auto modelDescriptors = scene.getModelDescriptors();
         auto model = scene.createModel();
@@ -1715,7 +1696,7 @@ Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
         {
         case FieldDataType::point:
         {
-            auto handler = std::make_shared<PointFieldsHandler>(scene, *model, payload.voxelSize, payload.density,
+            auto handler = std::make_shared<PointFieldsHandler>(engine, *model, payload.voxelSize, payload.density,
                                                                 payload.modelIds);
             // Force Octree initialization (if not already done) by specifying a negative frame number
             handler->getFrameData(-1);
@@ -1724,7 +1705,7 @@ Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
         }
         case FieldDataType::vector:
         {
-            auto handler = std::make_shared<VectorFieldsHandler>(scene, *model, payload.voxelSize, payload.density,
+            auto handler = std::make_shared<VectorFieldsHandler>(engine, *model, payload.voxelSize, payload.density,
                                                                  payload.modelIds);
             // Force Octree initialization (if not already done) by specifying a negative frame number
             handler->getFrameData(-1);
@@ -1738,56 +1719,6 @@ Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
         auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), "Fields");
         scene.addModel(modelDescriptor);
         response.contents = std::to_string(modelDescriptor->getModelID());
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
-}
-
-Response BioExplorerPlugin::_importFieldsFromFile(const FileAccessDetails &payload)
-{
-    Response response;
-    try
-    {
-        PLUGIN_INFO(3, "Importing Fields from " << payload.filename);
-        auto &scene = _api->getScene();
-        auto model = scene.createModel();
-        if (!model)
-            throw std::runtime_error("Failed to create model");
-        PointFieldsHandlerPtr handler = std::make_shared<PointFieldsHandler>(payload.filename);
-        model->setSimulationHandler(handler);
-        setDefaultTransferFunction(*model);
-        auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), "Fields");
-        scene.addModel(modelDescriptor);
-        response.contents = std::to_string(modelDescriptor->getModelID());
-    }
-    CATCH_STD_EXCEPTION()
-    return response;
-}
-
-Response BioExplorerPlugin::_exportFieldsToFile(const ModelIdFileAccessDetails &payload)
-{
-    Response response;
-    try
-    {
-        PLUGIN_INFO(3, "Exporting fields to " << payload.filename);
-        const auto &scene = _api->getScene();
-        auto modelDetails = scene.getModel(payload.modelId);
-        if (modelDetails)
-        {
-            auto handler = modelDetails->getModel().getSimulationHandler();
-            if (handler)
-            {
-                PointFieldsHandler *pointFieldsHandler = dynamic_cast<PointFieldsHandler *>(handler.get());
-                if (!pointFieldsHandler)
-                    PLUGIN_THROW("Model has no fields handler");
-
-                pointFieldsHandler->exportToFile(payload.filename);
-            }
-            else
-                PLUGIN_THROW("Model has no handler");
-        }
-        else
-            PLUGIN_THROW("Unknown model ID");
     }
     CATCH_STD_EXCEPTION()
     return response;

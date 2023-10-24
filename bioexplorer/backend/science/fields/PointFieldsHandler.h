@@ -26,7 +26,6 @@
 #include "FieldsHandler.h"
 
 #include <platform/core/common/Types.h>
-#include <platform/core/engineapi/Scene.h>
 
 namespace bioexplorer
 {
@@ -42,15 +41,8 @@ public:
     /**
      * @brief Default constructor
      */
-    PointFieldsHandler(const core::Scene& scene, core::Model& model, const double voxelSize, const double density,
+    PointFieldsHandler(core::Engine& engine, core::Model& model, const double voxelSize, const double density,
                        const uint32_ts& modelIds);
-
-    /**
-     * @brief Construct a new PointFieldsHandler from a file
-     *
-     * @param filename Full path of the file
-     */
-    PointFieldsHandler(const std::string& filename);
 
     /**
      * @brief Clone the AbstractSimulationHandler

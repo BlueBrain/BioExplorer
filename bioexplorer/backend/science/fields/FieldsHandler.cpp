@@ -38,10 +38,10 @@ using namespace io;
 namespace fields
 {
 
-FieldsHandler::FieldsHandler(const Scene& scene, Model& model, const double voxelSize, const double density,
+FieldsHandler::FieldsHandler(Engine& engine, Model& model, const double voxelSize, const double density,
                              const uint32_ts& modelIds)
     : AbstractSimulationHandler()
-    , _scene(&scene)
+    , _engine(engine)
     , _model(&model)
     , _voxelSize(voxelSize)
     , _density(density)
@@ -57,21 +57,9 @@ FieldsHandler::FieldsHandler(const Scene& scene, Model& model, const double voxe
     _frameSize = 1;
 }
 
-FieldsHandler::FieldsHandler(const std::string& filename)
-    : AbstractSimulationHandler()
-    , _scene(nullptr)
-    , _voxelSize(0.0)
-    , _density(0.0)
-{
-    // Import octree from file
-    importFromFile(filename);
-    _dt = 1.f;
-    _nbFrames = 1;
-    _unit = "microns";
-}
-
 FieldsHandler::FieldsHandler(const FieldsHandler& rhs)
     : AbstractSimulationHandler(rhs)
+    , _engine(rhs._engine)
 {
 }
 
@@ -83,39 +71,6 @@ void* FieldsHandler::getFrameData(const uint32_t frame)
         _buildOctree();
     _currentFrame = frame;
     return _frameData.data();
-}
-
-void FieldsHandler::exportToFile(const std::string& filename) const
-{
-    PLUGIN_INFO(3, "Saving octree to file: " << filename);
-    std::ofstream file(filename, std::ios::out | std::ios::binary);
-    if (!file.good())
-        PLUGIN_THROW("Could not export octree to " + filename);
-
-    file.write((char*)&_frameSize, sizeof(uint32_t));
-    file.write((char*)_frameData.data(), _frameData.size() * sizeof(double));
-
-    file.close();
-}
-
-void FieldsHandler::importFromFile(const std::string& filename)
-{
-    PLUGIN_INFO(3, "Loading octree from file: " << filename);
-    std::ifstream file(filename, std::ios::in | std::ios::binary);
-    if (!file.good())
-        PLUGIN_THROW("Could not import octree from " + filename);
-
-    file.read((char*)&_frameSize, sizeof(uint32_t));
-    _frameData.resize(_frameSize);
-    file.read((char*)_frameData.data(), _frameData.size() * sizeof(double));
-
-    _offset = {_frameData[0], _frameData[1], _frameData[2]};
-    _spacing = {_frameData[3], _frameData[4], _frameData[5]};
-    _dimensions = {_frameData[6], _frameData[7], _frameData[8]};
-
-    PLUGIN_INFO(3, "Octree: dimensions=" << _dimensions << ", offset=" << _offset << ", spacing=" << _spacing);
-
-    file.close();
 }
 } // namespace fields
 } // namespace bioexplorer

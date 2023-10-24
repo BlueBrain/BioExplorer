@@ -28,7 +28,9 @@
 
 #include <platform/core/common/octree/VectorOctree.h>
 #include <platform/core/common/scene/ClipPlane.h>
+#include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/Model.h>
+#include <platform/core/parameters/ParametersManager.h>
 
 #ifdef USE_OPTIX6
 #include <platform/engines/optix6/OptiXVolume.h>
@@ -45,14 +47,9 @@ using namespace io;
 
 namespace fields
 {
-VectorFieldsHandler::VectorFieldsHandler(const Scene& scene, core::Model& model, const double voxelSize,
+VectorFieldsHandler::VectorFieldsHandler(Engine& engine, core::Model& model, const double voxelSize,
                                          const double density, const uint32_ts& modelIds)
-    : FieldsHandler(scene, model, voxelSize, density, modelIds)
-{
-}
-
-VectorFieldsHandler::VectorFieldsHandler(Scene& scene, const std::string& filename)
-    : FieldsHandler(filename)
+    : FieldsHandler(engine, model, voxelSize, density, modelIds)
 {
 }
 
@@ -65,14 +62,15 @@ void VectorFieldsHandler::_buildOctree()
 {
     PLUGIN_INFO(3, "Building Vector Octree");
 
-    const auto& clipPlanes = getClippingPlanes(*_scene);
+    auto& scene = _engine.getScene();
+    const auto& clipPlanes = getClippingPlanes(scene);
 
     OctreeVectors vectors;
     uint32_t count{0};
     const uint32_t densityRatio = 1.f / _density;
 
     Boxd bounds;
-    const auto& modelDescriptors = _scene->getModelDescriptors();
+    const auto& modelDescriptors = scene.getModelDescriptors();
     for (const auto modelDescriptor : modelDescriptors)
     {
         if (!_modelIds.empty())
@@ -144,27 +142,48 @@ void VectorFieldsHandler::_buildOctree()
 
     // Build acceleration structure
     const VectorOctree accelerator(vectors, _voxelSize, minAABB, maxAABB);
+    const auto& indices = accelerator.getFlatIndices();
+    const auto& data = accelerator.getFlatData();
+
     const uint32_t volumeSize = accelerator.getVolumeSize();
     _offset = center - extendedHalfSize;
     _dimensions = accelerator.getVolumeDimensions();
     _spacing = sceneSize / Vector3f(_dimensions);
 
-    const auto& indices = accelerator.getFlatIndices();
-    const auto& data = accelerator.getFlatData();
-    _frameData.push_back(_offset.x);
-    _frameData.push_back(_offset.y);
-    _frameData.push_back(_offset.z);
-    _frameData.push_back(_spacing.x);
-    _frameData.push_back(_spacing.y);
-    _frameData.push_back(_spacing.z);
-    _frameData.push_back(_dimensions.x);
-    _frameData.push_back(_dimensions.y);
-    _frameData.push_back(_dimensions.z);
-    _frameData.push_back(accelerator.getOctreeSize());
-    _frameData.push_back(indices.size());
-    _frameData.insert(_frameData.end(), indices.begin(), indices.end());
-    _frameData.insert(_frameData.end(), data.begin(), data.end());
-    _frameSize = _frameData.size();
+    const auto& params = _engine.getParametersManager().getApplicationParameters();
+    const auto& engineName = params.getEngine();
+    if (engineName == ENGINE_OSPRAY)
+    {
+        _frameData.push_back(_offset.x);
+        _frameData.push_back(_offset.y);
+        _frameData.push_back(_offset.z);
+        _frameData.push_back(_spacing.x);
+        _frameData.push_back(_spacing.y);
+        _frameData.push_back(_spacing.z);
+        _frameData.push_back(_dimensions.x);
+        _frameData.push_back(_dimensions.y);
+        _frameData.push_back(_dimensions.z);
+        _frameData.push_back(accelerator.getOctreeSize());
+        _frameData.push_back(indices.size());
+        _frameData.insert(_frameData.end(), indices.begin(), indices.end());
+        _frameData.insert(_frameData.end(), data.begin(), data.end());
+        _frameSize = _frameData.size();
+
+        const size_t materialId = 0;
+        auto material = _model->createMaterial(0, "Octree");
+        const TriangleMesh mesh = createBox(bounds.getMin(), bounds.getMax());
+        _model->getTriangleMeshes()[materialId] = mesh;
+        _model->markInstancesDirty();
+    }
+
+    if (engineName == ENGINE_OPTIX_6)
+    {
+        auto volume = _model->createSharedDataVolume(_dimensions, _spacing, DataType::FLOAT);
+        auto optixVolume = dynamic_cast<core::engine::optix::OptiXVolume*>(volume.get());
+        optixVolume->setOctree(_offset, indices, data, OctreeDataType::vector);
+        _frameData.clear();
+        _frameSize = 0;
+    }
 
     PLUGIN_INFO(1, "--------------------------------------------");
     PLUGIN_INFO(1, "Vector Octree information (" << vectors.size() << " vectors)");
@@ -180,12 +199,6 @@ void VectorFieldsHandler::_buildOctree()
     PLUGIN_INFO(1, "Octree size       : " << accelerator.getOctreeSize());
     PLUGIN_INFO(1, "Octree depth      : " << accelerator.getOctreeDepth());
     PLUGIN_INFO(1, "--------------------------------------------");
-
-#ifdef USE_OPTIX6
-    auto volume = _model->createSharedDataVolume(_dimensions, _spacing, DataType::FLOAT);
-    auto optixVolume = dynamic_cast<core::engine::optix::OptiXVolume*>(volume.get());
-    optixVolume->setOctree(_offset, indices, data, OctreeDataType::vector);
-#endif
     _octreeInitialized = true;
 }
 } // namespace fields
