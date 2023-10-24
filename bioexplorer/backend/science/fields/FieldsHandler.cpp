@@ -38,12 +38,14 @@ using namespace io;
 namespace fields
 {
 
-FieldsHandler::FieldsHandler(const Scene& scene, Model& model, const double voxelSize, const double density)
+FieldsHandler::FieldsHandler(const Scene& scene, Model& model, const double voxelSize, const double density,
+                             const uint32_ts& modelIds)
     : AbstractSimulationHandler()
     , _scene(&scene)
     , _model(&model)
     , _voxelSize(voxelSize)
     , _density(density)
+    , _modelIds(modelIds)
 {
     if (density > 1.f || density <= 0.f)
         PLUGIN_THROW("Density should be higher > 0 and <= 1");

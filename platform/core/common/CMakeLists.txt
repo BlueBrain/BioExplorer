@@ -88,10 +88,10 @@ set(${NAME}_PUBLIC_HEADERS
   utils/ImageUtils.h
   utils/StringUtils.h
   utils/Utils.h
-  common/Octree.h
-  common/OctreeNode.h
-  common/VectorOctree.h
-  common/PointOctree.h
+  octree/PointOctree.h
+  octree/PointOctreeNode.h
+  octree/VectorOctree.h
+  octree/VectorOctreeNode.h
 )
 
 set(${NAME}_HEADERS

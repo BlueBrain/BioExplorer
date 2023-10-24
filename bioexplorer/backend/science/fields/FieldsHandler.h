@@ -42,7 +42,8 @@ public:
     /**
      * @brief Default constructor
      */
-    FieldsHandler(const core::Scene& scene, core::Model& model, const double voxelSize, const double density);
+    FieldsHandler(const core::Scene& scene, core::Model& model, const double voxelSize, const double density,
+                  const uint32_ts& modelIds);
 
     /**
      * @brief Construct a new FieldsHandler from a file
@@ -124,6 +125,7 @@ protected:
     core::Vector3f _offset;
 
     const core::Scene* _scene{nullptr};
+    uint32_ts _modelIds;
     core::Model* _model{nullptr};
     double _voxelSize;
     double _density;

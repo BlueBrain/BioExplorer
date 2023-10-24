@@ -42,7 +42,8 @@ public:
     /**
      * @brief Default constructor
      */
-    VectorFieldsHandler(const core::Scene& scene, core::Model& model, const double voxelSize, const double density);
+    VectorFieldsHandler(const core::Scene& scene, core::Model& model, const double voxelSize, const double density,
+                        const uint32_ts& modelIds);
 
     /**
      * @brief Construct a new VectorFieldsHandler from a file

@@ -42,7 +42,8 @@ public:
     /**
      * @brief Default constructor
      */
-    PointFieldsHandler(const core::Scene& scene, core::Model& model, const double voxelSize, const double density);
+    PointFieldsHandler(const core::Scene& scene, core::Model& model, const double voxelSize, const double density,
+                       const uint32_ts& modelIds);
 
     /**
      * @brief Construct a new PointFieldsHandler from a file

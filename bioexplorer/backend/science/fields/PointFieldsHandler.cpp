@@ -47,8 +47,8 @@ namespace fields
 {
 
 PointFieldsHandler::PointFieldsHandler(const Scene& scene, core::Model& model, const double voxelSize,
-                                       const double density)
-    : FieldsHandler(scene, model, voxelSize, density)
+                                       const double density, const uint32_ts& modelIds)
+    : FieldsHandler(scene, model, voxelSize, density, modelIds)
 {
 }
 
@@ -76,6 +76,14 @@ void PointFieldsHandler::_buildOctree()
     const auto& modelDescriptors = _scene->getModelDescriptors();
     for (const auto modelDescriptor : modelDescriptors)
     {
+        if (!_modelIds.empty())
+        {
+            const auto modelId = modelDescriptor->getModelID();
+            const auto it = std::find(_modelIds.begin(), _modelIds.end(), modelId);
+            if (it == _modelIds.end())
+                continue;
+        }
+
         const auto& instances = modelDescriptor->getInstances();
         for (const auto& instance : instances)
         {

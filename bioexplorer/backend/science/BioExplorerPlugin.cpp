@@ -1704,13 +1704,9 @@ Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
     Response response;
     try
     {
-        PLUGIN_INFO(3, "Building Fields from scene");
+        PLUGIN_INFO(3, "Building Fields from models");
         auto &scene = _api->getScene();
         auto modelDescriptors = scene.getModelDescriptors();
-        for (auto &modelDescriptor : modelDescriptors)
-            if (modelDescriptor->getName() == "Fields")
-                PLUGIN_THROW("BioExplorer can only handle one single fields model");
-
         auto model = scene.createModel();
         if (!model)
             throw std::runtime_error("Failed to create model");
@@ -1719,7 +1715,8 @@ Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
         {
         case FieldDataType::point:
         {
-            auto handler = std::make_shared<PointFieldsHandler>(scene, *model, payload.voxelSize, payload.density);
+            auto handler = std::make_shared<PointFieldsHandler>(scene, *model, payload.voxelSize, payload.density,
+                                                                payload.modelIds);
             // Force Octree initialization (if not already done) by specifying a negative frame number
             handler->getFrameData(-1);
             model->setSimulationHandler(handler);
@@ -1727,7 +1724,8 @@ Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
         }
         case FieldDataType::vector:
         {
-            auto handler = std::make_shared<VectorFieldsHandler>(scene, *model, payload.voxelSize, payload.density);
+            auto handler = std::make_shared<VectorFieldsHandler>(scene, *model, payload.voxelSize, payload.density,
+                                                                 payload.modelIds);
             // Force Octree initialization (if not already done) by specifying a negative frame number
             handler->getFrameData(-1);
             model->setSimulationHandler(handler);

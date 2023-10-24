@@ -2787,22 +2787,28 @@ class BioExplorer:
             return tf
         return None
 
-    def build_fields(self, voxel_size, density=1.0, data_type=FIELD_DATA_TYPE_POINT):
+    def build_fields(self, voxel_size, density=1.0, data_type=FIELD_DATA_TYPE_POINT, model_ids=list()):
         """
         Build fields acceleration structures and creates according data handler
 
         :voxel_size: Voxel size
         :voxel_size: Density of atoms to consider (between 0 and 1)
         :data_type: Type of field (FIELD_DATA_TYPE_POINT or FIELD_DATA_TYPE_VECTOR)
+        :model_ids: List of model ids used to build the field
         :return: Result of the request submission
         """
         if self._client is None:
             return
 
+        assert isinstance(voxel_size, float)
+        assert isinstance(density, float)
+        assert isinstance(model_ids, list)
+
         params = dict()
         params["voxelSize"] = voxel_size
         params["density"] = density
         params["dataType"] = data_type
+        params["modelIds"] = model_ids
         return self._invoke_and_check("build-fields", params)
 
     def import_fields_from_file(self, filename):

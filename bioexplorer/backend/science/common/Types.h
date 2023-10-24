@@ -1212,6 +1212,8 @@ typedef struct
     double density;
     /** Field type*/
     FieldDataType dataType;
+    /** Model ids*/
+    uint32_ts modelIds;
 } BuildFieldsDetails;
 
 // IO

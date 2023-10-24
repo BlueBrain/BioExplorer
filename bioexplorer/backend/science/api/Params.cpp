@@ -695,6 +695,7 @@ bool from_json(BuildFieldsDetails &param, const std::string &payload)
         FROM_JSON(param, js, voxelSize);
         FROM_JSON(param, js, density);
         FROM_JSON(param, js, dataType);
+        FROM_JSON(param, js, modelIds);
     }
     catch (...)
     {
