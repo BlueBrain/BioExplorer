@@ -149,6 +149,7 @@ void PointFieldsHandler::_buildOctree()
 
     const auto& params = _engine.getParametersManager().getApplicationParameters();
     const auto& engineName = params.getEngine();
+#ifdef USE_OSPRAY
     if (engineName == ENGINE_OSPRAY)
     {
         _frameData.push_back(_offset.x);
@@ -172,7 +173,9 @@ void PointFieldsHandler::_buildOctree()
         _model->getTriangleMeshes()[materialId] = mesh;
         _model->markInstancesDirty();
     }
+#endif
 
+#ifdef USE_OPTIX6
     if (engineName == ENGINE_OPTIX_6)
     {
         auto volume = _model->createSharedDataVolume(_dimensions, _spacing, DataType::FLOAT);
@@ -181,6 +184,7 @@ void PointFieldsHandler::_buildOctree()
         _frameData.clear();
         _frameSize = 0;
     }
+#endif
 
     PLUGIN_INFO(1, "--------------------------------------------");
     PLUGIN_INFO(1, "Point Octree information (" << points.size() << " points)");

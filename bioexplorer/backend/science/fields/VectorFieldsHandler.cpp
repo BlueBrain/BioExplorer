@@ -152,6 +152,7 @@ void VectorFieldsHandler::_buildOctree()
 
     const auto& params = _engine.getParametersManager().getApplicationParameters();
     const auto& engineName = params.getEngine();
+#ifdef USE_OSPRAY
     if (engineName == ENGINE_OSPRAY)
     {
         _frameData.push_back(_offset.x);
@@ -175,7 +176,9 @@ void VectorFieldsHandler::_buildOctree()
         _model->getTriangleMeshes()[materialId] = mesh;
         _model->markInstancesDirty();
     }
+#endif
 
+#ifdef USE_OPTIX6
     if (engineName == ENGINE_OPTIX_6)
     {
         auto volume = _model->createSharedDataVolume(_dimensions, _spacing, DataType::FLOAT);
@@ -184,6 +187,7 @@ void VectorFieldsHandler::_buildOctree()
         _frameData.clear();
         _frameSize = 0;
     }
+#endif
 
     PLUGIN_INFO(1, "--------------------------------------------");
     PLUGIN_INFO(1, "Vector Octree information (" << vectors.size() << " vectors)");
