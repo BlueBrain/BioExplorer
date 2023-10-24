@@ -24,8 +24,8 @@
 #include "OSPRayMaterial.h"
 #include "OSPRayModel.h"
 #include "OSPRayProperties.h"
-#include "OSPRayVolume.h"
 #include "OSPRayUtils.h"
+#include "OSPRayVolume.h"
 
 #include <platform/core/common/ImageManager.h>
 #include <platform/core/common/Logs.h>
@@ -131,7 +131,7 @@ void OSPRayScene::commit()
             modelDescriptor->getModel().commitGeometry();
             for (auto volume : modelDescriptor->getModel().getVolumes())
             {
-                auto ospVolume = std::dynamic_pointer_cast<OSPRayVolume>(volume);
+                auto ospVolume = std::dynamic_pointer_cast<OSPRayVolume>(volume.second);
                 ospAddVolume(_rootModel, ospVolume->impl());
             }
         }
@@ -265,11 +265,11 @@ bool OSPRayScene::_commitVolumeAndTransferFunction(ModelDescriptors& modelDescri
             rebuildScene = true;
             model.resetVolumesDirty();
         }
-        for (auto volume : model.getVolumes())
+        for (auto& volume : model.getVolumes())
         {
-            if (volume->isModified() || rebuildScene || _volumeParameters.isModified())
+            if (volume.second->isModified() || rebuildScene || _volumeParameters.isModified())
             {
-                volume->commit();
+                volume.second->commit();
                 // to reset accumulation if new blocks are added
                 markModified(false);
             }

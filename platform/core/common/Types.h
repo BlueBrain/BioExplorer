@@ -152,8 +152,7 @@ class SharedDataVolume;
 using VolumePtr = std::shared_ptr<Volume>;
 using SharedDataVolumePtr = std::shared_ptr<SharedDataVolume>;
 using BrickedVolumePtr = std::shared_ptr<BrickedVolume>;
-using Volumes = std::vector<VolumePtr>;
-using VolumesMap = std::map<size_t, Volumes>;
+using VolumesMap = std::map<size_t, VolumePtr>;
 
 class Texture2D;
 using Texture2DPtr = std::shared_ptr<Texture2D>;

@@ -49,7 +49,7 @@ A smart way to avoid recursion restrictions with OptiX 6 is to use templates!
 
 https://www.thanassis.space/cudarenderer-BVH.html#recursion
 */
-#define MAX_RECURSION_DEPTH 15
+#define MAX_RECURSION_DEPTH 30
 
 template <int depth>
 __device__ float treeWalker(const int volumeOctreeIndicesId, const int volumeOctreeValuesId, const float3& point,

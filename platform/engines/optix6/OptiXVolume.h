@@ -43,9 +43,8 @@ public:
     OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const Vector3f& spacing, const DataType dataType,
                 const VolumeParameters& params);
 
-    void setDataRange(const Vector2f&) final{};
-    void commit() final{};
-
+    void setDataRange(const Vector2f&) final{}
+    void commit() final{}
     void setVoxels(const void* voxels) final;
     void setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
                    const OctreeDataType dataType);
@@ -56,7 +55,6 @@ protected:
     float _getVoxelValue(const void* voxels, const uint16_t x, const uint16_t y, const uint16_t z) const;
 
     const VolumeParameters& _parameters;
-    const Vector3f _offset;
 
     RTformat _dataType{RT_FORMAT_UNSIGNED_BYTE};
     uint64_t _dataTypeSize{1};

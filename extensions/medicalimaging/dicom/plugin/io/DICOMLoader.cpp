@@ -249,7 +249,7 @@ ModelDescriptorPtr DICOMLoader::_readFile(const std::string& fileName) const
 
     volume->setDataRange(dataRange);
     volume->mapData(imageDescriptor.buffer);
-    model->addVolume(volume);
+    model->addVolume(VOLUME_MATERIAL_ID, volume);
 
     // Transfer function initialization
     _setDefaultTransferFunction(*model, dataRange);
@@ -313,7 +313,7 @@ ModelDescriptorPtr DICOMLoader::_readDirectory(const std::string& fileName, cons
 
     volume->setDataRange(dataRange);
     volume->mapData(volumeData);
-    model->addVolume(volume);
+    model->addVolume(VOLUME_MATERIAL_ID, volume);
 
     // Transfer function initialization
     _setDefaultTransferFunction(*model, dataRange);
@@ -396,7 +396,7 @@ ModelDescriptorPtr DICOMLoader::importFromFolder(const std::string& path)
 
     volume->setDataRange(dataRange);
     volume->mapData(volumeData);
-    model->addVolume(volume);
+    model->addVolume(VOLUME_MATERIAL_ID, volume);
 
     Transformation transformation;
     transformation.setRotationCenter(model->getBounds().getCenter());

@@ -77,11 +77,8 @@ OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const V
 
 void OptiXVolume::setVoxels(const void* voxels)
 {
-    auto context = OptiXContext::get().getOptixContext();
-    Buffer buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _dimensions.x, _dimensions.y,
-                                                   _dimensions.z, 1u);
     const uint64_t volumeSize = _dimensions.x * _dimensions.y * _dimensions.z;
-    float* volumeAsFloats = (float*)buffer->map();
+    floats volumeAsFloats(volumeSize);
     _valueRange = Vector2f(1e6, -1e6);
 
     for (uint64_t i = 0; i < volumeSize; ++i)
@@ -140,39 +137,22 @@ void OptiXVolume::setVoxels(const void* voxels)
         }
         }
     }
-    buffer->unmap();
-
-    // Volume as texture
-    _model->createSampler(VOLUME_MATERIAL_ID, buffer, volumeSize, TextureType::volume, RT_TEXTURE_INDEX_ARRAY_INDEX,
-                          _valueRange);
+    // buffer->unmap();
+    const size_t bufferSize = volumeAsFloats.size() * sizeof(float);
+    _memoryBuffer.resize(bufferSize);
+    memcpy(_memoryBuffer.data(), volumeAsFloats.data(), bufferSize);
 }
 
 void OptiXVolume::setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
                             const OctreeDataType dataType)
 {
-    const auto materialId = VOLUME_MATERIAL_ID;
-    auto& volumeGeometries = _model->getVolumeGeometries();
-    volumeGeometries[materialId].offset = offset;
-    volumeGeometries[materialId].octreeDataType = dataType;
-    auto context = OptiXContext::get().getOptixContext();
-    {
-        // Octree indices as texture
-        Buffer buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_INT, indices.size(), 1u);
-        memcpy(buffer->map(), indices.data(), indices.size() * sizeof(uint32_t));
-        buffer->unmap();
-        _model->createSampler(materialId, buffer, indices.size(), TextureType::octree_indices,
-                              RT_TEXTURE_INDEX_ARRAY_INDEX);
-    }
-
-    {
-        // Octree values as texture
-        Buffer buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, values.size(), 1u);
-        memcpy(buffer->map(), values.data(), values.size() * sizeof(float));
-        buffer->unmap();
-        _model->createSampler(materialId, buffer, values.size(), TextureType::octree_values,
-                              RT_TEXTURE_INDEX_ARRAY_INDEX);
-    }
+    _octreeIndices = indices;
+    _octreeValues = values;
+    _offset = offset;
+    _octreeDataType = dataType;
+    markModified();
 }
+
 } // namespace optix
 } // namespace engine
 } // namespace core

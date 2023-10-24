@@ -75,12 +75,13 @@ public:
     PLATFORM_API Vector3f getDimensions() const { return _dimensions; }
     PLATFORM_API Vector3f getElementSpacing() const { return _spacing; }
     PLATFORM_API Vector3f getOffset() const { return _offset; }
+    PLATFORM_API Vector2f getValueRange() const { return _valueRange; }
 
 protected:
     std::atomic_size_t _sizeInBytes{0}; // The size of the volume in bytes.
     const Vector3ui _dimensions;        // The dimensions of the volume as a Vector3ui object.
     const Vector3f _spacing;            // The spacing between voxels as a Vector3f object.
-    const Vector3f _offset;             // Volume offset
+    Vector3f _offset;                   // Volume offset
     const DataType _dataType;           // The data type of the volume.
     Vector2f _valueRange{-1e6f, 1e6f};  // The voxel value range in the volume.
 };

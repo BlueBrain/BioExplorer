@@ -403,7 +403,7 @@ void OSPRayModel::commitGeometry()
 {
     for (auto volume : _geometries->_volumes)
     {
-        auto ospVolume = std::dynamic_pointer_cast<OSPRayVolume>(volume);
+        auto ospVolume = std::dynamic_pointer_cast<OSPRayVolume>(volume.second);
         ospVolume->commit();
     }
 
