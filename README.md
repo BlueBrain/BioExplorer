@@ -369,6 +369,17 @@ Visualizing geological data is of paramount importance in the field of geology a
 
 * [Example notebook](./extensions/environment/notebooks/Charm-50.ipynb) for visualizing the [InfoTerre](http://infoterre.brgm.fr/) dataset
 
+## Physics
+
+### Nuclear fusion
+
+The core challenge lies in modeling the behavior of superheated plasma, the fuel for this revolutionary energy source. To simulate this complex phenomenon, the plasma is envisioned as an array of particles, with each particle intricately characterized by its position and direction. The direction vector of each particle not only represented its position but also served as a direct indicator of the particle's charge, a crucial factor in the fusion reaction.
+
+![___](./extensions/physics/nuclearfusion/notebooks/nuclearfusion_banner.png)
+
+
+* [Example notebook](./extensions/physics/nuclearfusion/notebooks/NuclearFusion.ipynb)
+
 ## Python SDK
 
 A simple API if exposed via the _BBBE_ python library. The API allows scientists to easily create and modify assemblies, according the biological parameters. The _BBBE_ programming language is not necessarily reflecting the underlying implementation, but is meant to be as simple as close as possible to the language used by the scientists to describe biological assemblies.
