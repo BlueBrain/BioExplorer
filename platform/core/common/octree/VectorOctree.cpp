@@ -23,15 +23,10 @@
 
 #include "VectorOctree.h"
 
-#include <science/common/Logs.h>
-
 #include <platform/core/common/CommonTypes.h>
+#include <platform/core/common/Logs.h>
 
-using namespace core;
-
-namespace bioexplorer
-{
-namespace common
+namespace core
 {
 typedef std::map<uint32_t, VectorOctreeNode> VectorOctreeLevelMap;
 
@@ -40,7 +35,7 @@ VectorOctree::VectorOctree(const OctreeVectors &vectors, double voxelSize, const
     : _volumeDimensions(Vector3ui(0u, 0u, 0u))
     , _volumeSize(0u)
 {
-    PLUGIN_INFO(3, "Nb of vectors : " << vectors.size());
+    CORE_INFO("Nb of vectors : " << vectors.size());
 
     // **************** VectorOctree creations *******************
     // *****************************************************
@@ -51,19 +46,19 @@ VectorOctree::VectorOctree(const OctreeVectors &vectors, double voxelSize, const
     // This octree is always cubic
     _octreeSize = std::max(std::max(octreeSize.x, octreeSize.y), octreeSize.z);
 
-    PLUGIN_INFO(3, "Vector Octree size  : " << _octreeSize);
+    CORE_INFO("Vector Octree size  : " << _octreeSize);
 
     _depth = std::log2(_octreeSize) + 1u;
     std::vector<VectorOctreeLevelMap> octree(_depth);
 
-    PLUGIN_INFO(3, "Vector Octree depth : " << _depth << " " << octree.size());
+    CORE_INFO("Vector Octree depth : " << _depth << " " << octree.size());
 
     if (_depth == 0)
         return;
 
     for (uint32_t i = 0; i < vectors.size(); ++i)
     {
-        PLUGIN_PROGRESS("Bulding Vector Octree from vectors", i, vectors.size());
+        CORE_PROGRESS("Bulding Vector Octree from vectors", i, vectors.size());
         const uint32_t xpos = std::floor((vectors[i].position.x - minAABB.x) / voxelSize);
         const uint32_t ypos = std::floor((vectors[i].position.y - minAABB.y) / voxelSize);
         const uint32_t zpos = std::floor((vectors[i].position.z - minAABB.z) / voxelSize);
@@ -119,7 +114,7 @@ VectorOctree::VectorOctree(const OctreeVectors &vectors, double voxelSize, const
         }
     }
     for (uint32_t i = 0; i < octree.size(); ++i)
-        PLUGIN_DEBUG("Number of leaves [" << i << "]: " << octree[i].size());
+        CORE_DEBUG("Number of leaves [" << i << "]: " << octree[i].size());
 
     // VectorOctree flattening
     _offsetPerLevel.resize(_depth);
@@ -182,5 +177,4 @@ void VectorOctree::_flattenChildren(VectorOctreeNode *node, uint32_t level)
     for (VectorOctreeNode *child : children)
         _flattenChildren(child, level - 1u);
 }
-} // namespace common
-} // namespace bioexplorer
+} // namespace core

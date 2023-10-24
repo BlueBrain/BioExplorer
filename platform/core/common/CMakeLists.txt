@@ -41,6 +41,10 @@ set(${NAME}_SOURCES
   utils/StringUtils.cpp
   utils/Utils.cpp
   Timer.cpp
+  octree/PointOctree.cpp
+  octree/PointOctreeNode.cpp
+  octree/VectorOctree.cpp
+  octree/VectorOctreeNode.cpp
 )
 
 set(${NAME}_PUBLIC_HEADERS
@@ -84,6 +88,10 @@ set(${NAME}_PUBLIC_HEADERS
   utils/ImageUtils.h
   utils/StringUtils.h
   utils/Utils.h
+  common/Octree.h
+  common/OctreeNode.h
+  common/VectorOctree.h
+  common/PointOctree.h
 )
 
 set(${NAME}_HEADERS

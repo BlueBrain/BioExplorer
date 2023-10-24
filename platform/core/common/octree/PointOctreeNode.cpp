@@ -23,11 +23,7 @@
 
 #include "PointOctreeNode.h"
 
-using namespace core;
-
-namespace bioexplorer
-{
-namespace common
+namespace core
 {
 PointOctreeNode::PointOctreeNode(const Vector3f& center, const double size)
     : _center(center)
@@ -60,5 +56,4 @@ const std::vector<PointOctreeNode*>& PointOctreeNode::getChildren() const
 {
     return _children;
 }
-} // namespace common
-} // namespace bioexplorer
+} // namespace core

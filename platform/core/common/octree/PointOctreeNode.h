@@ -23,18 +23,16 @@
 
 #pragma once
 
-#include <science/common/Types.h>
+#include <platform/core/common/Types.h>
 
-namespace bioexplorer
-{
-namespace common
+namespace core
 {
 /**
- * @brief The VectorOctreeNode class implement a spherical node of the Octree
+ * @brief The PointOctreeNode class implement a spherical node of the Octree
  * acceleration structure used by the Fields renderer
  *
  */
-class VectorOctreeNode
+class PointOctreeNode
 {
 public:
     /**
@@ -43,49 +41,49 @@ public:
      * @param The center of the node
      * @param The node size
      */
-    VectorOctreeNode(const core::Vector3f& center, const double size);
+    PointOctreeNode(const Vector3f& center, const double size);
 
     /**
      * @brief Add a value to the node
      *
      * @param The value of the node
      */
-    void addValue(const core::Vector3d& vector);
+    void addValue(const double value);
 
     /**
      * @brief Add a Child to the node
      *
      * @param The node child
      */
-    void setChild(VectorOctreeNode* child);
+    void setChild(PointOctreeNode* child);
 
     /**
      * @brief Get the node children
      *
      * @return A vector of nodes
      */
-    const std::vector<VectorOctreeNode*>& getChildren() const;
+    const std::vector<PointOctreeNode*>& getChildren() const;
 
     /**
      * @brief Get the center of the node
      *
      * @return The center of the node
      */
-    const core::Vector3f& getCenter() const;
+    const Vector3f& getCenter() const;
 
     /**
      * @brief Get the value of the node
      *
      * @return The value of the node
      */
-    const core::Vector3d& getValue() const;
+    double getValue() const;
 
 private:
-    core::Vector3d _value;
-    core::Vector3f _center;
-    core::Vector3f _size;
+    double _value;
 
-    std::vector<VectorOctreeNode*> _children;
+    Vector3f _center;
+    Vector3f _size;
+
+    std::vector<PointOctreeNode*> _children;
 };
-} // namespace common
-} // namespace bioexplorer
+} // namespace core

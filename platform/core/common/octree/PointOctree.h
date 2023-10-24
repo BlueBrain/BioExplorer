@@ -27,9 +27,7 @@
 
 #include "PointOctreeNode.h"
 
-namespace bioexplorer
-{
-namespace common
+namespace core
 {
 /**
  * @brief The PointOctree class implements the PointOctree acceleration structure used by
@@ -42,14 +40,13 @@ public:
     /**
      * @brief Construct a new PointOctree object
      *
-     * @param events Events used to build the tree. Events contain x, y, z
+     * @param points Points used to build the tree. Points contain x, y, z
      * coordinates, as well as a radius, and a value
      * @param voxelSize Voxel size
      * @param minAABB Lower bound of the scene bounding box
      * @param maxAABB Upper bound of the scene bounding box
      */
-    PointOctree(const bioexplorer::common::OctreePoints &events, double voxelSize, const glm::vec3 &minAABB,
-                const glm::vec3 &maxAABB);
+    PointOctree(const OctreePoints &points, double voxelSize, const Vector3f &minAABB, const Vector3f &maxAABB);
 
     /**
      * @brief Destroy the PointOctree object
@@ -62,7 +59,7 @@ public:
      *
      * @return The dimensions of the volume
      */
-    const core::Vector3ui &getVolumeDimensions() const { return _volumeDimensions; }
+    const Vector3ui &getVolumeDimensions() const { return _volumeDimensions; }
 
     /**
      * @brief Get the size of the volume
@@ -113,7 +110,7 @@ private:
         return x + 1;
     }
 
-    core::Vector3ui _volumeDimensions;
+    Vector3ui _volumeDimensions;
     uint32_t _volumeSize;
     uint32_t _octreeSize;
     uint32_t _depth;
@@ -123,5 +120,4 @@ private:
     uint32_ts _flatIndices;
     floats _flatData;
 };
-} // namespace common
-} // namespace bioexplorer
+} // namespace core

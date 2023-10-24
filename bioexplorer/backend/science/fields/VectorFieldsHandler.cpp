@@ -25,8 +25,8 @@
 
 #include <science/common/Logs.h>
 #include <science/common/Utils.h>
-#include <science/common/octree/VectorOctree.h>
 
+#include <platform/core/common/octree/VectorOctree.h>
 #include <platform/core/common/scene/ClipPlane.h>
 #include <platform/core/engineapi/Model.h>
 

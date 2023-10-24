@@ -28,8 +28,7 @@
 
 #include <plugin/neuroscience/common/Types.h>
 
-#include <bioexplorer/backend/science/common/octree/PointOctree.h>
-
+#include <platform/core/common/octree/PointOctree.h>
 #include <platform/core/common/scene/ClipPlane.h>
 #include <platform/core/engineapi/Model.h>
 
@@ -148,7 +147,7 @@ void MEGHandler::_buildOctree()
         PLUGIN_ERROR("Invalid number of values: " << voltages.size() << " instead of " << _transformations.size());
     uint64_t index = 0;
     const uint32_t densityRatio = 1.f / _density;
-    ::bioexplorer::common::OctreePoints points;
+    OctreePoints points;
     for (const auto& transformation : _transformations)
     {
         if (index % densityRatio == 0)
@@ -158,7 +157,7 @@ void MEGHandler::_buildOctree()
         }
         const Vector3f position = get_translation(transformation);
         const auto value = voltages[index] - DEFAULT_VOLTAGE_REST_VALUE;
-        ::bioexplorer::common::OctreePoint point;
+        OctreePoint point;
         point.position = position;
         point.radius = value;
         point.value = value;
@@ -166,7 +165,7 @@ void MEGHandler::_buildOctree()
         ++index;
     }
 
-    const ::bioexplorer::common::PointOctree accelerator(points, _voxelSize, _bounds.getMin(), _bounds.getMax());
+    const PointOctree accelerator(points, _voxelSize, _bounds.getMin(), _bounds.getMax());
     const uint32_t volumeSize = accelerator.getVolumeSize();
     _offset = _bounds.getMin();
     _dimensions = accelerator.getVolumeDimensions();

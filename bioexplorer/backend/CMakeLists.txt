@@ -60,10 +60,6 @@ set(${NAME}_SOURCES
     science/common/shapes/PointShape.cpp
     science/common/Assembly.cpp
     science/common/ThreadSafeContainer.cpp
-    science/common/octree/PointOctree.cpp
-    science/common/octree/PointOctreeNode.cpp
-    science/common/octree/VectorOctree.cpp
-    science/common/octree/VectorOctreeNode.cpp
     science/fields/FieldsHandler.cpp
     science/fields/PointFieldsHandler.cpp
     science/fields/VectorFieldsHandler.cpp
@@ -136,8 +132,6 @@ set(${NAME}_PUBLIC_HEADERS
     science/common/shapes/FanShape.h
     science/common/shapes/RNAShape.h
     science/common/shapes/PointShape.h
-    science/common/Octree.h
-    science/common/OctreeNode.h
     science/meshing/PointCloudMesher.h
     science/fields/FieldsHandler.h
     science/fields/PointFieldsHandler.h

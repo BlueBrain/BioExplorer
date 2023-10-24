@@ -412,4 +412,21 @@ inline std::vector<std::pair<std::string, DataType>> enumMap()
             {"uint16", DataType::UINT16}, {"uint32", DataType::UINT32}, {"int8", DataType::INT8},
             {"int16", DataType::INT16},   {"int32", DataType::INT32}};
 }
+
+///////////////////////////////////////////////////////////////////////////
+
+typedef struct
+{
+    Vector3d position;
+    Vector3d direction;
+} OctreeVector;
+using OctreeVectors = std::vector<OctreeVector>;
+
+typedef struct
+{
+    Vector3d position;
+    double radius;
+    double value;
+} OctreePoint;
+using OctreePoints = std::vector<OctreePoint>;
 } // namespace core

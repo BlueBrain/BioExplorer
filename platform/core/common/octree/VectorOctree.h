@@ -27,9 +27,7 @@
 
 #include "VectorOctreeNode.h"
 
-namespace bioexplorer
-{
-namespace common
+namespace core
 {
 /**
  * @brief The VectorOctree class implements the VectorOctree acceleration structure used by
@@ -48,8 +46,7 @@ public:
      * @param minAABB Lower bound of the scene bounding box
      * @param maxAABB Upper bound of the scene bounding box
      */
-    VectorOctree(const bioexplorer::common::OctreeVectors &vectors, double voxelSize, const core::Vector3d &minAABB,
-                 const core::Vector3d &maxAABB);
+    VectorOctree(const OctreeVectors &vectors, double voxelSize, const Vector3d &minAABB, const Vector3d &maxAABB);
 
     /**
      * @brief Destroy the VectorOctree object
@@ -113,7 +110,7 @@ private:
         return x + 1;
     }
 
-    core::Vector3ui _volumeDimensions;
+    Vector3ui _volumeDimensions;
     uint32_t _volumeSize;
     uint32_t _octreeSize;
     uint32_t _depth;
@@ -123,5 +120,4 @@ private:
     uint32_ts _flatIndices;
     floats _flatData;
 };
-} // namespace common
-} // namespace bioexplorer
+} // namespace core
