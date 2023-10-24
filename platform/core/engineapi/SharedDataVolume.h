@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <platform/core/common/CommonTypes.h>
 #include <platform/core/engineapi/Volume.h>
 
 namespace core
@@ -58,6 +59,34 @@ public:
      */
     PLATFORM_API void mapData(uint8_ts&& buffer);
 
+    /**
+     * @brief Get the Memory Buffer object
+     *
+     * @return const uint8_ts&
+     */
+    const uint8_ts& getMemoryBuffer() const { return _memoryBuffer; }
+
+    /**
+     * @brief Get the Octree Indices object
+     *
+     * @return const uint32_ts&
+     */
+    const uint32_ts& getOctreeIndices() const { return _octreeIndices; }
+
+    /**
+     * @brief Get the Octree Values object
+     *
+     * @return const floats&
+     */
+    const floats& getOctreeValues() const { return _octreeValues; }
+
+    /**
+     * @brief Get the Octree Data Type object
+     *
+     * @return OctreeDataType
+     */
+    OctreeDataType getOctreeDataType() const { return _octreeDataType; }
+
 protected:
     /**
      * @brief Constructs a new SharedDataVolume object.
@@ -76,8 +105,14 @@ protected:
      */
     ~SharedDataVolume();
 
+protected:
+    // Octree
+    uint32_ts _octreeIndices;
+    floats _octreeValues;
+    OctreeDataType _octreeDataType;
+    uint8_ts _memoryBuffer; // The buffer containing the mapped data
+
 private:
-    uint8_ts _memoryBuffer;       // The buffer containing the mapped data
     void* _memoryMapPtr{nullptr}; // The pointer to the mapped memory
     int _cacheFileDescriptor{-1}; // The file descriptor of the mapped file
     size_t _size{0};              // The size of the mapped data

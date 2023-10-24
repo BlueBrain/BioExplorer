@@ -25,16 +25,14 @@
 
 #include <platform/core/common/Types.h>
 
-namespace bioexplorer
-{
-namespace common
+namespace core
 {
 /**
- * @brief The OctreeNode class implement a spherical node of the Octree
+ * @brief The VectorOctreeNode class implement a spherical node of the Octree
  * acceleration structure used by the Fields renderer
  *
  */
-class OctreeNode
+class VectorOctreeNode
 {
 public:
     /**
@@ -43,50 +41,48 @@ public:
      * @param The center of the node
      * @param The node size
      */
-    OctreeNode(const core::Vector3f& center, const double size);
+    VectorOctreeNode(const Vector3f& center, const double size);
 
     /**
      * @brief Add a value to the node
      *
      * @param The value of the node
      */
-    void addValue(const double value);
+    void addValue(const Vector3d& vector);
 
     /**
      * @brief Add a Child to the node
      *
      * @param The node child
      */
-    void setChild(OctreeNode* child);
+    void setChild(VectorOctreeNode* child);
 
     /**
      * @brief Get the node children
      *
      * @return A vector of nodes
      */
-    const std::vector<OctreeNode*>& getChildren() const;
+    const std::vector<VectorOctreeNode*>& getChildren() const;
 
     /**
      * @brief Get the center of the node
      *
      * @return The center of the node
      */
-    const core::Vector3f& getCenter() const;
+    const Vector3f& getCenter() const;
 
     /**
      * @brief Get the value of the node
      *
      * @return The value of the node
      */
-    double getValue() const;
+    const Vector3d& getValue() const;
 
 private:
-    double _value;
+    Vector3d _value;
+    Vector3f _center;
+    Vector3f _size;
 
-    core::Vector3f _center;
-    core::Vector3f _size;
-
-    std::vector<OctreeNode*> _children;
+    std::vector<VectorOctreeNode*> _children;
 };
-} // namespace common
-} // namespace bioexplorer
+} // namespace core

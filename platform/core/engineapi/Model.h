@@ -697,15 +697,16 @@ public:
 
     /**
      * @brief Add a volume to the model
+     * @param materialId ID of material
      * @param volume Pointer to volume to add
      */
-    PLATFORM_API void addVolume(VolumePtr);
+    PLATFORM_API void addVolume(const size_t materialId, VolumePtr);
 
     /**
      * @brief Remove a volume from the model
-     * @param ptr The volume to remove
+     * @param materialId ID of material
      */
-    PLATFORM_API void removeVolume(VolumePtr ptr);
+    PLATFORM_API void removeVolume(const size_t materialId);
 
     /**
      * @brief Logs information about the model, like the number of primitives, and the associated memory footprint.
@@ -774,7 +775,7 @@ public:
      * @brief Returns a const reference to the list of volumes
      * @return const Volumes& The list of volumes
      */
-    PLATFORM_API const Volumes& getVolumes() const { return _geometries->_volumes; }
+    PLATFORM_API const VolumesMap& getVolumes() const { return _geometries->_volumes; }
 
     /**
      * @brief Returns whether the volumes are dirty
@@ -840,7 +841,7 @@ protected:
         TriangleMeshMap _triangleMeshes;
         StreamlinesDataMap _streamlines;
         SDFGeometryData _sdf;
-        Volumes _volumes;
+        VolumesMap _volumes;
         CurvesMap _curves;
 
         Boxd _sphereBounds;

@@ -43,3 +43,4 @@ seaborn~=0.12.2
 ipywidgets~=8.0.4
 psycopg2-binary~=2.9.2
 tqdm~=4.62.0
+scipy~=1.7.3

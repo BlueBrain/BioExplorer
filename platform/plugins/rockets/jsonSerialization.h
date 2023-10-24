@@ -442,6 +442,7 @@ inline void init(core::VolumeParameters* v, ObjectHandler* h)
     h->add_property("volume_offset", toArray<3, double>(v->_offset), Flags::Optional);
 
     h->add_property("gradient_shading", &v->_gradientShading, Flags::Optional);
+    h->add_property("gradient_offset", &v->_gradientOffset, Flags::Optional);
     h->add_property("single_shade", &v->_singleShade, Flags::Optional);
     h->add_property("pre_integration", &v->_preIntegration, Flags::Optional);
     h->add_property("adaptive_max_sampling_rate", &v->_adaptiveMaxSamplingRate, Flags::Optional);
@@ -449,6 +450,7 @@ inline void init(core::VolumeParameters* v, ObjectHandler* h)
     h->add_property("sampling_rate", &v->_samplingRate, Flags::Optional);
     h->add_property("specular", toArray<3, double>(v->_specular), Flags::Optional);
     h->add_property("clip_box", &v->_clipBox, Flags::Optional);
+    h->add_property("user_parameters", toArray<3, double>(v->_userParameters), Flags::Optional);
     h->set_flags(Flags::DisallowUnknownKey);
 }
 

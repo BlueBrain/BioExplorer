@@ -32,25 +32,25 @@ namespace bioexplorer
 namespace rendering
 {
 /**
- * @brief The FieldsRenderer class allows visualization of magnetic fields created by atoms in the 3D scene. An Octree
- * acceleration structure has to be built by the be_build_fields API in order to feed the renderer with the information
- * needed to compute the value of the field for every point in the 3D space
+ * @brief The VectorFieldsRenderer class allows visualization of magnetic fields created by atoms in the 3D scene. An
+ * Octree acceleration structure has to be built by the be-build-fields API in order to feed the renderer with the
+ * information needed to compute the value of the field for every point in the 3D space
  */
-class FieldsRenderer : public ::core::engine::ospray::AbstractRenderer
+class VectorFieldsRenderer : public ::core::engine::ospray::AbstractRenderer
 {
 public:
     /**
-     * @brief Construct a new Bio Explorer Fields Renderer object
+     * @brief Construct a new Vector Fields Renderer object
      *
      */
-    FieldsRenderer();
+    VectorFieldsRenderer();
 
     /**
      * @brief Returns the class name as a string
      *
      * @return A string containing the name of the object in the OSPRay context
      */
-    std::string toString() const final { return RENDERER_FIELDS; }
+    std::string toString() const final { return RENDERER_POINT_FIELDS; }
 
     /**
      * @brief Commit the changes to the OSPRay engine
@@ -63,7 +63,6 @@ private:
     ::ospray::uint32 _randomNumber{0};
 
     double _exposure{1.f};
-
     double _alphaCorrection{1.f};
 
     // Octree
@@ -74,6 +73,7 @@ private:
     double _cutoff;
     ::ospray::Ref<::ospray::Data> _userData;
     ::ospray::uint64 _userDataSize;
+    bool _showVectorDirections{false};
 };
 } // namespace rendering
 } // namespace bioexplorer

@@ -26,7 +26,6 @@
 #include <platform/core/common/simulation/AbstractSimulationHandler.h>
 
 #include <platform/core/common/Types.h>
-#include <platform/core/engineapi/Scene.h>
 
 namespace bioexplorer
 {
@@ -42,14 +41,8 @@ public:
     /**
      * @brief Default constructor
      */
-    FieldsHandler(const core::Scene& scene, const double voxelSize, const double density);
-
-    /**
-     * @brief Construct a new FieldsHandler from a file
-     *
-     * @param filename Full path of the file
-     */
-    FieldsHandler(const std::string& filename);
+    FieldsHandler(core::Engine& engine, core::Model& model, const double voxelSize, const double density,
+                  const uint32_ts& modelIds);
 
     /**
      * @brief Construct a new FieldsHandler object
@@ -80,28 +73,6 @@ public:
     bool isReady() const final { return true; }
 
     /**
-     * @brief Clone the AbstractSimulationHandler
-     *
-     * @return AbstractSimulationHandlerPtr Clone of the
-     * AbstractSimulationHandler
-     */
-    core::AbstractSimulationHandlerPtr clone() const final;
-
-    /**
-     * @brief Export the octree information to a file
-     *
-     * @param filename Full path of the file
-     */
-    void exportToFile(const std::string& filename) const;
-
-    /**
-     * @brief Import the octree information from a file
-     *
-     * @param filename Full path of the file
-     */
-    void importFromFile(const std::string& filename);
-
-    /**
      * @brief Get the Dimensions of the octree
      *
      * @return const Vector3ui& Dimensions of the octree
@@ -122,12 +93,22 @@ public:
      */
     const core::Vector3f& getOffset() const { return _offset; }
 
-private:
-    void _buildOctree(const core::Scene& scene, const double voxelSize, const double density);
+    ::core::Model* getModel() { return _model; }
+
+protected:
+    virtual void _buildOctree() = 0;
 
     core::Vector3ui _dimensions;
     core::Vector3f _spacing;
     core::Vector3f _offset;
+
+    core::Engine& _engine;
+    uint32_ts _modelIds;
+    core::Model* _model{nullptr};
+    double _voxelSize;
+    double _density;
+
+    bool _octreeInitialized{false};
 };
 typedef std::shared_ptr<FieldsHandler> FieldsHandlerPtr;
 } // namespace fields

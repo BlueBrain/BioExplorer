@@ -152,8 +152,7 @@ class SharedDataVolume;
 using VolumePtr = std::shared_ptr<Volume>;
 using SharedDataVolumePtr = std::shared_ptr<SharedDataVolume>;
 using BrickedVolumePtr = std::shared_ptr<BrickedVolume>;
-using Volumes = std::vector<VolumePtr>;
-using VolumesMap = std::map<size_t, Volumes>;
+using VolumesMap = std::map<size_t, VolumePtr>;
 
 class Texture2D;
 using Texture2DPtr = std::shared_ptr<Texture2D>;
@@ -232,6 +231,8 @@ static const size_t NO_MATERIAL = std::numeric_limits<size_t>::max();
 static const size_t BOUNDINGBOX_MATERIAL_ID = NO_MATERIAL - 1;
 static const size_t SECONDARY_MODEL_MATERIAL_ID = NO_MATERIAL - 2;
 static const size_t VOLUME_MATERIAL_ID = NO_MATERIAL - 3;
+static const size_t VOLUME_OCTREE_INDICES_MATERIAL_ID = NO_MATERIAL - 4;
+static const size_t VOLUME_OCTREE_VALUES_MATERIAL_ID = NO_MATERIAL - 5;
 
 static const std::string IRRADIANCE_MAP = "-irradiance";
 static const std::string RADIANCE_MAP = "-radiance";
@@ -252,13 +253,27 @@ enum class TextureType : uint8_t
     irradiance,
     brdf_lut,
     volume,
-    transfer_function
+    transfer_function,
+    octree_indices,
+    octree_values
 };
 
-static const strings textureTypeToString{
-    "albedoMetallic_map", "normalRoughness_map",  "bump_map",      "aoEmissive_map", "map_ns",         "map_d",
-    "map_reflection",     "map_refraction",       "map_occlusion", "radiance_map",   "irradiance_map", "brdf_lut",
-    "volume_map",         "transfer_function_map"};
+static const strings textureTypeToString{"albedoMetallic_map",
+                                         "normalRoughness_map",
+                                         "bump_map",
+                                         "aoEmissive_map",
+                                         "map_ns",
+                                         "map_d",
+                                         "map_reflection",
+                                         "map_refraction",
+                                         "map_occlusion",
+                                         "radiance_map",
+                                         "irradiance_map",
+                                         "brdf_lut",
+                                         "volume_map",
+                                         "transfer_function_map",
+                                         "octree_indices_map",
+                                         "octree_values_map"};
 
 enum class MemoryMode
 {
@@ -397,4 +412,21 @@ inline std::vector<std::pair<std::string, DataType>> enumMap()
             {"uint16", DataType::UINT16}, {"uint32", DataType::UINT32}, {"int8", DataType::INT8},
             {"int16", DataType::INT16},   {"int32", DataType::INT32}};
 }
+
+///////////////////////////////////////////////////////////////////////////
+
+typedef struct
+{
+    Vector3d position;
+    Vector3d direction;
+} OctreeVector;
+using OctreeVectors = std::vector<OctreeVector>;
+
+typedef struct
+{
+    Vector3d position;
+    double radius;
+    double value;
+} OctreePoint;
+using OctreePoints = std::vector<OctreePoint>;
 } // namespace core

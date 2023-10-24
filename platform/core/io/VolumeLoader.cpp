@@ -193,7 +193,7 @@ ModelDescriptorPtr RawVolumeLoader::_loadVolume(const std::string& filename, con
     mapData(volume);
 
     callback.updateProgress("Adding model ...", 1.f);
-    model->addVolume(volume);
+    model->addVolume(VOLUME_MATERIAL_ID, volume);
 
     Transformation transformation;
     transformation.setRotationCenter(model->getBounds().getCenter());

@@ -39,26 +39,41 @@ public:
     /** Volume dimensions  */
     const Vector3ui& getDimensions() const { return _dimensions; }
     void setDimensions(const Vector3ui& dim) { _updateValue(_dimensions, dim); }
+
     /** Volume scale  */
     const Vector3d& getElementSpacing() const { return _elementSpacing; }
     void setElementSpacing(const Vector3d& spacing) { _updateValue(_elementSpacing, spacing); }
+
     /** Volume offset */
     const Vector3d& getOffset() const { return _offset; }
+
     void setGradientShading(const bool enabled) { _updateValue(_gradientShading, enabled); }
     bool getGradientShading() const { return _gradientShading; }
+
+    void setGradientOffset(const double value) { _updateValue(_gradientOffset, value); }
+    double getGradientOffset() const { return _gradientOffset; }
+
     void setSingleShade(const bool enabled) { _updateValue(_singleShade, enabled); }
     bool getSingleShade() const { return _singleShade; }
+
     void setPreIntegration(const bool enabled) { _updateValue(_preIntegration, enabled); }
     bool getPreIntegration() const { return _preIntegration; }
+
     void setAdaptiveSampling(const bool enabled) { _updateValue(_adaptiveSampling, enabled); }
     bool getAdaptiveSampling() const { return _adaptiveSampling; }
+
     void setAdaptiveMaxSamplingRate(const double value) { _updateValue(_adaptiveMaxSamplingRate, value); }
     double getAdaptiveMaxSamplingRate() const { return _adaptiveMaxSamplingRate; }
 
     void setSamplingRate(const double value) { _updateValue(_samplingRate, value); }
     double getSamplingRate() const { return _samplingRate; }
+
     void setSpecular(const Vector3d& value) { _updateValue(_specular, value); }
     const Vector3d& getSpecular() const { return _specular; }
+
+    void setUserParameters(const Vector3d& value) { _updateValue(_userParameters, value); }
+    const Vector3d& getUserParameters() const { return _userParameters; }
+
     void setClipBox(const Boxd& value) { _updateValue(_clipBox, value); }
     const Boxd& getClipBox() const { return _clipBox; }
 
@@ -70,6 +85,7 @@ protected:
     Vector3d _offset;
 
     bool _gradientShading{false};
+    double _gradientOffset{0.001};
     bool _singleShade{true};
     bool _preIntegration{false};
     double _adaptiveMaxSamplingRate{2.};
@@ -77,6 +93,7 @@ protected:
     double _samplingRate{0.125};
     Vector3d _specular{0.3, 0.3, 0.3};
     Boxd _clipBox;
+    Vector3d _userParameters;
 
     SERIALIZATION_FRIEND(VolumeParameters)
 };

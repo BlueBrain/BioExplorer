@@ -168,6 +168,10 @@ struct GeometryData
         float volumeSamplerId;
         float transferFunctionSamplerId;
         float2 valueRange;
+        float octreeIndicesSamplerId;
+        float octreeIndicesSize;
+        float octreeValuesSamplerId;
+        float octreeValuesSize;
     };
 
     struct StreamLines

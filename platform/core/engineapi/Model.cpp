@@ -297,19 +297,19 @@ void Model::updateSDFGeometryNeighbours(size_t geometryIdx, const uint64_ts& nei
     _sdfGeometriesDirty = true;
 }
 
-void Model::addVolume(VolumePtr volume)
+void Model::addVolume(const size_t materialId, VolumePtr volume)
 {
-    _geometries->_volumes.push_back(volume);
+    _geometries->_volumes[materialId] = volume;
     _volumesDirty = true;
 }
 
-void Model::removeVolume(VolumePtr volume)
+void Model::removeVolume(const size_t materialId)
 {
-    auto i = std::find(_geometries->_volumes.begin(), _geometries->_volumes.end(), volume);
-    if (i == _geometries->_volumes.end())
+    auto iter = _geometries->_volumes.find(materialId);
+    if (iter == _geometries->_volumes.end())
         return;
 
-    _geometries->_volumes.erase(i);
+    _geometries->_volumes.erase(iter);
     _volumesDirty = true;
 }
 
@@ -427,7 +427,7 @@ MaterialPtr Model::getMaterial(const size_t materialId) const
 {
     const auto it = _materials.find(materialId);
     if (it == _materials.end())
-        throw std::runtime_error("Material " + std::to_string(materialId) + " is not registered in the model");
+        CORE_THROW("Material " + std::to_string(materialId) + " is not registered in the model");
     return it->second;
 }
 
@@ -581,7 +581,7 @@ void Model::updateBounds()
     {
         _geometries->_volumesBounds.reset();
         for (const auto& volume : _geometries->_volumes)
-            _geometries->_volumesBounds.merge(volume->getBounds());
+            _geometries->_volumesBounds.merge(volume.second->getBounds());
     }
 
     if (_curvesDirty)
@@ -639,7 +639,7 @@ size_t Model::getSizeInBytes() const
 {
     size_t volumeSizeInBytes = 0;
     for (const auto& volume : _geometries->_volumes)
-        volumeSizeInBytes += volume->getSizeInBytes();
+        volumeSizeInBytes += volume.second->getSizeInBytes();
     return _sizeInBytes + volumeSizeInBytes;
 }
 

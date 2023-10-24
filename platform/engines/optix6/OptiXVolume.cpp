@@ -77,11 +77,8 @@ OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const V
 
 void OptiXVolume::setVoxels(const void* voxels)
 {
-    auto context = OptiXContext::get().getOptixContext();
-    Buffer buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _dimensions.x, _dimensions.y,
-                                                   _dimensions.z, 1u);
     const uint64_t volumeSize = _dimensions.x * _dimensions.y * _dimensions.z;
-    float* volumeAsFloats = (float*)buffer->map();
+    floats volumeAsFloats(volumeSize);
     _valueRange = Vector2f(1e6, -1e6);
 
     for (uint64_t i = 0; i < volumeSize; ++i)
@@ -140,40 +137,22 @@ void OptiXVolume::setVoxels(const void* voxels)
         }
         }
     }
-    buffer->unmap();
-
-    // Volume as texture
-    const size_t materialId = VOLUME_MATERIAL_ID;
-    auto material = static_cast<OptiXMaterial*>(_model->getMaterial(materialId).get());
-    material->setValueRange(_valueRange);
-    auto& textureSamplers = material->getTextureSamplers();
-    const auto it = textureSamplers.find(TextureType::volume);
-    if (it != textureSamplers.end())
-        textureSamplers.erase(it);
-
-    TextureSampler sampler = context->createTextureSampler();
-    sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
-    sampler->setWrapMode(1, RT_WRAP_CLAMP_TO_EDGE);
-    sampler->setWrapMode(2, RT_WRAP_CLAMP_TO_EDGE);
-    sampler->setIndexingMode(RT_TEXTURE_INDEX_NORMALIZED_COORDINATES);
-    sampler->setReadMode(RT_TEXTURE_READ_NORMALIZED_FLOAT);
-    sampler->setBuffer(0u, 0u, buffer);
-    sampler->setFilteringModes(RT_FILTER_LINEAR, RT_FILTER_LINEAR, RT_FILTER_NONE);
-    sampler->setMaxAnisotropy(8.0f);
-    sampler->validate();
-    textureSamplers.insert(std::make_pair(TextureType::volume, sampler));
-    auto optixMaterial = material->getOptixMaterial();
-    const auto textureName = textureTypeToString[static_cast<uint8_t>(TextureType::volume)];
-    optixMaterial[textureName]->setInt(sampler->getId());
-    material->commit();
-
-    const auto volumeSamplerId = sampler->getId();
-    auto& volumeGeometries = _model->getVolumeGeometries();
-
-    volumeGeometries[materialId].volumeSamplerId = volumeSamplerId;
-    volumeGeometries[materialId].valueRange = _valueRange;
-    _model->commitVolumesBuffers(materialId);
+    // buffer->unmap();
+    const size_t bufferSize = volumeAsFloats.size() * sizeof(float);
+    _memoryBuffer.resize(bufferSize);
+    memcpy(_memoryBuffer.data(), volumeAsFloats.data(), bufferSize);
 }
+
+void OptiXVolume::setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
+                            const OctreeDataType dataType)
+{
+    _octreeIndices = indices;
+    _octreeValues = values;
+    _offset = offset;
+    _octreeDataType = dataType;
+    markModified();
+}
+
 } // namespace optix
 } // namespace engine
 } // namespace core

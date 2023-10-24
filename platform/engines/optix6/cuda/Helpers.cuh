@@ -53,6 +53,23 @@ static __host__ __device__ __inline__ optix::float3 sample_phong_lobe(optix::flo
     return x * U + y * V + z * W;
 }
 
+static __device__ inline bool boxIntersection(const float3& volumeOffset, const float3& volumeDimensions,
+                                              const float3& volumeElementSpacing, const optix::Ray& ray, float& t0,
+                                              float& t1)
+{
+    const float3 boxmin = volumeOffset;
+    const float3 boxmax = volumeOffset + volumeDimensions / volumeElementSpacing;
+
+    const float3 a = (boxmin - ray.origin) / ray.direction;
+    const float3 b = (boxmax - ray.origin) / ray.direction;
+    const float3 near = fminf(a, b);
+    const float3 far = fmaxf(a, b);
+    t0 = fmaxf(near);
+    t1 = fminf(far);
+
+    return (t0 <= t1);
+}
+
 // Sample Phong lobe relative to U, V, W frame
 static __host__ __device__ __inline__ optix::float3 sample_phong_lobe(const optix::float2& sample, float exponent,
                                                                       const optix::float3& U, const optix::float3& V,
@@ -297,7 +314,7 @@ static __device__ void applyClippingPlanes(const float3& origin, const float3& d
     }
 }
 
-static __device__ void compose(const float4& src, float4& dst, const float alphaCorrection = 1.0)
+static __device__ void compose(const float4& src, float4& dst, const float alphaCorrection)
 {
     const float alpha = alphaCorrection * src.w;
     dst =

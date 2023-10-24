@@ -557,7 +557,7 @@ inline vec4f getVolumeContribution(Volume* uniform volume, const uniform Advance
         }
 
         // Compose color with according alpha correction
-        composite(make_vec4f(volumeSampleColor, sampleOpacity), pathColor, self->volumeAlphaCorrection * epsilon);
+        compose(make_vec4f(volumeSampleColor, sampleOpacity), pathColor, self->volumeAlphaCorrection * epsilon);
 
         ++shadingOccurrence;
     }

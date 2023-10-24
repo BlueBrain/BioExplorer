@@ -40,11 +40,14 @@ using OptiXCameraProgramPtr = std::shared_ptr<OptiXCameraProgram>;
 struct VolumeGeometry
 {
     Vector3f dimensions;
-    Vector3f position;
+    Vector3f offset;
     Vector3f spacing;
     float volumeSamplerId;
     float transferFunctionSamplerId;
     Vector2f valueRange;
+    float octreeIndicesSamplerId;
+    float octreeValuesSamplerId;
+    float octreeDataType;
 };
 } // namespace optix
 } // namespace engine

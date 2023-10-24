@@ -21,29 +21,40 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <platform/engines/ospray/ispc/render/utils/AbstractRenderer.ih>
-#include <platform/engines/ospray/ispc/render/utils/AdvancedMaterial.ih>
+#pragma once
 
-struct FieldsRenderer
+#include "FieldsHandler.h"
+
+#include <platform/core/common/Types.h>
+#include <platform/core/engineapi/Scene.h>
+
+namespace bioexplorer
 {
-    AbstractRenderer super;
+namespace fields
+{
+/**
+ * @brief The VectorFieldsHandler class handles electro-magnetic fields data
+ * structures
+ */
+class VectorFieldsHandler : public FieldsHandler
+{
+public:
+    /**
+     * @brief Default constructor
+     */
+    VectorFieldsHandler(core::Engine& engine, core::Model& model, const double voxelSize, const double density,
+                        const uint32_ts& modelIds);
 
-    const uniform TransferFunction* uniform transferFunction;
-    float exposure;
-    bool useHardwareRandomizer;
-    int randomNumber;
-    float pixelOpacity;
-    float minRayStep;
-    uint32 nbRaySteps;
-    uint32 nbRayRefinementSteps;
-    float alphaCorrection;
-    float distance;
-    float cutoff;
-    uniform float* uniform userData;
-    uint64 userDataSize;
-    vec3f size;
-    vec3f spacing;
-    vec3f offset;
-    uint64 startIndices;
-    uint64 startData;
+    /**
+     * @brief Clone the AbstractSimulationHandler
+     *
+     * @return AbstractSimulationHandlerPtr Clone of the  AbstractSimulationHandler
+     */
+    core::AbstractSimulationHandlerPtr clone() const final;
+
+private:
+    void _buildOctree() final;
 };
+typedef std::shared_ptr<VectorFieldsHandler> VectorFieldsHandlerPtr;
+} // namespace fields
+} // namespace bioexplorer

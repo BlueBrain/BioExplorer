@@ -21,45 +21,39 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "OctreeNode.h"
+#include "PointOctreeNode.h"
 
-using namespace core;
-
-namespace bioexplorer
+namespace core
 {
-namespace common
-{
-OctreeNode::OctreeNode(const Vector3f& center, const double size)
-    : _value(0)
-    , _center(center)
+PointOctreeNode::PointOctreeNode(const Vector3f& center, const double size)
+    : _center(center)
     , _size(size)
 {
 }
 
-void OctreeNode::setChild(OctreeNode* child)
+void PointOctreeNode::setChild(PointOctreeNode* child)
 {
     _children.push_back(child);
 }
 
-void OctreeNode::addValue(double value)
+void PointOctreeNode::addValue(const double value)
 {
     if (value > _value)
         _value = value;
 }
 
-const Vector3f& OctreeNode::getCenter() const
+const Vector3f& PointOctreeNode::getCenter() const
 {
     return _center;
 }
 
-double OctreeNode::getValue() const
+double PointOctreeNode::getValue() const
 {
     return _value;
 }
 
-const std::vector<OctreeNode*>& OctreeNode::getChildren() const
+const std::vector<PointOctreeNode*>& PointOctreeNode::getChildren() const
 {
     return _children;
 }
-} // namespace common
-} // namespace bioexplorer
+} // namespace core

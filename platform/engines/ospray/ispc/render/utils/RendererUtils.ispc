@@ -23,20 +23,15 @@
 #include "RendererUtils.ih"
 
 /**
-   Composes source and destination colors according to specified alpha
-   correction
-   @param src Source RGBA color
-   @param dst Returned destination RGBA color
-   @param alphaCorrection Alpha correction used to blend colors
+    Composes source and destination colors according to specified alpha correction
+    @param src Source RGBA color
+    @param dst Returned destination RGBA color
+    @param alphaCorrection Alpha correction used to blend colors
 */
-inline void composite(const varying vec4f& src, varying vec4f& dst, const varying float alphaCorrection)
+inline void compose(const varying vec4f& src, varying vec4f& dst, const varying float alphaCorrection)
 {
-    const float alpha = 1.f - pow(1.f - min(src.w, 1.f - 1.f / 256.f), alphaCorrection);
-    const float a = alpha * (1.f - dst.w);
-    dst.x = dst.x + src.x * a;
-    dst.y = dst.y + src.y * a;
-    dst.z = dst.z + src.z * a;
-    dst.w += (alpha * (1.f - dst.w));
+    const float alpha = alphaCorrection * src.w;
+    dst = make_vec4f((1.f - dst.w) * alpha * make_vec3f(src) + dst.w * make_vec3f(dst), dst.w + alpha * (1.f - dst.w));
 }
 
 /**

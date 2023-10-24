@@ -83,6 +83,8 @@ rtDeclareVariable(int, radiance_map, , );
 rtDeclareVariable(int, irradiance_map, , );
 rtDeclareVariable(int, brdf_lut, , );
 rtDeclareVariable(int, volume_map, , );
+rtDeclareVariable(int, octree_indices_map, , );
+rtDeclareVariable(int, octree_values_map, , );
 rtDeclareVariable(int, transfer_function_map, , );
 rtDeclareVariable(float2, texcoord, attribute texcoord, );
 rtDeclareVariable(float3, texcoord3d, attribute texcoord3d, );
@@ -121,8 +123,10 @@ rtDeclareVariable(float3, ambientLightColor, , );
 
 // Volume shading
 rtDeclareVariable(uint, volumeGradientShadingEnabled, , );
+rtDeclareVariable(float, volumeGradientOffset, , );
 rtDeclareVariable(uint, volumeAdaptiveSampling, , );
 rtDeclareVariable(float, volumeAdaptiveMaxSamplingRate, , );
+rtDeclareVariable(float3, volumeUserParameters, , );
 rtDeclareVariable(uint, volumeSingleShade, , );
 rtDeclareVariable(float, volumeSamplingRate, , );
 rtDeclareVariable(float3, volumeSpecularColor, , );

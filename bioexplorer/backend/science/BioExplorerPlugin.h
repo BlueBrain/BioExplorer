@@ -24,7 +24,8 @@
 #pragma once
 
 #include <science/api/Params.h>
-#include <science/fields/FieldsHandler.h>
+#include <science/fields/PointFieldsHandler.h>
+#include <science/fields/VectorFieldsHandler.h>
 #include <science/vasculature/Vasculature.h>
 
 #include <platform/core/pluginapi/ExtensionPlugin.h>
@@ -124,10 +125,7 @@ private:
     details::Response _buildPointCloud(const details::BuildPointCloudDetails &payload);
 
     // Fields
-    size_t _attachFieldsHandler(fields::FieldsHandlerPtr handler);
     details::Response _buildFields(const details::BuildFieldsDetails &payload);
-    details::Response _exportFieldsToFile(const details::ModelIdFileAccessDetails &payload);
-    details::Response _importFieldsFromFile(const details::FileAccessDetails &payload);
 
     // Models
     details::Response _setModelLoadingTransactionAction(const details::ModelLoadingTransactionDetails &payload);

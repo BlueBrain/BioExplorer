@@ -706,6 +706,10 @@ class BioExplorer:
     ASTROCYTE_MATERIAL_MITOCHONDRION = 7
     ASTROCYTE_MATERIAL_NUCLEUS = 8
 
+    # Field data types
+    FIELD_DATA_TYPE_POINT = 0
+    FIELD_DATA_TYPE_VECTOR = 1
+
     def __init__(self, url="localhost:5000"):
         """Create a new BioExplorer instance"""
         self._url = url
@@ -2757,12 +2761,12 @@ class BioExplorer:
 
         # Rendering settings
         self._client.set_renderer(
-            current="bio_explorer_fields",
+            current="point_fields",
             samples_per_pixel=1,
             subsampling=8,
             max_accum_frames=samples_per_pixel,
         )
-        params = self._client.BioExplorerFieldsRendererParams()
+        params = self._client.PointFieldsRendererParams()
         params.cutoff = 5000
         params.main_exposure = 10.0
         params.alpha_correction = 0.1
@@ -2783,55 +2787,29 @@ class BioExplorer:
             return tf
         return None
 
-    def build_fields(self, voxel_size, density=1.0):
+    def build_fields(self, voxel_size, density=1.0, data_type=FIELD_DATA_TYPE_POINT, model_ids=list()):
         """
         Build fields acceleration structures and creates according data handler
 
         :voxel_size: Voxel size
         :voxel_size: Density of atoms to consider (between 0 and 1)
+        :data_type: Type of field (FIELD_DATA_TYPE_POINT or FIELD_DATA_TYPE_VECTOR)
+        :model_ids: List of model ids used to build the field
         :return: Result of the request submission
         """
         if self._client is None:
             return
+
+        assert isinstance(voxel_size, float)
+        assert isinstance(density, float)
+        assert isinstance(model_ids, list)
 
         params = dict()
         params["voxelSize"] = voxel_size
         params["density"] = density
+        params["dataType"] = data_type
+        params["modelIds"] = model_ids
         return self._invoke_and_check("build-fields", params)
-
-    def import_fields_from_file(self, filename):
-        """
-        Imports fields acceleration structures from file
-
-        :filename: Octree filename
-        :return: Result of the request submission
-        """
-        if self._client is None:
-            return
-
-        params = dict()
-        params["filename"] = filename
-        params["lowBounds"] = Vector3().to_list()
-        params["highBounds"] = Vector3().to_list()
-        params["fileFormat"] = BioExplorer.FILE_FORMAT_UNSPECIFIED
-        return self._invoke_and_check("import-fields-from-file", params)
-
-    def export_fields_to_file(self, model_id, filename):
-        """
-        Exports fields acceleration structures to file
-
-        :model_id: id of the model containing the fields
-        :filename: Octree filename
-        :return: Result of the request submission
-        """
-        assert isinstance(model_id, int)
-        if self._client is None:
-            return
-
-        params = dict()
-        params["modelId"] = model_id
-        params["filename"] = filename
-        return self._invoke_and_check("export-fields-to-file", params)
 
     def add_grid(
         self,
