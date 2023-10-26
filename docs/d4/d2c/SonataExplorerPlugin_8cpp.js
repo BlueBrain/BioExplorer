@@ -15,16 +15,5 @@ var SonataExplorerPlugin_8cpp =
     [ "_sanitizeString", "d4/d2c/SonataExplorerPlugin_8cpp.html#a1474fe3176fdb12d5f302f56ae4725d3", null ],
     [ "_splitString", "d4/d2c/SonataExplorerPlugin_8cpp.html#ad1ab15b38df24e9a82ecd83a44884f0a", null ],
     [ "core_plugin_create", "d4/d2c/SonataExplorerPlugin_8cpp.html#a2790dc7628f5f11fd841ddcd6e2969db", null ],
-    [ "CAMERA_SPHERE_CLIPPING_PERSPECTIVE", "d4/d2c/SonataExplorerPlugin_8cpp.html#a42c56fe5439c7c79a91384efcc53f4e5", null ],
-    [ "LOADER_ADVANCED_CIRCUIT", "d4/d2c/SonataExplorerPlugin_8cpp.html#a9d0f4b1da3ea9514abccd2acaa71b791", null ],
-    [ "LOADER_ASTROCYTES", "d4/d2c/SonataExplorerPlugin_8cpp.html#a771eb667b99a54656610ceb3d7c5ff68", null ],
-    [ "LOADER_BRICK", "d4/d2c/SonataExplorerPlugin_8cpp.html#a48f9058b3ac8831010209433d6730bdf", null ],
-    [ "LOADER_MESH_CIRCUIT", "d4/d2c/SonataExplorerPlugin_8cpp.html#aa20cf282211cc349f3e5ba446c45185b", null ],
-    [ "LOADER_MORPHOLOGY", "d4/d2c/SonataExplorerPlugin_8cpp.html#a37017521f2153faa980a67de81af821a", null ],
-    [ "LOADER_MORPHOLOGY_COLLAGE", "d4/d2c/SonataExplorerPlugin_8cpp.html#a1e070a1473a77fd46a19ae7b6c734fd3", null ],
-    [ "LOADER_PAIR_SYNAPSE", "d4/d2c/SonataExplorerPlugin_8cpp.html#a7004dadef2ebc3114c4e3b60848a29d5", null ],
-    [ "LOADER_SYNAPSE_CIRCUIT", "d4/d2c/SonataExplorerPlugin_8cpp.html#aa3d8ab656eccc96c9e09d8bd8f3b1cec", null ],
-    [ "PLUGIN_API_PREFIX", "d4/d2c/SonataExplorerPlugin_8cpp.html#a9f4145e9701d5c9255e0b34e7ba8beec", null ],
-    [ "RENDERER_CELL_GROWTH", "d4/d2c/SonataExplorerPlugin_8cpp.html#ae9e82d5c8aa25b42e89d63fbde40c7b5", null ],
-    [ "RENDERER_PROXIMITY", "d4/d2c/SonataExplorerPlugin_8cpp.html#a8ca17087affe1be1ac1e4835aabfb538", null ]
+    [ "PLUGIN_API_PREFIX", "d4/d2c/SonataExplorerPlugin_8cpp.html#a9f4145e9701d5c9255e0b34e7ba8beec", null ]
 ];

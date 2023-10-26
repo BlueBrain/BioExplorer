@@ -1,0 +1,6 @@
+<map id="core::Engine" name="core::Engine">
+<area shape="rect" id="node1" title="Provides an abstract implementation of a ray&#45;tracing engine." alt="" coords="135,171,238,197"/>
+<area shape="rect" id="node2" href="$dc/d04/classcore_1_1ParametersManager.html" title=" " alt="" coords="5,81,195,108"/>
+<area shape="rect" id="node3" href="$d6/d7e/classcore_1_1Statistics.html" title=" " alt="" coords="219,81,338,108"/>
+<area shape="rect" id="node4" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="213,5,345,32"/>
+</map>

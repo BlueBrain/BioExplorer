@@ -1,0 +1,7 @@
+<map id="core::engine::ospray::OSPRayVolume" name="core::engine::ospray::OSPRayVolume">
+<area shape="rect" id="node1" title=" " alt="" coords="340,39,495,80"/>
+<area shape="rect" id="node4" href="$d0/d17/classcore_1_1engine_1_1ospray_1_1OSPRayBrickedVolume.html" title=" " alt="" coords="557,5,735,47"/>
+<area shape="rect" id="node5" href="$d9/dd2/classcore_1_1engine_1_1ospray_1_1OSPRaySharedDataVolume.html" title=" " alt="" coords="543,71,749,112"/>
+<area shape="rect" id="node2" href="$d9/d2b/classcore_1_1Volume.html" title="A base class for volumes." alt="" coords="185,46,292,73"/>
+<area shape="rect" id="node3" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="5,46,137,73"/>
+</map>

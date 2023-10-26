@@ -1,0 +1,4 @@
+<map id="bioexplorer::morphology::CompartmentSimulationHandler" name="bioexplorer::morphology::CompartmentSimulationHandler">
+<area shape="rect" id="node1" title="The CompartmentSimulationHandler handles the reading of simulation information from the database at a..." alt="" coords="5,95,247,136"/>
+<area shape="rect" id="node2" href="$d5/d65/classcore_1_1AbstractSimulationHandler.html" title="The AbstractSimulationHandler class handles simulation frames for the current circuit." alt="" coords="35,5,217,47"/>
+</map>

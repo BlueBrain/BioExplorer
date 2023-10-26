@@ -1,0 +1,4 @@
+<map id="sonataexplorer::neuroscience::neuron::VoltageSimulationHandler" name="sonataexplorer::neuroscience::neuron::VoltageSimulationHandler">
+<area shape="rect" id="node1" title="The VoltageSimulationHandler class handles simulation frames for the current circuit...." alt="" coords="5,95,259,136"/>
+<area shape="rect" id="node2" href="$d5/d65/classcore_1_1AbstractSimulationHandler.html" title="The AbstractSimulationHandler class handles simulation frames for the current circuit." alt="" coords="41,5,223,47"/>
+</map>

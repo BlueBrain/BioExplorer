@@ -1,0 +1,21 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title=" " alt="" coords="5,192,87,219"/>
+<area shape="rect" id="node2" href="$da/d0a/classbioexplorer_1_1mediamaker_1_1rendering_1_1AmbientOcclusionRenderer.html" title=" " alt="" coords="135,5,353,61"/>
+<area shape="rect" id="node3" href="$dd/d40/classbioexplorer_1_1mediamaker_1_1rendering_1_1DepthRenderer.html" title=" " alt="" coords="145,86,343,127"/>
+<area shape="rect" id="node4" href="$d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html" title=" " alt="" coords="135,151,353,193"/>
+<area shape="rect" id="node5" href="$d3/d1a/classbioexplorer_1_1mediamaker_1_1rendering_1_1ShadowRenderer.html" title=" " alt="" coords="139,217,349,258"/>
+<area shape="rect" id="node6" href="$d1/d8d/classcore_1_1engine_1_1ospray_1_1AbstractRenderer.html" title=" " alt="" coords="167,282,321,323"/>
+<area shape="rect" id="node19" href="$d3/d27/classmetabolism_1_1rendering_1_1MetabolismRenderer.html" title="The MetabolismRenderer class allows visualization of atom Metabolism in the 3D scene." alt="" coords="159,347,329,389"/>
+<area shape="rect" id="node7" href="$de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html" title="The DensityRenderer class allows visualization of atom density in the 3D scene." alt="" coords="402,118,569,159"/>
+<area shape="rect" id="node8" href="$d5/df2/classbioexplorer_1_1rendering_1_1GolgiStyleRenderer.html" title=" " alt="" coords="402,183,569,225"/>
+<area shape="rect" id="node9" href="$d8/dc9/classbioexplorer_1_1rendering_1_1PointFieldsRenderer.html" title="The PointFieldsRenderer class allows visualization of magnetic fields created by atoms in the 3D scen..." alt="" coords="402,249,569,290"/>
+<area shape="rect" id="node10" href="$d1/dd1/classbioexplorer_1_1rendering_1_1VectorFieldsRenderer.html" title="The VectorFieldsRenderer class allows visualization of magnetic fields created by atoms in the 3D sce..." alt="" coords="401,314,569,355"/>
+<area shape="rect" id="node11" href="$d3/dff/classcore_1_1engine_1_1ospray_1_1BasicRenderer.html" title=" " alt="" coords="408,379,563,421"/>
+<area shape="rect" id="node12" href="$d3/df5/classcore_1_1engine_1_1ospray_1_1SimulationRenderer.html" title=" " alt="" coords="406,445,565,486"/>
+<area shape="rect" id="node13" href="$d6/d4f/classbioexplorer_1_1mediamaker_1_1rendering_1_1AlbedoRenderer.html" title=" " alt="" coords="617,281,821,322"/>
+<area shape="rect" id="node14" href="$de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html" title="The PathTracingRenderer class is a renderer that processes the rendering of the 3D scene using the pa..." alt="" coords="636,346,803,387"/>
+<area shape="rect" id="node15" href="$d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer.html" title="The VoxelRenderer class can perform fast transparency and mapping of simulation data on the geometry." alt="" coords="636,411,803,453"/>
+<area shape="rect" id="node16" href="$d1/d9c/classcore_1_1engine_1_1ospray_1_1AdvancedRenderer.html" title="The AdvancedRenderer class is a renderer that can perform global illumination (light shading,..." alt="" coords="642,477,797,518"/>
+<area shape="rect" id="node17" href="$d0/d29/classsonataexplorer_1_1CellGrowthRenderer.html" title="The CellGrowthRenderer class can perform fast transparency and mapping of simulation data on the geom..." alt="" coords="619,542,819,583"/>
+<area shape="rect" id="node18" href="$da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html" title=" " alt="" coords="624,607,815,649"/>
+</map>

@@ -1,6 +1,6 @@
 var optix6_2OptiXTypes_8h =
 [
-    [ "VolumeGeometry", "db/dee/structcore_1_1VolumeGeometry.html", "db/dee/structcore_1_1VolumeGeometry" ],
-    [ "OptiXCameraProgramPtr", "d2/d2c/optix6_2OptiXTypes_8h.html#acc53ad4d3ca45200efd57070398e17fc", null ],
-    [ "OptiXCameraPtr", "d2/d2c/optix6_2OptiXTypes_8h.html#af2fe7bae498a8e56426907716f15a53a", null ]
+    [ "VolumeGeometry", "d2/de2/structcore_1_1engine_1_1optix_1_1VolumeGeometry.html", "d2/de2/structcore_1_1engine_1_1optix_1_1VolumeGeometry" ],
+    [ "OptiXCameraProgramPtr", "d2/d2c/optix6_2OptiXTypes_8h.html#a8c60e79f98c80eac0dc7506fc9421789", null ],
+    [ "OptiXCameraPtr", "d2/d2c/optix6_2OptiXTypes_8h.html#a267a9887776daa4d18988815c136a7b6", null ]
 ];

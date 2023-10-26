@@ -12,7 +12,6 @@ var structbioexplorer_1_1details_1_1NeuronsDetails =
     [ "loadBasalDendrites", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#acbccc30224b5884a41dd9b5a57233e45", null ],
     [ "loadNonSimulatedNodes", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#ad21b706ba132de705804ec178c39f319", null ],
     [ "loadSomas", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#aaee8556aee4044c488bd260f01d346b3", null ],
-    [ "loadSynapses", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#adf24a52b505e47fb05f8b0f44f8d4174", null ],
     [ "maxDistanceToSoma", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a9d6abc68c65cd5147c844021157310ae", null ],
     [ "morphologyColorScheme", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a1659d2e39caf4973fd6c037f7c909db2", null ],
     [ "morphologyRepresentation", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a2a85cb63fc2847862f131c113780a117", null ],
@@ -24,5 +23,6 @@ var structbioexplorer_1_1details_1_1NeuronsDetails =
     [ "showMembrane", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#af487e1e284f3b638df22ceca063caf27", null ],
     [ "simulationReportId", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a8a3613b4c2fa6524c1b73c6f2e309a16", null ],
     [ "sqlNodeFilter", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a9c3be80d039cdcb970af79b2a0b7b5ef", null ],
-    [ "sqlSectionFilter", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#ab9ce2ee034c092bcba9734d55fb1ef12", null ]
+    [ "sqlSectionFilter", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#ab9ce2ee034c092bcba9734d55fb1ef12", null ],
+    [ "synapsesType", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a5f6a0f9dcea10800fa6032498a18a6d6", null ]
 ];

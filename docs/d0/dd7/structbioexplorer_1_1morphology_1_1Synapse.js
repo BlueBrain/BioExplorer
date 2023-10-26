@@ -6,5 +6,6 @@ var structbioexplorer_1_1morphology_1_1Synapse =
     [ "postSynapticSegmentId", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html#a41d253733ea8e2029eb1975c8bef7805", null ],
     [ "postSynapticSurfacePosition", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html#ac8297e72b3e9222168caf4e0d4d9e3f1", null ],
     [ "preSynapticSegmentDistance", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html#afac8a88d9351045535676f4077ac5ffd", null ],
-    [ "preSynapticSurfacePosition", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html#ad716a29c0ced5f4ecf4948181539398f", null ]
+    [ "preSynapticSurfacePosition", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html#ad716a29c0ced5f4ecf4948181539398f", null ],
+    [ "type", "d0/dd7/structbioexplorer_1_1morphology_1_1Synapse.html#af45f97e30aec0565d06a993e38d346b3", null ]
 ];

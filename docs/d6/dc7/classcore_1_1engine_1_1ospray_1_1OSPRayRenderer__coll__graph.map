@@ -1,0 +1,9 @@
+<map id="core::engine::ospray::OSPRayRenderer" name="core::engine::ospray::OSPRayRenderer">
+<area shape="rect" id="node1" title=" " alt="" coords="140,348,295,389"/>
+<area shape="rect" id="node2" href="$dd/d5b/classcore_1_1Renderer.html" title="Renderer class inherits from PropertyObject class The Renderer class has methods to render a FrameBuf..." alt="" coords="159,272,276,299"/>
+<area shape="rect" id="node3" href="$d7/d67/classcore_1_1PropertyObject.html" title=" " alt="" coords="5,132,160,159"/>
+<area shape="rect" id="node4" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="35,5,167,32"/>
+<area shape="rect" id="node6" href="$da/dda/classcore_1_1AbstractParameters.html" title=" " alt="" coords="124,81,311,108"/>
+<area shape="rect" id="node5" href="$d4/d34/classcore_1_1RenderingParameters.html" title=" " alt="" coords="118,183,317,209"/>
+<area shape="rect" id="node7" href="$d4/dfb/classcore_1_1AnimationParameters.html" title=" " alt="" coords="341,183,539,209"/>
+</map>

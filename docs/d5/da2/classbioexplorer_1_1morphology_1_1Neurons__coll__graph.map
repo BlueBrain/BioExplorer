@@ -1,0 +1,8 @@
+<map id="bioexplorer::morphology::Neurons" name="bioexplorer::morphology::Neurons">
+<area shape="rect" id="node1" title=" " alt="" coords="89,380,272,421"/>
+<area shape="rect" id="node2" href="$dc/dbc/classbioexplorer_1_1morphology_1_1Morphologies.html" title="The Morphologies class." alt="" coords="89,289,272,331"/>
+<area shape="rect" id="node3" href="$d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html" title="The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si..." alt="" coords="100,199,261,240"/>
+<area shape="rect" id="node4" href="$d7/d93/classbioexplorer_1_1common_1_1Node.html" title="The Node class." alt="" coords="5,95,167,136"/>
+<area shape="rect" id="node5" href="$df/d44/classcore_1_1Box.html" title=" " alt="" coords="7,5,165,32"/>
+<area shape="rect" id="node6" href="$d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html" title=" " alt="" coords="191,95,359,136"/>
+</map>

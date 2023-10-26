@@ -1,12 +1,14 @@
 var searchData=
 [
-  ['occlusion_7396',['occlusion',['../d9/d0f/namespacecore.html#a942b62b36204ca1117f092b071bce51da73a6a553fd8c616be53e8c1094f06e8f',1,'core']]],
-  ['opacity_7397',['opacity',['../d9/d0f/namespacecore.html#a942b62b36204ca1117f092b071bce51daa44359421a97c76c01b5dd673f421fdd',1,'core']]],
-  ['optimized_5fsegment_7398',['optimized_segment',['../d0/d1f/namespacebioexplorer_1_1details.html#a52708697ea44f6525af8aaa3665a5e2fae764e8c447a0fa5487e6c221b428bab1',1,'bioexplorer::details']]],
-  ['orientation_7399',['orientation',['../dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5ada1639422ad8f355d2371428471379b5',1,'bioexplorer::morphology']]],
-  ['osp_5fstereo_5fleft_7400',['OSP_STEREO_LEFT',['../d1/d3f/structospray_1_1PerspectiveParallaxCamera.html#a54dc2318ae1f56303506b250d1d9ea75a1ae3ea593e2bc203f5a7b603cd98c9ea',1,'ospray::PerspectiveParallaxCamera']]],
-  ['osp_5fstereo_5fnone_7401',['OSP_STEREO_NONE',['../d1/d3f/structospray_1_1PerspectiveParallaxCamera.html#a54dc2318ae1f56303506b250d1d9ea75a4aa1f6502a9d1a4059f9ed8a4c7a26c0',1,'ospray::PerspectiveParallaxCamera']]],
-  ['osp_5fstereo_5fright_7402',['OSP_STEREO_RIGHT',['../d1/d3f/structospray_1_1PerspectiveParallaxCamera.html#a54dc2318ae1f56303506b250d1d9ea75a8ab6afd1b5e11f01376de483f8bcfca6',1,'ospray::PerspectiveParallaxCamera']]],
-  ['osp_5fstereo_5fside_5fby_5fside_7403',['OSP_STEREO_SIDE_BY_SIDE',['../d1/d3f/structospray_1_1PerspectiveParallaxCamera.html#a54dc2318ae1f56303506b250d1d9ea75a84ef427babffa75bd453b47487ecd991',1,'ospray::PerspectiveParallaxCamera']]],
-  ['outside_7404',['outside',['../da/d0b/namespacebioexplorer_1_1common.html#a0a5c60da51c30895756bd229fac959bfac30163615770c8b2b8873288e828de41',1,'bioexplorer::common']]]
+  ['occlusion_7253',['occlusion',['../d9/d0f/namespacecore.html#a942b62b36204ca1117f092b071bce51da73a6a553fd8c616be53e8c1094f06e8f',1,'core']]],
+  ['octree_5findices_7254',['octree_indices',['../d9/d0f/namespacecore.html#a942b62b36204ca1117f092b071bce51dae544028148cebd0cd9f35d540ac74eaa',1,'core']]],
+  ['octree_5fvalues_7255',['octree_values',['../d9/d0f/namespacecore.html#a942b62b36204ca1117f092b071bce51da726dd8cc7fc6ae6939d56d7d951b8d00',1,'core']]],
+  ['opacity_7256',['opacity',['../d9/d0f/namespacecore.html#a942b62b36204ca1117f092b071bce51daa44359421a97c76c01b5dd673f421fdd',1,'core']]],
+  ['optimized_5fsegment_7257',['optimized_segment',['../d0/d1f/namespacebioexplorer_1_1details.html#a52708697ea44f6525af8aaa3665a5e2fae764e8c447a0fa5487e6c221b428bab1',1,'bioexplorer::details']]],
+  ['orientation_7258',['orientation',['../dd/d40/namespacebioexplorer_1_1morphology.html#a836567508b9aecb15c453472e19221f5ada1639422ad8f355d2371428471379b5',1,'bioexplorer::morphology']]],
+  ['osp_5fstereo_5fleft_7259',['OSP_STEREO_LEFT',['../d5/d80/structcore_1_1engine_1_1ospray_1_1PerspectiveParallaxCamera.html#a16393d676443139fa3ec07b1d2720333aaa19371ca6785cafa33d25edd9bb8ba5',1,'core::engine::ospray::PerspectiveParallaxCamera']]],
+  ['osp_5fstereo_5fnone_7260',['OSP_STEREO_NONE',['../d5/d80/structcore_1_1engine_1_1ospray_1_1PerspectiveParallaxCamera.html#a16393d676443139fa3ec07b1d2720333ad3554ac86cc857d0a16c764bee868ef8',1,'core::engine::ospray::PerspectiveParallaxCamera']]],
+  ['osp_5fstereo_5fright_7261',['OSP_STEREO_RIGHT',['../d5/d80/structcore_1_1engine_1_1ospray_1_1PerspectiveParallaxCamera.html#a16393d676443139fa3ec07b1d2720333a7477265654fe3161a37ed184bbfd0b1b',1,'core::engine::ospray::PerspectiveParallaxCamera']]],
+  ['osp_5fstereo_5fside_5fby_5fside_7262',['OSP_STEREO_SIDE_BY_SIDE',['../d5/d80/structcore_1_1engine_1_1ospray_1_1PerspectiveParallaxCamera.html#a16393d676443139fa3ec07b1d2720333a8c8bfe7026c7cc969218d6811d9ca249',1,'core::engine::ospray::PerspectiveParallaxCamera']]],
+  ['outside_7263',['outside',['../da/d0b/namespacebioexplorer_1_1common.html#a0a5c60da51c30895756bd229fac959bfac30163615770c8b2b8873288e828de41',1,'bioexplorer::common']]]
 ];
