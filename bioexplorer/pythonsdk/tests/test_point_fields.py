@@ -21,17 +21,13 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from bioexplorer import BioExplorer
-import os
+from bioexplorer import BioExplorer, Vector3
 
 # pylint: disable=no-member
 # pylint: disable=missing-function-docstring
 # pylint: disable=dangerous-default-value
 
 def test_fields():
-    resource_folder = os.path.abspath('./tests/test_files')
-    fields_folder = os.path.join(resource_folder, 'fields')
-
     bio_explorer = BioExplorer('localhost:5000')
     bio_explorer.reset_scene()
     bio_explorer.start_model_loading_transaction()
@@ -40,8 +36,22 @@ def test_fields():
     # Suspend image streaming
     bio_explorer.core_api().set_application_parameters(image_stream_fps=0)
 
-    # Import from file
-    bio_explorer.import_fields_from_file(os.path.join(fields_folder, 'receptor.fields'))
+    # Create dataset
+    positions = list()
+    radii = list()
+    for x in range(10):
+        for y in range(10):
+            for z in range(10):
+                positions.append(Vector3(x, y, z))
+                radii.append(0.1)
+    bio_explorer.add_spheres(
+        name='Test data',
+        positions=positions, radii=radii,
+        color=Vector3(1,1,1), opacity=1.0)
+
+    bio_explorer.build_fields(
+        voxel_size=0.1, density=1.0,
+        data_type=bio_explorer.FIELD_DATA_TYPE_POINT)
 
     # Virus
     bio_explorer.core_api().set_renderer(

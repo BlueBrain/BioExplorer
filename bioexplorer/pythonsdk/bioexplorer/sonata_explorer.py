@@ -21,9 +21,6 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
-"""Provides a class that wraps the API exposed by the SonataExplorer plug-in"""
-
-
 import seaborn as sns
 from .bio_explorer import Vector3, Quaternion
 
@@ -140,11 +137,11 @@ class SonataExplorer:
                      radius_correction=0, load_soma=True, load_axon=True, load_dendrite=True,
                      load_apical_dendrite=True, use_sdf_soma=False, use_sdf_branches=False,
                      use_sdf_nucleus=False, use_sdf_mitochondria=False, use_sdf_synapses=False,
-                     use_sdf_myelin_steath=False, dampen_branch_thickness_change_rate=True, 
+                     use_sdf_myelin_steath=False, dampen_branch_thickness_change_rate=True,
                      morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
                      morphology_quality=GEOMETRY_QUALITY_HIGH, max_distance_to_soma=1e6,
                      cell_clipping=False, load_afferent_synapses=False,
-                     load_efferent_synapses=False, generate_internals=False, 
+                     load_efferent_synapses=False, generate_internals=False,
                      generate_externals=False, align_to_grid=0.0,
                      position=Vector3(), rotation=Quaternion()):
         """
@@ -178,12 +175,18 @@ class SonataExplorer:
         :param bool load_axon: Defines if the axons should be loaded
         :param bool load_dendrite: Defines if the dendrites should be loaded
         :param bool load_apical_dendrite: Defines if the apical dendrites should be loaded
-        :param bool use_sdf_soma: Defines if signed distance field technique should be used for the soma
-        :param bool use_sdf_branches: Defines if signed distance field technique should be used for the branches (dendrites and axon)
-        :param bool use_sdf_nucleus: Defines if signed distance field technique should be used for the nucleus
-        :param bool use_sdf_morphology: Defines if signed distance field technique should be used for the mitochondria
-        :param bool use_sdf_synapses: Defines if signed distance field technique should be used for the synapses
-        :param bool use_sdf_myelin_steath: Defines if signed distance field technique should be used for the myelin steath
+        :param bool use_sdf_soma: Defines if signed distance field technique should be used for the
+        soma
+        :param bool use_sdf_branches: Defines if signed distance field technique should be used for
+        the branches (dendrites and axon)
+        :param bool use_sdf_nucleus: Defines if signed distance field technique should be used for
+        the nucleus
+        :param bool use_sdf_morphology: Defines if signed distance field technique should be used
+        for the mitochondria
+        :param bool use_sdf_synapses: Defines if signed distance field technique should be used for
+        the synapses
+        :param bool use_sdf_myelin_steath: Defines if signed distance field technique should be used
+        for the myelin steath
         :param bool dampen_branch_thickness_change_rate: Defines if the dampen branch
         thickness change rate option should be used (Only application is use_sdf is True)
         :param int morphology_color_scheme: Defines the color scheme to apply to the morphologies (
@@ -272,7 +275,8 @@ class SonataExplorer:
     def load_pair_synapses_usecase(self, path, pre_synaptic_neuron, post_synaptic_neuron,
                                    radius_multiplier=1, radius_correction=0,
                                    load_soma=True, load_axon=True, load_dendrite=True,
-                                   load_apical_dendrite=True, use_sdf_soma=False, use_sdf_branches=False,
+                                   load_apical_dendrite=True, use_sdf_soma=False,
+                                   use_sdf_branches=False,
                                    dampen_branch_thickness_changerate=True,
                                    morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
                                    morphology_quality=GEOMETRY_QUALITY_HIGH):
@@ -287,8 +291,10 @@ class SonataExplorer:
         :param bool load_axon: Defines if the axons should be loaded
         :param bool load_dendrite: Defines if the dendrites should be loaded
         :param bool load_apical_dendrite: Defines if the apical dendrites should be loaded
-        :param bool use_sdf_soma: Defines if signed distance field technique should be used for the soma
-        :param bool use_sdf_branches: Defines if signed distance field technique should be used for the branches (dendrites and axon)
+        :param bool use_sdf_soma: Defines if signed distance field technique should be used for the
+        soma
+        :param bool use_sdf_branches: Defines if signed distance field technique should be used for
+        the branches (dendrites and axon)
         :param bool dampen_branch_thickness_changerate: Defines if the dampen branch
         thicknesschangerate option should be used (Only application is use_sdf is True)
         :param int morphology_color_scheme: Defines the color scheme to apply to the morphologies (
@@ -348,9 +354,10 @@ class SonataExplorer:
 
     def load_astrocytes(self, path, name='Astrocytes', radius_multiplier=1.0, radius_correction=0.0,
                         load_soma=True, load_dendrite=True, load_end_foot=False,
-                        use_sdf_soma=False, use_sdf_branches=False,dampen_branch_thickness_changerate=True,
+                        use_sdf_soma=False, use_sdf_branches=False,
+                        dampen_branch_thickness_changerate=True,
                         morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
-                        morphology_quality=GEOMETRY_QUALITY_HIGH, generate_internals=False, 
+                        morphology_quality=GEOMETRY_QUALITY_HIGH, generate_internals=False,
                         generate_externals=False):
         """
         Load a astrocyte from a give configuration file
@@ -421,7 +428,6 @@ class SonataExplorer:
 
         return self._core.add_model(name=name, path=path, loader_properties=props)
 
-
     def save_model_to_cache(self, model_id, path):
         """
         Save a model to the specified cache file
@@ -434,10 +440,12 @@ class SonataExplorer:
         params = dict()
         params['modelId'] = model_id
         params['path'] = path
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'save-model-to-cache', params=params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+        return self._core.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'save-model-to-cache', params=params,
+            response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
-    def save_model_to_mesh(self, model_id, path, density=1, radius_multiplier=1.0, shrink_factor=0.5, skin=True):
+    def save_model_to_mesh(
+            self, model_id, path, density=1, radius_multiplier=1.0, shrink_factor=0.5, skin=True):
         """
         Save a model to the specified cache file
 
@@ -453,8 +461,9 @@ class SonataExplorer:
         params['radiusMultiplier'] = radius_multiplier
         params['shrinkFactor'] = shrink_factor
         params['skin'] = skin
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'save-model-to-mesh', params=params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+        return self._core.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'save-model-to-mesh', params=params,
+            response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
     def add_column(self, radius=0.01):
         """
@@ -466,11 +475,14 @@ class SonataExplorer:
         """
         params = dict()
         params['radius'] = radius
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'add-column', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+        return self._core.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'add-column', params,
+            response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
-
-    def trace_anterograde(self, model_id, source_cells_gid, target_cells_gid, source_cells_color=(5, 5, 0, 1), target_cells_color=(5, 0, 0, 1), non_connected_color=(0.5, 0.5, 0.5, 1.0)):
+    def trace_anterograde(
+            self, model_id, source_cells_gid, target_cells_gid,
+            source_cells_color=(5, 5, 0, 1), target_cells_color=(5, 0, 0, 1),
+            non_connected_color=(0.5, 0.5, 0.5, 1.0)):
         """
         Stain the cells based on their synapses
 
@@ -483,7 +495,6 @@ class SonataExplorer:
         : return: Result of the request submission as a dictionary {error:int, message:string}
         :rtype dict
         """
-
         params = dict()
         params['modelId'] = model_id
         params['cellGIDs'] = source_cells_gid
@@ -491,8 +502,9 @@ class SonataExplorer:
         params['sourceCellColor'] = source_cells_color
         params['connectedCellsColor'] = target_cells_color
         params['nonConnectedCellsColor'] = non_connected_color
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'trace-anterograde', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+        return self._core.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'trace-anterograde', params,
+            response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
     def add_sphere(self, center, radius, color, name=""):
         """
@@ -504,28 +516,26 @@ class SonataExplorer:
         : return: Result of the request submission
         :rtype: str
         """
-
         params = dict()
         params['center'] = center
         params['radius'] = radius
         params['color'] = color
         params['name'] = name
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'add-sphere', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+        return self._core.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'add-sphere', params,
+            response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
     def add_pill(self, p1, p2, radius, color, name=""):
         """
-        Creates and adds a pill shape to the scene, using two points to generate
-        the pill shape around of
+        Creates and adds a pill shape to the scene
 
         :param list p1: Position (in global coordinates) of the first pivot
         :param list p2: Position (in global coordinates) of the second pivot.
         :param float radius: Radius of the pill sides
         :param list color: Color with transparency of the pill (RGBA)
-        : return: Result of the request submission
+        :return: Result of the request submission
         :rtype: str
         """
-
         params = dict()
         params['type'] = 'pill'
         params['p1'] = p1
@@ -534,13 +544,13 @@ class SonataExplorer:
         params['radius2'] = radius
         params['color'] = color
         params['name'] = name
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'add-pill', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+        return self._core.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'add-pill', params,
+            response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
     def add_conepill(self, p1, p2, radius1, radius2, color, name=""):
         """
-        Creates and adds a cone pill shape to the scene, using two points to generate
-        the pill shape around of
+        Creates and adds a cone pill shape to the scene
 
         :param list p1: Position (in global coordinates) of the first pivot
         :param list p2: Position (in global coordinates) of the second pivot.
@@ -550,7 +560,6 @@ class SonataExplorer:
         : return: Result of the request submission
         :rtype: str
         """
-
         params = dict()
         params['type'] = 'conepill'
         params['p1'] = p1
@@ -559,13 +568,13 @@ class SonataExplorer:
         params['radius2'] = radius2
         params['color'] = color
         params['name'] = name
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'add-pill', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+        return self._core.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'add-pill', params,
+            response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
     def add_sigmoidpill(self, p1, p2, radius1, radius2, color, name=""):
         """
-        Creates and adds a sigmoid pill (smoothed) shape to the scene, using two points to generate
-        the pill shape around of
+        Creates and adds a sigmoid pill (smoothed) shape to the scene
 
         :param list p1: Position (in global coordinates) of the first pivot
         :param list p2: Position (in global coordinates) of the second pivot.
@@ -575,7 +584,6 @@ class SonataExplorer:
         : return: Result of the request submission
         :rtype: str
         """
-
         params = dict()
         params['type'] = 'sigmoidpill'
         params['p1'] = p1
@@ -584,8 +592,9 @@ class SonataExplorer:
         params['radius2'] = radius2
         params['color'] = color
         params['name'] = name
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'add-pill', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+        return self._core.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'add-pill', params,
+            response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
     def add_cylinder(self, center, up, radius, color, name=""):
         """
@@ -598,15 +607,15 @@ class SonataExplorer:
         : return: Result of the request submission
         :rtype: str
         """
-
         params = dict()
         params['center'] = center
         params['up'] = up
         params['radius'] = radius
         params['color'] = color
         params['name'] = name
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'add-cylinder', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+        return self._core.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'add-cylinder', params,
+            response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
     def add_box(self, minCorner, maxCorner, color, name=""):
         """
@@ -618,26 +627,39 @@ class SonataExplorer:
         : return: Result of the request submission
         :rtype: str
         """
-
         params = dict()
         params['minCorner'] = minCorner
         params['maxCorner'] = maxCorner
         params['color'] = color
         params['name'] = name
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'add-box', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+        return self._core.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'add-box', params,
+            response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
-    def set_spike_report_visualization_settings(self, model_id, rest_voltage=-65, spiking_voltage=-10, time_interval=0.01, decay_speed=5.0):
+    def set_spike_report_visualization_settings(
+            self, model_id, rest_voltage=-65, spiking_voltage=-10, time_interval=0.01,
+            decay_speed=5.0):
+        """
+        Sets the spike report visualization settings
+
+        :param int model_id: Id of the model
+        :param float rest_voltage: Voltage value for resting neuron
+        :param float spiking_voltage: Voltage value for spiking neuron
+        :param float time_interval : Time interval for the simulation (in seconds)
+        :param float decay_speed : Value of decay between 2 frames
+        """
         params = dict()
         params['modelId'] = model_id
         params['restVoltage'] = rest_voltage
         params['spikingVoltage'] = spiking_voltage
         params['timeInterval'] = time_interval
         params['decaySpeed'] = decay_speed
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'set-spike-report-visualization-settings', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+        return self._core.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'set-spike-report-visualization-settings', params,
+            response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
 
-    def load_meg(self, name, path, report_name='soma', density=100.0, voxel_size=1.0, synchronous=False):
+    def load_meg(
+            self, name, path, report_name='soma', density=100.0, voxel_size=1.0, synchronous=False):
         """
         Loads a soma report from a circuit and renders the according magnetic encephalography
 
@@ -648,7 +670,6 @@ class SonataExplorer:
         :param float voxel_size: Voxel size of the volume generated for the visualization
         :param bool synchronous: Load frames synchronously
         """
-
         params = dict()
         params['name'] = name
         params['path'] = path
@@ -656,5 +677,6 @@ class SonataExplorer:
         params['density'] = density / 100.0
         params['voxelSize'] = voxel_size
         params['synchronous'] = synchronous
-        return self._core.rockets_client.request(self.PLUGIN_API_PREFIX + 'load-meg', params,
-                                    response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+        return self._core.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'load-meg', params,
+            response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)

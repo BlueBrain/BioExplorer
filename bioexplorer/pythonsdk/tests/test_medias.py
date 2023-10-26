@@ -30,7 +30,7 @@ def test_movie_maker():
     core = bio_explorer.core_api()
     movie_maker = MovieMaker(bio_explorer)
 
-    core.set_camera(current="bio_explorer_perspective")
+    core.set_camera(current="perspective")
 
     control_points = [
         {
@@ -66,7 +66,7 @@ def test_movie_maker():
 
     movie_maker.set_current_frame(2)
     movie_maker.create_snapshot(
-        renderer="bio_explorer",
+        renderer="advanced",
         path="/tmp",
         base_name="test_2",
         size=[512, 512],
@@ -75,7 +75,7 @@ def test_movie_maker():
 
     movie_maker.set_current_frame(3)
     movie_maker.create_snapshot(
-        renderer="bio_explorer",
+        renderer="advanced",
         path="/tmp",
         base_name="test_3",
         size=[512, 512],
