@@ -1,0 +1,52 @@
+<map id="bioexplorer/backend/science/BioExplorerPlugin.cpp" name="bioexplorer/backend/science/BioExplorerPlugin.cpp">
+<area shape="rect" id="node1" title=" " alt="" coords="2360,5,2581,47"/>
+<area shape="rect" id="node2" href="$d1/d09/BioExplorerPlugin_8h.html" title=" " alt="" coords="1348,102,1497,129"/>
+<area shape="rect" id="node14" title=" " alt="" coords="3820,102,3903,129"/>
+<area shape="rect" id="node15" href="$d9/d2b/Assembly_8h.html" title=" " alt="" coords="172,191,383,218"/>
+<area shape="rect" id="node18" href="$df/df6/GeneralSettings_8h.html" title=" " alt="" coords="2758,191,3010,218"/>
+<area shape="rect" id="node22" href="$d8/d04/bioexplorer_2backend_2science_2common_2Logs_8h.html" title=" " alt="" coords="3617,102,3796,129"/>
+<area shape="rect" id="node25" href="$d1/dc0/bioexplorer_2backend_2science_2common_2Properties_8h.html" title=" " alt="" coords="2146,102,2361,129"/>
+<area shape="rect" id="node27" href="$dd/dd8/bioexplorer_2backend_2science_2common_2Utils_8h.html" title=" " alt="" coords="29,288,208,315"/>
+<area shape="rect" id="node28" href="$d4/d44/CacheLoader_8h.html" title=" " alt="" coords="457,191,644,218"/>
+<area shape="rect" id="node30" href="$d2/ddf/OOCManager_8h.html" title=" " alt="" coords="921,102,1109,129"/>
+<area shape="rect" id="node31" href="$d6/d9f/science_2morphologies_2SpikeSimulationHandler_8h.html" title=" " alt="" coords="719,184,913,225"/>
+<area shape="rect" id="node34" href="$de/d7a/ActionInterface_8h.html" title=" " alt="" coords="3519,377,3689,419"/>
+<area shape="rect" id="node35" href="$db/db2/platform_2core_2common_2Properties_8h.html" title=" " alt="" coords="2385,95,2556,136"/>
+<area shape="rect" id="node36" href="$d5/db5/ClipPlane_8h.html" title=" " alt="" coords="3124,281,3295,322"/>
+<area shape="rect" id="node37" href="$dd/de4/Camera_8h.html" title=" " alt="" coords="2504,184,2683,225"/>
+<area shape="rect" id="node39" href="$d1/dd4/Engine_8h.html" title=" " alt="" coords="2631,281,2809,322"/>
+<area shape="rect" id="node41" href="$df/d12/Material_8h.html" title=" " alt="" coords="3488,184,3667,225"/>
+<area shape="rect" id="node44" href="$d3/d5a/Model_8h.html" title=" " alt="" coords="1917,281,2096,322"/>
+<area shape="rect" id="node49" href="$d4/d16/ParametersManager_8h.html" title=" " alt="" coords="1732,184,1921,225"/>
+<area shape="rect" id="node50" href="$de/def/Plugin_8h.html" title=" " alt="" coords="3418,95,3593,136"/>
+<area shape="rect" id="node3" href="$d9/d64/science_2api_2Params_8h.html" title=" " alt="" coords="1133,288,1291,315"/>
+<area shape="rect" id="node5" href="$df/dc2/PointFieldsHandler_8h.html" title=" " alt="" coords="1170,377,1355,419"/>
+<area shape="rect" id="node10" href="$d4/db3/VectorFieldsHandler_8h.html" title=" " alt="" coords="937,184,1130,225"/>
+<area shape="rect" id="node11" href="$d2/dc5/Vasculature_8h.html" title=" " alt="" coords="1405,184,1555,225"/>
+<area shape="rect" id="node13" href="$d8/d85/ExtensionPlugin_8h.html" title=" " alt="" coords="1154,184,1329,225"/>
+<area shape="rect" id="node4" title=" " alt="" coords="518,385,703,411"/>
+<area shape="rect" id="node6" href="$de/d53/platform_2core_2common_2Types_8h.html" title=" " alt="" coords="1676,467,1847,508"/>
+<area shape="rect" id="node7" href="$d5/d55/MathTypes_8h.html" title=" " alt="" coords="2969,556,3140,597"/>
+<area shape="rect" id="node8" href="$d0/d3f/BaseObject_8h.html" title=" " alt="" coords="2896,645,3067,687"/>
+<area shape="rect" id="node9" title=" " alt="" coords="3025,735,3111,761"/>
+<area shape="rect" id="node12" href="$db/db5/GeometryParameters_8h.html" title=" " alt="" coords="1367,281,1556,322"/>
+<area shape="rect" id="node16" href="$de/d8f/Shape_8h.html" title=" " alt="" coords="463,281,646,322"/>
+<area shape="rect" id="node17" href="$df/d1e/Transformation_8h.html" title=" " alt="" coords="772,377,943,419"/>
+<area shape="rect" id="node19" href="$d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html" title=" " alt="" coords="2834,288,2905,315"/>
+<area shape="rect" id="node20" href="$d2/df3/SDFGeometry_8h.html" title=" " alt="" coords="2311,377,2505,419"/>
+<area shape="rect" id="node21" title=" " alt="" coords="3215,474,3273,501"/>
+<area shape="rect" id="node23" href="$dd/d27/Timer_8h.html" title=" " alt="" coords="4065,184,4236,225"/>
+<area shape="rect" id="node24" title=" " alt="" coords="3961,191,4041,218"/>
+<area shape="rect" id="node26" href="$dc/d04/PropertyMap_8h.html" title=" " alt="" coords="2580,377,2751,419"/>
+<area shape="rect" id="node29" href="$db/dee/science_2io_2db_2DBConnector_8h.html" title=" " alt="" coords="233,288,439,315"/>
+<area shape="rect" id="node32" href="$da/da3/AbstractSimulationHandler_8h.html" title=" " alt="" coords="771,273,994,329"/>
+<area shape="rect" id="node33" href="$df/d21/Api_8h.html" title=" " alt="" coords="2775,377,2945,419"/>
+<area shape="rect" id="node38" href="$d4/d17/PropertyObject_8h.html" title=" " alt="" coords="2929,281,3100,322"/>
+<area shape="rect" id="node40" href="$d1/dd6/Statistics_8h.html" title=" " alt="" coords="2969,377,3140,419"/>
+<area shape="rect" id="node42" href="$d2/dc3/platform_2core_2common_2CommonTypes_8h.html" title=" " alt="" coords="3716,281,3887,322"/>
+<area shape="rect" id="node43" href="$d5/d6f/Texture2D_8h.html" title=" " alt="" coords="3319,281,3489,322"/>
+<area shape="rect" id="node45" href="$d1/d9b/Cone_8h.html" title=" " alt="" coords="1921,377,2092,419"/>
+<area shape="rect" id="node46" href="$d8/de7/Curve_8h.html" title=" " alt="" coords="1431,377,1601,419"/>
+<area shape="rect" id="node47" href="$d9/d0a/Cylinder_8h.html" title=" " alt="" coords="2116,377,2287,419"/>
+<area shape="rect" id="node48" href="$db/d88/SDFBezier_8h.html" title=" " alt="" coords="1625,377,1796,419"/>
+</map>

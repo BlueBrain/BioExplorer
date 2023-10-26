@@ -18,6 +18,7 @@
 # All rights reserved. Do not distribute without further notice.
 
 
+numpy~=1.21.6
 rockets~=1.0.3
 requests~=2.31.0
 python-jsonschema-objects~=0.4.1

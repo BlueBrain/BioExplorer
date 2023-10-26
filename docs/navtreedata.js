@@ -1,26 +1,24 @@
 /*
- @licstart  The following is the entire license notice for the JavaScript code in this file.
+@licstart  The following is the entire license notice for the
+JavaScript code in this file.
 
- The MIT License (MIT)
+Copyright (C) 1997-2019 by Dimitri van Heesch
 
- Copyright (C) 1997-2020 by Dimitri van Heesch
+This program is free software; you can redistribute it and/or modify
+it under the terms of version 2 of the GNU General Public License as published by
+the Free Software Foundation
 
- Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- and associated documentation files (the "Software"), to deal in the Software without restriction,
- including without limitation the rights to use, copy, modify, merge, publish, distribute,
- sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
- The above copyright notice and this permission notice shall be included in all copies or
- substantial portions of the Software.
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
- DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
- @licend  The above is the entire license notice for the JavaScript code in this file
+@licend  The above is the entire license notice
+for the JavaScript code in this file
 */
 var NAVTREE =
 [
@@ -64,91 +62,94 @@ var NAVTREE =
       [ "Environment", "index.html#autotoc_md33", [
         [ "Geological data", "index.html#autotoc_md34", null ]
       ] ],
-      [ "Python SDK", "index.html#autotoc_md35", null ],
-      [ "Documentation", "index.html#autotoc_md36", null ],
-      [ "Deployment", "index.html#autotoc_md37", [
-        [ "Server", "index.html#autotoc_md38", null ],
-        [ "Python SDK", "index.html#autotoc_md39", null ],
-        [ "Web User Interface", "index.html#autotoc_md40", null ],
-        [ "PostgreSQL Database", "index.html#autotoc_md41", null ]
+      [ "Physics", "index.html#autotoc_md35", [
+        [ "Nuclear fusion", "index.html#autotoc_md36", null ]
       ] ],
-      [ "Building from Source", "index.html#autotoc_md42", [
-        [ "BioExplorer", "index.html#autotoc_md43", [
-          [ "Compile", "index.html#autotoc_md44", null ],
-          [ "Run", "index.html#autotoc_md45", null ]
+      [ "Python SDK", "index.html#autotoc_md37", null ],
+      [ "Documentation", "index.html#autotoc_md38", null ],
+      [ "Deployment", "index.html#autotoc_md39", [
+        [ "Server", "index.html#autotoc_md40", null ],
+        [ "Python SDK", "index.html#autotoc_md41", null ],
+        [ "Web User Interface", "index.html#autotoc_md42", null ],
+        [ "PostgreSQL Database", "index.html#autotoc_md43", null ]
+      ] ],
+      [ "Building from Source", "index.html#autotoc_md44", [
+        [ "BioExplorer", "index.html#autotoc_md45", [
+          [ "Compile", "index.html#autotoc_md46", null ],
+          [ "Run", "index.html#autotoc_md47", null ]
         ] ]
       ] ],
-      [ "Simple example", "index.html#autotoc_md46", null ]
+      [ "Simple example", "index.html#autotoc_md48", null ]
     ] ],
-    [ "License", "index.html#autotoc_md47", null ],
-    [ "Contact", "index.html#autotoc_md48", null ],
-    [ "Funding & Acknowledgment", "index.html#autotoc_md49", null ],
+    [ "License", "index.html#autotoc_md49", null ],
+    [ "Contact", "index.html#autotoc_md50", null ],
+    [ "Funding & Acknowledgment", "index.html#autotoc_md51", null ],
     [ "The Multiview core plug-in", "d6/dc8/md_platform_plugins_multiview_README.html", [
       [ "Usage", "d6/dc8/md_platform_plugins_multiview_README.html#autotoc_md0", null ]
     ] ],
     [ "Docker", "d8/d7e/md_DOCKER.html", [
-      [ "Prerequisites", "d8/d7e/md_DOCKER.html#autotoc_md51", null ],
-      [ "Setup", "d8/d7e/md_DOCKER.html#autotoc_md52", null ],
-      [ "Usage", "d8/d7e/md_DOCKER.html#autotoc_md53", null ]
+      [ "Prerequisites", "d8/d7e/md_DOCKER.html#autotoc_md53", null ],
+      [ "Setup", "d8/d7e/md_DOCKER.html#autotoc_md54", null ],
+      [ "Usage", "d8/d7e/md_DOCKER.html#autotoc_md55", null ]
     ] ],
     [ "User guide", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html", [
-      [ "Protein", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md55", null ],
-      [ "Glycan", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md56", null ],
-      [ "RNA sequence", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md57", null ],
-      [ "Membrane", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md58", null ],
-      [ "Surfactants", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md59", null ],
-      [ "Virus", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md60", null ],
-      [ "Host cell", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md61", null ],
-      [ "Glycans Models", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md62", null ],
-      [ "Visualization", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md63", null ]
+      [ "Protein", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md57", null ],
+      [ "Glycan", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md58", null ],
+      [ "RNA sequence", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md59", null ],
+      [ "Membrane", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md60", null ],
+      [ "Surfactants", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md61", null ],
+      [ "Virus", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md62", null ],
+      [ "Host cell", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md63", null ],
+      [ "Glycans Models", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md64", null ],
+      [ "Visualization", "de/d23/md_bioexplorer_pythonsdk_doc_source_USERGUIDE.html#autotoc_md65", null ]
     ] ],
     [ "Architecture", "d1/dbc/md_ARCHITECTURE.html", [
-      [ "Motivation", "d1/dbc/md_ARCHITECTURE.html#autotoc_md65", null ],
-      [ "Design goals", "d1/dbc/md_ARCHITECTURE.html#autotoc_md66", null ],
-      [ "Software Architecture", "d1/dbc/md_ARCHITECTURE.html#autotoc_md67", [
-        [ "Modular design", "d1/dbc/md_ARCHITECTURE.html#autotoc_md68", null ],
-        [ "Distributed architecture", "d1/dbc/md_ARCHITECTURE.html#autotoc_md69", null ],
-        [ "Abstraction", "d1/dbc/md_ARCHITECTURE.html#autotoc_md70", null ],
-        [ "Properties", "d1/dbc/md_ARCHITECTURE.html#autotoc_md71", null ],
-        [ "Core components", "d1/dbc/md_ARCHITECTURE.html#autotoc_md72", [
-          [ "Blue Brain Brayns", "d1/dbc/md_ARCHITECTURE.html#autotoc_md73", null ],
-          [ "Parameter manager", "d1/dbc/md_ARCHITECTURE.html#autotoc_md74", null ],
-          [ "Camera manipulators", "d1/dbc/md_ARCHITECTURE.html#autotoc_md75", null ],
-          [ "Engine factory", "d1/dbc/md_ARCHITECTURE.html#autotoc_md76", null ],
-          [ "Plug-ins", "d1/dbc/md_ARCHITECTURE.html#autotoc_md77", null ],
-          [ "Data loaders", "d1/dbc/md_ARCHITECTURE.html#autotoc_md78", null ],
-          [ "Engine", "d1/dbc/md_ARCHITECTURE.html#autotoc_md79", null ],
-          [ "Scene", "d1/dbc/md_ARCHITECTURE.html#autotoc_md80", null ],
-          [ "Model descriptor", "d1/dbc/md_ARCHITECTURE.html#autotoc_md81", null ],
-          [ "Model", "d1/dbc/md_ARCHITECTURE.html#autotoc_md82", null ]
+      [ "Motivation", "d1/dbc/md_ARCHITECTURE.html#autotoc_md67", null ],
+      [ "Design goals", "d1/dbc/md_ARCHITECTURE.html#autotoc_md68", null ],
+      [ "Software Architecture", "d1/dbc/md_ARCHITECTURE.html#autotoc_md69", [
+        [ "Modular design", "d1/dbc/md_ARCHITECTURE.html#autotoc_md70", null ],
+        [ "Distributed architecture", "d1/dbc/md_ARCHITECTURE.html#autotoc_md71", null ],
+        [ "Abstraction", "d1/dbc/md_ARCHITECTURE.html#autotoc_md72", null ],
+        [ "Properties", "d1/dbc/md_ARCHITECTURE.html#autotoc_md73", null ],
+        [ "Core components", "d1/dbc/md_ARCHITECTURE.html#autotoc_md74", [
+          [ "Blue Brain Brayns", "d1/dbc/md_ARCHITECTURE.html#autotoc_md75", null ],
+          [ "Parameter manager", "d1/dbc/md_ARCHITECTURE.html#autotoc_md76", null ],
+          [ "Camera manipulators", "d1/dbc/md_ARCHITECTURE.html#autotoc_md77", null ],
+          [ "Engine factory", "d1/dbc/md_ARCHITECTURE.html#autotoc_md78", null ],
+          [ "Plug-ins", "d1/dbc/md_ARCHITECTURE.html#autotoc_md79", null ],
+          [ "Data loaders", "d1/dbc/md_ARCHITECTURE.html#autotoc_md80", null ],
+          [ "Engine", "d1/dbc/md_ARCHITECTURE.html#autotoc_md81", null ],
+          [ "Scene", "d1/dbc/md_ARCHITECTURE.html#autotoc_md82", null ],
+          [ "Model descriptor", "d1/dbc/md_ARCHITECTURE.html#autotoc_md83", null ],
+          [ "Model", "d1/dbc/md_ARCHITECTURE.html#autotoc_md84", null ]
         ] ],
-        [ "Application Programming Interface", "d1/dbc/md_ARCHITECTURE.html#autotoc_md83", [
-          [ "Action interface", "d1/dbc/md_ARCHITECTURE.html#autotoc_md84", null ],
-          [ "plug-in", "d1/dbc/md_ARCHITECTURE.html#autotoc_md85", null ],
-          [ "Loader", "d1/dbc/md_ARCHITECTURE.html#autotoc_md86", null ]
+        [ "Application Programming Interface", "d1/dbc/md_ARCHITECTURE.html#autotoc_md85", [
+          [ "Action interface", "d1/dbc/md_ARCHITECTURE.html#autotoc_md86", null ],
+          [ "plug-in", "d1/dbc/md_ARCHITECTURE.html#autotoc_md87", null ],
+          [ "Loader", "d1/dbc/md_ARCHITECTURE.html#autotoc_md88", null ]
         ] ]
       ] ],
-      [ "Client software development kits", "d1/dbc/md_ARCHITECTURE.html#autotoc_md87", [
-        [ "Introduction", "d1/dbc/md_ARCHITECTURE.html#autotoc_md88", null ],
-        [ "Python SDK", "d1/dbc/md_ARCHITECTURE.html#autotoc_md89", null ],
-        [ "Javascript SDK", "d1/dbc/md_ARCHITECTURE.html#autotoc_md90", null ],
-        [ "Deflect", "d1/dbc/md_ARCHITECTURE.html#autotoc_md91", null ],
-        [ "Rockets", "d1/dbc/md_ARCHITECTURE.html#autotoc_md92", null ],
-        [ "VRPN", "d1/dbc/md_ARCHITECTURE.html#autotoc_md93", null ]
+      [ "Client software development kits", "d1/dbc/md_ARCHITECTURE.html#autotoc_md89", [
+        [ "Introduction", "d1/dbc/md_ARCHITECTURE.html#autotoc_md90", null ],
+        [ "Python SDK", "d1/dbc/md_ARCHITECTURE.html#autotoc_md91", null ],
+        [ "Javascript SDK", "d1/dbc/md_ARCHITECTURE.html#autotoc_md92", null ],
+        [ "Deflect", "d1/dbc/md_ARCHITECTURE.html#autotoc_md93", null ],
+        [ "Rockets", "d1/dbc/md_ARCHITECTURE.html#autotoc_md94", null ],
+        [ "VRPN", "d1/dbc/md_ARCHITECTURE.html#autotoc_md95", null ]
       ] ],
-      [ "Applications", "d1/dbc/md_ARCHITECTURE.html#autotoc_md94", [
-        [ "Service", "d1/dbc/md_ARCHITECTURE.html#autotoc_md95", null ],
-        [ "Viewer", "d1/dbc/md_ARCHITECTURE.html#autotoc_md96", null ]
+      [ "Applications", "d1/dbc/md_ARCHITECTURE.html#autotoc_md96", [
+        [ "Service", "d1/dbc/md_ARCHITECTURE.html#autotoc_md97", null ],
+        [ "Viewer", "d1/dbc/md_ARCHITECTURE.html#autotoc_md98", null ]
       ] ],
-      [ "Use-cases", "d1/dbc/md_ARCHITECTURE.html#autotoc_md97", [
-        [ "Visualization of Blue Brain / Sonata datasets", "d1/dbc/md_ARCHITECTURE.html#autotoc_md98", null ],
-        [ "MOOC", "d1/dbc/md_ARCHITECTURE.html#autotoc_md99", null ],
-        [ "OpenDeck", "d1/dbc/md_ARCHITECTURE.html#autotoc_md100", [
-          [ "Native rendering", "d1/dbc/md_ARCHITECTURE.html#autotoc_md101", null ],
-          [ "Remote rendering", "d1/dbc/md_ARCHITECTURE.html#autotoc_md102", null ]
+      [ "Use-cases", "d1/dbc/md_ARCHITECTURE.html#autotoc_md99", [
+        [ "Visualization of Blue Brain / Sonata datasets", "d1/dbc/md_ARCHITECTURE.html#autotoc_md100", null ],
+        [ "MOOC", "d1/dbc/md_ARCHITECTURE.html#autotoc_md101", null ],
+        [ "OpenDeck", "d1/dbc/md_ARCHITECTURE.html#autotoc_md102", [
+          [ "Native rendering", "d1/dbc/md_ARCHITECTURE.html#autotoc_md103", null ],
+          [ "Remote rendering", "d1/dbc/md_ARCHITECTURE.html#autotoc_md104", null ]
         ] ]
       ] ],
-      [ "What next?", "d1/dbc/md_ARCHITECTURE.html#autotoc_md103", null ]
+      [ "What next?", "d1/dbc/md_ARCHITECTURE.html#autotoc_md105", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -193,36 +194,32 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d0/dc2/Timer_8cpp.html#a603bbdc6d66e86a839fb9b833b32c9fa",
-"d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html#a7a78720b7969618e9a36d093c207df76",
-"d1/d3f/structospray_1_1PerspectiveParallaxCamera.html#a54dc2318ae1f56303506b250d1d9ea75a1ae3ea593e2bc203f5a7b603cd98c9ea",
-"d1/dbc/md_ARCHITECTURE.html#autotoc_md86",
-"d2/d51/structospray_1_1Cones.html#afed868f3cc734e6b510daadbd27ed7e8",
-"d2/dc9/structcore_1_1Params.html#a0d0fe0e2d1fa51c24f6807992348f0f0",
-"d3/d69/classcore_1_1Material.html#aeb83c2bfce4ac0b4e175886b01ef053f",
-"d4/d2c/jsonSerialization_8h.html#a2d16748e96ff159ab2f2ab8a6608ebdb",
-"d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp.html#ae74b4d2153086802d1c194e27ba3546a",
-"d5/d60/utils_8h.html#a12c4ac8ddb0e702102196c28b6e221dc",
-"d5/df4/structsonataexplorer_1_1api_1_1SpikeReportVisualizationSettings.html",
-"d6/d93/structbioexplorer_1_1details_1_1SugarDetails.html#af80e8ad4745b084d6f93195080e8cdcc",
-"d7/d65/classcore_1_1OptiXContext.html#ac6e840e0256ff0f13210458875979275",
-"d7/dea/plugins_2Metabolism_2plugin_2io_2db_2DBConnector_8h_source.html",
-"d8/d8e/namespacebioexplorer.html#a0332ccb7ef8c10db2f439fce38db2e28",
-"d9/d0f/namespacecore.html#a18d5ef137fafdc0711308da0c3e2083d",
-"d9/d0f/namespacecore.html#ab4aa74e5031f4f96471c149c1bc19793",
-"d9/d63/classcore_1_1ModelInstance.html#ac7053549bd905583218fe9872329389a",
-"da/d0b/namespacebioexplorer_1_1common.html#ab09abc57fbb8f60aedb578665dba01ab",
-"da/d98/optix6_2OptiXContext_8h.html#aa7521e00c904c489b264901d1a79eac3a34248a9bfcbd589d9b5fccb6a0ac6963",
-"db/d96/classcore_1_1RawVolumeLoader.html#a3e65844779ff0010135357b4d8480216",
-"dc/d1b/platform_2engines_2ospray_2Utils_8cpp.html",
-"dc/df9/classcore_1_1AbstractManipulator.html#a29446503e70aee2d0b938c8bdba1ebed",
-"dd/d40/namespacebioexplorer_1_1morphology.html#af018492c7c2b834b060698d3538db8d6",
-"dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#acd98bb9e835f11ffce7693cad8a994dca8ffacdb2b75195d944d3c9fb88fcb83a",
-"de/d4c/classcore_1_1OSPRayModel.html#a94ddf2ed272f43cb81b1834a2edd031e",
-"de/da1/SonataExplorerParams_8h.html#a5e9c09750d9ebc84817e5ac623d67b7f",
-"df/d09/VasculatureHandler_8cpp_source.html",
-"df/de4/structcore_1_1freeimage_1_1ImageDeleter.html",
-"globals_j.html"
+"d0/de8/classcore_1_1DeflectParameters.html#a8645eff6082cb097460c53c700c31cf7",
+"d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a67cb91a2a11cde57a7379da48427fa25",
+"d1/d83/structcore_1_1GeometryData.html#a76d8285d854b716b3db42b5b73b9ced5a1528b0e85265db3d7cda0df205495872",
+"d1/df9/Albedo_8cu_source.html",
+"d2/db2/classcore_1_1ApplicationParameters.html#a07c55418793909e96d4ac3471544844d",
+"d3/d2f/structcore_1_1HitGroupData.html#a7e0d42d80560c3476fe4fcedaab6ef6d",
+"d3/ded/classcore_1_1TransferFunction.html#a72f6a1600b9e14d40c72dc0516011c38",
+"d4/d34/classcore_1_1RenderingParameters.html#ab6c4f68cc4556680c23003a6da79efb4",
+"d4/de5/SnapshotTask_8h_source.html",
+"d5/d7d/classcore_1_1BaseWindow.html#a4723985dd159e38e7653c8ca837a8f56",
+"d6/d21/Displacement_8h.html#ae73047950e75d266f2c4cd78dcb7033fa31869266b12eb1e39872c6743e729510",
+"d6/dac/structcore_1_1OctreeVector.html#a0d33d566df67813c5b385b401002e36d",
+"d7/d90/structsonataexplorer_1_1api_1_1AddGrid.html",
+"d8/d4a/structcore_1_1engine_1_1ospray_1_1FishEyeCamera.html#a761bcf6d1a7a095c49a54f76c62ace88",
+"d9/d2b/Assembly_8h.html",
+"d9/dff/CylindricCamera_8ispc_source.html",
+"da/ded/OptiXVolume_8h_source.html",
+"db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html#add21ce6cd38899b4f8603a25adc24dea",
+"dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a10e9bd89468a7fe9e810c20e7327eb1b",
+"dd/d10/structcore_1_1SDFGeometry.html#a93818456407beb1ccaeda00a8e2efced",
+"dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#a2ac8e00dd05d3f9cd0b53e1f7571295ca8f9f7411b80f43abea6989a946a4935c",
+"de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#af85fb0982b63e15598be3a8fc8b70f71",
+"de/d6e/engines_2optix7__experimental_2cuda_2renderer_2TransferFunction_8h.html",
+"df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#ad3d8a110481b08332e9f12fcd5131260",
+"df/de2/Glycans_8h_source.html",
+"functions_~.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,0 +1,5 @@
+<map id="core::Material" name="core::Material">
+<area shape="rect" id="node1" title="The class that represents the material object. This class is derived from PropertyObject and provides..." alt="" coords="27,155,139,181"/>
+<area shape="rect" id="node2" href="$d7/d67/classcore_1_1PropertyObject.html" title=" " alt="" coords="5,80,160,107"/>
+<area shape="rect" id="node3" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="17,5,149,32"/>
+</map>

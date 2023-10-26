@@ -1,0 +1,6 @@
+<map id="core::BrickedVolume" name="core::BrickedVolume">
+<area shape="rect" id="node1" title="A volume type where the voxels are copied for each added brick." alt="" coords="17,155,172,181"/>
+<area shape="rect" id="node4" href="$d0/d17/classcore_1_1engine_1_1ospray_1_1OSPRayBrickedVolume.html" title=" " alt="" coords="5,229,184,271"/>
+<area shape="rect" id="node2" href="$d9/d2b/classcore_1_1Volume.html" title="A base class for volumes." alt="" coords="41,80,148,107"/>
+<area shape="rect" id="node3" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="29,5,161,32"/>
+</map>

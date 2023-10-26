@@ -1,0 +1,27 @@
+var structcore_1_1engine_1_1ospray_1_1AdvancedMaterial =
+[
+    [ "commit", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a7a9d5002e6e18f79517bb88588f704a1", null ],
+    [ "toString", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a3a6909a0e863871859f6e04140730876", null ],
+    [ "a", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a74da96847d8684e7b41749fc191517c0", null ],
+    [ "castUserData", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a6ff2539e47997f29b7828ba5f67ff59a", null ],
+    [ "chameleonMode", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a8c1a08c2cf96d09a7ff8324d1a5d6d06", null ],
+    [ "clippingMode", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a18349d2dd3051695e3ca3b2756131df0", null ],
+    [ "d", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a65708fecfb515a8235093831d700c98d", null ],
+    [ "glossiness", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a7374210c02cd9260371e4662e15f90a6", null ],
+    [ "Kd", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a68d6f1d6488de49f1ffb31774bc3e95f", null ],
+    [ "Ks", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a382529c544a6504eff4f78067c66d88e", null ],
+    [ "map_a", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a87eb2746712bf613e9e9266eb8d1bf76", null ],
+    [ "map_Bump", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a4f78a272d69089499efc16aad1cc4789", null ],
+    [ "map_d", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#adfe826d5d7017b56be094b34ef23fe0a", null ],
+    [ "map_Kd", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a62756d046ee329b0e2e9821dbb4ad14d", null ],
+    [ "map_Ks", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a56a830ec1877cbe9045ce2a4765238ec", null ],
+    [ "map_Ns", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#aefd4ed765f8c2c7c11e8a275159b508a", null ],
+    [ "map_Reflection", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a348b34fc4e8255a92e33a4358e23eec4", null ],
+    [ "map_Refraction", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a771c5db40bf426ba119c616700e216fc", null ],
+    [ "nodeId", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a1d59b247aacebeacf568965a86162081", null ],
+    [ "Ns", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a93ac9e23b527d82a989a6bee3caacc80", null ],
+    [ "reflection", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#ad0f660a57f47e77ed36f9a9780eb22de", null ],
+    [ "refraction", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a804959319a0ddb8edba1efc908798835", null ],
+    [ "shadingMode", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a8c105061a346da21e849807d1507fbd2", null ],
+    [ "userParameter", "db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html#a817c56273d4bc739941eeba366e98c84", null ]
+];

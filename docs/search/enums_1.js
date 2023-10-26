@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['basetype_7214',['BaseType',['../d9/d0f/namespacecore.html#ab71c43a29e0a443cdebddd5cb0786446',1,'core']]],
-  ['bvhflag_7215',['BVHFlag',['../d9/d0f/namespacecore.html#abd723b102d21298f1756ff1e8e0b7c1e',1,'core']]]
+  ['basetype_7073',['BaseType',['../d9/d0f/namespacecore.html#ab71c43a29e0a443cdebddd5cb0786446',1,'core']]],
+  ['bvhflag_7074',['BVHFlag',['../d9/d0f/namespacecore.html#abd723b102d21298f1756ff1e8e0b7c1e',1,'core']]]
 ];

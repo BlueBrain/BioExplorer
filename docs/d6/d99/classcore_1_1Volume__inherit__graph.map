@@ -1,0 +1,10 @@
+<map id="core::Volume" name="core::Volume">
+<area shape="rect" id="node1" title="A base class for volumes." alt="" coords="185,42,292,69"/>
+<area shape="rect" id="node3" href="$db/de9/classcore_1_1BrickedVolume.html" title="A volume type where the voxels are copied for each added brick." alt="" coords="354,13,509,39"/>
+<area shape="rect" id="node5" href="$dd/d98/classcore_1_1engine_1_1ospray_1_1OSPRayVolume.html" title=" " alt="" coords="354,64,509,105"/>
+<area shape="rect" id="node7" href="$df/df4/classcore_1_1SharedDataVolume.html" title=" " alt="" coords="340,130,523,157"/>
+<area shape="rect" id="node2" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="5,42,137,69"/>
+<area shape="rect" id="node4" href="$d0/d17/classcore_1_1engine_1_1ospray_1_1OSPRayBrickedVolume.html" title=" " alt="" coords="585,5,763,47"/>
+<area shape="rect" id="node6" href="$d9/dd2/classcore_1_1engine_1_1ospray_1_1OSPRaySharedDataVolume.html" title=" " alt="" coords="571,71,777,112"/>
+<area shape="rect" id="node8" href="$d1/db3/classcore_1_1engine_1_1optix_1_1OptiXVolume.html" title=" " alt="" coords="603,136,745,177"/>
+</map>

@@ -1,12 +1,12 @@
 var OptiXCylindricStereoCamera_8cpp =
 [
-    [ "CONTEXT_CAMERA_FOCUS_DISTANCE", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#a61e0a7741c2010de90ac2d070d17778f", null ],
-    [ "CONTEXT_CAMERA_HALF_IPD", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#a1811c7b2b4e1d61db645d0e59733a130", null ],
-    [ "CONTEXT_CAMERA_HEAD_POSITION", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#a4b762ba9b3510b3aa28554f410704ff1", null ],
-    [ "CONTEXT_CAMERA_HEAD_ROTATION", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#ab6bad98aeec555b9a0ee7c6f6c1ace28", null ],
-    [ "CONTEXT_CAMERA_HEAD_UVEC", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#a8d64c50e1fcd522b692e3c5e4a43ffed", null ],
-    [ "CONTEXT_CAMERA_SEGMENT_ID", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#ab2546be6aa284cfdef12ac407a52f3cb", null ],
-    [ "CUDA_FUNC_OPENDECK_CAMERA", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#a098814ce903f57354d6290cee555937f", null ],
-    [ "PTX_CYLINDRIC_STEREO_CAMERA", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#aa48bbc23ea9a0f3602bd04240b581508", null ],
-    [ "PTX_MISS", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#abd429bbc06d2877508304160ae408c38", null ]
+    [ "CONTEXT_CAMERA_FOCUS_DISTANCE", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#a60a54315d398b5e8fd8edc774a97b0af", null ],
+    [ "CONTEXT_CAMERA_HALF_IPD", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#a0805fd580605e5091a90ea3327ea3a16", null ],
+    [ "CONTEXT_CAMERA_HEAD_POSITION", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#aa3853d0b773f766655062e36879c31f4", null ],
+    [ "CONTEXT_CAMERA_HEAD_ROTATION", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#aa823d321a438309538d7fe09492b440f", null ],
+    [ "CONTEXT_CAMERA_HEAD_UVEC", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#a089a08d25a7b0c16aceb0b8afceba735", null ],
+    [ "CONTEXT_CAMERA_SEGMENT_ID", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#a6b4580dfb46c9911136518ff41d347f9", null ],
+    [ "CUDA_FUNC_OPENDECK_CAMERA", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#a740f37b02f3785c2d4688152e258816a", null ],
+    [ "PTX_CYLINDRIC_STEREO_CAMERA", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#a4fad10a08af35216dc2e7fe60b438859", null ],
+    [ "PTX_MISS", "d5/de3/OptiXCylindricStereoCamera_8cpp.html#a74d10095b5f99c65a03954c985857195", null ]
 ];

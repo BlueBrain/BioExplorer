@@ -1,0 +1,7 @@
+<map id="bioexplorer::rendering::DensityRenderer" name="bioexplorer::rendering::DensityRenderer">
+<area shape="rect" id="node1" title="The DensityRenderer class allows visualization of atom density in the 3D scene." alt="" coords="5,276,172,317"/>
+<area shape="rect" id="node2" href="$d1/d8d/classcore_1_1engine_1_1ospray_1_1AbstractRenderer.html" title=" " alt="" coords="11,185,166,227"/>
+<area shape="rect" id="node3" title=" " alt="" coords="27,89,108,115"/>
+<area shape="rect" id="node4" href="$db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html" title=" " alt="" coords="133,81,287,123"/>
+<area shape="rect" id="node5" title=" " alt="" coords="147,5,273,32"/>
+</map>

@@ -2,7 +2,7 @@ var dir_4b2606a1657530b417d061964a560d66 =
 [
     [ "AbstractRenderer.cpp", "de/d1f/AbstractRenderer_8cpp.html", null ],
     [ "AbstractRenderer.h", "d8/df8/AbstractRenderer_8h.html", [
-      [ "AbstractRenderer", "d1/d37/classcore_1_1AbstractRenderer.html", "d1/d37/classcore_1_1AbstractRenderer" ]
+      [ "AbstractRenderer", "d1/d8d/classcore_1_1engine_1_1ospray_1_1AbstractRenderer.html", "d1/d8d/classcore_1_1engine_1_1ospray_1_1AbstractRenderer" ]
     ] ],
     [ "AbstractRenderer.ih", "d5/d6e/AbstractRenderer_8ih.html", null ],
     [ "AdvancedMaterial.cpp", "d6/de1/AdvancedMaterial_8cpp.html", "d6/de1/AdvancedMaterial_8cpp" ],
@@ -16,7 +16,7 @@ var dir_4b2606a1657530b417d061964a560d66 =
     [ "RendererUtils.ispc", "d2/d2c/RendererUtils_8ispc.html", null ],
     [ "SimulationRenderer.cpp", "de/d4b/SimulationRenderer_8cpp.html", "de/d4b/SimulationRenderer_8cpp" ],
     [ "SimulationRenderer.h", "df/d86/SimulationRenderer_8h.html", [
-      [ "SimulationRenderer", "d2/db4/classcore_1_1SimulationRenderer.html", "d2/db4/classcore_1_1SimulationRenderer" ]
+      [ "SimulationRenderer", "d3/df5/classcore_1_1engine_1_1ospray_1_1SimulationRenderer.html", "d3/df5/classcore_1_1engine_1_1ospray_1_1SimulationRenderer" ]
     ] ],
     [ "SimulationRenderer.ih", "df/d14/SimulationRenderer_8ih.html", null ],
     [ "SimulationRenderer.ispc", "d1/d55/SimulationRenderer_8ispc.html", null ],

@@ -5,7 +5,6 @@ var OptiXCommonStructs_8h =
     [ "PerRayData_shadow", "d7/dee/structPerRayData__shadow.html", "d7/dee/structPerRayData__shadow" ],
     [ "BASIC_LIGHT_TYPE_DIRECTIONAL", "d7/d96/OptiXCommonStructs_8h.html#ac7c949eb2d23d425f2376a179953f25d", null ],
     [ "BASIC_LIGHT_TYPE_POINT", "d7/d96/OptiXCommonStructs_8h.html#a01cbca2d74801a5d4804735760c627ba", null ],
-    [ "EPSILON", "d7/d96/OptiXCommonStructs_8h.html#ab84b0a39a5bcd3e4bd1a2d19b015bde9", null ],
     [ "MAX_TEXTURE_SIZE", "d7/d96/OptiXCommonStructs_8h.html#a0c1d6fab245ab53f8df535db26ad3381", null ],
     [ "OPTIX_ENTRY_POINT_COUNT", "d7/d96/OptiXCommonStructs_8h.html#a650a8e5f2ceb1665fc20fbdbc1dbbb22", null ],
     [ "OPTIX_MAX_TRACE_DEPTH", "d7/d96/OptiXCommonStructs_8h.html#aac985b69e4f9a45e32a6477190d73c5f", null ],

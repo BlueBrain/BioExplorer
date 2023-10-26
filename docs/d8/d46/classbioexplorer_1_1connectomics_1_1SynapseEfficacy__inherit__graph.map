@@ -1,0 +1,5 @@
+<map id="bioexplorer::connectomics::SynapseEfficacy" name="bioexplorer::connectomics::SynapseEfficacy">
+<area shape="rect" id="node1" title=" " alt="" coords="5,184,200,225"/>
+<area shape="rect" id="node2" href="$d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html" title="The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si..." alt="" coords="22,95,183,136"/>
+<area shape="rect" id="node3" href="$d7/d93/classbioexplorer_1_1common_1_1Node.html" title="The Node class." alt="" coords="22,5,183,47"/>
+</map>

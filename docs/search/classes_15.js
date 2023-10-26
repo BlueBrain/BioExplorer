@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['whitematter_4066',['WhiteMatter',['../d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html',1,'bioexplorer::connectomics']]],
-  ['whitematterdetails_4067',['WhiteMatterDetails',['../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html',1,'bioexplorer::details']]]
+  ['whitematter_3961',['WhiteMatter',['../d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html',1,'bioexplorer::connectomics']]],
+  ['whitematterdetails_3962',['WhiteMatterDetails',['../da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html',1,'bioexplorer::details']]]
 ];

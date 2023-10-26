@@ -110,9 +110,9 @@ class Metabolism:
         """
         Set the metabolism renderer
 
-        The renderer travels through the scene using
-        the ray-marching technique. For every voxel, the region is identified and
-        the metabolite concentration is used to define the opacity of the voxel.
+        The renderer travels through the scene using the ray-marching technique. For every voxel,
+        the region is identified and the metabolite concentration is used to define the opacity of
+        the voxel.
 
         :max_accum_frames: Maximum number of accumulated framed
         :subsampling: Sub-sampling
@@ -183,12 +183,7 @@ class Metabolism:
         self._core.set_renderer()
 
     def display(self):
-        """
-        Displays a widget in the notebook.
-
-        The widget allows selection of metabolites and regions that should be rendered
-        """
-
+        """Displays the widget allowing selection of metabolites and regions"""
         class Updated:
             """Class used to interactively update the Metabolism widget"""
 
@@ -377,7 +372,7 @@ class Metabolism:
                 value = value.lstrip("#")
                 lv = len(value)
                 return tuple(
-                    int(value[i : i + lv // 3], 16) for i in range(0, lv, lv // 3)
+                    int(value[i: i + lv // 3], 16) for i in range(0, lv, lv // 3)
                 )
 
             def _get_data(self, guid):

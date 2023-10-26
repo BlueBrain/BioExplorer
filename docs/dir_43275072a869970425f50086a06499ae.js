@@ -18,6 +18,12 @@ var dir_43275072a869970425f50086a06499ae =
     ] ],
     [ "DepthRenderer.ih", "da/dc3/DepthRenderer_8ih.html", null ],
     [ "DepthRenderer.ispc", "d6/d26/DepthRenderer_8ispc.html", null ],
+    [ "RadianceRenderer.cpp", "d0/db1/RadianceRenderer_8cpp.html", "d0/db1/RadianceRenderer_8cpp" ],
+    [ "RadianceRenderer.h", "d6/dff/RadianceRenderer_8h.html", [
+      [ "RadianceRenderer", "d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html", "d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer" ]
+    ] ],
+    [ "RadianceRenderer.ih", "dd/dbf/RadianceRenderer_8ih.html", null ],
+    [ "RadianceRenderer.ispc", "d0/d45/RadianceRenderer_8ispc.html", null ],
     [ "ShadowRenderer.cpp", "d0/d31/ShadowRenderer_8cpp.html", "d0/d31/ShadowRenderer_8cpp" ],
     [ "ShadowRenderer.h", "d2/de4/ShadowRenderer_8h.html", [
       [ "ShadowRenderer", "d3/d1a/classbioexplorer_1_1mediamaker_1_1rendering_1_1ShadowRenderer.html", "d3/d1a/classbioexplorer_1_1mediamaker_1_1rendering_1_1ShadowRenderer" ]

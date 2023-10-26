@@ -235,27 +235,18 @@ class Bounds:
 
 
 class Transformation:
-    """
-    Transformation describes an object transformation defined by a translation, a rotation, a
-    rotation center and a scale
-    """
+    """Transformation defined by a translation, a rotation, a rotation center and a scale"""
 
     def __init__(
-        self,
-        translation=Vector3(),
-        rotation=Quaternion(),
-        rotation_center=Vector3(),
-        scale=Vector3(),
-    ):
+            self, translation=Vector3(), rotation=Quaternion(), rotation_center=Vector3(),
+            scale=Vector3()):
         """
-        Class describing an object transformation defined by a translation, a rotation, a
-        rotation center and a scale
+        Transformation defined by a translation, a rotation, a rotation center and a scale
 
-        Args:
-            translation (Vector3, optional): Translation. Defaults to Vector3().
-            rotation (Quaternion, optional): Rotation. Defaults to Quaternion().
-            rotation_center (Vector3, optional): Rotation center. Defaults to Vector3().
-            scale (Vector3, optional): Scale. Defaults to Vector3().
+        :param Vector3 translation: Translation. Defaults to Vector3()
+        :param Quaternion rotation: Rotation. Defaults to Quaternion()
+        :param Vector3 rotation_center: Rotation center. Defaults to Vector3()
+        :param Vector3 scale: Scale. Defaults to Vector3()
         """
         assert isinstance(translation, Vector3)
         assert isinstance(rotation, Quaternion)
@@ -2787,7 +2778,8 @@ class BioExplorer:
             return tf
         return None
 
-    def build_fields(self, voxel_size, density=1.0, data_type=FIELD_DATA_TYPE_POINT, model_ids=list()):
+    def build_fields(
+            self, voxel_size, density=1.0, data_type=FIELD_DATA_TYPE_POINT, model_ids=list()):
         """
         Build fields acceleration structures and creates according data handler
 
@@ -3063,7 +3055,8 @@ class BioExplorer:
         """
         Starts the loading of models
 
-        All models loaded from this point will only appear in the scene once the commit_model_loading_transaction function is invoked
+        All models loaded from this point will only appear in the scene once the
+        commit_model_loading_transaction function is invoked
 
         :return: Result of the request submission
         """

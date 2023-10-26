@@ -425,7 +425,6 @@ class Widgets:
 
     def display_palette_for_models(self):
         """Display visual controls for color palettes applied to models"""
-
         def set_colormap(model_id, colormap_name, shading_mode):
             material_ids = self._be.get_material_ids(model_id)["ids"]
             nb_materials = len(material_ids)
@@ -702,7 +701,6 @@ class Widgets:
 
     def __display_advanced_settings(self, object_type, threaded):
         """Display visual controls for camera or renderer advanced settings"""
-
         class Updated:
             """Inner class that insures communication with the remote server"""
 
@@ -839,7 +837,7 @@ class Widgets:
         for i in range(0, nb_widgets, nb_columns):
             box_widgets = list()
 
-            for widget in list(widgets_list)[i : min(i + nb_columns, nb_widgets)]:
+            for widget in list(widgets_list)[i: min(i + nb_columns, nb_widgets)]:
                 box_widgets.append(widgets_list[widget])
 
             vboxes.append(HBox(box_widgets))
@@ -857,7 +855,6 @@ class Widgets:
 
     def display_rendering_settings(self):
         """Display visual controls for renderer settings"""
-
         def update_params(_):
             """Update renderer params"""
             self._client.set_renderer(
@@ -965,7 +962,7 @@ class Widgets:
                 palette_size,
             )
             lbl.value = sequence_as_list[2][
-                value["new"][0] - value_range[0] : value["new"][1] - value_range[0]
+                value["new"][0] - value_range[0]: value["new"][1] - value_range[0]
             ]
 
         irs.observe(update_slider, "value")
@@ -974,32 +971,29 @@ class Widgets:
 
     def display_clipping_planes(self, value_range=[0, 128]):
         """
-            The code is implementing a visualization feature that allows the user to add and
-            manipulate clip planes in a 3D space.
+        Add and manipulate clip planes in a 3D space
 
-            The code starts by getting the currently existing clip planes using
-            the _client.get_clip_planes() method. If there are any existing clip planes, it stores
-            the ID of the last plane in the variable plane_id and removes all existing clip planes
-            using the _client.remove_clip_planes() method.
+        The code starts by getting the currently existing clip planes using
+        the _client.get_clip_planes() method. If there are any existing clip planes, it stores
+        the ID of the last plane in the variable plane_id and removes all existing clip planes
+        using the _client.remove_clip_planes() method.
 
-            Next, the code adds 6 new clip planes at the origin using the _client.add_clip_plane()
-            method. The clip planes are added in pairs along the x, y, and z axes.
+        Next, the code adds 6 new clip planes at the origin using the _client.add_clip_plane()
+        method. The clip planes are added in pairs along the x, y, and z axes.
 
-            After that, the code defines three update functions update_x, update_y, and update_z
-            that will be called when the user interacts with the sliders.
+        After that, the code defines three update functions update_x, update_y, and update_z
+        that will be called when the user interacts with the sliders.
 
-            Each update function calls the _client.update_clip_plane() method to update the position
-            of the corresponding clip plane based on the value of the slider. The plane_id variable
-            is used to identify the correct clip plane to update.
+        Each update function calls the _client.update_clip_plane() method to update the position
+        of the corresponding clip plane based on the value of the slider. The plane_id variable
+        is used to identify the correct clip plane to update.
 
-            Finally, three sliders w_y, w_y, and w_z are created using IntRangeSlider with provided
-            minimum and maximum values. Each slider is then associated with its corresponding update
-            function using the observe() method. The sliders are displayed using the display()
-            function.
+        Finally, three sliders w_y, w_y, and w_z are created using IntRangeSlider with provided
+        minimum and maximum values. Each slider is then associated with its corresponding update
+        function using the observe() method. The sliders are displayed using the display()
+        function.
 
-        Args:
-            value_range (list, optional): Range of values for the clipping planes. Defaults to
-            [0, 128].
+        :param floats value_range: Range of values for the clipping planes. Defaults to [0, 128]
         """
         planes = self._client.get_clip_planes()
         plane_id = -1
@@ -1066,16 +1060,19 @@ class Widgets:
 
     def display_model_transformation(self, model_id):
         """
-        The code is a versatile user interface element designed to enable users to manipulate and transform models within a 3D scene. It provides intuitive controls for translating, rotating, and scaling objects with precision and ease.
+        Manipulate and transform models within a 3D scene
 
-        Translation Controls: The widget includes handles or controls that allow users to move the object along the X, Y, and Z axes. Users can click and drag these handles to relocate the object within the workspace.
+        Translation Controls: The widget includes handles or controls that allow users to move the
+        object along the X, Y, and Z axes. Users can click and drag these handles to relocate the
+        object within the workspace.
 
-        Rotation Controls: It offers handles for rotating the object around different axes. Users can rotate the model by dragging these handles, ensuring precise orientation adjustments.
+        Rotation Controls: It offers handles for rotating the object around different axes. Users
+        can rotate the model by dragging these handles, ensuring precise orientation adjustments.
 
-        Scaling Controls: The widget provides controls for resizing the model uniformly or independently along each axis.
+        Scaling Controls: The widget provides controls for resizing the model uniformly or
+        independently along each axis.
 
-        Args:
-            model_id (integer): Id of the model on which the transformation will be applied
+        :param integer model_id: Id of the model on which the transformation will be applied
         """
         tf = self._be.get_model_transformation(model_id)
 
