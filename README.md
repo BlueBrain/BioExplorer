@@ -180,11 +180,12 @@ References:
 Circuits of neurons are loaded from the database (see the database [schema](./storage/database/neurons_schema.sql) and the example [notebook](./bioexplorer/pythonsdk/notebooks/neurons/BioExplorer_import_sonata_to_db.ipynb) for loading data from [Sonata](https://github.com/AllenInstitute/sonata) files) using their position and orientation. Each cell is composed of sections that form the axons and dendrites, as well as spines. Cell internals such as the nucleus and the mitochondria can be automatically generated, according to the data provided by the scientific literature. The _BBBE_ also implements procedural generation of varicosities along the axon, as well as myelin sheaths.
 
 ```python
-neurons_model = bio_explorer.add_neurons(
+status = bio_explorer.add_neurons(
     assembly_name='Neurons',
     population_name='neurons',
-    use_sdf=True, load_synapses=True, generate_varicosities=True,
-    generate_internals=True, generate_externals=False
+    realism_level=be.MORPHOLOGY_REALISM_LEVEL_ALL,
+    synapses_type=be.NEURON_SYNAPSES_AFFERENT, generate_varicosities=True,
+    generate_internals=True, generate_externals=True
 )
 ```
 
