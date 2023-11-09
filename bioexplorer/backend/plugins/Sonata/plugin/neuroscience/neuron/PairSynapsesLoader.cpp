@@ -64,6 +64,8 @@ PairSynapsesLoader::PairSynapsesLoader(Scene &scene, const ApplicationParameters
     _fixedDefaults.setProperty({PROP_USE_SDF_MITOCHONDRIA.name, false});
     _fixedDefaults.setProperty({PROP_USE_SDF_SYNAPSES.name, false});
     _fixedDefaults.setProperty({PROP_USE_SDF_MYELIN_STEATH.name, false});
+    _fixedDefaults.setProperty(PROP_POSITION);
+    _fixedDefaults.setProperty(PROP_ROTATION);
 }
 
 ModelDescriptorPtr PairSynapsesLoader::importFromFile(const std::string &filename, const LoaderProgress &callback,

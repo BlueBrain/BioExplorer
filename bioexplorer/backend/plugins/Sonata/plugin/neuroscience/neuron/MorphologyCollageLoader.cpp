@@ -57,6 +57,8 @@ MorphologyCollageLoader::MorphologyCollageLoader(Scene &scene, const Application
     _fixedDefaults.setProperty({PROP_LOAD_EFFERENT_SYNAPSES.name, false});
     _fixedDefaults.setProperty({PROP_INTERNALS.name, false});
     _fixedDefaults.setProperty({PROP_EXTERNALS.name, false});
+    _fixedDefaults.setProperty(PROP_POSITION);
+    _fixedDefaults.setProperty(PROP_ROTATION);
 }
 
 ModelDescriptorPtr MorphologyCollageLoader::importFromFile(const std::string &filename, const LoaderProgress &callback,
