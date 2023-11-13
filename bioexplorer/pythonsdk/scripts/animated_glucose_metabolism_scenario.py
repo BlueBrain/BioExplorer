@@ -232,7 +232,7 @@ class GlucoseMetabolismScenario(MovieScenario):
                 variable_guid = int(variable)
                 variable_description = variables[variable][1]
                 location_guid = int(location)
-                file_name = metabolites_folder + pdb_guid + '.pdb'
+                file_name = os.path.join(metabolites_folder, pdb_guid + '.pdb')
                 concentration = self._get_concentration(
                     variable_guid, simulation_guid, frame, location_guid)
                 nb_molecules = self._get_nb_molecules(concentration, location_guid)

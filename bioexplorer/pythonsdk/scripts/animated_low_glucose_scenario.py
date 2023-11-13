@@ -27,7 +27,7 @@ from bioexplorer import (
     Membrane,
     Surfactant,
     Cell,
-    Sugars,
+    Sugar,
     MolecularSystemAnimationParams,
     Volume,
     Vector2,
@@ -132,7 +132,7 @@ class LowGlucoseScenario(MovieScenario):
         image_k=4,
         image_samples_per_pixel=64,
         log_level=1,
-        shaders=list(["bio_explorer"]),
+        shaders=list(["advanced"]),
     ):
         super().__init__(
             hostname,
@@ -365,7 +365,7 @@ class LowGlucoseScenario(MovieScenario):
 
         ace2_receptor = Protein(
             name=receptor_name,
-            source=pdb_folder + "6m18.pdb",
+            source=os.path.join(pdb_folder, "6m18.pdb"),
             occurrences=nb_receptors,
             transmembrane_params=Vector2(-6.0, 5.0),
             animation_params=MolecularSystemAnimationParams(
@@ -375,10 +375,10 @@ class LowGlucoseScenario(MovieScenario):
 
         membrane = Membrane(
             lipid_sources=[
-                membrane_folder + "segA.pdb",
-                membrane_folder + "segB.pdb",
-                membrane_folder + "segC.pdb",
-                membrane_folder + "segD.pdb",
+                os.path.join(membrane_folder, "segA.pdb"),
+                os.path.join(membrane_folder, "segB.pdb"),
+                os.path.join(membrane_folder, "segC.pdb"),
+                os.path.join(membrane_folder, "segD.pdb"),
             ],
             animation_params=MolecularSystemAnimationParams(
                 random_seed, frame + 1, 0.025, frame + 2, 0.2
@@ -483,7 +483,7 @@ class LowGlucoseScenario(MovieScenario):
                 o_glycan_name = (
                     name + "_" + BioExplorer.NAME_GLYCAN_O_GLYCAN + "_" + str(index[0])
                 )
-                o_glycan = Sugars(
+                o_glycan = Sugar(
                     assembly_name=name,
                     name=o_glycan_name,
                     source=o_glycan_paths[0],
@@ -496,7 +496,7 @@ class LowGlucoseScenario(MovieScenario):
                         0, 0, 0.0, frame + count + 5, 0.2
                     ),
                 )
-                self._check(self._be.add_sugars(o_glycan))
+                self._check(self._be.add_sugar(o_glycan))
                 count += 1
 
     def _add_surfactant_d(self, name, position, rotation, animation_params):
@@ -717,10 +717,10 @@ class LowGlucoseScenario(MovieScenario):
         ]
 
         pdb_lipids = [
-            membrane_folder + "segA.pdb",
-            membrane_folder + "segB.pdb",
-            membrane_folder + "segC.pdb",
-            membrane_folder + "segD.pdb",
+            os.path.join(membrane_folder, "segA.pdb"),
+            os.path.join(membrane_folder, "segB.pdb"),
+            os.path.join(membrane_folder, "segC.pdb"),
+            os.path.join(membrane_folder, "segD.pdb"),
         ]
 
         membrane = Membrane(
@@ -797,7 +797,7 @@ class LowGlucoseScenario(MovieScenario):
             self._core.add_clip_plane(plane)
 
     def set_rendering_settings(self, renderer):
-        if renderer == "bio_explorer":
+        if renderer == "advanced":
             self._core.set_renderer(
                 background_color=[96 / 255, 125 / 255, 139 / 255],
                 current=renderer,
@@ -951,7 +951,7 @@ def main(argv):
         shaders=args.shaders,
     )
 
-    scenario.set_rendering_settings("bio_explorer")
+    scenario.set_rendering_settings("advanced")
     scenario.render_movie(
         start_frame=args.from_frame,
         end_frame=args.to_frame,
