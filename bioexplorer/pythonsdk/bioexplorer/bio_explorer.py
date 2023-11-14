@@ -238,8 +238,12 @@ class Transformation:
     """Transformation defined by a translation, a rotation, a rotation center and a scale"""
 
     def __init__(
-            self, translation=Vector3(), rotation=Quaternion(), rotation_center=Vector3(),
-            scale=Vector3()):
+        self,
+        translation=Vector3(),
+        rotation=Quaternion(),
+        rotation_center=Vector3(),
+        scale=Vector3(),
+    ):
         """
         Transformation defined by a translation, a rotation, a rotation center and a scale
 
@@ -532,6 +536,7 @@ class BioExplorer:
     SHADING_MODE_DIFFUSE_TRANSPARENCY = 7
     SHADING_MODE_CHECKER = 8
     SHADING_MODE_GOODSELL = 9
+    SHADING_MODE_NORMAL = 10
 
     SHADING_CHAMELEON_MODE_NONE = 0
     SHADING_CHAMELEON_MODE_EMITTER = 1
@@ -2779,7 +2784,8 @@ class BioExplorer:
         return None
 
     def build_fields(
-            self, voxel_size, density=1.0, data_type=FIELD_DATA_TYPE_POINT, model_ids=list()):
+        self, voxel_size, density=1.0, data_type=FIELD_DATA_TYPE_POINT, model_ids=list()
+    ):
         """
         Build fields acceleration structures and creates according data handler
 

@@ -51,7 +51,8 @@ enum MaterialShadingMode
     perlin = 6,
     diffuse_transparency = 7,
     checker = 8,
-    goodsell = 9
+    goodsell = 9,
+    normal = 10,
 };
 
 enum MaterialChameleonMode
