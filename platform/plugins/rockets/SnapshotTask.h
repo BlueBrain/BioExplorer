@@ -116,14 +116,10 @@ public:
         _camera->updateProperty(CAMERA_PROPERTY_ASPECT_RATIO.name, double(_params.size.x) / _params.size.y);
         _camera->commit();
 
-        if (_params.renderingParams)
-        {
-            _params.renderingParams->setSamplesPerPixel(1);
-            _params.renderingParams->setSubsampling(1);
-        }
-
+        _renderer->setSamplesPerPixel(1);
+        _renderer->setSubsampling(1);
         _renderer->setCamera(_camera);
-        _renderer->setScene(_scene);
+        _renderer->setEngine(&_engine);
         _renderer->commit();
 
         std::stringstream msg;

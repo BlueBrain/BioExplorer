@@ -29,6 +29,8 @@
 #include "OptiXTypes.h"
 #include "OptiXUtils.h"
 
+#include <platform/core/engineapi/Engine.h>
+
 namespace core
 {
 namespace engine
@@ -65,19 +67,19 @@ void OptiXRenderer::render(FrameBufferPtr frameBuffer)
 
 void OptiXRenderer::commit()
 {
-    if (!_renderingParameters.isModified() && !_scene->isModified() && !isModified())
+    auto& scene = _engine->getScene();
+    if (!_renderingParameters.isModified() && !scene.isModified() && !isModified())
         return;
 
-    const bool rendererChanged = _renderingParameters.getCurrentRenderer() != _currentRenderer;
-
-    const bool updateMaterials = isModified() || rendererChanged || _scene->isModified();
+    const bool updateMaterials = isModified() || scene.isModified();
 
     // If renderer or scene has changed we have to go through all materials in the scene and update the renderer.
     if (updateMaterials)
     {
-        const auto renderProgram = OptiXContext::get().getRenderer(_renderingParameters.getCurrentRenderer());
+        const auto& currentRendererType = _engine->getRenderer().getCurrentType();
+        const auto renderProgram = OptiXContext::get().getRenderer(currentRendererType);
 
-        _scene->visitModels(
+        scene.visitModels(
             [&](Model& model)
             {
                 for (const auto& kv : model.getMaterials())
@@ -100,20 +102,16 @@ void OptiXRenderer::commit()
 
     // Upload common properties
     auto context = OptiXContext::get().getOptixContext();
-    auto bgColor = _renderingParameters.getBackgroundColor();
-    const auto samples_per_pixel = _renderingParameters.getSamplesPerPixel();
-
-    const auto bounds = _scene->getBounds();
+    const auto bounds = scene.getBounds();
     const auto epsilon = bounds.getSize().x / 1000.f;
     context[CONTEXT_RENDERER_SCENE_EPSILON]->setFloat(epsilon);
     context[CONTEXT_RENDERER_RADIANCE_RAY_TYPE]->setUint(0);
     context[CONTEXT_RENDERER_SHADOW_RAY_TYPE]->setUint(1);
-    context[CONTEXT_RENDERER_AMBIENT_LIGHT_COLOR]->setFloat(bgColor.x, bgColor.y, bgColor.z);
-    context[CONTEXT_RENDERER_BACKGROUND_COLOR]->setFloat(bgColor.x, bgColor.y, bgColor.z);
-    context[CONTEXT_RENDERER_SAMPLES_PER_PIXEL]->setUint(samples_per_pixel);
+    context[CONTEXT_RENDERER_AMBIENT_LIGHT_COLOR]->setFloat(_backgroundColor.x, _backgroundColor.y, _backgroundColor.z);
+    context[CONTEXT_RENDERER_BACKGROUND_COLOR]->setFloat(_backgroundColor.x, _backgroundColor.y, _backgroundColor.z);
+    context[CONTEXT_RENDERER_SAMPLES_PER_PIXEL]->setUint(_spp);
 
     toOptiXProperties(getPropertyMap());
-    _currentRenderer = _renderingParameters.getCurrentRenderer();
 }
 
 void OptiXRenderer::setCamera(CameraPtr /*camera*/) {}

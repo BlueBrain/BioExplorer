@@ -99,7 +99,7 @@ OSPRayEngine::OSPRayEngine(ParametersManager& parametersManager)
 
     _createCameras();
 
-    _renderer->setScene(_scene);
+    _renderer->setEngine(this);
     _renderer->setCamera(_camera);
 }
 

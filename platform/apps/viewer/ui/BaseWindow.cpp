@@ -20,7 +20,6 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 #include "BaseWindow.h"
 
 #include <platform/core/Core.h>
@@ -259,10 +258,10 @@ void BaseWindow::display()
     _renderInput.orientation = camera.getOrientation();
     _renderInput.target = camera.getTarget();
 
-    const auto& fb = _core.getEngine().getFrameBuffer();
-    const auto& rp = _core.getParametersManager().getRenderingParameters();
-    const auto maxAccumFrames = rp.getMaxAccumFrames();
+    const auto& renderer = _core.getEngine().getRenderer();
+    const auto maxAccumFrames = renderer.getMaxAccumFrames();
 
+    const auto& fb = _core.getEngine().getFrameBuffer();
     if (fb.numAccumFrames() < maxAccumFrames)
         _core.commitAndRender(_renderInput, _renderOutput);
     else
@@ -496,17 +495,17 @@ void BaseWindow::_toggleRendererType()
     ++_currentRendererTypeIndex;
     _currentRendererTypeIndex = _currentRendererTypeIndex % _rendererTypes.size();
     const auto rendererType = _rendererTypes[_currentRendererTypeIndex];
-    auto& rp = _core.getParametersManager().getRenderingParameters();
-    rp.setCurrentRenderer(rendererType);
+    auto& engine = _core.getEngine();
+    engine.setRendererType(rendererType);
     _setHint("Renderer: [" + rendererType + "]");
 }
 
 void BaseWindow::_toggleHeadLight()
 {
-    auto& rp = _core.getParametersManager().getRenderingParameters();
-    rp.setHeadLight(!rp.getHeadLight());
+    auto& renderer = _core.getEngine().getRenderer();
+    renderer.setHeadLight(!renderer.getHeadLight());
     std::string hint = "Head light: [";
-    hint += (rp.getHeadLight() ? "ON" : "OFF");
+    hint += (renderer.getHeadLight() ? "ON" : "OFF");
     hint += "]";
     _setHint(hint);
 }

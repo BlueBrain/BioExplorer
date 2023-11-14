@@ -45,13 +45,10 @@ void Engine::commit()
 
 void Engine::preRender()
 {
-    const auto& renderParams = _parametersManager.getRenderingParameters();
-    if (!renderParams.isModified())
-        return;
     for (auto frameBuffer : _frameBuffers)
     {
-        frameBuffer->setAccumulation(renderParams.getAccumulation());
-        frameBuffer->setSubsampling(renderParams.getSubsampling());
+        frameBuffer->setAccumulation(_renderer->getAccumulation());
+        frameBuffer->setSubsampling(_renderer->getSubsampling());
     }
 }
 
@@ -81,8 +78,7 @@ bool Engine::continueRendering() const
 {
     auto frameBuffer = _frameBuffers[0];
     return _parametersManager.getAnimationParameters().isPlaying() ||
-           (frameBuffer->getAccumulation() &&
-            (frameBuffer->numAccumFrames() < _parametersManager.getRenderingParameters().getMaxAccumFrames()));
+           (frameBuffer->getAccumulation() && (frameBuffer->numAccumFrames() < _renderer->getMaxAccumFrames()));
 }
 
 void Engine::addFrameBuffer(FrameBufferPtr frameBuffer)

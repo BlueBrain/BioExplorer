@@ -50,8 +50,6 @@ public:
     void setCamera(CameraPtr camera) final;
 
 private:
-    std::string _currentRenderer;
-
     Timer _timer;
 };
 } // namespace optix

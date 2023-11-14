@@ -27,6 +27,7 @@
 #include <plugin/common/Properties.h>
 
 #include <platform/core/common/ActionInterface.h>
+#include <platform/core/common/Properties.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Scene.h>
@@ -90,7 +91,7 @@ void DICOMPlugin::init()
         _createRenderers();
     }
 #endif
-    _api->getParametersManager().getRenderingParameters().setCurrentRenderer("advanced");
+    engine.setRendererType(core::RENDERER_PROPERTY_TYPE_ADVANCED);
 }
 
 #ifdef USE_OPTIX6

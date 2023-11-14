@@ -27,6 +27,8 @@
 #include <platform/core/parameters/AnimationParameters.h>
 #include <platform/core/parameters/RenderingParameters.h>
 
+SERIALIZATION_ACCESS(Renderer)
+
 namespace core
 {
 /**
@@ -97,11 +99,54 @@ public:
      * @brief Sets the _scene pointer to a specified ScenePtr.
      * @param scene ScenePtr of the scene object to set
      */
-    void setScene(ScenePtr scene) { _scene = scene; };
+    void setEngine(Engine* engine) { _engine = engine; };
+
+    /**
+       Light source follow camera origin
+    */
+    PLATFORM_API bool getHeadLight() const { return _headLight; }
+    PLATFORM_API void setHeadLight(const bool value) { _updateValue(_headLight, value); }
+
+    /**
+     * The maximum number of accumulation frames before engine signals to stop
+     * continuation of rendering.
+     *
+     * @sa Engine::continueRendering()
+     */
+    PLATFORM_API void setMaxAccumFrames(const size_t value) { _updateValue(_maxAccumFrames, value); }
+    PLATFORM_API size_t getMaxAccumFrames() const { return _maxAccumFrames; }
+
+    /** Number of samples per pixel */
+    PLATFORM_API uint32_t getSamplesPerPixel() const { return _spp; }
+    PLATFORM_API void setSamplesPerPixel(const uint32_t value) { _updateValue(_spp, std::max(1u, value)); }
+
+    /** Sub-sampling */
+    PLATFORM_API uint32_t getSubsampling() const { return _subsampling; }
+    PLATFORM_API void setSubsampling(const uint32_t subsampling)
+    {
+        _updateValue(_subsampling, std::max(1u, subsampling));
+    }
+
+    /** Background color */
+    PLATFORM_API const Vector3d& getBackgroundColor() const { return _backgroundColor; }
+    PLATFORM_API void setBackgroundColor(const Vector3d& value) { _updateValue(_backgroundColor, value); }
+
+    /** If the rendering should be refined by accumulating multiple passes */
+    PLATFORM_API bool getAccumulation() const { return _accumulation; }
 
 protected:
-    const AnimationParameters& _animationParameters; // const reference to AnimationParameters
-    const RenderingParameters& _renderingParameters; // const reference to RenderingParameters
-    ScenePtr _scene;                                 // ScenePtr of scene object
+    const AnimationParameters& _animationParameters;
+    const RenderingParameters& _renderingParameters;
+    Engine* _engine{nullptr};
+
+    bool _accumulation{true};
+    bool _headLight{true};
+    Vector3d _backgroundColor{0., 0., 0.};
+    uint32_t _spp{1};
+    uint32_t _subsampling{1};
+    size_t _maxAccumFrames{100};
+
+private:
+    SERIALIZATION_FRIEND(Renderer);
 };
 } // namespace core

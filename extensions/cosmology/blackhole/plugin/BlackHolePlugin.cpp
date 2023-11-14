@@ -106,7 +106,7 @@ void BlackHolePlugin::_createRenderers()
 {
     auto &engine = _api->getEngine();
     _addBlackHoleRenderer(engine);
-    _api->getParametersManager().getRenderingParameters().setCurrentRenderer(RENDERER_BLACK_HOLE);
+    engine.setRendererType(RENDERER_BLACK_HOLE);
 }
 
 #ifdef USE_OPTIX6
