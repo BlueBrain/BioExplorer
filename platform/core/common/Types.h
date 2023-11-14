@@ -82,6 +82,7 @@ class ActionInterface;
 using ActionInterfacePtr = std::shared_ptr<ActionInterface>;
 
 class Engine;
+using EnginePtr = std::shared_ptr<Engine>;
 
 class Scene;
 using ScenePtr = std::shared_ptr<Scene>;

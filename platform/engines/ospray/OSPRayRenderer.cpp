@@ -74,11 +74,11 @@ void OSPRayRenderer::commit()
 {
     const AnimationParameters& ap = _animationParameters;
     const RenderingParameters& rp = _renderingParameters;
-    auto scene = std::static_pointer_cast<OSPRayScene>(_scene);
-    const bool lightsChanged = _currLightsData != scene->lightData();
-    const bool rendererChanged = _currentOSPRenderer != getCurrentType();
+    OSPRayScene& scene = static_cast<OSPRayScene&>(_engine->getScene());
+    const bool lightsChanged = (_currLightsData != scene.lightData());
+    const bool rendererChanged = (_currentOSPRenderer != getCurrentType());
 
-    if (!ap.isModified() && !rp.isModified() && !_scene->isModified() && !isModified() && !_camera->isModified() &&
+    if (!ap.isModified() && !rp.isModified() && !scene.isModified() && !isModified() && !_camera->isModified() &&
         !lightsChanged && !rendererChanged)
     {
         return;
@@ -91,15 +91,15 @@ void OSPRayRenderer::commit()
 
     if (lightsChanged || rendererChanged)
     {
-        ospSetData(_renderer, RENDERER_PROPERTY_LIGHTS, scene->lightData());
-        _currLightsData = scene->lightData();
+        ospSetData(_renderer, RENDERER_PROPERTY_LIGHTS, scene.lightData());
+        _currLightsData = scene.lightData();
     }
 
-    if (isModified() || rendererChanged || _scene->isModified())
+    if (isModified() || rendererChanged || scene.isModified())
     {
         _commitRendererMaterials();
 
-        if (auto simulationModel = scene->getSimulatedModel())
+        if (auto simulationModel = scene.getSimulatedModel())
         {
             auto& model = static_cast<OSPRayModel&>(simulationModel->getModel());
             ospSetObject(_renderer, RENDERER_PROPERTY_SECONDARY_MODEL, model.getSecondaryModel());
@@ -115,7 +115,7 @@ void OSPRayRenderer::commit()
 
         // Setting the clip planes in the renderer and the camera
         Planes planes;
-        for (const auto& clipPlane : _scene->getClipPlanes())
+        for (const auto& clipPlane : scene.getClipPlanes())
             planes.push_back(clipPlane->getPlane());
 
         setClipPlanes(planes);
@@ -127,17 +127,17 @@ void OSPRayRenderer::commit()
     osphelper::set(_renderer, RENDERER_PROPERTY_RANDOM_NUMBER, rand() % 10000);
     osphelper::set(_renderer, OSPRAY_RENDERER_PROPERTY_VARIANCE_THRESHOLD,
                    static_cast<float>(rp.getVarianceThreshold()));
-    osphelper::set(_renderer, OSPRAY_RENDERER_PROPERTY_SAMPLES_PER_PIXEL, static_cast<int>(rp.getSamplesPerPixel()));
+    osphelper::set(_renderer, OSPRAY_RENDERER_PROPERTY_SAMPLES_PER_PIXEL, static_cast<int>(_spp));
 
-    if (auto material = std::static_pointer_cast<OSPRayMaterial>(scene->getBackgroundMaterial()))
+    if (auto material = std::static_pointer_cast<OSPRayMaterial>(scene.getBackgroundMaterial()))
     {
-        material->setDiffuseColor(rp.getBackgroundColor());
+        material->setDiffuseColor(_backgroundColor);
         material->commit(_currentOSPRenderer);
         ospSetObject(_renderer, RENDERER_PROPERTY_BACKGROUND_MATERIAL, material->getOSPMaterial());
     }
 
     ospSetObject(_renderer, OSPRAY_RENDERER_PROPERTY_CAMERA, _camera->impl());
-    ospSetObject(_renderer, OSPRAY_RENDERER_PROPERTY_WORLD, scene->getModel());
+    ospSetObject(_renderer, OSPRAY_RENDERER_PROPERTY_WORLD, scene.getModel());
 
     // Clip planes
     if (!_clipPlanes.empty())
@@ -205,8 +205,9 @@ void OSPRayRenderer::_createOSPRenderer()
 
 void OSPRayRenderer::_commitRendererMaterials()
 {
-    _scene->visitModels([&renderer = _currentOSPRenderer](Model& model)
-                        { static_cast<OSPRayModel&>(model).commitMaterials(renderer); });
+    OSPRayScene& scene = static_cast<OSPRayScene&>(_engine->getScene());
+    scene.visitModels([&renderer = _currentOSPRenderer](Model& model)
+                      { static_cast<OSPRayModel&>(model).commitMaterials(renderer); });
 }
 
 void OSPRayRenderer::setClipPlanes(const Planes& planes)

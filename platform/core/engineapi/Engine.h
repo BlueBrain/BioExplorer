@@ -23,6 +23,7 @@
 #pragma once
 
 #include <platform/core/common/Api.h>
+#include <platform/core/common/Properties.h>
 #include <platform/core/common/PropertyMap.h>
 #include <platform/core/common/Statistics.h>
 
@@ -244,6 +245,14 @@ public:
      * @param name The renderer type name.
      * @param properties The properties.
      */
+    PLATFORM_API void setRendererType(const std::string& name) { _rendererType = name; }
+
+    /**
+     * @brief Adds a new renderer type with optional properties.
+     *
+     * @param name The renderer type name.
+     * @param properties The properties.
+     */
     PLATFORM_API void addRendererType(const std::string& name, const PropertyMap& properties = {});
 
     /**
@@ -262,6 +271,7 @@ public:
     PLATFORM_API void addCameraType(const std::string& name, const PropertyMap& properties = {});
 
 protected:
+    std::string _rendererType{RENDERER_PROPERTY_TYPE_BASIC};
     ParametersManager& _parametersManager;
     ScenePtr _scene;
     CameraPtr _camera;

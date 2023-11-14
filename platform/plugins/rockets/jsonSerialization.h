@@ -308,6 +308,20 @@ inline void init(core::Camera* c, ObjectHandler* h)
     h->set_flags(Flags::DisallowUnknownKey);
 }
 
+inline void init(core::Renderer* r, ObjectHandler* h)
+{
+    h->add_property("head_light", &r->_headLight, Flags::Optional);
+    h->add_property("background_color", toArray<3, double>(r->_backgroundColor), Flags::Optional);
+    h->add_property("max_accum_frames", &r->_maxAccumFrames, Flags::Optional);
+    h->add_property("samples_per_pixel", &r->_spp, Flags::Optional);
+    h->add_property("subsampling", &r->_subsampling, Flags::Optional);
+    h->add_property("accumulation", &r->_accumulation, Flags::Optional);
+    h->add_property("current", &r->_currentType, Flags::Optional);
+    static auto types = r->getTypes();
+    h->add_property("types", &types, Flags::IgnoreRead | Flags::Optional);
+    h->set_flags(Flags::DisallowUnknownKey);
+}
+
 inline void init(core::ImageGenerator::ImageBase64* i, ObjectHandler* h)
 {
     h->add_property("data", &i->data);
@@ -419,13 +433,6 @@ inline void init(core::ApplicationParameters* a, ObjectHandler* h)
 
 inline void init(core::RenderingParameters* r, ObjectHandler* h)
 {
-    h->add_property("accumulation", &r->_accumulation, Flags::Optional);
-    h->add_property("background_color", toArray<3, double>(r->_backgroundColor), Flags::Optional);
-    h->add_property("current", &r->_renderer, Flags::Optional);
-    h->add_property("head_light", &r->_headLight, Flags::Optional);
-    h->add_property("max_accum_frames", &r->_maxAccumFrames, Flags::Optional);
-    h->add_property("samples_per_pixel", &r->_spp, Flags::Optional);
-    h->add_property("subsampling", &r->_subsampling, Flags::Optional);
     h->add_property("types", &r->_renderers, Flags::IgnoreRead | Flags::Optional);
     h->add_property("variance_threshold", &r->_varianceThreshold, Flags::Optional);
     h->add_property("num_non_denoised_frames", &r->_numNonDenoisedFrames, Flags::Optional);

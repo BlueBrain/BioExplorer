@@ -129,11 +129,12 @@ struct Core::Impl : public PluginAPI
 
         auto& scene = _engine->getScene();
         auto& lightManager = scene.getLightManager();
-        const auto& rp = _parametersManager.getRenderingParameters();
         auto& camera = _engine->getCamera();
+        auto& renderer = _engine->getRenderer();
+        const auto& rp = _parametersManager.getRenderingParameters();
 
         // Need to update head light before scene is committed
-        if (rp.getHeadLight() && (camera.isModified() || rp.isModified()))
+        if (renderer.getHeadLight() && (camera.isModified() || rp.isModified()))
         {
             const auto newDirection = glm::rotate(camera.getOrientation(), Vector3d(0, 0, -1));
             _sunLight->_direction = newDirection;
@@ -145,9 +146,6 @@ struct Core::Impl : public PluginAPI
         _engine->getStatistics().setSceneSizeInBytes(scene.getSizeInBytes());
 
         _parametersManager.getAnimationParameters().update();
-
-        auto& renderer = _engine->getRenderer();
-        renderer.setCurrentType(rp.getCurrentRenderer());
 
         const auto windowSize = _parametersManager.getApplicationParameters().getWindowSize();
 
@@ -270,7 +268,6 @@ private:
         _engine->getScene().getLightManager().addLight(_sunLight);
 
         _engine->getCamera().setCurrentType(_parametersManager.getRenderingParameters().getCurrentCamera());
-        _engine->getRenderer().setCurrentType(_parametersManager.getRenderingParameters().getCurrentRenderer());
     }
 
     void _createFrameBuffer()

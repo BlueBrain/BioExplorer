@@ -146,7 +146,7 @@ void OptiXEngine::_createRenderers()
 {
     _renderer = std::make_shared<OptiXRenderer>(_parametersManager.getAnimationParameters(),
                                                 _parametersManager.getRenderingParameters());
-    _renderer->setScene(_scene);
+    _renderer->setEngine(this);
     OptiXContext& context = OptiXContext::get();
 
     { // Advanced renderer

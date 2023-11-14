@@ -20,6 +20,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <platform/core/common/Properties.h>
 #include <platform/core/common/Types.h>
 
 #include "Renderer.h"
@@ -30,5 +31,6 @@ Renderer::Renderer(const AnimationParameters& animationParameters, const Renderi
     : _animationParameters(animationParameters)
     , _renderingParameters(renderingParameters)
 {
+    _currentType = RENDERER_PROPERTY_TYPE_BASIC;
 }
 } // namespace core

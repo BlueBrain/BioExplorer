@@ -636,9 +636,14 @@ void BioExplorerPlugin::_createRenderers()
 {
     // Renderers
     auto &engine = _api->getEngine();
+    auto &params = engine.getParametersManager().getApplicationParameters();
+    const auto &engineName = params.getEngine();
+    if (engineName == ENGINE_OSPRAY)
+    {
+        _addBioExplorerPointFieldsRenderer(engine);
+        _addBioExplorerVectorFieldsRenderer(engine);
+    }
     _addBioExplorerVoxelRenderer(engine);
-    _addBioExplorerPointFieldsRenderer(engine);
-    _addBioExplorerVectorFieldsRenderer(engine);
     _addBioExplorerDensityRenderer(engine);
     _addBioExplorerPathTracingRenderer(engine);
     _addBioExplorerGolgiStyleRenderer(engine);

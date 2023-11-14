@@ -406,8 +406,8 @@ public:
 
     void processDelayedNotifies()
     {
-        // call pending notifies from delayed throttle threads here as
-        // notify() and process() are not threadsafe within Rockets.
+        // call pending notifies from delayed throttle threads here as notify() and process() are not threadsafe within
+        // Rockets.
         std::vector<std::function<void()>> delayedNotifies;
         {
             std::lock_guard<std::mutex> lock(_delayedNotifiesMutex);
@@ -456,6 +456,7 @@ public:
             [this](const uintptr_t clientID)
             {
                 _binaryRequests.removeRequest(clientID);
+                CORE_DEBUG("Closing WebSocket with client " << clientID);
                 return std::vector<rockets::ws::Response>{};
             });
 
@@ -473,9 +474,8 @@ public:
 #ifdef USE_NETWORKING
         if (_processDelayedNotifies)
         {
-            // dispatch delayed notify from throttle thread to main thread
-            // (where the default loop runs) as notify() and process() are not
-            // threadsafe within Rockets.
+            // dispatch delayed notify from throttle thread to main thread  (where the default loop runs) as notify()
+            // and process() are not threadsafe within Rockets.
             _processDelayedNotifies->send();
         }
 #endif
@@ -501,16 +501,16 @@ public:
             });
     }
 
-    // Utilty to change current client while we are handling a message to skip
-    // notification to the current client and to trigger a delayed notify to
-    // avoid a deadlock which happens when sending a message from within a
-    // message handler.
+    // Utilty to change current client while we are handling a message to skip  notification to the current client and
+    // to trigger a delayed notify to avoid a deadlock which happens when sending a message from within a  message
+    // handler.
     struct ScopedCurrentClient
     {
         ScopedCurrentClient(uintptr_t& currentClientID, const uintptr_t newID)
             : _currentClientID(currentClientID)
         {
             _currentClientID = newID;
+            CORE_DEBUG("New WebSocket connection established with client " << _currentClientID);
         }
 
         ~ScopedCurrentClient() { _currentClientID = NO_CURRENT_CLIENT; }
@@ -621,9 +621,8 @@ public:
                                      return Response{Response::Error{"Model not found", MODEL_NOT_FOUND}};
                                  }
 
-                                 // get the actual property object from the model message (e.g.
-                                 // transfer function) and pass it as a JSON string to the provided
-                                 // action to consume it.
+                                 // get the actual property object from the model message (e.g. transfer function) and
+                                 // pass it as a JSON string to the provided action to consume it.
                                  Document propertyDoc;
                                  propertyDoc.SetObject() = document[key.c_str()].GetObject();
                                  rapidjson::StringBuffer buffer;
@@ -664,8 +663,8 @@ public:
             {
                 auto& throttle = _throttle[endpoint];
 
-                // throttle itself is not thread-safe, but we can get called
-                // from different threads (c.f. async model load)
+                // throttle itself is not thread-safe, but we can get called from different threads (c.f. async model
+                // load)
                 std::lock_guard<std::mutex> lock(throttle.first);
 
                 const auto& castedObj = static_cast<const T&>(base);
@@ -677,10 +676,16 @@ public:
                     try
                     {
                         const auto& msg = rockets::jsonrpc::makeNotification(endpoint, json);
+                        CORE_DEBUG("Broadcasting to " << clientID << " [" << endpoint << "]");
+#if 0 // Not quite sure why the UI does not receive messages when the clientID is set :-/
                         if (clientID == NO_CURRENT_CLIENT)
                             rocketsServer->broadcastText(msg);
                         else
                             rocketsServer->broadcastText(msg, {clientID});
+#else
+                        rocketsServer->broadcastText(msg);
+                        rocketsServer->broadcastText(msg, {clientID});
+#endif
                     }
                     catch (const std::exception& e)
                     {
@@ -689,9 +694,8 @@ public:
                 };
                 const auto delayedNotify = [&, notify] { this->_delayedNotify(notify); };
 
-                // non-throttled, direct notify can happen directly if we are
-                // not in the middle handling an incoming message; delayed
-                // notify must be dispatched to the main thread
+                // non-throttled, direct notify can happen directly if we are not in the middle handling an incoming
+                // message; delayed notify must be dispatched to the main thread
                 if (_currentClientID == NO_CURRENT_CLIENT)
                     throttle.second(notify, delayedNotify, throttleTime);
                 else
@@ -1149,16 +1153,15 @@ public:
 
     void _handleRenderer()
     {
-        auto& params = _parametersManager.getRenderingParameters();
-        auto preUpdate = [&params](const auto& rp)
+        auto& renderer = _engine.getRenderer();
+        auto preUpdate = [types = renderer.getTypes()](const Renderer& obj)
         {
-            return std::find(params.getRenderers().begin(), params.getRenderers().end(), rp.getCurrentRenderer()) !=
-                   params.getRenderers().end();
+            if (obj.getCurrentType().empty())
+                return true;
+            return std::find(types.begin(), types.end(), obj.getCurrentType()) != types.end();
         };
-        auto postUpdate = [&renderer = _engine.getRenderer()](auto& rp)
-        { renderer.setCurrentType(rp.getCurrentRenderer()); };
-        _handleGET(ENDPOINT_RENDERER, params);
-        _handlePUT(ENDPOINT_RENDERER, params, preUpdate, postUpdate);
+        _handleGET(ENDPOINT_RENDERER, renderer);
+        _handlePUT(ENDPOINT_RENDERER, renderer, preUpdate, std::function<void(Renderer&)>());
     }
 
     void _handleSchemaRPC()
