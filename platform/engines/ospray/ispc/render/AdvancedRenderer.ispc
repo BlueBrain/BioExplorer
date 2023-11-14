@@ -916,6 +916,12 @@ inline void processGoodsellShading(const uniform AdvancedRenderer* uniform self,
     attributes.specularColor = make_vec3f(0.f);
 }
 
+inline void processNormalShading(const uniform AdvancedRenderer* uniform self, ShadingAttributes& attributes)
+{
+    attributes.shadingContribution = 0.5f + 0.5f * attributes.normal;
+    attributes.specularColor = make_vec3f(0.f);
+}
+
 inline void processUserDataContribution(varying ScreenSample& sample, ShadingAttributes& attributes,
                                         const uint32 materialID, const varying uint32 primID)
 {
@@ -1059,6 +1065,8 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
                     processCheckerShading(self, dg, sample, ray, attributes);
                 else if (attributes.shadingMode == goodsell)
                     processGoodsellShading(self, dg, sample, attributes);
+                else if (attributes.shadingMode == normal)
+                    processNormalShading(self, attributes);
                 else
                     processDiffuseShading(self, dg, sample, ray, attributes);
 
