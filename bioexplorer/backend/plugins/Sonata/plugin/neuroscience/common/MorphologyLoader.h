@@ -72,7 +72,7 @@ public:
                                             const core::PropertyMap& properties) const final;
 
     /** @copydoc Loader::importFromFile */
-    core::ModelDescriptorPtr importFromFile(const std::string& filename, const core::LoaderProgress& callback,
+    core::ModelDescriptorPtr importFromStorage(const std::string& storage, const core::LoaderProgress& callback,
                                             const core::PropertyMap& properties) const final;
 
     /**

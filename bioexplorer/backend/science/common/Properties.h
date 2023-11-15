@@ -22,10 +22,42 @@
 
 #pragma once
 
+#include "TypesEnums.h"
+
 #include <platform/core/common/PropertyMap.h>
+#include <platform/core/common/Types.h>
 
 namespace bioexplorer
 {
+/*
+Loader properties
+*/
+static const char* LOADER_CACHE = "brick";
+
+static const char* LOADER_VASCULATURE = "vasculature";
+static const core::Property LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER{"01DbSqlNodeFilter",
+                                                                     std::string(),
+                                                                     {"SQL Node filter"}};
+static const core::Property LOADER_PROPERTY_VASCULATURE_COLOR_SCHEME = {
+    "10VasculatureColorScheme",
+    core::enumToString(details::VasculatureColorScheme::none),
+    core::enumNames<details::VasculatureColorScheme>(),
+    {"Color scheme applied to the vasculature"}};
+static const core::Property LOADER_PROPERTY_RADIUS_MULTIPLIER = {"20RadiusMultiplier",
+                                                                 double(1.0),
+                                                                 {"Multiplier applied to radius"}};
+static const core::Property LOADER_PROPERTY_VASCULATURE_REALISM_LEVEL = {
+    "21VasculatureRealismSection",
+    core::enumToString(details::VasculatureRealismLevel::none),
+    core::enumNames<details::VasculatureRealismLevel>(),
+    {"Realism level"}};
+static const core::Property LOADER_PROPERTY_VASCULATURE_REPRESENTATION = {
+    "22VasculatureRepresentation",
+    core::enumToString(details::VasculatureRepresentation::segment),
+    core::enumNames<details::VasculatureRepresentation>(),
+    {"Representation"}};
+static const core::Property LOADER_PROPERTY_ALIGN_TO_GRID{"02AlignToGrid", 0.0, 0.0, 1000.0, {"Align to grid"}};
+
 /*
 Renderer properties
 */

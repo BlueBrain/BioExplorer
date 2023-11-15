@@ -161,10 +161,10 @@ ModelDescriptorPtr RawVolumeLoader::importFromBlob(Blob&& blob, const LoaderProg
                        [&blob](auto volume) { volume->mapData(std::move(blob.data)); });
 }
 
-ModelDescriptorPtr RawVolumeLoader::importFromFile(const std::string& filename, const LoaderProgress& callback,
-                                                   const PropertyMap& properties) const
+ModelDescriptorPtr RawVolumeLoader::importFromStorage(const std::string& storage, const LoaderProgress& callback,
+                                                      const PropertyMap& properties) const
 {
-    return _loadVolume(filename, callback, properties, [filename](auto volume) { volume->mapData(filename); });
+    return _loadVolume(storage, callback, properties, [storage](auto volume) { volume->mapData(storage); });
 }
 
 ModelDescriptorPtr RawVolumeLoader::_loadVolume(const std::string& filename, const LoaderProgress& callback,
@@ -246,11 +246,11 @@ ModelDescriptorPtr MHDVolumeLoader::importFromBlob(Blob&& blob, const LoaderProg
     throw std::runtime_error("Volume loading from blob is not supported");
 }
 
-ModelDescriptorPtr MHDVolumeLoader::importFromFile(const std::string& filename, const LoaderProgress& callback,
-                                                   const PropertyMap&) const
+ModelDescriptorPtr MHDVolumeLoader::importFromStorage(const std::string& storage, const LoaderProgress& callback,
+                                                      const PropertyMap&) const
 {
-    std::string volumeFile = filename;
-    const auto mhd = parseMHD(filename);
+    std::string volumeFile = storage;
+    const auto mhd = parseMHD(storage);
 
     // Check all keys present
     for (const auto key : {"ObjectType", "DimSize", "ElementSpacing", "ElementType", "ElementDataFile"})
@@ -267,7 +267,7 @@ ModelDescriptorPtr MHDVolumeLoader::importFromFile(const std::string& filename, 
     fs::path path = mhd.at("ElementDataFile");
     if (!path.is_absolute())
     {
-        auto basePath = fs::path(filename).parent_path();
+        auto basePath = fs::path(storage).parent_path();
         path = fs::canonical(basePath / path);
     }
     volumeFile = path.string();
@@ -277,7 +277,7 @@ ModelDescriptorPtr MHDVolumeLoader::importFromFile(const std::string& filename, 
     properties.setProperty({PROP_SPACING.name, spacing, PROP_SPACING.metaData});
     properties.setProperty({PROP_TYPE.name, core::enumToString(type), PROP_TYPE.enums, PROP_TYPE.metaData});
 
-    return RawVolumeLoader(_scene).importFromFile(volumeFile, callback, properties);
+    return RawVolumeLoader(_scene).importFromStorage(volumeFile, callback, properties);
 }
 
 std::string MHDVolumeLoader::getName() const

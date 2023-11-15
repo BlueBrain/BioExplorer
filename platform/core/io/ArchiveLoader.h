@@ -40,7 +40,7 @@ public:
     ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
                                       const PropertyMap& properties) const final;
 
-    ModelDescriptorPtr importFromFile(const std::string& filename, const LoaderProgress& callback,
+    ModelDescriptorPtr importFromStorage(const std::string& storage, const LoaderProgress& callback,
                                       const PropertyMap& properties) const final;
 
 private:

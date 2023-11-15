@@ -107,8 +107,8 @@ public:
      * @param properties Loader properties
      * @return A core model if loading is successful
      */
-    core::ModelDescriptorPtr importFromFile(const std::string& filename, const core::LoaderProgress& callback,
-                                            const core::PropertyMap& properties) const final;
+    core::ModelDescriptorPtr importFromStorage(const std::string& storage, const core::LoaderProgress& callback,
+                                               const core::PropertyMap& properties) const final;
 
     /**
      * @brief

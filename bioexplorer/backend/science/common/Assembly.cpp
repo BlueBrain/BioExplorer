@@ -588,6 +588,7 @@ void Assembly::addVasculature(const VasculatureDetails &details)
         }
     }
     _vasculature.reset(std::move(new Vasculature(_scene, details, _position, _rotation)));
+    _scene.addModel(_vasculature->getModelDescriptor());
     _scene.markModified(false);
 }
 

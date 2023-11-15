@@ -38,8 +38,8 @@ public:
     ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
                                       const PropertyMap& properties) const final;
 
-    ModelDescriptorPtr importFromFile(const std::string& filename, const LoaderProgress& callback,
-                                      const PropertyMap& properties) const final;
+    ModelDescriptorPtr importFromStorage(const std::string& storage, const LoaderProgress& callback,
+                                         const PropertyMap& properties) const final;
 };
 
 /** A volume loader for raw volumes with params for dimensions.
@@ -57,8 +57,8 @@ public:
     ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
                                       const PropertyMap& properties) const final;
 
-    ModelDescriptorPtr importFromFile(const std::string& filename, const LoaderProgress& callback,
-                                      const PropertyMap& properties) const final;
+    ModelDescriptorPtr importFromStorage(const std::string& storage, const LoaderProgress& callback,
+                                         const PropertyMap& properties) const final;
 
 private:
     ModelDescriptorPtr _loadVolume(const std::string& filename, const LoaderProgress& callback,

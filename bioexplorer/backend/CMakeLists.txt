@@ -81,6 +81,7 @@ set(${NAME}_SOURCES
     science/morphologies/SomaSimulationHandler.cpp
     science/morphologies/CompartmentSimulationHandler.cpp
     science/vasculature/VasculatureHandler.cpp
+    science/vasculature/VasculatureLoader.cpp
     science/vasculature/Vasculature.cpp
     science/connectomics/whitematter/WhiteMatter.cpp
     science/connectomics/synapses/SynapseEfficacy.cpp
@@ -113,6 +114,7 @@ set(${NAME}_PUBLIC_HEADERS
     science/morphologies/SomaSimulationHandler.h
     science/morphologies/CompartmentSimulationHandler.h
     science/vasculature/VasculatureHandler.h
+    science/vasculature/VasculatureLoader.h
     science/vasculature/Vasculature.h
     science/connectomics/whitematter/WhiteMatter.h
     science/connectomics/synapses/SynapseEfficacy.h
@@ -244,7 +246,7 @@ include_directories(
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${${NAME}_PUBLIC_MODULE_LIBRARIES}
     PRIVATE CoreParameters CoreCommon CoreEngine CoreIO mpfr
-    ${${NAME}_PRIVATE_MODULE_LIBRARIES} ${FreeImage_LIBRARIES} ${PQXX_LIBRARIES} ${OpenMP_CXX_LIBRARIES}
+    ${${NAME}_PRIVATE_MODULE_LIBRARIES} ${FreeImage_LIBRARIES} ${PQXX_LIBRARIES} ${OpenMP_CXX_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY}
 )
 
 if(${CGAL_FOUND})

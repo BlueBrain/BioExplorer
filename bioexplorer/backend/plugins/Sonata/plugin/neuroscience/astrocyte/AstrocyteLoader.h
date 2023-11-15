@@ -51,8 +51,8 @@ public:
                                             const core::PropertyMap &properties) const final;
 
     /** @copydoc Loader::importFromFile */
-    core::ModelDescriptorPtr importFromFile(const std::string &filename, const core::LoaderProgress &callback,
-                                            const core::PropertyMap &properties) const final;
+    core::ModelDescriptorPtr importFromStorage(const std::string &path, const core::LoaderProgress &callback,
+                                               const core::PropertyMap &properties) const final;
 
 private:
     void _importMorphologiesFromURIs(const core::PropertyMap &properties, const std::vector<std::string> &uris,

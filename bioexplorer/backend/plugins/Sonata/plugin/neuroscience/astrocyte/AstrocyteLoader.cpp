@@ -101,15 +101,15 @@ ModelDescriptorPtr AstrocyteLoader::importFromBlob(Blob && /*blob*/, const Loade
     PLUGIN_THROW("Loading an astrocyte from memory is currently not supported");
 }
 
-ModelDescriptorPtr AstrocyteLoader::importFromFile(const std::string &filename, const LoaderProgress &callback,
-                                                   const PropertyMap &properties) const
+ModelDescriptorPtr AstrocyteLoader::importFromStorage(const std::string &path, const LoaderProgress &callback,
+                                                      const PropertyMap &properties) const
 {
     PropertyMap props = _defaults;
     props.merge(_fixedDefaults);
     props.merge(properties);
 
     std::vector<std::string> uris;
-    std::ifstream file(filename);
+    std::ifstream file(path);
     if (file.is_open())
     {
         std::string line;
@@ -118,13 +118,13 @@ ModelDescriptorPtr AstrocyteLoader::importFromFile(const std::string &filename, 
         file.close();
     }
 
-    PLUGIN_INFO("Loading " << uris.size() << " astrocytes from " << filename);
+    PLUGIN_INFO("Loading " << uris.size() << " astrocytes from " << path);
     callback.updateProgress("Loading astrocytes ...", 0);
     auto model = _scene.createModel();
 
     ModelDescriptorPtr modelDescriptor;
     _importMorphologiesFromURIs(props, uris, callback, *model);
-    modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), filename);
+    modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), path);
     return modelDescriptor;
 }
 

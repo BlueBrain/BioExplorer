@@ -127,27 +127,29 @@ ModelDescriptorPtr XYZBLoader::importFromBlob(Blob&& blob, const LoaderProgress&
     modelDescriptor->setTransformation(transformation);
 
     Property radiusProperty("radius", meanRadius, 0., meanRadius * 2., {"Point size"});
-    radiusProperty.onModified([modelDesc = std::weak_ptr<ModelDescriptor>(modelDescriptor)](const auto& property) {
-        if (auto modelDesc_ = modelDesc.lock())
+    radiusProperty.onModified(
+        [modelDesc = std::weak_ptr<ModelDescriptor>(modelDescriptor)](const auto& property)
         {
-            const auto newRadius = property.template get<double>();
-            for (auto& sphere : modelDesc_->getModel().getSpheres()[materialId])
-                sphere.radius = newRadius;
-        }
-    });
+            if (auto modelDesc_ = modelDesc.lock())
+            {
+                const auto newRadius = property.template get<double>();
+                for (auto& sphere : modelDesc_->getModel().getSpheres()[materialId])
+                    sphere.radius = newRadius;
+            }
+        });
     PropertyMap modelProperties;
     modelProperties.setProperty(radiusProperty);
     modelDescriptor->setProperties(modelProperties);
     return modelDescriptor;
 }
 
-ModelDescriptorPtr XYZBLoader::importFromFile(const std::string& filename, const LoaderProgress& callback,
-                                              const PropertyMap& properties) const
+ModelDescriptorPtr XYZBLoader::importFromStorage(const std::string& storage, const LoaderProgress& callback,
+                                                 const PropertyMap& properties) const
 {
-    std::ifstream file(filename);
+    std::ifstream file(storage);
     if (!file.good())
-        throw std::runtime_error("Could not open file " + filename);
-    return importFromBlob({"xyz", filename, {std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>()}},
+        CORE_THROW("Could not open file " + storage);
+    return importFromBlob({"xyz", storage, {std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>()}},
                           callback, properties);
 }
 

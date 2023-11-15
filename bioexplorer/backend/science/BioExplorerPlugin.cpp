@@ -33,6 +33,7 @@
 #include <science/io/CacheLoader.h>
 #include <science/io/OOCManager.h>
 #include <science/morphologies/SpikeSimulationHandler.h>
+#include <science/vasculature/VasculatureLoader.h>
 
 #include <platform/core/common/ActionInterface.h>
 #include <platform/core/common/Properties.h>
@@ -64,10 +65,7 @@ using namespace common;
 using namespace details;
 using namespace io;
 using namespace db;
-
-#ifdef USE_VASCULATURE
 using namespace vasculature;
-#endif
 
 const std::string PLUGIN_API_PREFIX = "be-";
 
@@ -231,7 +229,11 @@ void BioExplorerPlugin::init()
     auto &engine = _api->getEngine();
     auto &registry = scene.getLoaderRegistry();
 
+    // Loaders
+    PLUGIN_REGISTER_LOADER(LOADER_CACHE);
     registry.registerLoader(std::make_unique<CacheLoader>(scene, CacheLoader::getCLIProperties()));
+    PLUGIN_REGISTER_LOADER(LOADER_VASCULATURE);
+    registry.registerLoader(std::make_unique<VasculatureLoader>(scene, VasculatureLoader::getCLIProperties()));
 
     if (actionInterface)
     {

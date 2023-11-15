@@ -107,15 +107,15 @@ public:
                                               const PropertyMap& properties) const = 0;
 
     /**
-     * Import the data from the given file and return the created model.
+     * Import the data from the given file or database schema and return the created model.
      *
-     * @param filename the file containing the data to import
+     * @param storage the file or database schema containing the data to import
      * @param callback Callback for loader progress
      * @param properties Properties used for loading
      * @return the model that has been created by the loader
      */
-    virtual ModelDescriptorPtr importFromFile(const std::string& filename, const LoaderProgress& callback,
-                                              const PropertyMap& properties) const = 0;
+    virtual ModelDescriptorPtr importFromStorage(const std::string& storage, const LoaderProgress& callback,
+                                                 const PropertyMap& properties) const = 0;
 
     /**
      * Query the loader if it can load the given file

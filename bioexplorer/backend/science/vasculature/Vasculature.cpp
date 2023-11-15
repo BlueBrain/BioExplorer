@@ -46,7 +46,7 @@ using namespace io;
 using namespace db;
 
 Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details, const Vector3d& assemblyPosition,
-                         const Quaterniond& assemblyRotation)
+                         const Quaterniond& assemblyRotation, const LoaderProgress& callback)
     : SDFGeometries(details.alignToGrid, assemblyPosition, assemblyRotation, doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
@@ -54,7 +54,7 @@ Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details, const 
     _animationDetails = doublesToCellAnimationDetails(_details.animationParams);
 
     Timer chrono;
-    _buildModel();
+    _buildModel(callback);
     PLUGIN_TIMER(chrono.elapsed(), "Vasculature loaded");
 }
 
@@ -258,7 +258,7 @@ void Vasculature::_addOrientation(ThreadSafeContainer& container, const Geometry
     container.addStreamline(sectionId, streamline);
 }
 
-void Vasculature::_buildModel(const doubles& radii)
+void Vasculature::_buildModel(const LoaderProgress& callback, const doubles& radii)
 {
     if (_modelDescriptor)
         _scene.removeModel(_modelDescriptor->getModelID());
@@ -267,6 +267,7 @@ void Vasculature::_buildModel(const doubles& radii)
     ThreadSafeContainers containers;
 
     PLUGIN_INFO(1, "Identifying nodes...");
+    callback.updateProgress("Identifying nodes...", 1.f);
     const auto nbDBConnections = DBConnector::getInstance().getNbConnections();
 
     _nbNodes = DBConnector::getInstance().getVasculatureNbNodes(_details.populationName, _details.sqlFilter);
@@ -366,11 +367,15 @@ void Vasculature::_buildModel(const doubles& radii)
 
 #pragma omp critical
         containers.push_back(container);
+
+#pragma omp critical
+        callback.updateProgress("Loading nodes...", progress / nbDBConnections);
     }
 
     for (size_t i = 0; i < containers.size(); ++i)
     {
         PLUGIN_PROGRESS("- Compiling 3D geometry...", 1 + i, containers.size());
+        callback.updateProgress("Compiling 3D geometry...", (1 + i) / containers.size());
         auto& container = containers[i];
         container.commitToModel();
     }
@@ -380,9 +385,7 @@ void Vasculature::_buildModel(const doubles& radii)
 
     _modelDescriptor.reset(new core::ModelDescriptor(std::move(model), _details.assemblyName, metadata));
 
-    if (_modelDescriptor)
-        _scene.addModel(_modelDescriptor);
-    else
+    if (!_modelDescriptor)
         PLUGIN_THROW(
             "Vasculature model could not be created for "
             "population " +
@@ -405,7 +408,7 @@ void Vasculature::setRadiusReport(const VasculatureRadiusReportDetails& details)
     doubles series;
     for (const double radius : radii)
         series.push_back(details.amplitude * radius);
-    _buildModel(series);
+    _buildModel(LoaderProgress(), series);
 }
 
 } // namespace vasculature

@@ -409,14 +409,14 @@ ModelDescriptorPtr DICOMLoader::importFromFolder(const std::string& path)
     return modelDescriptor;
 }
 
-ModelDescriptorPtr DICOMLoader::importFromFile(const std::string& path, const LoaderProgress& callback,
-                                               const PropertyMap& /*properties*/) const
+ModelDescriptorPtr DICOMLoader::importFromStorage(const std::string& storage, const LoaderProgress& callback,
+                                                  const PropertyMap& /*properties*/) const
 {
-    PLUGIN_INFO("Importing DICOM dataset from " << path);
-    const auto extension = boost::filesystem::extension(path);
+    PLUGIN_INFO("Importing DICOM dataset from " << storage);
+    const auto extension = boost::filesystem::extension(storage);
     if (extension == "." + SUPPORTED_EXTENSION_DCM)
-        return _readFile(path);
-    return _readDirectory(path, callback);
+        return _readFile(storage);
+    return _readDirectory(storage, callback);
 }
 
 ModelDescriptorPtr DICOMLoader::importFromBlob(Blob&&, const LoaderProgress&, const PropertyMap&) const

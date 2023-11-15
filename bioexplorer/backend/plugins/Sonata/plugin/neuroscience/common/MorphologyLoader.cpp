@@ -1146,8 +1146,8 @@ ModelDescriptorPtr MorphologyLoader::importFromBlob(Blob&& /*blob*/, const Loade
     PLUGIN_THROW("Loading a morphology from memory is currently not supported");
 }
 
-ModelDescriptorPtr MorphologyLoader::importFromFile(const std::string& fileName, const LoaderProgress& /*callback*/,
-                                                    const PropertyMap& properties) const
+ModelDescriptorPtr MorphologyLoader::importFromStorage(const std::string& path, const LoaderProgress& /*callback*/,
+                                                       const PropertyMap& properties) const
 {
     // TODO: This needs to be done to work around wrong types coming from
     // the UI
@@ -1157,11 +1157,11 @@ ModelDescriptorPtr MorphologyLoader::importFromFile(const std::string& fileName,
     // the UI
 
     auto model = _scene.createModel();
-    auto modelContainer = importMorphology(0, props, fileName, 0, SynapsesInfo());
+    auto modelContainer = importMorphology(0, props, path, 0, SynapsesInfo());
     modelContainer.moveGeometryToModel(*model);
     createMissingMaterials(*model);
 
-    auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), fileName);
+    auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), path);
     return modelDescriptor;
 }
 

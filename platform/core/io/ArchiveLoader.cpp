@@ -229,7 +229,7 @@ ModelDescriptorPtr ArchiveLoader::importFromBlob(Blob&& blob, const LoaderProgre
     return loadExtracted(tmpFolder.path, callback, properties);
 }
 
-ModelDescriptorPtr ArchiveLoader::importFromFile(const std::string& filename, const LoaderProgress& callback,
+ModelDescriptorPtr ArchiveLoader::importFromStorage(const std::string& storage, const LoaderProgress& callback,
                                                  const PropertyMap& properties) const
 {
     TmpFolder tmpFolder;
