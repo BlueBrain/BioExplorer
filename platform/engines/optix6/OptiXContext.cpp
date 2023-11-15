@@ -352,7 +352,7 @@ void OptiXContext::_initialize()
     _optixContext->setRayTypeCount(OPTIX_RAY_TYPE_COUNT);
     _optixContext->setEntryPointCount(OPTIX_ENTRY_POINT_COUNT);
     _optixContext->setStackSize(OPTIX_STACK_SIZE);
-    _optixContext->setMaxTraceDepth(OPTIX_MAX_TRACE_DEPTH);
+    _optixContext->setMaxTraceDepth(DEFAULT_RENDERER_MAX_RAY_DEPTH);
 
     _optixBoundsPrograms[OptixGeometryType::cone] =
         _optixContext->createProgramFromPTXString(CUDA_CONES, OPTIX_CUDA_FUNCTION_BOUNDS);

@@ -84,7 +84,7 @@ static const char* RENDERER_PROPERTY_RANDOM_NUMBER = "randomNumber";
 
 static constexpr bool DEFAULT_RENDERER_FAST_PREVIEW = false;
 static constexpr bool DEFAULT_RENDERER_SHOW_BACKGROUND = true;
-static constexpr int DEFAULT_RENDERER_MAX_RAY_DEPTH = 3;
+static constexpr int DEFAULT_RENDERER_MAX_RAY_DEPTH = 30;
 static constexpr double DEFAULT_RENDERER_SHADOW_INTENSITY = 0.0;
 static constexpr double DEFAULT_RENDERER_SOFT_SHADOW_STRENGTH = 0.0;
 static constexpr int DEFAULT_RENDERER_SHADOW_SAMPLES = 1;
