@@ -20,7 +20,7 @@
 
 numpy~=1.21.6
 rockets~=1.0.3
-requests~=2.22.0
+requests~=2.31.0
 python-jsonschema-objects~=0.4.1
 semver~=2.8.1
 setuptools~=46.0.0

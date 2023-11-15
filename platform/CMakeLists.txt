@@ -54,7 +54,7 @@ option(${NAME}_LIBARCHIVE_ENABLED "Activate libarchive for archive loading" ${Li
 # HTTP messaging
 find_package(LibJpegTurbo)
 find_package(Rockets)
-find_package(FFMPEG)
+find_package(FFMPEG COMPONENTS SWSCALE)
 
 # OpenGL
 find_package(GLEW REQUIRED)
