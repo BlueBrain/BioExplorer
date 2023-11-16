@@ -677,7 +677,7 @@ public:
                     {
                         const auto& msg = rockets::jsonrpc::makeNotification(endpoint, json);
                         CORE_DEBUG("Broadcasting to " << clientID << " [" << endpoint << "]");
-#if 0 // Not quite sure why the UI does not receive messages when the clientID is set :-/
+#if 1 // Not quite sure why the UI does not receive messages when the clientID is set :-/
                         if (clientID == NO_CURRENT_CLIENT)
                             rocketsServer->broadcastText(msg);
                         else

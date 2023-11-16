@@ -681,7 +681,7 @@ class App extends PureComponent<Props, State> {
                                                         </MenuItem>
                                                         <MenuItem onClick={this.openLoadModelDialog}>
                                                             <LinkIcon className={classes.gutterRight} />
-                                                            From path
+                                                            From storage
                                                         </MenuItem>
                                                     </Menu>
 

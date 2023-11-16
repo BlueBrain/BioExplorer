@@ -696,11 +696,10 @@ void Model::applyDefaultColormap()
     uint32_t i = 0;
     for (auto& material : _materials)
     {
+        material.second->setShadingMode(MaterialShadingMode::basic);
         material.second->setDiffuseColor(colormap[i]);
         material.second->setSpecularColor(colormap[i]);
-        material.second->commit();
         ++i;
     }
 }
-
 } // namespace core

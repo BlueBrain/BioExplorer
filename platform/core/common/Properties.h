@@ -84,6 +84,7 @@ static const char* RENDERER_PROPERTY_RANDOM_NUMBER = "randomNumber";
 
 static constexpr bool DEFAULT_RENDERER_FAST_PREVIEW = false;
 static constexpr bool DEFAULT_RENDERER_SHOW_BACKGROUND = true;
+static constexpr int DEFAULT_RENDERER_RAY_DEPTH = 3;
 static constexpr int DEFAULT_RENDERER_MAX_RAY_DEPTH = 30;
 static constexpr double DEFAULT_RENDERER_SHADOW_INTENSITY = 0.0;
 static constexpr double DEFAULT_RENDERER_SOFT_SHADOW_STRENGTH = 0.0;
@@ -102,7 +103,7 @@ static constexpr double DEFAULT_RENDERER_TIMESTAMP = 0.0;
 static const Property RENDERER_PROPERTY_TIMESTAMP = {"timestamp", 0.0, 0.0, 1e6, {"Timestamp"}};
 static const Property RENDERER_PROPERTY_SHOW_BACKGROUND = {"showBackground", true, {"Show background"}};
 static const Property RENDERER_PROPERTY_MAX_RAY_DEPTH = {
-    "maxRayDepth", DEFAULT_RENDERER_MAX_RAY_DEPTH, 1, 30, {"Maximum ray depth"}};
+    "maxRayDepth", DEFAULT_RENDERER_RAY_DEPTH, 1, DEFAULT_RENDERER_MAX_RAY_DEPTH, {"Maximum ray depth"}};
 static const Property RENDERER_PROPERTY_SHADOW_INTENSITY = {
     "shadowIntensity", DEFAULT_RENDERER_SHADOW_INTENSITY, 0.0, 1.0, {"Shadow intensity"}};
 static const Property RENDERER_PROPERTY_SOFT_SHADOW_STRENGTH = {

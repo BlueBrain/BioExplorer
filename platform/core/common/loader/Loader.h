@@ -84,7 +84,7 @@ public:
     /**
      * @return The loaders supported file extensions
      */
-    virtual std::vector<std::string> getSupportedExtensions() const = 0;
+    virtual std::vector<std::string> getSupportedStorage() const = 0;
 
     /**
      * @return The loader name
