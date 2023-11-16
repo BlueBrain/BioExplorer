@@ -63,4 +63,45 @@ inline std::vector<std::pair<std::string, bioexplorer::details::VasculatureRepre
             {"Bezier", bioexplorer::details::VasculatureRepresentation::bezier}};
 }
 
+template <>
+inline std::vector<std::pair<std::string, bioexplorer::morphology::PopulationColorScheme>> enumMap()
+{
+    return {{"None", bioexplorer::morphology::PopulationColorScheme::none},
+            {"Id", bioexplorer::morphology::PopulationColorScheme::id}};
+}
+
+template <>
+inline std::vector<std::pair<std::string, bioexplorer::morphology::MorphologyColorScheme>> enumMap()
+{
+    return {{"None", bioexplorer::morphology::MorphologyColorScheme::none},
+            {"Section type", bioexplorer::morphology::MorphologyColorScheme::section_type},
+            {"Section orientation", bioexplorer::morphology::MorphologyColorScheme::section_orientation},
+            {"Distance to soma", bioexplorer::morphology::MorphologyColorScheme::distance_to_soma}};
+}
+
+template <>
+inline std::vector<std::pair<std::string, bioexplorer::morphology::MorphologyRepresentation>> enumMap()
+{
+    return {{"Graph", bioexplorer::morphology::MorphologyRepresentation::graph},
+            {"Section", bioexplorer::morphology::MorphologyRepresentation::section},
+            {"Segment", bioexplorer::morphology::MorphologyRepresentation::segment},
+            {"Orientation", bioexplorer::morphology::MorphologyRepresentation::orientation},
+            {"Bezier", bioexplorer::morphology::MorphologyRepresentation::bezier},
+            {"Contour", bioexplorer::morphology::MorphologyRepresentation::contour},
+            {"Surface", bioexplorer::morphology::MorphologyRepresentation::surface}};
+}
+
+template <>
+inline std::vector<std::pair<std::string, bioexplorer::morphology::MorphologyRealismLevel>> enumMap()
+{
+    return {{"None", bioexplorer::morphology::MorphologyRealismLevel::none},
+            {"Soma", bioexplorer::morphology::MorphologyRealismLevel::soma},
+            {"Axon", bioexplorer::morphology::MorphologyRealismLevel::axon},
+            {"Dendrite", bioexplorer::morphology::MorphologyRealismLevel::dendrite},
+            {"Internals", bioexplorer::morphology::MorphologyRealismLevel::internals},
+            {"Externals", bioexplorer::morphology::MorphologyRealismLevel::externals},
+            {"Spine", bioexplorer::morphology::MorphologyRealismLevel::spine},
+            {"End foot", bioexplorer::morphology::MorphologyRealismLevel::end_foot},
+            {"All", bioexplorer::morphology::MorphologyRealismLevel::all}};
+}
 } // namespace core

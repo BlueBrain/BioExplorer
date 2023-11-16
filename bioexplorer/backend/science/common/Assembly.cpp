@@ -631,7 +631,8 @@ void Assembly::addAstrocytes(const AstrocytesDetails &details)
     if (_astrocytes)
         PLUGIN_THROW("Astrocytes already exists in assembly " + details.assemblyName);
 
-    _astrocytes = AstrocytesPtr(new Astrocytes(_scene, details, _position, _rotation));
+    _astrocytes.reset(new Astrocytes(_scene, details, _position, _rotation));
+    _scene.addModel(_astrocytes->getModelDescriptor());
     _scene.markModified(false);
 }
 

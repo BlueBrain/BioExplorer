@@ -32,12 +32,16 @@ namespace bioexplorer
 /*
 Loader properties
 */
-static const char* LOADER_CACHE = "brick";
 
-static const char* LOADER_VASCULATURE = "vasculature";
 static const core::Property LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER{"01DbSqlNodeFilter",
                                                                      std::string(),
                                                                      {"SQL Node filter"}};
+
+// Cache
+static const char* LOADER_CACHE = "brick";
+
+// Vasculature
+static const char* LOADER_VASCULATURE = "vasculature";
 static const core::Property LOADER_PROPERTY_VASCULATURE_COLOR_SCHEME = {
     "10VasculatureColorScheme",
     core::enumToString(details::VasculatureColorScheme::none),
@@ -46,17 +50,62 @@ static const core::Property LOADER_PROPERTY_VASCULATURE_COLOR_SCHEME = {
 static const core::Property LOADER_PROPERTY_RADIUS_MULTIPLIER = {"20RadiusMultiplier",
                                                                  double(1.0),
                                                                  {"Multiplier applied to radius"}};
-static const core::Property LOADER_PROPERTY_VASCULATURE_REALISM_LEVEL = {
-    "21VasculatureRealismSection",
-    core::enumToString(details::VasculatureRealismLevel::none),
-    core::enumNames<details::VasculatureRealismLevel>(),
-    {"Realism level"}};
+static const core::Property LOADER_PROPERTY_VASCULATURE_REALISM_LEVEL_SECTIONS = {"21VasculatureRealismLevelSections",
+                                                                                  false,
+                                                                                  {"Realistic sections"}};
+static const core::Property LOADER_PROPERTY_VASCULATURE_REALISM_LEVEL_BIFURCATIONS = {
+    "22VasculatureRealismLevelBifurcations", false, {"Realistic bifurcations"}};
 static const core::Property LOADER_PROPERTY_VASCULATURE_REPRESENTATION = {
-    "22VasculatureRepresentation",
+    "23VasculatureRepresentation",
     core::enumToString(details::VasculatureRepresentation::segment),
     core::enumNames<details::VasculatureRepresentation>(),
     {"Representation"}};
 static const core::Property LOADER_PROPERTY_ALIGN_TO_GRID{"02AlignToGrid", 0.0, 0.0, 1000.0, {"Align to grid"}};
+
+// Morphologies
+static const core::Property LOADER_PROPERTY_MORPHOLOGY_COLOR_SCHEME = {
+    "10MorphologyColorScheme",
+    core::enumToString(morphology::MorphologyColorScheme::none),
+    core::enumNames<morphology::MorphologyColorScheme>(),
+    {"Color scheme applied to the morphology"}};
+static const core::Property LOADER_PROPERTY_POPULATION_COLOR_SCHEME = {
+    "11PopulationColorScheme",
+    core::enumToString(morphology::PopulationColorScheme::none),
+    core::enumNames<morphology::PopulationColorScheme>(),
+    {"Population scheme applied to the morphology"}};
+static const core::Property LOADER_PROPERTY_MORPHOLOGY_REPRESENTATION = {
+    "12MorphologyRepresentation",
+    core::enumToString(morphology::MorphologyRepresentation::segment),
+    core::enumNames<morphology::MorphologyRepresentation>(),
+    {"Morphology representation"}};
+static const core::Property LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_SOMA = {"30MorphologyRealismLevelSoma",
+                                                                             false,
+                                                                             {"Realistic soma"}};
+static const core::Property LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_AXON = {"31MorphologyRealismLevelAxon",
+                                                                             false,
+                                                                             {"Realistic soma"}};
+static const core::Property LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_DENDRITE = {"32MorphologyRealismLevelDendrite",
+                                                                                 false,
+                                                                                 {"Realistic dendrite"}};
+static const core::Property LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_INTERNALS = {
+    "33MorphologyRealismLevelInternals", false, {"Realistic internals (Nucleus and mitochondria)"}};
+static const core::Property LOADER_PROPERTY_MORPHOLOGY_LOAD_SOMA{"21LoadSoma", true, {"Load soma"}};
+static const core::Property LOADER_PROPERTY_MORPHOLOGY_LOAD_AXON{"22LoadAxon", false, {"Load axon"}};
+static const core::Property LOADER_PROPERTY_MORPHOLOGY_LOAD_DENDRITES{"23LoadDendrites", false, {"Load dendrites"}};
+static const core::Property LOADER_PROPERTY_MORPHOLOGY_GENERATE_INTERNALS{
+    "24LoadInternals", false, {"Load internals (Nucleus and mitochondria)"}};
+
+// Astrocytes
+static const char* LOADER_ASTROCYTES = "astrocytes";
+static const core::Property LOADER_PROPERTY_ASTROCYTES_LOAD_END_FEET{"25LoadEndFoot", false, {"Load end feet"}};
+static const core::Property LOADER_PROPERTY_ASTROCYTES_LOAD_MICRO_DOMAINS("26LoadMicroDomains", false,
+                                                                          {"Load micro-domains"});
+static const core::Property LOADER_PROPERTY_ASTROCYTES_VASCULATURE_SCHEMA{"30VasculatureSchema",
+                                                                          std::string(),
+                                                                          {"Vasculature database schema"}};
+// Neurons
+static const char* LOADER_NEURONS = "neurons";
+static const core::Property LOADER_PROPERTY_NEURONS_LOAD_SPINES{"26LoadSpine", false, {"Load spines"}};
 
 /*
 Renderer properties

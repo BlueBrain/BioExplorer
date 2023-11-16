@@ -82,8 +82,13 @@ ModelDescriptorPtr VasculatureLoader::importFromStorage(const std::string& stora
     details.radiusMultiplier = props.getProperty<double>(LOADER_PROPERTY_RADIUS_MULTIPLIER.name);
     details.colorScheme = stringToEnum<details::VasculatureColorScheme>(
         props.getProperty<std::string>(LOADER_PROPERTY_VASCULATURE_COLOR_SCHEME.name));
-    details.realismLevel = stringToEnum<details::VasculatureRealismLevel>(
-        props.getProperty<std::string>(LOADER_PROPERTY_VASCULATURE_REALISM_LEVEL.name));
+    details.realismLevel = 0;
+    details.realismLevel += (props.getProperty<bool>(LOADER_PROPERTY_VASCULATURE_REALISM_LEVEL_SECTIONS.name)
+                                 ? static_cast<int64_t>(details::VasculatureRealismLevel::section)
+                                 : 0);
+    details.realismLevel += (props.getProperty<bool>(LOADER_PROPERTY_VASCULATURE_REALISM_LEVEL_BIFURCATIONS.name)
+                                 ? static_cast<int64_t>(details::VasculatureRealismLevel::bifurcation)
+                                 : 0);
     details.representation = stringToEnum<details::VasculatureRepresentation>(
         props.getProperty<std::string>(LOADER_PROPERTY_VASCULATURE_REPRESENTATION.name));
     details.alignToGrid = props.getProperty<double>(LOADER_PROPERTY_ALIGN_TO_GRID.name);
@@ -103,7 +108,8 @@ PropertyMap VasculatureLoader::getCLIProperties()
     pm.setProperty(LOADER_PROPERTY_ALIGN_TO_GRID);
     pm.setProperty(LOADER_PROPERTY_RADIUS_MULTIPLIER);
     pm.setProperty(LOADER_PROPERTY_VASCULATURE_COLOR_SCHEME);
-    pm.setProperty(LOADER_PROPERTY_VASCULATURE_REALISM_LEVEL);
+    pm.setProperty(LOADER_PROPERTY_VASCULATURE_REALISM_LEVEL_SECTIONS);
+    pm.setProperty(LOADER_PROPERTY_VASCULATURE_REALISM_LEVEL_BIFURCATIONS);
     pm.setProperty(LOADER_PROPERTY_VASCULATURE_REPRESENTATION);
     return pm;
 }

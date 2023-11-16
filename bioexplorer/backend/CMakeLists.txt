@@ -75,6 +75,7 @@ set(${NAME}_SOURCES
     science/morphologies/Morphologies.cpp
     science/atlas/Atlas.cpp
     science/morphologies/Synapses.cpp
+    science/morphologies/AstrocytesLoader.cpp
     science/morphologies/Astrocytes.cpp
     science/morphologies/Neurons.cpp
     science/morphologies/SpikeSimulationHandler.cpp
@@ -108,6 +109,7 @@ set(${NAME}_PUBLIC_HEADERS
     science/atlas/Atlas.h
     science/morphologies/Synapses.h
     science/morphologies/Morphologies.h
+    science/morphologies/AstrocytesLoader.h
     science/morphologies/Astrocytes.h
     science/morphologies/Neurons.h
     science/morphologies/SpikeSimulationHandler.h

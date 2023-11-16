@@ -54,14 +54,14 @@ const double DEFAULT_ENDFOOT_RADIUS_RATIO = 1.1;
 const double DEFAULT_ENDFOOT_RADIUS_SHIFTING_RATIO = 0.35;
 
 Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details, const Vector3d& assemblyPosition,
-                       const Quaterniond& assemblyRotation)
+                       const Quaterniond& assemblyRotation, const core::LoaderProgress& callback)
     : Morphologies(details.alignToGrid, assemblyPosition, assemblyRotation, doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {
     _animationDetails = doublesToCellAnimationDetails(_details.animationParams);
     Timer chrono;
-    _buildModel();
+    _buildModel(callback);
     PLUGIN_TIMER(chrono.elapsed(), "Astrocytes loaded");
 }
 
@@ -108,7 +108,7 @@ void Astrocytes::_logRealismParams()
     PLUGIN_INFO(1, "----------------------------------------------------");
 }
 
-void Astrocytes::_buildModel(const doubles& radii)
+void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radii)
 {
     const auto animationParams = doublesToMolecularSystemAnimationDetails(_details.animationParams);
     srand(animationParams.seed);
@@ -122,7 +122,7 @@ void Astrocytes::_buildModel(const doubles& radii)
     const auto realismLevel = _details.realismLevel;
     const auto somas = connector.getAstrocytes(_details.populationName, _details.sqlFilter);
     const auto loadEndFeet = !_details.vasculaturePopulationName.empty();
-    const auto loadMicroDomain = _details.loadMicroDomain;
+    const auto loadMicroDomains = _details.loadMicroDomains;
 
     // Micro domain mesh per thread
     std::map<size_t, std::map<size_t, TriangleMesh>> microDomainMeshes;
@@ -141,7 +141,10 @@ void Astrocytes::_buildModel(const doubles& radii)
     for (index = 0; index < somas.size(); ++index)
     {
         if (omp_get_thread_num() == 0)
-            PLUGIN_PROGRESS("Loading astrocytes", index, somas.size() / nbDBConnections);
+        {
+            PLUGIN_PROGRESS("Loading astrocytes...", index, somas.size() / nbDBConnections);
+            callback.updateProgress("Loading astrocytes...", index / somas.size());
+        }
 
         auto it = somas.begin();
         std::advance(it, index);
@@ -321,7 +324,7 @@ void Astrocytes::_buildModel(const doubles& radii)
         if (loadEndFeet)
             _addEndFoot(container, soma.center, endFeet, radii, baseMaterialId);
 
-        if (loadMicroDomain)
+        if (loadMicroDomains)
         {
             const auto materialId = (_details.morphologyColorScheme == MorphologyColorScheme::section_type)
                                         ? baseMaterialId + MATERIAL_OFFSET_MICRO_DOMAIN
@@ -349,6 +352,7 @@ void Astrocytes::_buildModel(const doubles& radii)
     for (uint64_t i = 0; i < containers.size(); ++i)
     {
         PLUGIN_PROGRESS("- Compiling 3D geometry...", i, containers.size());
+        callback.updateProgress("Compiling 3D geometry...", (1 + i) / containers.size());
         auto& container = containers[i];
         if (_details.microDomainRepresentation == MicroDomainRepresentation::mesh)
             for (const auto& mesh : microDomainMeshes[i])
@@ -361,9 +365,7 @@ void Astrocytes::_buildModel(const doubles& radii)
                                     {"Max distance to soma", std::to_string(_maxDistanceToSoma)}};
 
     _modelDescriptor.reset(new core::ModelDescriptor(std::move(model), _details.assemblyName, metadata));
-    if (_modelDescriptor)
-        _scene.addModel(_modelDescriptor);
-    else
+    if (!_modelDescriptor)
         PLUGIN_THROW("Astrocytes model could not be created");
 }
 
@@ -512,7 +514,7 @@ void Astrocytes::setVasculatureRadiusReport(const VasculatureRadiusReportDetails
     doubles series;
     for (const double radius : radii)
         series.push_back(details.amplitude * radius);
-    _buildModel(series);
+    _buildModel(LoaderProgress(), series);
 }
 
 } // namespace morphology

@@ -46,7 +46,8 @@ public:
      * @param details Set of attributes defining how astrocytes should be loaded
      */
     Astrocytes(core::Scene& scene, const details::AstrocytesDetails& details, const core::Vector3d& assemblyPosition,
-               const core::Quaterniond& assemblyRotation);
+               const core::Quaterniond& assemblyRotation,
+               const core::LoaderProgress& callback = core::LoaderProgress());
 
     /**
      * @brief Apply a vasculature radius report to the astrocyte. This modifies the end-feet of the astrocytes according
@@ -60,7 +61,7 @@ private:
     double _getDisplacementValue(const DisplacementElement& element) final;
 
     void _logRealismParams();
-    void _buildModel(const doubles& radii = doubles());
+    void _buildModel(const core::LoaderProgress& callback, const doubles& radii = doubles());
     void _addEndFoot(common::ThreadSafeContainer& container, const core::Vector3d& somaCenter,
                      const EndFootMap& endFeet, const doubles& radii, const size_t materialId);
     void _addMicroDomain(core::TriangleMesh& mesh, const uint64_t astrocyteId);
