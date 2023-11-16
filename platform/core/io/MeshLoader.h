@@ -38,11 +38,11 @@ public:
     MeshLoader(Scene& scene);
     MeshLoader(Scene& scene, const GeometryParameters& geom);
 
-    std::vector<std::string> getSupportedExtensions() const final;
+    std::vector<std::string> getSupportedStorage() const final;
     std::string getName() const final;
     PropertyMap getProperties() const final;
 
-    bool isSupported(const std::string& filename, const std::string& extension) const final;
+    bool isSupported(const std::string& storage, const std::string& extension) const final;
 
     ModelDescriptorPtr importFromStorage(const std::string& storage, const LoaderProgress& callback,
                                          const PropertyMap& properties) const final;

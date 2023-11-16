@@ -60,7 +60,7 @@ public:
      *
      * @return The list of extensions supported by loaded
      */
-    strings getSupportedExtensions() const final;
+    strings getSupportedStorage() const final;
 
     /**
      * @brief Returns whever a file extention is supported by the loader
@@ -70,7 +70,7 @@ public:
      * @return true if the file extension is supported by the loader, false
      * otherwise
      */
-    bool isSupported(const std::string& filename, const std::string& extension) const final;
+    bool isSupported(const std::string& storage, const std::string& extension) const final;
 
     /**
      * @brief Returns the list of loader command line arguments

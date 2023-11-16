@@ -31,10 +31,10 @@ class MHDVolumeLoader : public Loader
 public:
     MHDVolumeLoader(Scene& scene);
 
-    std::vector<std::string> getSupportedExtensions() const final;
+    std::vector<std::string> getSupportedStorage() const final;
     std::string getName() const final;
 
-    bool isSupported(const std::string& filename, const std::string& extension) const final;
+    bool isSupported(const std::string& storage, const std::string& extension) const final;
     ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
                                       const PropertyMap& properties) const final;
 
@@ -49,11 +49,11 @@ class RawVolumeLoader : public Loader
 public:
     RawVolumeLoader(Scene& scene);
 
-    std::vector<std::string> getSupportedExtensions() const final;
+    std::vector<std::string> getSupportedStorage() const final;
     std::string getName() const final;
     PropertyMap getProperties() const final;
 
-    bool isSupported(const std::string& filename, const std::string& extension) const final;
+    bool isSupported(const std::string& storage, const std::string& extension) const final;
     ModelDescriptorPtr importFromBlob(Blob&& blob, const LoaderProgress& callback,
                                       const PropertyMap& properties) const final;
 

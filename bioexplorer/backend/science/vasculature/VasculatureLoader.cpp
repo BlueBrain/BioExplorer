@@ -40,6 +40,7 @@ namespace vasculature
 using namespace common;
 
 const std::string LOADER_NAME = LOADER_VASCULATURE;
+const std::string SUPPORTED_PROTOCOL_VASCULATURE = "vasculature://";
 
 VasculatureLoader::VasculatureLoader(Scene& scene, PropertyMap&& loaderParams)
     : Loader(scene)
@@ -52,15 +53,14 @@ std::string VasculatureLoader::getName() const
     return LOADER_NAME;
 }
 
-std::vector<std::string> VasculatureLoader::getSupportedExtensions() const
+std::vector<std::string> VasculatureLoader::getSupportedStorage() const
 {
-    return {SUPPORTED_EXTENTION_DATABASE};
+    return {SUPPORTED_PROTOCOL_VASCULATURE};
 }
 
-bool VasculatureLoader::isSupported(const std::string& /*filename*/, const std::string& extension) const
+bool VasculatureLoader::isSupported(const std::string& storage, const std::string& /*extension*/) const
 {
-    const std::set<std::string> types = {SUPPORTED_EXTENTION_DATABASE};
-    return types.find(extension) != types.end();
+    return (storage.find(SUPPORTED_PROTOCOL_VASCULATURE) == 0);
 }
 
 ModelDescriptorPtr VasculatureLoader::importFromBlob(Blob&& /*blob*/, const LoaderProgress& /*callback*/,

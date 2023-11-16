@@ -40,6 +40,7 @@ namespace morphology
 using namespace common;
 
 const std::string LOADER_NAME = LOADER_ASTROCYTES;
+const std::string SUPPORTED_PROTOCOL_ASTROCYTES = "astrocytes://";
 
 AstrocytesLoader::AstrocytesLoader(Scene& scene, PropertyMap&& loaderParams)
     : Loader(scene)
@@ -52,15 +53,14 @@ std::string AstrocytesLoader::getName() const
     return LOADER_NAME;
 }
 
-std::vector<std::string> AstrocytesLoader::getSupportedExtensions() const
+std::vector<std::string> AstrocytesLoader::getSupportedStorage() const
 {
-    return {SUPPORTED_EXTENTION_DATABASE};
+    return {SUPPORTED_PROTOCOL_ASTROCYTES};
 }
 
-bool AstrocytesLoader::isSupported(const std::string& /*filename*/, const std::string& extension) const
+bool AstrocytesLoader::isSupported(const std::string& storage, const std::string& /*extension*/) const
 {
-    const std::set<std::string> types = {SUPPORTED_EXTENTION_DATABASE};
-    return types.find(extension) != types.end();
+    return (storage.find(SUPPORTED_PROTOCOL_ASTROCYTES) == 0);
 }
 
 ModelDescriptorPtr AstrocytesLoader::importFromBlob(Blob&& /*blob*/, const LoaderProgress& /*callback*/,
@@ -99,6 +99,7 @@ ModelDescriptorPtr AstrocytesLoader::importFromStorage(const std::string& storag
     details.morphologyRepresentation = stringToEnum<morphology::MorphologyRepresentation>(
         props.getProperty<std::string>(LOADER_PROPERTY_MORPHOLOGY_REPRESENTATION.name));
     details.alignToGrid = props.getProperty<double>(LOADER_PROPERTY_ALIGN_TO_GRID.name);
+
     Astrocytes astrocytes(_scene, details, core::Vector3d(), core::Quaterniond(), callback);
     return std::move(astrocytes.getModelDescriptor());
 }

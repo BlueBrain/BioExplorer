@@ -75,7 +75,7 @@ std::string CacheLoader::getName() const
     return LOADER_NAME;
 }
 
-std::vector<std::string> CacheLoader::getSupportedExtensions() const
+std::vector<std::string> CacheLoader::getSupportedStorage() const
 {
     return {SUPPORTED_EXTENTION_BIOEXPLORER};
 }

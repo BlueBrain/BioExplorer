@@ -50,7 +50,7 @@ XYZBLoader::XYZBLoader(Scene& scene)
 {
 }
 
-bool XYZBLoader::isSupported(const std::string& filename, const std::string& extension) const
+bool XYZBLoader::isSupported(const std::string& storage, const std::string& extension) const
 {
     const std::set<std::string> types = {"xyz"};
     return types.find(extension) != types.end();
@@ -158,7 +158,7 @@ std::string XYZBLoader::getName() const
     return LOADER_NAME;
 }
 
-std::vector<std::string> XYZBLoader::getSupportedExtensions() const
+std::vector<std::string> XYZBLoader::getSupportedStorage() const
 {
     return {"xyz"};
 }

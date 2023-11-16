@@ -40,6 +40,7 @@ namespace morphology
 using namespace common;
 
 const std::string LOADER_NAME = LOADER_NEURONS;
+const std::string SUPPORTED_PROTOCOL_NEURONS = "neurons://";
 
 NeuronsLoader::NeuronsLoader(Scene& scene, PropertyMap&& loaderParams)
     : Loader(scene)
@@ -52,15 +53,14 @@ std::string NeuronsLoader::getName() const
     return LOADER_NAME;
 }
 
-std::vector<std::string> NeuronsLoader::getSupportedExtensions() const
+std::vector<std::string> NeuronsLoader::getSupportedStorage() const
 {
-    return {SUPPORTED_EXTENTION_DATABASE};
+    return {SUPPORTED_PROTOCOL_NEURONS};
 }
 
-bool NeuronsLoader::isSupported(const std::string& /*filename*/, const std::string& extension) const
+bool NeuronsLoader::isSupported(const std::string& storage, const std::string& /*extension*/) const
 {
-    const std::set<std::string> types = {SUPPORTED_EXTENTION_DATABASE};
-    return types.find(extension) != types.end();
+    return (storage.find(SUPPORTED_PROTOCOL_NEURONS) == 0);
 }
 
 ModelDescriptorPtr NeuronsLoader::importFromBlob(Blob&& /*blob*/, const LoaderProgress& /*callback*/,

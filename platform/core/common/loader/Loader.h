@@ -26,9 +26,7 @@
 
 #include <functional>
 
-#ifdef BRAYNS_USE_OPENMP
 #include <omp.h>
-#endif
 
 namespace core
 {
@@ -57,9 +55,7 @@ public:
      */
     void updateProgress(const std::string& message, const float fraction) const
     {
-#ifdef BRAYNS_USE_OPENMP
         if (omp_get_thread_num() == 0)
-#endif
             if (_callback)
                 _callback(message, fraction);
     }
@@ -84,7 +80,7 @@ public:
     /**
      * @return The loaders supported file extensions
      */
-    virtual std::vector<std::string> getSupportedExtensions() const = 0;
+    virtual std::vector<std::string> getSupportedStorage() const = 0;
 
     /**
      * @return The loader name
@@ -120,7 +116,7 @@ public:
     /**
      * Query the loader if it can load the given file
      */
-    virtual bool isSupported(const std::string& filename, const std::string& extension) const = 0;
+    virtual bool isSupported(const std::string& storage, const std::string& extension) const = 0;
 
 protected:
     Scene& _scene;

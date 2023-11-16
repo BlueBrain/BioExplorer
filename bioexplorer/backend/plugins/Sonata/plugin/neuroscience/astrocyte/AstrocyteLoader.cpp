@@ -84,7 +84,7 @@ AstrocyteLoader::AstrocyteLoader(Scene &scene, const ApplicationParameters &appl
     _fixedDefaults.setProperty({PROP_EXTERNALS.name, false});
 }
 
-std::vector<std::string> AstrocyteLoader::getSupportedExtensions() const
+std::vector<std::string> AstrocyteLoader::getSupportedStorage() const
 {
     return {SUPPORTED_EXTENTION_ASTROCYTES};
 }

@@ -257,14 +257,26 @@ void Neurons::_buildModel(const LoaderProgress& callback)
         const auto nbDBConnections = DBConnector::getInstance().getNbConnections();
 
         uint64_t neuronIndex;
-#pragma omp parallel for num_threads(nbDBConnections)
+        volatile bool flag = false;
+#pragma omp parallel for shared(flag) num_threads(nbDBConnections)
         for (neuronIndex = 0; neuronIndex < somas.size(); ++neuronIndex)
         {
+            if (flag)
+                continue;
+
             if (omp_get_thread_num() == 0)
             {
                 PLUGIN_PROGRESS("Loading neurons...", neuronIndex, somas.size() / nbDBConnections);
-                callback.updateProgress("Loading neurons...",
-                                        (float)neuronIndex / ((float)(somas.size() / nbDBConnections)));
+                try
+                {
+                    callback.updateProgress("Loading neurons...",
+                                            (float)neuronIndex / ((float)(somas.size() / nbDBConnections)));
+                }
+                catch (...)
+                {
+#pragma omp critical
+                    flag = true;
+                }
             }
 
             auto it = somas.begin();

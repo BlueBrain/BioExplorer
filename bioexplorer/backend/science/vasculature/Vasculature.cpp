@@ -283,13 +283,25 @@ void Vasculature::_buildModel(const LoaderProgress& callback, const doubles& rad
 
     uint64_t progress = 0;
     uint64_t index;
-#pragma omp parallel for num_threads(nbDBConnections)
+    volatile bool flag = false;
+#pragma omp parallel for shared(flag) num_threads(nbDBConnections)
     for (index = 0; index < nbDBConnections; ++index)
     {
+        if (flag)
+            continue;
+
         if (omp_get_thread_num() == 0)
         {
             PLUGIN_PROGRESS("Loading sections...", index, nbDBConnections);
-            callback.updateProgress("Loading sections...", (float)index / (float)nbDBConnections);
+            try
+            {
+                callback.updateProgress("Loading sections...", (float)index / (float)nbDBConnections);
+            }
+            catch (...)
+            {
+#pragma omp critical
+                flag = true;
+            }
         }
 
         const auto offset = index * dbBatchSize;

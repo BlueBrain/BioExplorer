@@ -192,7 +192,7 @@ ArchiveLoader::ArchiveLoader(Scene& scene, LoaderRegistry& registry)
 {
 }
 
-bool ArchiveLoader::isSupported(const std::string& filename, const std::string& extension) const
+bool ArchiveLoader::isSupported(const std::string& storage, const std::string& extension) const
 {
     return isSupportedArchiveType(extension);
 }
@@ -242,7 +242,7 @@ std::string ArchiveLoader::getName() const
     return LOADER_NAME;
 }
 
-std::vector<std::string> ArchiveLoader::getSupportedExtensions() const
+std::vector<std::string> ArchiveLoader::getSupportedStorage() const
 {
     return {"zip", "gz", "tgz", "bz2", "rar"};
 }

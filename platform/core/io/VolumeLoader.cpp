@@ -149,7 +149,7 @@ RawVolumeLoader::RawVolumeLoader(Scene& scene)
 {
 }
 
-bool RawVolumeLoader::isSupported(const std::string& filename, const std::string& extension) const
+bool RawVolumeLoader::isSupported(const std::string& storage, const std::string& extension) const
 {
     return extension == "raw";
 }
@@ -215,7 +215,7 @@ std::string RawVolumeLoader::getName() const
     return "raw-volume";
 }
 
-std::vector<std::string> RawVolumeLoader::getSupportedExtensions() const
+std::vector<std::string> RawVolumeLoader::getSupportedStorage() const
 {
     return {"raw"};
 }
@@ -235,7 +235,7 @@ MHDVolumeLoader::MHDVolumeLoader(Scene& scene)
 {
 }
 
-bool MHDVolumeLoader::isSupported(const std::string& filename, const std::string& extension) const
+bool MHDVolumeLoader::isSupported(const std::string& storage, const std::string& extension) const
 {
     return extension == "mhd";
 }
@@ -285,7 +285,7 @@ std::string MHDVolumeLoader::getName() const
     return "mhd-volume";
 }
 
-std::vector<std::string> MHDVolumeLoader::getSupportedExtensions() const
+std::vector<std::string> MHDVolumeLoader::getSupportedStorage() const
 {
     return {"mhd"};
 }

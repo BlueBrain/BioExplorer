@@ -77,7 +77,7 @@ std::string MorphologyLoader::getName() const
     return LOADER_NAME;
 }
 
-std::vector<std::string> MorphologyLoader::getSupportedExtensions() const
+std::vector<std::string> MorphologyLoader::getSupportedStorage() const
 {
     return {SUPPORTED_EXTENTION_H5, SUPPORTED_EXTENTION_SWC};
 }

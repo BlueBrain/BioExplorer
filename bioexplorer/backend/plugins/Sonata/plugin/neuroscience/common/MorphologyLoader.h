@@ -55,11 +55,11 @@ public:
     /** @copydoc Loader::getName */
     std::string getName() const final;
 
-    /** @copydoc Loader::getSupportedExtensions */
-    strings getSupportedExtensions() const final;
+    /** @copydoc Loader::getSupportedStorage */
+    strings getSupportedStorage() const final;
 
     /** @copydoc Loader::isSupported */
-    bool isSupported(const std::string& filename, const std::string& extension) const final;
+    bool isSupported(const std::string& storage, const std::string& extension) const final;
 
     /** @copydoc Loader::getCLIProperties */
     static core::PropertyMap getCLIProperties();

@@ -134,7 +134,7 @@ MeshLoader::MeshLoader(Scene& scene, const GeometryParameters& params)
                            {"Geometry quality"}});
 }
 
-bool MeshLoader::isSupported(const std::string& filename, const std::string& extension) const
+bool MeshLoader::isSupported(const std::string& storage, const std::string& extension) const
 {
     const auto types = getSupportedTypes();
     return std::find(types.begin(), types.end(), extension) != types.end();
@@ -440,7 +440,7 @@ std::string MeshLoader::getName() const
     return LOADER_NAME;
 }
 
-std::vector<std::string> MeshLoader::getSupportedExtensions() const
+std::vector<std::string> MeshLoader::getSupportedStorage() const
 {
     return getSupportedTypes();
 }

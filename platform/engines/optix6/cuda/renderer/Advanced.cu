@@ -190,7 +190,7 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
                     directLightingColor += light_attenuation * l_Kd * (cosNL > userParameter ? 1.f : 0.5f);
                     break;
                 }
-                case MaterialShadingMode::normal:
+                case MaterialShadingMode::surface_normal:
                 {
                     directLightingColor += light_attenuation * (0.5f + 0.5f * normal);
                     break;

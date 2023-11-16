@@ -77,7 +77,7 @@ std::string SonataCacheLoader::getName() const
     return LOADER_NAME;
 }
 
-std::vector<std::string> SonataCacheLoader::getSupportedExtensions() const
+std::vector<std::string> SonataCacheLoader::getSupportedStorage() const
 {
     return {SUPPORTED_EXTENTION_SONATA_CACHE};
 }

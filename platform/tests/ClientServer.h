@@ -51,13 +51,13 @@ class ForeverLoader : public core::Loader
 public:
     using core::Loader::Loader;
 
-    bool isSupported(const std::string& filename,
+    bool isSupported(const std::string& storage,
                      const std::string& extension) const final
     {
         return filename == "forever";
     }
 
-    std::vector<std::string> getSupportedExtensions() const { return {}; }
+    std::vector<std::string> getSupportedStorage() const { return {}; }
     std::string getName() const { return "forever"; }
     core::PropertyMap getProperties() const { return {}; }
     core::ModelDescriptorPtr importFromBlob(

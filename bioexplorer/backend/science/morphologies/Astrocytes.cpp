@@ -137,13 +137,26 @@ void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radi
     ThreadSafeContainers containers;
     const auto nbDBConnections = DBConnector::getInstance().getNbConnections();
     uint64_t index;
-#pragma omp parallel for num_threads(nbDBConnections)
+    volatile bool flag = false;
+#pragma omp parallel for shared(flag) num_threads(nbDBConnections)
     for (index = 0; index < somas.size(); ++index)
     {
+        if (flag)
+            continue;
+
         if (omp_get_thread_num() == 0)
         {
             PLUGIN_PROGRESS("Loading astrocytes...", index, somas.size() / nbDBConnections);
-            callback.updateProgress("Loading astrocytes...", (float)index / ((float)(somas.size() / nbDBConnections)));
+            try
+            {
+                callback.updateProgress("Loading astrocytes...",
+                                        (float)index / ((float)(somas.size() / nbDBConnections)));
+            }
+            catch (...)
+            {
+#pragma omp critical
+                flag = true;
+            }
         }
 
         auto it = somas.begin();
