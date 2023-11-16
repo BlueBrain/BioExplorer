@@ -143,7 +143,7 @@ void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radi
         if (omp_get_thread_num() == 0)
         {
             PLUGIN_PROGRESS("Loading astrocytes...", index, somas.size() / nbDBConnections);
-            callback.updateProgress("Loading astrocytes...", index / somas.size());
+            callback.updateProgress("Loading astrocytes...", (float)index / ((float)(somas.size() / nbDBConnections)));
         }
 
         auto it = somas.begin();
@@ -352,7 +352,7 @@ void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radi
     for (uint64_t i = 0; i < containers.size(); ++i)
     {
         PLUGIN_PROGRESS("- Compiling 3D geometry...", i, containers.size());
-        callback.updateProgress("Compiling 3D geometry...", (1 + i) / containers.size());
+        callback.updateProgress("Compiling 3D geometry...", (float)(1 + i) / (float)containers.size());
         auto& container = containers[i];
         if (_details.microDomainRepresentation == MicroDomainRepresentation::mesh)
             for (const auto& mesh : microDomainMeshes[i])

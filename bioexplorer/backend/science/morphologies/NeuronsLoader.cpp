@@ -21,8 +21,8 @@
  * this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "AstrocytesLoader.h"
-#include "Astrocytes.h"
+#include "NeuronsLoader.h"
+#include "Neurons.h"
 
 #include <science/common/Logs.h>
 #include <science/common/Properties.h>
@@ -39,47 +39,45 @@ namespace morphology
 {
 using namespace common;
 
-const std::string LOADER_NAME = LOADER_ASTROCYTES;
+const std::string LOADER_NAME = LOADER_NEURONS;
 
-AstrocytesLoader::AstrocytesLoader(Scene& scene, PropertyMap&& loaderParams)
+NeuronsLoader::NeuronsLoader(Scene& scene, PropertyMap&& loaderParams)
     : Loader(scene)
     , _defaults(loaderParams)
 {
 }
 
-std::string AstrocytesLoader::getName() const
+std::string NeuronsLoader::getName() const
 {
     return LOADER_NAME;
 }
 
-std::vector<std::string> AstrocytesLoader::getSupportedExtensions() const
+std::vector<std::string> NeuronsLoader::getSupportedExtensions() const
 {
     return {SUPPORTED_EXTENTION_DATABASE};
 }
 
-bool AstrocytesLoader::isSupported(const std::string& /*filename*/, const std::string& extension) const
+bool NeuronsLoader::isSupported(const std::string& /*filename*/, const std::string& extension) const
 {
     const std::set<std::string> types = {SUPPORTED_EXTENTION_DATABASE};
     return types.find(extension) != types.end();
 }
 
-ModelDescriptorPtr AstrocytesLoader::importFromBlob(Blob&& /*blob*/, const LoaderProgress& /*callback*/,
-                                                    const PropertyMap& /*properties*/) const
+ModelDescriptorPtr NeuronsLoader::importFromBlob(Blob&& /*blob*/, const LoaderProgress& /*callback*/,
+                                                 const PropertyMap& /*properties*/) const
 {
-    PLUGIN_THROW("Loading astrocytes from blob is not supported");
+    PLUGIN_THROW("Loading Neurons from blob is not supported");
 }
 
-ModelDescriptorPtr AstrocytesLoader::importFromStorage(const std::string& storage, const LoaderProgress& callback,
-                                                       const PropertyMap& properties) const
+ModelDescriptorPtr NeuronsLoader::importFromStorage(const std::string& storage, const LoaderProgress& callback,
+                                                    const PropertyMap& properties) const
 {
     PropertyMap props = _defaults;
     props.merge(properties);
 
-    details::AstrocytesDetails details;
+    details::NeuronsDetails details;
     details.populationName = boost::filesystem::basename(storage);
-    details.vasculaturePopulationName =
-        props.getProperty<std::string>(LOADER_PROPERTY_ASTROCYTES_VASCULATURE_SCHEMA.name);
-    details.sqlFilter = props.getProperty<std::string>(LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER.name);
+    details.sqlNodeFilter = props.getProperty<std::string>(LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER.name);
     details.radiusMultiplier = props.getProperty<double>(LOADER_PROPERTY_RADIUS_MULTIPLIER.name);
     details.populationColorScheme = stringToEnum<morphology::PopulationColorScheme>(
         props.getProperty<std::string>(LOADER_PROPERTY_POPULATION_COLOR_SCHEME.name));
@@ -93,22 +91,24 @@ ModelDescriptorPtr AstrocytesLoader::importFromStorage(const std::string& storag
                                  ? static_cast<int64_t>(morphology::MorphologyRealismLevel::dendrite)
                                  : 0);
     details.loadSomas = props.getProperty<bool>(LOADER_PROPERTY_MORPHOLOGY_LOAD_SOMA.name);
-    details.loadDendrites = props.getProperty<bool>(LOADER_PROPERTY_MORPHOLOGY_LOAD_DENDRITES.name);
+    details.loadAxon = props.getProperty<bool>(LOADER_PROPERTY_NEURONS_LOAD_AXON.name);
+    details.loadBasalDendrites = props.getProperty<bool>(LOADER_PROPERTY_NEURONS_LOAD_BASAL_DENDRITES.name);
+    details.loadApicalDendrites = props.getProperty<bool>(LOADER_PROPERTY_NEURONS_LOAD_APICAL_DENDRITES.name);
     details.generateInternals = props.getProperty<bool>(LOADER_PROPERTY_MORPHOLOGY_GENERATE_INTERNALS.name);
-    details.loadMicroDomains = props.getProperty<bool>(LOADER_PROPERTY_ASTROCYTES_LOAD_MICRO_DOMAINS.name);
+    details.generateExternals = props.getProperty<bool>(LOADER_PROPERTY_NEURONS_GENERATE_EXTERNALS.name);
     details.morphologyRepresentation = stringToEnum<morphology::MorphologyRepresentation>(
         props.getProperty<std::string>(LOADER_PROPERTY_MORPHOLOGY_REPRESENTATION.name));
     details.alignToGrid = props.getProperty<double>(LOADER_PROPERTY_ALIGN_TO_GRID.name);
-    Astrocytes astrocytes(_scene, details, core::Vector3d(), core::Quaterniond(), callback);
-    return std::move(astrocytes.getModelDescriptor());
+    Neurons Neurons(_scene, details, core::Vector3d(), core::Quaterniond(), callback);
+    return std::move(Neurons.getModelDescriptor());
 }
 
-PropertyMap AstrocytesLoader::getProperties() const
+PropertyMap NeuronsLoader::getProperties() const
 {
     return _defaults;
 }
 
-PropertyMap AstrocytesLoader::getCLIProperties()
+PropertyMap NeuronsLoader::getCLIProperties()
 {
     PropertyMap pm(LOADER_NAME);
     pm.setProperty(LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER);
@@ -118,12 +118,17 @@ PropertyMap AstrocytesLoader::getCLIProperties()
     pm.setProperty(LOADER_PROPERTY_MORPHOLOGY_COLOR_SCHEME);
     pm.setProperty(LOADER_PROPERTY_MORPHOLOGY_REPRESENTATION);
     pm.setProperty(LOADER_PROPERTY_MORPHOLOGY_LOAD_SOMA);
-    pm.setProperty(LOADER_PROPERTY_MORPHOLOGY_LOAD_DENDRITES);
+    pm.setProperty(LOADER_PROPERTY_NEURONS_LOAD_AXON);
+    pm.setProperty(LOADER_PROPERTY_NEURONS_LOAD_APICAL_DENDRITES);
+    pm.setProperty(LOADER_PROPERTY_NEURONS_LOAD_BASAL_DENDRITES);
     pm.setProperty(LOADER_PROPERTY_MORPHOLOGY_GENERATE_INTERNALS);
-    pm.setProperty(LOADER_PROPERTY_ASTROCYTES_LOAD_MICRO_DOMAINS);
-    pm.setProperty(LOADER_PROPERTY_ASTROCYTES_VASCULATURE_SCHEMA);
+    pm.setProperty(LOADER_PROPERTY_NEURONS_GENERATE_EXTERNALS);
     pm.setProperty(LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_SOMA);
+    pm.setProperty(LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_AXON);
     pm.setProperty(LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_DENDRITE);
+    pm.setProperty(LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_INTERNALS);
+    pm.setProperty(LOADER_PROPERTY_NEURONS_REALISM_LEVEL_EXTERNALS);
+    pm.setProperty(LOADER_PROPERTY_NEURONS_REALISM_LEVEL_SPINE);
     return pm;
 }
 } // namespace morphology

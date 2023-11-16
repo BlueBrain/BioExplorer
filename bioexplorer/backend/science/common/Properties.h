@@ -33,6 +33,7 @@ namespace bioexplorer
 Loader properties
 */
 
+static const std::string SUPPORTED_EXTENTION_DATABASE = "db";
 static const core::Property LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER{"01DbSqlNodeFilter",
                                                                      std::string(),
                                                                      {"SQL Node filter"}};
@@ -83,7 +84,7 @@ static const core::Property LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_SOMA = {"30
                                                                              {"Realistic soma"}};
 static const core::Property LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_AXON = {"31MorphologyRealismLevelAxon",
                                                                              false,
-                                                                             {"Realistic soma"}};
+                                                                             {"Realistic axon"}};
 static const core::Property LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_DENDRITE = {"32MorphologyRealismLevelDendrite",
                                                                                  false,
                                                                                  {"Realistic dendrite"}};
@@ -93,7 +94,7 @@ static const core::Property LOADER_PROPERTY_MORPHOLOGY_LOAD_SOMA{"21LoadSoma", t
 static const core::Property LOADER_PROPERTY_MORPHOLOGY_LOAD_AXON{"22LoadAxon", false, {"Load axon"}};
 static const core::Property LOADER_PROPERTY_MORPHOLOGY_LOAD_DENDRITES{"23LoadDendrites", false, {"Load dendrites"}};
 static const core::Property LOADER_PROPERTY_MORPHOLOGY_GENERATE_INTERNALS{
-    "24LoadInternals", false, {"Load internals (Nucleus and mitochondria)"}};
+    "24GenerateInternals", false, {"Load internals (Nucleus and mitochondria)"}};
 
 // Astrocytes
 static const char* LOADER_ASTROCYTES = "astrocytes";
@@ -106,6 +107,22 @@ static const core::Property LOADER_PROPERTY_ASTROCYTES_VASCULATURE_SCHEMA{"30Vas
 // Neurons
 static const char* LOADER_NEURONS = "neurons";
 static const core::Property LOADER_PROPERTY_NEURONS_LOAD_SPINES{"26LoadSpine", false, {"Load spines"}};
+static const core::Property LOADER_PROPERTY_NEURONS_LOAD_AXON{"27LoadAxon", false, {"Load axon"}};
+static const core::Property LOADER_PROPERTY_NEURONS_LOAD_APICAL_DENDRITES{"28LoadApicalDendrites",
+                                                                          false,
+                                                                          {"Load apical dendrites"}};
+static const core::Property LOADER_PROPERTY_NEURONS_LOAD_BASAL_DENDRITES{"29LoadBasalDendrites",
+                                                                         false,
+                                                                         {"Load basal dendrites"}};
+static const core::Property LOADER_PROPERTY_NEURONS_GENERATE_EXTERNALS{"30GenerateExternals",
+                                                                       false,
+                                                                       {"Load externals (Myelin steath)"}};
+static const core::Property LOADER_PROPERTY_NEURONS_REALISM_LEVEL_EXTERNALS = {"31NeuronsRealismLevelExternals",
+                                                                               false,
+                                                                               {"Realistic externals (Myelin steath)"}};
+static const core::Property LOADER_PROPERTY_NEURONS_REALISM_LEVEL_SPINE = {"31NeuronsRealismLevelSpine",
+                                                                           false,
+                                                                           {"Realistic spines"}};
 
 /*
 Renderer properties

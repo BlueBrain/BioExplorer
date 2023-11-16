@@ -33,6 +33,7 @@
 #include <science/io/CacheLoader.h>
 #include <science/io/OOCManager.h>
 #include <science/morphologies/AstrocytesLoader.h>
+#include <science/morphologies/NeuronsLoader.h>
 #include <science/morphologies/SpikeSimulationHandler.h>
 #include <science/vasculature/VasculatureLoader.h>
 
@@ -237,6 +238,8 @@ void BioExplorerPlugin::init()
     registry.registerLoader(std::make_unique<VasculatureLoader>(scene, VasculatureLoader::getCLIProperties()));
     PLUGIN_REGISTER_LOADER(LOADER_ASTROCYTES);
     registry.registerLoader(std::make_unique<AstrocytesLoader>(scene, AstrocytesLoader::getCLIProperties()));
+    PLUGIN_REGISTER_LOADER(LOADER_NEURONS);
+    registry.registerLoader(std::make_unique<NeuronsLoader>(scene, NeuronsLoader::getCLIProperties()));
 
     if (actionInterface)
     {

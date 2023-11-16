@@ -34,6 +34,8 @@
 #include <platform/core/engineapi/Scene.h>
 #include <platform/core/parameters/ParametersManager.h>
 
+#include <omp.h>
+
 using namespace core;
 
 namespace bioexplorer
@@ -284,6 +286,12 @@ void Vasculature::_buildModel(const LoaderProgress& callback, const doubles& rad
 #pragma omp parallel for num_threads(nbDBConnections)
     for (index = 0; index < nbDBConnections; ++index)
     {
+        if (omp_get_thread_num() == 0)
+        {
+            PLUGIN_PROGRESS("Loading sections...", index, nbDBConnections);
+            callback.updateProgress("Loading sections...", (float)index / (float)nbDBConnections);
+        }
+
         const auto offset = index * dbBatchSize;
         const std::string limits = "OFFSET " + std::to_string(offset) + " LIMIT " + std::to_string(dbBatchSize);
 
@@ -360,22 +368,17 @@ void Vasculature::_buildModel(const LoaderProgress& callback, const doubles& rad
             }
         } while (iter != nodes.end());
 
-        PLUGIN_PROGRESS("Loading nodes", progress, nbDBConnections);
-
 #pragma omp critical
         ++progress;
 
 #pragma omp critical
         containers.push_back(container);
-
-#pragma omp critical
-        callback.updateProgress("Loading nodes...", progress / nbDBConnections);
     }
 
     for (size_t i = 0; i < containers.size(); ++i)
     {
         PLUGIN_PROGRESS("- Compiling 3D geometry...", 1 + i, containers.size());
-        callback.updateProgress("Compiling 3D geometry...", (1 + i) / containers.size());
+        callback.updateProgress("Compiling 3D geometry...", (float)(1 + i) / (float)containers.size());
         auto& container = containers[i];
         container.commitToModel();
     }

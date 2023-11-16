@@ -70,13 +70,12 @@ std::map<ReportType, std::string> reportTypeAsString = {{ReportType::undefined, 
                                                         {ReportType::synapse_efficacy, "synapse efficacy"}};
 
 // Mitochondria density per layer
-// Source: A simplified morphological classification scheme for pyramidal cells
-// in six layers of primary somatosensory cortex of juvenile rats
-// https://www.sciencedirect.com/science/article/pii/S2451830118300293)
+// Source: A simplified morphological classification scheme for pyramidal cells in six layers of primary somatosensory
+// cortex of juvenile rats https://www.sciencedirect.com/science/article/pii/S2451830118300293)
 const doubles MITOCHONDRIA_DENSITY = {0.0459, 0.0522, 0.064, 0.0774, 0.0575, 0.0403};
 
 Neurons::Neurons(Scene& scene, const NeuronsDetails& details, const Vector3d& assemblyPosition,
-                 const Quaterniond& assemblyRotation)
+                 const Quaterniond& assemblyRotation, const LoaderProgress& callback)
     : Morphologies(details.alignToGrid, assemblyPosition, assemblyRotation, doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
@@ -85,7 +84,7 @@ Neurons::Neurons(Scene& scene, const NeuronsDetails& details, const Vector3d& as
     srand(_animationDetails.seed);
 
     Timer chrono;
-    _buildNeurons();
+    _buildModel(callback);
     PLUGIN_TIMER(chrono.elapsed(), "Neurons loaded");
 }
 
@@ -192,7 +191,7 @@ void Neurons::_buildSurface(const NeuronSomaMap& somas)
 #endif
 }
 
-void Neurons::_buildNeurons()
+void Neurons::_buildModel(const LoaderProgress& callback)
 {
     const auto& connector = DBConnector::getInstance();
 
@@ -262,7 +261,11 @@ void Neurons::_buildNeurons()
         for (neuronIndex = 0; neuronIndex < somas.size(); ++neuronIndex)
         {
             if (omp_get_thread_num() == 0)
-                PLUGIN_PROGRESS("Loading neurons", neuronIndex, somas.size() / nbDBConnections);
+            {
+                PLUGIN_PROGRESS("Loading neurons...", neuronIndex, somas.size() / nbDBConnections);
+                callback.updateProgress("Loading neurons...",
+                                        (float)neuronIndex / ((float)(somas.size() / nbDBConnections)));
+            }
 
             auto it = somas.begin();
             std::advance(it, neuronIndex);
@@ -278,6 +281,7 @@ void Neurons::_buildNeurons()
     for (uint64_t i = 0; i < containers.size(); ++i)
     {
         PLUGIN_PROGRESS("- Compiling 3D geometry...", i, containers.size());
+        callback.updateProgress("Compiling 3D geometry...", (float)(1 + i) / (float)containers.size());
         auto& container = containers[i];
         container.commitToModel();
     }
@@ -295,12 +299,7 @@ void Neurons::_buildNeurons()
             _simulationReport.description;
 
     _modelDescriptor.reset(new core::ModelDescriptor(std::move(model), _details.assemblyName, metadata));
-    if (_modelDescriptor)
-    {
-        _scene.addModel(_modelDescriptor);
-        PLUGIN_INFO(1, "Successfully loaded " << somas.size() << " neurons");
-    }
-    else
+    if (!_modelDescriptor)
         PLUGIN_THROW("Neurons model could not be created");
 }
 

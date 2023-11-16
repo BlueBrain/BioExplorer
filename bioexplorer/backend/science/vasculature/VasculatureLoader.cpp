@@ -40,7 +40,6 @@ namespace vasculature
 using namespace common;
 
 const std::string LOADER_NAME = LOADER_VASCULATURE;
-const std::string SUPPORTED_EXTENTION_VASCULATURE_DB = "db";
 
 VasculatureLoader::VasculatureLoader(Scene& scene, PropertyMap&& loaderParams)
     : Loader(scene)
@@ -55,12 +54,12 @@ std::string VasculatureLoader::getName() const
 
 std::vector<std::string> VasculatureLoader::getSupportedExtensions() const
 {
-    return {SUPPORTED_EXTENTION_VASCULATURE_DB};
+    return {SUPPORTED_EXTENTION_DATABASE};
 }
 
 bool VasculatureLoader::isSupported(const std::string& /*filename*/, const std::string& extension) const
 {
-    const std::set<std::string> types = {SUPPORTED_EXTENTION_VASCULATURE_DB};
+    const std::set<std::string> types = {SUPPORTED_EXTENTION_DATABASE};
     return types.find(extension) != types.end();
 }
 

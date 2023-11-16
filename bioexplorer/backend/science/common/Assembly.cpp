@@ -650,7 +650,8 @@ void Assembly::addNeurons(const NeuronsDetails &details)
     if (_neurons)
         PLUGIN_THROW("Neurons already exists in assembly " + details.assemblyName);
 
-    _neurons = NeuronsPtr(new Neurons(_scene, details, _position, _rotation));
+    _neurons.reset(new Neurons(_scene, details, _position, _rotation));
+    _scene.addModel(_neurons->getModelDescriptor());
     _scene.markModified(false);
 }
 
