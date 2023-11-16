@@ -74,16 +74,13 @@ private:
 
     void _buildModel(const core::LoaderProgress& callback);
 
-    void _buildContours(common::ThreadSafeContainer& container, const NeuronSomaMap& somas,
-                        const size_t baseMaterialId);
+    void _buildContours(common::ThreadSafeContainer& container, const NeuronSomaMap& somas);
 
     void _buildSurface(const NeuronSomaMap& somas);
 
-    void _buildSomasOnly(common::ThreadSafeContainer& container, const NeuronSomaMap& somas,
-                         const size_t baseMaterialId);
+    void _buildSomasOnly(common::ThreadSafeContainer& container, const NeuronSomaMap& somas);
 
-    void _buildOrientations(common::ThreadSafeContainer& container, const NeuronSomaMap& somas,
-                            const size_t baseMaterialId);
+    void _buildOrientations(common::ThreadSafeContainer& container, const NeuronSomaMap& somas);
 
     void _buildMorphology(common::ThreadSafeContainer& container, const uint64_t neuronId, const NeuronSoma& soma,
                           const uint64_t neuronIndex);

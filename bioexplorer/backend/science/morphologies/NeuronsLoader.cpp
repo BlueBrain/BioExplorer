@@ -76,7 +76,9 @@ ModelDescriptorPtr NeuronsLoader::importFromStorage(const std::string& storage, 
     props.merge(properties);
 
     details::NeuronsDetails details;
-    details.populationName = boost::filesystem::basename(storage);
+    const auto baseName = boost::filesystem::basename(storage);
+    details.assemblyName = baseName;
+    details.populationName = baseName;
     details.sqlNodeFilter = props.getProperty<std::string>(LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER.name);
     details.radiusMultiplier = props.getProperty<double>(LOADER_PROPERTY_RADIUS_MULTIPLIER.name);
     details.populationColorScheme = stringToEnum<morphology::PopulationColorScheme>(

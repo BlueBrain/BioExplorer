@@ -60,4 +60,12 @@ inline std::array<T, M> toArray(const glm::vec<M, T>& input)
  */
 Vector4f getBezierPoint(const Vector4fs& controlPoints, const double t);
 
+/**
+ * @brief Get the Rainbow Colormap
+ *
+ * @param colormapSize Size of the colormap
+ * @return Vector3fs RGB colors of the colormap
+ */
+Vector3fs getRainbowColormap(const uint32_t colormapSize);
+
 } // namespace core

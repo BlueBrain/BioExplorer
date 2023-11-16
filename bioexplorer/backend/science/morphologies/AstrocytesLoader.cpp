@@ -76,7 +76,9 @@ ModelDescriptorPtr AstrocytesLoader::importFromStorage(const std::string& storag
     props.merge(properties);
 
     details::AstrocytesDetails details;
-    details.populationName = boost::filesystem::basename(storage);
+    const auto baseName = boost::filesystem::basename(storage);
+    details.assemblyName = baseName;
+    details.populationName = baseName;
     details.vasculaturePopulationName =
         props.getProperty<std::string>(LOADER_PROPERTY_ASTROCYTES_VASCULATURE_SCHEMA.name);
     details.sqlFilter = props.getProperty<std::string>(LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER.name);

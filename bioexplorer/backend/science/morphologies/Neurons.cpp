@@ -141,11 +141,12 @@ void Neurons::_logRealismParams()
     PLUGIN_INFO(1, "----------------------------------------------------");
 }
 
-void Neurons::_buildContours(ThreadSafeContainer& container, const NeuronSomaMap& somas, const size_t baseMaterialId)
+void Neurons::_buildContours(ThreadSafeContainer& container, const NeuronSomaMap& somas)
 {
 #ifdef USE_CGAL
-    uint64_t progress = 0;
     PointCloud pointCloud;
+    uint64_t progress = 0;
+    size_t materialId = 0;
 
     for (const auto soma : somas)
     {
@@ -153,7 +154,7 @@ void Neurons::_buildContours(ThreadSafeContainer& container, const NeuronSomaMap
         ++progress;
 
         const Vector3d position = soma.second.position;
-        pointCloud[baseMaterialId].push_back({position.x, position.y, position.z, _details.radiusMultiplier});
+        pointCloud[materialId].push_back({position.x, position.y, position.z, _details.radiusMultiplier});
     }
 
     PointCloudMesher pcm;
@@ -166,8 +167,8 @@ void Neurons::_buildContours(ThreadSafeContainer& container, const NeuronSomaMap
 void Neurons::_buildSurface(const NeuronSomaMap& somas)
 {
 #ifdef USE_CGAL
-    uint64_t progress = 0;
     PointCloud pointCloud;
+    uint64_t progress = 0;
     size_t materialId = 0;
 
     for (const auto soma : somas)
@@ -181,9 +182,7 @@ void Neurons::_buildSurface(const NeuronSomaMap& somas)
 
     SurfaceMesher sm(_uuid);
     _modelDescriptor = sm.generateSurface(_scene, _details.assemblyName, pointCloud[materialId]);
-    if (_modelDescriptor)
-        _scene.addModel(_modelDescriptor);
-    else
+    if (!_modelDescriptor)
         PLUGIN_THROW("Failed to generate surface")
 
 #else
@@ -215,7 +214,6 @@ void Neurons::_buildModel(const LoaderProgress& callback)
     _logRealismParams();
 
     size_t previousMaterialId = std::numeric_limits<size_t>::max();
-    size_t baseMaterialId = 0;
     Vector3ui indexOffset;
 
     const bool somasOnly =
@@ -230,12 +228,12 @@ void Neurons::_buildModel(const LoaderProgress& callback)
         {
         case MorphologyRepresentation::orientation:
         {
-            _buildOrientations(container, somas, baseMaterialId);
+            _buildOrientations(container, somas);
             break;
         }
         case MorphologyRepresentation::contour:
         {
-            _buildContours(container, somas, baseMaterialId);
+            _buildContours(container, somas);
             break;
         }
         case MorphologyRepresentation::surface:
@@ -246,7 +244,7 @@ void Neurons::_buildModel(const LoaderProgress& callback)
         }
         default:
         {
-            _buildSomasOnly(container, somas, baseMaterialId);
+            _buildSomasOnly(container, somas);
             break;
         }
         }
@@ -258,35 +256,53 @@ void Neurons::_buildModel(const LoaderProgress& callback)
 
         uint64_t neuronIndex;
         volatile bool flag = false;
-#pragma omp parallel for shared(flag) num_threads(nbDBConnections)
+        std::string flagMessage;
+#pragma omp parallel for shared(flag, flagMessage) num_threads(nbDBConnections)
         for (neuronIndex = 0; neuronIndex < somas.size(); ++neuronIndex)
         {
-            if (flag)
-                continue;
-
-            if (omp_get_thread_num() == 0)
+            try
             {
-                PLUGIN_PROGRESS("Loading neurons...", neuronIndex, somas.size() / nbDBConnections);
-                try
+                if (flag)
+                    continue;
+
+                if (omp_get_thread_num() == 0)
                 {
-                    callback.updateProgress("Loading neurons...",
-                                            (float)neuronIndex / ((float)(somas.size() / nbDBConnections)));
-                }
-                catch (...)
-                {
+                    PLUGIN_PROGRESS("Loading neurons...", neuronIndex, somas.size() / nbDBConnections);
+                    try
+                    {
+                        callback.updateProgress("Loading neurons...",
+                                                (float)neuronIndex / ((float)(somas.size() / nbDBConnections)));
+                    }
+                    catch (...)
+                    {
 #pragma omp critical
-                    flag = true;
+                        flag = true;
+                    }
                 }
+
+                auto it = somas.begin();
+                std::advance(it, neuronIndex);
+                const auto& soma = it->second;
+                ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation, _scale);
+                _buildMorphology(container, it->first, soma, neuronIndex);
+
+#pragma omp critical
+                containers.push_back(container);
             }
-
-            auto it = somas.begin();
-            std::advance(it, neuronIndex);
-            const auto& soma = it->second;
-            ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation, _scale);
-            _buildMorphology(container, it->first, soma, neuronIndex);
-
+            catch (const std::runtime_error& e)
+            {
 #pragma omp critical
-            containers.push_back(container);
+                flagMessage = e.what();
+#pragma omp critical
+                flag = true;
+            }
+            catch (...)
+            {
+#pragma omp critical
+                flagMessage = "Loading was canceled";
+#pragma omp critical
+                flag = true;
+            }
         }
     }
 
@@ -297,6 +313,7 @@ void Neurons::_buildModel(const LoaderProgress& callback)
         auto& container = containers[i];
         container.commitToModel();
     }
+    model->applyDefaultColormap();
 
     ModelMetadata metadata = {{"Number of Neurons", std::to_string(somas.size())},
                               {"Number of Spines", std::to_string(_nbSpines)},
@@ -315,9 +332,10 @@ void Neurons::_buildModel(const LoaderProgress& callback)
         PLUGIN_THROW("Neurons model could not be created");
 }
 
-void Neurons::_buildSomasOnly(ThreadSafeContainer& container, const NeuronSomaMap& somas, const size_t baseMaterialId)
+void Neurons::_buildSomasOnly(ThreadSafeContainer& container, const NeuronSomaMap& somas)
 {
     uint64_t progress = 0;
+    uint64_t i = 0;
     _minMaxSomaRadius = Vector2d(_details.radiusMultiplier, _details.radiusMultiplier);
     for (const auto soma : somas)
     {
@@ -326,9 +344,8 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container, const NeuronSomaMa
 
         const auto useSdf =
             andCheck(static_cast<uint32_t>(_details.realismLevel), static_cast<uint32_t>(MorphologyRealismLevel::soma));
-        const auto somaMaterialId =
-            baseMaterialId +
-            (_details.morphologyColorScheme == MorphologyColorScheme::section_type ? MATERIAL_OFFSET_SOMA : 0);
+        const auto baseMaterialId =
+            _details.populationColorScheme == PopulationColorScheme::id ? i * NB_MATERIALS_PER_MORPHOLOGY : 0;
         if (_details.showMembrane)
         {
             uint64_t somaUserData = NO_USER_DATA;
@@ -352,7 +369,7 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container, const NeuronSomaMa
             }
 
             const Vector3d position = soma.second.position;
-            container.addSphere(position, _details.radiusMultiplier, somaMaterialId, useSdf, somaUserData, {},
+            container.addSphere(position, _details.radiusMultiplier, baseMaterialId, useSdf, somaUserData, {},
                                 Vector3f(_getDisplacementValue(DisplacementElement::morphology_soma_strength),
                                          _getDisplacementValue(DisplacementElement::morphology_soma_frequency), 0.f));
         }
@@ -366,20 +383,22 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container, const NeuronSomaMa
             _addSomaInternals(container, baseMaterialId, soma.second.position, _details.radiusMultiplier,
                               mitochondriaDensity, useSdf, _details.radiusMultiplier);
         }
+        ++i;
     }
 }
 
-void Neurons::_buildOrientations(ThreadSafeContainer& container, const NeuronSomaMap& somas,
-                                 const size_t baseMaterialId)
+void Neurons::_buildOrientations(ThreadSafeContainer& container, const NeuronSomaMap& somas)
 {
     const auto radius = _details.radiusMultiplier;
-    uint64_t progress = 0;
+    uint64_t i = 0;
     for (const auto soma : somas)
     {
-        PLUGIN_PROGRESS("Loading soma orientations", progress, somas.size());
+        PLUGIN_PROGRESS("Loading soma orientations", i, somas.size());
+        const auto baseMaterialId =
+            _details.populationColorScheme == PopulationColorScheme::id ? i * NB_MATERIALS_PER_MORPHOLOGY : 0;
         _addArrow(container, soma.first, soma.second.position, soma.second.rotation, Vector4d(0, 0, 0, radius * 0.2),
-                  Vector4d(radius, 0, 0, radius * 0.2), NeuronSectionType::soma, 0, 0.0);
-        ++progress;
+                  Vector4d(radius, 0, 0, radius * 0.2), NeuronSectionType::soma, baseMaterialId, 0.0);
+        ++i;
     }
 }
 

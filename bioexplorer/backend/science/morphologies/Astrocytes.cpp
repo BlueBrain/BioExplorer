@@ -138,229 +138,246 @@ void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radi
     const auto nbDBConnections = DBConnector::getInstance().getNbConnections();
     uint64_t index;
     volatile bool flag = false;
-#pragma omp parallel for shared(flag) num_threads(nbDBConnections)
+    std::string flagMessage;
+#pragma omp parallel for shared(flag, flagMessage) num_threads(nbDBConnections)
     for (index = 0; index < somas.size(); ++index)
     {
-        if (flag)
-            continue;
-
-        if (omp_get_thread_num() == 0)
+        try
         {
-            PLUGIN_PROGRESS("Loading astrocytes...", index, somas.size() / nbDBConnections);
-            try
+            if (flag)
+                continue;
+
+            if (omp_get_thread_num() == 0)
             {
+                PLUGIN_PROGRESS("Loading astrocytes...", index, somas.size() / nbDBConnections);
                 callback.updateProgress("Loading astrocytes...",
                                         (float)index / ((float)(somas.size() / nbDBConnections)));
             }
-            catch (...)
-            {
-#pragma omp critical
-                flag = true;
-            }
-        }
 
-        auto it = somas.begin();
-        std::advance(it, index);
-        const auto& soma = it->second;
-        const auto somaId = it->first;
+            auto it = somas.begin();
+            std::advance(it, index);
+            const auto& soma = it->second;
+            const auto somaId = it->first;
 
-        ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation, _scale);
+            ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation, _scale);
 
-        // Load data from DB
-        double somaRadius = 0.0;
-        SectionMap sections;
-        if (_details.loadSomas || _details.loadDendrites)
-            sections = connector.getAstrocyteSections(_details.populationName, somaId, !_details.loadDendrites);
+            // Load data from DB
+            double somaRadius = 0.0;
+            SectionMap sections;
+            if (_details.loadSomas || _details.loadDendrites)
+                sections = connector.getAstrocyteSections(_details.populationName, somaId, !_details.loadDendrites);
 
-        // End feet
-        EndFootMap endFeet;
-        if (loadEndFeet)
-            endFeet = connector.getAstrocyteEndFeet(_details.vasculaturePopulationName, somaId);
+            // End feet
+            EndFootMap endFeet;
+            if (loadEndFeet)
+                endFeet = connector.getAstrocyteEndFeet(_details.vasculaturePopulationName, somaId);
 
-        // Soma radius
-        uint64_t count = 1;
-        for (const auto& section : sections)
-            if (section.second.parentId == SOMA_AS_PARENT)
-            {
-                const auto& point = section.second.points[0];
-                somaRadius += 0.75 * length(Vector3d(point));
-                ++count;
-            }
-        somaRadius = _getCorrectedRadius(somaRadius, _details.radiusMultiplier) / count;
-        const auto somaPosition = _animatedPosition(Vector4d(soma.center, somaRadius), somaId);
-
-        // Color scheme
-        switch (_details.populationColorScheme)
-        {
-        case PopulationColorScheme::id:
-            baseMaterialId = somaId * NB_MATERIALS_PER_MORPHOLOGY;
-            break;
-        default:
-            baseMaterialId = 0;
-        }
-
-        const auto somaMaterialId =
-            baseMaterialId +
-            (_details.morphologyColorScheme == MorphologyColorScheme::section_type ? MATERIAL_OFFSET_SOMA : 0);
-
-        uint64_t somaGeometryIndex = 0;
-        if (_details.loadSomas)
-        {
-            const bool useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
-                                         static_cast<uint32_t>(MorphologyRealismLevel::soma));
-            somaGeometryIndex = container.addSphere(
-                somaPosition, somaRadius, somaMaterialId, useSdf, NO_USER_DATA, {},
-                Vector3f(somaRadius * _getDisplacementValue(DisplacementElement::morphology_soma_strength),
-                         somaRadius * _getDisplacementValue(DisplacementElement::morphology_soma_frequency), 0.f));
-            if (_details.generateInternals)
-            {
-                const auto useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
-                                             static_cast<uint32_t>(MorphologyRealismLevel::internals));
-                _addSomaInternals(container, baseMaterialId, somaPosition, somaRadius, DEFAULT_MITOCHONDRIA_DENSITY,
-                                  useSdf, _details.radiusMultiplier);
-            }
-        }
-
-        Neighbours neighbours;
-        neighbours.insert(somaGeometryIndex);
-        for (const auto& section : sections)
-        {
-            uint64_t geometryIndex = 0;
-            const auto& points = section.second.points;
-
-            size_t sectionMaterialId = baseMaterialId;
-            const auto sectionId = section.first;
-            switch (_details.morphologyColorScheme)
-            {
-            case MorphologyColorScheme::section_type:
-                sectionMaterialId = baseMaterialId + section.second.type;
-                break;
-            case MorphologyColorScheme::section_orientation:
-            {
-                sectionMaterialId =
-                    getMaterialIdFromOrientation(Vector3d(points[points.size() - 1]) - Vector3d(points[0]));
-                break;
-            }
-            default:
-                break;
-            }
-            size_t step = 1;
-            switch (_details.morphologyRepresentation)
-            {
-            case MorphologyRepresentation::section:
-                step = points.size() - 2;
-                break;
-            default:
-                break;
-            }
-
-            if (_details.loadDendrites)
-            {
-                const bool useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
-                                             static_cast<uint32_t>(MorphologyRealismLevel::dendrite));
-                uint64_t geometryIndex = 0;
+            // Soma radius
+            uint64_t count = 1;
+            for (const auto& section : sections)
                 if (section.second.parentId == SOMA_AS_PARENT)
                 {
-                    // Section connected to the soma
-                    const auto& point = points[0];
-                    const float srcRadius = _getCorrectedRadius(somaRadius * 0.75f, _details.radiusMultiplier);
-                    const float dstRadius = _getCorrectedRadius(point.w * 0.5f, _details.radiusMultiplier);
-                    const auto dstPosition =
-                        _animatedPosition(Vector4d(somaPosition + Vector3d(point), dstRadius), somaId);
-                    geometryIndex = container.addCone(
-                        somaPosition, srcRadius, dstPosition, dstRadius, somaMaterialId, useSdf, userData, neighbours,
-                        Vector3f(srcRadius * _getDisplacementValue(DisplacementElement::morphology_soma_strength),
-                                 srcRadius * _getDisplacementValue(DisplacementElement::morphology_soma_frequency),
-                                 0.f));
-                    neighbours.insert(geometryIndex);
+                    const auto& point = section.second.points[0];
+                    somaRadius += 0.75 * length(Vector3d(point));
+                    ++count;
                 }
+            somaRadius = _getCorrectedRadius(somaRadius, _details.radiusMultiplier) / count;
+            const auto somaPosition = _animatedPosition(Vector4d(soma.center, somaRadius), somaId);
 
-                // If maxDistanceToSoma != 0, then compute actual distance from
-                // soma
-                double distanceToSoma = 0.0;
-                if (_details.maxDistanceToSoma > 0.0)
-                    distanceToSoma = _getDistanceToSoma(sections, section.second);
-                if (distanceToSoma > _details.maxDistanceToSoma)
-                    continue;
-
-                // Process section points according to representation
-                const auto localPoints = _getProcessedSectionPoints(_details.morphologyRepresentation, points);
-
-                double sectionLength = 0.0;
-                for (uint64_t i = 0; i < localPoints.size() - 1; i += step)
-                {
-                    const auto srcPoint = localPoints[i];
-                    const float srcRadius = _getCorrectedRadius(srcPoint.w * 0.5, _details.radiusMultiplier);
-                    const auto src = _animatedPosition(Vector4d(somaPosition + Vector3d(srcPoint), srcRadius), somaId);
-
-                    // Ignore points that are too close the previous one
-                    // (according to respective radii)
-                    Vector4f dstPoint;
-                    float dstRadius;
-                    do
-                    {
-                        dstPoint = localPoints[i + step];
-                        dstRadius = _getCorrectedRadius(dstPoint.w * 0.5, _details.radiusMultiplier);
-                        ++i;
-                    } while (length(Vector3f(dstPoint) - Vector3f(srcPoint)) < (srcRadius + dstRadius) &&
-                             (i + step) < localPoints.size() - 1);
-                    --i;
-
-                    // Distance to soma
-                    sectionLength += length(dstPoint - srcPoint);
-                    _maxDistanceToSoma = std::max(_maxDistanceToSoma, distanceToSoma + sectionLength);
-
-                    const size_t materialId =
-                        _details.morphologyColorScheme == MorphologyColorScheme::distance_to_soma
-                            ? _getMaterialFromDistanceToSoma(_details.maxDistanceToSoma, distanceToSoma)
-
-                            : sectionMaterialId;
-
-                    const auto dst = _animatedPosition(Vector4d(somaPosition + Vector3d(dstPoint), dstRadius), somaId);
-                    if (!useSdf)
-                        geometryIndex = container.addSphere(dst, dstRadius, materialId, useSdf, NO_USER_DATA);
-
-                    geometryIndex = container.addCone(
-                        src, srcRadius, dst, dstRadius, materialId, useSdf, userData, {geometryIndex},
-                        Vector3f(srcRadius * _getDisplacementValue(DisplacementElement::morphology_section_strength),
-                                 _getDisplacementValue(DisplacementElement::morphology_section_frequency), 0.f));
-
-                    _bounds.merge(srcPoint);
-
-                    if (_details.maxDistanceToSoma > 0.0 &&
-                        distanceToSoma + sectionLength >= _details.maxDistanceToSoma)
-                        break;
-                }
-            }
-        }
-
-        if (loadEndFeet)
-            _addEndFoot(container, soma.center, endFeet, radii, baseMaterialId);
-
-        if (loadMicroDomains)
-        {
-            const auto materialId = (_details.morphologyColorScheme == MorphologyColorScheme::section_type)
-                                        ? baseMaterialId + MATERIAL_OFFSET_MICRO_DOMAIN
-                                        : baseMaterialId;
-
-            switch (_details.microDomainRepresentation)
+            // Color scheme
+            switch (_details.populationColorScheme)
             {
-            case MicroDomainRepresentation::convex_hull:
-            {
-                _buildMicroDomain(container, somaId, materialId);
+            case PopulationColorScheme::id:
+                baseMaterialId = somaId * NB_MATERIALS_PER_MORPHOLOGY;
                 break;
-            }
             default:
+                baseMaterialId = 0;
+            }
+
+            const auto somaMaterialId =
+                baseMaterialId +
+                (_details.morphologyColorScheme == MorphologyColorScheme::section_type ? MATERIAL_OFFSET_SOMA : 0);
+
+            uint64_t somaGeometryIndex = 0;
+            if (_details.loadSomas)
             {
-                auto& mesh = microDomainMeshes[index][materialId];
-                _addMicroDomain(mesh, somaId);
-                break;
+                const bool useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
+                                             static_cast<uint32_t>(MorphologyRealismLevel::soma));
+                somaGeometryIndex = container.addSphere(
+                    somaPosition, somaRadius, somaMaterialId, useSdf, NO_USER_DATA, {},
+                    Vector3f(somaRadius * _getDisplacementValue(DisplacementElement::morphology_soma_strength),
+                             somaRadius * _getDisplacementValue(DisplacementElement::morphology_soma_frequency), 0.f));
+                if (_details.generateInternals)
+                {
+                    const auto useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
+                                                 static_cast<uint32_t>(MorphologyRealismLevel::internals));
+                    _addSomaInternals(container, baseMaterialId, somaPosition, somaRadius, DEFAULT_MITOCHONDRIA_DENSITY,
+                                      useSdf, _details.radiusMultiplier);
+                }
             }
+
+            Neighbours neighbours;
+            neighbours.insert(somaGeometryIndex);
+            for (const auto& section : sections)
+            {
+                uint64_t geometryIndex = 0;
+                const auto& points = section.second.points;
+
+                size_t sectionMaterialId = baseMaterialId;
+                const auto sectionId = section.first;
+                switch (_details.morphologyColorScheme)
+                {
+                case MorphologyColorScheme::section_type:
+                    sectionMaterialId = baseMaterialId + section.second.type;
+                    break;
+                case MorphologyColorScheme::section_orientation:
+                {
+                    sectionMaterialId =
+                        getMaterialIdFromOrientation(Vector3d(points[points.size() - 1]) - Vector3d(points[0]));
+                    break;
+                }
+                default:
+                    break;
+                }
+                size_t step = 1;
+                switch (_details.morphologyRepresentation)
+                {
+                case MorphologyRepresentation::section:
+                    step = points.size() - 2;
+                    break;
+                default:
+                    break;
+                }
+
+                if (_details.loadDendrites)
+                {
+                    const bool useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
+                                                 static_cast<uint32_t>(MorphologyRealismLevel::dendrite));
+                    uint64_t geometryIndex = 0;
+                    if (section.second.parentId == SOMA_AS_PARENT)
+                    {
+                        // Section connected to the soma
+                        const auto& point = points[0];
+                        const float srcRadius = _getCorrectedRadius(somaRadius * 0.75f, _details.radiusMultiplier);
+                        const float dstRadius = _getCorrectedRadius(point.w * 0.5f, _details.radiusMultiplier);
+                        const auto dstPosition =
+                            _animatedPosition(Vector4d(somaPosition + Vector3d(point), dstRadius), somaId);
+                        geometryIndex = container.addCone(
+                            somaPosition, srcRadius, dstPosition, dstRadius, somaMaterialId, useSdf, userData,
+                            neighbours,
+                            Vector3f(srcRadius * _getDisplacementValue(DisplacementElement::morphology_soma_strength),
+                                     srcRadius * _getDisplacementValue(DisplacementElement::morphology_soma_frequency),
+                                     0.f));
+                        neighbours.insert(geometryIndex);
+                    }
+
+                    // If maxDistanceToSoma != 0, then compute actual distance from
+                    // soma
+                    double distanceToSoma = 0.0;
+                    if (_details.maxDistanceToSoma > 0.0)
+                        distanceToSoma = _getDistanceToSoma(sections, section.second);
+                    if (distanceToSoma > _details.maxDistanceToSoma)
+                        continue;
+
+                    // Process section points according to representation
+                    const auto localPoints = _getProcessedSectionPoints(_details.morphologyRepresentation, points);
+
+                    double sectionLength = 0.0;
+                    for (uint64_t i = 0; i < localPoints.size() - 1; i += step)
+                    {
+                        const auto srcPoint = localPoints[i];
+                        const float srcRadius = _getCorrectedRadius(srcPoint.w * 0.5, _details.radiusMultiplier);
+                        const auto src =
+                            _animatedPosition(Vector4d(somaPosition + Vector3d(srcPoint), srcRadius), somaId);
+
+                        // Ignore points that are too close the previous one
+                        // (according to respective radii)
+                        Vector4f dstPoint;
+                        float dstRadius;
+                        do
+                        {
+                            dstPoint = localPoints[i + step];
+                            dstRadius = _getCorrectedRadius(dstPoint.w * 0.5, _details.radiusMultiplier);
+                            ++i;
+                        } while (length(Vector3f(dstPoint) - Vector3f(srcPoint)) < (srcRadius + dstRadius) &&
+                                 (i + step) < localPoints.size() - 1);
+                        --i;
+
+                        // Distance to soma
+                        sectionLength += length(dstPoint - srcPoint);
+                        _maxDistanceToSoma = std::max(_maxDistanceToSoma, distanceToSoma + sectionLength);
+
+                        const size_t materialId =
+                            _details.morphologyColorScheme == MorphologyColorScheme::distance_to_soma
+                                ? _getMaterialFromDistanceToSoma(_details.maxDistanceToSoma, distanceToSoma)
+
+                                : sectionMaterialId;
+
+                        const auto dst =
+                            _animatedPosition(Vector4d(somaPosition + Vector3d(dstPoint), dstRadius), somaId);
+                        if (!useSdf)
+                            geometryIndex = container.addSphere(dst, dstRadius, materialId, useSdf, NO_USER_DATA);
+
+                        geometryIndex = container.addCone(
+                            src, srcRadius, dst, dstRadius, materialId, useSdf, userData, {geometryIndex},
+                            Vector3f(srcRadius *
+                                         _getDisplacementValue(DisplacementElement::morphology_section_strength),
+                                     _getDisplacementValue(DisplacementElement::morphology_section_frequency), 0.f));
+
+                        _bounds.merge(srcPoint);
+
+                        if (_details.maxDistanceToSoma > 0.0 &&
+                            distanceToSoma + sectionLength >= _details.maxDistanceToSoma)
+                            break;
+                    }
+                }
             }
-        }
+
+            if (loadEndFeet)
+                _addEndFoot(container, soma.center, endFeet, radii, baseMaterialId);
+
+            if (loadMicroDomains)
+            {
+                const auto materialId = (_details.morphologyColorScheme == MorphologyColorScheme::section_type)
+                                            ? baseMaterialId + MATERIAL_OFFSET_MICRO_DOMAIN
+                                            : baseMaterialId;
+
+                switch (_details.microDomainRepresentation)
+                {
+                case MicroDomainRepresentation::convex_hull:
+                {
+                    _buildMicroDomain(container, somaId, materialId);
+                    break;
+                }
+                default:
+                {
+                    auto& mesh = microDomainMeshes[index][materialId];
+                    _addMicroDomain(mesh, somaId);
+                    break;
+                }
+                }
+            }
 #pragma omp critical
-        containers.push_back(container);
+            containers.push_back(container);
+        }
+        catch (const std::runtime_error& e)
+        {
+#pragma omp critical
+            flagMessage = e.what();
+#pragma omp critical
+            flag = true;
+        }
+        catch (...)
+        {
+#pragma omp critical
+            flagMessage = "Loading was canceled";
+#pragma omp critical
+            flag = true;
+        }
     }
+
+    if (flag)
+        PLUGIN_THROW(flagMessage);
 
     for (uint64_t i = 0; i < containers.size(); ++i)
     {
@@ -372,6 +389,7 @@ void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radi
                 container.addMesh(mesh.first, mesh.second);
         container.commitToModel();
     }
+    model->applyDefaultColormap();
 
     const ModelMetadata metadata = {{"Number of astrocytes", std::to_string(somas.size())},
                                     {"SQL filter", _details.sqlFilter},

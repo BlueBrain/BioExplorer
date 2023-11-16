@@ -26,6 +26,7 @@
 #include <platform/core/common/utils/FileSystem.h>
 
 #include <algorithm>
+#include <cmath>
 #include <set>
 #include <sstream>
 #include <string>
@@ -85,6 +86,50 @@ Vector4f getBezierPoint(const Vector4fs& controlPoints, const double t)
     // Radius
     const double radius = controlPoints[floor(t * double(nbControlPoints))].w;
     return Vector4f(points[0].x, points[0].y, points[0].z, radius);
+}
+
+struct RGBColor
+{
+    int r, g, b;
+};
+
+Vector3f hsvToRgb(float h, float s, float v)
+{
+    int i = h * 6;
+    float f = h * 6 - i;
+    float p = v * (1 - s);
+    float q = v * (1 - f * s);
+    float t = v * (1 - (1 - f) * s);
+
+    switch (i % 6)
+    {
+    case 0:
+        return {v, t, p};
+    case 1:
+        return {q, v, p};
+    case 2:
+        return {p, v, t};
+    case 3:
+        return {p, q, v};
+    case 4:
+        return {t, p, v};
+    case 5:
+        return {v, p, q};
+    default:
+        return {0, 0, 0}; // Should not reach here
+    }
+}
+
+Vector3fs getRainbowColormap(const uint32_t colormapSize)
+{
+    Vector3fs colormap;
+    for (uint32_t i = 0; i < colormapSize; ++i)
+    {
+        const float hue = static_cast<float>(i) / colormapSize;
+        colormap.push_back(hsvToRgb(hue, 1.0f, 1.0f));
+    }
+
+    return colormap;
 }
 
 } // namespace core

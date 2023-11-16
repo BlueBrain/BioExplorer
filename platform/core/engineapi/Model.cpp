@@ -30,6 +30,7 @@
 
 #include <platform/core/common/simulation/AbstractSimulationHandler.h>
 #include <platform/core/common/utils/FileSystem.h>
+#include <platform/core/common/utils/Utils.h>
 #include <platform/core/parameters/AnimationParameters.h>
 
 #include <set>
@@ -688,4 +689,18 @@ bool Model::commitSimulationData()
     _commitSimulationDataImpl((float*)frameData, _simulationHandler->getFrameSize());
     return true;
 }
+
+void Model::applyDefaultColormap()
+{
+    const auto colormap = getRainbowColormap(_materials.size());
+    uint32_t i = 0;
+    for (auto& material : _materials)
+    {
+        material.second->setDiffuseColor(colormap[i]);
+        material.second->setSpecularColor(colormap[i]);
+        material.second->commit();
+        ++i;
+    }
+}
+
 } // namespace core

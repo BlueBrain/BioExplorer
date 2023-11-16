@@ -76,7 +76,9 @@ ModelDescriptorPtr VasculatureLoader::importFromStorage(const std::string& stora
     props.merge(properties);
 
     details::VasculatureDetails details;
-    details.populationName = boost::filesystem::basename(storage);
+    const auto baseName = boost::filesystem::basename(storage);
+    details.assemblyName = baseName;
+    details.populationName = baseName;
     details.sqlFilter = props.getProperty<std::string>(LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER.name);
     details.radiusMultiplier = props.getProperty<double>(LOADER_PROPERTY_RADIUS_MULTIPLIER.name);
     details.colorScheme = stringToEnum<details::VasculatureColorScheme>(

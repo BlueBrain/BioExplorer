@@ -811,6 +811,11 @@ public:
      */
     PLATFORM_API void copyFrom(const Model& rhs);
 
+    /**
+     * @brief Applies a default color map (rainbow) to the model
+     */
+    PLATFORM_API void applyDefaultColormap();
+
 protected:
     void _updateSizeInBytes();
 
