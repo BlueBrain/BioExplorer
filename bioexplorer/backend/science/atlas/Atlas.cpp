@@ -33,6 +33,8 @@
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
 
+#include <omp.h>
+
 using namespace core;
 
 namespace bioexplorer
@@ -44,17 +46,18 @@ using namespace db;
 
 namespace atlas
 {
-Atlas::Atlas(Scene& scene, const AtlasDetails& details, const Vector3d& position, const Quaterniond& rotation)
+Atlas::Atlas(Scene& scene, const AtlasDetails& details, const Vector3d& position, const Quaterniond& rotation,
+             const LoaderProgress& callback)
     : SDFGeometries(NO_GRID_ALIGNMENT, position, rotation, doublesToVector3d(details.scale))
     , _details(details)
     , _scene(scene)
 {
     Timer chrono;
-    _load();
+    _buildModel(callback);
     PLUGIN_TIMER(chrono.elapsed(), "Atlas loaded");
 }
 
-void Atlas::_load()
+void Atlas::_buildModel(const LoaderProgress& callback)
 {
     if (_modelDescriptor)
         _scene.removeModel(_modelDescriptor->getModelID());
@@ -71,49 +74,83 @@ void Atlas::_load()
 
     const auto nbDBConnections = DBConnector::getInstance().getNbConnections();
     uint64_t index;
+    volatile bool flag = false;
+    std::string flagMessage;
 #pragma omp parallel for num_threads(nbDBConnections)
     for (index = 0; index < regions.size(); ++index)
     {
-        ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation);
-
-        const auto region = regions[index];
-        if (_details.loadCells)
+        try
         {
-            const auto cells = connector.getAtlasCells(region, _details.cellSqlFilter);
-            for (const auto& cell : cells)
-                container.addSphere(cell.second.position, _details.cellRadius, cell.second.region, useSdf);
-#pragma omp critical
-            nbCells += cells.size();
-        }
+            if (flag)
+                continue;
 
-        if (_details.loadMeshes)
-        {
-            const Vector3d position = doublesToVector3d(_details.meshPosition);
-            const Quaterniond rotation = doublesToQuaterniond(_details.meshRotation);
-            const Vector3d scale = doublesToVector3d(_details.meshScale);
-            auto mesh = connector.getAtlasMesh(region);
-            for (auto& vertex : mesh.vertices)
+            if (omp_get_thread_num() == 0)
             {
-                const Vector3d p = Vector3d(vertex) + position;
-                const Vector3d r = rotation * p;
-                vertex = scale * r;
+                PLUGIN_PROGRESS("Loading regions...", index, regions.size());
+                try
+                {
+                    callback.updateProgress("Loading regions...",
+                                            (float)index / (float)(regions.size() / nbDBConnections));
+                }
+                catch (...)
+                {
+#pragma omp critical
+                    flag = true;
+                }
             }
-            container.addMesh(region, mesh);
+            ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation);
+
+            const auto region = regions[index];
+            if (_details.loadCells)
+            {
+                const auto cells = connector.getAtlasCells(region, _details.cellSqlFilter);
+                for (const auto& cell : cells)
+                    container.addSphere(cell.second.position, _details.cellRadius, cell.second.region, useSdf);
+#pragma omp critical
+                nbCells += cells.size();
+            }
+
+            if (_details.loadMeshes)
+            {
+                const Vector3d position = doublesToVector3d(_details.meshPosition);
+                const Quaterniond rotation = doublesToQuaterniond(_details.meshRotation);
+                const Vector3d scale = doublesToVector3d(_details.meshScale);
+                auto mesh = connector.getAtlasMesh(region);
+                for (auto& vertex : mesh.vertices)
+                {
+                    const Vector3d p = Vector3d(vertex) + position;
+                    const Vector3d r = rotation * p;
+                    vertex = scale * r;
+                }
+                container.addMesh(region, mesh);
+            }
+
+#pragma omp critical
+            ++counter;
+
+#pragma omp critical
+            containers.push_back(container);
         }
-
+        catch (const std::runtime_error& e)
+        {
 #pragma omp critical
-        containers.push_back(container);
-
+            flagMessage = e.what();
 #pragma omp critical
-        ++counter;
-
+            flag = true;
+        }
+        catch (...)
+        {
 #pragma omp critical
-        PLUGIN_PROGRESS("Loading " << regions.size() << " regions", counter, regions.size());
+            flagMessage = "Loading was canceled";
+#pragma omp critical
+            flag = true;
+        }
     }
 
     for (uint64_t i = 0; i < containers.size(); ++i)
     {
-        PLUGIN_PROGRESS("- Compiling 3D geometry...", i, containers.size());
+        PLUGIN_PROGRESS("- Compiling 3D geometry...", i + 1, containers.size());
+        callback.updateProgress("Compiling 3D geometry...", (float)(1 + i) / (float)containers.size());
         auto& container = containers[i];
         container.commitToModel();
     }
@@ -123,9 +160,7 @@ void Atlas::_load()
                                     {"Region SQL filter", _details.regionSqlFilter}};
 
     _modelDescriptor.reset(new core::ModelDescriptor(std::move(model), _details.assemblyName, metadata));
-    if (_modelDescriptor)
-        _scene.addModel(_modelDescriptor);
-    else
+    if (!_modelDescriptor)
         PLUGIN_THROW("Atlas model could not be created");
 }
 

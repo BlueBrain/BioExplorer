@@ -1327,11 +1327,11 @@ typedef struct
     /** SQL filter for regions (WHERE condition) */
     std::string regionSqlFilter;
     /** Scale of the atlas in the scene */
-    doubles scale;
+    doubles scale{1.0, 1.0, 1.0};
     /** Mesh transformation */
     doubles meshPosition;
     doubles meshRotation;
-    doubles meshScale;
+    doubles meshScale{1.0, 1.0, 1.0};
 } AtlasDetails;
 
 // -------------------------------------------------------------------------------------------------

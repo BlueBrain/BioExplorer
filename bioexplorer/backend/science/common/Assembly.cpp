@@ -641,7 +641,8 @@ void Assembly::addAtlas(const AtlasDetails &details)
     if (_atlas)
         PLUGIN_THROW("Atlas already exists in assembly " + details.assemblyName);
 
-    _atlas = AtlasPtr(new Atlas(_scene, details, _position, _rotation));
+    _atlas.reset(new Atlas(_scene, details, _position, _rotation));
+    _scene.addModel(_atlas->getModelDescriptor());
     _scene.markModified(false);
 }
 

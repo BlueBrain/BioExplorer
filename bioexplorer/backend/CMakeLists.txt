@@ -74,6 +74,7 @@ set(${NAME}_SOURCES
     science/molecularsystems/RNASequence.cpp
     science/morphologies/Morphologies.cpp
     science/atlas/Atlas.cpp
+    science/atlas/AtlasLoader.cpp
     science/morphologies/Synapses.cpp
     science/morphologies/AstrocytesLoader.cpp
     science/morphologies/NeuronsLoader.cpp
@@ -108,6 +109,7 @@ set(${NAME}_PUBLIC_HEADERS
     science/molecularsystems/Protein.h
     science/molecularsystems/RNASequence.h
     science/atlas/Atlas.h
+    science/atlas/AtlasLoader.h
     science/morphologies/Synapses.h
     science/morphologies/Morphologies.h
     science/morphologies/AstrocytesLoader.h

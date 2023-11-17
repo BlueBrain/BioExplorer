@@ -25,6 +25,7 @@
 
 #include <Version.h>
 
+#include <science/atlas/AtlasLoader.h>
 #include <science/common/Assembly.h>
 #include <science/common/GeneralSettings.h>
 #include <science/common/Logs.h>
@@ -68,6 +69,7 @@ using namespace details;
 using namespace io;
 using namespace db;
 using namespace vasculature;
+using namespace atlas;
 
 const std::string PLUGIN_API_PREFIX = "be-";
 
@@ -240,6 +242,8 @@ void BioExplorerPlugin::init()
     registry.registerLoader(std::make_unique<AstrocytesLoader>(scene, AstrocytesLoader::getCLIProperties()));
     PLUGIN_REGISTER_LOADER(LOADER_NEURONS);
     registry.registerLoader(std::make_unique<NeuronsLoader>(scene, NeuronsLoader::getCLIProperties()));
+    PLUGIN_REGISTER_LOADER(LOADER_ATLAS);
+    registry.registerLoader(std::make_unique<AtlasLoader>(scene, AtlasLoader::getCLIProperties()));
 
     if (actionInterface)
     {

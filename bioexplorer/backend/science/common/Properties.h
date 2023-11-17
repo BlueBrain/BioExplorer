@@ -124,6 +124,19 @@ static const core::Property LOADER_PROPERTY_NEURONS_REALISM_LEVEL_SPINE = {"31Ne
                                                                            false,
                                                                            {"Realistic spines"}};
 
+// Atlas
+static const char* LOADER_ATLAS = "Brain atlas";
+
+static const core::Property LOADER_PROPERTY_ATLAS_LOAD_CELLS{"30LoadCells", true, {"Load cells"}};
+static const core::Property LOADER_PROPERTY_ATLAS_CELL_RADIUS{"31CellRadius", 1.0, 1.0, 1e3, {"Cell radius"}};
+static const core::Property LOADER_PROPERTY_ATLAS_CELL_SQL_FILTER{"32CellSqlFilter",
+                                                                  std::string(),
+                                                                  {"SQL Cell filter"}};
+static const core::Property LOADER_PROPERTY_ATLAS_LOAD_MESHES{"33LoadMeshes", true, {"Load meshes"}};
+static const core::Property LOADER_PROPERTY_ATLAS_REGION_SQL_FILTER{"34RegionSqlFilter",
+                                                                    std::string(),
+                                                                    {"SQL Region filter"}};
+
 /*
 Renderer properties
 */
