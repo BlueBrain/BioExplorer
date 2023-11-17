@@ -73,7 +73,7 @@ public:
 
     /** @copydoc Loader::importFromFile */
     core::ModelDescriptorPtr importFromStorage(const std::string& storage, const core::LoaderProgress& callback,
-                                            const core::PropertyMap& properties) const final;
+                                               const core::PropertyMap& properties) const final;
 
     /**
      * @brief importMorphology imports a single morphology from a specified URI
@@ -242,8 +242,6 @@ private:
                               ParallelModelContainer& model) const;
 
     size_t _getNbMitochondrionSegments() const;
-
-    core::Vector3f _getBezierPoint(const core::Vector4fs& samples, const float t) const;
 
     size_t _baseMaterialId{core::NO_MATERIAL};
     core::PropertyMap _defaults;

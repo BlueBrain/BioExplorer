@@ -58,7 +58,7 @@ inline std::array<T, M> toArray(const glm::vec<M, T>& input)
  * how far B(t) is from first to last control point.
  * @return Vector3f
  */
-Vector4f getBezierPoint(const Vector4fs& controlPoints, const double t);
+Vector4f getBezierPoint(const Vector4fs& controlPoints, const float t);
 
 /**
  * @brief Get the Rainbow Colormap

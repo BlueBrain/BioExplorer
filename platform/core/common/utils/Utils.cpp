@@ -69,23 +69,25 @@ std::string extractExtension(const std::string& filename)
     return extension;
 }
 
-Vector4f getBezierPoint(const Vector4fs& controlPoints, const double t)
+Vector4f getBezierPoint(const Vector4fs& controlPoints, const float t)
 {
-    if (t < 0.0 || t > 1.0)
+    if (t < 0.f || t > 1.f)
         CORE_THROW("Invalid value with t=" + std::to_string(t) + ". Must be between 0 and 1");
-    const uint64_t nbControlPoints = controlPoints.size();
-    // 3D points
-    Vector3fs points;
-    points.reserve(nbControlPoints);
-    for (const auto& controlPoint : controlPoints)
-        points.push_back({controlPoint.x, controlPoint.y, controlPoint.z});
-    for (int64_t i = nbControlPoints - 1; i >= 0; --i)
-        for (uint64_t j = 0; j < i; ++j)
-            points[j] += t * (points[j + 1] - points[j]);
 
-    // Radius
-    const double radius = controlPoints[floor(t * double(nbControlPoints))].w;
-    return Vector4f(points[0].x, points[0].y, points[0].z, radius);
+    const size_t n = controlPoints.size();
+    Vector4fs tempPoints = controlPoints;
+
+    for (uint64_t k = 1; k < n; ++k)
+    {
+        for (uint64_t i = 0; i < n - k; ++i)
+        {
+            tempPoints[i].x = (1 - t) * tempPoints[i].x + t * tempPoints[i + 1].x;
+            tempPoints[i].y = (1 - t) * tempPoints[i].y + t * tempPoints[i + 1].y;
+            tempPoints[i].z = (1 - t) * tempPoints[i].z + t * tempPoints[i + 1].z;
+            tempPoints[i].w = (1 - t) * tempPoints[i].w + t * tempPoints[i + 1].w;
+        }
+    }
+    return tempPoints[0];
 }
 
 struct RGBColor

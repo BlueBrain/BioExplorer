@@ -28,6 +28,7 @@
 
 #include <platform/core/common/Types.h>
 #include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/utils/Utils.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
@@ -645,7 +646,7 @@ void MorphologyLoader::_importMorphologyFromURI(const Gid& gid, const PropertyMa
             dstPosition = Vector3f(samples[0]);
             break;
         default:
-            dstPosition = _getBezierPoint(samples, 0.f);
+            dstPosition = getBezierPoint(samples, 0.f);
             break;
         }
         float dstDiameter = (section.hasParent() ? _getLastSampleDiameter(section.getParent()) : samples[0].w);
@@ -716,7 +717,7 @@ void MorphologyLoader::_importMorphologyFromURI(const Gid& gid, const PropertyMa
                 srcPosition = samples[s];
                 break;
             default:
-                srcPosition = _getBezierPoint(samples, float(s) / float(nbSamples - 1));
+                srcPosition = getBezierPoint(samples, float(s) / float(nbSamples - 1));
                 break;
             }
             model.getMorphologyInfo().bounds.merge(srcPosition);
@@ -1083,27 +1084,14 @@ void MorphologyLoader::_addAxonMyelinSheath(const PropertyMap& properties, const
     ++sdfGroupId;
     for (uint64_t i = 0; i < nbMyelinSteath; ++i)
     {
-        const Vector3f src = _getBezierPoint(samples, (i + freeSpace) * t);
-        const Vector3f dst = _getBezierPoint(samples, (i + freeSpace + randomSize) * t);
+        const Vector3f src = getBezierPoint(samples, (i + freeSpace) * t);
+        const Vector3f dst = getBezierPoint(samples, (i + freeSpace + randomSize) * t);
 
         const size_t myelinSteathMaterialId = materialId + MATERIAL_OFFSET_MYELIN_SHEATH;
         _addStepConeGeometry(useSDFMyelinSteath, src, myelinSteathRadius, dst, myelinSteathRadius,
                              myelinSteathMaterialId, -1, model, sdfMorphologyData, sdfGroupId, myelinSteathRadiusRatio);
         ++sdfGroupId;
     }
-}
-
-Vector3f MorphologyLoader::_getBezierPoint(const brion::Vector4fs& samples, const float t) const
-{
-    const uint64_t nbPoints = samples.size();
-    Vector3fs points;
-    points.reserve(nbPoints);
-    for (const auto& sample : samples)
-        points.push_back(sample);
-    for (int64_t i = nbPoints - 1; i >= 0; --i)
-        for (uint64_t j = 0; j < i; ++j)
-            points[j] += t * (points[j + 1] - points[j]);
-    return points[0];
 }
 
 size_t MorphologyLoader::_getMaterialIdFromColorScheme(const PropertyMap& properties,
