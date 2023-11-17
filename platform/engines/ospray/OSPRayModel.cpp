@@ -301,6 +301,9 @@ void OSPRayModel::_commitStreamlines(const size_t materialId)
 
 void OSPRayModel::_commitSDFGeometries()
 {
+    if (_geometries->_sdf.geometries.empty())
+        return;
+
     auto globalData = allocateVectorData(_geometries->_sdf.geometries, OSP_CHAR, _memoryManagementFlags);
 
     // Create and upload flat list of neighbours

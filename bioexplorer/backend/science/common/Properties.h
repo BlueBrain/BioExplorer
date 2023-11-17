@@ -121,6 +121,11 @@ static const core::Property LOADER_PROPERTY_NEURONS_REALISM_LEVEL_EXTERNALS = {"
 static const core::Property LOADER_PROPERTY_NEURONS_REALISM_LEVEL_SPINE = {"31NeuronsRealismLevelSpine",
                                                                            false,
                                                                            {"Realistic spines"}};
+static const core::Property LOADER_PROPERTY_NEURONS_SYNAPSE_TYPE = {
+    "32NeuronsSynapseType",
+    core::enumToString(morphology::MorphologySynapseType::none),
+    core::enumNames<morphology::MorphologySynapseType>(),
+    {"Type of synapses"}};
 
 // Atlas
 static const char* LOADER_ATLAS = "Brain atlas";

@@ -473,12 +473,12 @@ ModelDescriptorPtr SonataCacheLoader::importFromStorage(const std::string& path,
 
     // SDF geometry
     load = props.getProperty<bool>(PROP_LOAD_SDF.name);
-    auto& sdfData = model->getSDFGeometryData();
     file.read((char*)&nbElements, sizeof(size_t));
 
     if (nbElements > 0)
     {
         // Geometries
+        auto& sdfData = model->getSDFGeometryData();
         sdfData.geometries.resize(nbElements);
         bufferSize = nbElements * sizeof(SDFGeometry);
         file.read((char*)sdfData.geometries.data(), bufferSize);

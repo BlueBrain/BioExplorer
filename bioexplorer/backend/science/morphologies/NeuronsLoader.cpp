@@ -101,6 +101,8 @@ ModelDescriptorPtr NeuronsLoader::importFromStorage(const std::string& storage, 
     details.morphologyRepresentation = stringToEnum<morphology::MorphologyRepresentation>(
         props.getProperty<std::string>(LOADER_PROPERTY_MORPHOLOGY_REPRESENTATION.name));
     details.alignToGrid = props.getProperty<double>(LOADER_PROPERTY_ALIGN_TO_GRID.name);
+    details.synapsesType = stringToEnum<morphology::MorphologySynapseType>(
+        props.getProperty<std::string>(LOADER_PROPERTY_NEURONS_SYNAPSE_TYPE.name));
     Neurons Neurons(_scene, details, core::Vector3d(), core::Quaterniond(), callback);
     return std::move(Neurons.getModelDescriptor());
 }
@@ -131,6 +133,7 @@ PropertyMap NeuronsLoader::getCLIProperties()
     pm.setProperty(LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_INTERNALS);
     pm.setProperty(LOADER_PROPERTY_NEURONS_REALISM_LEVEL_EXTERNALS);
     pm.setProperty(LOADER_PROPERTY_NEURONS_REALISM_LEVEL_SPINE);
+    pm.setProperty(LOADER_PROPERTY_NEURONS_SYNAPSE_TYPE);
     return pm;
 }
 } // namespace morphology

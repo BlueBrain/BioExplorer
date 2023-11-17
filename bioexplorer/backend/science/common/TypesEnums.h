@@ -104,4 +104,14 @@ inline std::vector<std::pair<std::string, bioexplorer::morphology::MorphologyRea
             {"End foot", bioexplorer::morphology::MorphologyRealismLevel::end_foot},
             {"All", bioexplorer::morphology::MorphologyRealismLevel::all}};
 }
+
+template <>
+inline std::vector<std::pair<std::string, bioexplorer::morphology::MorphologySynapseType>> enumMap()
+{
+    return {{"None", bioexplorer::morphology::MorphologySynapseType::none},
+            {"Afferent", bioexplorer::morphology::MorphologySynapseType::afferent},
+            {"Efferent", bioexplorer::morphology::MorphologySynapseType::efferent},
+            {"Debug", bioexplorer::morphology::MorphologySynapseType::debug},
+            {"All", bioexplorer::morphology::MorphologySynapseType::all}};
+}
 } // namespace core
