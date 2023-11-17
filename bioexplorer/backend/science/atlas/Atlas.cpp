@@ -154,6 +154,8 @@ void Atlas::_buildModel(const LoaderProgress& callback)
         auto& container = containers[i];
         container.commitToModel();
     }
+    model->applyDefaultColormap();
+
     const ModelMetadata metadata = {{"Number of regions", std::to_string(regions.size())},
                                     {"Number of cells", std::to_string(nbCells)},
                                     {"Cell SQL filter", _details.cellSqlFilter},

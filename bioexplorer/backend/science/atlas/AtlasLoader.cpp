@@ -40,7 +40,7 @@ namespace atlas
 using namespace common;
 
 const std::string LOADER_NAME = LOADER_ATLAS;
-const std::string SUPPORTED_PROTOCOL_Atlas = "atlas://";
+const std::string SUPPORTED_PROTOCOL_ATLAS = "atlas://";
 
 AtlasLoader::AtlasLoader(Scene& scene, PropertyMap&& loaderParams)
     : Loader(scene)
@@ -55,12 +55,12 @@ std::string AtlasLoader::getName() const
 
 std::vector<std::string> AtlasLoader::getSupportedStorage() const
 {
-    return {SUPPORTED_PROTOCOL_Atlas};
+    return {SUPPORTED_PROTOCOL_ATLAS};
 }
 
 bool AtlasLoader::isSupported(const std::string& storage, const std::string& /*extension*/) const
 {
-    return (storage.find(SUPPORTED_PROTOCOL_Atlas) == 0);
+    return (storage.find(SUPPORTED_PROTOCOL_ATLAS) == 0);
 }
 
 ModelDescriptorPtr AtlasLoader::importFromBlob(Blob&& /*blob*/, const LoaderProgress& /*callback*/,

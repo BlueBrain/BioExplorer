@@ -87,6 +87,7 @@ set(${NAME}_SOURCES
     science/vasculature/VasculatureLoader.cpp
     science/vasculature/Vasculature.cpp
     science/connectomics/whitematter/WhiteMatter.cpp
+    science/connectomics/whitematter/WhiteMatterLoader.cpp
     science/connectomics/synapses/SynapseEfficacy.cpp
     science/connectomics/synapses/SynapseEfficacySimulationHandler.cpp
     science/meshing/PointCloudMesher.cpp
@@ -123,6 +124,7 @@ set(${NAME}_PUBLIC_HEADERS
     science/vasculature/VasculatureLoader.h
     science/vasculature/Vasculature.h
     science/connectomics/whitematter/WhiteMatter.h
+    science/connectomics/whitematter/WhiteMatterLoader.h
     science/connectomics/synapses/SynapseEfficacy.h
     science/connectomics/synapses/SynapseEfficacySimulationHandler.h
     science/common/UniqueId.h

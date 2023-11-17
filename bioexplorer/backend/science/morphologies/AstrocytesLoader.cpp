@@ -81,7 +81,7 @@ ModelDescriptorPtr AstrocytesLoader::importFromStorage(const std::string& storag
     details.populationName = baseName;
     details.vasculaturePopulationName =
         props.getProperty<std::string>(LOADER_PROPERTY_ASTROCYTES_VASCULATURE_SCHEMA.name);
-    details.sqlFilter = props.getProperty<std::string>(LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER.name);
+    details.sqlFilter = props.getProperty<std::string>(LOADER_PROPERTY_DATABASE_SQL_FILTER.name);
     details.radiusMultiplier = props.getProperty<double>(LOADER_PROPERTY_RADIUS_MULTIPLIER.name);
     details.populationColorScheme = stringToEnum<morphology::PopulationColorScheme>(
         props.getProperty<std::string>(LOADER_PROPERTY_POPULATION_COLOR_SCHEME.name));
@@ -114,7 +114,7 @@ PropertyMap AstrocytesLoader::getProperties() const
 PropertyMap AstrocytesLoader::getCLIProperties()
 {
     PropertyMap pm(LOADER_NAME);
-    pm.setProperty(LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER);
+    pm.setProperty(LOADER_PROPERTY_DATABASE_SQL_FILTER);
     pm.setProperty(LOADER_PROPERTY_ALIGN_TO_GRID);
     pm.setProperty(LOADER_PROPERTY_RADIUS_MULTIPLIER);
     pm.setProperty(LOADER_PROPERTY_POPULATION_COLOR_SCHEME);

@@ -79,7 +79,7 @@ ModelDescriptorPtr VasculatureLoader::importFromStorage(const std::string& stora
     const auto baseName = boost::filesystem::basename(storage);
     details.assemblyName = baseName;
     details.populationName = baseName;
-    details.sqlFilter = props.getProperty<std::string>(LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER.name);
+    details.sqlFilter = props.getProperty<std::string>(LOADER_PROPERTY_DATABASE_SQL_FILTER.name);
     details.radiusMultiplier = props.getProperty<double>(LOADER_PROPERTY_RADIUS_MULTIPLIER.name);
     details.colorScheme = stringToEnum<details::VasculatureColorScheme>(
         props.getProperty<std::string>(LOADER_PROPERTY_VASCULATURE_COLOR_SCHEME.name));
@@ -105,7 +105,7 @@ PropertyMap VasculatureLoader::getProperties() const
 PropertyMap VasculatureLoader::getCLIProperties()
 {
     PropertyMap pm(LOADER_NAME);
-    pm.setProperty(LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER);
+    pm.setProperty(LOADER_PROPERTY_DATABASE_SQL_FILTER);
     pm.setProperty(LOADER_PROPERTY_ALIGN_TO_GRID);
     pm.setProperty(LOADER_PROPERTY_RADIUS_MULTIPLIER);
     pm.setProperty(LOADER_PROPERTY_VASCULATURE_COLOR_SCHEME);

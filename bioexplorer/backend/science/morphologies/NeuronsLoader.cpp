@@ -79,7 +79,7 @@ ModelDescriptorPtr NeuronsLoader::importFromStorage(const std::string& storage, 
     const auto baseName = boost::filesystem::basename(storage);
     details.assemblyName = baseName;
     details.populationName = baseName;
-    details.sqlNodeFilter = props.getProperty<std::string>(LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER.name);
+    details.sqlNodeFilter = props.getProperty<std::string>(LOADER_PROPERTY_DATABASE_SQL_FILTER.name);
     details.radiusMultiplier = props.getProperty<double>(LOADER_PROPERTY_RADIUS_MULTIPLIER.name);
     details.populationColorScheme = stringToEnum<morphology::PopulationColorScheme>(
         props.getProperty<std::string>(LOADER_PROPERTY_POPULATION_COLOR_SCHEME.name));
@@ -113,7 +113,7 @@ PropertyMap NeuronsLoader::getProperties() const
 PropertyMap NeuronsLoader::getCLIProperties()
 {
     PropertyMap pm(LOADER_NAME);
-    pm.setProperty(LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER);
+    pm.setProperty(LOADER_PROPERTY_DATABASE_SQL_FILTER);
     pm.setProperty(LOADER_PROPERTY_ALIGN_TO_GRID);
     pm.setProperty(LOADER_PROPERTY_RADIUS_MULTIPLIER);
     pm.setProperty(LOADER_PROPERTY_POPULATION_COLOR_SCHEME);

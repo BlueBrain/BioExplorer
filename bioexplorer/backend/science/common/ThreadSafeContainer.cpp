@@ -275,11 +275,10 @@ void ThreadSafeContainer::_commitMeshesToModel()
 
 void ThreadSafeContainer::_commitStreamlinesToModel()
 {
-    const auto& streamlines = _model.getStreamlines();
-    if (streamlines.empty())
+    const auto materialId = 0;
+    if (_streamlinesMap.find(materialId) == _streamlinesMap.end())
         return;
 
-    const auto materialId = 0;
     _materialIds.insert(materialId);
     auto& modelStreamline = _model.getStreamlines()[materialId];
     auto modelOffset = modelStreamline.vertex.size();

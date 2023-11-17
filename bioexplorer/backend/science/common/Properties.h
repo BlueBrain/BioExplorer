@@ -34,9 +34,7 @@ Loader properties
 */
 
 static const std::string SUPPORTED_EXTENTION_DATABASE = "db";
-static const core::Property LOADER_PROPERTY_DATABASE_SQL_NODE_FILTER{"01DbSqlNodeFilter",
-                                                                     std::string(),
-                                                                     {"SQL Node filter"}};
+static const core::Property LOADER_PROPERTY_DATABASE_SQL_FILTER{"01DbSqlFilter", std::string(), {"SQL filter"}};
 
 // Cache
 static const char* LOADER_CACHE = "brick";
@@ -136,6 +134,9 @@ static const core::Property LOADER_PROPERTY_ATLAS_LOAD_MESHES{"33LoadMeshes", tr
 static const core::Property LOADER_PROPERTY_ATLAS_REGION_SQL_FILTER{"34RegionSqlFilter",
                                                                     std::string(),
                                                                     {"SQL Region filter"}};
+
+// White matter
+static const char* LOADER_WHITE_MATTER = "White matter";
 
 /*
 Renderer properties

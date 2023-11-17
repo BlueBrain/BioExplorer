@@ -31,6 +31,7 @@
 #include <science/common/Logs.h>
 #include <science/common/Properties.h>
 #include <science/common/Utils.h>
+#include <science/connectomics/whitematter/WhiteMatterLoader.h>
 #include <science/io/CacheLoader.h>
 #include <science/io/OOCManager.h>
 #include <science/morphologies/AstrocytesLoader.h>
@@ -70,6 +71,7 @@ using namespace io;
 using namespace db;
 using namespace vasculature;
 using namespace atlas;
+using namespace connectomics;
 
 const std::string PLUGIN_API_PREFIX = "be-";
 
@@ -244,6 +246,8 @@ void BioExplorerPlugin::init()
     registry.registerLoader(std::make_unique<NeuronsLoader>(scene, NeuronsLoader::getCLIProperties()));
     PLUGIN_REGISTER_LOADER(LOADER_ATLAS);
     registry.registerLoader(std::make_unique<AtlasLoader>(scene, AtlasLoader::getCLIProperties()));
+    PLUGIN_REGISTER_LOADER(LOADER_WHITE_MATTER);
+    registry.registerLoader(std::make_unique<WhiteMatterLoader>(scene, WhiteMatterLoader::getCLIProperties()));
 
     if (actionInterface)
     {

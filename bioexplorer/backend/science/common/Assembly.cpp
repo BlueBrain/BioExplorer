@@ -713,7 +713,8 @@ void Assembly::addWhiteMatter(const WhiteMatterDetails &details)
             _scene.removeModel(modelId);
         }
     }
-    _whiteMatter.reset(std::move(new WhiteMatter(_scene, details, _position, _rotation)));
+    _whiteMatter.reset(new WhiteMatter(_scene, details, _position, _rotation));
+    _scene.addModel(_whiteMatter->getModelDescriptor());
     _scene.markModified(false);
 }
 
