@@ -146,6 +146,16 @@ public:
      */
     PLATFORM_API const std::string& getBufferTarget() const { return _bufferTarget; }
 
+    /**
+     * @brief Set the Engine object
+     *
+     * @param engine Pointer to the engine object
+     */
+    PLATFORM_API void setEngine(Engine* engine) { _engine = engine; }
+
+protected:
+    Engine* _engine{nullptr};
+
 private:
     Vector3d _target;
     Vector3d _position;

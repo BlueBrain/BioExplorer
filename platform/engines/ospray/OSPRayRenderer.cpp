@@ -121,6 +121,23 @@ void OSPRayRenderer::commit()
         setClipPlanes(planes);
         _camera->setClipPlanes(planes);
     }
+    // Anaglyph property is handled by the camera, but processed by the renderer
+    Vector3f anaglyphIpdOffset;
+    bool anaglyphEnabled = false;
+    if (_camera->getCurrentType() == CAMERA_PROPERTY_TYPE_ANAGLYPH)
+    {
+        const Vector3d dir = _camera->getOrientation() * UP_VECTOR;
+        const double d = dot(dir, UP_VECTOR);
+        const Vector3d dir_du = (d > 0.999 ? Vector3d(1, 0, 0) : normalize(cross(dir, UP_VECTOR))); // Avoid gimble lock
+        const double interpupillaryDistance =
+            _camera->getProperty<double>(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name.c_str());
+        anaglyphIpdOffset = 0.5f * interpupillaryDistance * dir_du;
+        anaglyphEnabled = true;
+    }
+
+    osphelper::set(_renderer, OSPRAY_RENDERER_PROPERTY_ANAGLYPH_IPD_OFFSET, anaglyphIpdOffset);
+    osphelper::set(_renderer, OSPRAY_RENDERER_PROPERTY_ANAGLYPH_ENABLED, static_cast<int>(anaglyphEnabled));
+
     _camera->commit();
 
     osphelper::set(_renderer, RENDERER_PROPERTY_TIMESTAMP.name.c_str(), static_cast<float>(ap.getFrame()));

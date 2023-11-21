@@ -66,6 +66,11 @@ public:
         , _imageGenerator(imageGenerator)
         , _engine(engine)
     {
+        auto& applicationParameters = engine.getParametersManager().getApplicationParameters();
+        const auto& engineName = applicationParameters.getEngine();
+        if (engineName == ENGINE_OPTIX_6)
+            CORE_THROW("Snapshot are currently not supported by the " + engineName + " engine");
+
         const auto& parametersManager = engine.getParametersManager();
         if (_params.animParams == nullptr)
         {
@@ -94,8 +99,10 @@ public:
             *_camera = engine.getCamera();
 
         _renderer = engine.createRenderer(*_params.animParams, parametersManager.getRenderingParameters());
-        _renderer->setCurrentType(engine.getRenderer().getCurrentType());
-        _renderer->clonePropertiesFrom(engine.getRenderer());
+
+        const auto& renderer = engine.getRenderer();
+        _renderer->setCurrentType(renderer.getCurrentType());
+        _renderer->clonePropertiesFrom(renderer);
 
         _scene->copyFrom(engine.getScene());
     }
