@@ -34,7 +34,7 @@ using namespace common;
 
 namespace neuron
 {
-const std::string LOADER_NAME = "Advanced circuit (Experimental)";
+const std::string LOADER_NAME = "Sonata advanced circuit";
 
 AdvancedCircuitLoader::AdvancedCircuitLoader(Scene &scene, const ApplicationParameters &applicationParameters,
                                              PropertyMap &&loaderParams)

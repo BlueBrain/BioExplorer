@@ -34,7 +34,7 @@ using namespace common;
 
 namespace neuron
 {
-const std::string LOADER_NAME = "Pair synapses";
+const std::string LOADER_NAME = "Sonata pair synapses";
 
 PairSynapsesLoader::PairSynapsesLoader(Scene &scene, const ApplicationParameters &applicationParameters,
                                        PropertyMap &&loaderParams)

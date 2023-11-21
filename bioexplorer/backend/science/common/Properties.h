@@ -43,7 +43,7 @@ static const core::Property LOADER_PROPERTY_SCALE = {"03Scale", std::array<doubl
 static const char* LOADER_CACHE = "brick";
 
 // Vasculature
-static const char* LOADER_VASCULATURE = "vasculature";
+static const char* LOADER_VASCULATURE = "DB vasculature";
 static const core::Property LOADER_PROPERTY_VASCULATURE_COLOR_SCHEME = {
     "10VasculatureColorScheme",
     core::enumToString(details::VasculatureColorScheme::none),
@@ -98,7 +98,7 @@ static const core::Property LOADER_PROPERTY_MORPHOLOGY_GENERATE_INTERNALS{
     "24GenerateInternals", false, {"Load internals (Nucleus and mitochondria)"}};
 
 // Astrocytes
-static const char* LOADER_ASTROCYTES = "astrocytes";
+static const char* LOADER_ASTROCYTES = "DB astrocytes";
 static const core::Property LOADER_PROPERTY_ASTROCYTES_LOAD_END_FEET{"25LoadEndFoot", false, {"Load end feet"}};
 static const core::Property LOADER_PROPERTY_ASTROCYTES_LOAD_MICRO_DOMAINS("26LoadMicroDomains", false,
                                                                           {"Load micro-domains"});
@@ -106,7 +106,7 @@ static const core::Property LOADER_PROPERTY_ASTROCYTES_VASCULATURE_SCHEMA{"30Vas
                                                                           std::string(),
                                                                           {"Vasculature database schema"}};
 // Neurons
-static const char* LOADER_NEURONS = "neurons";
+static const char* LOADER_NEURONS = "DB neurons";
 static const core::Property LOADER_PROPERTY_NEURONS_LOAD_SPINES{"26LoadSpine", false, {"Load spines"}};
 static const core::Property LOADER_PROPERTY_NEURONS_LOAD_AXON{"27LoadAxon", false, {"Load axon"}};
 static const core::Property LOADER_PROPERTY_NEURONS_LOAD_APICAL_DENDRITES{"28LoadApicalDendrites",
@@ -131,7 +131,7 @@ static const core::Property LOADER_PROPERTY_NEURONS_SYNAPSE_TYPE = {
     {"Type of synapses"}};
 
 // Atlas
-static const char* LOADER_ATLAS = "Brain atlas";
+static const char* LOADER_ATLAS = "DB brain atlas";
 
 static const core::Property LOADER_PROPERTY_ATLAS_LOAD_CELLS{"30LoadCells", true, {"Load cells"}};
 static const core::Property LOADER_PROPERTY_ATLAS_CELL_RADIUS{"31CellRadius", 1.0, 1.0, 1e3, {"Cell radius"}};
@@ -144,7 +144,7 @@ static const core::Property LOADER_PROPERTY_ATLAS_REGION_SQL_FILTER{"34RegionSql
                                                                     {"SQL Region filter"}};
 
 // White matter
-static const char* LOADER_WHITE_MATTER = "White matter";
+static const char* LOADER_WHITE_MATTER = "DB White matter";
 
 /*
 Renderer properties

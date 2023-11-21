@@ -34,7 +34,7 @@ using namespace common;
 
 namespace neuron
 {
-const std::string LOADER_NAME = "Circuit with meshes";
+const std::string LOADER_NAME = "Sonata circuit with meshes";
 const double DEFAULT_RADIUS_MULTIPLIER = 2.0;
 
 MeshCircuitLoader::MeshCircuitLoader(Scene &scene, const ApplicationParameters &applicationParameters,

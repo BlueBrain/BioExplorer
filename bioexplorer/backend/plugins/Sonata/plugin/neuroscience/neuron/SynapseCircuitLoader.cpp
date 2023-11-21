@@ -34,7 +34,7 @@ using namespace common;
 
 namespace neuron
 {
-const std::string LOADER_NAME = "Synapses";
+const std::string LOADER_NAME = "Sonata synapses";
 
 SynapseCircuitLoader::SynapseCircuitLoader(Scene &scene, const ApplicationParameters &applicationParameters,
                                            PropertyMap &&loaderParams)

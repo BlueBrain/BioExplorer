@@ -34,7 +34,7 @@ using namespace common;
 
 namespace neuron
 {
-const std::string LOADER_NAME = "Morphology collage";
+const std::string LOADER_NAME = "Sonata morphology collage";
 
 MorphologyCollageLoader::MorphologyCollageLoader(Scene &scene, const ApplicationParameters &applicationParameters,
                                                  PropertyMap &&loaderParams)

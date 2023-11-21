@@ -46,7 +46,7 @@ using namespace common;
 namespace astrocyte
 {
 
-const std::string LOADER_NAME = "Astrocytes";
+const std::string LOADER_NAME = "Sonata astrocytes";
 const std::string SUPPORTED_EXTENTION_ASTROCYTES = "astrocytes";
 const float DEFAULT_ASTROCYTE_MITOCHONDRIA_DENSITY = 0.05f;
 const size_t NB_MATERIALS_PER_INSTANCE = 10;
