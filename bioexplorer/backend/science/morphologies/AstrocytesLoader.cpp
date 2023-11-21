@@ -101,8 +101,13 @@ ModelDescriptorPtr AstrocytesLoader::importFromStorage(const std::string& storag
     details.morphologyRepresentation = stringToEnum<morphology::MorphologyRepresentation>(
         props.getProperty<std::string>(LOADER_PROPERTY_MORPHOLOGY_REPRESENTATION.name));
     details.alignToGrid = props.getProperty<double>(LOADER_PROPERTY_ALIGN_TO_GRID.name);
-
-    Astrocytes astrocytes(_scene, details, core::Vector3d(), core::Quaterniond(), callback);
+    const auto position = properties.getProperty<std::array<double, 3>>(LOADER_PROPERTY_POSITION.name);
+    const Vector3d pos = core::Vector3d(position[0], position[1], position[2]);
+    const auto rotation = properties.getProperty<std::array<double, 4>>(LOADER_PROPERTY_ROTATION.name);
+    const Quaterniond rot = core::Quaterniond(rotation[0], rotation[1], rotation[2], rotation[3]);
+    const auto scale = properties.getProperty<std::array<double, 3>>(LOADER_PROPERTY_SCALE.name);
+    details.scale = {scale[0], scale[1], scale[2]};
+    Astrocytes astrocytes(_scene, details, pos, rot, callback);
     return std::move(astrocytes.getModelDescriptor());
 }
 
@@ -127,6 +132,9 @@ PropertyMap AstrocytesLoader::getCLIProperties()
     pm.setProperty(LOADER_PROPERTY_ASTROCYTES_VASCULATURE_SCHEMA);
     pm.setProperty(LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_SOMA);
     pm.setProperty(LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_DENDRITE);
+    pm.setProperty(LOADER_PROPERTY_POSITION);
+    pm.setProperty(LOADER_PROPERTY_ROTATION);
+    pm.setProperty(LOADER_PROPERTY_SCALE);
     return pm;
 }
 } // namespace morphology

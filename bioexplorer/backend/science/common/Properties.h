@@ -35,6 +35,9 @@ Loader properties
 
 static const std::string SUPPORTED_EXTENTION_DATABASE = "db";
 static const core::Property LOADER_PROPERTY_DATABASE_SQL_FILTER{"01DbSqlFilter", std::string(), {"SQL filter"}};
+static const core::Property LOADER_PROPERTY_POSITION = {"02Position", std::array<double, 3>{0, 0, 0}, {"Position"}};
+static const core::Property LOADER_PROPERTY_ROTATION = {"03Rotation", std::array<double, 4>{0, 0, 0, 1}, {"Rotation"}};
+static const core::Property LOADER_PROPERTY_SCALE = {"03Scale", std::array<double, 3>{0, 0, 0}, {"Scale"}};
 
 // Cache
 static const char* LOADER_CACHE = "brick";

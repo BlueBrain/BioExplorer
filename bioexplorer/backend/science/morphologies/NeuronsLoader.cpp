@@ -103,7 +103,13 @@ ModelDescriptorPtr NeuronsLoader::importFromStorage(const std::string& storage, 
     details.alignToGrid = props.getProperty<double>(LOADER_PROPERTY_ALIGN_TO_GRID.name);
     details.synapsesType = stringToEnum<morphology::MorphologySynapseType>(
         props.getProperty<std::string>(LOADER_PROPERTY_NEURONS_SYNAPSE_TYPE.name));
-    Neurons Neurons(_scene, details, core::Vector3d(), core::Quaterniond(), callback);
+    const auto position = properties.getProperty<std::array<double, 3>>(LOADER_PROPERTY_POSITION.name);
+    const Vector3d pos = core::Vector3d(position[0], position[1], position[2]);
+    const auto rotation = properties.getProperty<std::array<double, 4>>(LOADER_PROPERTY_ROTATION.name);
+    const Quaterniond rot = core::Quaterniond(rotation[0], rotation[1], rotation[2], rotation[3]);
+    const auto scale = properties.getProperty<std::array<double, 3>>(LOADER_PROPERTY_SCALE.name);
+    details.scale = {scale[0], scale[1], scale[2]};
+    Neurons Neurons(_scene, details, pos, rot, callback);
     return std::move(Neurons.getModelDescriptor());
 }
 
@@ -134,6 +140,9 @@ PropertyMap NeuronsLoader::getCLIProperties()
     pm.setProperty(LOADER_PROPERTY_NEURONS_REALISM_LEVEL_EXTERNALS);
     pm.setProperty(LOADER_PROPERTY_NEURONS_REALISM_LEVEL_SPINE);
     pm.setProperty(LOADER_PROPERTY_NEURONS_SYNAPSE_TYPE);
+    pm.setProperty(LOADER_PROPERTY_POSITION);
+    pm.setProperty(LOADER_PROPERTY_ROTATION);
+    pm.setProperty(LOADER_PROPERTY_SCALE);
     return pm;
 }
 } // namespace morphology

@@ -3276,7 +3276,7 @@ class BioExplorer:
         load_somas=True,
         load_dendrites=True,
         generate_internals=False,
-        load_micro_domain=False,
+        load_micro_domains=False,
         morphology_representation=MORPHOLOGY_REPRESENTATION_SEGMENT,
         micro_domain_representation=MICRO_DOMAIN_REPRESENTATION_MESH,
         morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
