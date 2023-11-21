@@ -4,10 +4,11 @@ import {LoaderWithSchema} from '../../common/client';
 
 export function findLoader(file: File | string, loaders: LoaderWithSchema[]) {
     const extension = fileExt(file);
+    const protocol = fileProtocol(file);
 
     for (const loader of loaders) {
         const {name, extensions} = loader;
-        const canLoad = extensions.includes(extension);
+        const canLoad = extensions.includes(extension) || extensions.includes(protocol)
         if (canLoad) {
             return name;
         }
@@ -56,9 +57,14 @@ export function needsUserInput(items: Array<File | string>, loaders: LoaderWithS
     return false;
 }
 
-
 function fileExt(file: File | string) {
     const name = file instanceof File ? file.name : file;
     const extension = name.substr(name.lastIndexOf('.') + 1);
+    return extension;
+}
+
+function fileProtocol(file: File | string) {
+    const name = file instanceof File ? file.name : file;
+    const extension = name.substr(0, name.lastIndexOf('/') + 1);
     return extension;
 }

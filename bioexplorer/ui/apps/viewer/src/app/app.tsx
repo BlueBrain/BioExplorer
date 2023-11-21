@@ -12,8 +12,6 @@ import classNames from 'classnames';
 import { Subscription } from 'rxjs';
 
 import AppBar from '@material-ui/core/AppBar';
-import lightBlue from '@material-ui/core/colors/lightBlue';
-import red from '@material-ui/core/colors/red';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Fade from '@material-ui/core/Fade';
@@ -106,30 +104,40 @@ const THEME_KEY = 'theme';
 const LIGHT_THEME = createMuiTheme({
     palette: {
         primary: {
-            light: lightBlue['A400'],
-            main: lightBlue['500'],
-            dark: lightBlue['A700']
+            light: '#e2454a',
+            main: '#e2454a',
+            dark: '#303030',
+        },
+        background:
+        {
+            default: '#dadada',
+            paper: '#ffffff',
         },
         error: {
-            main: red['400']
+            main: '#e2454a',
         }
     },
     typography: {
         useNextVariants: true,
         // Adjust the font size for different elements
-        fontSize: 12, // Default font size for body1, body2, caption, etc.
+        fontSize: 11, // Default font size for body1, body2, caption, etc.
     }
 });
 
 const DARK_THEME = createMuiTheme({
     palette: {
         primary: {
-            light: lightBlue['A400'],
-            main: lightBlue['500'],
-            dark: lightBlue['A700']
+            light: '#ffa31a',
+            main: '#ffa31a',
+            dark: '#808080',
+        },
+        background:
+        {
+            default: '#1b1b1b',
+            paper: '#000000',
         },
         error: {
-            main: red['400']
+            main: '#e2454a',
         },
         type: 'dark'
     },
@@ -137,26 +145,6 @@ const DARK_THEME = createMuiTheme({
         useNextVariants: true,
         fontSize: 11, // Default font size for body1, body2, caption, etc.
     },
-    overrides: {
-        MuiInputBase: {
-            root: {
-                color: '#FFFFFF',
-            }
-        },
-        MuiInput: {
-            underline: {
-                '&:before': {
-                    borderBottom: '1px solid #FF5722', // Change the underline color
-                },
-                '&:after': {
-                    borderBottom: '1px solid #FF5722', // Change the underline color after interaction
-                },
-                '&:hover:not($disabled):before': {
-                    borderBottom: '1px solid #FF5722', // Change the underline color on hover
-                },
-            },
-        },
-    }
 });
 
 const APP_PREFERENCES = [
