@@ -34,10 +34,16 @@ Loader properties
 */
 
 static const std::string SUPPORTED_EXTENTION_DATABASE = "db";
+
+static constexpr std::array<double, 3> LOADER_DEFAULT_POSITION = {{0.0, 0.0, 0.0}};
+static constexpr std::array<double, 4> LOADER_DEFAULT_ROTATION = {{0.0, 0.0, 0.0, 1.0}};
+static constexpr std::array<double, 3> LOADER_DEFAULT_SCALE = {{1.0, 1.0, 1.0}};
+
 static const core::Property LOADER_PROPERTY_DATABASE_SQL_FILTER{"01DbSqlFilter", std::string(), {"SQL filter"}};
-static const core::Property LOADER_PROPERTY_POSITION = {"02Position", std::array<double, 3>{0, 0, 0}, {"Position"}};
-static const core::Property LOADER_PROPERTY_ROTATION = {"03Rotation", std::array<double, 4>{0, 0, 0, 1}, {"Rotation"}};
-static const core::Property LOADER_PROPERTY_SCALE = {"03Scale", std::array<double, 3>{0, 0, 0}, {"Scale"}};
+static const core::Property LOADER_PROPERTY_ALIGN_TO_GRID{"02AlignToGrid", 0.0, 0.0, 1000.0, {"Align to grid"}};
+static const core::Property LOADER_PROPERTY_POSITION = {"03Position", LOADER_DEFAULT_POSITION, {"Position"}};
+static const core::Property LOADER_PROPERTY_ROTATION = {"04Rotation", LOADER_DEFAULT_ROTATION, {"Rotation"}};
+static const core::Property LOADER_PROPERTY_SCALE = {"05Scale", LOADER_DEFAULT_SCALE, {"Scale"}};
 
 // Cache
 static const char* LOADER_CACHE = "brick";
@@ -62,7 +68,6 @@ static const core::Property LOADER_PROPERTY_VASCULATURE_REPRESENTATION = {
     core::enumToString(details::VasculatureRepresentation::segment),
     core::enumNames<details::VasculatureRepresentation>(),
     {"Representation"}};
-static const core::Property LOADER_PROPERTY_ALIGN_TO_GRID{"02AlignToGrid", 0.0, 0.0, 1000.0, {"Align to grid"}};
 
 // Morphologies
 static const core::Property LOADER_PROPERTY_MORPHOLOGY_COLOR_SCHEME = {

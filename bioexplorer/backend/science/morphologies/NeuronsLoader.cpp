@@ -103,11 +103,11 @@ ModelDescriptorPtr NeuronsLoader::importFromStorage(const std::string& storage, 
     details.alignToGrid = props.getProperty<double>(LOADER_PROPERTY_ALIGN_TO_GRID.name);
     details.synapsesType = stringToEnum<morphology::MorphologySynapseType>(
         props.getProperty<std::string>(LOADER_PROPERTY_NEURONS_SYNAPSE_TYPE.name));
-    const auto position = properties.getProperty<std::array<double, 3>>(LOADER_PROPERTY_POSITION.name);
+    const auto position = props.getProperty<std::array<double, 3>>(LOADER_PROPERTY_POSITION.name);
     const Vector3d pos = core::Vector3d(position[0], position[1], position[2]);
-    const auto rotation = properties.getProperty<std::array<double, 4>>(LOADER_PROPERTY_ROTATION.name);
+    const auto rotation = props.getProperty<std::array<double, 4>>(LOADER_PROPERTY_ROTATION.name);
     const Quaterniond rot = core::Quaterniond(rotation[0], rotation[1], rotation[2], rotation[3]);
-    const auto scale = properties.getProperty<std::array<double, 3>>(LOADER_PROPERTY_SCALE.name);
+    const auto scale = props.getProperty<std::array<double, 3>>(LOADER_PROPERTY_SCALE.name);
     details.scale = {scale[0], scale[1], scale[2]};
     Neurons Neurons(_scene, details, pos, rot, callback);
     return std::move(Neurons.getModelDescriptor());

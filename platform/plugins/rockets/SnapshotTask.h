@@ -66,22 +66,20 @@ public:
         , _imageGenerator(imageGenerator)
         , _engine(engine)
     {
+        const auto& parametersManager = engine.getParametersManager();
         if (_params.animParams == nullptr)
         {
-            _params.animParams =
-                std::make_unique<AnimationParameters>(engine.getParametersManager().getAnimationParameters());
+            _params.animParams = std::make_unique<AnimationParameters>(parametersManager.getAnimationParameters());
         }
 
         if (_params.geometryParams == nullptr)
         {
-            _params.geometryParams =
-                std::make_unique<GeometryParameters>(engine.getParametersManager().getGeometryParameters());
+            _params.geometryParams = std::make_unique<GeometryParameters>(parametersManager.getGeometryParameters());
         }
 
         if (_params.volumeParams == nullptr)
         {
-            _params.volumeParams =
-                std::make_unique<VolumeParameters>(engine.getParametersManager().getVolumeParameters());
+            _params.volumeParams = std::make_unique<VolumeParameters>(parametersManager.getVolumeParameters());
         }
 
         _scene = engine.createScene(*_params.animParams, *_params.geometryParams, *_params.volumeParams);
@@ -95,6 +93,10 @@ public:
         else
             *_camera = engine.getCamera();
 
+        _renderer = engine.createRenderer(*_params.animParams, parametersManager.getRenderingParameters());
+        _renderer->setCurrentType(engine.getRenderer().getCurrentType());
+        _renderer->clonePropertiesFrom(engine.getRenderer());
+
         _scene->copyFrom(engine.getScene());
     }
 
@@ -105,10 +107,11 @@ public:
         _camera->updateProperty(CAMERA_PROPERTY_ASPECT_RATIO.name, double(_params.size.x) / _params.size.y);
         _camera->commit();
 
-        auto& renderer = _engine.getRenderer();
-        renderer.setSamplesPerPixel(1);
-        renderer.setSubsampling(1);
-        renderer.commit();
+        _renderer->setSamplesPerPixel(1);
+        _renderer->setSubsampling(1);
+        _renderer->setCamera(_camera);
+        _renderer->setEngine(&_engine);
+        _renderer->commit();
 
         std::stringstream msg;
         msg << "Render snapshot";
@@ -131,7 +134,7 @@ public:
                 _camera->markModified(false);
                 _camera->commit();
                 _camera->resetModified();
-                renderer.render(frameBuffer);
+                _renderer->render(frameBuffer);
                 frameBuffer->incrementAccumFrames();
             }
 
@@ -192,6 +195,7 @@ private:
     SnapshotParams _params;
     FrameBufferPtr _frameBuffer;
     CameraPtr _camera;
+    RendererPtr _renderer;
     ScenePtr _scene;
     ImageGenerator& _imageGenerator;
     Engine& _engine;

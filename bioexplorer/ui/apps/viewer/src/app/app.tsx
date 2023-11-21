@@ -134,7 +134,7 @@ const DARK_THEME = createMuiTheme({
         background:
         {
             default: '#1b1b1b',
-            paper: '#000000',
+            paper: '#292929',
         },
         error: {
             main: '#e2454a',

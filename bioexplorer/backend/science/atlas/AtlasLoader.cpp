@@ -83,11 +83,11 @@ ModelDescriptorPtr AtlasLoader::importFromStorage(const std::string& storage, co
     details.loadCells = props.getProperty<bool>(LOADER_PROPERTY_ATLAS_LOAD_CELLS.name);
     details.loadMeshes = props.getProperty<bool>(LOADER_PROPERTY_ATLAS_LOAD_MESHES.name);
     details.cellRadius = props.getProperty<double>(LOADER_PROPERTY_ATLAS_CELL_RADIUS.name);
-    const auto position = properties.getProperty<std::array<double, 3>>(LOADER_PROPERTY_POSITION.name);
+    const auto position = props.getProperty<std::array<double, 3>>(LOADER_PROPERTY_POSITION.name);
     const Vector3d pos = core::Vector3d(position[0], position[1], position[2]);
-    const auto rotation = properties.getProperty<std::array<double, 4>>(LOADER_PROPERTY_ROTATION.name);
+    const auto rotation = props.getProperty<std::array<double, 4>>(LOADER_PROPERTY_ROTATION.name);
     const Quaterniond rot = core::Quaterniond(rotation[0], rotation[1], rotation[2], rotation[3]);
-    const auto scale = properties.getProperty<std::array<double, 3>>(LOADER_PROPERTY_SCALE.name);
+    const auto scale = props.getProperty<std::array<double, 3>>(LOADER_PROPERTY_SCALE.name);
     Atlas atlas(_scene, details, pos, rot, callback);
     return std::move(atlas.getModelDescriptor());
 }
