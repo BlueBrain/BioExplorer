@@ -53,7 +53,7 @@ public:
 
     core::PropertyMap getProperties() const final;
 
-    strings getSupportedExtensions() const;
+    strings getSupportedStorage() const;
 
     bool isSupported(const std::string &filename, const std::string &extension) const;
 

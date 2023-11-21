@@ -63,9 +63,10 @@ Vector4fs SDFGeometries::_getProcessedSectionPoints(const MorphologyRepresentati
                                                     const Vector4fs& points)
 {
     Vector4fs localPoints;
+    const float step = 1.f / static_cast<float>(points.size());
     if (representation == MorphologyRepresentation::bezier)
-        for (double t = 0.0; t <= 1.0; t += 1.0 / static_cast<double>(points.size()))
-            localPoints.push_back(getBezierPoint(points, t));
+        for (uint64_t i = 0; i <= points.size(); ++i)
+            localPoints.push_back(getBezierPoint(points, static_cast<float>(i) * step));
     else
         localPoints = points;
     return localPoints;

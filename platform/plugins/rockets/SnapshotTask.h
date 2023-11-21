@@ -43,7 +43,7 @@ struct SnapshotParams
     std::unique_ptr<AnimationParameters> animParams;
     std::unique_ptr<GeometryParameters> geometryParams;
     std::unique_ptr<VolumeParameters> volumeParams;
-    std::unique_ptr<RenderingParameters> renderingParams;
+    std::unique_ptr<Renderer> renderer;
     std::unique_ptr<Camera> camera;
     int samplesPerPixel{1};
     Vector2ui size;
@@ -66,37 +66,29 @@ public:
         , _imageGenerator(imageGenerator)
         , _engine(engine)
     {
+        auto& applicationParameters = engine.getParametersManager().getApplicationParameters();
+        const auto& engineName = applicationParameters.getEngine();
+        if (engineName == ENGINE_OPTIX_6)
+            CORE_THROW("Snapshot are currently not supported by the " + engineName + " engine");
+
+        const auto& parametersManager = engine.getParametersManager();
         if (_params.animParams == nullptr)
         {
-            _params.animParams =
-                std::make_unique<AnimationParameters>(engine.getParametersManager().getAnimationParameters());
+            _params.animParams = std::make_unique<AnimationParameters>(parametersManager.getAnimationParameters());
         }
 
         if (_params.geometryParams == nullptr)
         {
-            _params.geometryParams =
-                std::make_unique<GeometryParameters>(engine.getParametersManager().getGeometryParameters());
-        }
-
-        if (_params.renderingParams == nullptr)
-        {
-            _params.renderingParams =
-                std::make_unique<RenderingParameters>(engine.getParametersManager().getRenderingParameters());
+            _params.geometryParams = std::make_unique<GeometryParameters>(parametersManager.getGeometryParameters());
         }
 
         if (_params.volumeParams == nullptr)
         {
-            _params.volumeParams =
-                std::make_unique<VolumeParameters>(engine.getParametersManager().getVolumeParameters());
+            _params.volumeParams = std::make_unique<VolumeParameters>(parametersManager.getVolumeParameters());
         }
 
         _scene = engine.createScene(*_params.animParams, *_params.geometryParams, *_params.volumeParams);
 
-        _renderer = engine.createRenderer(*_params.animParams, *_params.renderingParams);
-
-        const auto& renderer = engine.getRenderer();
-        _renderer->setCurrentType(renderer.getCurrentType());
-        _renderer->clonePropertiesFrom(renderer);
         if (_params.camera)
         {
             *_camera = *_params.camera;
@@ -105,6 +97,12 @@ public:
         }
         else
             *_camera = engine.getCamera();
+
+        _renderer = engine.createRenderer(*_params.animParams, parametersManager.getRenderingParameters());
+
+        const auto& renderer = engine.getRenderer();
+        _renderer->setCurrentType(renderer.getCurrentType());
+        _renderer->clonePropertiesFrom(renderer);
 
         _scene->copyFrom(engine.getScene());
     }

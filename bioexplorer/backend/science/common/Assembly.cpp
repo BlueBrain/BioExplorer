@@ -588,6 +588,7 @@ void Assembly::addVasculature(const VasculatureDetails &details)
         }
     }
     _vasculature.reset(std::move(new Vasculature(_scene, details, _position, _rotation)));
+    _scene.addModel(_vasculature->getModelDescriptor());
     _scene.markModified(false);
 }
 
@@ -630,7 +631,8 @@ void Assembly::addAstrocytes(const AstrocytesDetails &details)
     if (_astrocytes)
         PLUGIN_THROW("Astrocytes already exists in assembly " + details.assemblyName);
 
-    _astrocytes = AstrocytesPtr(new Astrocytes(_scene, details, _position, _rotation));
+    _astrocytes.reset(new Astrocytes(_scene, details, _position, _rotation));
+    _scene.addModel(_astrocytes->getModelDescriptor());
     _scene.markModified(false);
 }
 
@@ -639,7 +641,8 @@ void Assembly::addAtlas(const AtlasDetails &details)
     if (_atlas)
         PLUGIN_THROW("Atlas already exists in assembly " + details.assemblyName);
 
-    _atlas = AtlasPtr(new Atlas(_scene, details, _position, _rotation));
+    _atlas.reset(new Atlas(_scene, details, _position, _rotation));
+    _scene.addModel(_atlas->getModelDescriptor());
     _scene.markModified(false);
 }
 
@@ -648,7 +651,8 @@ void Assembly::addNeurons(const NeuronsDetails &details)
     if (_neurons)
         PLUGIN_THROW("Neurons already exists in assembly " + details.assemblyName);
 
-    _neurons = NeuronsPtr(new Neurons(_scene, details, _position, _rotation));
+    _neurons.reset(new Neurons(_scene, details, _position, _rotation));
+    _scene.addModel(_neurons->getModelDescriptor());
     _scene.markModified(false);
 }
 
@@ -709,7 +713,8 @@ void Assembly::addWhiteMatter(const WhiteMatterDetails &details)
             _scene.removeModel(modelId);
         }
     }
-    _whiteMatter.reset(std::move(new WhiteMatter(_scene, details, _position, _rotation)));
+    _whiteMatter.reset(new WhiteMatter(_scene, details, _position, _rotation));
+    _scene.addModel(_whiteMatter->getModelDescriptor());
     _scene.markModified(false);
 }
 

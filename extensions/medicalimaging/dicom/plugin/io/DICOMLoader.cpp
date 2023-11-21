@@ -409,14 +409,14 @@ ModelDescriptorPtr DICOMLoader::importFromFolder(const std::string& path)
     return modelDescriptor;
 }
 
-ModelDescriptorPtr DICOMLoader::importFromFile(const std::string& path, const LoaderProgress& callback,
-                                               const PropertyMap& /*properties*/) const
+ModelDescriptorPtr DICOMLoader::importFromStorage(const std::string& storage, const LoaderProgress& callback,
+                                                  const PropertyMap& /*properties*/) const
 {
-    PLUGIN_INFO("Importing DICOM dataset from " << path);
-    const auto extension = boost::filesystem::extension(path);
+    PLUGIN_INFO("Importing DICOM dataset from " << storage);
+    const auto extension = boost::filesystem::extension(storage);
     if (extension == "." + SUPPORTED_EXTENSION_DCM)
-        return _readFile(path);
-    return _readDirectory(path, callback);
+        return _readFile(storage);
+    return _readDirectory(storage, callback);
 }
 
 ModelDescriptorPtr DICOMLoader::importFromBlob(Blob&&, const LoaderProgress&, const PropertyMap&) const
@@ -429,14 +429,14 @@ std::string DICOMLoader::getName() const
     return "Loader for DICOM datasets";
 }
 
-std::vector<std::string> DICOMLoader::getSupportedExtensions() const
+std::vector<std::string> DICOMLoader::getSupportedStorage() const
 {
     return {SUPPORTED_EXTENSION_DCM, SUPPORTED_BASENAME_DICOMDIR};
 }
 
-bool DICOMLoader::isSupported(const std::string& filename, const std::string& extension) const
+bool DICOMLoader::isSupported(const std::string& storage, const std::string& extension) const
 {
-    const auto basename = boost::filesystem::basename(filename);
+    const auto basename = boost::filesystem::basename(storage);
     const std::set<std::string> basenames = {SUPPORTED_BASENAME_DICOMDIR};
     const std::set<std::string> extensions = {SUPPORTED_EXTENSION_DCM};
     return (basenames.find(basename) != basenames.end() || extensions.find(extension) != extensions.end());

@@ -74,15 +74,20 @@ set(${NAME}_SOURCES
     science/molecularsystems/RNASequence.cpp
     science/morphologies/Morphologies.cpp
     science/atlas/Atlas.cpp
+    science/atlas/AtlasLoader.cpp
     science/morphologies/Synapses.cpp
+    science/morphologies/AstrocytesLoader.cpp
+    science/morphologies/NeuronsLoader.cpp
     science/morphologies/Astrocytes.cpp
     science/morphologies/Neurons.cpp
     science/morphologies/SpikeSimulationHandler.cpp
     science/morphologies/SomaSimulationHandler.cpp
     science/morphologies/CompartmentSimulationHandler.cpp
     science/vasculature/VasculatureHandler.cpp
+    science/vasculature/VasculatureLoader.cpp
     science/vasculature/Vasculature.cpp
     science/connectomics/whitematter/WhiteMatter.cpp
+    science/connectomics/whitematter/WhiteMatterLoader.cpp
     science/connectomics/synapses/SynapseEfficacy.cpp
     science/connectomics/synapses/SynapseEfficacySimulationHandler.cpp
     science/meshing/PointCloudMesher.cpp
@@ -105,16 +110,21 @@ set(${NAME}_PUBLIC_HEADERS
     science/molecularsystems/Protein.h
     science/molecularsystems/RNASequence.h
     science/atlas/Atlas.h
+    science/atlas/AtlasLoader.h
     science/morphologies/Synapses.h
     science/morphologies/Morphologies.h
+    science/morphologies/AstrocytesLoader.h
+    science/morphologies/NeuronsLoader.h
     science/morphologies/Astrocytes.h
     science/morphologies/Neurons.h
     science/morphologies/SpikeSimulationHandler.h
     science/morphologies/SomaSimulationHandler.h
     science/morphologies/CompartmentSimulationHandler.h
     science/vasculature/VasculatureHandler.h
+    science/vasculature/VasculatureLoader.h
     science/vasculature/Vasculature.h
     science/connectomics/whitematter/WhiteMatter.h
+    science/connectomics/whitematter/WhiteMatterLoader.h
     science/connectomics/synapses/SynapseEfficacy.h
     science/connectomics/synapses/SynapseEfficacySimulationHandler.h
     science/common/UniqueId.h
@@ -244,7 +254,7 @@ include_directories(
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${${NAME}_PUBLIC_MODULE_LIBRARIES}
     PRIVATE CoreParameters CoreCommon CoreEngine CoreIO mpfr
-    ${${NAME}_PRIVATE_MODULE_LIBRARIES} ${FreeImage_LIBRARIES} ${PQXX_LIBRARIES} ${OpenMP_CXX_LIBRARIES}
+    ${${NAME}_PRIVATE_MODULE_LIBRARIES} ${FreeImage_LIBRARIES} ${PQXX_LIBRARIES} ${OpenMP_CXX_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY}
 )
 
 if(${CGAL_FOUND})

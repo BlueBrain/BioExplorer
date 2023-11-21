@@ -50,7 +50,8 @@ public:
      * loaded
      */
     Vasculature(core::Scene& scene, const details::VasculatureDetails& details, const core::Vector3d& assemblyPosition,
-                const core::Quaterniond& assemblyRotation);
+                const core::Quaterniond& assemblyRotation,
+                const core::LoaderProgress& callback = core::LoaderProgress());
 
     /**
      * @brief Apply a radius report to the astrocyte. This modifies vasculature
@@ -80,7 +81,7 @@ private:
                              const size_t baseMaterialId, const doubles& radii, const core::Vector2d& radiusRange);
     void _addOrientation(common::ThreadSafeContainer& container, const common::GeometryNodes& nodes,
                          const uint64_t sectionId);
-    void _buildModel(const doubles& radii = doubles());
+    void _buildModel(const core::LoaderProgress& callback, const doubles& radii = doubles());
 
     const details::VasculatureDetails _details;
     core::Scene& _scene;

@@ -134,14 +134,14 @@ MeshLoader::MeshLoader(Scene& scene, const GeometryParameters& params)
                            {"Geometry quality"}});
 }
 
-bool MeshLoader::isSupported(const std::string& filename, const std::string& extension) const
+bool MeshLoader::isSupported(const std::string& storage, const std::string& extension) const
 {
     const auto types = getSupportedTypes();
     return std::find(types.begin(), types.end(), extension) != types.end();
 }
 
-ModelDescriptorPtr MeshLoader::importFromFile(const std::string& fileName, const LoaderProgress& callback,
-                                              const PropertyMap& inProperties) const
+ModelDescriptorPtr MeshLoader::importFromStorage(const std::string& storage, const LoaderProgress& callback,
+                                                 const PropertyMap& inProperties) const
 {
     // Fill property map since the actual property types are known now.
     PropertyMap properties = _defaults;
@@ -151,12 +151,12 @@ ModelDescriptorPtr MeshLoader::importFromFile(const std::string& fileName, const
         properties.getProperty<std::string>(PROP_GEOMETRY_QUALITY, enumToString(GeometryQuality::high)));
 
     auto model = _scene.createModel();
-    auto metadata = importMesh(fileName, callback, *model, {}, NO_MATERIAL, geometryQuality);
+    auto metadata = importMesh(storage, callback, *model, {}, NO_MATERIAL, geometryQuality);
 
     Transformation transformation;
     transformation.setRotationCenter(model->getBounds().getCenter());
 
-    auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), fileName, metadata);
+    auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), storage, metadata);
     modelDescriptor->setTransformation(transformation);
     return modelDescriptor;
 }
@@ -440,7 +440,7 @@ std::string MeshLoader::getName() const
     return LOADER_NAME;
 }
 
-std::vector<std::string> MeshLoader::getSupportedExtensions() const
+std::vector<std::string> MeshLoader::getSupportedStorage() const
 {
     return getSupportedTypes();
 }

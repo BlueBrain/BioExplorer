@@ -84,7 +84,7 @@ ModelDescriptorPtr SurfaceMesher::generateSurface(core::Scene& scene, const std:
     try
     {
         PLUGIN_INFO(3, "Trying to load surface from cache " << filename);
-        modelDescriptor = meshLoader.importFromFile(filename, LoaderProgress(), {});
+        modelDescriptor = meshLoader.importFromStorage(filename, LoaderProgress(), {});
         PLUGIN_INFO(3, "Surface loaded from cache " << filename);
         return modelDescriptor;
     }
@@ -109,7 +109,7 @@ ModelDescriptorPtr SurfaceMesher::generateSurface(core::Scene& scene, const std:
     PLUGIN_INFO(3, "Adding mesh to model");
     std::ofstream out(filename);
     out << polyhedron;
-    return meshLoader.importFromFile(filename, LoaderProgress(), {});
+    return meshLoader.importFromStorage(filename, LoaderProgress(), {});
 #else
     PLUGIN_THROW("The BioExplorer was not compiled with the CGAL library")
 #endif
@@ -129,7 +129,7 @@ ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(core::Scene& scene, const
     try
     {
         PLUGIN_INFO(3, "Trying to load union of balls from cache " << filename);
-        modelDescriptor = meshLoader.importFromFile(filename, LoaderProgress(), {});
+        modelDescriptor = meshLoader.importFromStorage(filename, LoaderProgress(), {});
         PLUGIN_INFO(3, "Surface loaded from cache " << filename);
         return modelDescriptor;
     }
@@ -147,7 +147,7 @@ ModelDescriptorPtr SurfaceMesher::generateUnionOfBalls(core::Scene& scene, const
     PLUGIN_INFO(3, "Adding mesh to model");
     std::ofstream out(filename);
     out << polyhedron;
-    return meshLoader.importFromFile(filename, LoaderProgress(), {});
+    return meshLoader.importFromStorage(filename, LoaderProgress(), {});
 #else
     PLUGIN_THROW("The BioExplorer was not compiled with the CGAL library")
 #endif

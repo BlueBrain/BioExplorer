@@ -1327,11 +1327,11 @@ typedef struct
     /** SQL filter for regions (WHERE condition) */
     std::string regionSqlFilter;
     /** Scale of the atlas in the scene */
-    doubles scale;
+    doubles scale{1.0, 1.0, 1.0};
     /** Mesh transformation */
     doubles meshPosition;
     doubles meshRotation;
-    doubles meshScale;
+    doubles meshScale{1.0, 1.0, 1.0};
 } AtlasDetails;
 
 // -------------------------------------------------------------------------------------------------
@@ -1391,7 +1391,7 @@ typedef struct
     /** Color scheme **/
     VasculatureColorScheme colorScheme{VasculatureColorScheme::none};
     /** Use Signed Distance Fields for geometry realism */
-    VasculatureRealismLevel realismLevel{VasculatureRealismLevel::none};
+    int64_t realismLevel{0};
     /** Node gids to load. All if empty */
     uint32_ts gids;
     /** Geometry quality */
@@ -1452,9 +1452,9 @@ typedef struct
     /** Generate internal components (nucleus and mitochondria) */
     bool generateInternals{false};
     /** Load micro-domain */
-    bool loadMicroDomain{false};
+    bool loadMicroDomains{false};
     /** Use Signed Distance Fields for geometry realism */
-    morphology::MorphologyRealismLevel realismLevel{morphology::MorphologyRealismLevel::none};
+    int64_t realismLevel{0};
     /** Morphology representation */
     morphology::MorphologyRepresentation morphologyRepresentation{morphology::MorphologyRepresentation::segment};
     /** Micro-domain representation */
@@ -1515,7 +1515,7 @@ typedef struct
     /** Generates random varicosities along the axon */
     bool generateVaricosities{false};
     /** Use Signed Distance Fields for geometry realism */
-    morphology::MorphologyRealismLevel realismLevel{morphology::MorphologyRealismLevel::none};
+    int64_t realismLevel{0};
     /** Morphology representation */
     morphology::MorphologyRepresentation morphologyRepresentation{morphology::MorphologyRepresentation::segment};
     /** Geometry color scheme */
@@ -1611,7 +1611,7 @@ typedef struct
     /** Representation of the synapse (sphere or spine) */
     SynapseRepresentation representation{SynapseRepresentation::sphere};
     /** Use Signed Distance Fields for geometry realism */
-    morphology::MorphologyRealismLevel realismLevel{morphology::MorphologyRealismLevel::none};
+    int64_t realismLevel{0};
     /** SQL filter for streamlines (WHERE condition) */
     std::string sqlFilter;
     /** Extra optional parameters for geometry displacement */

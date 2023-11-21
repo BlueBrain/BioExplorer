@@ -77,7 +77,7 @@ std::string SonataCacheLoader::getName() const
     return LOADER_NAME;
 }
 
-std::vector<std::string> SonataCacheLoader::getSupportedExtensions() const
+std::vector<std::string> SonataCacheLoader::getSupportedStorage() const
 {
     return {SUPPORTED_EXTENTION_SONATA_CACHE};
 }
@@ -104,20 +104,17 @@ std::string SonataCacheLoader::_readString(std::ifstream& buffer) const
     return str.data();
 }
 
-ModelDescriptorPtr SonataCacheLoader::importFromFile(const std::string& filename, const LoaderProgress& callback,
-                                                     const PropertyMap& properties) const
+ModelDescriptorPtr SonataCacheLoader::importFromStorage(const std::string& path, const LoaderProgress& callback,
+                                                        const PropertyMap& properties) const
 {
     PropertyMap props = _defaults;
     props.merge(properties);
 
     callback.updateProgress("Loading cache...", 0);
-    PLUGIN_INFO("Loading model from cache file: " << filename);
-    std::ifstream file(filename, std::ios::in | std::ios::binary);
+    PLUGIN_INFO("Loading model from cache file: " << path);
+    std::ifstream file(path, std::ios::in | std::ios::binary);
     if (!file.good())
-    {
-        const std::string msg = "Could not open cache file " + filename;
-        PLUGIN_THROW(msg);
-    }
+        PLUGIN_THROW("Could not open cache file " + path);
 
     // File version
     size_t version;
@@ -476,12 +473,12 @@ ModelDescriptorPtr SonataCacheLoader::importFromFile(const std::string& filename
 
     // SDF geometry
     load = props.getProperty<bool>(PROP_LOAD_SDF.name);
-    auto& sdfData = model->getSDFGeometryData();
     file.read((char*)&nbElements, sizeof(size_t));
 
     if (nbElements > 0)
     {
         // Geometries
+        auto& sdfData = model->getSDFGeometryData();
         sdfData.geometries.resize(nbElements);
         bufferSize = nbElements * sizeof(SDFGeometry);
         file.read((char*)sdfData.geometries.data(), bufferSize);
@@ -637,12 +634,12 @@ ModelDescriptorPtr SonataCacheLoader::importFromFile(const std::string& filename
     file.close();
 
     // Restore original circuit config file from cache metadata, if present
-    std::string path = filename;
+    std::string circuitPath = path;
     auto cpIt = metadata.find("CircuitPath");
     if (cpIt != metadata.end())
-        path = cpIt->second;
+        circuitPath = cpIt->second;
 
-    auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), "Brick", path, metadata);
+    auto modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), "Brick", circuitPath, metadata);
     return modelDescriptor;
 }
 

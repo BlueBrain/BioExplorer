@@ -151,7 +151,7 @@ export class LoadModel extends PureComponent<Props, State> {
                                 value={path}
                                 onChange={this.updatePath}
                                 label="Path"
-                                helperText={hasPath ? '' : 'Please type a model path'}
+                                helperText={hasPath ? '' : 'Storage path'}
                                 error={!hasPath}
                                 fullWidth
                                 required

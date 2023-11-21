@@ -71,7 +71,7 @@ AbstractCircuitLoader::AbstractCircuitLoader(Scene &scene, const ApplicationPara
 {
 }
 
-std::vector<std::string> AbstractCircuitLoader::getSupportedExtensions() const
+std::vector<std::string> AbstractCircuitLoader::getSupportedStorage() const
 {
     return LOADER_EXTENSIONS;
 }

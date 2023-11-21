@@ -62,7 +62,7 @@ void _addDICOMRenderer(Engine &engine)
     properties.setProperty(COMMON_PROPERTY_EXPOSURE);
     properties.setProperty(RENDERER_PROPERTY_GLOBAL_ILLUMINATION_RAY_LENGTH);
     properties.setProperty(DICOM_RENDERER_PROPERTY_SURFACE_OFFSET);
-    properties.setProperty({RENDERER_PROPERTY_MAX_RAY_DEPTH.name, DEFAULT_RENDERER_MAX_RAY_DEPTH, 1,
+    properties.setProperty({RENDERER_PROPERTY_MAX_RAY_DEPTH.name, DEFAULT_RENDERER_RAY_DEPTH, 1,
                             static_cast<int>(DEFAULT_RENDERER_MAX_RAY_DEPTH),
                             RENDERER_PROPERTY_MAX_RAY_DEPTH.metaData});
     engine.addRendererType(RENDERER_DICOM, properties);

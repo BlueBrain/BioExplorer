@@ -192,7 +192,7 @@ ArchiveLoader::ArchiveLoader(Scene& scene, LoaderRegistry& registry)
 {
 }
 
-bool ArchiveLoader::isSupported(const std::string& filename, const std::string& extension) const
+bool ArchiveLoader::isSupported(const std::string& storage, const std::string& extension) const
 {
     return isSupportedArchiveType(extension);
 }
@@ -229,7 +229,7 @@ ModelDescriptorPtr ArchiveLoader::importFromBlob(Blob&& blob, const LoaderProgre
     return loadExtracted(tmpFolder.path, callback, properties);
 }
 
-ModelDescriptorPtr ArchiveLoader::importFromFile(const std::string& filename, const LoaderProgress& callback,
+ModelDescriptorPtr ArchiveLoader::importFromStorage(const std::string& storage, const LoaderProgress& callback,
                                                  const PropertyMap& properties) const
 {
     TmpFolder tmpFolder;
@@ -242,7 +242,7 @@ std::string ArchiveLoader::getName() const
     return LOADER_NAME;
 }
 
-std::vector<std::string> ArchiveLoader::getSupportedExtensions() const
+std::vector<std::string> ArchiveLoader::getSupportedStorage() const
 {
     return {"zip", "gz", "tgz", "bz2", "rar"};
 }

@@ -56,14 +56,14 @@ public:
 
     std::string getName() const final;
 
-    strings getSupportedExtensions() const final;
+    strings getSupportedStorage() const final;
 
-    bool isSupported(const std::string& filename, const std::string& extension) const final;
+    bool isSupported(const std::string& storage, const std::string& extension) const final;
 
     static core::PropertyMap getCLIProperties();
 
-    core::ModelDescriptorPtr importFromFile(const std::string& path, const core::LoaderProgress& callback,
-                                            const core::PropertyMap& properties) const final;
+    core::ModelDescriptorPtr importFromStorage(const std::string& storage, const core::LoaderProgress& callback,
+                                               const core::PropertyMap& properties) const final;
 
     core::ModelDescriptorPtr importFromBlob(core::Blob&& blob, const core::LoaderProgress& callback,
                                             const core::PropertyMap& properties) const final;

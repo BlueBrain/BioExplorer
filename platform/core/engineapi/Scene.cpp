@@ -231,7 +231,7 @@ ModelDescriptorPtr Scene::loadModel(const std::string& path, const ModelParams& 
     // HACK: Add loader name in properties for archive loader
     auto propCopy = params.getLoaderProperties();
     propCopy.setProperty({"loaderName", params.getLoaderName()});
-    auto modelDescriptor = loader.importFromFile(path, cb, propCopy);
+    auto modelDescriptor = loader.importFromStorage(path, cb, propCopy);
     if (!modelDescriptor)
         throw std::runtime_error("No model returned by loader");
     *modelDescriptor = params;

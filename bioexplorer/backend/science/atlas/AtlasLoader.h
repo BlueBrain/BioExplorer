@@ -22,45 +22,46 @@
 
 #pragma once
 
-#include <platform/core/common/Transformation.h>
 #include <platform/core/common/Types.h>
 #include <platform/core/common/loader/Loader.h>
 
-namespace sonataexplorer
+namespace bioexplorer
 {
-namespace neuroscience
+namespace atlas
 {
-namespace astrocyte
-{
-class AstrocyteLoader : public core::Loader
+/**
+ * Load Atlas from file, memory or database
+ */
+class AtlasLoader : public core::Loader
 {
 public:
-    AstrocyteLoader(core::Scene &scene, const core::ApplicationParameters &applicationParameters,
-                    core::PropertyMap &&loaderParams);
+    AtlasLoader(core::Scene& scene, core::PropertyMap&& loaderParams = {});
 
+    /** @copydoc Loader::getName */
     std::string getName() const final;
 
+    /** @copydoc Loader::getSupportedStorage */
     strings getSupportedStorage() const final;
 
-    bool isSupported(const std::string &filename, const std::string &extension) const final;
+    /** @copydoc Loader::isSupported */
+    bool isSupported(const std::string& storage, const std::string& extension) const final;
 
+    /** @copydoc Loader::getCLIProperties */
     static core::PropertyMap getCLIProperties();
 
-    /** @copydoc Loader::importFromBlob */
-    core::ModelDescriptorPtr importFromBlob(core::Blob &&blob, const core::LoaderProgress &callback,
-                                            const core::PropertyMap &properties) const final;
+    /** @copydoc Loader::getProperties */
+    core::PropertyMap getProperties() const final;
 
-    /** @copydoc Loader::importFromFile */
-    core::ModelDescriptorPtr importFromStorage(const std::string &path, const core::LoaderProgress &callback,
-                                               const core::PropertyMap &properties) const final;
+    /** @copydoc Loader::importFromBlob */
+    core::ModelDescriptorPtr importFromBlob(core::Blob&& blob, const core::LoaderProgress& callback,
+                                            const core::PropertyMap& properties) const final;
+
+    /** @copydoc Loader::importFromStorage */
+    core::ModelDescriptorPtr importFromStorage(const std::string& storage, const core::LoaderProgress& callback,
+                                               const core::PropertyMap& properties) const final;
 
 private:
-    void _importMorphologiesFromURIs(const core::PropertyMap &properties, const std::vector<std::string> &uris,
-                                     const core::LoaderProgress &callback, core::Model &model) const;
-    const core::ApplicationParameters &_applicationParameters;
     core::PropertyMap _defaults;
-    core::PropertyMap _fixedDefaults;
 };
-} // namespace astrocyte
-} // namespace neuroscience
-} // namespace sonataexplorer
+} // namespace atlas
+} // namespace bioexplorer

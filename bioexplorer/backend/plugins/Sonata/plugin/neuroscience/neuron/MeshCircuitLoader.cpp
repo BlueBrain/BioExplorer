@@ -34,7 +34,7 @@ using namespace common;
 
 namespace neuron
 {
-const std::string LOADER_NAME = "Circuit with meshes";
+const std::string LOADER_NAME = "Sonata circuit with meshes";
 const double DEFAULT_RADIUS_MULTIPLIER = 2.0;
 
 MeshCircuitLoader::MeshCircuitLoader(Scene &scene, const ApplicationParameters &applicationParameters,
@@ -66,15 +66,15 @@ MeshCircuitLoader::MeshCircuitLoader(Scene &scene, const ApplicationParameters &
     _fixedDefaults.setProperty({PROP_EXTERNALS.name, false});
 }
 
-ModelDescriptorPtr MeshCircuitLoader::importFromFile(const std::string &filename, const LoaderProgress &callback,
-                                                     const PropertyMap &properties) const
+ModelDescriptorPtr MeshCircuitLoader::importFromStorage(const std::string &path, const LoaderProgress &callback,
+                                                        const PropertyMap &properties) const
 {
-    PLUGIN_INFO("Loading circuit from " << filename);
+    PLUGIN_INFO("Loading circuit from " << path);
     callback.updateProgress("Loading circuit ...", 0);
     PropertyMap props = _defaults;
     props.merge(_fixedDefaults);
     props.merge(properties);
-    return importCircuit(filename, props, callback);
+    return importCircuit(path, props, callback);
 }
 
 std::string MeshCircuitLoader::getName() const

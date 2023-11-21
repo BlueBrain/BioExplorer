@@ -55,11 +55,11 @@ public:
     /** @copydoc Loader::getName */
     std::string getName() const final;
 
-    /** @copydoc Loader::getSupportedExtensions */
-    strings getSupportedExtensions() const final;
+    /** @copydoc Loader::getSupportedStorage */
+    strings getSupportedStorage() const final;
 
     /** @copydoc Loader::isSupported */
-    bool isSupported(const std::string& filename, const std::string& extension) const final;
+    bool isSupported(const std::string& storage, const std::string& extension) const final;
 
     /** @copydoc Loader::getCLIProperties */
     static core::PropertyMap getCLIProperties();
@@ -72,8 +72,8 @@ public:
                                             const core::PropertyMap& properties) const final;
 
     /** @copydoc Loader::importFromFile */
-    core::ModelDescriptorPtr importFromFile(const std::string& filename, const core::LoaderProgress& callback,
-                                            const core::PropertyMap& properties) const final;
+    core::ModelDescriptorPtr importFromStorage(const std::string& storage, const core::LoaderProgress& callback,
+                                               const core::PropertyMap& properties) const final;
 
     /**
      * @brief importMorphology imports a single morphology from a specified URI
@@ -242,8 +242,6 @@ private:
                               ParallelModelContainer& model) const;
 
     size_t _getNbMitochondrionSegments() const;
-
-    core::Vector3f _getBezierPoint(const core::Vector4fs& samples, const float t) const;
 
     size_t _baseMaterialId{core::NO_MATERIAL};
     core::PropertyMap _defaults;

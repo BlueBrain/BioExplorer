@@ -28,7 +28,7 @@ namespace core
 {
 void LoaderRegistry::registerLoader(std::unique_ptr<Loader> loader)
 {
-    _loaderInfos.push_back({loader->getName(), loader->getSupportedExtensions(), loader->getProperties()});
+    _loaderInfos.push_back({loader->getName(), loader->getSupportedStorage(), loader->getProperties()});
     _loaders.push_back(std::move(loader));
 }
 

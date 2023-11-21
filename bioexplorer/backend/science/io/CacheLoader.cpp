@@ -75,7 +75,7 @@ std::string CacheLoader::getName() const
     return LOADER_NAME;
 }
 
-std::vector<std::string> CacheLoader::getSupportedExtensions() const
+std::vector<std::string> CacheLoader::getSupportedStorage() const
 {
     return {SUPPORTED_EXTENTION_BIOEXPLORER};
 }
@@ -89,7 +89,7 @@ bool CacheLoader::isSupported(const std::string& /*filename*/, const std::string
 ModelDescriptorPtr CacheLoader::importFromBlob(Blob&& /*blob*/, const LoaderProgress& /*callback*/,
                                                const PropertyMap& /*properties*/) const
 {
-    PLUGIN_THROW("Loading molecular systems from blob is not supported");
+    PLUGIN_THROW("Loading cache from blob is not supported");
 }
 
 ModelDescriptorPtr CacheLoader::_importModel(std::stringstream& buffer, const int32_t brickId) const
@@ -415,10 +415,10 @@ std::vector<ModelDescriptorPtr> CacheLoader::importModelsFromFile(const std::str
     return modelDescriptors;
 }
 
-ModelDescriptorPtr CacheLoader::importFromFile(const std::string& filename, const LoaderProgress& callback,
-                                               const PropertyMap& properties) const
+ModelDescriptorPtr CacheLoader::importFromStorage(const std::string& storage, const LoaderProgress& callback,
+                                                  const PropertyMap& properties) const
 {
-    const auto modelDescriptors = importModelsFromFile(filename, UNDEFINED_BOX_ID, callback, properties);
+    const auto modelDescriptors = importModelsFromFile(storage, UNDEFINED_BOX_ID, callback, properties);
     for (const auto modelDescriptor : modelDescriptors)
         _scene.addModel(modelDescriptor);
 

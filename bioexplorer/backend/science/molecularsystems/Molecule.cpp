@@ -307,7 +307,7 @@ void Molecule::_buildModel(const std::string& assemblyName, const std::string& n
     {
         const std::string filename = GeneralSettings::getInstance()->getMeshFolder() + pdbId + ".obj";
         MeshLoader meshLoader(_scene);
-        _modelDescriptor = meshLoader.importFromFile(filename, LoaderProgress(), {});
+        _modelDescriptor = meshLoader.importFromStorage(filename, LoaderProgress(), {});
         _setMaterialExtraAttributes();
         _rescaleMesh(_modelDescriptor->getModel(), Vector3d(0.1, 0.1, 0.1));
         break;

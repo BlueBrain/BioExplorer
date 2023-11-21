@@ -1065,7 +1065,7 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
                     processCheckerShading(self, dg, sample, ray, attributes);
                 else if (attributes.shadingMode == goodsell)
                     processGoodsellShading(self, dg, sample, attributes);
-                else if (attributes.shadingMode == normal)
+                else if (attributes.shadingMode == surface_normal)
                     processNormalShading(self, attributes);
                 else
                     processDiffuseShading(self, dg, sample, ray, attributes);

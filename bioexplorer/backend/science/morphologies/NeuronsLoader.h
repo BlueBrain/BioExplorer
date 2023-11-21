@@ -22,27 +22,39 @@
 
 #pragma once
 
-#include "AbstractCircuitLoader.h"
+#include <platform/core/common/Types.h>
+#include <platform/core/common/loader/Loader.h>
 
-namespace sonataexplorer
+namespace bioexplorer
 {
-namespace neuroscience
+namespace morphology
 {
-namespace neuron
-{
-class MorphologyCollageLoader : public AbstractCircuitLoader
+/**
+ * Load Neurons from file, memory or database
+ */
+class NeuronsLoader : public core::Loader
 {
 public:
-    MorphologyCollageLoader(core::Scene &scene, const core::ApplicationParameters &applicationParameters,
-                            core::PropertyMap &&loaderParams);
+    NeuronsLoader(core::Scene& scene, core::PropertyMap&& loaderParams = {});
 
     std::string getName() const final;
 
+    strings getSupportedStorage() const final;
+
+    bool isSupported(const std::string& storage, const std::string& extension) const final;
+
     static core::PropertyMap getCLIProperties();
 
-    core::ModelDescriptorPtr importFromStorage(const std::string &path, const core::LoaderProgress &callback,
-                                            const core::PropertyMap &properties) const final;
+    core::PropertyMap getProperties() const final;
+
+    core::ModelDescriptorPtr importFromBlob(core::Blob&& blob, const core::LoaderProgress& callback,
+                                            const core::PropertyMap& properties) const final;
+
+    core::ModelDescriptorPtr importFromStorage(const std::string& storage, const core::LoaderProgress& callback,
+                                               const core::PropertyMap& properties) const final;
+
+private:
+    core::PropertyMap _defaults;
 };
-} // namespace neuron
-} // namespace neuroscience
-} // namespace sonataexplorer
+} // namespace morphology
+} // namespace bioexplorer

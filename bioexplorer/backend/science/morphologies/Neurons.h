@@ -48,7 +48,7 @@ public:
      * @param details Set of attributes defining how neurons should be loaded
      */
     Neurons(core::Scene& scene, const details::NeuronsDetails& details, const core::Vector3d& assemblyPosition,
-            const core::Quaterniond& assemblyRotation);
+            const core::Quaterniond& assemblyRotation, const core::LoaderProgress& callback = core::LoaderProgress());
 
     /**
      * @brief Get the neuron section 3D points for a given section Id
@@ -72,18 +72,15 @@ private:
 
     void _logRealismParams();
 
-    void _buildNeurons();
+    void _buildModel(const core::LoaderProgress& callback);
 
-    void _buildContours(common::ThreadSafeContainer& container, const NeuronSomaMap& somas,
-                        const size_t baseMaterialId);
+    void _buildContours(common::ThreadSafeContainer& container, const NeuronSomaMap& somas);
 
     void _buildSurface(const NeuronSomaMap& somas);
 
-    void _buildSomasOnly(common::ThreadSafeContainer& container, const NeuronSomaMap& somas,
-                         const size_t baseMaterialId);
+    void _buildSomasOnly(common::ThreadSafeContainer& container, const NeuronSomaMap& somas);
 
-    void _buildOrientations(common::ThreadSafeContainer& container, const NeuronSomaMap& somas,
-                            const size_t baseMaterialId);
+    void _buildOrientations(common::ThreadSafeContainer& container, const NeuronSomaMap& somas);
 
     void _buildMorphology(common::ThreadSafeContainer& container, const uint64_t neuronId, const NeuronSoma& soma,
                           const uint64_t neuronIndex);

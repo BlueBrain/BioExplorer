@@ -34,7 +34,7 @@ using namespace common;
 
 namespace neuron
 {
-const std::string LOADER_NAME = "Advanced circuit (Experimental)";
+const std::string LOADER_NAME = "Sonata advanced circuit";
 
 AdvancedCircuitLoader::AdvancedCircuitLoader(Scene &scene, const ApplicationParameters &applicationParameters,
                                              PropertyMap &&loaderParams)
@@ -46,15 +46,15 @@ AdvancedCircuitLoader::AdvancedCircuitLoader(Scene &scene, const ApplicationPara
     _fixedDefaults.setProperty(PROP_ROTATION);
 }
 
-ModelDescriptorPtr AdvancedCircuitLoader::importFromFile(const std::string &filename, const LoaderProgress &callback,
-                                                         const PropertyMap &properties) const
+ModelDescriptorPtr AdvancedCircuitLoader::importFromStorage(const std::string &path, const LoaderProgress &callback,
+                                                            const PropertyMap &properties) const
 {
-    PLUGIN_INFO("Loading circuit from " << filename);
+    PLUGIN_INFO("Loading circuit from " << path);
     callback.updateProgress("Loading circuit ...", 0);
     PropertyMap props = _defaults;
     props.merge(_fixedDefaults);
     props.merge(properties);
-    return importCircuit(filename, props, callback);
+    return importCircuit(path, props, callback);
 }
 
 std::string AdvancedCircuitLoader::getName() const

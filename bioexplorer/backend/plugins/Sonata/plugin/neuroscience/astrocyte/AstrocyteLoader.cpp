@@ -46,7 +46,7 @@ using namespace common;
 namespace astrocyte
 {
 
-const std::string LOADER_NAME = "Astrocytes";
+const std::string LOADER_NAME = "Sonata astrocytes";
 const std::string SUPPORTED_EXTENTION_ASTROCYTES = "astrocytes";
 const float DEFAULT_ASTROCYTE_MITOCHONDRIA_DENSITY = 0.05f;
 const size_t NB_MATERIALS_PER_INSTANCE = 10;
@@ -84,7 +84,7 @@ AstrocyteLoader::AstrocyteLoader(Scene &scene, const ApplicationParameters &appl
     _fixedDefaults.setProperty({PROP_EXTERNALS.name, false});
 }
 
-std::vector<std::string> AstrocyteLoader::getSupportedExtensions() const
+std::vector<std::string> AstrocyteLoader::getSupportedStorage() const
 {
     return {SUPPORTED_EXTENTION_ASTROCYTES};
 }
@@ -101,15 +101,15 @@ ModelDescriptorPtr AstrocyteLoader::importFromBlob(Blob && /*blob*/, const Loade
     PLUGIN_THROW("Loading an astrocyte from memory is currently not supported");
 }
 
-ModelDescriptorPtr AstrocyteLoader::importFromFile(const std::string &filename, const LoaderProgress &callback,
-                                                   const PropertyMap &properties) const
+ModelDescriptorPtr AstrocyteLoader::importFromStorage(const std::string &path, const LoaderProgress &callback,
+                                                      const PropertyMap &properties) const
 {
     PropertyMap props = _defaults;
     props.merge(_fixedDefaults);
     props.merge(properties);
 
     std::vector<std::string> uris;
-    std::ifstream file(filename);
+    std::ifstream file(path);
     if (file.is_open())
     {
         std::string line;
@@ -118,13 +118,13 @@ ModelDescriptorPtr AstrocyteLoader::importFromFile(const std::string &filename, 
         file.close();
     }
 
-    PLUGIN_INFO("Loading " << uris.size() << " astrocytes from " << filename);
+    PLUGIN_INFO("Loading " << uris.size() << " astrocytes from " << path);
     callback.updateProgress("Loading astrocytes ...", 0);
     auto model = _scene.createModel();
 
     ModelDescriptorPtr modelDescriptor;
     _importMorphologiesFromURIs(props, uris, callback, *model);
-    modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), filename);
+    modelDescriptor = std::make_shared<ModelDescriptor>(std::move(model), path);
     return modelDescriptor;
 }
 

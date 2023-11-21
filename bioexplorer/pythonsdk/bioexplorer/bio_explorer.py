@@ -3276,7 +3276,7 @@ class BioExplorer:
         load_somas=True,
         load_dendrites=True,
         generate_internals=False,
-        load_micro_domain=False,
+        load_micro_domains=False,
         morphology_representation=MORPHOLOGY_REPRESENTATION_SEGMENT,
         micro_domain_representation=MICRO_DOMAIN_REPRESENTATION_MESH,
         morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
@@ -3299,7 +3299,7 @@ class BioExplorer:
         :load_somas: Load somas if set to true
         :load_dendrites: Load dendrites if set to true
         :generate_internals: Generate internals (Nucleus and mitochondria)
-        :load_micro_domain: Load micro-domain if set to true
+        :load_micro_domains: Load micro-domains if set to true
         :realism_level: Use sign distance fields geometry to create the astrocytes. Defaults to none
         :morphology_representation: Geometry representation (graph, section or segment)
         :morphology_color_scheme: Color scheme of the sections of the astrocytes
@@ -3325,7 +3325,7 @@ class BioExplorer:
         params["loadSomas"] = load_somas
         params["loadDendrites"] = load_dendrites
         params["generateInternals"] = generate_internals
-        params["loadMicroDomain"] = load_micro_domain
+        params["loadMicroDomains"] = load_micro_domains
         params["realismLevel"] = realism_level
         params["morphologyRepresentation"] = morphology_representation
         params["microDomainRepresentation"] = micro_domain_representation
