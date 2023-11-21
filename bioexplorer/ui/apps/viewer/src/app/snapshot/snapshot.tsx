@@ -118,7 +118,6 @@ export class Snapshot extends Component<Props, State> {
             samplesPerPixel,
             size,
             camera: this.props.camera,
-            renderer: this.props.renderer,
             animationParameters: this.props.animationParams,
             name: `${filename}.${format}`
         } as any);

@@ -43,7 +43,7 @@ struct SnapshotParams
     std::unique_ptr<AnimationParameters> animParams;
     std::unique_ptr<GeometryParameters> geometryParams;
     std::unique_ptr<VolumeParameters> volumeParams;
-    std::unique_ptr<RenderingParameters> renderingParams;
+    std::unique_ptr<Renderer> renderer;
     std::unique_ptr<Camera> camera;
     int samplesPerPixel{1};
     Vector2ui size;
@@ -78,12 +78,6 @@ public:
                 std::make_unique<GeometryParameters>(engine.getParametersManager().getGeometryParameters());
         }
 
-        if (_params.renderingParams == nullptr)
-        {
-            _params.renderingParams =
-                std::make_unique<RenderingParameters>(engine.getParametersManager().getRenderingParameters());
-        }
-
         if (_params.volumeParams == nullptr)
         {
             _params.volumeParams =
@@ -92,11 +86,6 @@ public:
 
         _scene = engine.createScene(*_params.animParams, *_params.geometryParams, *_params.volumeParams);
 
-        _renderer = engine.createRenderer(*_params.animParams, *_params.renderingParams);
-
-        const auto& renderer = engine.getRenderer();
-        _renderer->setCurrentType(renderer.getCurrentType());
-        _renderer->clonePropertiesFrom(renderer);
         if (_params.camera)
         {
             *_camera = *_params.camera;
@@ -116,11 +105,10 @@ public:
         _camera->updateProperty(CAMERA_PROPERTY_ASPECT_RATIO.name, double(_params.size.x) / _params.size.y);
         _camera->commit();
 
-        _renderer->setSamplesPerPixel(1);
-        _renderer->setSubsampling(1);
-        _renderer->setCamera(_camera);
-        _renderer->setEngine(&_engine);
-        _renderer->commit();
+        auto& renderer = _engine.getRenderer();
+        renderer.setSamplesPerPixel(1);
+        renderer.setSubsampling(1);
+        renderer.commit();
 
         std::stringstream msg;
         msg << "Render snapshot";
@@ -143,7 +131,7 @@ public:
                 _camera->markModified(false);
                 _camera->commit();
                 _camera->resetModified();
-                _renderer->render(frameBuffer);
+                renderer.render(frameBuffer);
                 frameBuffer->incrementAccumFrames();
             }
 
@@ -204,7 +192,6 @@ private:
     SnapshotParams _params;
     FrameBufferPtr _frameBuffer;
     CameraPtr _camera;
-    RendererPtr _renderer;
     ScenePtr _scene;
     ImageGenerator& _imageGenerator;
     Engine& _engine;

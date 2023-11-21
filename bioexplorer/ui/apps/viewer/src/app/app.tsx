@@ -115,7 +115,9 @@ const LIGHT_THEME = createMuiTheme({
         }
     },
     typography: {
-        useNextVariants: true
+        useNextVariants: true,
+        // Adjust the font size for different elements
+        fontSize: 12, // Default font size for body1, body2, caption, etc.
     }
 });
 
@@ -132,7 +134,28 @@ const DARK_THEME = createMuiTheme({
         type: 'dark'
     },
     typography: {
-        useNextVariants: true
+        useNextVariants: true,
+        fontSize: 11, // Default font size for body1, body2, caption, etc.
+    },
+    overrides: {
+        MuiInputBase: {
+            root: {
+                color: '#FFFFFF',
+            }
+        },
+        MuiInput: {
+            underline: {
+                '&:before': {
+                    borderBottom: '1px solid #FF5722', // Change the underline color
+                },
+                '&:after': {
+                    borderBottom: '1px solid #FF5722', // Change the underline color after interaction
+                },
+                '&:hover:not($disabled):before': {
+                    borderBottom: '1px solid #FF5722', // Change the underline color on hover
+                },
+            },
+        },
     }
 });
 
