@@ -96,7 +96,7 @@ ModelDescriptorPtr VasculatureLoader::importFromStorage(const std::string& stora
     const auto position = props.getProperty<std::array<double, 3>>(LOADER_PROPERTY_POSITION.name);
     const Vector3d pos = core::Vector3d(position[0], position[1], position[2]);
     const auto rotation = props.getProperty<std::array<double, 4>>(LOADER_PROPERTY_ROTATION.name);
-    const Quaterniond rot = core::Quaterniond(rotation[0], rotation[1], rotation[2], rotation[3]);
+    const Quaterniond rot = core::Quaterniond(rotation[3], rotation[0], rotation[1], rotation[2]);
     const auto scale = props.getProperty<std::array<double, 3>>(LOADER_PROPERTY_SCALE.name);
     details.scale = {scale[0], scale[1], scale[2]};
     Vasculature vasculature(_scene, details, pos, rot, callback);
