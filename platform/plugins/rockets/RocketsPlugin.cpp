@@ -139,6 +139,7 @@ const std::string METHOD_CHUNK = "chunk";
 const std::string METHOD_QUIT = "quit";
 const std::string METHOD_EXIT_LATER = "exit-later";
 const std::string METHOD_RESET_CAMERA = "reset-camera";
+const std::string METHOD_SET_CAMERA = "set-camera";
 
 const std::string LOADERS_SCHEMA = "loaders-schema";
 
@@ -680,10 +681,14 @@ public:
 #if 0 // Not quite sure why the UI does not receive messages when the clientID is set :-/
                         if (clientID == NO_CURRENT_CLIENT)
                             rocketsServer->broadcastText(msg);
-                        else
+                        else 
                             rocketsServer->broadcastText(msg, {clientID});
+
 #else
-                        rocketsServer->broadcastText(msg);
+                        if (endpoint != METHOD_SET_CAMERA) // Dirty hack?!? Probably... This avoid message looping
+                                                           // between UI and Backend when the camera is moved (UI
+                                                           // informs backend, that sends back update to UI, etc)
+                            rocketsServer->broadcastText(msg);
                         rocketsServer->broadcastText(msg, {clientID});
 #endif
                     }
