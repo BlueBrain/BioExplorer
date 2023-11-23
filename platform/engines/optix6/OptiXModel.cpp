@@ -66,8 +66,9 @@ void setBuffer(RTbuffertype bufferType, RTformat bufferFormat, ::optix::Handle<:
     setBufferRaw(bufferType, bufferFormat, buffer, geometry, src.data(), numElements, sizeof(T) * src.size());
 }
 
-OptiXModel::OptiXModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters)
-    : Model(animationParameters, volumeParameters)
+OptiXModel::OptiXModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters,
+                       GeometryParameters& geometryParameters)
+    : Model(animationParameters, volumeParameters, geometryParameters)
 {
 }
 

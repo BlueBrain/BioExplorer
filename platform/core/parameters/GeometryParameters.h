@@ -43,14 +43,54 @@ public:
     /** @copydoc AbstractParameters::print */
     void print() final;
 
-    GeometryQuality getGeometryQuality() const { return _geometryQuality; }
-    float getRadiusMultiplier() const { return _radiusMultiplier; }
     /**
      * Defines what memory mode should be used between Core and the
      * underlying renderer
      */
     MemoryMode getMemoryMode() const { return _memoryMode; };
     const std::set<BVHFlag>& getDefaultBVHFlags() const { return _defaultBVHFlags; }
+
+    /**
+     * @brief Get the geometry quality (low, medium or high)
+     *
+     * @return GeometryQuality
+     */
+    GeometryQuality getGeometryQuality() const { return _geometryQuality; }
+
+    /**
+     * @brief Get the epsilon for SDF geometries
+     *
+     * @return float
+     */
+    float getSdfEpsilon() const { return _sdfEpsilon; }
+
+    /**
+     * @brief Get the blending factor for SDF geometries
+     *
+     * @return float
+     */
+    float getSdfBlendFactor() const { return _sdfBlendFactor; }
+
+    /**
+     * @brief Get the blending lerp factor for SDF geometries
+     *
+     * @return float
+     */
+    float getSdfBlendLerpFactor() const { return _sdfBlendLerpFactor; }
+
+    /**
+     * @brief Get the number of ray-marching iterations for SDF geometries
+     *
+     * @return float
+     */
+    float getSdfNbMarchIterations() const { return _sdfNbMarchIterations; }
+
+    /**
+     * @brief Get the ray-marching omega for SDF geometries
+     *
+     * @return float
+     */
+    float getSdfOmega() const { return _sdfOmega; }
 
 protected:
     void parse(const po::variables_map& vm) final;
@@ -60,7 +100,11 @@ protected:
 
     // Geometry
     GeometryQuality _geometryQuality{GeometryQuality::high};
-    float _radiusMultiplier{1};
+    float _sdfEpsilon{DEFAULT_GEOMETRY_SDF_EPSILON};
+    uint64_t _sdfNbMarchIterations{DEFAULT_GEOMETRY_SDF_NB_MARCH_ITERATIONS};
+    float _sdfBlendFactor{DEFAULT_GEOMETRY_SDF_BLEND_FACTOR};
+    float _sdfBlendLerpFactor{DEFAULT_GEOMETRY_SDF_BLEND_LERP_FACTOR};
+    float _sdfOmega{DEFAULT_GEOMETRY_SDF_OMEGA};
 
     // System parameters
     MemoryMode _memoryMode{MemoryMode::shared};

@@ -460,7 +460,8 @@ public:
      * @param animationParameters Parameters for animation
      * @param volumeParameters Parameters for volume
      */
-    PLATFORM_API Model(AnimationParameters& animationParameters, VolumeParameters& volumeParameters);
+    PLATFORM_API Model(AnimationParameters& animationParameters, VolumeParameters& volumeParameters,
+                       GeometryParameters& geometryParameters);
 
     /**
      * @brief Virtual destructor for Model class
@@ -831,6 +832,7 @@ protected:
 
     AnimationParameters& _animationParameters;
     VolumeParameters& _volumeParameters;
+    GeometryParameters& _geometryParameters;
 
     AbstractSimulationHandlerPtr _simulationHandler;
     TransferFunction _transferFunction;

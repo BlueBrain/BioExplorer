@@ -37,6 +37,11 @@ struct SDFGeometries : public ::ospray::Geometry
     ::ospray::Ref<::ospray::Data> data;
     ::ospray::Ref<::ospray::Data> neighbours;
     ::ospray::Ref<::ospray::Data> geometries;
+    float epsilon;
+    ::ospray::uint64 nbMarchIterations;
+    float blendFactor;
+    float blendLerpFactor;
+    float omega;
 
     SDFGeometries();
 

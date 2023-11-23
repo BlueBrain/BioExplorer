@@ -32,12 +32,17 @@ namespace ospray
 {
 struct SDFBeziers : public ::ospray::Geometry
 {
+    SDFBeziers();
+
     std::string toString() const final { return "SDFBeziers"; }
     void finalize(::ospray::Model* model) final;
 
     ::ospray::Ref<::ospray::Data> data;
-
-    SDFBeziers();
+    float epsilon;
+    ::ospray::uint64 nbMarchIterations;
+    float blendFactor;
+    float blendLerpFactor;
+    float omega;
 };
 } // namespace ospray
 } // namespace engine

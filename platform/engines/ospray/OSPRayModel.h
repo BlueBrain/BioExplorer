@@ -35,7 +35,8 @@ namespace ospray
 class OSPRayModel : public Model
 {
 public:
-    OSPRayModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters);
+    OSPRayModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters,
+                GeometryParameters& geometryParameters);
     ~OSPRayModel() final;
 
     void setMemoryFlags(const size_t memoryManagementFlags);
