@@ -17,6 +17,8 @@
 #include "math/sampling.ih"
 #include "utils/CameraUtils.ih"
 
+#include <platform/core/common/CommonTypes.h>
+
 #include <ospray/SDK/camera/Camera.ih>
 
 /*! \brief A plain orthographic camera; no depth of field  */
@@ -51,6 +53,7 @@ void OrthographicCamera_initRay(uniform Camera* uniform _self, varying Ray& ray,
     clipRay(self->clipPlanes, self->numClipPlanes, org, direction, nearClip, farClip);
 
     const float time = Camera_shutterTime(_self, sample.time);
+    ray.flags = RAY_FLAG_PRIMARY;
     setRay(ray, org, dir, nearClip, farClip, time);
 }
 

@@ -34,6 +34,7 @@ const std::string PARAM_DEFAULT_SDF_NB_MARCH_ITERATIONS = "sdf-nb-march-iteratio
 const std::string PARAM_DEFAULT_SDF_BLEND_FACTOR = "sdf-blend-factor";
 const std::string PARAM_DEFAULT_SDF_BLEND_LERP_FACTOR = "sdf-blend-lerp-factor";
 const std::string PARAM_DEFAULT_SDF_OMEGA = "sdf-omega";
+const std::string PARAM_DEFAULT_SDF_DISTANCE = "sdf-distance";
 
 const std::string GEOMETRY_QUALITIES[3] = {"low", "medium", "high"};
 const std::string GEOMETRY_MEMORY_MODES[2] = {"shared", "replicated"};
@@ -62,6 +63,9 @@ GeometryParameters::GeometryParameters()
         //
         (PARAM_DEFAULT_SDF_OMEGA.c_str(), po::value<float>(),
          "Signed distance fields geometry ray-marching omega [float]")
+        //
+        (PARAM_DEFAULT_SDF_DISTANCE.c_str(), po::value<float>(),
+         "Distance until which Signed distance fields geometries are processed (blending and displacement) [float]")
         //
         (PARAM_GEOMETRY_QUALITY.c_str(), po::value<std::string>(), "Geometry rendering quality [low|medium|high]")
         //
@@ -92,6 +96,8 @@ void GeometryParameters::parse(const po::variables_map& vm)
         _sdfBlendLerpFactor = vm[PARAM_DEFAULT_SDF_BLEND_LERP_FACTOR].as<float>();
     if (vm.count(PARAM_DEFAULT_SDF_OMEGA))
         _sdfOmega = vm[PARAM_DEFAULT_SDF_OMEGA].as<float>();
+    if (vm.count(PARAM_DEFAULT_SDF_DISTANCE))
+        _sdfDistance = vm[PARAM_DEFAULT_SDF_DISTANCE].as<float>();
     if (vm.count(PARAM_MEMORY_MODE))
     {
         const auto& memoryMode = vm[PARAM_MEMORY_MODE].as<std::string>();
@@ -125,6 +131,7 @@ void GeometryParameters::print()
     CORE_INFO("SDF geometry blend factor                      : " << _sdfBlendFactor);
     CORE_INFO("SDF geometry blend factor (lerp)               : " << _sdfBlendLerpFactor);
     CORE_INFO("SDF geometry ray-marching omega                : " << _sdfOmega);
+    CORE_INFO("SDF geometry distance                          : " << _sdfDistance);
     CORE_INFO("Memory mode                                    : "
               << (_memoryMode == MemoryMode::shared ? "Shared" : "Replicated"));
 }

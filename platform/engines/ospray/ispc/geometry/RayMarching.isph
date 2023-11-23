@@ -18,11 +18,13 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <platform/core/common/CommonTypes.h>
+
 // ospray
-#include "ospray/SDK/common/Ray.ih"
-#include "ospray/SDK/geometry/Geometry.ih"
-#include "ospray/SDK/math/box.ih"
-#include "ospray/SDK/math/vec.ih"
+#include <ospray/SDK/common/Ray.ih>
+#include <ospray/SDK/geometry/Geometry.ih>
+#include <ospray/SDK/math/box.ih>
+#include <ospray/SDK/math/vec.ih>
 
 #include "utils/SafeIncrement.ih"
 
@@ -37,6 +39,7 @@ struct SDFParams
     uniform float blendFactor;
     uniform float blendLerpFactor;
     uniform float omega;
+    uniform float distance;
 };
 
 DEFINE_SAFE_INCREMENT(SDFParams);
@@ -49,14 +52,14 @@ typedef const uniform uint64* uniform uDataPtr_t;
 typedef const varying uint64* uniform vDataPtr_t;
 // function pointer type for SDF
 typedef float (*distanceFunction_t)(const vec3f& /*p*/, uDataPtr_t /*geo*/, uDataPtr_t /*prim*/,
-                                    const SDFParams& /*params*/);
+                                    const SDFParams& /*params*/, const bool processDisplacement = true);
 // function pointer type for SDF aabb compute
 typedef uniform box3fa (*bboxFunction_t)(uDataPtr_t /*geo*/, uDataPtr_t /*prim*/);
 
 /////////////////////////////////////////////////////////////////////////////
 
 inline vec3f computeNormal(const vec3f& pos, const uniform distanceFunction_t sdfDistance, const float e,
-                           uDataPtr_t geo, uDataPtr_t prim, const SDFParams& params)
+                           uDataPtr_t geo, uDataPtr_t prim, const SDFParams& params, const bool processDisplacement)
 {
     // tetrahedron technique (4 evaluations)
     const uniform float t = 0.1f;
@@ -64,16 +67,17 @@ inline vec3f computeNormal(const vec3f& pos, const uniform distanceFunction_t sd
     const uniform vec3f k0 = make_vec3f(t, -t, -t), k1 = make_vec3f(-t, -t, t), k2 = make_vec3f(-t, t, -t),
                         k3 = make_vec3f(t, t, t);
 
-    return normalize(
-        k0 * sdfDistance(pos + e * k0, geo, prim, params) + k1 * sdfDistance(pos + e * k1, geo, prim, params) +
-        k2 * sdfDistance(pos + e * k2, geo, prim, params) + k3 * sdfDistance(pos + e * k3, geo, prim, params));
+    return normalize(k0 * sdfDistance(pos + e * k0, geo, prim, params, processDisplacement) +
+                     k1 * sdfDistance(pos + e * k1, geo, prim, params, processDisplacement) +
+                     k2 * sdfDistance(pos + e * k2, geo, prim, params, processDisplacement) +
+                     k3 * sdfDistance(pos + e * k3, geo, prim, params, processDisplacement));
 }
 
 /////////////////////////////////////////////////////////////////////////////
 
 inline float raymarching(const Ray& ray, const uniform distanceFunction_t sdfDistance,
                          const uniform bboxFunction_t sdfBounds, uDataPtr_t geo, uDataPtr_t prim,
-                         const SDFParams& params)
+                         const SDFParams& params, bool& processDisplacement)
 {
     const uniform box3fa bbox = sdfBounds(geo, prim);
 
@@ -97,16 +101,15 @@ inline float raymarching(const Ray& ray, const uniform distanceFunction_t sdfDis
     const uniform bool force_hit = true;
 
     // check if we start inside or outside of the shape
-    float sdf_sign = (sdfDistance(ray.org, geo, prim, params) < 0 ? -1 : 1);
+    float sdf_sign = (sdfDistance(ray.org, geo, prim, params, true) < 0 ? -1 : 1);
 
     for (int i = 0; i < params.nbMarchIterations; i++)
     {
-        vec3f p = ray.org + ray.dir * t;
+        const vec3f p = ray.org + ray.dir * t;
+        processDisplacement = (ray.flags == RAY_FLAG_PRIMARY && length(p - params.eye) < params.distance);
 
-        float signed_radius = sdf_sign * sdfDistance(p, geo, prim, params);
-
+        float signed_radius = sdf_sign * sdfDistance(p, geo, prim, params, processDisplacement);
         float radius = abs(signed_radius);
-
         bool sor_fail = (omega > 1.f && (radius + prev_radius) < step_length);
 
         if (sor_fail)
@@ -120,9 +123,7 @@ inline float raymarching(const Ray& ray, const uniform distanceFunction_t sdfDis
         }
 
         prev_radius = radius;
-
         float error = radius / t;
-
         if (!sor_fail && error < candidate_error)
         {
             candidate_t = t;
@@ -133,7 +134,6 @@ inline float raymarching(const Ray& ray, const uniform distanceFunction_t sdfDis
             break;
 
         t += step_length;
-
         step_count++;
     }
 

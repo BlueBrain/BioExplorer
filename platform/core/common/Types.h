@@ -438,5 +438,6 @@ static const uint32_t DEFAULT_GEOMETRY_SDF_NB_MARCH_ITERATIONS = 32;
 static const float DEFAULT_GEOMETRY_SDF_BLEND_FACTOR = 0.4;
 static const float DEFAULT_GEOMETRY_SDF_BLEND_LERP_FACTOR = 0.2;
 static const float DEFAULT_GEOMETRY_SDF_OMEGA = 1.0f;
+static const float DEFAULT_GEOMETRY_SDF_DISTANCE = 250.f;
 
 } // namespace core

@@ -53,44 +53,51 @@ public:
     /**
      * @brief Get the geometry quality (low, medium or high)
      *
-     * @return GeometryQuality
+     * @return GeometryQuality Geometry quality level
      */
     GeometryQuality getGeometryQuality() const { return _geometryQuality; }
 
     /**
      * @brief Get the epsilon for SDF geometries
      *
-     * @return float
+     * @return float Epsilon
      */
     float getSdfEpsilon() const { return _sdfEpsilon; }
 
     /**
      * @brief Get the blending factor for SDF geometries
      *
-     * @return float
+     * @return float Blending factor
      */
     float getSdfBlendFactor() const { return _sdfBlendFactor; }
 
     /**
      * @brief Get the blending lerp factor for SDF geometries
      *
-     * @return float
+     * @return float Blending lerp factor
      */
     float getSdfBlendLerpFactor() const { return _sdfBlendLerpFactor; }
 
     /**
      * @brief Get the number of ray-marching iterations for SDF geometries
      *
-     * @return float
+     * @return float Number of ray-marching iterations
      */
     float getSdfNbMarchIterations() const { return _sdfNbMarchIterations; }
 
     /**
      * @brief Get the ray-marching omega for SDF geometries
      *
-     * @return float
+     * @return float Value of Omega
      */
     float getSdfOmega() const { return _sdfOmega; }
+
+    /**
+     * @brief Get the distance until which SDF geometries are processed (blending and displacement)
+     *
+     * @return float The distance
+     */
+    float getSdfDistance() const { return _sdfDistance; }
 
 protected:
     void parse(const po::variables_map& vm) final;
@@ -105,6 +112,7 @@ protected:
     float _sdfBlendFactor{DEFAULT_GEOMETRY_SDF_BLEND_FACTOR};
     float _sdfBlendLerpFactor{DEFAULT_GEOMETRY_SDF_BLEND_LERP_FACTOR};
     float _sdfOmega{DEFAULT_GEOMETRY_SDF_OMEGA};
+    float _sdfDistance{DEFAULT_GEOMETRY_SDF_DISTANCE};
 
     // System parameters
     MemoryMode _memoryMode{MemoryMode::shared};

@@ -273,6 +273,7 @@ void OSPRayModel::_commitMeshes(const size_t materialId)
     osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_BLEND_LERP_FACTOR,
                    _geometryParameters.getSdfBlendLerpFactor());
     osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_OMEGA, _geometryParameters.getSdfOmega());
+    osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_DISTANCE, _geometryParameters.getSdfDistance());
 
     ospCommit(geometry);
 
@@ -361,6 +362,7 @@ void OSPRayModel::_commitSDFGeometries()
         osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_BLEND_LERP_FACTOR,
                        _geometryParameters.getSdfBlendLerpFactor());
         osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_OMEGA, _geometryParameters.getSdfOmega());
+        osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_DISTANCE, _geometryParameters.getSdfDistance());
 
         ospCommit(geometry);
 

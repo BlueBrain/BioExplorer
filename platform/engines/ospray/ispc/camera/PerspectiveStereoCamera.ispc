@@ -93,6 +93,7 @@ void PerspectiveStereoCamera_initRay(uniform Camera* uniform _self, varying Ray&
     clipRay(self->clipPlanes, self->numClipPlanes, org, direction, nearClip, farClip);
 
     const float time = Camera_shutterTime(_self, sample.time);
+    ray.flags = 0;
     setRay(ray, org, direction, nearClip, farClip, time);
 }
 

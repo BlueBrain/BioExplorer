@@ -52,6 +52,7 @@ void SDFBeziers::finalize(::ospray::Model* model)
     blendLerpFactor =
         getParam1f(OSPRAY_GEOMETRY_PROPERTY_SDF_BLEND_LERP_FACTOR, DEFAULT_GEOMETRY_SDF_BLEND_LERP_FACTOR);
     omega = getParam1f(OSPRAY_GEOMETRY_PROPERTY_SDF_OMEGA, DEFAULT_GEOMETRY_SDF_OMEGA);
+    distance = getParam1f(OSPRAY_GEOMETRY_PROPERTY_SDF_DISTANCE, DEFAULT_GEOMETRY_SDF_DISTANCE);
 
     if (data.ptr == nullptr || bytesPerSDFBezier == 0)
         throw std::runtime_error("#ospray:geometry/sdfbeziers: no 'sdfbeziers' data specified");
@@ -73,7 +74,7 @@ void SDFBeziers::finalize(::ospray::Model* model)
     }
 
     ::ispc::SDFBeziersGeometry_set(getIE(), model->getIE(), data->data, numSDFBeziers, epsilon, nbMarchIterations,
-                                   blendFactor, blendLerpFactor, omega);
+                                   blendFactor, blendLerpFactor, omega, distance);
 }
 
 OSP_REGISTER_GEOMETRY(SDFBeziers, sdfbeziers);

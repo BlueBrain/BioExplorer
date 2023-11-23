@@ -42,6 +42,7 @@ struct SDFGeometries : public ::ospray::Geometry
     float blendFactor;
     float blendLerpFactor;
     float omega;
+    float distance;
 
     SDFGeometries();
 

@@ -172,6 +172,7 @@ struct SDFBeziers
     float blendFactor;
     float blendLerpFactor;
     float omega;
+    float distance;
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -286,7 +287,8 @@ int screenAwareSegmentCount(const Bezier_ptr bc, const SDFParams& params)
 
 //////////////////////////////////////////////////////////////////////
 
-float bezierDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t bezier_, const SDFParams& params)
+float bezierDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t bezier_, const SDFParams& params,
+                     const bool /*processDisplacement*/)
 {
     const Geo_ptr geo = (const Geo_ptr)geo_;
     const Bezier_ptr bc = (const Bezier_ptr)bezier_;
@@ -338,8 +340,11 @@ unmasked void SDFBeziers_intersect(const RTCIntersectFunctionNArguments* uniform
     sdfParams.blendFactor = geo->blendFactor;
     sdfParams.blendLerpFactor = geo->blendLerpFactor;
     sdfParams.omega = geo->omega;
+    sdfParams.distance = geo->distance;
 
-    const float t_in = raymarching(*ray, bezierDistance, bezierBounds, (uDataPtr_t)geo, (uDataPtr_t)bezier, sdfParams);
+    bool processDisplacement = true;
+    const float t_in = raymarching(*ray, bezierDistance, bezierBounds, (uDataPtr_t)geo, (uDataPtr_t)bezier, sdfParams,
+                                   processDisplacement);
 
     if (t_in > 0 && t_in > ray->t0 && t_in < ray->t)
     {
@@ -355,7 +360,7 @@ unmasked void SDFBeziers_intersect(const RTCIntersectFunctionNArguments* uniform
 
         // TODO epsilon based on pixel radius
         ray->Ng = computeNormal(pos, bezierDistance, calcEpsilon(ray->org, t_in), (uDataPtr_t)geo, (uDataPtr_t)bezier,
-                                sdfParams);
+                                sdfParams, processDisplacement);
     }
 }
 
@@ -398,7 +403,8 @@ export void* uniform SDFBeziers_create(void* uniform cppEquivalent)
 
 export void SDFBeziersGeometry_set(void* uniform _geo, void* uniform _model, void* uniform data,
                                    int uniform numPrimitives, float uniform epsilon, int uniform nbMarchIterations,
-                                   float uniform blendFactor, float uniform blendLerpFactor, float uniform omega)
+                                   float uniform blendFactor, float uniform blendLerpFactor, float uniform omega,
+                                   float uniform distance)
 {
     Geo_ptr geo = (Geo_ptr)_geo;
     uniform Model* uniform model = (uniform Model * uniform) _model;
@@ -416,6 +422,7 @@ export void SDFBeziersGeometry_set(void* uniform _geo, void* uniform _model, voi
     geo->blendFactor = blendFactor;
     geo->blendLerpFactor = blendLerpFactor;
     geo->omega = omega;
+    geo->distance = distance;
 
     rtcSetGeometryUserData(geom, geo);
     rtcSetGeometryUserPrimitiveCount(geom, numPrimitives);

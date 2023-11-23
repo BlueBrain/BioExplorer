@@ -43,6 +43,7 @@ struct SDFBeziers : public ::ospray::Geometry
     float blendFactor;
     float blendLerpFactor;
     float omega;
+    float distance;
 };
 } // namespace ospray
 } // namespace engine

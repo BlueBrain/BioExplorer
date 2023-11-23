@@ -169,6 +169,7 @@ static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_NB_MARCH_ITERATIONS = "nbMarchIt
 static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_BLEND_FACTOR = "blendFactor";
 static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_BLEND_LERP_FACTOR = "blendLerpFactor";
 static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_OMEGA = "omega";
+static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_DISTANCE = "distance";
 
 static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_BEZIERS = "sdfbeziers";
 
