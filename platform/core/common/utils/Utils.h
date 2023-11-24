@@ -68,4 +68,15 @@ Vector4f getBezierPoint(const Vector4fs& controlPoints, const float t);
  */
 Vector3fs getRainbowColormap(const uint32_t colormapSize);
 
+/**
+ * @brief Function template taking two template parameters (To and From) representing the source and target types
+ *
+ * @tparam To Source type
+ * @tparam From Destination type
+ * @param from Input data
+ * @return To Output data
+ */
+template <typename To, typename From>
+To lexical_cast(const From& from);
+
 } // namespace core

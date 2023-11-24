@@ -37,9 +37,8 @@ set(PACKAGE_REV_STRING "${PACKAGE_VERSION_MAJOR}.${PACKAGE_VERSION_MINOR}.${PACK
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake)
 set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
-find_package(Boost REQUIRED COMPONENTS program_options filesystem)
 find_package(glm REQUIRED)
 find_package(FreeImage REQUIRED)
 find_package(ospray)

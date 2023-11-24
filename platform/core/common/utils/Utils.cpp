@@ -26,6 +26,7 @@
 #include <platform/core/common/utils/FileSystem.h>
 
 #include <algorithm>
+#include <charconv>
 #include <cmath>
 #include <set>
 #include <sstream>
@@ -132,6 +133,14 @@ Vector3fs getRainbowColormap(const uint32_t colormapSize)
     }
 
     return colormap;
+}
+
+template <typename To, typename From>
+To lexical_cast(const From& from)
+{
+    To to;
+    std::from_chars(from.data(), from.data() + from.size(), to);
+    return to;
 }
 
 } // namespace core

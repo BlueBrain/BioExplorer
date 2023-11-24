@@ -34,6 +34,7 @@
 
 #include <platform/core/common/Timer.h>
 #include <platform/core/common/scene/ClipPlane.h>
+#include <platform/core/common/utils/Utils.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
@@ -145,8 +146,8 @@ brain::GIDSet AbstractCircuitLoader::_getGids(const PropertyMap &properties, con
     // Pair synapse usecase
     if (!preSynapticNeuron.empty() && !postSynapticNeuron.empty())
     {
-        gids.insert(boost::lexical_cast<Gid>(preSynapticNeuron));
-        gids.insert(boost::lexical_cast<Gid>(postSynapticNeuron));
+        gids.insert(lexical_cast<Gid>(preSynapticNeuron));
+        gids.insert(lexical_cast<Gid>(postSynapticNeuron));
         return gids;
     }
 
@@ -825,8 +826,8 @@ float AbstractCircuitLoader::_importMorphologies(const PropertyMap &properties, 
             const auto gid = localGids[morphologyId];
             if (prePostSynapticUsecase)
             {
-                synapsesInfo.preGid = boost::lexical_cast<Gid>(preSynapticNeuron);
-                synapsesInfo.postGid = boost::lexical_cast<Gid>(postSynapticNeuron);
+                synapsesInfo.preGid = lexical_cast<Gid>(preSynapticNeuron);
+                synapsesInfo.postGid = lexical_cast<Gid>(postSynapticNeuron);
             }
             if (loadAfferentSynapses)
                 synapsesInfo.afferentSynapses =
