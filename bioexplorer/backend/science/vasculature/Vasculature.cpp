@@ -298,7 +298,7 @@ void Vasculature::_buildModel(const LoaderProgress& callback, const doubles& rad
                 PLUGIN_PROGRESS("Loading sections...", index, nbDBConnections);
                 try
                 {
-                    callback.updateProgress("Loading sections...", (float)index / (float)nbDBConnections);
+                    callback.updateProgress("Loading sections...", 0.5f * ((float)index / (float)nbDBConnections));
                 }
                 catch (...)
                 {
@@ -409,7 +409,7 @@ void Vasculature::_buildModel(const LoaderProgress& callback, const doubles& rad
     for (size_t i = 0; i < containers.size(); ++i)
     {
         PLUGIN_PROGRESS("- Compiling 3D geometry...", 1 + i, containers.size());
-        callback.updateProgress("Compiling 3D geometry...", (float)(1 + i) / (float)containers.size());
+        callback.updateProgress("Compiling 3D geometry...", 0.5f + 0.5f * (float)(1 + i) / (float)containers.size());
         auto& container = containers[i];
         container.commitToModel();
     }

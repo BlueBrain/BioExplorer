@@ -854,7 +854,7 @@ float AbstractCircuitLoader::_importMorphologies(const PropertyMap &properties, 
             const float progress = (1 + morphologyId) * omp_get_num_threads();
             PLUGIN_PROGRESS("- Loading cells", progress, localGids.size());
 
-            callback.updateProgress("Loading cells...", progress / localGids.size());
+            callback.updateProgress("Loading cells...", 0.5f * (progress / localGids.size()));
         }
     }
     PLUGIN_INFO("");
@@ -862,9 +862,8 @@ float AbstractCircuitLoader::_importMorphologies(const PropertyMap &properties, 
     float maxDistanceToSoma = 0.f;
     for (size_t i = 0; i < containers.size(); ++i)
     {
-        const float progress = 1.f + i;
-        PLUGIN_PROGRESS("- Compiling 3D geometry...", progress, containers.size());
-        callback.updateProgress("Compiling 3D geometry...", progress / containers.size());
+        PLUGIN_PROGRESS("- Compiling 3D geometry...", i + 1, containers.size());
+        callback.updateProgress("Compiling 3D geometry...", 0.5f + 0.5f * (float)(1 + i) / (float)containers.size());
         auto &container = containers[i];
         maxDistanceToSoma = std::max(container.getMorphologyInfo().maxDistanceToSoma, maxDistanceToSoma);
         container.moveGeometryToModel(model);
