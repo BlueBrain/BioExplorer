@@ -103,7 +103,6 @@ add_library(
 
 target_link_libraries(
   ${LIBRARY_NAME}
-  ${Boost_PROGRAM_OPTIONS_LIBRARY} ${Boost_FILESYSTEM_LIBRARY}
   ${${NAME}_LINK_LIBRARIES})
 
 # ================================================================================

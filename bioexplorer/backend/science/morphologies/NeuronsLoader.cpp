@@ -29,7 +29,7 @@
 
 #include <platform/core/common/Properties.h>
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 using namespace core;
 
@@ -76,7 +76,7 @@ ModelDescriptorPtr NeuronsLoader::importFromStorage(const std::string& storage, 
     props.merge(properties);
 
     details::NeuronsDetails details;
-    const auto baseName = boost::filesystem::basename(storage);
+    const auto baseName = std::filesystem::path(storage).filename();
     details.assemblyName = baseName;
     details.populationName = baseName;
     details.sqlNodeFilter = props.getProperty<std::string>(LOADER_PROPERTY_DATABASE_SQL_FILTER.name);

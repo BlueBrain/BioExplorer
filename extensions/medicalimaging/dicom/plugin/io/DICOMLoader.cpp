@@ -34,7 +34,7 @@
 #include <dcmtk/dcmdata/dctk.h>
 #include <dcmtk/dcmimgle/dcmimage.h>
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 namespace medicalimagingexplorer
 {
@@ -210,8 +210,8 @@ DICOMImageDescriptors DICOMLoader::_parseDICOMImagesData(const std::string& file
                         str.replace(str.find("\\"), 1, "/");
 
                     // Full image filename
-                    boost::filesystem::path path = fileName;
-                    boost::filesystem::path folder = path.parent_path();
+                    const std::filesystem::path path = fileName;
+                    const std::filesystem::path folder = path.parent_path();
                     const std::string imageFileName = std::string(folder.string()) + "/" + str;
 
                     // Load image from file
@@ -413,7 +413,7 @@ ModelDescriptorPtr DICOMLoader::importFromStorage(const std::string& storage, co
                                                   const PropertyMap& /*properties*/) const
 {
     PLUGIN_INFO("Importing DICOM dataset from " << storage);
-    const auto extension = boost::filesystem::extension(storage);
+    const auto extension = std::filesystem::path(storage).extension().string();
     if (extension == "." + SUPPORTED_EXTENSION_DCM)
         return _readFile(storage);
     return _readDirectory(storage, callback);
@@ -436,7 +436,7 @@ std::vector<std::string> DICOMLoader::getSupportedStorage() const
 
 bool DICOMLoader::isSupported(const std::string& storage, const std::string& extension) const
 {
-    const auto basename = boost::filesystem::basename(storage);
+    const auto basename = std::filesystem::path(storage).filename();
     const std::set<std::string> basenames = {SUPPORTED_BASENAME_DICOMDIR};
     const std::set<std::string> extensions = {SUPPORTED_EXTENSION_DCM};
     return (basenames.find(basename) != basenames.end() || extensions.find(extension) != extensions.end());

@@ -33,7 +33,7 @@ foreach(FILE ${TESTS_SRC})
 
     target_link_libraries(${NAME}
         PRIVATE
-        Core CoreParameters CoreCommon CoreEngine CoreIO OSPRayEngine CorePluginRockets
+        Core CoreParameters CoreCommon CoreEngine CoreIO OSPRayEngine CorePluginRockets stdc++fs
         ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
         ${LIBRARY_NAME}
     )

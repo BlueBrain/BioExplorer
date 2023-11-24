@@ -29,7 +29,7 @@
 
 #include <platform/core/common/Properties.h>
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 using namespace core;
 
@@ -76,7 +76,7 @@ ModelDescriptorPtr WhiteMatterLoader::importFromStorage(const std::string& stora
     props.merge(properties);
 
     details::WhiteMatterDetails details;
-    const auto baseName = boost::filesystem::basename(storage);
+    const auto baseName = std::filesystem::path(storage).filename();
     details.assemblyName = baseName;
     details.populationName = baseName;
     details.sqlFilter = props.getProperty<std::string>(LOADER_PROPERTY_DATABASE_SQL_FILTER.name);

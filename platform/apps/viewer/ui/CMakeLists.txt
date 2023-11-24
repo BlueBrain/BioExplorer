@@ -26,7 +26,6 @@ set(${NAME}_SOURCES BaseWindow.cpp)
 set(${NAME}_PUBLIC_HEADERS BaseWindow.h)
 set(${NAME}_LINK_LIBRARIES
     PUBLIC Core CoreParameters 
-      ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY}
     PRIVATE glut ${OPENGL_gl_LIBRARY} ${glew_LIBRARIES}
 )
 

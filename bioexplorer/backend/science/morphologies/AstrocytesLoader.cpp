@@ -29,7 +29,7 @@
 
 #include <platform/core/common/Properties.h>
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 using namespace core;
 
@@ -76,7 +76,7 @@ ModelDescriptorPtr AstrocytesLoader::importFromStorage(const std::string& storag
     props.merge(properties);
 
     details::AstrocytesDetails details;
-    const auto baseName = boost::filesystem::basename(storage);
+    const auto baseName = std::filesystem::path(storage).filename();
     details.assemblyName = baseName;
     details.populationName = baseName;
     details.vasculaturePopulationName =

@@ -67,7 +67,7 @@ target_link_libraries(
   ${LIBRARY_NAME}
   ${${NAME}_LINK_LIBRARIES}
   PUBLIC Async++
-  PRIVATE CoreParameters ${GLM_LIBRARIES} ${Boost_PROGRAM_OPTIONS_LIBRARY} ${FREEIMAGE_LIBRARIES}
+  PRIVATE CoreParameters ${GLM_LIBRARIES} ${FREEIMAGE_LIBRARIES}
 )
 
 # needed for staticjson and rapidjson

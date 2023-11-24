@@ -29,7 +29,7 @@
 
 #include <platform/core/common/Properties.h>
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 using namespace core;
 
@@ -76,7 +76,7 @@ ModelDescriptorPtr AtlasLoader::importFromStorage(const std::string& storage, co
     props.merge(properties);
 
     details::AtlasDetails details;
-    const auto baseName = boost::filesystem::basename(storage);
+    const auto baseName = std::filesystem::path(storage).filename();
     details.assemblyName = baseName;
     details.cellSqlFilter = props.getProperty<std::string>(LOADER_PROPERTY_ATLAS_CELL_SQL_FILTER.name);
     details.regionSqlFilter = props.getProperty<std::string>(LOADER_PROPERTY_ATLAS_REGION_SQL_FILTER.name);
