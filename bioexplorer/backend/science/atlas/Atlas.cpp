@@ -90,7 +90,7 @@ void Atlas::_buildModel(const LoaderProgress& callback)
                 try
                 {
                     callback.updateProgress("Loading regions...",
-                                            (float)index / (float)(regions.size() / nbDBConnections));
+                                            0.5f * ((float)index / (float)(regions.size() / nbDBConnections)));
                 }
                 catch (...)
                 {
@@ -150,7 +150,7 @@ void Atlas::_buildModel(const LoaderProgress& callback)
     for (uint64_t i = 0; i < containers.size(); ++i)
     {
         PLUGIN_PROGRESS("- Compiling 3D geometry...", i + 1, containers.size());
-        callback.updateProgress("Compiling 3D geometry...", (float)(1 + i) / (float)containers.size());
+        callback.updateProgress("Compiling 3D geometry...", 0.5f + 0.5f * (float)(1 + i) / (float)containers.size());
         auto& container = containers[i];
         container.commitToModel();
     }
