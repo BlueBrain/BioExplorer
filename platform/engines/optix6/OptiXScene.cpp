@@ -141,7 +141,7 @@ bool OptiXScene::commitLights()
 
 ModelPtr OptiXScene::createModel() const
 {
-    return std::make_unique<OptiXModel>(_animationParameters, _volumeParameters);
+    return std::make_unique<OptiXModel>(_animationParameters, _volumeParameters, _geometryParameters);
 }
 
 void OptiXScene::_commitVolumeParameters()

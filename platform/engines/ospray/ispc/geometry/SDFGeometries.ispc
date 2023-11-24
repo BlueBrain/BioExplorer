@@ -40,9 +40,6 @@
 #define SDF_TYPE_CONE_PILL 2
 #define SDF_TYPE_CONE_PILL_SIGMOID 3
 
-#define SDF_BLEND_FACTOR 0.1
-#define SDF_BLEND_LERP_FACTOR 0.2
-
 /////////////////////////////////////////////////////////////////////////////
 
 inline vec3f mod(const vec3f& v, const int m)
@@ -69,7 +66,7 @@ inline float smootherstep(const float x)
 
 inline float opDisplacement(const vec3f& p, const float a, const float b)
 {
-    return a * sin(b * p.x) * sin(b * p.y * 0.91) * sin(b * p.z * 0.75);
+    return a * sin(b * p.x) * sin(b * p.y * 0.6) * sin(b * p.z * 0.3);
 }
 
 inline float sdSphere(const vec3f& p, const vec3f c, float r)
@@ -191,6 +188,12 @@ struct SDFGeometries
     uniform uint64* uniform neighbours;
 
     uniform bool useSafeIncrement;
+    uniform float epsilon;
+    uniform uint64 nbMarchIterations;
+    uniform float blendFactor;
+    uniform float blendLerpFactor;
+    uniform float omega;
+    uniform float distance;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -233,10 +236,11 @@ const uniform SDFGeometry* varying getPrimitiveVarying(const uniform SDFGeometri
 
 //////////////////////////////////////////////////////////////////////
 
-inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p)
+inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p, const bool processDisplacement)
 {
-    const float displacement =
-        primitive.userParams.x > 0.f ? opDisplacement(p, primitive.userParams.x, primitive.userParams.y) : 0.f;
+    const float displacement = (processDisplacement && primitive.userParams.x > 0.f)
+                                   ? opDisplacement(p, primitive.userParams.x, primitive.userParams.y)
+                                   : 0.f;
     if (primitive.type == SDF_TYPE_SPHERE)
         return displacement + sdSphere(p, primitive.p0, primitive.r0);
     if (primitive.type == SDF_TYPE_PILL)
@@ -267,37 +271,38 @@ uniform box3fa sdfBounds(uDataPtr_t geo_, uDataPtr_t prim_)
 
 //////////////////////////////////////////////////////////////////////
 
-float sdfDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t prim_, const SDFParams&)
+float sdfDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t prim_, const SDFParams& params,
+                  const bool processDisplacement)
 {
     const Geo_ptr geo = (const Geo_ptr)geo_;
     const Prim_ptr prim = (const Prim_ptr)prim_;
 
     // Primitive
-    float d = calcDistance(*prim, p);
+    float d = calcDistance(*prim, p, processDisplacement);
 
-    // TODO don't blend soma if far enough from eye
-
-    const float l1 = length(prim->p0 - p);
-    const float l2 = length(prim->p1 - p);
-    const float r0 = max(prim->r0, prim->r1);
-
-    for (uniform int i = 0; i < prim->numNeighbours; i++)
+    if (processDisplacement)
     {
-        const uniform uint64 index = getNeighbourIdx(*geo, prim->neighboursIndex, i);
+        const float l1 = length(prim->p0 - p);
+        const float l2 = length(prim->p1 - p);
+        const float r0 = max(prim->r0, prim->r1);
 
-        const uniform SDFGeometry& neighbour = *getPrimitive(*geo, index);
+        for (uniform int i = 0; i < prim->numNeighbours; i++)
+        {
+            const uniform uint64 index = getNeighbourIdx(*geo, prim->neighboursIndex, i);
 
-        const float dOther = calcDistance(neighbour, p);
-        if (dOther < 0.f)
-            continue;
-        const float l1 = length(neighbour.p0 - p);
-        const float l2 = length(neighbour.p1 - p);
-        const float r1 = max(neighbour.r0, neighbour.r1);
-        const float blendFactor = lerp(SDF_BLEND_LERP_FACTOR, min(r0, r1), max(r0, r1));
+            const uniform SDFGeometry& neighbour = *getPrimitive(*geo, index);
 
-        d = sminPoly(dOther, d, blendFactor * SDF_BLEND_FACTOR);
+            const float dOther = calcDistance(neighbour, p, processDisplacement);
+            if (dOther < 0.f)
+                continue;
+            const float l1 = length(neighbour.p0 - p);
+            const float l2 = length(neighbour.p1 - p);
+            const float r1 = max(neighbour.r0, neighbour.r1);
+            const float blendFactor = lerp(params.blendLerpFactor, min(r0, r1), max(r0, r1));
+
+            d = sminPoly(dOther, d, blendFactor * params.blendFactor);
+        }
     }
-
     return d;
 }
 
@@ -324,8 +329,17 @@ unmasked void SDFGeometries_intersect(const RTCIntersectFunctionNArguments* unif
 
     // dummy parameter struct
     SDFParams sdfParams;
+    sdfParams.eye = ray->org;
+    sdfParams.epsilon = geo->epsilon;
+    sdfParams.nbMarchIterations = geo->nbMarchIterations;
+    sdfParams.blendFactor = geo->blendFactor;
+    sdfParams.blendLerpFactor = geo->blendLerpFactor;
+    sdfParams.omega = geo->omega;
+    sdfParams.distance = geo->distance;
 
-    const float t_in = raymarching(*ray, sdfDistance, sdfBounds, (uDataPtr_t)geo, (uDataPtr_t)prim, sdfParams);
+    bool processDisplacement = true;
+    const float t_in =
+        raymarching(*ray, sdfDistance, sdfBounds, (uDataPtr_t)geo, (uDataPtr_t)prim, sdfParams, processDisplacement);
 
     if (t_in > 0 && t_in > ray->t0 && t_in < ray->t)
     {
@@ -337,8 +351,8 @@ unmasked void SDFGeometries_intersect(const RTCIntersectFunctionNArguments* unif
         ray->t = t_in;
 
         // TODO epsilon based on pixel radius
-        ray->Ng =
-            computeNormal(pos, sdfDistance, calcEpsilon(ray->org, t_in), (uDataPtr_t)geo, (uDataPtr_t)prim, sdfParams);
+        ray->Ng = computeNormal(pos, sdfDistance, calcEpsilon(ray->org, t_in), (uDataPtr_t)geo, (uDataPtr_t)prim,
+                                sdfParams, processDisplacement);
     }
 }
 
@@ -381,7 +395,9 @@ export void* uniform SDFGeometries_create(void* uniform cppEquivalent)
 
 export void SDFGeometriesGeometry_set(void* uniform _self, void* uniform _model, void* uniform data,
                                       int uniform numPrimitives, void* uniform neighbours, int uniform numNeighbours,
-                                      void* uniform geometries)
+                                      void* uniform geometries, float uniform epsilon, int uniform nbMarchIterations,
+                                      float uniform blendFactor, float uniform blendLerpFactor, float uniform omega,
+                                      float uniform distance)
 {
     Geo_ptr self = (Geo_ptr)_self;
     uniform Model* uniform model = (uniform Model * uniform) _model;
@@ -395,6 +411,12 @@ export void SDFGeometriesGeometry_set(void* uniform _self, void* uniform _model,
     self->geometryRefs = (uniform uint64 * uniform) data;
     self->neighbours = (uniform uint64 * uniform) neighbours;
     self->geometries = (uniform SDFGeometry * uniform) geometries;
+    self->epsilon = epsilon;
+    self->nbMarchIterations = nbMarchIterations;
+    self->blendFactor = blendFactor;
+    self->blendLerpFactor = blendLerpFactor;
+    self->omega = omega;
+    self->distance = distance;
 
     // NOTE: self->data is always smaller than self->geometries
     self->useSafeIncrement =

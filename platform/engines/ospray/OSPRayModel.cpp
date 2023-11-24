@@ -30,6 +30,7 @@
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Scene.h>
 #include <platform/core/parameters/AnimationParameters.h>
+#include <platform/core/parameters/GeometryParameters.h>
 
 namespace
 {
@@ -47,8 +48,9 @@ namespace engine
 {
 namespace ospray
 {
-OSPRayModel::OSPRayModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters)
-    : Model(animationParameters, volumeParameters)
+OSPRayModel::OSPRayModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters,
+                         GeometryParameters& geometryParameters)
+    : Model(animationParameters, volumeParameters, geometryParameters)
 {
     _ospTransferFunction = ospNewTransferFunction(OSPRAY_TRANSFER_FUNCTION_PROPERTY_TYPE_PIECEWISE_LINEAR);
     if (_ospTransferFunction)
@@ -264,6 +266,14 @@ void OSPRayModel::_commitMeshes(const size_t materialId)
                    OSPRAY_GEOMETRY_DEFAULT_TRIANGLE_MESH_ALPHA_TYPE);
     osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_TRIANGLE_MESH_ALPHA_COMPONENT,
                    OSPRAY_GEOMETRY_DEFAULT_TRIANGLE_MESH_ALPHA_COMPONENT);
+    osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_EPSILON, _geometryParameters.getSdfEpsilon());
+    osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_NB_MARCH_ITERATIONS,
+                   static_cast<int>(_geometryParameters.getSdfNbMarchIterations()));
+    osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_BLEND_FACTOR, _geometryParameters.getSdfBlendFactor());
+    osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_BLEND_LERP_FACTOR,
+                   _geometryParameters.getSdfBlendLerpFactor());
+    osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_OMEGA, _geometryParameters.getSdfOmega());
+    osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_DISTANCE, _geometryParameters.getSdfDistance());
 
     ospCommit(geometry);
 
@@ -345,6 +355,14 @@ void OSPRayModel::_commitSDFGeometries()
 
         ospSetData(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_NEIGHBOURS, neighbourData);
         ospSetData(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_GEOMETRIES, globalData);
+        osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_EPSILON, _geometryParameters.getSdfEpsilon());
+        osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_NB_MARCH_ITERATIONS,
+                       static_cast<int>(_geometryParameters.getSdfNbMarchIterations()));
+        osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_BLEND_FACTOR, _geometryParameters.getSdfBlendFactor());
+        osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_BLEND_LERP_FACTOR,
+                       _geometryParameters.getSdfBlendLerpFactor());
+        osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_OMEGA, _geometryParameters.getSdfOmega());
+        osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_SDF_DISTANCE, _geometryParameters.getSdfDistance());
 
         ospCommit(geometry);
 

@@ -39,7 +39,8 @@ namespace optix
 class OptiXModel : public Model
 {
 public:
-    OptiXModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters);
+    OptiXModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters,
+               GeometryParameters& geometryParameters);
 
     ~OptiXModel();
 

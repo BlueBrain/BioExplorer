@@ -24,6 +24,7 @@
 #include "math/sampling.ih"
 #include "utils/CameraUtils.ih"
 
+#include <platform/core/common/CommonTypes.h>
 #include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
 
 #include <ospray/SDK/camera/Camera.ih>
@@ -77,6 +78,7 @@ void AnaglyphCamera_initRay(uniform Camera* uniform _self, varying Ray& ray, con
     clipRay(self->clipPlanes, self->numClipPlanes, org, direction, nearClip, farClip);
 
     const float time = Camera_shutterTime(_self, sample.time);
+    ray.flags = RAY_FLAG_PRIMARY;
     setRay(ray, org, direction, nearClip, farClip, time);
 }
 

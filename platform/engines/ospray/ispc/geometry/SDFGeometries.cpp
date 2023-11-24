@@ -47,6 +47,14 @@ void SDFGeometries::finalize(::ospray::Model* model)
     data = getParamData(OSPRAY_GEOMETRY_PROPERTY_SDF, nullptr);
     neighbours = getParamData(OSPRAY_GEOMETRY_PROPERTY_SDF_NEIGHBOURS, nullptr);
     geometries = getParamData(OSPRAY_GEOMETRY_PROPERTY_SDF_GEOMETRIES, nullptr);
+    epsilon = getParam1f(OSPRAY_GEOMETRY_PROPERTY_SDF_EPSILON, DEFAULT_GEOMETRY_SDF_EPSILON);
+    nbMarchIterations =
+        getParam1i(OSPRAY_GEOMETRY_PROPERTY_SDF_NB_MARCH_ITERATIONS, DEFAULT_GEOMETRY_SDF_NB_MARCH_ITERATIONS);
+    blendFactor = getParam1f(OSPRAY_GEOMETRY_PROPERTY_SDF_BLEND_FACTOR, DEFAULT_GEOMETRY_SDF_BLEND_FACTOR);
+    blendLerpFactor =
+        getParam1f(OSPRAY_GEOMETRY_PROPERTY_SDF_BLEND_LERP_FACTOR, DEFAULT_GEOMETRY_SDF_BLEND_LERP_FACTOR);
+    omega = getParam1f(OSPRAY_GEOMETRY_PROPERTY_SDF_OMEGA, DEFAULT_GEOMETRY_SDF_OMEGA);
+    distance = getParam1f(OSPRAY_GEOMETRY_PROPERTY_SDF_DISTANCE, DEFAULT_GEOMETRY_SDF_DISTANCE);
 
     if (data.ptr == nullptr)
         throw std::runtime_error(
@@ -71,7 +79,8 @@ void SDFGeometries::finalize(::ospray::Model* model)
     }
 
     ::ispc::SDFGeometriesGeometry_set(getIE(), model->getIE(), data->data, numSDFGeometries, neighbours->data,
-                                      numNeighbours, geometries->data);
+                                      numNeighbours, geometries->data, epsilon, nbMarchIterations, blendFactor,
+                                      blendLerpFactor, omega, distance);
 }
 
 OSP_REGISTER_GEOMETRY(SDFGeometries, sdfgeometries);

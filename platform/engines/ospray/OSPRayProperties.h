@@ -164,6 +164,12 @@ static const char* OSPRAY_GEOMETRY_PROPERTY_CONES = "cones";
 static const char* OSPRAY_GEOMETRY_PROPERTY_SDF = "sdfgeometries";
 static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_NEIGHBOURS = "neighbours";
 static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_GEOMETRIES = "geometries";
+static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_EPSILON = "epsilon";
+static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_NB_MARCH_ITERATIONS = "nbMarchIterations";
+static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_BLEND_FACTOR = "blendFactor";
+static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_BLEND_LERP_FACTOR = "blendLerpFactor";
+static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_OMEGA = "omega";
+static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_DISTANCE = "distance";
 
 static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_BEZIERS = "sdfbeziers";
 

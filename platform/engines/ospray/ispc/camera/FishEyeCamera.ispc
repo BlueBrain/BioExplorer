@@ -22,6 +22,7 @@
 #include "math/sampling.ih"
 #include "utils/CameraUtils.ih"
 
+#include <platform/core/common/CommonTypes.h>
 #include <platform/engines/ospray/ispc/render/utils/RandomGenerator.ih>
 
 #include <ospray/SDK/camera/Camera.ih>
@@ -98,6 +99,7 @@ void FishEyeCamera_initRay(uniform Camera* uniform _self, varying Ray& ray, cons
     clipRay(self->clipPlanes, self->numClipPlanes, org, dir, nearClip, farClip);
 
     const float time = Camera_shutterTime(_self, sample.time);
+    ray.flags = RAY_FLAG_PRIMARY;
     setRay(ray, org, dir, nearClip, farClip, time);
 }
 

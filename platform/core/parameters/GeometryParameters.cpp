@@ -26,14 +26,15 @@
 
 namespace
 {
-const std::string PARAM_COLOR_SCHEME = "color-scheme";
-const std::string PARAM_GEOMETRY_QUALITY = "geometry-quality";
-const std::string PARAM_RADIUS_MULTIPLIER = "radius-multiplier";
 const std::string PARAM_MEMORY_MODE = "memory-mode";
 const std::string PARAM_DEFAULT_BVH_FLAG = "default-bvh-flag";
-
-const std::array<std::string, 5> COLOR_SCHEMES = {
-    {"none", "by-id", "protein-atoms", "protein-chains", "protein-residues"}};
+const std::string PARAM_GEOMETRY_QUALITY = "geometry-quality";
+const std::string PARAM_DEFAULT_SDF_EPSILON = "sdf-epsilon";
+const std::string PARAM_DEFAULT_SDF_NB_MARCH_ITERATIONS = "sdf-nb-march-iterations";
+const std::string PARAM_DEFAULT_SDF_BLEND_FACTOR = "sdf-blend-factor";
+const std::string PARAM_DEFAULT_SDF_BLEND_LERP_FACTOR = "sdf-blend-lerp-factor";
+const std::string PARAM_DEFAULT_SDF_OMEGA = "sdf-omega";
+const std::string PARAM_DEFAULT_SDF_DISTANCE = "sdf-distance";
 
 const std::string GEOMETRY_QUALITIES[3] = {"low", "medium", "high"};
 const std::string GEOMETRY_MEMORY_MODES[2] = {"shared", "replicated"};
@@ -49,10 +50,24 @@ GeometryParameters::GeometryParameters()
 {
     _parameters.add_options()
         //
-        (PARAM_GEOMETRY_QUALITY.c_str(), po::value<std::string>(), "Geometry rendering quality [low|medium|high]")
+        (PARAM_DEFAULT_SDF_EPSILON.c_str(), po::value<float>(), "Signed distance fields geometry epsilon [float]")
         //
-        (PARAM_RADIUS_MULTIPLIER.c_str(), po::value<float>(),
-         "Radius multiplier for spheres, cones and cylinders [float]")
+        (PARAM_DEFAULT_SDF_NB_MARCH_ITERATIONS.c_str(), po::value<uint64_t>(),
+         "Signed distance fields geometry number of ray-marching iterations [int]")
+        //
+        (PARAM_DEFAULT_SDF_BLEND_FACTOR.c_str(), po::value<float>(),
+         "Signed distance fields geometry blending factor [float]")
+        //
+        (PARAM_DEFAULT_SDF_BLEND_LERP_FACTOR.c_str(), po::value<float>(),
+         "Signed distance fields geometry lerp blending factor [float]")
+        //
+        (PARAM_DEFAULT_SDF_OMEGA.c_str(), po::value<float>(),
+         "Signed distance fields geometry ray-marching omega [float]")
+        //
+        (PARAM_DEFAULT_SDF_DISTANCE.c_str(), po::value<float>(),
+         "Distance until which Signed distance fields geometries are processed (blending and displacement) [float]")
+        //
+        (PARAM_GEOMETRY_QUALITY.c_str(), po::value<std::string>(), "Geometry rendering quality [low|medium|high]")
         //
         (PARAM_MEMORY_MODE.c_str(), po::value<std::string>(),
          "Defines what memory mode should be used between Core and "
@@ -73,8 +88,16 @@ void GeometryParameters::parse(const po::variables_map& vm)
             if (geometryQuality == GEOMETRY_QUALITIES[i])
                 _geometryQuality = static_cast<GeometryQuality>(i);
     }
-    if (vm.count(PARAM_RADIUS_MULTIPLIER))
-        _radiusMultiplier = vm[PARAM_RADIUS_MULTIPLIER].as<float>();
+    if (vm.count(PARAM_DEFAULT_SDF_EPSILON))
+        _sdfEpsilon = vm[PARAM_DEFAULT_SDF_EPSILON].as<float>();
+    if (vm.count(PARAM_DEFAULT_SDF_BLEND_FACTOR))
+        _sdfBlendFactor = vm[PARAM_DEFAULT_SDF_BLEND_FACTOR].as<float>();
+    if (vm.count(PARAM_DEFAULT_SDF_BLEND_LERP_FACTOR))
+        _sdfBlendLerpFactor = vm[PARAM_DEFAULT_SDF_BLEND_LERP_FACTOR].as<float>();
+    if (vm.count(PARAM_DEFAULT_SDF_OMEGA))
+        _sdfOmega = vm[PARAM_DEFAULT_SDF_OMEGA].as<float>();
+    if (vm.count(PARAM_DEFAULT_SDF_DISTANCE))
+        _sdfDistance = vm[PARAM_DEFAULT_SDF_DISTANCE].as<float>();
     if (vm.count(PARAM_MEMORY_MODE))
     {
         const auto& memoryMode = vm[PARAM_MEMORY_MODE].as<std::string>();
@@ -101,8 +124,15 @@ void GeometryParameters::parse(const po::variables_map& vm)
 void GeometryParameters::print()
 {
     AbstractParameters::print();
-    CORE_INFO("Geometry quality           : " << GEOMETRY_QUALITIES[static_cast<size_t>(_geometryQuality)]);
-    CORE_INFO("Radius multiplier          : " << _radiusMultiplier);
-    CORE_INFO("Memory mode                : " << (_memoryMode == MemoryMode::shared ? "Shared" : "Replicated"));
+    CORE_INFO("Geometry quality                               : "
+              << GEOMETRY_QUALITIES[static_cast<size_t>(_geometryQuality)]);
+    CORE_INFO("SDF geometry epsilon                           : " << _sdfEpsilon);
+    CORE_INFO("SDF geometry number of ray-marching iterations : " << _sdfNbMarchIterations);
+    CORE_INFO("SDF geometry blend factor                      : " << _sdfBlendFactor);
+    CORE_INFO("SDF geometry blend factor (lerp)               : " << _sdfBlendLerpFactor);
+    CORE_INFO("SDF geometry ray-marching omega                : " << _sdfOmega);
+    CORE_INFO("SDF geometry distance                          : " << _sdfDistance);
+    CORE_INFO("Memory mode                                    : "
+              << (_memoryMode == MemoryMode::shared ? "Shared" : "Replicated"));
 }
 } // namespace core

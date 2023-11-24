@@ -86,6 +86,7 @@ const std::string ENDPOINT_RENDERER_PARAMS = "renderer-params";
 const std::string ENDPOINT_SCENE = "scene";
 const std::string ENDPOINT_VOLUME_PARAMS = "volume-parameters";
 const std::string ENDPOINT_RENDER_PARAMS = "rendering-parameters";
+const std::string ENDPOINT_GEOMETRY_PARAMS = "geometry-parameters";
 
 // REST GET, JSONRPC get-* request
 const std::string ENDPOINT_STATISTICS = "statistics";
@@ -945,6 +946,7 @@ public:
         _handle(ENDPOINT_APP_PARAMS, _parametersManager.getApplicationParameters());
         _handle(ENDPOINT_VOLUME_PARAMS, _parametersManager.getVolumeParameters());
         _handle(ENDPOINT_RENDER_PARAMS, _parametersManager.getRenderingParameters());
+        _handle(ENDPOINT_GEOMETRY_PARAMS, _parametersManager.getGeometryParameters());
 
         // following endpoints need a valid engine
         const bool disableBroadcasting = std::getenv("ROCKETS_DISABLE_SCENE_BROADCASTING") != nullptr;

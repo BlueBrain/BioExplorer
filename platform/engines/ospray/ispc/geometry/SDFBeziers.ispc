@@ -53,8 +53,7 @@ DEFINE_SAFE_INCREMENT(SDFBezier);
 
 //////////////////////////////////////////////////////////////////////
 
-inline uniform float bezier(uniform float t, uniform float p0, uniform float c0,
-                            uniform float p1, uniform float c1)
+inline uniform float bezier(uniform float t, uniform float p0, uniform float c0, uniform float p1, uniform float c1)
 {
     const uniform float s = 1 - t;
     const uniform float s2 = s * s;
@@ -62,8 +61,8 @@ inline uniform float bezier(uniform float t, uniform float p0, uniform float c0,
     return s * s2 * p0 + 3 * s2 * t * c0 + 3 * s * t2 * c1 + t * t2 * p1;
 }
 
-inline vec3f bezier(float t, const uniform vec3f& p0, const uniform vec3f& c0,
-                    const uniform vec3f& p1, const uniform vec3f& c1)
+inline vec3f bezier(float t, const uniform vec3f& p0, const uniform vec3f& c0, const uniform vec3f& p1,
+                    const uniform vec3f& c1)
 {
     const vec3f s = make_vec3f(1 - t);
     const vec3f s2 = s * s;
@@ -73,8 +72,8 @@ inline vec3f bezier(float t, const uniform vec3f& p0, const uniform vec3f& c0,
 
 //////////////////////////////////////////////////////////////////////
 
-inline float sdf_tube(const vec3f& P, const vec3f& P0, const vec3f& P1,
-                      float r0_, float r1_, float t, float deltaT)
+inline float sdf_tube(const vec3f& P, const vec3f& P0, const vec3f& P1, float r0_, float r1_, float t, float deltaT,
+                      const float epsilon)
 {
 #define TANGENTIAL_TUBE
 #ifndef TANGENTIAL_TUBE
@@ -112,7 +111,7 @@ inline float sdf_tube(const vec3f& P, const vec3f& P0, const vec3f& P1,
     float coneR1 = r1;
 
     // find tangential cone to spheres if needed
-    if (abs(r0 - r1) > SDF_EPSILON)
+    if (abs(r0 - r1) > epsilon)
     {
         const vec3f V = P1 - P0;
         const float len = length(V);
@@ -165,10 +164,15 @@ inline float sdf_tube(const vec3f& P, const vec3f& P0, const vec3f& P1,
 struct SDFBeziers
 {
     uniform Geometry super;
-
     uniform SDFBezier* uniform data;
-
     uniform bool useSafeIncrement;
+
+    float epsilon;            // surface epsilon
+    uint64 nbMarchIterations; // Number of ray marching iterations
+    float blendFactor;
+    float blendLerpFactor;
+    float omega;
+    float distance;
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -183,10 +187,8 @@ uniform box3fa bezierBounds(uDataPtr_t geo_, uDataPtr_t bezier_)
 #define USE_TIGHT_BOUNDS
 #ifndef USE_TIGHT_BOUNDS
     const Bezier_ptr bc = (const Bezier_ptr)bezier_;
-    const uniform vec3f mi = min(min(bc->p0 - bc->r0, bc->p1 - bc->r1),
-                                 min(bc->c0 - bc->r0, bc->c1 - bc->r1));
-    const uniform vec3f ma = max(max(bc->p0 + bc->r0, bc->p1 + bc->r1),
-                                 max(bc->c0 + bc->r0, bc->c1 + bc->r1));
+    const uniform vec3f mi = min(min(bc->p0 - bc->r0, bc->p1 - bc->r1), min(bc->c0 - bc->r0, bc->c1 - bc->r1));
+    const uniform vec3f ma = max(max(bc->p0 + bc->r0, bc->p1 + bc->r1), max(bc->c0 + bc->r0, bc->c1 + bc->r1));
     return make_box3fa(mi, ma);
 #else
     const Bezier_ptr bc = (const Bezier_ptr)bezier_;
@@ -271,14 +273,11 @@ uniform box3fa bezierBounds(uDataPtr_t geo_, uDataPtr_t bezier_)
 
 int screenAwareSegmentCount(const Bezier_ptr bc, const SDFParams& params)
 {
-    float costhetaEye =
-        dot(normalize(bc->p0 - params.eye), normalize(bc->p1 - params.eye));
+    float costhetaEye = dot(normalize(bc->p0 - params.eye), normalize(bc->p1 - params.eye));
 
     float ratio = (1.0f - costhetaEye) / 0.5f; // cos(vfov / 180 * M_PI);
 
-    return clamp((int)(MIN_SEGMENT_COUNT +
-                       (30 * sqrt(ratio)) *
-                           (MAX_SEGMENT_COUNT - MIN_SEGMENT_COUNT)),
+    return clamp((int)(MIN_SEGMENT_COUNT + (30 * sqrt(ratio)) * (MAX_SEGMENT_COUNT - MIN_SEGMENT_COUNT)),
                  MIN_SEGMENT_COUNT, MAX_SEGMENT_COUNT) *
            params.segmentCountMultiplier;
 }
@@ -288,8 +287,8 @@ int screenAwareSegmentCount(const Bezier_ptr bc, const SDFParams& params)
 
 //////////////////////////////////////////////////////////////////////
 
-float bezierDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t bezier_,
-                     const SDFParams& params)
+float bezierDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t bezier_, const SDFParams& params,
+                     const bool /*processDisplacement*/)
 {
     const Geo_ptr geo = (const Geo_ptr)geo_;
     const Bezier_ptr bc = (const Bezier_ptr)bezier_;
@@ -305,7 +304,7 @@ float bezierDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t bezier_,
     {
         const float t = i * deltaT;
         const vec3f b = bezier(t, bc->p0, bc->c0, bc->p1, bc->c1);
-        const float d = sdf_tube(p, prevB, b, bc->r0, bc->r1, t, deltaT);
+        const float d = sdf_tube(p, prevB, b, bc->r0, bc->r1, t, deltaT, params.epsilon);
         minDist = min(minDist, d);
         prevB = b;
     }
@@ -318,32 +317,34 @@ float bezierDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t bezier_,
 unmasked void SDFBeziers_bounds(const RTCBoundsFunctionArguments* uniform args)
 {
     const Geo_ptr geo = (Geo_ptr)args->geometryUserPtr;
-    const Bezier_ptr bezier =
-        safeIncrement(geo->useSafeIncrement, geo->data, args->primID);
+    const Bezier_ptr bezier = safeIncrement(geo->useSafeIncrement, geo->data, args->primID);
 
-    *((box3fa * uniform) args->bounds_o) =
-        bezierBounds((uDataPtr_t)geo, (uDataPtr_t)bezier);
+    *((box3fa * uniform) args->bounds_o) = bezierBounds((uDataPtr_t)geo, (uDataPtr_t)bezier);
 }
 
 /////////////////////////////////////////////////////////////////////////////
 
-unmasked void SDFBeziers_intersect(
-    const RTCIntersectFunctionNArguments* uniform args)
+unmasked void SDFBeziers_intersect(const RTCIntersectFunctionNArguments* uniform args)
 {
     const Geo_ptr geo = (Geo_ptr)args->geometryUserPtr;
 
-    const Bezier_ptr bezier =
-        safeIncrement(geo->useSafeIncrement, geo->data, args->primID);
+    const Bezier_ptr bezier = safeIncrement(geo->useSafeIncrement, geo->data, args->primID);
 
     varying Ray* uniform ray = (varying Ray * uniform) args->rayhit;
 
     SDFParams sdfParams;
+    sdfParams.epsilon = geo->epsilon;
+    sdfParams.nbMarchIterations = geo->nbMarchIterations;
     sdfParams.eye = ray->org;
     sdfParams.segmentCountMultiplier = 1.f;
+    sdfParams.blendFactor = geo->blendFactor;
+    sdfParams.blendLerpFactor = geo->blendLerpFactor;
+    sdfParams.omega = geo->omega;
+    sdfParams.distance = geo->distance;
 
-    const float t_in =
-        raymarching(*ray, bezierDistance, bezierBounds, (uDataPtr_t)geo,
-                    (uDataPtr_t)bezier, sdfParams);
+    bool processDisplacement = true;
+    const float t_in = raymarching(*ray, bezierDistance, bezierBounds, (uDataPtr_t)geo, (uDataPtr_t)bezier, sdfParams,
+                                   processDisplacement);
 
     if (t_in > 0 && t_in > ray->t0 && t_in < ray->t)
     {
@@ -358,19 +359,15 @@ unmasked void SDFBeziers_intersect(
         sdfParams.segmentCountMultiplier = 5.f;
 
         // TODO epsilon based on pixel radius
-        ray->Ng =
-            computeNormal(pos, bezierDistance, calcEpsilon(ray->org, t_in),
-                          (uDataPtr_t)geo, (uDataPtr_t)bezier, sdfParams);
+        ray->Ng = computeNormal(pos, bezierDistance, calcEpsilon(ray->org, t_in), (uDataPtr_t)geo, (uDataPtr_t)bezier,
+                                sdfParams, processDisplacement);
     }
 }
 
 /////////////////////////////////////////////////////////////////////////////
 
-static void SDFBeziers_postIntersect(uniform Geometry* uniform geometry,
-                                     uniform Model* uniform model,
-                                     varying DifferentialGeometry& dg,
-                                     const varying Ray& ray,
-                                     uniform int64 flags)
+static void SDFBeziers_postIntersect(uniform Geometry* uniform geometry, uniform Model* uniform model,
+                                     varying DifferentialGeometry& dg, const varying Ray& ray, uniform int64 flags)
 {
     Geo_ptr this = (Geo_ptr)geometry;
     dg.geometry = geometry;
@@ -398,22 +395,21 @@ static void SDFBeziers_postIntersect(uniform Geometry* uniform geometry,
 export void* uniform SDFBeziers_create(void* uniform cppEquivalent)
 {
     Geo_ptr geom = uniform new uniform SDFBeziers;
-    Geometry_Constructor(&geom->super, cppEquivalent, SDFBeziers_postIntersect,
-                         NULL, NULL, 0, NULL);
+    Geometry_Constructor(&geom->super, cppEquivalent, SDFBeziers_postIntersect, NULL, NULL, 0, NULL);
     return geom;
 }
 
 /////////////////////////////////////////////////////////////////////////////
 
-export void SDFBeziersGeometry_set(void* uniform _geo, void* uniform _model,
-                                   void* uniform data,
-                                   int uniform numPrimitives)
+export void SDFBeziersGeometry_set(void* uniform _geo, void* uniform _model, void* uniform data,
+                                   int uniform numPrimitives, float uniform epsilon, int uniform nbMarchIterations,
+                                   float uniform blendFactor, float uniform blendLerpFactor, float uniform omega,
+                                   float uniform distance)
 {
     Geo_ptr geo = (Geo_ptr)_geo;
     uniform Model* uniform model = (uniform Model * uniform) _model;
 
-    RTCGeometry geom =
-        rtcNewGeometry(ispc_embreeDevice(), RTC_GEOMETRY_TYPE_USER);
+    RTCGeometry geom = rtcNewGeometry(ispc_embreeDevice(), RTC_GEOMETRY_TYPE_USER);
     uniform uint32 geomID = rtcAttachGeometry(model->embreeSceneHandle, geom);
 
     geo->super.model = model;
@@ -421,16 +417,18 @@ export void SDFBeziersGeometry_set(void* uniform _geo, void* uniform _model,
     geo->super.numPrimitives = numPrimitives;
     geo->data = (uniform SDFBezier * uniform) data;
     geo->useSafeIncrement = needsSafeIncrement(geo->data, numPrimitives);
+    geo->epsilon = epsilon;
+    geo->nbMarchIterations = nbMarchIterations;
+    geo->blendFactor = blendFactor;
+    geo->blendLerpFactor = blendLerpFactor;
+    geo->omega = omega;
+    geo->distance = distance;
 
     rtcSetGeometryUserData(geom, geo);
     rtcSetGeometryUserPrimitiveCount(geom, numPrimitives);
-    rtcSetGeometryBoundsFunction(geom,
-                                 (uniform RTCBoundsFunction)&SDFBeziers_bounds,
-                                 geo);
-    rtcSetGeometryIntersectFunction(
-        geom, (uniform RTCIntersectFunctionN)&SDFBeziers_intersect);
-    rtcSetGeometryOccludedFunction(
-        geom, (uniform RTCOccludedFunctionN)&SDFBeziers_intersect);
+    rtcSetGeometryBoundsFunction(geom, (uniform RTCBoundsFunction)&SDFBeziers_bounds, geo);
+    rtcSetGeometryIntersectFunction(geom, (uniform RTCIntersectFunctionN)&SDFBeziers_intersect);
+    rtcSetGeometryOccludedFunction(geom, (uniform RTCOccludedFunctionN)&SDFBeziers_intersect);
     rtcCommitGeometry(geom);
     rtcReleaseGeometry(geom);
 }

@@ -441,6 +441,17 @@ inline void init(core::RenderingParameters* r, ObjectHandler* h)
     h->set_flags(Flags::DisallowUnknownKey);
 }
 
+inline void init(core::GeometryParameters* r, ObjectHandler* h)
+{
+    h->add_property("sdf_epsilon", &r->_sdfEpsilon, Flags::Optional);
+    h->add_property("sdf_nb_march_iterations", &r->_sdfNbMarchIterations, Flags::Optional);
+    h->add_property("sdf_blend_factor", &r->_sdfBlendFactor, Flags::Optional);
+    h->add_property("sdf_blend_lerp_factor", &r->_sdfBlendLerpFactor, Flags::Optional);
+    h->add_property("sdf_ray_marching_omega", &r->_sdfOmega, Flags::Optional);
+    h->add_property("sdf_distance", &r->_sdfDistance, Flags::Optional);
+    h->set_flags(Flags::DisallowUnknownKey);
+}
+
 inline void init(core::VolumeParameters* v, ObjectHandler* h)
 {
     h->add_property("volume_dimensions", toArray<3, uint32_t>(v->_dimensions), Flags::Optional);

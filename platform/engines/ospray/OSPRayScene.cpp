@@ -280,7 +280,7 @@ bool OSPRayScene::_commitVolumeAndTransferFunction(ModelDescriptors& modelDescri
 
 ModelPtr OSPRayScene::createModel() const
 {
-    return std::make_unique<OSPRayModel>(_animationParameters, _volumeParameters);
+    return std::make_unique<OSPRayModel>(_animationParameters, _volumeParameters, _geometryParameters);
 }
 
 ModelDescriptorPtr OSPRayScene::getSimulatedModel()

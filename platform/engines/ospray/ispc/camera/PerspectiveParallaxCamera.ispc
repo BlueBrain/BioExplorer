@@ -25,6 +25,8 @@
 #include "math/math.ih"
 #include "math/sampling.ih"
 
+#include <platform/core/common/CommonTypes.h>
+
 #include <ospray/SDK/camera/Camera.ih>
 
 struct PerspectiveParallaxCamera
@@ -64,11 +66,12 @@ void PerspectiveParallaxCamera_initRay(uniform Camera* uniform _self, varying Ra
 
     const float time = Camera_shutterTime(_self, sample.time);
     org = self->org + org;
+    ray.flags = RAY_FLAG_PRIMARY;
     setRay(ray, org, normalize(dir), self->super.nearClip, inf, time);
 }
 
-/*! create a new ::ispc-side version of a StereoCamera - with given pointer to the c-class version - and return both class
- * pointer and pointer to internal data back via the supplied reference parameters */
+/*! create a new ::ispc-side version of a StereoCamera - with given pointer to the c-class version - and return both
+ * class pointer and pointer to internal data back via the supplied reference parameters */
 export void* uniform PerspectiveParallaxCamera_create(void* uniform cppE)
 {
     uniform PerspectiveParallaxCamera* uniform self = uniform new uniform PerspectiveParallaxCamera;

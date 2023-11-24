@@ -432,6 +432,7 @@ inline float getVolumeShadowContributions(Volume* uniform volume, const uniform 
     lightRay.t0 = max(0.f, epsilon);
     lightRay.org = point;
     lightRay.geomID = -1;
+    lightRay.flags = RAY_FLAG_SECONDARY;
 
     if (self->softShadowStrength > 0.f)
         lightRay.dir = normalize(lightSample.dir +
@@ -598,6 +599,7 @@ inline float shadedLightIntensity(varying ScreenSample& sample, const varying Ra
         shadowRay.geomID = -1;
         shadowRay.primID = -1;
         shadowRay.instID = -1;
+        shadowRay.flags = RAY_FLAG_SECONDARY;
 
         while (shadowIntensity < 1.f)
         {
@@ -717,7 +719,7 @@ inline vec3f getChameleonColor(const uniform AdvancedRenderer* uniform self, Dif
         ray.primID = -1;
         ray.geomID = -1;
         ray.instID = -1;
-
+        ray.flags = RAY_FLAG_SECONDARY;
         traceRay(self->super.super.super.model, ray);
 
         if (ray.geomID >= 0)
