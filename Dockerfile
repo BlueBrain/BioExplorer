@@ -215,7 +215,7 @@ RUN cd ${BIOEXPLORER_SRC} \
    && ninja install \
    && ninja clean
 
-# Final image, containing only Brayns and BioExplorer and libraries required to run it
+# Final image, containing only BioExplorer and libraries required to run it
 FROM debian:buster-slim
 ARG DIST_PATH=/app/dist
 
@@ -237,6 +237,7 @@ RUN apt-get update \
    libcgal13 \
    libpqxx-6.2 \
    libtiff5 \
+   libmpfr6 \
    exiv2 \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
