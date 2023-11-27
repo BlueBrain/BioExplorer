@@ -496,7 +496,8 @@ void BaseWindow::_toggleRendererType()
     _currentRendererTypeIndex = _currentRendererTypeIndex % _rendererTypes.size();
     const auto rendererType = _rendererTypes[_currentRendererTypeIndex];
     auto& engine = _core.getEngine();
-    engine.setRendererType(rendererType);
+    auto& renderer = engine.getRenderer();
+    renderer.setCurrentType(rendererType);
     _setHint("Renderer: [" + rendererType + "]");
 }
 
