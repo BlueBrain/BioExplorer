@@ -49,6 +49,7 @@ RUN apt-get update \
    libexiv2-dev \
    libglm-dev \
    libtiff-dev \
+   libmpfr-dev \
    pkg-config \
    wget \
    ca-certificates \
