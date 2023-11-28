@@ -94,6 +94,7 @@ static const char* CONTEXT_USE_ENVIRONMENT_MAP = "use_envmap";
 static const char* CONTEXT_SPHERE_SIZE = "sphere_size";
 static const char* CONTEXT_CYLINDER_SIZE = "cylinder_size";
 static const char* CONTEXT_CONE_SIZE = "cone_size";
+static const char* CONTEXT_SDF_GEOMETRY_SIZE = "sdf_geometry_size";
 static const char* CONTEXT_VOLUME_SIZE = "volume_size";
 
 // Material
@@ -140,6 +141,14 @@ static const char* CONTEXT_VOLUME_CLIPPING_BOX_LOWER = "volumeClippingBoxLower";
 static const char* CONTEXT_VOLUME_CLIPPING_BOX_UPPER = "volumeClippingBoxUpper";
 static const char* CONTEXT_VOLUME_USER_PARAMETERS = "volumeUserParameters";
 
+// Geometry parameters
+static const char* CONTEXT_GEOMETRY_SDF_EPSILON = "geometrySdfEpsilon";
+static const char* CONTEXT_GEOMETRY_SDF_NB_MARCH_ITERATIONS = "geometrySdfNbMarchIterations";
+static const char* CONTEXT_GEOMETRY_SDF_BLEND_FACTOR = "geometrySdfBlendFactor";
+static const char* CONTEXT_GEOMETRY_SDF_BLEND_LERP_FACTOR = "geometrySdfBlendLerpFactor";
+static const char* CONTEXT_GEOMETRY_SDF_OMEGA = "geometrySdfOmega";
+static const char* CONTEXT_GEOMETRY_SDF_DISTANCE = "geometrySdfDistance";
+
 // User data
 static const char* CONTEXT_USER_DATA = RENDERER_PROPERTY_USER_DATA;
 
@@ -150,7 +159,8 @@ enum class OptixGeometryType
     cylinder,
     triangleMesh,
     volume,
-    streamline
+    streamline,
+    sdfGeometry,
 };
 
 struct OptixShaderProgram

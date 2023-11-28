@@ -131,6 +131,14 @@ rtDeclareVariable(uint, volumeSingleShade, , );
 rtDeclareVariable(float, volumeSamplingRate, , );
 rtDeclareVariable(float3, volumeSpecularColor, , );
 
+// Geometry parameters
+rtDeclareVariable(float, geometrySdfEpsilon, , );
+rtDeclareVariable(uint, geometrySdfNbMarchIterations, , );
+rtDeclareVariable(float, geometrySdfBlendFactor, , );
+rtDeclareVariable(float, geometrySdfBlendLerpFactor, , );
+rtDeclareVariable(float, geometrySdfOmega, , );
+rtDeclareVariable(float, geometrySdfDistance, , );
+
 // User data
 rtBuffer<float> userDataBuffer;
 rtDeclareVariable(ulong, userDataIndex, attribute userDataIndex, );

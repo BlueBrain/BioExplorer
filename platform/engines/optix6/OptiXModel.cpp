@@ -89,6 +89,17 @@ OptiXModel::~OptiXModel()
         RT_DESTROY(optixMeshBuffer.second.texcoord_buffer);
         RT_DESTROY(optixMeshBuffer.second.indices_buffer);
     }
+
+    for (auto streamlinesBuffers : _streamlinesBuffers)
+    {
+        RT_DESTROY(streamlinesBuffers.second.vertices_buffer);
+        RT_DESTROY(streamlinesBuffers.second.color_buffer);
+        RT_DESTROY(streamlinesBuffers.second.indices_buffer);
+    }
+
+    RT_DESTROY(_sdfGeometriesBuffers.geometries_buffer);
+    RT_DESTROY(_sdfGeometriesBuffers.indices_buffer);
+    RT_DESTROY(_sdfGeometriesBuffers.neighbours_buffer);
     RT_DESTROY(_geometryGroup);
     RT_DESTROY(_boundingBoxGroup);
 }
@@ -119,6 +130,9 @@ void OptiXModel::commitGeometry()
     if (_conesDirty)
         for (const auto& cones : _geometries->_cones)
             _commitCones(cones.first);
+
+    if (_sdfGeometriesDirty)
+        _commitSDFGeometries();
 
     if (_triangleMeshesDirty)
         for (const auto& meshes : _geometries->_triangleMeshes)
@@ -236,6 +250,69 @@ void OptiXModel::_commitCones(const size_t materialId)
         _boundingBoxGroup->addChild(instance);
     else
         _geometryGroup->addChild(instance);
+}
+
+void OptiXModel::_commitSDFGeometries()
+{
+    if (_geometries->_sdf.geometries.empty())
+        return;
+
+    auto context = OptiXContext::get().getOptixContext();
+    auto& sdfGeometries = _geometries->_sdf;
+    context[CONTEXT_SDF_GEOMETRY_SIZE]->setUint(sizeof(SDFGeometry));
+    _optixSdfGeometries = OptiXContext::get().createGeometry(OptixGeometryType::sdfGeometry);
+    const uint64_t nbGeometries = sdfGeometries.geometries.size();
+    _optixSdfGeometries->setPrimitiveCount(nbGeometries);
+
+    // Create and upload flat list of neighbours
+    _geometries->_sdf.neighboursFlat.clear();
+
+    for (size_t i = 0; i < nbGeometries; ++i)
+    {
+        const size_t currOffset = sdfGeometries.neighboursFlat.size();
+        const auto& neighbours = sdfGeometries.neighbours[i];
+        if (!neighbours.empty())
+        {
+            sdfGeometries.geometries[i].numNeighbours = neighbours.size();
+            sdfGeometries.geometries[i].neighboursIndex = currOffset;
+            sdfGeometries.neighboursFlat.insert(std::end(sdfGeometries.neighboursFlat), std::begin(neighbours),
+                                                std::end(neighbours));
+        }
+    }
+
+    // Make sure we don't create an empty buffer in the case of no neighbours
+    if (sdfGeometries.neighboursFlat.empty())
+        sdfGeometries.neighboursFlat.resize(1, 0);
+
+#if 0
+    // Use only one material for now by merging all materials into a single one
+    uint64_ts allIndices;
+    for (const auto& indices : sdfGeometries.geometryIndices)
+        allIndices.insert(allIndices.end(), indices.second.begin(), indices.second.end());
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_LONG_LONG, _sdfGeometriesBuffers.indices_buffer,
+              _optixSdfGeometries[OPTIX_GEOMETRY_PROPERTY_SDF_GEOMETRIES_INDICES], allIndices,
+              sizeof(uint64_t) * allIndices.size());
+#endif
+
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_BYTE, _sdfGeometriesBuffers.geometries_buffer,
+              _optixSdfGeometries[OPTIX_GEOMETRY_PROPERTY_SDF_GEOMETRIES], sdfGeometries.geometries,
+              sizeof(SDFGeometry) * nbGeometries);
+
+    setBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_LONG_LONG, _sdfGeometriesBuffers.neighbours_buffer,
+              _optixSdfGeometries[OPTIX_GEOMETRY_PROPERTY_SDF_GEOMETRIES_NEIGHBOURS], sdfGeometries.neighboursFlat,
+              sizeof(uint64_t) * sdfGeometries.neighboursFlat.size());
+
+    const size_t materialId = 0;
+    auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
+    auto optixMaterial = mat.getOptixMaterial();
+    if (!optixMaterial)
+        CORE_THROW(std::runtime_error("Material is not defined"));
+
+    auto instance = context->createGeometryInstance();
+    instance->setGeometry(_optixSdfGeometries);
+    instance->setMaterialCount(1);
+    instance->setMaterial(0, optixMaterial);
+    _geometryGroup->addChild(instance);
 }
 
 void OptiXModel::_commitMeshes(const size_t materialId)

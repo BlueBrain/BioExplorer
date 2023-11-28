@@ -77,6 +77,7 @@ private:
     void _commitSpheres(const size_t materialId);
     void _commitCylinders(const size_t materialId);
     void _commitCones(const size_t materialId);
+    void _commitSDFGeometries();
     void _commitMeshes(const size_t materialId);
     void _commitVolumes(const size_t materialId);
     void _commitStreamlines(const size_t materialId);
@@ -99,6 +100,16 @@ private:
     std::map<size_t, ::optix::Buffer> _conesBuffers;
     std::map<size_t, ::optix::Geometry> _optixCones;
 
+    // SDF geometries
+    struct OptiXSDFGeometryBuffers
+    {
+        ::optix::Buffer geometries_buffer{nullptr};
+        ::optix::Buffer indices_buffer{nullptr};
+        ::optix::Buffer neighbours_buffer{nullptr};
+    };
+    OptiXSDFGeometryBuffers _sdfGeometriesBuffers;
+    ::optix::Geometry _optixSdfGeometries;
+
     // Volumes
     std::map<size_t, ::optix::Buffer> _volumesBuffers;
     std::map<size_t, ::optix::Geometry> _optixVolumes;
@@ -106,10 +117,10 @@ private:
     // Meshes
     struct OptiXTriangleMeshBuffers
     {
-        ::optix::Buffer vertices_buffer;
-        ::optix::Buffer normal_buffer;
-        ::optix::Buffer texcoord_buffer;
-        ::optix::Buffer indices_buffer;
+        ::optix::Buffer vertices_buffer{nullptr};
+        ::optix::Buffer normal_buffer{nullptr};
+        ::optix::Buffer texcoord_buffer{nullptr};
+        ::optix::Buffer indices_buffer{nullptr};
     };
 
     std::map<size_t, OptiXTriangleMeshBuffers> _optixMeshBuffers;
@@ -122,9 +133,9 @@ private:
     // Streamlines
     struct Streamlines
     {
-        ::optix::Buffer vertices_buffer;
-        ::optix::Buffer color_buffer;
-        ::optix::Buffer indices_buffer;
+        ::optix::Buffer vertices_buffer{nullptr};
+        ::optix::Buffer color_buffer{nullptr};
+        ::optix::Buffer indices_buffer{nullptr};
     };
     std::map<size_t, Streamlines> _streamlinesBuffers;
     std::map<size_t, ::optix::Geometry> _optixStreamlines;

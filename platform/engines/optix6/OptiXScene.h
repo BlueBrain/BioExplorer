@@ -63,6 +63,7 @@ public:
 
 private:
     void _commitVolumeParameters();
+    void _commitGeometryParameters();
     void _commitClippingPlanes();
 
     ::optix::Buffer _lightBuffer{nullptr};

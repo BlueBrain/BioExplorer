@@ -29,6 +29,7 @@
 
 #include <platform/engines/optix6/OptiX6Engine_generated_Cones.cu.ptx.h>
 #include <platform/engines/optix6/OptiX6Engine_generated_Cylinders.cu.ptx.h>
+#include <platform/engines/optix6/OptiX6Engine_generated_SDFGeometries.cu.ptx.h>
 #include <platform/engines/optix6/OptiX6Engine_generated_Spheres.cu.ptx.h>
 #include <platform/engines/optix6/OptiX6Engine_generated_Streamlines.cu.ptx.h>
 #include <platform/engines/optix6/OptiX6Engine_generated_TriangleMesh.cu.ptx.h>
@@ -41,6 +42,7 @@ namespace
 static const char* CUDA_SPHERES = OptiX6Engine_generated_Spheres_cu_ptx;
 static const char* CUDA_CYLINDERS = OptiX6Engine_generated_Cylinders_cu_ptx;
 static const char* CUDA_CONES = OptiX6Engine_generated_Cones_cu_ptx;
+static const char* CUDA_SDF_GEOMETRIES = OptiX6Engine_generated_SDFGeometries_cu_ptx;
 static const char* CUDA_TRIANGLES_MESH = OptiX6Engine_generated_TriangleMesh_cu_ptx;
 static const char* CUDA_VOLUMES = OptiX6Engine_generated_Volumes_cu_ptx;
 static const char* CUDA_STREAMLINES = OptiX6Engine_generated_Streamlines_cu_ptx;
@@ -383,6 +385,11 @@ void OptiXContext::_initialize()
         _optixContext->createProgramFromPTXString(CUDA_STREAMLINES, OPTIX_CUDA_FUNCTION_BOUNDS);
     _optixIntersectionPrograms[OptixGeometryType::streamline] =
         _optixContext->createProgramFromPTXString(CUDA_STREAMLINES, OPTIX_CUDA_FUNCTION_INTERSECTION);
+
+    _optixBoundsPrograms[OptixGeometryType::sdfGeometry] =
+        _optixContext->createProgramFromPTXString(CUDA_SDF_GEOMETRIES, OPTIX_CUDA_FUNCTION_BOUNDS);
+    _optixIntersectionPrograms[OptixGeometryType::sdfGeometry] =
+        _optixContext->createProgramFromPTXString(CUDA_SDF_GEOMETRIES, OPTIX_CUDA_FUNCTION_INTERSECTION);
 
     // Exceptions
     _optixContext[CONTEXT_EXCEPTION_BAD_COLOR]->setFloat(1.0f, 0.0f, 0.0f, 1.f);

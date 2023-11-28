@@ -39,6 +39,7 @@
 #define SDF_TYPE_PILL 1
 #define SDF_TYPE_CONE_PILL 2
 #define SDF_TYPE_CONE_PILL_SIGMOID 3
+#define SDF_TYPE_CONE 4
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -59,7 +60,7 @@ inline float smoothstep(const float x)
 }
 
 // https://en.wikipedia.org/wiki/Smoothstep
-inline float smootherstep(const float x)
+inline float smootherStep(const float x)
 {
     return x * x * x * (x * (x * 6 - 15) + 10);
 }
@@ -114,6 +115,12 @@ inline vec3f opRep(const vec3f& p, const vec3f& c)
     return mod(p, c) - 0.5f * c;
 }
 
+inline float mix(const float x, const float y, const float a)
+{
+    return x * (1.f - a) + y * a;
+}
+
+#if 0
 inline float sdConePill(const vec3f& p, const vec3f p0, const vec3f p1, const float r0, const float r1,
                         const bool useSigmoid)
 {
@@ -134,10 +141,45 @@ inline float sdConePill(const vec3f& p, const vec3f p0, const vec3f p1, const fl
     const vec3f Pb = p0 + b * v;
 
     const float thicknessAt = lerp(b, r0, r1);
-    const float thickness = useSigmoid ? lerp(smootherstep(b), r0, r1) : thicknessAt;
+    const float thickness = useSigmoid ? mix(r0, r1, smootherStep(b)) : thicknessAt;
 
     return length(p - Pb) - thickness;
 }
+#else
+
+inline float sign(const float x)
+{
+    return (x >= 0.f ? 1.f : -1.f);
+}
+
+inline float sdConePill(const vec3f& p, const vec3f a, const vec3f b, const float r1, const float r2,
+                        const bool /*useSigmoid*/)
+{
+    // sampling independent computations (only depend on shape)
+    const vec3f ba = b - a;
+    float l2 = dot(ba, ba);
+    float rr = r1 - r2;
+    float a2 = l2 - rr * rr;
+    float il2 = 1.0 / l2;
+
+    // sampling dependant computations
+    const vec3f pa = p - a;
+    const float y = dot(pa, ba);
+    const float z = y - l2;
+    const vec3f d = pa * l2 - ba * y;
+    const float x2 = dot(d, d);
+    const float y2 = y * y * l2;
+    const float z2 = z * z * l2;
+
+    // single square root!
+    const float k = sign(rr) * rr * rr * x2;
+    if (sign(z) * a2 * z2 > k)
+        return sqrt(x2 + z2) * il2 - r2;
+    if (sign(y) * a2 * y2 < k)
+        return sqrt(x2 + y2) * il2 - r1;
+    return (sqrt(x2 * a2 * il2) + y * rr) * il2 - r1;
+}
+#endif
 
 inline float sdCone(const vec3f& p, const vec3f a, const vec3f b, float ra, float rb)
 {
@@ -248,6 +290,8 @@ inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p, 
     if (primitive.type == SDF_TYPE_CONE_PILL || primitive.type == SDF_TYPE_CONE_PILL_SIGMOID)
         return displacement + sdConePill(p, primitive.p0, primitive.p1, primitive.r0, primitive.r1,
                                          primitive.type == SDF_TYPE_CONE_PILL_SIGMOID);
+    if (primitive.type == SDF_TYPE_CONE)
+        return displacement + sdCone(p, primitive.p0, primitive.p1, primitive.r0, primitive.r1);
 
     return -1.0;
 }
@@ -280,7 +324,7 @@ float sdfDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t prim_, const SDFPa
     // Primitive
     float d = calcDistance(*prim, p, processDisplacement);
 
-    if (processDisplacement)
+    if (processDisplacement && prim->numNeighbours > 0)
     {
         const float l1 = length(prim->p0 - p);
         const float l2 = length(prim->p1 - p);

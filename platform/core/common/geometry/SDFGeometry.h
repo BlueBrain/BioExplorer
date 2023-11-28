@@ -30,7 +30,8 @@ enum class SDFType : uint8_t
     Sphere = 0,
     Pill = 1,
     ConePill = 2,
-    ConePillSigmoid = 3
+    ConePillSigmoid = 3,
+    Cone = 4,
 };
 
 struct SDFGeometry
