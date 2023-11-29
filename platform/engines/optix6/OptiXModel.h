@@ -107,8 +107,8 @@ private:
         ::optix::Buffer indices_buffer{nullptr};
         ::optix::Buffer neighbours_buffer{nullptr};
     };
-    OptiXSDFGeometryBuffers _sdfGeometriesBuffers;
-    ::optix::Geometry _optixSdfGeometries;
+    std::map<size_t, OptiXSDFGeometryBuffers> _sdfGeometriesBuffers;
+    std::map<size_t, ::optix::Geometry> _optixSdfGeometries;
 
     // Volumes
     std::map<size_t, ::optix::Buffer> _volumesBuffers;

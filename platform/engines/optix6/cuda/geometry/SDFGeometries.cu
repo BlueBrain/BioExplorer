@@ -28,6 +28,7 @@
 // Global variables
 rtDeclareVariable(uint, sdf_geometry_size, , );
 rtBuffer<uint8_t> sdf_geometries_buffer;
+rtBuffer<uint64_t> sdf_geometries_indices_buffer;
 rtBuffer<uint64_t> sdf_geometries_neighbours_buffer;
 
 #define SDF_NO_INTERSECTION -1.f
@@ -51,8 +52,6 @@ enum SDFType : uint8_t
 #define OFFSET_NB_NEIGHBOURS (OFFSET_NEIGHBOUR_INDEX + sizeof(uint64_t))
 #define OFFSET_TYPE (OFFSET_NB_NEIGHBOURS + sizeof(uint8_t))
 
-//////////////////////////////////////////////////////////////////////
-
 // NOTE: This layout must match exactly the 'SDFGeometry' struct in
 // 'SDFGeometry.h'
 struct SDFGeometry
@@ -67,21 +66,6 @@ struct SDFGeometry
     uint8_t numNeighbours;
     uint8_t type;
 };
-
-#if 0
-rtBuffer<uint64_t> sdf_geometries_indices_buffer;
-
-static __device__ inline float mix(const float x, const float y, const float a)
-{
-    return x * (1.f - a) + y * a;
-}
-
-// https://en.wikipedia.org/wiki/Smoothstep
-static __device__ inline float smootherStep(const float x)
-{
-    return x * x * x * (x * (x * 6.f - 15.f) + 10.f);
-}
-#endif
 
 static __device__ inline float sign(const float x)
 {
@@ -119,7 +103,7 @@ static __device__ inline float sdCapsule(const float3& p, const float3& a, const
 }
 
 static __device__ inline float sdConePill(const float3& p, const float3& a, const float3& b, const float r1,
-                                          const float r2, const bool /*useSigmoid*/)
+                                          const float r2)
 {
     // sampling independent computations (only depend on shape)
     const float3 ba = b - a;
@@ -183,13 +167,14 @@ static __device__ inline bool intersectBox(const ::optix::Aabb& box, float& t0, 
 
 static __device__ inline SDFGeometry* getPrimitive(const int primIdx)
 {
-    const uint64_t idx = primIdx * sdf_geometry_size;
-    return (SDFGeometry*)&sdf_geometries_buffer[idx];
+    const uint64_t globalIndex = sdf_geometries_indices_buffer[primIdx];
+    const uint64_t bufferIndex = globalIndex * sdf_geometry_size;
+    return (SDFGeometry*)&sdf_geometries_buffer[bufferIndex];
 }
 
-static __device__ inline uint64_t getNeighbourIdx(const uint64_t startIdx, const uint8_t neighIdx)
+static __device__ inline uint64_t getNeighbourIndex(const uint8_t index)
 {
-    return sdf_geometries_neighbours_buffer[startIdx + neighIdx];
+    return sdf_geometries_neighbours_buffer[index];
 }
 
 static __device__ inline ::optix::Aabb getBounds(const SDFGeometry* primitive)
@@ -211,8 +196,6 @@ static __device__ inline ::optix::Aabb getBounds(const SDFGeometry* primitive)
     return aabb;
 }
 
-//////////////////////////////////////////////////////////////////////
-
 static __device__ inline float calcDistance(const SDFGeometry* primitive, const float3& position,
                                             const bool processDisplacement)
 {
@@ -224,14 +207,11 @@ static __device__ inline float calcDistance(const SDFGeometry* primitive, const 
     if (primitive->type == SDFType::Pill)
         return displacement + sdCapsule(position, primitive->p0, primitive->p1, primitive->r0);
     if (primitive->type == SDFType::ConePill || primitive->type == SDFType::ConePillSigmoid)
-        return displacement + sdConePill(position, primitive->p0, primitive->p1, primitive->r0, primitive->r1,
-                                         primitive->type == SDFType::ConePillSigmoid);
+        return displacement + sdConePill(position, primitive->p0, primitive->p1, primitive->r0, primitive->r1);
     if (primitive->type == SDFType::Cone)
         return displacement + sdCone(position, primitive->p0, primitive->p1, primitive->r0, primitive->r1);
     return SDF_NO_INTERSECTION; // TODO: Weird return value...
 }
-
-//////////////////////////////////////////////////////////////////////
 
 static __device__ inline float sdfDistance(const float3& position, const SDFGeometry* primitive,
                                            const bool processDisplacement)
@@ -246,10 +226,8 @@ static __device__ inline float sdfDistance(const float3& position, const SDFGeom
 
         for (uint8_t i = 0; i < primitive->numNeighbours; ++i)
         {
-            const uint64_t neighbourIndex = getNeighbourIdx(primitive->neighboursIndex, i);
-
+            const uint64_t neighbourIndex = getNeighbourIndex(i);
             const SDFGeometry* neighbourGeometry = getPrimitive(neighbourIndex);
-
             const float dOther = calcDistance(neighbourGeometry, position, processDisplacement);
             if (dOther < 0.f)
                 continue;
@@ -257,14 +235,11 @@ static __device__ inline float sdfDistance(const float3& position, const SDFGeom
             const float l2 = ::optix::length(neighbourGeometry->p1 - position);
             const float r1 = max(neighbourGeometry->r0, neighbourGeometry->r1);
             const float blendFactor = lerp(geometrySdfBlendLerpFactor, min(r0, r1), max(r0, r1));
-
             d = sminPoly(dOther, d, blendFactor * geometrySdfBlendFactor);
         }
     }
     return d;
 }
-
-//////////////////////////////////////////////////////////////////////
 
 static __device__ inline float3 computeNormal(const float3& position, const SDFGeometry* primitive,
                                               const bool processDisplacement)
@@ -280,8 +255,6 @@ static __device__ inline float3 computeNormal(const float3& position, const SDFG
                               k2 * sdfDistance(position + geometrySdfEpsilon * k2, primitive, processDisplacement) +
                               k3 * sdfDistance(position + geometrySdfEpsilon * k3, primitive, processDisplacement));
 }
-
-/////////////////////////////////////////////////////////////////////////////
 
 static __device__ inline float rayMarching(const SDFGeometry* primitive, bool& processDisplacement)
 {
