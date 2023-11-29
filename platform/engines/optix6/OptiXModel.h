@@ -104,7 +104,6 @@ private:
     struct OptiXSDFGeometryBuffers
     {
         ::optix::Buffer geometries_buffer{nullptr};
-        ::optix::Buffer indices_buffer{nullptr};
         ::optix::Buffer neighbours_buffer{nullptr};
     };
     std::map<size_t, OptiXSDFGeometryBuffers> _sdfGeometriesBuffers;

@@ -81,26 +81,30 @@ double SDFGeometries::_getCorrectedRadius(const double radius, const double radi
 
 void SDFGeometries::addSDFDemo(Model& model)
 {
-    const size_t materialId = 0;
     const bool useSdf = true;
     const Vector3f displacement{0.1f, 10.f, 0.f};
 
     ThreadSafeContainer modelContainer(model, 0.f, Vector3d(), Quaterniond());
 
-    Neighbours neighbours;
-    neighbours.insert(modelContainer.addSphere(Vector3f(0.f, 0.f, 0.f), 0.5f, materialId, useSdf, NO_USER_DATA,
-                                               neighbours, displacement));
-    neighbours.insert(modelContainer.addCone(Vector3f(-1.f, 0.f, 0.f), 0.25, Vector3d(0.f, 0.f, 0.f), 0.1f, materialId,
-                                             useSdf, NO_USER_DATA, neighbours, displacement));
-    neighbours.insert(modelContainer.addCone(Vector3f(0.f, 0.f, 0.f), 0.1, Vector3f(1.f, 0.f, 0.f), 0.25f, materialId,
-                                             useSdf, NO_USER_DATA, neighbours, displacement));
-    neighbours.insert(modelContainer.addSphere(Vector3f(-0.5, 0.f, 0.f), 0.25f, materialId, useSdf, NO_USER_DATA,
-                                               neighbours, displacement));
-    neighbours.insert(modelContainer.addSphere(Vector3f(0.5, 0.f, 0.f), 0.25f, materialId, useSdf, NO_USER_DATA,
-                                               neighbours, displacement));
-    neighbours.insert(modelContainer.addCone(Vector3f(0.f, 0.25, 0.f), 0.5f, Vector3f(0.f, 1.f, 0.f), 0.f, materialId,
-                                             useSdf, NO_USER_DATA, neighbours, displacement));
+    for (size_t materialId = 0; materialId < 10; ++materialId)
+    {
+        const float x = materialId * 2.5f;
+        Neighbours neighbours;
+        neighbours.insert(modelContainer.addSphere(Vector3f(0.f + x, 0.f, 0.f), 0.5f, materialId, useSdf, NO_USER_DATA,
+                                                   neighbours, displacement));
+        neighbours.insert(modelContainer.addCone(Vector3f(-1.f + x, 0.f, 0.f), 0.25, Vector3d(0.f + x, 0.f, 0.f), 0.1f,
+                                                 materialId, useSdf, NO_USER_DATA, neighbours, displacement));
+        neighbours.insert(modelContainer.addCone(Vector3f(0.f + x, 0.f, 0.f), 0.1, Vector3f(1.f + x, 0.f, 0.f), 0.25f,
+                                                 materialId, useSdf, NO_USER_DATA, neighbours, displacement));
+        neighbours.insert(modelContainer.addSphere(Vector3f(-0.5 + x, 0.f, 0.f), 0.25f, materialId, useSdf,
+                                                   NO_USER_DATA, neighbours, displacement));
+        neighbours.insert(modelContainer.addSphere(Vector3f(0.5 + x, 0.f, 0.f), 0.25f, materialId, useSdf, NO_USER_DATA,
+                                                   neighbours, displacement));
+        neighbours.insert(modelContainer.addCone(Vector3f(0.f + x, 0.25, 0.f), 0.5f, Vector3f(0.f + x, 1.f, 0.f), 0.f,
+                                                 materialId, useSdf, NO_USER_DATA, neighbours, displacement));
+    }
     modelContainer.commitToModel();
+    model.applyDefaultColormap();
 }
 
 } // namespace common

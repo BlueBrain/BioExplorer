@@ -100,7 +100,6 @@ OptiXModel::~OptiXModel()
     for (auto sdfGeometriesBuffer : _sdfGeometriesBuffers)
     {
         RT_DESTROY(sdfGeometriesBuffer.second.geometries_buffer);
-        RT_DESTROY(sdfGeometriesBuffer.second.indices_buffer);
         RT_DESTROY(sdfGeometriesBuffer.second.neighbours_buffer);
     }
     RT_DESTROY(_geometryGroup);
@@ -307,7 +306,12 @@ void OptiXModel::_commitSDFGeometries()
         {
             const auto& neighbours = sdfGeometries.neighbours[primIdx];
             for (const auto neighbour : neighbours)
-                localNeighboursFlat.push_back(localGeometriesMapping[neighbour]);
+            {
+                const auto it = localGeometriesMapping.find(neighbour);
+                if (it == localGeometriesMapping.end())
+                    CORE_THROW("Invalid neighbour index");
+                localNeighboursFlat.push_back((*it).second);
+            }
         }
 
         // Make sure we don't create an empty buffer in the case of no neighbours
@@ -315,14 +319,6 @@ void OptiXModel::_commitSDFGeometries()
             localNeighboursFlat.resize(1, 0);
 
         // Prepare buffers
-        uint64_ts localIndices;
-        localIndices.resize(indices.size());
-        for (uint64_t i = 0; i < indices.size(); ++i)
-            localIndices[i] = i;
-        const uint64_t nbIndices = localIndices.size();
-        setBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_LONG_LONG, _sdfGeometriesBuffers[materialId].indices_buffer,
-                  _optixSdfGeometries[materialId][OPTIX_GEOMETRY_PROPERTY_SDF_GEOMETRIES_INDICES], localIndices,
-                  sizeof(uint64_t) * nbIndices);
         _optixSdfGeometries[materialId]->setPrimitiveCount(indices.size());
 
         setBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_LONG_LONG, _sdfGeometriesBuffers[materialId].neighbours_buffer,

@@ -120,6 +120,7 @@ inline Boxd getSDFBoundingBox(const SDFGeometry& geom)
         bounds.merge(geom.p1 + Vector3f(geom.r0));
         break;
     }
+    case SDFType::Cone:
     case SDFType::ConePill:
     case SDFType::ConePillSigmoid:
     {

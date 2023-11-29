@@ -28,7 +28,6 @@
 // Global variables
 rtDeclareVariable(uint, sdf_geometry_size, , );
 rtBuffer<uint8_t> sdf_geometries_buffer;
-rtBuffer<uint64_t> sdf_geometries_indices_buffer;
 rtBuffer<uint64_t> sdf_geometries_neighbours_buffer;
 
 #define SDF_NO_INTERSECTION -1.f
@@ -86,7 +85,7 @@ static __device__ inline float sminPoly(const float a, const float b, const floa
 
 static __device__ inline float opDisplacement(const float3& p, const float a, const float b)
 {
-    return a * sin(b * p.x) * sin(b * p.y * 0.6f) * sin(b * p.z * 0.3f);
+    return a * sin(b * p.x) * sin(b * p.y * 0.65f) * sin(b * p.z * 0.81f);
 }
 
 static __device__ inline float sdSphere(const float3& p, const float3& c, float r)
@@ -167,8 +166,7 @@ static __device__ inline bool intersectBox(const ::optix::Aabb& box, float& t0, 
 
 static __device__ inline SDFGeometry* getPrimitive(const int primIdx)
 {
-    const uint64_t globalIndex = sdf_geometries_indices_buffer[primIdx];
-    const uint64_t bufferIndex = globalIndex * sdf_geometry_size;
+    const uint64_t bufferIndex = primIdx * sdf_geometry_size;
     return (SDFGeometry*)&sdf_geometries_buffer[bufferIndex];
 }
 
@@ -216,29 +214,23 @@ static __device__ inline float calcDistance(const SDFGeometry* primitive, const 
 static __device__ inline float sdfDistance(const float3& position, const SDFGeometry* primitive,
                                            const bool processDisplacement)
 {
-    float d = calcDistance(primitive, position, processDisplacement);
-
+    float distance = calcDistance(primitive, position, processDisplacement);
     if (processDisplacement && primitive->numNeighbours > 0)
     {
-        const float l1 = ::optix::length(primitive->p0 - position);
-        const float l2 = ::optix::length(primitive->p1 - position);
         const float r0 = max(primitive->r0, primitive->r1);
-
         for (uint8_t i = 0; i < primitive->numNeighbours; ++i)
         {
             const uint64_t neighbourIndex = getNeighbourIndex(i);
             const SDFGeometry* neighbourGeometry = getPrimitive(neighbourIndex);
-            const float dOther = calcDistance(neighbourGeometry, position, processDisplacement);
-            if (dOther < 0.f)
+            const float neighbourDistance = calcDistance(neighbourGeometry, position, processDisplacement);
+            if (neighbourDistance < 0.f)
                 continue;
-            const float l1 = ::optix::length(neighbourGeometry->p0 - position);
-            const float l2 = ::optix::length(neighbourGeometry->p1 - position);
             const float r1 = max(neighbourGeometry->r0, neighbourGeometry->r1);
             const float blendFactor = lerp(geometrySdfBlendLerpFactor, min(r0, r1), max(r0, r1));
-            d = sminPoly(dOther, d, blendFactor * geometrySdfBlendFactor);
+            distance = sminPoly(neighbourDistance, distance, blendFactor * geometrySdfBlendFactor);
         }
     }
-    return d;
+    return distance;
 }
 
 static __device__ inline float3 computeNormal(const float3& position, const SDFGeometry* primitive,
@@ -326,16 +318,16 @@ static __device__ void intersect_sdf_geometry(int primIdx)
 
     if (t_in > 0.f)
     {
-        rtPotentialIntersection(t_in);
-        if (t_in > ray.tmin && t_in < ray.tmax)
-        {
-            const float3 position = ray.origin + t_in * ray.direction;
-            shading_normal = geometric_normal = computeNormal(position, primitive, processDisplacement);
-            userDataIndex = primitive->userData;
-            texcoord = make_float2(0.f);
-            texcoord3d = make_float3(0.f);
-            rtReportIntersection(0);
-        }
+        if (rtPotentialIntersection(t_in))
+            if (t_in > ray.tmin && t_in < ray.tmax)
+            {
+                const float3 position = ray.origin + t_in * ray.direction;
+                shading_normal = geometric_normal = computeNormal(position, primitive, processDisplacement);
+                userDataIndex = primitive->userData;
+                texcoord = make_float2(0.f);
+                texcoord3d = make_float3(0.f);
+                rtReportIntersection(0);
+            }
     }
 }
 

@@ -321,29 +321,20 @@ float sdfDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t prim_, const SDFPa
     const Geo_ptr geo = (const Geo_ptr)geo_;
     const Prim_ptr prim = (const Prim_ptr)prim_;
 
-    // Primitive
     float d = calcDistance(*prim, p, processDisplacement);
 
     if (processDisplacement && prim->numNeighbours > 0)
     {
-        const float l1 = length(prim->p0 - p);
-        const float l2 = length(prim->p1 - p);
         const float r0 = max(prim->r0, prim->r1);
-
         for (uniform int i = 0; i < prim->numNeighbours; i++)
         {
             const uniform uint64 index = getNeighbourIdx(*geo, prim->neighboursIndex, i);
-
             const uniform SDFGeometry& neighbour = *getPrimitive(*geo, index);
-
             const float dOther = calcDistance(neighbour, p, processDisplacement);
             if (dOther < 0.f)
                 continue;
-            const float l1 = length(neighbour.p0 - p);
-            const float l2 = length(neighbour.p1 - p);
             const float r1 = max(neighbour.r0, neighbour.r1);
             const float blendFactor = lerp(params.blendLerpFactor, min(r0, r1), max(r0, r1));
-
             d = sminPoly(dOther, d, blendFactor * params.blendFactor);
         }
     }
