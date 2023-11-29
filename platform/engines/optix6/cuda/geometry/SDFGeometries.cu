@@ -181,12 +181,10 @@ static __device__ inline bool intersectBox(const ::optix::Aabb& box, float& t0, 
     return (t0 <= t1);
 }
 
-static __device__ inline SDFGeometry getPrimitive(const int primIdx)
+static __device__ inline SDFGeometry* getPrimitive(const int primIdx)
 {
-    SDFGeometry primitive;
     const uint64_t idx = primIdx * sdf_geometry_size;
-    memcpy(&primitive, &sdf_geometries_buffer[idx], sdf_geometry_size);
-    return primitive;
+    return (SDFGeometry*)&sdf_geometries_buffer[idx];
 }
 
 static __device__ inline uint64_t getNeighbourIdx(const uint64_t startIdx, const uint8_t neighIdx)
@@ -194,70 +192,70 @@ static __device__ inline uint64_t getNeighbourIdx(const uint64_t startIdx, const
     return sdf_geometries_neighbours_buffer[startIdx + neighIdx];
 }
 
-static __device__ inline ::optix::Aabb getBounds(const SDFGeometry& primitive)
+static __device__ inline ::optix::Aabb getBounds(const SDFGeometry* primitive)
 {
-    const float radius = max(primitive.r0, primitive.r1) + primitive.userParams.x;
+    const float radius = max(primitive->r0, primitive->r1) + primitive->userParams.x;
     ::optix::Aabb aabb;
-    if (primitive.type == SDFType::Sphere)
+    if (primitive->type == SDFType::Sphere)
     {
-        aabb.m_min = primitive.p0 - radius;
-        aabb.m_max = primitive.p0 + radius;
+        aabb.m_min = primitive->p0 - radius;
+        aabb.m_max = primitive->p0 + radius;
         return aabb;
     }
-    aabb.m_min = make_float3(min(primitive.p0.x, primitive.p1.x), min(primitive.p0.y, primitive.p1.y),
-                             min(primitive.p0.z, primitive.p1.z)) -
+    aabb.m_min = make_float3(min(primitive->p0.x, primitive->p1.x), min(primitive->p0.y, primitive->p1.y),
+                             min(primitive->p0.z, primitive->p1.z)) -
                  radius;
-    aabb.m_max = make_float3(max(primitive.p0.x, primitive.p1.x), max(primitive.p0.y, primitive.p1.y),
-                             max(primitive.p0.z, primitive.p1.z)) +
+    aabb.m_max = make_float3(max(primitive->p0.x, primitive->p1.x), max(primitive->p0.y, primitive->p1.y),
+                             max(primitive->p0.z, primitive->p1.z)) +
                  radius;
     return aabb;
 }
 
 //////////////////////////////////////////////////////////////////////
 
-static __device__ inline float calcDistance(const SDFGeometry& primitive, const float3& position,
+static __device__ inline float calcDistance(const SDFGeometry* primitive, const float3& position,
                                             const bool processDisplacement)
 {
-    const float displacement = (processDisplacement && primitive.userParams.x > 0.f)
-                                   ? opDisplacement(position, primitive.userParams.x, primitive.userParams.y)
+    const float displacement = (processDisplacement && primitive->userParams.x > 0.f)
+                                   ? opDisplacement(position, primitive->userParams.x, primitive->userParams.y)
                                    : 0.f;
-    if (primitive.type == SDFType::Sphere)
-        return displacement + sdSphere(position, primitive.p0, primitive.r0);
-    if (primitive.type == SDFType::Pill)
-        return displacement + sdCapsule(position, primitive.p0, primitive.p1, primitive.r0);
-    if (primitive.type == SDFType::ConePill || primitive.type == SDFType::ConePillSigmoid)
-        return displacement + sdConePill(position, primitive.p0, primitive.p1, primitive.r0, primitive.r1,
-                                         primitive.type == SDFType::ConePillSigmoid);
-    if (primitive.type == SDFType::Cone)
-        return displacement + sdCone(position, primitive.p0, primitive.p1, primitive.r0, primitive.r1);
+    if (primitive->type == SDFType::Sphere)
+        return displacement + sdSphere(position, primitive->p0, primitive->r0);
+    if (primitive->type == SDFType::Pill)
+        return displacement + sdCapsule(position, primitive->p0, primitive->p1, primitive->r0);
+    if (primitive->type == SDFType::ConePill || primitive->type == SDFType::ConePillSigmoid)
+        return displacement + sdConePill(position, primitive->p0, primitive->p1, primitive->r0, primitive->r1,
+                                         primitive->type == SDFType::ConePillSigmoid);
+    if (primitive->type == SDFType::Cone)
+        return displacement + sdCone(position, primitive->p0, primitive->p1, primitive->r0, primitive->r1);
     return SDF_NO_INTERSECTION; // TODO: Weird return value...
 }
 
 //////////////////////////////////////////////////////////////////////
 
-static __device__ inline float sdfDistance(const float3& position, const SDFGeometry& primitive,
+static __device__ inline float sdfDistance(const float3& position, const SDFGeometry* primitive,
                                            const bool processDisplacement)
 {
     float d = calcDistance(primitive, position, processDisplacement);
 
-    if (processDisplacement && primitive.numNeighbours > 0)
+    if (processDisplacement && primitive->numNeighbours > 0)
     {
-        const float l1 = ::optix::length(primitive.p0 - position);
-        const float l2 = ::optix::length(primitive.p1 - position);
-        const float r0 = max(primitive.r0, primitive.r1);
+        const float l1 = ::optix::length(primitive->p0 - position);
+        const float l2 = ::optix::length(primitive->p1 - position);
+        const float r0 = max(primitive->r0, primitive->r1);
 
-        for (uint8_t i = 0; i < primitive.numNeighbours; ++i)
+        for (uint8_t i = 0; i < primitive->numNeighbours; ++i)
         {
-            const uint64_t neighbourIndex = getNeighbourIdx(primitive.neighboursIndex, i);
+            const uint64_t neighbourIndex = getNeighbourIdx(primitive->neighboursIndex, i);
 
-            const SDFGeometry neighbourGeometry = getPrimitive(neighbourIndex);
+            const SDFGeometry* neighbourGeometry = getPrimitive(neighbourIndex);
 
             const float dOther = calcDistance(neighbourGeometry, position, processDisplacement);
             if (dOther < 0.f)
                 continue;
-            const float l1 = ::optix::length(neighbourGeometry.p0 - position);
-            const float l2 = ::optix::length(neighbourGeometry.p1 - position);
-            const float r1 = max(neighbourGeometry.r0, neighbourGeometry.r1);
+            const float l1 = ::optix::length(neighbourGeometry->p0 - position);
+            const float l2 = ::optix::length(neighbourGeometry->p1 - position);
+            const float r1 = max(neighbourGeometry->r0, neighbourGeometry->r1);
             const float blendFactor = lerp(geometrySdfBlendLerpFactor, min(r0, r1), max(r0, r1));
 
             d = sminPoly(dOther, d, blendFactor * geometrySdfBlendFactor);
@@ -268,7 +266,7 @@ static __device__ inline float sdfDistance(const float3& position, const SDFGeom
 
 //////////////////////////////////////////////////////////////////////
 
-static __device__ inline float3 computeNormal(const float3& position, const SDFGeometry& primitive,
+static __device__ inline float3 computeNormal(const float3& position, const SDFGeometry* primitive,
                                               const bool processDisplacement)
 {
     // tetrahedron technique (4 evaluations)
@@ -285,7 +283,7 @@ static __device__ inline float3 computeNormal(const float3& position, const SDFG
 
 /////////////////////////////////////////////////////////////////////////////
 
-static __device__ inline float rayMarching(const SDFGeometry& primitive, bool& processDisplacement)
+static __device__ inline float rayMarching(const SDFGeometry* primitive, bool& processDisplacement)
 {
     const ::optix::Aabb box = getBounds(primitive);
 
@@ -349,7 +347,7 @@ static __device__ inline float rayMarching(const SDFGeometry& primitive, bool& p
 template <bool use_robust_method>
 static __device__ void intersect_sdf_geometry(int primIdx)
 {
-    const SDFGeometry primitive = getPrimitive(primIdx);
+    const SDFGeometry* primitive = getPrimitive(primIdx);
     bool processDisplacement = true;
     const float t_in = rayMarching(primitive, processDisplacement);
 
@@ -360,7 +358,7 @@ static __device__ void intersect_sdf_geometry(int primIdx)
         {
             const float3 position = ray.origin + t_in * ray.direction;
             shading_normal = geometric_normal = computeNormal(position, primitive, processDisplacement);
-            userDataIndex = primitive.userData;
+            userDataIndex = primitive->userData;
             texcoord = make_float2(0.f);
             texcoord3d = make_float3(0.f);
             rtReportIntersection(0);
@@ -380,7 +378,7 @@ RT_PROGRAM void robust_intersect(int primIdx)
 
 RT_PROGRAM void bounds(int primIdx, float result[6])
 {
-    const SDFGeometry primitive = getPrimitive(primIdx);
+    const SDFGeometry* primitive = getPrimitive(primIdx);
     const ::optix::Aabb bounds = getBounds(primitive);
     memcpy(&result[0], &bounds[0], sizeof(optix::Aabb));
 }
