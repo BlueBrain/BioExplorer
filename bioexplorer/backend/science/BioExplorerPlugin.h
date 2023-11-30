@@ -115,6 +115,7 @@ private:
     details::IdsDetails _getModelIds() const;
     details::IdsDetails _getModelInstances(const details::ModelIdDetails &payload) const;
     details::Response _addModelInstance(const details::AddModelInstanceDetails &payload) const;
+    details::Response _setModelInstances(const details::SetModelInstancesDetails &payload) const;
 
     // Colors and materials
     details::Response _setProteinColorScheme(const details::ProteinColorSchemeDetails &payload) const;
