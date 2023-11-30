@@ -168,6 +168,10 @@ private:
     details::LookAtResponseDetails _lookAt(const details::LookAtDetails &payload);
     details::Response _addSdfDemo();
 
+    // SDF Geometries
+    details::Response _addTorus(const details::SDFTorusDetails &payload);
+    details::Response _addVesica(const details::SDFVesicaDetails &payload);
+
     // Attributes
     common::AssemblyMap _assemblies;
 

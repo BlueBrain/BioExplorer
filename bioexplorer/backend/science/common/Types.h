@@ -77,6 +77,9 @@ const double NO_GRID_ALIGNMENT = 0.0;
 
 namespace common
 {
+using MaterialSet = std::set<size_t>;
+using Neighbours = std::set<size_t>;
+
 class Node;
 using NodePtr = std::shared_ptr<Node>;
 using NodeMap = std::map<std::string, NodePtr>;
@@ -1668,6 +1671,24 @@ typedef struct
     double amplitude{1.0};
     double frequency{1.0};
 } CellAnimationDetails;
+
+typedef struct
+{
+    std::string name;
+    doubles position;
+    double outerRadius;
+    double innerRadius;
+    doubles displacement;
+} SDFTorusDetails;
+
+typedef struct
+{
+    std::string name;
+    doubles srcPosition;
+    doubles dstPosition;
+    double radius;
+    doubles displacement;
+} SDFVesicaDetails;
 
 } // namespace details
 } // namespace bioexplorer
