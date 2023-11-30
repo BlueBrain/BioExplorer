@@ -370,6 +370,11 @@ public:
     void removeInstance(const size_t id);
 
     /**
+     * Removes all instances of the model.
+     */
+    void clearInstances();
+
+    /**
      * Gets the instance of the model with the given id.
      * @param id The id of the instance to get.
      * @return The instance of the model with the given id.

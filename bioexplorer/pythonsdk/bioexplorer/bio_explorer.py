@@ -2335,9 +2335,10 @@ class BioExplorer:
         Return the list of instances in the specified model
 
         :model_id: Id of the model
-        :max_number_of_instances: Maximum number of instances (this can be huge and difficult to
-        handle by the python code)
-        :return: List of instance Ids
+        :translation: Instance translation
+        :rotation: Instance rotation
+        :rotation_center: Instance rotation center
+        :scale: Instance scale
         """
         assert isinstance(model_id, int)
         assert isinstance(translation, Vector3)
@@ -2352,6 +2353,37 @@ class BioExplorer:
         params["rotationCenter"] = rotation_center.to_list()
         params["scale"] = scale.to_list()
         return self._invoke("add-model-instance", params)
+
+    def set_model_instances(
+        self,
+        model_id,
+        translations=list(),
+        rotations=list(),
+        rotation_centers=list(),
+        scales=list(),
+    ):
+        """
+        Return the list of instances in the specified model
+
+        :model_id: Id of the model
+        :translations: List of translations (array of floats x,y,z,x,y,z,...)
+        :rotations: List of rotation quaternions (array of floats x,y,z,w,x,y,z,w,...)
+        :rotation_centers: List of rotation centers (array of floats x,y,z,x,y,z,...)
+        :scales: List of scales (array of floats x,y,z,x,y,z,...)
+        """
+        assert isinstance(model_id, int)
+        assert isinstance(translations, list)
+        assert isinstance(rotations, list)
+        assert isinstance(rotation_centers, list)
+        assert isinstance(scales, list)
+
+        params = dict()
+        params["modelId"] = model_id
+        params["translations"] = translations
+        params["rotations"] = rotations
+        params["rotationCenters"] = rotation_centers
+        params["scales"] = scales
+        return self._invoke("set-model-instances", params)
 
     def get_material_ids(self, model_id):
         """

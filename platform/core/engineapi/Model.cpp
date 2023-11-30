@@ -148,6 +148,14 @@ void ModelDescriptor::removeInstance(const size_t id)
         _model->markInstancesDirty();
 }
 
+void ModelDescriptor::clearInstances()
+{
+    _instances.clear();
+
+    if (_model)
+        _model->markInstancesDirty();
+}
+
 ModelInstance* ModelDescriptor::getInstance(const size_t id)
 {
     auto i = std::find_if(_instances.begin(), _instances.end(),

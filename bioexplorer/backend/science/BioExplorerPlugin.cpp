@@ -427,6 +427,11 @@ void BioExplorerPlugin::init()
                                                                             [&](const AddModelInstanceDetails &payload)
                                                                             { return _addModelInstance(payload); });
 
+        endPoint = PLUGIN_API_PREFIX + "set-model-instances";
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
+        actionInterface->registerRequest<SetModelInstancesDetails, Response>(
+            endPoint, [&](const SetModelInstancesDetails &payload) { return _setModelInstances(payload); });
+
         endPoint = PLUGIN_API_PREFIX + "get-model-name";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
         actionInterface->registerRequest<ModelIdDetails, NameDetails>(endPoint,
@@ -1559,6 +1564,58 @@ Response BioExplorerPlugin::_addModelInstance(const AddModelInstanceDetails &pay
         tf.setScale(scale);
         const ModelInstance instance(true, false, tf);
         modelDescriptor->addInstance(instance);
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_setModelInstances(const SetModelInstancesDetails &payload) const
+{
+    Response response;
+    try
+    {
+        auto &scene = _api->getScene();
+        auto modelDescriptor = scene.getModel(payload.modelId);
+        if (!modelDescriptor)
+            PLUGIN_THROW("Invalid model Id");
+
+        const uint64_t nbTranslations = payload.translations.size() / 3;
+        const uint64_t nbRotationCenters = payload.rotationCenters.size() / 3;
+        const uint64_t nbRotations = payload.rotations.size() / 4;
+        const uint64_t nbScales = payload.scales.size() / 3;
+
+        const uint64_t nbTransformations =
+            std::max(nbTranslations, std::max(nbRotationCenters, std::max(nbRotations, nbScales)));
+
+        modelDescriptor->clearInstances();
+        for (uint64_t i = 0; i < nbTransformations; ++i)
+        {
+            Transformation tf;
+            Vector3d translation;
+            Quaterniond rotation;
+            Vector3d rotationCenter;
+            Vector3d scale{1, 1, 1};
+            if (i < payload.translations.size() * 3)
+                translation = Vector3d(payload.translations[i * 3], payload.translations[i * 3 + 1],
+                                       payload.translations[i * 3 + 2]);
+            if (i < payload.rotations.size() * 4)
+                rotation = Quaterniond(payload.rotations[i * 4], payload.rotations[i * 4 + 1],
+                                       payload.rotations[i * 4 + 2], payload.rotations[i * 4 + 3]);
+            if (i < payload.rotationCenters.size() * 3)
+                rotationCenter = Vector3d(payload.rotationCenters[i * 3], payload.rotationCenters[i * 3 + 1],
+                                          payload.rotationCenters[i * 3 + 2]);
+            if (i < payload.scales.size() * 3)
+                rotationCenter = Vector3d(payload.scales[i * 3], payload.scales[i * 3 + 1], payload.scales[i * 3 + 2]);
+            tf.setTranslation(translation);
+            tf.setRotation(rotation);
+            tf.setRotationCenter(rotationCenter);
+            tf.setScale(scale);
+            if (i == 0)
+                modelDescriptor->setTransformation(tf);
+            const ModelInstance instance(true, false, tf);
+            modelDescriptor->addInstance(instance);
+        }
+        scene.markModified();
     }
     CATCH_STD_EXCEPTION()
     return response;
