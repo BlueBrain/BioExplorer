@@ -114,6 +114,24 @@ uint64_t ThreadSafeContainer::addCone(const Vector3f& sourcePosition, const floa
                                  userDataOffset});
 }
 
+uint64_t ThreadSafeContainer::addTorus(const Vector3f& position, const float outerRadius, const float innerRadius,
+                                       const size_t materialId, const uint64_t userDataOffset,
+                                       const Neighbours& neighbours, const Vector3f displacement)
+{
+    const Vector3f scale = _scale;
+    const Vector3f scaledPosition =
+        getAlignmentToGrid(_alignToGrid, Vector3f(_position + _rotation * Vector3d(position)) * scale);
+    const auto scaledOuterRadius = (outerRadius - displacement.x) * scale.x;
+    const auto scaledInnerRadius = (innerRadius - displacement.x) * scale.x;
+    _bounds.merge(scaledPosition + scaledOuterRadius);
+    _bounds.merge(scaledPosition - scaledOuterRadius);
+    const Vector3f scaledDisplacement{displacement.x * scale.x, displacement.y / scale.x, displacement.z};
+    return _addSDFGeometry(materialId,
+                           createSDFTorus(scaledPosition, scaledOuterRadius, scaledInnerRadius, userDataOffset,
+                                          scaledDisplacement),
+                           neighbours);
+}
+
 void ThreadSafeContainer::addMesh(const size_t materialId, const TriangleMesh& mesh)
 {
     _meshesMap[materialId] = mesh;

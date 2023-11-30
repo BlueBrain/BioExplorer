@@ -35,11 +35,17 @@
 
 #include "RayMarching.isph"
 
-#define SDF_TYPE_SPHERE 0
-#define SDF_TYPE_PILL 1
-#define SDF_TYPE_CONE_PILL 2
-#define SDF_TYPE_CONE_PILL_SIGMOID 3
-#define SDF_TYPE_CONE 4
+enum SDFType
+{
+    sdf_sphere = 0,
+    sdf_pill = 1,
+    sdf_cone_pill = 2,
+    sdf_cone_pill_sigmoid = 3,
+    sdf_cone = 4,
+    sdf_torus = 5,
+    sdf_cut_sphere = 6,
+    sdf_vesica = 7
+};
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -204,6 +210,12 @@ inline float sdCone(const vec3f& p, const vec3f a, const vec3f b, float ra, floa
     return s * sqrt(min(cax * cax + cay * cay * baba, cbx * cbx + cby * cby * baba));
 }
 
+inline float sdTorus(const vec3f& p, const vec3f a, float ra, float rb)
+{
+    const vec3f q = make_vec3f(length((make_vec3f(p.x, 0.f, p.z) - a)) - ra, p.y - a.y, 0.f);
+    return length(q) - rb;
+}
+
 //////////////////////////////////////////////////////////////////////
 
 // NOTE: This layout must match exactly the 'SDFGeometry' struct in
@@ -283,16 +295,21 @@ inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p, 
     const float displacement = (processDisplacement && primitive.userParams.x > 0.f)
                                    ? opDisplacement(p, primitive.userParams.x, primitive.userParams.y)
                                    : 0.f;
-    if (primitive.type == SDF_TYPE_SPHERE)
+    switch (primitive.type)
+    {
+    case sdf_sphere:
         return displacement + sdSphere(p, primitive.p0, primitive.r0);
-    if (primitive.type == SDF_TYPE_PILL)
+    case sdf_pill:
         return displacement + sdCapsule(p, primitive.p0, primitive.p1, primitive.r0);
-    if (primitive.type == SDF_TYPE_CONE_PILL || primitive.type == SDF_TYPE_CONE_PILL_SIGMOID)
-        return displacement + sdConePill(p, primitive.p0, primitive.p1, primitive.r0, primitive.r1,
-                                         primitive.type == SDF_TYPE_CONE_PILL_SIGMOID);
-    if (primitive.type == SDF_TYPE_CONE)
+    case sdf_cone_pill:
+        return displacement + sdConePill(p, primitive.p0, primitive.p1, primitive.r0, primitive.r1, false);
+    case sdf_cone_pill_sigmoid:
+        return displacement + sdConePill(p, primitive.p0, primitive.p1, primitive.r0, primitive.r1, true);
+    case sdf_cone:
         return displacement + sdCone(p, primitive.p0, primitive.p1, primitive.r0, primitive.r1);
-
+    case sdf_torus:
+        return displacement + sdTorus(p, primitive.p0, primitive.r0, primitive.r1);
+    }
     return -1.0;
 }
 
@@ -301,16 +318,20 @@ inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p, 
 uniform box3fa sdfBounds(uDataPtr_t geo_, uDataPtr_t prim_)
 {
     const Prim_ptr prim = (const Prim_ptr)prim_;
+
     const uniform float radius = max(prim->r0, prim->r1) + prim->userParams.x;
-
-    if (prim->type == SDF_TYPE_SPHERE)
+    switch (prim->type)
     {
+    case sdf_sphere:
         return make_box3fa(prim->p0 - radius, prim->p0 + radius);
+    case sdf_torus:
+        const uniform float r = prim->r0 + prim->r1 + prim->userParams.x;
+        return make_box3fa(prim->p0 - r, prim->p0 + r);
+    default:
+        const uniform vec3f minV = min(prim->p0, prim->p1);
+        const uniform vec3f maxV = max(prim->p0, prim->p1);
+        return make_box3fa(minV - radius, maxV + radius);
     }
-    const uniform vec3f minV = min(prim->p0, prim->p1);
-    const uniform vec3f maxV = max(prim->p0, prim->p1);
-
-    return make_box3fa(minV - radius, maxV + radius);
 }
 
 //////////////////////////////////////////////////////////////////////

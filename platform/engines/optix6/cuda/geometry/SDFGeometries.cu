@@ -34,11 +34,14 @@ rtBuffer<uint64_t> sdf_geometries_neighbours_buffer;
 
 enum SDFType : uint8_t
 {
-    Sphere = 0,
-    Pill = 1,
-    ConePill = 2,
-    ConePillSigmoid = 3,
-    Cone = 4
+    sdf_sphere = 0,
+    sdf_pill = 1,
+    sdf_cone_pill = 2,
+    sdf_cone_pill_sigmoid = 3,
+    sdf_cone = 4,
+    sdf_torus = 5,
+    sdf_cut_sphere = 6,
+    sdf_vesica = 7
 };
 
 #define OFFSET_USER_DATA 0
@@ -152,6 +155,12 @@ static __device__ inline float sdCone(const float3& p, const float3 a, const flo
     return s * sqrt(min(cax * cax + cay * cay * baba, cbx * cbx + cby * cby * baba));
 }
 
+static __device__ inline float sdTorus(const float3& p, const float3& a, float ra, float rb)
+{
+    float2 q = make_float2(::optix::length((make_float3(p.x, 0.f, p.z) - a)) - ra, p.y - a.y);
+    return ::optix::length(q) - rb;
+}
+
 static __device__ inline bool intersectBox(const ::optix::Aabb& box, float& t0, float& t1)
 {
     const float3 a = (box.m_min - ray.origin) / ray.direction;
@@ -179,19 +188,30 @@ static __device__ inline ::optix::Aabb getBounds(const SDFGeometry* primitive)
 {
     const float radius = max(primitive->r0, primitive->r1) + primitive->userParams.x;
     ::optix::Aabb aabb;
-    if (primitive->type == SDFType::Sphere)
+    switch (primitive->type)
+    {
+    case SDFType::sdf_sphere:
     {
         aabb.m_min = primitive->p0 - radius;
         aabb.m_max = primitive->p0 + radius;
         return aabb;
     }
-    aabb.m_min = make_float3(min(primitive->p0.x, primitive->p1.x), min(primitive->p0.y, primitive->p1.y),
-                             min(primitive->p0.z, primitive->p1.z)) -
-                 radius;
-    aabb.m_max = make_float3(max(primitive->p0.x, primitive->p1.x), max(primitive->p0.y, primitive->p1.y),
-                             max(primitive->p0.z, primitive->p1.z)) +
-                 radius;
-    return aabb;
+    case SDFType::sdf_torus:
+    {
+        const float r = primitive->r0 + primitive->r1 + primitive->userParams.x;
+        aabb.m_min = primitive->p0 - r;
+        aabb.m_max = primitive->p0 + r;
+        return aabb;
+    }
+    default:
+        aabb.m_min = make_float3(min(primitive->p0.x, primitive->p1.x), min(primitive->p0.y, primitive->p1.y),
+                                 min(primitive->p0.z, primitive->p1.z)) -
+                     radius;
+        aabb.m_max = make_float3(max(primitive->p0.x, primitive->p1.x), max(primitive->p0.y, primitive->p1.y),
+                                 max(primitive->p0.z, primitive->p1.z)) +
+                     radius;
+        return aabb;
+    }
 }
 
 static __device__ inline float calcDistance(const SDFGeometry* primitive, const float3& position,
@@ -200,14 +220,16 @@ static __device__ inline float calcDistance(const SDFGeometry* primitive, const 
     const float displacement = (processDisplacement && primitive->userParams.x > 0.f)
                                    ? opDisplacement(position, primitive->userParams.x, primitive->userParams.y)
                                    : 0.f;
-    if (primitive->type == SDFType::Sphere)
+    if (primitive->type == SDFType::sdf_sphere)
         return displacement + sdSphere(position, primitive->p0, primitive->r0);
-    if (primitive->type == SDFType::Pill)
+    if (primitive->type == SDFType::sdf_pill)
         return displacement + sdCapsule(position, primitive->p0, primitive->p1, primitive->r0);
-    if (primitive->type == SDFType::ConePill || primitive->type == SDFType::ConePillSigmoid)
+    if (primitive->type == SDFType::sdf_cone_pill || primitive->type == SDFType::sdf_cone_pill_sigmoid)
         return displacement + sdConePill(position, primitive->p0, primitive->p1, primitive->r0, primitive->r1);
-    if (primitive->type == SDFType::Cone)
+    if (primitive->type == SDFType::sdf_cone)
         return displacement + sdCone(position, primitive->p0, primitive->p1, primitive->r0, primitive->r1);
+    if (primitive->type == SDFType::sdf_torus)
+        return displacement + sdTorus(position, primitive->p0, primitive->r0, primitive->r1);
     return SDF_NO_INTERSECTION; // TODO: Weird return value...
 }
 
