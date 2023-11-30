@@ -44,6 +44,7 @@ set(${NAME}_CU
   cuda/camera/PerspectiveCamera.cu
   cuda/camera/OrthographicCamera.cu
   cuda/Constantbg.cu
+  cuda/geometry/SDFGeometries.cu
   cuda/geometry/Cones.cu
   cuda/geometry/Cylinders.cu
   cuda/geometry/Spheres.cu

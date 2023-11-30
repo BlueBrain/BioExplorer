@@ -27,10 +27,14 @@ namespace core
 {
 enum class SDFType : uint8_t
 {
-    Sphere = 0,
-    Pill = 1,
-    ConePill = 2,
-    ConePillSigmoid = 3
+    sdf_sphere = 0,
+    sdf_pill = 1,
+    sdf_cone_pill = 2,
+    sdf_cone_pill_sigmoid = 3,
+    sdf_cone = 4,
+    sdf_torus = 5,
+    sdf_cut_sphere = 6,
+    sdf_vesica = 7
 };
 
 struct SDFGeometry
@@ -54,7 +58,20 @@ inline SDFGeometry createSDFSphere(const Vector3f& center, const float radius, c
     geom.userParams = userParams;
     geom.p0 = center;
     geom.r0 = radius;
-    geom.type = SDFType::Sphere;
+    geom.type = SDFType::sdf_sphere;
+    return geom;
+}
+
+inline SDFGeometry createSDFCutSphere(const Vector3f& center, const float radius, const float cutRadius,
+                                      const uint64_t data = 0, const Vector3f& userParams = Vector3f(0.f))
+{
+    SDFGeometry geom;
+    geom.userData = data;
+    geom.userParams = userParams;
+    geom.p0 = center;
+    geom.r0 = radius;
+    geom.r1 = cutRadius;
+    geom.type = SDFType::sdf_cut_sphere;
     return geom;
 }
 
@@ -67,7 +84,7 @@ inline SDFGeometry createSDFPill(const Vector3f& p0, const Vector3f& p1, const f
     geom.p0 = p0;
     geom.p1 = p1;
     geom.r0 = radius;
-    geom.type = SDFType::Pill;
+    geom.type = SDFType::sdf_pill;
     return geom;
 }
 
@@ -88,7 +105,7 @@ inline SDFGeometry createSDFConePill(const Vector3f& p0, const Vector3f& p1, con
         std::swap(geom.r0, geom.r1);
     }
 
-    geom.type = SDFType::ConePill;
+    geom.type = SDFType::sdf_cone_pill;
     return geom;
 }
 
@@ -96,7 +113,33 @@ inline SDFGeometry createSDFConePillSigmoid(const Vector3f& p0, const Vector3f& 
                                             const uint64_t data = 0, const Vector3f& userParams = Vector3f(0.f))
 {
     SDFGeometry geom = createSDFConePill(p0, p1, r0, r1, data, userParams);
-    geom.type = SDFType::ConePillSigmoid;
+    geom.type = SDFType::sdf_cone_pill_sigmoid;
+    return geom;
+}
+
+inline SDFGeometry createSDFTorus(const Vector3f& p0, const float r0, const float r1, const uint64_t data = 0,
+                                  const Vector3f& userParams = Vector3f(0.f))
+{
+    SDFGeometry geom;
+    geom.userData = data;
+    geom.userParams = userParams;
+    geom.p0 = p0;
+    geom.r0 = r0;
+    geom.r1 = r1;
+    geom.type = SDFType::sdf_torus;
+    return geom;
+}
+
+inline SDFGeometry createSDFVesica(const Vector3f& p0, const Vector3f& p1, const float r0, const uint64_t data = 0,
+                                   const Vector3f& userParams = Vector3f(0.f))
+{
+    SDFGeometry geom;
+    geom.userData = data;
+    geom.userParams = userParams;
+    geom.p0 = p0;
+    geom.p1 = p1;
+    geom.r0 = r0;
+    geom.type = SDFType::sdf_vesica;
     return geom;
 }
 
@@ -105,13 +148,15 @@ inline Boxd getSDFBoundingBox(const SDFGeometry& geom)
     Boxd bounds;
     switch (geom.type)
     {
-    case SDFType::Sphere:
+    case SDFType::sdf_sphere:
+    case SDFType::sdf_cut_sphere:
     {
         bounds.merge(geom.p0 - Vector3f(geom.r0));
         bounds.merge(geom.p0 + Vector3f(geom.r0));
         break;
     }
-    case SDFType::Pill:
+    case SDFType::sdf_pill:
+    case SDFType::sdf_vesica:
     {
         bounds.merge(geom.p0 - Vector3f(geom.r0));
         bounds.merge(geom.p0 + Vector3f(geom.r0));
@@ -119,13 +164,20 @@ inline Boxd getSDFBoundingBox(const SDFGeometry& geom)
         bounds.merge(geom.p1 + Vector3f(geom.r0));
         break;
     }
-    case SDFType::ConePill:
-    case SDFType::ConePillSigmoid:
+    case SDFType::sdf_cone:
+    case SDFType::sdf_cone_pill:
+    case SDFType::sdf_cone_pill_sigmoid:
     {
         bounds.merge(geom.p0 - Vector3f(geom.r0));
         bounds.merge(geom.p0 + Vector3f(geom.r0));
         bounds.merge(geom.p1 - Vector3f(geom.r1));
         bounds.merge(geom.p1 + Vector3f(geom.r1));
+        break;
+    }
+    case SDFType::sdf_torus:
+    {
+        bounds.merge(geom.p0 - Vector3f(geom.r0 + geom.r1));
+        bounds.merge(geom.p0 + Vector3f(geom.r0 + geom.r1));
         break;
     }
     default:

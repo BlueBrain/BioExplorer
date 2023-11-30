@@ -60,6 +60,9 @@ Geometry properties
 static const char* OPTIX_GEOMETRY_PROPERTY_SPHERES = "spheres";
 static const char* OPTIX_GEOMETRY_PROPERTY_CYLINDERS = "cylinders";
 static const char* OPTIX_GEOMETRY_PROPERTY_CONES = "cones";
+static const char* OPTIX_GEOMETRY_PROPERTY_SDF_GEOMETRIES = "sdf_geometries_buffer";
+static const char* OPTIX_GEOMETRY_PROPERTY_SDF_GEOMETRIES_INDICES = "sdf_geometries_indices_buffer";
+static const char* OPTIX_GEOMETRY_PROPERTY_SDF_GEOMETRIES_NEIGHBOURS = "sdf_geometries_neighbours_buffer";
 static const char* OPTIX_GEOMETRY_PROPERTY_VOLUMES = "volumes";
 
 static const char* OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_VERTEX = "vertices_buffer";

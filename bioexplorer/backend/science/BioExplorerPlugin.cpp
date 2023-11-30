@@ -572,6 +572,10 @@ void BioExplorerPlugin::init()
         PLUGIN_REGISTER_ENDPOINT(endPoint);
         _api->getActionInterface()->registerRequest<LookAtDetails, LookAtResponseDetails>(
             endPoint, [&](const LookAtDetails &payload) { return _lookAt(payload); });
+
+        endPoint = PLUGIN_API_PREFIX + "add-sdf-demo";
+        PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
+        actionInterface->registerRequest<Response>(endPoint, [&]() { return _addSdfDemo(); });
     }
 
     auto &params = engine.getParametersManager().getApplicationParameters();
@@ -2045,6 +2049,22 @@ NeuronPointsDetails BioExplorerPlugin::_getNeuronVaricosities(const NeuronIdDeta
         response.status = false;
         PLUGIN_ERROR(e.what());
     }
+    return response;
+}
+
+Response BioExplorerPlugin::_addSdfDemo()
+{
+    Response response;
+    try
+    {
+        auto &scene = _api->getScene();
+        auto model = scene.createModel();
+
+        SDFGeometries geometries(0.0);
+        geometries.addSDFDemo(*model);
+        scene.addModel(std::make_shared<ModelDescriptor>(std::move(model), "SDF demo"));
+    }
+    CATCH_STD_EXCEPTION()
     return response;
 }
 

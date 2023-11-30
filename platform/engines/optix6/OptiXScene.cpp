@@ -164,6 +164,17 @@ void OptiXScene::_commitVolumeParameters()
     context[CONTEXT_VOLUME_CLIPPING_BOX_UPPER]->setFloat(boxUpper.x, boxUpper.y, boxUpper.z);
 }
 
+void OptiXScene::_commitGeometryParameters()
+{
+    auto context = OptiXContext::get().getOptixContext();
+    context[CONTEXT_GEOMETRY_SDF_EPSILON]->setFloat(_geometryParameters.getSdfEpsilon());
+    context[CONTEXT_GEOMETRY_SDF_NB_MARCH_ITERATIONS]->setUint(_geometryParameters.getSdfNbMarchIterations());
+    context[CONTEXT_GEOMETRY_SDF_BLEND_FACTOR]->setFloat(_geometryParameters.getSdfBlendFactor());
+    context[CONTEXT_GEOMETRY_SDF_BLEND_LERP_FACTOR]->setFloat(_geometryParameters.getSdfBlendLerpFactor());
+    context[CONTEXT_GEOMETRY_SDF_OMEGA]->setFloat(_geometryParameters.getSdfOmega());
+    context[CONTEXT_GEOMETRY_SDF_DISTANCE]->setFloat(_geometryParameters.getSdfDistance());
+}
+
 void OptiXScene::_commitClippingPlanes()
 {
     if (!isModified())
@@ -210,6 +221,7 @@ void OptiXScene::commit()
     }
 
     commitLights();
+    _commitGeometryParameters();
     _commitClippingPlanes();
 
     if (!isModified())

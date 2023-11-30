@@ -35,10 +35,17 @@
 
 #include "RayMarching.isph"
 
-#define SDF_TYPE_SPHERE 0
-#define SDF_TYPE_PILL 1
-#define SDF_TYPE_CONE_PILL 2
-#define SDF_TYPE_CONE_PILL_SIGMOID 3
+enum SDFType
+{
+    sdf_sphere = 0,
+    sdf_pill = 1,
+    sdf_cone_pill = 2,
+    sdf_cone_pill_sigmoid = 3,
+    sdf_cone = 4,
+    sdf_torus = 5,
+    sdf_cut_sphere = 6,
+    sdf_vesica = 7
+};
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -59,7 +66,7 @@ inline float smoothstep(const float x)
 }
 
 // https://en.wikipedia.org/wiki/Smoothstep
-inline float smootherstep(const float x)
+inline float smootherStep(const float x)
 {
     return x * x * x * (x * (x * 6 - 15) + 10);
 }
@@ -114,6 +121,12 @@ inline vec3f opRep(const vec3f& p, const vec3f& c)
     return mod(p, c) - 0.5f * c;
 }
 
+inline float mix(const float x, const float y, const float a)
+{
+    return x * (1.f - a) + y * a;
+}
+
+#if 0
 inline float sdConePill(const vec3f& p, const vec3f p0, const vec3f p1, const float r0, const float r1,
                         const bool useSigmoid)
 {
@@ -134,10 +147,45 @@ inline float sdConePill(const vec3f& p, const vec3f p0, const vec3f p1, const fl
     const vec3f Pb = p0 + b * v;
 
     const float thicknessAt = lerp(b, r0, r1);
-    const float thickness = useSigmoid ? lerp(smootherstep(b), r0, r1) : thicknessAt;
+    const float thickness = useSigmoid ? mix(r0, r1, smootherStep(b)) : thicknessAt;
 
     return length(p - Pb) - thickness;
 }
+#else
+
+inline float sign(const float x)
+{
+    return (x >= 0.f ? 1.f : -1.f);
+}
+
+inline float sdConePill(const vec3f& p, const vec3f a, const vec3f b, const float r1, const float r2,
+                        const bool /*useSigmoid*/)
+{
+    // sampling independent computations (only depend on shape)
+    const vec3f ba = b - a;
+    float l2 = dot(ba, ba);
+    float rr = r1 - r2;
+    float a2 = l2 - rr * rr;
+    float il2 = 1.0 / l2;
+
+    // sampling dependant computations
+    const vec3f pa = p - a;
+    const float y = dot(pa, ba);
+    const float z = y - l2;
+    const vec3f d = pa * l2 - ba * y;
+    const float x2 = dot(d, d);
+    const float y2 = y * y * l2;
+    const float z2 = z * z * l2;
+
+    // single square root!
+    const float k = sign(rr) * rr * rr * x2;
+    if (sign(z) * a2 * z2 > k)
+        return sqrt(x2 + z2) * il2 - r2;
+    if (sign(y) * a2 * y2 < k)
+        return sqrt(x2 + y2) * il2 - r1;
+    return (sqrt(x2 * a2 * il2) + y * rr) * il2 - r1;
+}
+#endif
 
 inline float sdCone(const vec3f& p, const vec3f a, const vec3f b, float ra, float rb)
 {
@@ -160,6 +208,38 @@ inline float sdCone(const vec3f& p, const vec3f a, const vec3f b, float ra, floa
     float s = (cbx < 0.0 && cay < 0.0) ? -1.0 : 1.0;
 
     return s * sqrt(min(cax * cax + cay * cay * baba, cbx * cbx + cby * cby * baba));
+}
+
+inline float sdTorus(const vec3f& p, const vec3f c, float ra, float rb)
+{
+    const vec3f q = make_vec3f(length((make_vec3f(p.x, 0.f, p.z) - c)) - ra, p.y - c.y, 0.f);
+    return length(q) - rb;
+}
+
+inline float sdCutSphere(const vec3f& p, const vec3f c, float r, float h)
+{
+    // sampling independent computations (only depend on shape)
+    const float w = sqrt(r * r - h * h);
+
+    // sampling dependant computations
+    const vec3f q = make_vec3f(length(make_vec3f(p.x, 0.f, p.z) - make_vec3f(c.x, 0.f, c.z)), p.y - c.y, 0.f);
+    const float s = max((h - r) * q.x * q.x + w * w * (h + r - 2.f * q.y), h * q.x - w * q.y);
+    return (s < 0.f) ? length(q) - r : (q.x < w) ? h - q.y : length(q - make_vec3f(w, h, 0.));
+}
+
+inline float sdVesica(const vec3f& p, const vec3f a, const vec3f b, float w)
+{
+    const vec3f c = (a + b) * 0.5;
+    float l = length(b - a);
+    const vec3f v = (b - a) / l;
+    float y = dot(p - c, v);
+    const vec3f q = make_vec3f(length(p - c - y * v), abs(y), 0.f);
+
+    const float r = 0.5f * l;
+    const float d = 0.5f * (r * r - w * w) / w;
+    const vec3f h = (r * q.x < d * (q.y - r)) ? make_vec3f(0.f, r, 0.f) : make_vec3f(-d, 0.f, d + w);
+
+    return length(q - make_vec3f(h.x, h.y, 0.f)) - h.z;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -241,14 +321,25 @@ inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p, 
     const float displacement = (processDisplacement && primitive.userParams.x > 0.f)
                                    ? opDisplacement(p, primitive.userParams.x, primitive.userParams.y)
                                    : 0.f;
-    if (primitive.type == SDF_TYPE_SPHERE)
+    switch (primitive.type)
+    {
+    case sdf_sphere:
         return displacement + sdSphere(p, primitive.p0, primitive.r0);
-    if (primitive.type == SDF_TYPE_PILL)
+    case sdf_pill:
         return displacement + sdCapsule(p, primitive.p0, primitive.p1, primitive.r0);
-    if (primitive.type == SDF_TYPE_CONE_PILL || primitive.type == SDF_TYPE_CONE_PILL_SIGMOID)
-        return displacement + sdConePill(p, primitive.p0, primitive.p1, primitive.r0, primitive.r1,
-                                         primitive.type == SDF_TYPE_CONE_PILL_SIGMOID);
-
+    case sdf_cone_pill:
+        return displacement + sdConePill(p, primitive.p0, primitive.p1, primitive.r0, primitive.r1, false);
+    case sdf_cone_pill_sigmoid:
+        return displacement + sdConePill(p, primitive.p0, primitive.p1, primitive.r0, primitive.r1, true);
+    case sdf_cone:
+        return displacement + sdCone(p, primitive.p0, primitive.p1, primitive.r0, primitive.r1);
+    case sdf_torus:
+        return displacement + sdTorus(p, primitive.p0, primitive.r0, primitive.r1);
+    case sdf_cut_sphere:
+        return displacement + sdCutSphere(p, primitive.p0, primitive.r0, primitive.r1);
+    case sdf_vesica:
+        return displacement + sdVesica(p, primitive.p0, primitive.p1, primitive.r0);
+    }
     return -1.0;
 }
 
@@ -257,16 +348,21 @@ inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p, 
 uniform box3fa sdfBounds(uDataPtr_t geo_, uDataPtr_t prim_)
 {
     const Prim_ptr prim = (const Prim_ptr)prim_;
+
     const uniform float radius = max(prim->r0, prim->r1) + prim->userParams.x;
-
-    if (prim->type == SDF_TYPE_SPHERE)
+    switch (prim->type)
     {
+    case sdf_sphere:
+    case sdf_cut_sphere:
         return make_box3fa(prim->p0 - radius, prim->p0 + radius);
+    case sdf_torus:
+        const uniform float r = prim->r0 + prim->r1 + prim->userParams.x;
+        return make_box3fa(prim->p0 - r, prim->p0 + r);
+    default:
+        const uniform vec3f minV = min(prim->p0, prim->p1);
+        const uniform vec3f maxV = max(prim->p0, prim->p1);
+        return make_box3fa(minV - radius, maxV + radius);
     }
-    const uniform vec3f minV = min(prim->p0, prim->p1);
-    const uniform vec3f maxV = max(prim->p0, prim->p1);
-
-    return make_box3fa(minV - radius, maxV + radius);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -277,29 +373,20 @@ float sdfDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t prim_, const SDFPa
     const Geo_ptr geo = (const Geo_ptr)geo_;
     const Prim_ptr prim = (const Prim_ptr)prim_;
 
-    // Primitive
     float d = calcDistance(*prim, p, processDisplacement);
 
-    if (processDisplacement)
+    if (processDisplacement && prim->numNeighbours > 0)
     {
-        const float l1 = length(prim->p0 - p);
-        const float l2 = length(prim->p1 - p);
         const float r0 = max(prim->r0, prim->r1);
-
         for (uniform int i = 0; i < prim->numNeighbours; i++)
         {
             const uniform uint64 index = getNeighbourIdx(*geo, prim->neighboursIndex, i);
-
             const uniform SDFGeometry& neighbour = *getPrimitive(*geo, index);
-
             const float dOther = calcDistance(neighbour, p, processDisplacement);
             if (dOther < 0.f)
                 continue;
-            const float l1 = length(neighbour.p0 - p);
-            const float l2 = length(neighbour.p1 - p);
             const float r1 = max(neighbour.r0, neighbour.r1);
             const float blendFactor = lerp(params.blendLerpFactor, min(r0, r1), max(r0, r1));
-
             d = sminPoly(dOther, d, blendFactor * params.blendFactor);
         }
     }

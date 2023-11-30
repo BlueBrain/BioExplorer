@@ -53,8 +53,15 @@ public:
                   const core::Quaterniond& rotation = core::Quaterniond(0.0, 0.0, 0.0, 1.0),
                   const core::Vector3d& scale = core::Vector3d(1.0, 1.0, 1.0));
 
+    /**
+     * @brief Add a simple demo of SDF geometries, mainly for testing purpose
+     *
+     * @param model Brayns model to which the SDF geometries are added
+     */
+    void addSDFDemo(core::Model& model);
+
 protected:
-    virtual double _getDisplacementValue(const DisplacementElement& element) = 0;
+    virtual double _getDisplacementValue(const DisplacementElement& element) { return 0.0; };
 
     core::Vector4fs _getProcessedSectionPoints(const morphology::MorphologyRepresentation& representation,
                                                const core::Vector4fs& points);

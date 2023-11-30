@@ -165,6 +165,7 @@ private:
 
     // Utilities
     details::LookAtResponseDetails _lookAt(const details::LookAtDetails &payload);
+    details::Response _addSdfDemo();
 
     // Attributes
     common::AssemblyMap _assemblies;

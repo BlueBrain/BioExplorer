@@ -89,6 +89,19 @@ OptiXModel::~OptiXModel()
         RT_DESTROY(optixMeshBuffer.second.texcoord_buffer);
         RT_DESTROY(optixMeshBuffer.second.indices_buffer);
     }
+
+    for (auto streamlinesBuffers : _streamlinesBuffers)
+    {
+        RT_DESTROY(streamlinesBuffers.second.vertices_buffer);
+        RT_DESTROY(streamlinesBuffers.second.color_buffer);
+        RT_DESTROY(streamlinesBuffers.second.indices_buffer);
+    }
+
+    for (auto sdfGeometriesBuffer : _sdfGeometriesBuffers)
+    {
+        RT_DESTROY(sdfGeometriesBuffer.second.geometries_buffer);
+        RT_DESTROY(sdfGeometriesBuffer.second.neighbours_buffer);
+    }
     RT_DESTROY(_geometryGroup);
     RT_DESTROY(_boundingBoxGroup);
 }
@@ -119,6 +132,9 @@ void OptiXModel::commitGeometry()
     if (_conesDirty)
         for (const auto& cones : _geometries->_cones)
             _commitCones(cones.first);
+
+    if (_sdfGeometriesDirty)
+        _commitSDFGeometries();
 
     if (_triangleMeshesDirty)
         for (const auto& meshes : _geometries->_triangleMeshes)
@@ -236,6 +252,101 @@ void OptiXModel::_commitCones(const size_t materialId)
         _boundingBoxGroup->addChild(instance);
     else
         _geometryGroup->addChild(instance);
+}
+
+void OptiXModel::_commitSDFGeometries()
+{
+    if (_geometries->_sdf.geometries.empty())
+        return;
+
+    auto context = OptiXContext::get().getOptixContext();
+    auto& sdfGeometries = _geometries->_sdf;
+    context[CONTEXT_SDF_GEOMETRY_SIZE]->setUint(sizeof(SDFGeometry));
+
+    const uint64_t nbGeometries = sdfGeometries.geometries.size();
+    const uint64_t geometriesBufferSize = sizeof(SDFGeometry) * nbGeometries;
+
+    for (const auto& geometryIndices : sdfGeometries.geometryIndices)
+    {
+        const auto materialId = geometryIndices.first;
+        _optixSdfGeometries[materialId] = OptiXContext::get().createGeometry(OptixGeometryType::sdfGeometry);
+
+        // Create a local copy of SDF geometries attached to the material id
+        std::map<uint64_t, SDFGeometry*> localGeometries;
+        const auto& indices = geometryIndices.second;
+        for (const auto primIdx : indices)
+        {
+            localGeometries[primIdx] = &sdfGeometries.geometries[primIdx];
+            const auto& neighbours = sdfGeometries.neighbours[primIdx];
+            if (!neighbours.empty())
+            {
+                localGeometries[primIdx]->numNeighbours = neighbours.size();
+                // Not used by OptiX, every geometry holds it own vector of neighbours
+                localGeometries[primIdx]->neighboursIndex = 0;
+                for (const auto neighbour : neighbours)
+                {
+                    localGeometries[neighbour] = &sdfGeometries.geometries[neighbour];
+                    localGeometries[neighbour]->numNeighbours = sdfGeometries.neighbours[neighbour].size();
+                }
+            }
+        }
+
+        // Prepare an index between the local SDF geometries and their position in the localGeometries map
+        std::map<uint64_t, uint64_t> localGeometriesMapping;
+        uint64_t i = 0;
+        for (const auto localGeometry : localGeometries)
+        {
+            localGeometriesMapping[localGeometry.first] = i;
+            ++i;
+        }
+
+        // Create a local flat representation of the SDF geometries neighbours
+        uint64_ts localNeighboursFlat;
+        for (const auto primIdx : indices)
+        {
+            const auto& neighbours = sdfGeometries.neighbours[primIdx];
+            for (const auto neighbour : neighbours)
+            {
+                const auto it = localGeometriesMapping.find(neighbour);
+                if (it == localGeometriesMapping.end())
+                    CORE_THROW("Invalid neighbour index");
+                localNeighboursFlat.push_back((*it).second);
+            }
+        }
+
+        // Make sure we don't create an empty buffer in the case of no neighbours
+        if (localNeighboursFlat.empty())
+            localNeighboursFlat.resize(1, 0);
+
+        // Prepare buffers
+        _optixSdfGeometries[materialId]->setPrimitiveCount(indices.size());
+
+        setBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_LONG_LONG, _sdfGeometriesBuffers[materialId].neighbours_buffer,
+                  _optixSdfGeometries[materialId][OPTIX_GEOMETRY_PROPERTY_SDF_GEOMETRIES_NEIGHBOURS],
+                  localNeighboursFlat, sizeof(uint64_t) * localNeighboursFlat.size());
+
+        std::vector<SDFGeometry> localGeometriesAsVector;
+        localGeometriesAsVector.reserve(localGeometries.size());
+        for (const auto geometry : localGeometries)
+            localGeometriesAsVector.push_back(*geometry.second);
+        setBuffer(RT_BUFFER_INPUT, RT_FORMAT_BYTE, _sdfGeometriesBuffers[materialId].geometries_buffer,
+                  _optixSdfGeometries[materialId][OPTIX_GEOMETRY_PROPERTY_SDF_GEOMETRIES], localGeometriesAsVector,
+                  sizeof(SDFGeometry) * localGeometries.size());
+
+        // Create material
+        auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
+        auto optixMaterial = mat.getOptixMaterial();
+        if (!optixMaterial)
+            CORE_THROW(std::runtime_error("Material is not defined"));
+
+        auto instance = context->createGeometryInstance();
+        instance->setGeometry(_optixSdfGeometries[materialId]);
+        instance->setMaterialCount(1);
+        instance->setMaterial(0, optixMaterial);
+
+        // Add geometry to the model
+        _geometryGroup->addChild(instance);
+    }
 }
 
 void OptiXModel::_commitMeshes(const size_t materialId)
