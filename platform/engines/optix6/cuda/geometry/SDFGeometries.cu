@@ -155,10 +155,37 @@ static __device__ inline float sdCone(const float3& p, const float3 a, const flo
     return s * sqrt(min(cax * cax + cay * cay * baba, cbx * cbx + cby * cby * baba));
 }
 
-static __device__ inline float sdTorus(const float3& p, const float3& a, float ra, float rb)
+static __device__ inline float sdTorus(const float3& p, const float3& c, float ra, float rb)
 {
-    float2 q = make_float2(::optix::length((make_float3(p.x, 0.f, p.z) - a)) - ra, p.y - a.y);
+    float2 q = make_float2(::optix::length((make_float3(p.x, 0.f, p.z) - make_float3(c.x, 0.f, c.z))) - ra, p.y - c.y);
     return ::optix::length(q) - rb;
+}
+
+static __device__ inline float sdCutSphere(const float3& p, const float3 c, float r, float h)
+{
+    // sampling independent computations (only depend on shape)
+    const float w = sqrt(r * r - h * h);
+
+    // sampling dependant computations
+    const float3 q =
+        make_float3(::optix::length(make_float3(p.x, 0.f, p.z) - make_float3(c.x, 0.f, c.z)), p.y - c.y, 0.f);
+    const float s = max((h - r) * q.x * q.x + w * w * (h + r - 2.f * q.y), h * q.x - w * q.y);
+    return (s < 0.f) ? ::optix::length(q) - r : (q.x < w) ? h - q.y : ::optix::length(q - make_float3(w, h, 0.f));
+}
+
+static __device__ inline float sdVesica(const float3& p, const float3 a, const float3 b, float w)
+{
+    const float3 c = (a + b) * 0.5;
+    float l = ::optix::length(b - a);
+    const float3 v = (b - a) / l;
+    float y = ::optix::dot(p - c, v);
+    const float3 q = make_float3(::optix::length(p - c - y * v), abs(y), 0.f);
+
+    const float r = 0.5f * l;
+    const float d = 0.5f * (r * r - w * w) / w;
+    const float3 h = (r * q.x < d * (q.y - r)) ? make_float3(0.f, r, 0.f) : make_float3(-d, 0.f, d + w);
+
+    return ::optix::length(q - make_float3(h.x, h.y, 0.f)) - h.z;
 }
 
 static __device__ inline bool intersectBox(const ::optix::Aabb& box, float& t0, float& t1)
@@ -191,6 +218,7 @@ static __device__ inline ::optix::Aabb getBounds(const SDFGeometry* primitive)
     switch (primitive->type)
     {
     case SDFType::sdf_sphere:
+    case SDFType::sdf_cut_sphere:
     {
         aabb.m_min = primitive->p0 - radius;
         aabb.m_max = primitive->p0 + radius;
@@ -220,16 +248,24 @@ static __device__ inline float calcDistance(const SDFGeometry* primitive, const 
     const float displacement = (processDisplacement && primitive->userParams.x > 0.f)
                                    ? opDisplacement(position, primitive->userParams.x, primitive->userParams.y)
                                    : 0.f;
-    if (primitive->type == SDFType::sdf_sphere)
+    switch (primitive->type)
+    {
+    case SDFType::sdf_sphere:
         return displacement + sdSphere(position, primitive->p0, primitive->r0);
-    if (primitive->type == SDFType::sdf_pill)
+    case SDFType::sdf_pill:
         return displacement + sdCapsule(position, primitive->p0, primitive->p1, primitive->r0);
-    if (primitive->type == SDFType::sdf_cone_pill || primitive->type == SDFType::sdf_cone_pill_sigmoid)
+    case SDFType::sdf_cone_pill:
+    case SDFType::sdf_cone_pill_sigmoid:
         return displacement + sdConePill(position, primitive->p0, primitive->p1, primitive->r0, primitive->r1);
-    if (primitive->type == SDFType::sdf_cone)
+    case SDFType::sdf_cone:
         return displacement + sdCone(position, primitive->p0, primitive->p1, primitive->r0, primitive->r1);
-    if (primitive->type == SDFType::sdf_torus)
+    case SDFType::sdf_torus:
         return displacement + sdTorus(position, primitive->p0, primitive->r0, primitive->r1);
+    case SDFType::sdf_cut_sphere:
+        return displacement + sdCutSphere(position, primitive->p0, primitive->r0, primitive->r1);
+    case SDFType::sdf_vesica:
+        return displacement + sdVesica(position, primitive->p0, primitive->p1, primitive->r0);
+    }
     return SDF_NO_INTERSECTION; // TODO: Weird return value...
 }
 

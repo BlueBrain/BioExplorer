@@ -62,6 +62,19 @@ inline SDFGeometry createSDFSphere(const Vector3f& center, const float radius, c
     return geom;
 }
 
+inline SDFGeometry createSDFCutSphere(const Vector3f& center, const float radius, const float cutRadius,
+                                      const uint64_t data = 0, const Vector3f& userParams = Vector3f(0.f))
+{
+    SDFGeometry geom;
+    geom.userData = data;
+    geom.userParams = userParams;
+    geom.p0 = center;
+    geom.r0 = radius;
+    geom.r1 = cutRadius;
+    geom.type = SDFType::sdf_cut_sphere;
+    return geom;
+}
+
 inline SDFGeometry createSDFPill(const Vector3f& p0, const Vector3f& p1, const float radius, const uint64_t data = 0,
                                  const Vector3f& userParams = Vector3f(0.f))
 {
@@ -117,6 +130,19 @@ inline SDFGeometry createSDFTorus(const Vector3f& p0, const float r0, const floa
     return geom;
 }
 
+inline SDFGeometry createSDFVesica(const Vector3f& p0, const Vector3f& p1, const float r0, const uint64_t data = 0,
+                                   const Vector3f& userParams = Vector3f(0.f))
+{
+    SDFGeometry geom;
+    geom.userData = data;
+    geom.userParams = userParams;
+    geom.p0 = p0;
+    geom.p1 = p1;
+    geom.r0 = r0;
+    geom.type = SDFType::sdf_vesica;
+    return geom;
+}
+
 inline Boxd getSDFBoundingBox(const SDFGeometry& geom)
 {
     Boxd bounds;
@@ -130,6 +156,7 @@ inline Boxd getSDFBoundingBox(const SDFGeometry& geom)
         break;
     }
     case SDFType::sdf_pill:
+    case SDFType::sdf_vesica:
     {
         bounds.merge(geom.p0 - Vector3f(geom.r0));
         bounds.merge(geom.p0 + Vector3f(geom.r0));

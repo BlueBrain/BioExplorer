@@ -76,6 +76,25 @@ public:
                        const core::Vector3f displacement = core::Vector3f());
 
     /**
+     * @brief Add a cut sphere to the thread safe model
+     *
+     * @param position Position of the sphere
+     * @param radius Radius of the sphere
+     * @param cutRadius Radius of cut
+     * @param materialId Material identifier
+     * @param useSdf Defines if signed-distance field technique should be used
+     * @param userDataOffset User data to attach to the sphere
+     * @param neighbours Neighbours identifiers (For signed-distance field
+     * geometry)
+     * @param displacement Displacement ratio (For signed-distance field
+     * geometry)
+     * @return uint64_t Index of the geometry in the model
+     */
+    uint64_t addCutSphere(const core::Vector3f& position, const float radius, const float cutRadius,
+                          const size_t materialId, const uint64_t userDataOffset = 0, const Neighbours& neighbours = {},
+                          const core::Vector3f displacement = core::Vector3f());
+
+    /**
      * @brief Add a cone to the thread safe model. If both radii are identical
      * and signed-distance field technique is not used, a cylinder is add
      * instead of a cone
@@ -101,9 +120,9 @@ public:
     /**
      * @brief Add a torus to the thread safe model
      *
-     * @param sourcePosition Position of the torus
-     * @param targetPosition Outer radius of the cone
-     * @param targetRadius Inner radius of the cone
+     * @param position Position of the torus
+     * @param outerRadius Outer radius of the torus
+     * @param innerRadius Inner radius of the torus
      * @param materialId Material identifier
      * @param useSdf Defines if signed-distance field technique should be used
      * @param userDataOffset User data to attach to the sphere
@@ -114,6 +133,23 @@ public:
     uint64_t addTorus(const core::Vector3f& position, const float outerRadius, const float innerRadius,
                       const size_t materialId, const uint64_t userDataOffset = 0, const Neighbours& neighbours = {},
                       const core::Vector3f displacement = core::Vector3f());
+
+    /**
+     * @brief Add a vesica to the thread safe model
+     *
+     * @param sourcePosition Base position of the vesica
+     * @param targetPosition Top position of the vesica
+     * @param radius Radius of the vesica
+     * @param materialId Material identifier
+     * @param useSdf Defines if signed-distance field technique should be used
+     * @param userDataOffset User data to attach to the sphere
+     * @param neighbours Neighbours identifiers (For signed-distance field geometry)
+     * @param displacement Displacement ratio (For signed-distance field geometry)
+     * @return uint64_t Index of the geometry in the model
+     */
+    uint64_t addVesica(const core::Vector3f& sourcePosition, const core::Vector3f& targetPosition, const float radius,
+                       const size_t materialId, const uint64_t userDataOffset = 0, const Neighbours& neighbours = {},
+                       const core::Vector3f displacement = core::Vector3f());
     /**
      * @brief Add a mesh to the thread safe model
      *

@@ -49,7 +49,7 @@ ThreadSafeContainer::ThreadSafeContainer(Model& model, const double alignToGrid,
 }
 
 uint64_t ThreadSafeContainer::addSphere(const Vector3f& position, const float radius, const size_t materialId,
-                                        const bool useSdf, const uint64_t userData, const Neighbours& neighbours,
+                                        const bool useSdf, const uint64_t userDataOffset, const Neighbours& neighbours,
                                         const Vector3f displacement)
 {
     const Vector3f scale = _scale;
@@ -61,13 +61,32 @@ uint64_t ThreadSafeContainer::addSphere(const Vector3f& position, const float ra
         _bounds.merge(scaledPosition + scaledRadius);
         _bounds.merge(scaledPosition - scaledRadius);
         const Vector3f scaledDisplacement{displacement.x * scale.x, displacement.y / scale.x, displacement.z};
-        return _addSDFGeometry(materialId, createSDFSphere(scaledPosition, scaledRadius, userData, scaledDisplacement),
+        return _addSDFGeometry(materialId,
+                               createSDFSphere(scaledPosition, scaledRadius, userDataOffset, scaledDisplacement),
                                neighbours);
     }
     const auto scaledRadius = radius * scale.x;
     _bounds.merge(scaledPosition + scaledRadius);
     _bounds.merge(scaledPosition - scaledRadius);
-    return _addSphere(materialId, {scaledPosition, scaledRadius, userData});
+    return _addSphere(materialId, {scaledPosition, scaledRadius, userDataOffset});
+}
+
+uint64_t ThreadSafeContainer::addCutSphere(const core::Vector3f& position, const float radius, const float cutRadius,
+                                           const size_t materialId, const uint64_t userDataOffset,
+                                           const Neighbours& neighbours, const Vector3f displacement)
+{
+    const Vector3f scale = _scale;
+    const Vector3f scaledPosition =
+        getAlignmentToGrid(_alignToGrid, Vector3f(_position + _rotation * Vector3d(position)) * scale);
+    const auto scaledRadius = (radius - displacement.x) * scale.x;
+    const auto scaledCutRadius = (cutRadius - displacement.x) * scale.x;
+    _bounds.merge(scaledPosition + scaledRadius);
+    _bounds.merge(scaledPosition - scaledRadius);
+    const Vector3f scaledDisplacement{displacement.x * scale.x, displacement.y / scale.x, displacement.z};
+    return _addSDFGeometry(materialId,
+                           createSDFCutSphere(scaledPosition, scaledRadius, scaledCutRadius, userDataOffset,
+                                              scaledDisplacement),
+                           neighbours);
 }
 
 uint64_t ThreadSafeContainer::addCone(const Vector3f& sourcePosition, const float sourceRadius,
@@ -130,6 +149,26 @@ uint64_t ThreadSafeContainer::addTorus(const Vector3f& position, const float out
                            createSDFTorus(scaledPosition, scaledOuterRadius, scaledInnerRadius, userDataOffset,
                                           scaledDisplacement),
                            neighbours);
+}
+
+uint64_t ThreadSafeContainer::addVesica(const core::Vector3f& sourcePosition, const core::Vector3f& targetPosition,
+                                        const float radius, const size_t materialId, const uint64_t userDataOffset,
+                                        const Neighbours& neighbours, const core::Vector3f displacement)
+{
+    const Vector3f scale = _scale;
+    const Vector3f scaledSrcPosition =
+        getAlignmentToGrid(_alignToGrid, Vector3f(_position + _rotation * Vector3d(sourcePosition)) * scale);
+    const Vector3f scaledDstPosition =
+        getAlignmentToGrid(_alignToGrid, Vector3f(_position + _rotation * Vector3d(targetPosition)) * scale);
+    const Vector3f scaledDisplacement{displacement.x * scale.x, displacement.y / scale.x, displacement.z};
+    const auto scaledRadius = (radius - displacement.x) * scale.x;
+    const auto geom =
+        createSDFVesica(scaledSrcPosition, scaledDstPosition, scaledRadius, userDataOffset, scaledDisplacement);
+    _bounds.merge(scaledSrcPosition + scaledRadius);
+    _bounds.merge(scaledSrcPosition - scaledRadius);
+    _bounds.merge(scaledDstPosition + scaledRadius);
+    _bounds.merge(scaledDstPosition - scaledRadius);
+    return _addSDFGeometry(materialId, geom, neighbours);
 }
 
 void ThreadSafeContainer::addMesh(const size_t materialId, const TriangleMesh& mesh)

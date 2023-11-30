@@ -82,7 +82,7 @@ double SDFGeometries::_getCorrectedRadius(const double radius, const double radi
 void SDFGeometries::addSDFDemo(Model& model)
 {
     const bool useSdf = true;
-    const Vector3f displacement{0.1f, 10.f, 0.f};
+    const Vector3f displacement{0.05f, 10.f, 0.f};
 
     ThreadSafeContainer modelContainer(model, 0.f, Vector3d(), Quaterniond());
 
@@ -104,6 +104,10 @@ void SDFGeometries::addSDFDemo(Model& model)
                                                  materialId, useSdf, NO_USER_DATA, neighbours, displacement));
         neighbours.insert(modelContainer.addTorus(Vector3f(0.f + x, 0.f, 0.f), 1.5f, 0.5f, materialId, NO_USER_DATA,
                                                   neighbours, displacement));
+        neighbours.insert(modelContainer.addCutSphere(Vector3f(0.f + x, 1.f, 0.f), 1.0f, 0.5f, materialId, NO_USER_DATA,
+                                                      neighbours, displacement));
+        neighbours.insert(modelContainer.addVesica(Vector3f(0.f + x, -1.f, 0.f), Vector3f(0.f + x, -1.5f, 0.f), 1.0f,
+                                                   materialId, NO_USER_DATA, neighbours, displacement));
     }
     modelContainer.commitToModel();
     model.applyDefaultColormap();

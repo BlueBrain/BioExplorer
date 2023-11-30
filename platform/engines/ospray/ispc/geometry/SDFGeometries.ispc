@@ -210,10 +210,36 @@ inline float sdCone(const vec3f& p, const vec3f a, const vec3f b, float ra, floa
     return s * sqrt(min(cax * cax + cay * cay * baba, cbx * cbx + cby * cby * baba));
 }
 
-inline float sdTorus(const vec3f& p, const vec3f a, float ra, float rb)
+inline float sdTorus(const vec3f& p, const vec3f c, float ra, float rb)
 {
-    const vec3f q = make_vec3f(length((make_vec3f(p.x, 0.f, p.z) - a)) - ra, p.y - a.y, 0.f);
+    const vec3f q = make_vec3f(length((make_vec3f(p.x, 0.f, p.z) - c)) - ra, p.y - c.y, 0.f);
     return length(q) - rb;
+}
+
+inline float sdCutSphere(const vec3f& p, const vec3f c, float r, float h)
+{
+    // sampling independent computations (only depend on shape)
+    const float w = sqrt(r * r - h * h);
+
+    // sampling dependant computations
+    const vec3f q = make_vec3f(length(make_vec3f(p.x, 0.f, p.z) - make_vec3f(c.x, 0.f, c.z)), p.y - c.y, 0.f);
+    const float s = max((h - r) * q.x * q.x + w * w * (h + r - 2.f * q.y), h * q.x - w * q.y);
+    return (s < 0.f) ? length(q) - r : (q.x < w) ? h - q.y : length(q - make_vec3f(w, h, 0.));
+}
+
+inline float sdVesica(const vec3f& p, const vec3f a, const vec3f b, float w)
+{
+    const vec3f c = (a + b) * 0.5;
+    float l = length(b - a);
+    const vec3f v = (b - a) / l;
+    float y = dot(p - c, v);
+    const vec3f q = make_vec3f(length(p - c - y * v), abs(y), 0.f);
+
+    const float r = 0.5f * l;
+    const float d = 0.5f * (r * r - w * w) / w;
+    const vec3f h = (r * q.x < d * (q.y - r)) ? make_vec3f(0.f, r, 0.f) : make_vec3f(-d, 0.f, d + w);
+
+    return length(q - make_vec3f(h.x, h.y, 0.f)) - h.z;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -309,6 +335,10 @@ inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p, 
         return displacement + sdCone(p, primitive.p0, primitive.p1, primitive.r0, primitive.r1);
     case sdf_torus:
         return displacement + sdTorus(p, primitive.p0, primitive.r0, primitive.r1);
+    case sdf_cut_sphere:
+        return displacement + sdCutSphere(p, primitive.p0, primitive.r0, primitive.r1);
+    case sdf_vesica:
+        return displacement + sdVesica(p, primitive.p0, primitive.p1, primitive.r0);
     }
     return -1.0;
 }
@@ -323,6 +353,7 @@ uniform box3fa sdfBounds(uDataPtr_t geo_, uDataPtr_t prim_)
     switch (prim->type)
     {
     case sdf_sphere:
+    case sdf_cut_sphere:
         return make_box3fa(prim->p0 - radius, prim->p0 + radius);
     case sdf_torus:
         const uniform float r = prim->r0 + prim->r1 + prim->userParams.x;
