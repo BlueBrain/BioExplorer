@@ -3040,6 +3040,52 @@ class BioExplorer:
 
         return self._invoke_and_check("add-sdf-demo")
 
+    def add_torus(self, name, position, outer_radius, inner_radius, displacement_parameters=Vector3()):
+        """
+        Add a torus to the scene
+
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        assert isinstance(name, str)
+        assert isinstance(position, Vector3)
+        assert isinstance(outer_radius, float)
+        assert isinstance(inner_radius, float)
+        assert isinstance(displacement_parameters, Vector3)
+
+        params = dict()
+        params["name"] = name
+        params["position"] = position.to_list()
+        params["outerRadius"] = outer_radius
+        params["innerRadius"] = inner_radius
+        params["displacement"] = displacement_parameters.to_list()
+        return self._invoke_and_check("add-torus", params)
+
+    def add_vesica(self, name, source_position, target_position, radius, displacement_parameters=Vector3()):
+        """
+        Add a vesica to the scene
+
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        assert isinstance(name, str)
+        assert isinstance(source_position, Vector3)
+        assert isinstance(target_position, Vector3)
+        assert isinstance(radius, float)
+        assert isinstance(displacement_parameters, Vector3)
+
+        params = dict()
+        params["name"] = name
+        params["srcPosition"] = source_position.to_list()
+        params["dstPosition"] = target_position.to_list()
+        params["radius"] = radius
+        params["displacement"] = displacement_parameters.to_list()
+        return self._invoke_and_check("add-vesica", params)
+
     def add_streamlines(self, name, indices, vertices, colors):
         """
         Add streamlines to the scene

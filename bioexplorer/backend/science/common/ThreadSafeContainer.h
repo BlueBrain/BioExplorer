@@ -29,9 +29,6 @@ namespace bioexplorer
 {
 namespace common
 {
-using MaterialSet = std::set<size_t>;
-using Neighbours = std::set<size_t>;
-
 /**
  * @brief The ThreadSafeContainer class is used to load large datasets in
  * parallel. Every individual element is loaded in a separate thread and

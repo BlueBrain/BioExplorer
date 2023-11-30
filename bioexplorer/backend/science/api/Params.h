@@ -122,6 +122,10 @@ bool from_json(bioexplorer::details::SynapsesDetails &param, const std::string &
 bool from_json(bioexplorer::details::SynapseEfficacyDetails &param, const std::string &payload);
 bool from_json(bioexplorer::details::SpikeReportVisualizationSettingsDetails &param, const std::string &payload);
 
+// Extra geometry
+bool from_json(bioexplorer::details::SDFTorusDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::SDFVesicaDetails &param, const std::string &payload);
+
 // Utilities
 bool from_json(bioexplorer::details::LookAtDetails &param, const std::string &payload);
 std::string to_json(const bioexplorer::details::LookAtResponseDetails &param);

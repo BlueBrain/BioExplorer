@@ -642,7 +642,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
         if (distanceToSoma <= _details.maxDistanceToSoma)
             _addSection(container, neuronId, soma.morphologyId, section.first, section.second, geometryIndex,
                         somaPosition, somaRotation, somaRadius, baseMaterialId, mitochondriaDensity, somaUserData,
-                        synapses, distanceToSoma);
+                        synapses, distanceToSoma, neighbours);
     }
 } // namespace morphology
 
@@ -730,7 +730,8 @@ void Neurons::_addSection(ThreadSafeContainer& container, const uint64_t neuronI
                           const uint64_t sectionId, const Section& section, const uint64_t somaGeometryIndex,
                           const Vector3d& somaPosition, const Quaterniond& somaRotation, const double somaRadius,
                           const size_t baseMaterialId, const double mitochondriaDensity, const uint64_t somaUserData,
-                          const SectionSynapseMap& synapses, const double distanceToSoma)
+                          const SectionSynapseMap& synapses, const double distanceToSoma,
+                          const Neighbours& somaNeighbours)
 {
     const auto& connector = DBConnector::getInstance();
     const auto sectionType = static_cast<NeuronSectionType>(section.type);
@@ -778,7 +779,7 @@ void Neurons::_addSection(ThreadSafeContainer& container, const uint64_t neuronI
     double sectionLength = 0.0;
     double sectionVolume = 0.0;
     uint64_t geometryIndex = 0;
-    Neighbours neighbours;
+    Neighbours neighbours = somaNeighbours;
     if (_details.morphologyColorScheme == MorphologyColorScheme::none)
         neighbours.insert(somaGeometryIndex);
 

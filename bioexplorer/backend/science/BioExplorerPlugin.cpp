@@ -581,6 +581,18 @@ void BioExplorerPlugin::init()
         endPoint = PLUGIN_API_PREFIX + "add-sdf-demo";
         PLUGIN_INFO(1, "Registering '" + endPoint + "' endpoint");
         actionInterface->registerRequest<Response>(endPoint, [&]() { return _addSdfDemo(); });
+
+        endPoint = PLUGIN_API_PREFIX + "add-torus";
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
+        _api->getActionInterface()->registerRequest<SDFTorusDetails, Response>(endPoint,
+                                                                               [&](const SDFTorusDetails &payload)
+                                                                               { return _addTorus(payload); });
+
+        endPoint = PLUGIN_API_PREFIX + "add-vesica";
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
+        _api->getActionInterface()->registerRequest<SDFVesicaDetails, Response>(endPoint,
+                                                                                [&](const SDFVesicaDetails &payload)
+                                                                                { return _addVesica(payload); });
     }
 
     auto &params = engine.getParametersManager().getApplicationParameters();
@@ -2142,6 +2154,46 @@ Response BioExplorerPlugin::_setSpikeReportVisualizationSettings(const SpikeRepo
         if (!spikeHandler)
             PLUGIN_THROW("Model does not hold a spike report simulation handler");
         spikeHandler->setVisualizationSettings(payload.restVoltage, payload.spikingVoltage, payload.decaySpeed);
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_addTorus(const details::SDFTorusDetails &payload)
+{
+    Response response;
+    try
+    {
+        auto &scene = _api->getScene();
+        auto model = scene.createModel();
+        ThreadSafeContainer modelContainer(*model, 0.f, Vector3d(), Quaterniond());
+        const size_t materialId = 0;
+        const auto position = doublesToVector3d(payload.position);
+        const auto displacement = doublesToVector3d(payload.displacement);
+        modelContainer.addTorus(position, payload.outerRadius, payload.innerRadius, materialId, NO_USER_DATA, {},
+                                displacement);
+        modelContainer.commitToModel();
+        scene.addModel(std::make_shared<ModelDescriptor>(std::move(model), payload.name));
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_addVesica(const details::SDFVesicaDetails &payload)
+{
+    Response response;
+    try
+    {
+        auto &scene = _api->getScene();
+        auto model = scene.createModel();
+        ThreadSafeContainer modelContainer(*model, 0.f, Vector3d(), Quaterniond());
+        const size_t materialId = 0;
+        const auto source = doublesToVector3d(payload.srcPosition);
+        const auto target = doublesToVector3d(payload.dstPosition);
+        const auto displacement = doublesToVector3d(payload.displacement);
+        modelContainer.addVesica(source, target, payload.radius, materialId, NO_USER_DATA, {}, displacement);
+        modelContainer.commitToModel();
+        scene.addModel(std::make_shared<ModelDescriptor>(std::move(model), payload.name));
     }
     CATCH_STD_EXCEPTION()
     return response;

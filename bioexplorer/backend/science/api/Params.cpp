@@ -1155,4 +1155,41 @@ bool from_json(SpikeReportVisualizationSettingsDetails &param, const std::string
     }
     return true;
 }
+
+bool from_json(bioexplorer::details::SDFTorusDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, position);
+        FROM_JSON(param, js, outerRadius);
+        FROM_JSON(param, js, innerRadius);
+        FROM_JSON(param, js, displacement);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(bioexplorer::details::SDFVesicaDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, name);
+        FROM_JSON(param, js, srcPosition);
+        FROM_JSON(param, js, dstPosition);
+        FROM_JSON(param, js, radius);
+        FROM_JSON(param, js, displacement);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 #endif

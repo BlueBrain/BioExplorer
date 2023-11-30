@@ -96,7 +96,8 @@ private:
                      const uint64_t sectionId, const Section& section, const uint64_t somaGeometryIndex,
                      const core::Vector3d& somaPosition, const core::Quaterniond& somaRotation, const double somaRadius,
                      const size_t baseMaterialId, const double mitochondriaDensity, const uint64_t somaUserData,
-                     const SectionSynapseMap& synapses, const double distanceToSoma);
+                     const SectionSynapseMap& synapses, const double distanceToSoma,
+                     const common::Neighbours& somaNeighbours);
 
     void _addSpine(common::ThreadSafeContainer& container, const uint64_t neuronId, const uint64_t morphologyId,
                    const uint64_t sectionId, const Synapse& synapse, const size_t baseMaterialId,
