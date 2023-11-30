@@ -332,7 +332,8 @@ static __device__ inline float rayMarching(const SDFGeometry* primitive, bool& p
     for (uint64_t i = 0; i < geometrySdfNbMarchIterations; i++)
     {
         const float3 p = ray.origin + ray.direction * t;
-        processDisplacement = (/*ray.flags == RAY_FLAG_PRIMARY && */ ::optix::length(p - eye) < geometrySdfDistance);
+        const float3 tp = rtTransformPoint(RT_OBJECT_TO_WORLD, p);
+        processDisplacement = (/*ray.flags == RAY_FLAG_PRIMARY && */ ::optix::length(tp - eye) < geometrySdfDistance);
 
         float signed_radius = sdfSign * sdfDistance(p, primitive, processDisplacement);
         float radius = abs(signed_radius);
