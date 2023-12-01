@@ -62,6 +62,14 @@ struct SDFGeometryData
                                                    // of neighbouring vertices for each  vertex.
     std::vector<uint64_t> neighboursFlat; // A vector of uint64_t values that represents the indices of neighbouring
                                           // vertices flattened into a single vector.
+
+    void clear()
+    {
+        geometries.clear();
+        geometryIndices.clear();
+        neighbours.clear();
+        neighboursFlat.clear();
+    }
 };
 
 /**

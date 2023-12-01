@@ -33,6 +33,15 @@ struct TriangleMesh
     Vector4fs colors;
     std::vector<Vector3ui> indices;
     std::vector<Vector2f> textureCoordinates;
+
+    void clear()
+    {
+        vertices.clear();
+        normals.clear();
+        colors.clear();
+        indices.clear();
+        textureCoordinates.clear();
+    }
 };
 
 inline TriangleMesh createBox(const Vector3f& minCorner, const Vector3f& maxCorner)

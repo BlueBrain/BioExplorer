@@ -74,16 +74,16 @@ protected:
     void _commitVolumesBuffers(const size_t materialId);
 
 private:
-    void _commitSpheres(const size_t materialId);
-    void _commitCylinders(const size_t materialId);
-    void _commitCones(const size_t materialId);
-    void _commitSDFGeometries();
-    void _commitMeshes(const size_t materialId);
-    void _commitVolumes(const size_t materialId);
-    void _commitStreamlines(const size_t materialId);
-    void _commitMaterials();
-    bool _commitSimulationData();
-    bool _commitTransferFunction();
+    uint64_t _commitSpheres(const size_t materialId);
+    uint64_t _commitCylinders(const size_t materialId);
+    uint64_t _commitCones(const size_t materialId);
+    uint64_t _commitSDFGeometries();
+    uint64_t _commitMeshes(const size_t materialId);
+    uint64_t _commitVolumes(const size_t materialId);
+    uint64_t _commitStreamlines(const size_t materialId);
+    uint64_t _commitMaterials();
+    uint64_t _commitSimulationData();
+    uint64_t _commitTransferFunction();
 
     ::optix::GeometryGroup _geometryGroup{nullptr};
     ::optix::GeometryGroup _boundingBoxGroup{nullptr};
@@ -144,7 +144,7 @@ private:
     std::map<std::string, ::optix::TextureSampler> _optixTextureSamplers;
 
     // User Data
-    ::optix::Buffer _userData{nullptr};
+    ::optix::Buffer _userDataBuffer{nullptr};
 
     bool _boundingBoxBuilt = false;
 };
