@@ -75,21 +75,33 @@ OptiXModel::OptiXModel(AnimationParameters& animationParameters, VolumeParameter
 OptiXModel::~OptiXModel()
 {
     RT_DESTROY_MAP(_optixSpheres);
+    RT_DESTROY_MAP(_spheresBuffers);
+
     RT_DESTROY_MAP(_optixCylinders)
+    RT_DESTROY_MAP(_cylindersBuffers);
+
     RT_DESTROY_MAP(_optixCones)
-    RT_DESTROY_MAP(_optixVolumes)
-    RT_DESTROY_MAP(_optixMeshes)
-    RT_DESTROY_MAP(_optixStreamlines)
-    RT_DESTROY_MAP(_optixTextures)
-    RT_DESTROY_MAP(_optixTextureSamplers)
-    for (auto optixMeshBuffer : _optixMeshBuffers)
+    RT_DESTROY_MAP(_conesBuffers);
+
+    for (auto sdfGeometriesBuffers : _sdfGeometriesBuffers)
     {
-        RT_DESTROY(optixMeshBuffer.second.vertices_buffer);
-        RT_DESTROY(optixMeshBuffer.second.normal_buffer);
-        RT_DESTROY(optixMeshBuffer.second.texcoord_buffer);
-        RT_DESTROY(optixMeshBuffer.second.indices_buffer);
+        RT_DESTROY(sdfGeometriesBuffers.second.geometries_buffer);
+        RT_DESTROY(sdfGeometriesBuffers.second.neighbours_buffer);
     }
 
+    RT_DESTROY_MAP(_optixVolumes)
+    RT_DESTROY_MAP(_volumesBuffers);
+
+    RT_DESTROY_MAP(_optixMeshes)
+    for (auto optixMeshBuffers : _optixMeshBuffers)
+    {
+        RT_DESTROY(optixMeshBuffers.second.vertices_buffer);
+        RT_DESTROY(optixMeshBuffers.second.normal_buffer);
+        RT_DESTROY(optixMeshBuffers.second.texcoord_buffer);
+        RT_DESTROY(optixMeshBuffers.second.indices_buffer);
+    }
+
+    RT_DESTROY_MAP(_optixStreamlines)
     for (auto streamlinesBuffers : _streamlinesBuffers)
     {
         RT_DESTROY(streamlinesBuffers.second.vertices_buffer);
@@ -97,17 +109,22 @@ OptiXModel::~OptiXModel()
         RT_DESTROY(streamlinesBuffers.second.indices_buffer);
     }
 
-    for (auto sdfGeometriesBuffer : _sdfGeometriesBuffers)
-    {
-        RT_DESTROY(sdfGeometriesBuffer.second.geometries_buffer);
-        RT_DESTROY(sdfGeometriesBuffer.second.neighbours_buffer);
-    }
+    RT_DESTROY_MAP(_optixTextures)
+    RT_DESTROY_MAP(_optixTextureSamplers)
+    RT_DESTROY(_userDataBuffer);
+
     RT_DESTROY(_geometryGroup);
     RT_DESTROY(_boundingBoxGroup);
 }
 
 void OptiXModel::commitGeometry()
 {
+    // Materials
+    uint64_t memoryFootPrint = _commitMaterials();
+
+    if (!isDirty())
+        return;
+
     const auto compactBVH = getBVHFlags().count(BVHFlag::compact) > 0;
     auto& context = OptiXContext::get();
     // Geometry group
@@ -118,50 +135,47 @@ void OptiXModel::commitGeometry()
     if (!_boundingBoxGroup)
         _boundingBoxGroup = context.createGeometryGroup(compactBVH);
 
-    // Materials
-    _commitMaterials();
-
+    // Geometry
+    updateBounds();
     if (_spheresDirty)
         for (const auto& spheres : _geometries->_spheres)
-            _commitSpheres(spheres.first);
+            memoryFootPrint += _commitSpheres(spheres.first);
 
     if (_cylindersDirty)
         for (const auto& cylinders : _geometries->_cylinders)
-            _commitCylinders(cylinders.first);
+            memoryFootPrint += _commitCylinders(cylinders.first);
 
     if (_conesDirty)
         for (const auto& cones : _geometries->_cones)
-            _commitCones(cones.first);
+            memoryFootPrint += _commitCones(cones.first);
 
     if (_sdfGeometriesDirty)
-        _commitSDFGeometries();
+        memoryFootPrint += _commitSDFGeometries();
 
     if (_triangleMeshesDirty)
         for (const auto& meshes : _geometries->_triangleMeshes)
-            _commitMeshes(meshes.first);
+            memoryFootPrint += _commitMeshes(meshes.first);
 
     if (_volumesDirty)
         for (const auto& volume : _geometries->_volumes)
-            _commitVolumes(volume.first);
+            memoryFootPrint += _commitVolumes(volume.first);
 
     if (_streamlinesDirty)
         for (const auto& streamlines : _geometries->_streamlines)
-            _commitStreamlines(streamlines.first);
+            memoryFootPrint += _commitStreamlines(streamlines.first);
 
-    updateBounds();
     _markGeometriesClean();
-
-    // handled by the scene
     _instancesDirty = false;
-
     CORE_DEBUG("Geometry group has " << _geometryGroup->getChildCount() << " children instances");
     CORE_DEBUG("Bounding box group has " << _boundingBoxGroup->getChildCount() << " children instances");
+    CORE_DEBUG("Model memory footprint: " << memoryFootPrint / 1024 / 1024 << " MB");
 }
 
-void OptiXModel::_commitSpheres(const size_t materialId)
+uint64_t OptiXModel::_commitSpheres(const size_t materialId)
 {
+    uint64_t memoryFootPrint = 0;
     if (_geometries->_spheres.find(materialId) == _geometries->_spheres.end())
-        return;
+        return memoryFootPrint;
 
     auto context = OptiXContext::get().getOptixContext();
     const auto& spheres = _geometries->_spheres[materialId];
@@ -171,8 +185,10 @@ void OptiXModel::_commitSpheres(const size_t materialId)
     _optixSpheres[materialId] = OptiXContext::get().createGeometry(OptixGeometryType::sphere);
     _optixSpheres[materialId]->setPrimitiveCount(spheres.size());
 
+    const uint64_t bufferSize = sizeof(Sphere) * spheres.size();
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _spheresBuffers[materialId],
-              _optixSpheres[materialId][OPTIX_GEOMETRY_PROPERTY_SPHERES], spheres, sizeof(Sphere) * spheres.size());
+              _optixSpheres[materialId][OPTIX_GEOMETRY_PROPERTY_SPHERES], spheres, bufferSize);
+    memoryFootPrint += bufferSize;
 
     // Material
     auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
@@ -189,12 +205,16 @@ void OptiXModel::_commitSpheres(const size_t materialId)
         _boundingBoxGroup->addChild(instance);
     else
         _geometryGroup->addChild(instance);
+    _geometries->_spheres[materialId].clear();
+    CORE_DEBUG("Spheres memory footprint: " << memoryFootPrint / 1024 / 1024 << " MB");
+    return memoryFootPrint;
 }
 
-void OptiXModel::_commitCylinders(const size_t materialId)
+uint64_t OptiXModel::_commitCylinders(const size_t materialId)
 {
+    uint64_t memoryFootPrint = 0;
     if (_geometries->_cylinders.find(materialId) == _geometries->_cylinders.end())
-        return;
+        return memoryFootPrint;
 
     auto context = OptiXContext::get().getOptixContext();
     const auto& cylinders = _geometries->_cylinders[materialId];
@@ -204,9 +224,10 @@ void OptiXModel::_commitCylinders(const size_t materialId)
     auto& optixCylinders = _optixCylinders[materialId];
     optixCylinders->setPrimitiveCount(cylinders.size());
 
+    const uint64_t bufferSize = sizeof(Cylinder) * cylinders.size();
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _cylindersBuffers[materialId],
-              _optixCylinders[materialId][OPTIX_GEOMETRY_PROPERTY_CYLINDERS], cylinders,
-              sizeof(Cylinder) * cylinders.size());
+              _optixCylinders[materialId][OPTIX_GEOMETRY_PROPERTY_CYLINDERS], cylinders, bufferSize);
+    memoryFootPrint += bufferSize;
 
     auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
     const auto material = mat.getOptixMaterial();
@@ -221,12 +242,16 @@ void OptiXModel::_commitCylinders(const size_t materialId)
         _boundingBoxGroup->addChild(instance);
     else
         _geometryGroup->addChild(instance);
+    _geometries->_cylinders[materialId].clear();
+    CORE_DEBUG("Cylinders memory footprint: " << memoryFootPrint / 1024 / 1024 << " MB");
+    return memoryFootPrint;
 }
 
-void OptiXModel::_commitCones(const size_t materialId)
+uint64_t OptiXModel::_commitCones(const size_t materialId)
 {
+    uint64_t memoryFootPrint = 0;
     if (_geometries->_cones.find(materialId) == _geometries->_cones.end())
-        return;
+        return memoryFootPrint;
 
     auto context = OptiXContext::get().getOptixContext();
     const auto& cones = _geometries->_cones[materialId];
@@ -236,8 +261,10 @@ void OptiXModel::_commitCones(const size_t materialId)
     auto& optixCones = _optixCones[materialId];
     optixCones->setPrimitiveCount(cones.size());
 
+    const uint64_t bufferSize = sizeof(Cone) * cones.size();
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _conesBuffers[materialId],
-              _optixCones[materialId][OPTIX_GEOMETRY_PROPERTY_CONES], cones, sizeof(Cone) * cones.size());
+              _optixCones[materialId][OPTIX_GEOMETRY_PROPERTY_CONES], cones, bufferSize);
+    memoryFootPrint += bufferSize;
 
     auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
     auto material = mat.getOptixMaterial();
@@ -252,12 +279,16 @@ void OptiXModel::_commitCones(const size_t materialId)
         _boundingBoxGroup->addChild(instance);
     else
         _geometryGroup->addChild(instance);
+    _geometries->_cones[materialId].clear();
+    CORE_DEBUG("Cones memory footprint: " << memoryFootPrint / 1024 / 1024 << " MB");
+    return memoryFootPrint;
 }
 
-void OptiXModel::_commitSDFGeometries()
+uint64_t OptiXModel::_commitSDFGeometries()
 {
+    uint64_t memoryFootPrint = 0;
     if (_geometries->_sdf.geometries.empty())
-        return;
+        return memoryFootPrint;
 
     auto context = OptiXContext::get().getOptixContext();
     auto& sdfGeometries = _geometries->_sdf;
@@ -266,14 +297,19 @@ void OptiXModel::_commitSDFGeometries()
     const uint64_t nbGeometries = sdfGeometries.geometries.size();
     const uint64_t geometriesBufferSize = sizeof(SDFGeometry) * nbGeometries;
 
+    uint64_ts geometryMaterials;
     for (const auto& geometryIndices : sdfGeometries.geometryIndices)
+        geometryMaterials.push_back(geometryIndices.first);
+    uint64_t i = 0;
+#pragma omp parallel for
+    for (i = 0; i < sdfGeometries.geometryIndices.size(); ++i)
     {
-        const auto materialId = geometryIndices.first;
+        const auto materialId = geometryMaterials[i];
+        const auto& indices = sdfGeometries.geometryIndices[materialId];
         _optixSdfGeometries[materialId] = OptiXContext::get().createGeometry(OptixGeometryType::sdfGeometry);
 
         // Create a local copy of SDF geometries attached to the material id
         std::map<uint64_t, SDFGeometry*> localGeometries;
-        const auto& indices = geometryIndices.second;
         for (const auto primIdx : indices)
         {
             localGeometries[primIdx] = &sdfGeometries.geometries[primIdx];
@@ -292,7 +328,7 @@ void OptiXModel::_commitSDFGeometries()
         }
 
         // Prepare an index between the local SDF geometries and their position in the localGeometries map
-        std::map<uint64_t, uint64_t> localGeometriesMapping;
+        uint64_tm localGeometriesMapping;
         uint64_t i = 0;
         for (const auto localGeometry : localGeometries)
         {
@@ -321,23 +357,31 @@ void OptiXModel::_commitSDFGeometries()
         // Prepare buffers
         _optixSdfGeometries[materialId]->setPrimitiveCount(indices.size());
 
+        uint64_t bufferSize = localNeighboursFlat.size();
+#pragma omp critical
         setBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_LONG_LONG, _sdfGeometriesBuffers[materialId].neighbours_buffer,
                   _optixSdfGeometries[materialId][OPTIX_GEOMETRY_PROPERTY_SDF_GEOMETRIES_NEIGHBOURS],
-                  localNeighboursFlat, sizeof(uint64_t) * localNeighboursFlat.size());
+                  localNeighboursFlat, bufferSize);
+#pragma omp critical
+        memoryFootPrint += bufferSize;
 
         std::vector<SDFGeometry> localGeometriesAsVector;
         localGeometriesAsVector.reserve(localGeometries.size());
         for (const auto geometry : localGeometries)
             localGeometriesAsVector.push_back(*geometry.second);
+        bufferSize = sizeof(SDFGeometry) * localGeometriesAsVector.size();
+#pragma omp critical
         setBuffer(RT_BUFFER_INPUT, RT_FORMAT_BYTE, _sdfGeometriesBuffers[materialId].geometries_buffer,
                   _optixSdfGeometries[materialId][OPTIX_GEOMETRY_PROPERTY_SDF_GEOMETRIES], localGeometriesAsVector,
-                  sizeof(SDFGeometry) * localGeometries.size());
+                  bufferSize);
+#pragma omp critical
+        memoryFootPrint += bufferSize;
 
         // Create material
-        auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
-        auto optixMaterial = mat.getOptixMaterial();
+        auto& material = static_cast<OptiXMaterial&>(*_materials[materialId]);
+        auto optixMaterial = material.getOptixMaterial();
         if (!optixMaterial)
-            CORE_THROW(std::runtime_error("Material is not defined"));
+            CORE_THROW(std::runtime_error("OptiX material is not defined"));
 
         auto instance = context->createGeometryInstance();
         instance->setGeometry(_optixSdfGeometries[materialId]);
@@ -345,14 +389,19 @@ void OptiXModel::_commitSDFGeometries()
         instance->setMaterial(0, optixMaterial);
 
         // Add geometry to the model
+#pragma omp critical
         _geometryGroup->addChild(instance);
     }
+    _geometries->_sdf.clear();
+    CORE_DEBUG("SDFGeometries memory footprint: " << memoryFootPrint / 1024 / 1024 << " MB");
+    return memoryFootPrint;
 }
 
-void OptiXModel::_commitMeshes(const size_t materialId)
+uint64_t OptiXModel::_commitMeshes(const size_t materialId)
 {
+    uint64_t memoryFootPrint = 0;
     if (_geometries->_triangleMeshes.find(materialId) == _geometries->_triangleMeshes.end())
-        return;
+        return memoryFootPrint;
 
     const auto& meshes = _geometries->_triangleMeshes[materialId];
     _optixMeshes[materialId] = OptiXContext::get().createGeometry(OptixGeometryType::triangleMesh);
@@ -363,18 +412,22 @@ void OptiXModel::_commitMeshes(const size_t materialId)
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3, _optixMeshBuffers[materialId].vertices_buffer,
               _optixMeshes[materialId][OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_VERTEX], meshes.vertices,
               meshes.vertices.size());
+    memoryFootPrint += meshes.vertices.size() * sizeof(float) * 3;
 
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_INT3, _optixMeshBuffers[materialId].indices_buffer,
               _optixMeshes[materialId][OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_INDEX], meshes.indices,
               meshes.indices.size());
+    memoryFootPrint += meshes.indices.size() * sizeof(uint) * 3;
 
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT3, _optixMeshBuffers[materialId].normal_buffer,
               _optixMeshes[materialId][OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_NORMAL], meshes.normals,
               meshes.normals.size());
+    memoryFootPrint += meshes.normals.size() * sizeof(float) * 3;
 
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT2, _optixMeshBuffers[materialId].texcoord_buffer,
               _optixMeshes[materialId][OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_TEXTURE_COORDINATES],
               meshes.textureCoordinates, meshes.textureCoordinates.size());
+    memoryFootPrint += meshes.textureCoordinates.size() * sizeof(float) * 2;
 
     auto& mat = static_cast<OptiXMaterial&>(*_materials[materialId]);
     auto material = mat.getOptixMaterial();
@@ -390,12 +443,17 @@ void OptiXModel::_commitMeshes(const size_t materialId)
         _boundingBoxGroup->addChild(instance);
     else
         _geometryGroup->addChild(instance);
+
+    _geometries->_triangleMeshes[materialId].clear();
+    CORE_DEBUG("Meshes memory footprint: " << memoryFootPrint / 1024 / 1024 << " MB");
+    return memoryFootPrint;
 }
 
-void OptiXModel::_commitStreamlines(const size_t materialId)
+uint64_t OptiXModel::_commitStreamlines(const size_t materialId)
 {
+    uint64_t memoryFootPrint = 0;
     if (_geometries->_streamlines.find(materialId) == _geometries->_streamlines.end())
-        return;
+        return memoryFootPrint;
 
     const auto& streamlines = _geometries->_streamlines[materialId];
 
@@ -468,10 +526,12 @@ void OptiXModel::_commitStreamlines(const size_t materialId)
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, _streamlinesBuffers[materialId].vertices_buffer,
               _optixStreamlines[materialId][OPTIX_GEOMETRY_PROPERTY_STREAMLINE_VERTEX], vertexCurve,
               vertexCurve.size());
+    memoryFootPrint += vertexCurve.size() * sizeof(float) * 4;
 
     setBuffer(RT_BUFFER_INPUT, RT_FORMAT_UNSIGNED_INT, _streamlinesBuffers[materialId].indices_buffer,
               _optixStreamlines[materialId][OPTIX_GEOMETRY_PROPERTY_STREAMLINE_MESH_INDEX], indexCurve,
               indexCurve.size());
+    memoryFootPrint += indexCurve.size() * sizeof(uint);
 
     auto& material = static_cast<OptiXMaterial&>(*_materials[materialId]);
     auto optixMaterial = material.getOptixMaterial();
@@ -484,6 +544,7 @@ void OptiXModel::_commitStreamlines(const size_t materialId)
     Buffer buffer = context->createMipmappedBuffer(RT_BUFFER_INPUT, RT_FORMAT_FLOAT4, textureSize.x, textureSize.y, 1u);
     memcpy(buffer->map(), colorCurve.data(), sizeof(Vector4f) * colorCurve.size());
     buffer->unmap();
+    memoryFootPrint += textureSize.x * textureSize.y * sizeof(float) * 4;
 
     TextureSampler sampler = context->createTextureSampler();
     sampler->setWrapMode(0, RT_WRAP_CLAMP_TO_EDGE);
@@ -510,14 +571,21 @@ void OptiXModel::_commitStreamlines(const size_t materialId)
         _boundingBoxGroup->addChild(instance);
     else
         _geometryGroup->addChild(instance);
+
+    _geometries->_streamlines[materialId].clear();
+    CORE_DEBUG("Streamlines memory footprint: " << memoryFootPrint / 1024 / 1024 << " MB");
+    return memoryFootPrint;
 }
 
-void OptiXModel::_commitMaterials()
+uint64_t OptiXModel::_commitMaterials()
 {
+    uint64_t memoryFootPrint = 0;
     CORE_DEBUG("Committing " << _materials.size() << " OptiX materials");
 
     for (auto& material : _materials)
         material.second->commit();
+    CORE_DEBUG("Materials memory footprint: " << memoryFootPrint / 1024 / 1024 << " MB");
+    return memoryFootPrint;
 }
 
 void OptiXModel::buildBoundingBox()
@@ -597,14 +665,15 @@ SharedDataVolumePtr OptiXModel::createSharedDataVolume(const Vector3ui& dimensio
     return volume;
 }
 
-void OptiXModel::_commitVolumes(const size_t materialId)
+uint64_t OptiXModel::_commitVolumes(const size_t materialId)
 {
+    uint64_t memoryFootPrint = 0;
     if (!_volumesDirty)
-        return;
+        return memoryFootPrint;
 
     auto iter = _geometries->_volumes.find(materialId);
     if (iter == _geometries->_volumes.end())
-        return;
+        return memoryFootPrint;
 
     _optixVolumes[materialId] = OptiXContext::get().createGeometry(OptixGeometryType::volume);
 
@@ -640,6 +709,7 @@ void OptiXModel::_commitVolumes(const size_t materialId)
         memcpy(buffer->map(), memoryBuffer.data(), size * sizeof(float));
         buffer->unmap();
         _createSampler(materialId, buffer, size, TextureType::volume, RT_TEXTURE_INDEX_ARRAY_INDEX, valueRange);
+        memoryFootPrint += dimensions.x * dimensions.y * dimensions.z * sizeof(float);
     }
 
     const auto& octreeIndices = volume->getOctreeIndices();
@@ -651,6 +721,7 @@ void OptiXModel::_commitVolumes(const size_t materialId)
         memcpy(buffer->map(), octreeIndices.data(), size * sizeof(uint32_t));
         buffer->unmap();
         _createSampler(materialId, buffer, size, TextureType::octree_indices, RT_TEXTURE_INDEX_ARRAY_INDEX);
+        memoryFootPrint += size * sizeof(uint32_t);
     }
 
     const auto& octreeValues = volume->getOctreeValues();
@@ -662,9 +733,12 @@ void OptiXModel::_commitVolumes(const size_t materialId)
         memcpy(buffer->map(), octreeValues.data(), size * sizeof(float));
         buffer->unmap();
         _createSampler(materialId, buffer, size, TextureType::octree_values, RT_TEXTURE_INDEX_ARRAY_INDEX);
+        memoryFootPrint += size * sizeof(float);
     }
     _commitVolumesBuffers(materialId);
     _volumesDirty = false;
+    CORE_DEBUG("Volumes memory footprint: " << memoryFootPrint / 1024 / 1024 << " MB");
+    return memoryFootPrint;
 }
 
 void OptiXModel::_commitVolumesBuffers(const size_t materialId)
@@ -746,7 +820,7 @@ void OptiXModel::_commitTransferFunctionImpl(const Vector3fs& colors, const floa
 void OptiXModel::_commitSimulationDataImpl(const float* frameData, const size_t frameSize)
 {
     auto context = OptiXContext::get().getOptixContext();
-    setBufferRaw(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _userData, context[CONTEXT_USER_DATA], frameData, frameSize,
+    setBufferRaw(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _userDataBuffer, context[CONTEXT_USER_DATA], frameData, frameSize,
                  frameSize * sizeof(float));
 }
 
