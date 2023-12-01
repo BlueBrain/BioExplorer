@@ -35,6 +35,8 @@
 
 #include "RayMarching.isph"
 
+#define SDF_NO_INTERSECTION -1.f
+
 enum SDFType
 {
     sdf_sphere = 0,
@@ -46,8 +48,6 @@ enum SDFType
     sdf_cut_sphere = 6,
     sdf_vesica = 7
 };
-
-/////////////////////////////////////////////////////////////////////////////
 
 inline vec3f mod(const vec3f& v, const int m)
 {
@@ -71,9 +71,11 @@ inline float smootherStep(const float x)
     return x * x * x * (x * (x * 6 - 15) + 10);
 }
 
-inline float opDisplacement(const vec3f& p, const float a, const float b)
+inline float opDisplacement(const vec3f& p, const float amplitude, const float frequency)
 {
-    return a * sin(b * p.x) * sin(b * p.y * 0.6) * sin(b * p.z * 0.3);
+    return amplitude *
+           (0.7f * sin(frequency * p.x * 0.72f) * sin(frequency * p.y * 0.65f) * sin(frequency * p.z * 0.81f) +
+            0.3f * cos(p.x * 2.12f) * cos(p.y * 2.23f) * cos(p.z * 2.41f));
 }
 
 inline float sdSphere(const vec3f& p, const vec3f c, float r)
@@ -126,33 +128,6 @@ inline float mix(const float x, const float y, const float a)
     return x * (1.f - a) + y * a;
 }
 
-#if 0
-inline float sdConePill(const vec3f& p, const vec3f p0, const vec3f p1, const float r0, const float r1,
-                        const bool useSigmoid)
-{
-    const vec3f v = p1 - p0;
-    const vec3f w = p - p0;
-
-    // distance to p0 along cone axis
-    const float c1 = dot(w, v);
-    if (c1 <= 0.f) // p0 Sphere
-        return length(p - p0) - r0;
-
-    // cone length
-    const float c2 = dot(v, v);
-    if (c2 <= c1) // p1 Sphere
-        return length(p - p1) - r1;
-
-    const float b = c1 / c2;
-    const vec3f Pb = p0 + b * v;
-
-    const float thicknessAt = lerp(b, r0, r1);
-    const float thickness = useSigmoid ? mix(r0, r1, smootherStep(b)) : thicknessAt;
-
-    return length(p - Pb) - thickness;
-}
-#else
-
 inline float sign(const float x)
 {
     return (x >= 0.f ? 1.f : -1.f);
@@ -185,7 +160,6 @@ inline float sdConePill(const vec3f& p, const vec3f a, const vec3f b, const floa
         return sqrt(x2 + y2) * il2 - r1;
     return (sqrt(x2 * a2 * il2) + y * rr) * il2 - r1;
 }
-#endif
 
 inline float sdCone(const vec3f& p, const vec3f a, const vec3f b, float ra, float rb)
 {
@@ -205,7 +179,7 @@ inline float sdCone(const vec3f& p, const vec3f a, const vec3f b, float ra, floa
     float cbx = x - ra - f * rba;
     float cby = paba - f;
 
-    float s = (cbx < 0.0 && cay < 0.0) ? -1.0 : 1.0;
+    float s = (cbx < 0.f && cay < 0.f) ? -1.f : 1.f;
 
     return s * sqrt(min(cax * cax + cay * cay * baba, cbx * cbx + cby * cby * baba));
 }
@@ -242,8 +216,6 @@ inline float sdVesica(const vec3f& p, const vec3f a, const vec3f b, float w)
     return length(q - make_vec3f(h.x, h.y, 0.f)) - h.z;
 }
 
-//////////////////////////////////////////////////////////////////////
-
 // NOTE: This layout must match exactly the 'SDFGeometry' struct in
 // 'SDFGeometry.h'
 struct SDFGeometry
@@ -276,17 +248,11 @@ struct SDFGeometries
     uniform float distance;
 };
 
-//////////////////////////////////////////////////////////////////////
-
 typedef uniform SDFGeometries* uniform Geo_ptr;
 typedef uniform SDFGeometry* uniform Prim_ptr;
 
-//////////////////////////////////////////////////////////////////////
-
 DEFINE_SAFE_INCREMENT(SDFGeometry);
 DEFINE_SAFE_INCREMENT(uint64);
-
-//////////////////////////////////////////////////////////////////////
 
 uniform uint64 primToIdx(const uniform SDFGeometries& geometry, const uniform uint64 primID)
 {
@@ -314,8 +280,6 @@ const uniform SDFGeometry* varying getPrimitiveVarying(const uniform SDFGeometri
     return safeIncrement(geometry.useSafeIncrement, geometry.geometries, idx);
 }
 
-//////////////////////////////////////////////////////////////////////
-
 inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p, const bool processDisplacement)
 {
     const float displacement = (processDisplacement && primitive.userParams.x > 0.f)
@@ -340,10 +304,8 @@ inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p, 
     case sdf_vesica:
         return displacement + sdVesica(p, primitive.p0, primitive.p1, primitive.r0);
     }
-    return -1.0;
+    return SDF_NO_INTERSECTION;
 }
-
-//////////////////////////////////////////////////////////////////////
 
 uniform box3fa sdfBounds(uDataPtr_t geo_, uDataPtr_t prim_)
 {
@@ -365,35 +327,30 @@ uniform box3fa sdfBounds(uDataPtr_t geo_, uDataPtr_t prim_)
     }
 }
 
-//////////////////////////////////////////////////////////////////////
-
 float sdfDistance(const vec3f& p, uDataPtr_t geo_, uDataPtr_t prim_, const SDFParams& params,
                   const bool processDisplacement)
 {
     const Geo_ptr geo = (const Geo_ptr)geo_;
     const Prim_ptr prim = (const Prim_ptr)prim_;
 
-    float d = calcDistance(*prim, p, processDisplacement);
-
+    float distance = calcDistance(*prim, p, processDisplacement);
     if (processDisplacement && prim->numNeighbours > 0)
     {
         const float r0 = max(prim->r0, prim->r1);
-        for (uniform int i = 0; i < prim->numNeighbours; i++)
+        for (uniform uint8 i = 0; i < prim->numNeighbours; ++i)
         {
             const uniform uint64 index = getNeighbourIdx(*geo, prim->neighboursIndex, i);
             const uniform SDFGeometry& neighbour = *getPrimitive(*geo, index);
-            const float dOther = calcDistance(neighbour, p, processDisplacement);
-            if (dOther < 0.f)
+            const float neighbourDistance = calcDistance(neighbour, p, processDisplacement);
+            if (neighbourDistance < 0.f)
                 continue;
             const float r1 = max(neighbour.r0, neighbour.r1);
             const float blendFactor = lerp(params.blendLerpFactor, min(r0, r1), max(r0, r1));
-            d = sminPoly(dOther, d, blendFactor * params.blendFactor);
+            distance = sminPoly(neighbourDistance, distance, blendFactor * params.blendFactor);
         }
     }
-    return d;
+    return distance;
 }
-
-//////////////////////////////////////////////////////////////////////
 
 void SDFGeometries_bounds(const RTCBoundsFunctionArguments* uniform args)
 {
@@ -403,8 +360,6 @@ void SDFGeometries_bounds(const RTCBoundsFunctionArguments* uniform args)
 
     *((box3fa * uniform) args->bounds_o) = sdfBounds((uDataPtr_t)geo, (uDataPtr_t)prim);
 }
-
-//////////////////////////////////////////////////////////////////////
 
 unmasked void SDFGeometries_intersect(const RTCIntersectFunctionNArguments* uniform args)
 {
@@ -443,8 +398,6 @@ unmasked void SDFGeometries_intersect(const RTCIntersectFunctionNArguments* unif
     }
 }
 
-//////////////////////////////////////////////////////////////////////
-
 static void SDFGeometries_postIntersect(uniform Geometry* uniform geometry, uniform Model* uniform model,
                                         varying DifferentialGeometry& dg, const varying Ray& ray, uniform int64 flags)
 {
@@ -469,16 +422,12 @@ static void SDFGeometries_postIntersect(uniform Geometry* uniform geometry, unif
     dg.Ns = Ns;
 }
 
-//////////////////////////////////////////////////////////////////////
-
 export void* uniform SDFGeometries_create(void* uniform cppEquivalent)
 {
     Geo_ptr geom = uniform new uniform SDFGeometries;
     Geometry_Constructor(&geom->super, cppEquivalent, SDFGeometries_postIntersect, 0, 0, 0);
     return geom;
 }
-
-//////////////////////////////////////////////////////////////////////
 
 export void SDFGeometriesGeometry_set(void* uniform _self, void* uniform _model, void* uniform data,
                                       int uniform numPrimitives, void* uniform neighbours, int uniform numNeighbours,

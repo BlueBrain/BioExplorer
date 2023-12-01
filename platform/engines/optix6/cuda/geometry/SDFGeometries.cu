@@ -24,13 +24,16 @@
 // Ray-cone intersection: based on Ching-Kuang Shene (Graphics Gems 5, p. 227-230)
 
 #include <platform/engines/optix6/cuda/Context.cuh>
+#include <platform/engines/optix6/cuda/Helpers.cuh>
 
 // Global variables
 rtDeclareVariable(uint, sdf_geometry_size, , );
 rtBuffer<uint8_t> sdf_geometries_buffer;
+rtBuffer<uint64_t> sdf_geometries_indices_buffer;
 rtBuffer<uint64_t> sdf_geometries_neighbours_buffer;
 
 #define SDF_NO_INTERSECTION -1.f
+#define SDF_NORMAL_EPSILON_FACTOR 10.f
 
 enum SDFType : uint8_t
 {
@@ -74,21 +77,36 @@ static __device__ inline float sign(const float x)
     return (x >= 0.f ? 1.f : -1.f);
 }
 
-static __device__ inline float lerp(const float factor, const float a, const float b)
-{
-    return (1.f - factor) * a + factor * b;
-}
-
 // polynomial smooth min (k = 0.1);
 static __device__ inline float sminPoly(const float a, const float b, const float k)
 {
     const float h = ::optix::clamp(0.5f + 0.5f * (b - a) / k, 0.f, 1.f);
-    return lerp(h, b, a) - k * h * (1.f - h);
+    return ::optix::lerp(b, a, h) - k * h * (1.f - h);
 }
 
-static __device__ inline float opDisplacement(const float3& p, const float a, const float b)
+static __device__ inline float opSmoothUnion(float d1, float d2, float k)
 {
-    return a * sin(b * p.x) * sin(b * p.y * 0.65f) * sin(b * p.z * 0.81f);
+    const float h = ::optix::clamp(0.5f + 0.5f * (d2 - d1) / k, 0.f, 1.f);
+    return mix(d2, d1, h) - k * h * (1.f - h);
+}
+
+static __device__ inline float opSmoothSubtraction(const float d1, const float d2, const float k)
+{
+    const float h = ::optix::clamp(0.5f - 0.5f * (d2 + d1) / k, 0.f, 1.f);
+    return mix(d2, -d1, h) + k * h * (1.f - h);
+}
+
+static __device__ inline float opSmoothIntersection(const float d1, const float d2, const float k)
+{
+    const float h = ::optix::clamp(0.5f - 0.5f * (d2 - d1) / k, 0.f, 1.f);
+    return mix(d2, d1, h) + k * h * (1.f - h);
+}
+
+static __device__ inline float opDisplacement(const float3& p, const float amplitude, const float frequency)
+{
+    return amplitude *
+           (0.7f * sin(frequency * p.x * 0.72f) * sin(frequency * p.y * 0.65f) * sin(frequency * p.z * 0.81f) +
+            0.3f * cos(p.x * 2.12f) * cos(p.y * 2.23f) * cos(p.z * 2.41f));
 }
 
 static __device__ inline float sdSphere(const float3& p, const float3& c, float r)
@@ -150,7 +168,7 @@ static __device__ inline float sdCone(const float3& p, const float3 a, const flo
     float cbx = x - ra - f * rba;
     float cby = paba - f;
 
-    float s = (cbx < 0.0 && cay < 0.0) ? -1.0 : 1.0;
+    float s = (cbx < 0.f && cay < 0.f) ? -1.f : 1.f;
 
     return s * sqrt(min(cax * cax + cay * cay * baba, cbx * cbx + cby * cby * baba));
 }
@@ -188,25 +206,33 @@ static __device__ inline float sdVesica(const float3& p, const float3 a, const f
     return ::optix::length(q - make_float3(h.x, h.y, 0.f)) - h.z;
 }
 
+static __device__ inline float reduce_min(const float4& a)
+{
+    return min(min(a.x, a.y), min(a.z, a.w));
+}
+
+static __device__ inline float reduce_max(const float4& a)
+{
+    return max(max(a.x, a.y), max(a.z, a.w));
+}
+
 static __device__ inline bool intersectBox(const ::optix::Aabb& box, float& t0, float& t1)
 {
-    const float3 a = (box.m_min - ray.origin) / ray.direction;
-    const float3 b = (box.m_max - ray.origin) / ray.direction;
-    const float3 near = fminf(a, b);
-    const float3 far = fmaxf(a, b);
-    t0 = fmaxf(near);
-    t1 = fminf(far);
-
+    const float3 mins = (box.m_min - ray.origin) / ray.direction;
+    const float3 maxs = (box.m_max - ray.origin) / ray.direction;
+    t0 = reduce_max(make_float4(fminf(mins, maxs), ray.tmin));
+    t1 = reduce_min(make_float4(fmaxf(mins, maxs), ray.tmax));
     return (t0 <= t1);
 }
 
 static __device__ inline SDFGeometry* getPrimitive(const int primIdx)
 {
-    const uint64_t bufferIndex = primIdx * sdf_geometry_size;
+    const uint64_t geometryIndex = sdf_geometries_indices_buffer[primIdx];
+    const uint64_t bufferIndex = geometryIndex * sdf_geometry_size;
     return (SDFGeometry*)&sdf_geometries_buffer[bufferIndex];
 }
 
-static __device__ inline uint64_t getNeighbourIndex(const uint8_t index)
+static __device__ inline uint64_t getNeighbourIndex(const uint64_t index)
 {
     return sdf_geometries_neighbours_buffer[index];
 }
@@ -278,13 +304,13 @@ static __device__ inline float sdfDistance(const float3& position, const SDFGeom
         const float r0 = max(primitive->r0, primitive->r1);
         for (uint8_t i = 0; i < primitive->numNeighbours; ++i)
         {
-            const uint64_t neighbourIndex = getNeighbourIndex(i);
+            const uint64_t neighbourIndex = getNeighbourIndex(primitive->neighboursIndex + i);
             const SDFGeometry* neighbourGeometry = getPrimitive(neighbourIndex);
             const float neighbourDistance = calcDistance(neighbourGeometry, position, processDisplacement);
             if (neighbourDistance < 0.f)
                 continue;
             const float r1 = max(neighbourGeometry->r0, neighbourGeometry->r1);
-            const float blendFactor = lerp(geometrySdfBlendLerpFactor, min(r0, r1), max(r0, r1));
+            const float blendFactor = ::optix::lerp(min(r0, r1), max(r0, r1), geometrySdfBlendLerpFactor);
             distance = sminPoly(neighbourDistance, distance, blendFactor * geometrySdfBlendFactor);
         }
     }
@@ -300,10 +326,11 @@ static __device__ inline float3 computeNormal(const float3& position, const SDFG
     const float3 k1 = make_float3(-t, -t, t);
     const float3 k2 = make_float3(-t, t, -t);
     const float3 k3 = make_float3(t, t, t);
-    return ::optix::normalize(k0 * sdfDistance(position + geometrySdfEpsilon * k0, primitive, processDisplacement) +
-                              k1 * sdfDistance(position + geometrySdfEpsilon * k1, primitive, processDisplacement) +
-                              k2 * sdfDistance(position + geometrySdfEpsilon * k2, primitive, processDisplacement) +
-                              k3 * sdfDistance(position + geometrySdfEpsilon * k3, primitive, processDisplacement));
+    const float e = geometrySdfEpsilon * SDF_NORMAL_EPSILON_FACTOR;
+    return ::optix::normalize(k0 * sdfDistance(position + e * k0, primitive, processDisplacement) +
+                              k1 * sdfDistance(position + e * k1, primitive, processDisplacement) +
+                              k2 * sdfDistance(position + e * k2, primitive, processDisplacement) +
+                              k3 * sdfDistance(position + e * k3, primitive, processDisplacement));
 }
 
 static __device__ inline float rayMarching(const SDFGeometry* primitive, bool& processDisplacement)
@@ -318,9 +345,9 @@ static __device__ inline float rayMarching(const SDFGeometry* primitive, bool& p
     const float pixel_radius = geometrySdfEpsilon;
 
     float omega = geometrySdfOmega;
-    float t = t0;
     float candidateError = 1e6f;
-    float tCandidate = t0;
+    float t = t0;
+    float tCandidate = t;
     float previousRadius = 0.f;
     float stepLength = 0.f;
     uint64_t stepCount = 0;
@@ -333,7 +360,7 @@ static __device__ inline float rayMarching(const SDFGeometry* primitive, bool& p
     {
         const float3 p = ray.origin + ray.direction * t;
         const float3 tp = rtTransformPoint(RT_OBJECT_TO_WORLD, p);
-        processDisplacement = (/*ray.flags == RAY_FLAG_PRIMARY && */ ::optix::length(tp - eye) < geometrySdfDistance);
+        processDisplacement = (/*prd.depth == 0 && */ ::optix::length(tp - eye) < geometrySdfDistance);
 
         float signed_radius = sdfSign * sdfDistance(p, primitive, processDisplacement);
         float radius = abs(signed_radius);

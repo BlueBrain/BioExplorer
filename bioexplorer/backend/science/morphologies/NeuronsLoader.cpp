@@ -85,12 +85,24 @@ ModelDescriptorPtr NeuronsLoader::importFromStorage(const std::string& storage, 
         props.getProperty<std::string>(LOADER_PROPERTY_POPULATION_COLOR_SCHEME.name));
     details.morphologyColorScheme = stringToEnum<morphology::MorphologyColorScheme>(
         props.getProperty<std::string>(LOADER_PROPERTY_MORPHOLOGY_COLOR_SCHEME.name));
-    details.realismLevel = 0;
+    details.realismLevel = static_cast<int64_t>(morphology::MorphologyRealismLevel::none);
     details.realismLevel += (props.getProperty<bool>(LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_SOMA.name)
                                  ? static_cast<int64_t>(morphology::MorphologyRealismLevel::soma)
                                  : 0);
     details.realismLevel += (props.getProperty<bool>(LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_DENDRITE.name)
                                  ? static_cast<int64_t>(morphology::MorphologyRealismLevel::dendrite)
+                                 : 0);
+    details.realismLevel += (props.getProperty<bool>(LOADER_PROPERTY_NEURONS_REALISM_LEVEL_SPINE.name)
+                                 ? static_cast<int64_t>(morphology::MorphologyRealismLevel::spine)
+                                 : 0);
+    details.realismLevel += (props.getProperty<bool>(LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_AXON.name)
+                                 ? static_cast<int64_t>(morphology::MorphologyRealismLevel::axon)
+                                 : 0);
+    details.realismLevel += (props.getProperty<bool>(LOADER_PROPERTY_NEURONS_REALISM_LEVEL_EXTERNALS.name)
+                                 ? static_cast<int64_t>(morphology::MorphologyRealismLevel::externals)
+                                 : 0);
+    details.realismLevel += (props.getProperty<bool>(LOADER_PROPERTY_MORPHOLOGY_REALISM_LEVEL_INTERNALS.name)
+                                 ? static_cast<int64_t>(morphology::MorphologyRealismLevel::internals)
                                  : 0);
     details.loadSomas = props.getProperty<bool>(LOADER_PROPERTY_MORPHOLOGY_LOAD_SOMA.name);
     details.loadAxon = props.getProperty<bool>(LOADER_PROPERTY_NEURONS_LOAD_AXON.name);

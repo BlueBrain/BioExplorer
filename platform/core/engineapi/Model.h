@@ -53,13 +53,13 @@ namespace core
  */
 struct SDFGeometryData
 {
-    std::vector<SDFGeometry> geometries;                     // A vector of SDFGeometry objects
-    std::map<size_t, std::vector<uint64_t>> geometryIndices; // A map where the keys are size_t values that represent
-                                                             // the indices of geometries vector. The map values are
-                                                             // vectors of uint64_t values that represent the indices of
-                                                             // vertices that belong to the geometry.
-    std::vector<std::vector<uint64_t>> neighbours; // A vector of vectors of uint64_t values that represent the indices
-                                                   // of neighbouring vertices for each  vertex.
+    std::vector<SDFGeometry> geometries;         // A vector of SDFGeometry objects
+    std::map<size_t, uint64_ts> geometryIndices; // A map where the keys are size_t values that represent
+                                                 // the indices of geometries vector. The map values are
+                                                 // vectors of uint64_t values that represent the indices of
+                                                 // vertices that belong to the geometry.
+    std::vector<uint64_ts> neighbours;           // A vector of vectors of uint64_t values that represent the indices
+                                                 // of neighbouring vertices for each  vertex.
     std::vector<uint64_t> neighboursFlat; // A vector of uint64_t values that represents the indices of neighbouring
                                           // vertices flattened into a single vector.
 

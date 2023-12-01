@@ -25,6 +25,8 @@
 
 #include "Utils.h"
 
+#include <science/common/Logs.h>
+
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Model.h>
 
@@ -199,11 +201,11 @@ uint64_t ThreadSafeContainer::_addCone(const size_t materialId, const Cone& cone
     return 0; // Only used by SDF geometry
 }
 
-uint64_t ThreadSafeContainer::_addSDFGeometry(const size_t materialId, const SDFGeometry& geom,
+uint64_t ThreadSafeContainer::_addSDFGeometry(const size_t materialId, const SDFGeometry& geometry,
                                               const std::set<size_t>& neighbours)
 {
     const uint64_t geometryIndex = _sdfMorphologyData.geometries.size();
-    _sdfMorphologyData.geometries.push_back(geom);
+    _sdfMorphologyData.geometries.push_back(geometry);
     _sdfMorphologyData.neighbours.push_back(neighbours);
     _sdfMorphologyData.materials.push_back(materialId);
     return geometryIndex;
@@ -355,6 +357,15 @@ void ThreadSafeContainer::_commitStreamlinesToModel()
         modelOffset += streamline.second.vertex.size();
     }
     _streamlinesMap.clear();
+}
+
+void ThreadSafeContainer::setSDFGeometryNeighbours(const uint64_t geometryIndex, const std::set<size_t>& neighbours)
+{
+    if (geometryIndex >= _sdfMorphologyData.neighbours.size())
+        PLUGIN_THROW("Invalid SDF geometry Id");
+    auto n = neighbours;
+    n.erase(geometryIndex);
+    _sdfMorphologyData.neighbours[geometryIndex] = n;
 }
 } // namespace common
 } // namespace bioexplorer
