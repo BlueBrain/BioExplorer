@@ -281,7 +281,6 @@ void Vasculature::_buildModel(const LoaderProgress& callback, const doubles& rad
     if (_details.colorScheme == VasculatureColorScheme::radius)
         radiusRange = DBConnector::getInstance().getVasculatureRadiusRange(_details.populationName, _details.sqlFilter);
 
-    uint64_t progress = 0;
     uint64_t index;
     volatile bool flag = false;
     std::string flagMessage;
@@ -383,9 +382,6 @@ void Vasculature::_buildModel(const LoaderProgress& callback, const doubles& rad
                     }
                 }
             } while (iter != nodes.end());
-
-#pragma omp critical
-            ++progress;
 
 #pragma omp critical
             containers.push_back(container);
