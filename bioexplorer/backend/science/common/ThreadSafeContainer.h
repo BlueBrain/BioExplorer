@@ -167,6 +167,8 @@ public:
      */
     void commitToModel();
 
+    void setSDFGeometryNeighbours(const uint64_t geometryIndex, const std::set<size_t>& neighbours);
+
     MaterialSet& getMaterialIds() { return _materialIds; }
 
 private:

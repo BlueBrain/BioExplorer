@@ -103,6 +103,7 @@ private:
     // SDF geometries
     struct OptiXSDFGeometryBuffers
     {
+        ::optix::Buffer indices_buffer{nullptr};
         ::optix::Buffer geometries_buffer{nullptr};
         ::optix::Buffer neighbours_buffer{nullptr};
     };
