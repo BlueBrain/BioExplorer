@@ -306,21 +306,22 @@ static __device__ inline void shade(bool textured)
     float3 p_Ko = Ko;
     if (textured)
     {
-        if (volume_map != 0)
+        if (volume_map)
         {
             const float voxelValue = optix::rtTex3D<float>(volume_map, texcoord3d.x, texcoord3d.y, texcoord3d.z);
             const float4 voxelColor = calcTransferFunctionColor(transfer_function_map, value_range, voxelValue);
             p_Kd = make_float3(voxelColor);
             p_Ko = make_float3(voxelColor.w);
         }
-        else if (octree_indices_map != 0 && octree_values_map != 0)
+        else if (octree_indices_map && octree_values_map)
         {
             const float4 voxelColor = calcTransferFunctionColor(transfer_function_map, value_range, texcoord.x);
             p_Kd = make_float3(voxelColor);
             p_Ko = make_float3(voxelColor.w);
         }
         else
-            p_Kd = make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y));
+            p_Kd = (albedoMetallic_map ? make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y))
+                                       : Kd);
     }
 
     phongShade(p_Kd, Ka, Ks, Kr, p_Ko, refraction_index, phong_exp, glossiness, shading_mode, user_parameter, normal);

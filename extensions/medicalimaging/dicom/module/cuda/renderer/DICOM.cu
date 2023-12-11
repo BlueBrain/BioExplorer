@@ -46,7 +46,7 @@ static __device__ void dicomShade(const bool textured)
         }
         else if (octree_indices_map != 0 && octree_values_map != 0)
             voxelColor = calcTransferFunctionColor(transfer_function_map, value_range, texcoord.x);
-        else
+        else if (albedoMetallic_map)
             voxelColor = make_float4(make_float3(optix::rtTex2D<float4>(albedoMetallic_map, texcoord.x, texcoord.y)),
                                      luminance(Ko));
     }

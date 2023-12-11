@@ -57,6 +57,10 @@ public:
     virtual SharedDataVolumePtr createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
                                                        const DataType type) final;
 
+    /** @copydoc Model::createOctreeVolume */
+    virtual OctreeVolumePtr createOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing,
+                                               const DataType type) final;
+
     /** @copydoc Model::createBrickedVolume */
     virtual BrickedVolumePtr createBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
                                                  const DataType type) final;
@@ -65,9 +69,8 @@ public:
     ::optix::GeometryGroup getBoundingBoxGroup() const { return _boundingBoxGroup; }
 
 protected:
-    void _createSampler(const size_t materialId, const ::optix::Buffer& buffer, const size_t size,
-                        const TextureType textureType, const RTtextureindexmode textureIndexMode,
-                        const Vector2f& valueRange = Vector2f());
+    size_t _createSampler(const size_t materialId, const ::optix::Buffer& buffer, const TextureType textureType,
+                          const RTtextureindexmode textureIndexMode, const Vector2f& valueRange = Vector2f());
 
     void _commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities, const Vector2d valueRange) final;
     void _commitSimulationDataImpl(const float* frameData, const size_t frameSize) final;

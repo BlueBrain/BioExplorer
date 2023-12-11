@@ -39,7 +39,10 @@ public:
                  const VolumeParameters& params, OSPTransferFunction transferFunction, const std::string& volumeType);
     ~OSPRayVolume();
 
+    /** @copydoc Volume::setDataRange */
     void setDataRange(const Vector2f& range) final;
+
+    /** @copydoc Volume::commit */
     void commit() final;
 
     OSPVolume impl() const { return _volume; }

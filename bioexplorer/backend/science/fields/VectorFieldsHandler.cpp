@@ -181,8 +181,8 @@ void VectorFieldsHandler::_buildOctree()
 #ifdef USE_OPTIX6
     if (engineName == ENGINE_OPTIX_6)
     {
-        auto volume = _model->createSharedDataVolume(_dimensions, _spacing, DataType::FLOAT);
-        auto optixVolume = dynamic_cast<core::engine::optix::OptiXVolume*>(volume.get());
+        auto volume = _model->createOctreeVolume(_dimensions, _spacing, DataType::FLOAT);
+        auto optixVolume = dynamic_cast<core::engine::optix::OptiXOctreeVolume*>(volume.get());
         optixVolume->setOctree(_offset, indices, data, OctreeDataType::vector);
         _frameData.clear();
         _frameSize = 0;

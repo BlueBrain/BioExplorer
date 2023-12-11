@@ -178,9 +178,9 @@ void PointFieldsHandler::_buildOctree()
 #ifdef USE_OPTIX6
     if (engineName == ENGINE_OPTIX_6)
     {
-        auto volume = _model->createSharedDataVolume(_dimensions, _spacing, DataType::FLOAT);
-        auto optixVolume = dynamic_cast<core::engine::optix::OptiXVolume*>(volume.get());
-        optixVolume->setOctree(_offset, indices, data, OctreeDataType::point);
+        auto octreeVolume = _model->createOctreeVolume(_dimensions, _spacing, DataType::FLOAT);
+        auto optixOctreeVolume = dynamic_cast<core::engine::optix::OptiXOctreeVolume*>(octreeVolume.get());
+        optixOctreeVolume->setOctree(_offset, indices, data, OctreeDataType::point);
         _frameData.clear();
         _frameSize = 0;
     }

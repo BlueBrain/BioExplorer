@@ -34,11 +34,10 @@ namespace engine
 {
 namespace optix
 {
-OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const Vector3f& spacing,
-                         const DataType dataType, const VolumeParameters& params)
+
+OptiXVolume::OptiXVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType dataType,
+                         const VolumeParameters& params)
     : Volume(dimensions, spacing, dataType)
-    , SharedDataVolume(dimensions, spacing, dataType)
-    , _model(model)
     , _parameters(params)
 {
     CORE_INFO("Volume dimension: " << _dimensions);
@@ -75,7 +74,15 @@ OptiXVolume::OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const V
     }
 }
 
-void OptiXVolume::setVoxels(const void* voxels)
+OptiXSharedDataVolume::OptiXSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
+                                             const DataType dataType, const VolumeParameters& params)
+    : Volume(dimensions, spacing, dataType)
+    , SharedDataVolume(dimensions, spacing, dataType)
+    , OptiXVolume(dimensions, spacing, dataType, params)
+{
+}
+
+void OptiXSharedDataVolume::setVoxels(const void* voxels)
 {
     const uint64_t volumeSize = _dimensions.x * _dimensions.y * _dimensions.z;
     floats volumeAsFloats(volumeSize);
@@ -137,14 +144,21 @@ void OptiXVolume::setVoxels(const void* voxels)
         }
         }
     }
-    // buffer->unmap();
     const size_t bufferSize = volumeAsFloats.size() * sizeof(float);
     _memoryBuffer.resize(bufferSize);
     memcpy(_memoryBuffer.data(), volumeAsFloats.data(), bufferSize);
 }
 
-void OptiXVolume::setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
-                            const OctreeDataType dataType)
+OptiXOctreeVolume::OptiXOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType dataType,
+                                     const VolumeParameters& params)
+    : Volume(dimensions, spacing, dataType)
+    , OctreeVolume(dimensions, spacing, dataType)
+    , OptiXVolume(dimensions, spacing, dataType, params)
+{
+}
+
+void OptiXOctreeVolume::setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
+                                  const OctreeDataType dataType)
 {
     _octreeIndices = indices;
     _octreeValues = values;
@@ -152,7 +166,6 @@ void OptiXVolume::setOctree(const Vector3f& offset, const uint32_ts& indices, co
     _octreeDataType = dataType;
     markModified();
 }
-
 } // namespace optix
 } // namespace engine
 } // namespace core

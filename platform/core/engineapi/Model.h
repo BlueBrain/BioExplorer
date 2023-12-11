@@ -531,6 +531,17 @@ public:
                                                               const DataType type) = 0;
 
     /**
+     * @brief Create a computed volume with the given dimensions, voxel spacing and data type
+     * where the voxels are set via setVoxels() from any memory location.
+     * @param dimensions Dimensions of volume
+     * @param spacing Spacing of volume
+     * @param type Data type of volume
+     * @return Pointer to created OctreeVolume
+     */
+    PLATFORM_API virtual OctreeVolumePtr createOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing,
+                                                            const DataType type) = 0;
+
+    /**
      * @brief Pure virtual function to build bounding box
      */
     PLATFORM_API virtual void buildBoundingBox() = 0;
