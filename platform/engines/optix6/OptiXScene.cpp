@@ -214,124 +214,128 @@ void OptiXScene::commit()
     {
         auto& model = _modelDescriptors[i]->getModel();
         model.commitSimulationData();
-
         _commitVolumeParameters();
-        if (model.commitTransferFunction())
-            markModified();
     }
 
     commitLights();
     _commitGeometryParameters();
     _commitClippingPlanes();
 
-    if (!isModified())
-        return;
-
-    // Remove all models marked for removal
-    for (auto& model : _modelDescriptors)
-        if (model->isMarkedForRemoval())
-            model->callOnRemoved();
-
-    _modelDescriptors.erase(std::remove_if(_modelDescriptors.begin(), _modelDescriptors.end(),
-                                           [](const auto& m) { return m->isMarkedForRemoval(); }),
-                            _modelDescriptors.end());
-
-    auto context = OptiXContext::get().getOptixContext();
-
-    auto values = std::map<TextureType, std::string>{{TextureType::diffuse, "envmap"},
-                                                     {TextureType::radiance, "envmap_radiance"},
-                                                     {TextureType::irradiance, "envmap_irradiance"},
-                                                     {TextureType::brdf_lut, "envmap_brdf_lut"}};
-    if (hasEnvironmentMap())
-        _backgroundMaterial->commit();
-
-    auto optixMat = std::static_pointer_cast<OptiXMaterial>(_backgroundMaterial);
-    for (const auto& i : values)
+    if (isModified())
     {
-        auto sampler = _dummyTextureSampler;
-        if (hasEnvironmentMap() && optixMat->hasTexture(i.first))
-            sampler = optixMat->getTextureSampler(i.first);
-        context[i.second]->setInt(sampler->getId());
-        if (i.first == TextureType::radiance && _backgroundMaterial->hasTexture(TextureType::radiance))
+        // Remove all models marked for removal
+        for (auto& model : _modelDescriptors)
+            if (model->isMarkedForRemoval())
+                model->callOnRemoved();
+
+        _modelDescriptors.erase(std::remove_if(_modelDescriptors.begin(), _modelDescriptors.end(),
+                                               [](const auto& m) { return m->isMarkedForRemoval(); }),
+                                _modelDescriptors.end());
+
+        auto context = OptiXContext::get().getOptixContext();
+
+        auto values = std::map<TextureType, std::string>{{TextureType::diffuse, "envmap"},
+                                                         {TextureType::radiance, "envmap_radiance"},
+                                                         {TextureType::irradiance, "envmap_irradiance"},
+                                                         {TextureType::brdf_lut, "envmap_brdf_lut"}};
+        if (hasEnvironmentMap())
+            _backgroundMaterial->commit();
+
+        auto optixMat = std::static_pointer_cast<OptiXMaterial>(_backgroundMaterial);
+        for (const auto& i : values)
         {
-            const auto& radianceTex = _backgroundMaterial->getTexture(TextureType::radiance);
-            context[CONTEXT_MATERIAL_RADIANCE_LODS]->setUint(radianceTex->getMipLevels() - 1);
+            auto sampler = _dummyTextureSampler;
+            if (hasEnvironmentMap() && optixMat->hasTexture(i.first))
+                sampler = optixMat->getTextureSampler(i.first);
+            context[i.second]->setInt(sampler->getId());
+            if (i.first == TextureType::radiance && _backgroundMaterial->hasTexture(TextureType::radiance))
+            {
+                const auto& radianceTex = _backgroundMaterial->getTexture(TextureType::radiance);
+                context[CONTEXT_MATERIAL_RADIANCE_LODS]->setUint(radianceTex->getMipLevels() - 1);
+            }
         }
+
+        context[CONTEXT_USE_ENVIRONMENT_MAP]->setUint(hasEnvironmentMap() ? 1 : 0);
+
+        // Geometry
+        if (_rootGroup)
+            _rootGroup->destroy();
+
+        _rootGroup = OptiXContext::get().createGroup();
+
+        for (size_t i = 0; i < _modelDescriptors.size(); ++i)
+        {
+            auto& modelDescriptor = _modelDescriptors[i];
+            if (!modelDescriptor->getEnabled())
+                continue;
+
+            auto& impl = static_cast<OptiXModel&>(modelDescriptor->getModel());
+
+            CORE_DEBUG("Committing " << modelDescriptor->getName());
+
+            impl.commitGeometry();
+            impl.logInformation();
+
+            if (modelDescriptor->getVisible())
+            {
+                const auto geometryGroup = impl.getGeometryGroup();
+                const auto& instances = modelDescriptor->getInstances();
+                size_t count{0};
+                for (const auto& instance : instances)
+                {
+                    auto modelTransformation = instance.getTransformation();
+                    if (count == 0)
+                        modelTransformation = modelDescriptor->getTransformation();
+                    const ::glm::mat4 matrix = modelTransformation.toMatrix(true);
+                    ::optix::Matrix4x4 optixMatrix(glm::value_ptr(matrix));
+                    ::optix::Transform instanceTransformation = context->createTransform();
+                    instanceTransformation->setChild(geometryGroup);
+                    instanceTransformation->setMatrix(true, optixMatrix.getData(), optixMatrix.inverse().getData());
+                    _rootGroup->addChild(instanceTransformation);
+                    ++count;
+                }
+                CORE_DEBUG("Group has " << geometryGroup->getChildCount() << " children");
+            }
+
+            if (modelDescriptor->getBoundingBox())
+            {
+                // scale and move the unit-sized bounding box geometry to the model size/scale first, then apply the
+                // instance transform
+                const auto boundingBoxGroup = impl.getBoundingBoxGroup();
+                ::optix::Transform transformation = context->createTransform();
+
+                const auto& modelBounds = modelDescriptor->getModel().getBounds();
+                Transformation modelTransformation;
+                modelTransformation.setTranslation(modelBounds.getCenter() / modelBounds.getSize() - Vector3d(0.5));
+                modelTransformation.setScale(modelBounds.getSize());
+
+                Matrix4f modelMatrix = modelTransformation.toMatrix(true);
+                modelMatrix = glm::transpose(modelMatrix);
+                const auto trf = glm::value_ptr(modelMatrix);
+
+                transformation->setMatrix(false, trf, 0);
+                transformation->setChild(boundingBoxGroup);
+                _rootGroup->addChild(transformation);
+            }
+        }
+        computeBounds();
+
+        CORE_DEBUG("Root has " << _rootGroup->getChildCount() << " children");
+
+        context[CONTEXT_SCENE_TOP_OBJECT]->set(_rootGroup);
+        context[CONTEXT_SCENE_TOP_SHADOWER]->set(_rootGroup);
+
+        // TODO: triggers the change callback to re-broadcast the scene if the clip planes have changed. Provide an RPC
+        // to update/set clip planes.
+        markModified();
     }
-
-    context[CONTEXT_USE_ENVIRONMENT_MAP]->setUint(hasEnvironmentMap() ? 1 : 0);
-
-    // Geometry
-    if (_rootGroup)
-        _rootGroup->destroy();
-
-    _rootGroup = OptiXContext::get().createGroup();
 
     for (size_t i = 0; i < _modelDescriptors.size(); ++i)
     {
-        auto& modelDescriptor = _modelDescriptors[i];
-        if (!modelDescriptor->getEnabled())
-            continue;
-
-        auto& impl = static_cast<OptiXModel&>(modelDescriptor->getModel());
-
-        CORE_DEBUG("Committing " << modelDescriptor->getName());
-
-        impl.commitGeometry();
-        impl.logInformation();
-
-        if (modelDescriptor->getVisible())
-        {
-            const auto geometryGroup = impl.getGeometryGroup();
-            const auto& instances = modelDescriptor->getInstances();
-            size_t count{0};
-            for (const auto& instance : instances)
-            {
-                auto modelTransformation = instance.getTransformation();
-                if (count == 0)
-                    modelTransformation = modelDescriptor->getTransformation();
-                const ::glm::mat4 matrix = modelTransformation.toMatrix(true);
-                ::optix::Matrix4x4 optixMatrix(glm::value_ptr(matrix));
-                ::optix::Transform instanceTransformation = context->createTransform();
-                instanceTransformation->setChild(geometryGroup);
-                instanceTransformation->setMatrix(true, optixMatrix.getData(), optixMatrix.inverse().getData());
-                _rootGroup->addChild(instanceTransformation);
-                ++count;
-            }
-            CORE_DEBUG("Group has " << geometryGroup->getChildCount() << " children");
-        }
-
-        if (modelDescriptor->getBoundingBox())
-        {
-            // scale and move the unit-sized bounding box geometry to the model size/scale first, then apply the
-            // instance transform
-            const auto boundingBoxGroup = impl.getBoundingBoxGroup();
-            ::optix::Transform transformation = context->createTransform();
-
-            const auto& modelBounds = modelDescriptor->getModel().getBounds();
-            Transformation modelTransformation;
-            modelTransformation.setTranslation(modelBounds.getCenter() / modelBounds.getSize() - Vector3d(0.5));
-            modelTransformation.setScale(modelBounds.getSize());
-
-            Matrix4f modelMatrix = modelTransformation.toMatrix(true);
-            modelMatrix = glm::transpose(modelMatrix);
-            const auto trf = glm::value_ptr(modelMatrix);
-
-            transformation->setMatrix(false, trf, 0);
-            transformation->setChild(boundingBoxGroup);
-            _rootGroup->addChild(transformation);
-        }
+        auto& model = _modelDescriptors[i]->getModel();
+        if (model.commitTransferFunction())
+            markModified();
     }
-    computeBounds();
-
-    CORE_DEBUG("Root has " << _rootGroup->getChildCount() << " children");
-
-    context[CONTEXT_SCENE_TOP_OBJECT]->set(_rootGroup);
-    context[CONTEXT_SCENE_TOP_SHADOWER]->set(_rootGroup);
-
-    // TODO: triggers the change callback to re-broadcast the scene if the clip planes have changed. Provide an RPC to
-    // update/set clip planes.
-    markModified();
 }
 } // namespace optix
 } // namespace engine

@@ -74,6 +74,7 @@ protected:
     void _commitVolumesBuffers(const size_t materialId);
 
 private:
+    void _resetUserDataBuffer();
     uint64_t _commitSpheres(const size_t materialId);
     uint64_t _commitCylinders(const size_t materialId);
     uint64_t _commitCones(const size_t materialId);
