@@ -114,7 +114,7 @@ OptiXModel::~OptiXModel()
 
     RT_DESTROY_MAP(_optixTextures)
     RT_DESTROY_MAP(_optixTextureSamplers)
-    RT_DESTROY(_userDataBuffer);
+    _resetUserDataBuffer();
 
     RT_DESTROY(_geometryGroup);
     RT_DESTROY(_boundingBoxGroup);
@@ -172,6 +172,16 @@ void OptiXModel::commitGeometry()
     CORE_DEBUG("Geometry group has " << _geometryGroup->getChildCount() << " children instances");
     CORE_DEBUG("Bounding box group has " << _boundingBoxGroup->getChildCount() << " children instances");
     CORE_DEBUG("Model memory footprint: " << memoryFootPrint / 1024 / 1024 << " MB");
+}
+
+void OptiXModel::_resetUserDataBuffer()
+{
+    RT_DESTROY(_userDataBuffer);
+    // Buffer needs to be bound. Initialize it to size 1 if user data is empty
+    floats frameData(1, 0);
+    auto context = OptiXContext::get().getOptixContext();
+    setBufferRaw(RT_BUFFER_INPUT, RT_FORMAT_FLOAT, _userDataBuffer, context[CONTEXT_USER_DATA], frameData.data(),
+                 frameData.size(), frameData.size() * sizeof(float));
 }
 
 uint64_t OptiXModel::_commitSpheres(const size_t materialId)
