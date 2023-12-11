@@ -150,7 +150,7 @@ static __device__ inline float sdConePill(const float3& p, const float3& a, cons
     return (sqrt(x2 * a2 * il2) + y * rr) * il2 - r1;
 }
 
-static __device__ inline float sdCone(const float3& p, const float3 a, const float3 b, float ra, float rb)
+static __device__ inline float sdCone(const float3& p, const float3& a, const float3& b, float ra, float rb)
 {
     float rba = rb - ra;
     float baba = ::optix::dot(b - a, b - a);
@@ -239,15 +239,14 @@ static __device__ inline uint64_t getNeighbourIndex(const uint64_t index)
 
 static __device__ inline ::optix::Aabb getBounds(const SDFGeometry* primitive)
 {
-    const float radius = max(primitive->r0, primitive->r1) + primitive->userParams.x;
     ::optix::Aabb aabb;
     switch (primitive->type)
     {
     case SDFType::sdf_sphere:
     case SDFType::sdf_cut_sphere:
     {
-        aabb.m_min = primitive->p0 - radius;
-        aabb.m_max = primitive->p0 + radius;
+        aabb.m_min = primitive->p0 - primitive->r0;
+        aabb.m_max = primitive->p0 + primitive->r0;
         return aabb;
     }
     case SDFType::sdf_torus:
@@ -258,6 +257,7 @@ static __device__ inline ::optix::Aabb getBounds(const SDFGeometry* primitive)
         return aabb;
     }
     default:
+        const float radius = max(primitive->r0, primitive->r1) + primitive->userParams.x;
         aabb.m_min = make_float3(min(primitive->p0.x, primitive->p1.x), min(primitive->p0.y, primitive->p1.y),
                                  min(primitive->p0.z, primitive->p1.z)) -
                      radius;

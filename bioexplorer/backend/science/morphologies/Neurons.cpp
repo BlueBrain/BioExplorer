@@ -837,8 +837,7 @@ void Neurons::_addSection(ThreadSafeContainer& container, const uint64_t neuronI
     // Section points
     Neighbours sectionNeighbours = neighbours;
     uint64_t previousGeometryIndex = 0;
-    const uint64_t startIndex = (section.parentId == SOMA_AS_PARENT ? 1 : 0);
-    for (uint64_t i = startIndex; i < localPoints.size() - 1; ++i)
+    for (uint64_t i = 0; i < localPoints.size() - 1; ++i)
     {
         if (!compartments.empty())
         {
@@ -847,11 +846,16 @@ void Neurons::_addSection(ThreadSafeContainer& container, const uint64_t neuronI
         }
 
         const auto& srcPoint = localPoints[i];
+        const auto& dstPoint = localPoints[i + 1];
+
+        if (srcPoint == dstPoint)
+            // It sometimes occurs that points are duplicated, resulting in a zero-length segment that can ignored
+            continue;
+
         const double srcRadius = _getCorrectedRadius(srcPoint.w * 0.5, _details.radiusMultiplier);
         const auto src =
             _animatedPosition(Vector4d(somaPosition + somaRotation * Vector3d(srcPoint), srcRadius), neuronId);
 
-        const auto& dstPoint = localPoints[i + 1];
         const double dstRadius = _getCorrectedRadius(dstPoint.w * 0.5, _details.radiusMultiplier);
         const auto dst =
             _animatedPosition(Vector4d(somaPosition + somaRotation * Vector3d(dstPoint), dstRadius), neuronId);
@@ -916,17 +920,9 @@ void Neurons::_addSection(ThreadSafeContainer& container, const uint64_t neuronI
             if (!useSdf)
                 container.addSphere(dst, dstRadius, materialId, useSdf, userData);
 
-#if 0
-            const uint64_t geometryIndex = container.addCone(src, srcRadius, dst, dstRadius, materialId, useSdf,
-                                                             userData, sectionNeighbours, displacement);
-
-            if (i > 0)
-                container.setSDFGeometryNeighbours(previousGeometryIndex, {previousGeometryIndex});
-#else
             const uint64_t geometryIndex =
                 container.addCone(src, srcRadius, dst, dstRadius, materialId, useSdf, userData, {}, displacement);
 
-#endif
             previousGeometryIndex = geometryIndex;
             sectionNeighbours = {geometryIndex};
 
@@ -1130,13 +1126,20 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
 {
     const double radius = DEFAULT_SPINE_RADIUS;
     const double spineScale = 0.25;
-    const double spineLength = 0.5;
-    const auto spineSmallRadius = radius * spineRadiusRatio * 0.5 * spineScale;
-    const auto spineBaseRadius = radius * spineRadiusRatio * 0.75 * spineScale;
-    const auto spineLargeRadius = radius * spineRadiusRatio * 2.5 * spineScale;
+    const double spineLength = 0.4 + 0.2 * rnd1();
+
+    const auto spineDisplacement =
+        Vector3d(_getDisplacementValue(DisplacementElement::morphology_spine_strength),
+                 _getDisplacementValue(DisplacementElement::morphology_spine_frequency), 0.0);
+
+    const auto spineSmallRadius = std::max(spineDisplacement.x, radius * spineRadiusRatio * 0.5 * spineScale);
+    const auto spineBaseRadius = std::max(spineDisplacement.x, radius * spineRadiusRatio * 0.75 * spineScale);
+    const auto spineLargeRadius = std::max(spineDisplacement.x, radius * spineRadiusRatio * 2.5 * spineScale);
+    const auto sectionDisplacementAmplitude = _getDisplacementValue(DisplacementElement::morphology_section_strength);
 
     const auto direction = normalize(Vector3d(rnd1(), rnd1(), rnd1()));
-    const auto origin = preSynapticSurfacePosition + normalize(direction) * radiusAtSurfacePosition;
+    const auto origin = preSynapticSurfacePosition +
+                        normalize(direction) * std::max(0.0, radiusAtSurfacePosition - sectionDisplacementAmplitude);
     const auto target = preSynapticSurfacePosition + normalize(direction) * (radiusAtSurfacePosition + spineLength);
 
     // Create random shape between origin and target
@@ -1145,8 +1148,6 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
     middle += Vector3f(d * rnd1(), d * rnd1(), d * rnd1());
     const float spineMiddleRadius = spineSmallRadius + d * 0.1 * rnd1();
 
-    const auto displacement = Vector3f(_getDisplacementValue(DisplacementElement::morphology_spine_strength),
-                                       _getDisplacementValue(DisplacementElement::morphology_spine_frequency), 0.f);
     Neighbours neighbours;
 
     const bool useSdf =
@@ -1154,14 +1155,14 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
 
     if (!useSdf)
         container.addSphere(target, spineLargeRadius, SpineMaterialId, neuronId);
-    neighbours.insert(
-        container.addSphere(middle, spineMiddleRadius, SpineMaterialId, useSdf, neuronId, neighbours, displacement));
+    neighbours.insert(container.addSphere(middle, spineMiddleRadius, SpineMaterialId, useSdf, neuronId, neighbours,
+                                          spineDisplacement));
     if (middle != origin)
         container.addCone(origin, spineSmallRadius, middle, spineMiddleRadius, SpineMaterialId, useSdf, neuronId,
-                          neighbours, displacement);
+                          neighbours, spineDisplacement);
     if (middle != target)
         container.addCone(middle, spineMiddleRadius, target, spineLargeRadius, SpineMaterialId, useSdf, neuronId,
-                          neighbours, displacement);
+                          neighbours, spineDisplacement);
 
     ++_nbSpines;
 }

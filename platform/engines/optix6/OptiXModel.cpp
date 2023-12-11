@@ -364,7 +364,8 @@ uint64_t OptiXModel::_commitSDFGeometries()
                 const auto it = localGeometriesMapping.find(neighbours[i]);
                 if (it == localGeometriesMapping.end())
                     CORE_THROW("Invalid neighbour index");
-                localNeighboursFlat.push_back((*it).second);
+                if (geometryIndex != (*it).second)
+                    localNeighboursFlat.push_back((*it).second);
             }
         }
 
