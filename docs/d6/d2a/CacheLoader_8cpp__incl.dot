@@ -118,7 +118,7 @@ digraph "bioexplorer/backend/science/io/CacheLoader.cpp"
   Node74 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node72 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node72 -> Node64 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node64 [label="platform/core/common\l/geometry/Sphere.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$de/d15/core_2common_2geometry_2Sphere_8h.html",tooltip=" "];
+  Node64 [label="platform/core/common\l/geometry/Sphere.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$d3/dca/Sphere_8h.html",tooltip=" "];
   Node72 -> Node65 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node65 [label="platform/core/common\l/geometry/Streamline.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dec/Streamline_8h.html",tooltip=" "];
   Node65 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -126,7 +126,7 @@ digraph "bioexplorer/backend/science/io/CacheLoader.cpp"
   Node66 [label="platform/core/common\l/geometry/TriangleMesh.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/dfa/TriangleMesh_8h.html",tooltip=" "];
   Node66 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node72 -> Node75 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node75 [label="platform/core/common\l/transferFunction/TransferFunction.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d10/core_2common_2transferFunction_2TransferFunction_8h.html",tooltip=" "];
+  Node75 [label="platform/core/common\l/transferFunction/TransferFunction.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d18/TransferFunction_8h.html",tooltip=" "];
   Node75 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node72 -> Node34 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

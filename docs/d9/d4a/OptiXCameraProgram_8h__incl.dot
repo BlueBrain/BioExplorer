@@ -7,7 +7,7 @@ digraph "platform/engines/optix6/OptiXCameraProgram.h"
   Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node2 [label="optixu/optixpp_namespace.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node3 [label="OptiXUtils.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/de5/optix6_2OptiXUtils_8h.html",tooltip=" "];
+  Node3 [label="OptiXUtils.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/db9/OptiXUtils_8h.html",tooltip=" "];
   Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node4 [label="optix.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

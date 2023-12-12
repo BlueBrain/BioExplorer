@@ -79,11 +79,6 @@ if(PLATFORM_OPTIX6_ENABLED)
   add_subdirectory(engines/optix6)
 endif()
 
-if(PLATFORM_OPTIX7_ENABLED)
-  message(STATUS "[Core] Building OptiX 7 engine")
-  add_subdirectory(engines/optix7_experimental)
-endif()
-
 # ==============================================================================
 # Applications and libraries
 # ==============================================================================

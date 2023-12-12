@@ -4,23 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="core::ExtensionPlugin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/dfc/classcore_1_1ExtensionPlugin.html",tooltip=" "];
-  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 [label="bioexplorer::BioExplorer\lPlugin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html",tooltip="This class implements the BioExplorer plugin."];
-  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="bioexplorer::mediamaker\l::MediaMakerPlugin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html",tooltip="This class implements the Media Maker plugin for Core."];
-  Node0 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node3 [label="bioexplorer::metabolism\l::MetabolismPlugin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html",tooltip="This class implements the MetabolismPlugin plugin."];
-  Node0 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node4 [label="core::DeflectPlugin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d23/classcore_1_1DeflectPlugin.html",tooltip=" "];
-  Node0 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node5 [label="core::MultiviewPlugin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d2e/classcore_1_1MultiviewPlugin.html",tooltip=" "];
-  Node0 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node6 [label="core::OpenDeckPlugin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d72/classcore_1_1OpenDeckPlugin.html",tooltip=" "];
-  Node0 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node7 [label="core::RocketsPlugin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dfb/classcore_1_1RocketsPlugin.html",tooltip=" "];
-  Node0 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node8 [label="core::VRPNPlugin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d90/classcore_1_1VRPNPlugin.html",tooltip=" "];
-  Node0 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node9 [label="sonataexplorer::SonataExplorer\lPlugin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d43/classsonataexplorer_1_1SonataExplorerPlugin.html",tooltip="The SonataExplorerPlugin class manages the loading and visualization of the Blue Brain Project micro-..."];
+  Node0 [label="core::FileRoot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d6f/structcore_1_1FileRoot.html",tooltip=" "];
 }

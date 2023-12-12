@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="sonataexplorer::api\l::AddGrid",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d90/structsonataexplorer_1_1api_1_1AddGrid.html",tooltip=" "];
+  Node0 [label="sonataexplorer::api\l::ModelId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d8a/structsonataexplorer_1_1api_1_1ModelId.html",tooltip=" "];
 }

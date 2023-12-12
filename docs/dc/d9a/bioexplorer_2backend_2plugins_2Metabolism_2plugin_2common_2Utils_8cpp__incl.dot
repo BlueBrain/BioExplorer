@@ -109,6 +109,6 @@ digraph "bioexplorer/backend/plugins/Metabolism/plugin/common/Utils.cpp"
   Node38 -> Node42 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node42 [label="iostream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node43 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node43 [label="platform/core/common\l/transferFunction/TransferFunction.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d10/core_2common_2transferFunction_2TransferFunction_8h.html",tooltip=" "];
+  Node43 [label="platform/core/common\l/transferFunction/TransferFunction.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d18/TransferFunction_8h.html",tooltip=" "];
   Node43 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

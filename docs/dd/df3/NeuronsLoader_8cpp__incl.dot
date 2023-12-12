@@ -93,7 +93,7 @@ digraph "bioexplorer/backend/science/morphologies/NeuronsLoader.cpp"
   Node29 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node46 [label="platform/core/common\l/geometry/Cylinder.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$d9/d0a/Cylinder_8h.html",tooltip=" "];
   Node29 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node47 [label="platform/core/common\l/geometry/Sphere.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$de/d15/core_2common_2geometry_2Sphere_8h.html",tooltip=" "];
+  Node47 [label="platform/core/common\l/geometry/Sphere.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$d3/dca/Sphere_8h.html",tooltip=" "];
   Node29 -> Node48 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node48 [label="platform/core/common\l/geometry/Streamline.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dec/Streamline_8h.html",tooltip=" "];
   Node48 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

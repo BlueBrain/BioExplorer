@@ -65,7 +65,7 @@ digraph "platform/plugins/multiview/ispc/multiview/MultiviewCamera.cpp"
   Node6 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node6 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node29 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node29 [label="platform/plugins/multiview\l/common/CommonStructs.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d9b/plugins_2multiview_2common_2CommonStructs_8h.html",tooltip=" "];
+  Node29 [label="platform/plugins/multiview\l/common/CommonStructs.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d93/CommonStructs_8h.html",tooltip=" "];
   Node29 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node30 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node30 [label="ospray/SDK/common/Data.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];

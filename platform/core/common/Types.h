@@ -200,7 +200,6 @@ class Statistics;
 /** Supported engines */
 static const char* ENGINE_OSPRAY = "ospray";
 static const char* ENGINE_OPTIX_6 = "optix6";
-static const char* ENGINE_OPTIX_7 = "optix7";
 
 /** Define the frame buffer format */
 enum class FrameBufferFormat

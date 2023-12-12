@@ -9,6 +9,6 @@ digraph "bioexplorer/backend/plugins/Metabolism/plugin/common" {
   dir_14d627cccd023aaf4f18eaf1359097e2 [shape=box label="science" fillcolor="white" style="filled" color="red" URL="dir_14d627cccd023aaf4f18eaf1359097e2.html"];
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
   dir_14d627cccd023aaf4f18eaf1359097e2->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="129", labeldistance=1.5 headhref="dir_000038_000059.html"];
-  dir_608027d926b9b19d511b9e51198c2b56->dir_14d627cccd023aaf4f18eaf1359097e2 [headlabel="2", labeldistance=1.5 headhref="dir_000083_000038.html"];
-  dir_608027d926b9b19d511b9e51198c2b56->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="1", labeldistance=1.5 headhref="dir_000083_000059.html"];
+  dir_608027d926b9b19d511b9e51198c2b56->dir_14d627cccd023aaf4f18eaf1359097e2 [headlabel="2", labeldistance=1.5 headhref="dir_000082_000038.html"];
+  dir_608027d926b9b19d511b9e51198c2b56->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="1", labeldistance=1.5 headhref="dir_000082_000059.html"];
 }

@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="core::Renderer::PickResult",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/dd3/structcore_1_1Renderer_1_1PickResult.html",tooltip="PickResult Struct containing hit boolean value and Vector3d pos PickResult struct is used to retrieve..."];
+  Node0 [label="core::SphereHitGroupData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/d73/structcore_1_1SphereHitGroupData.html",tooltip=" "];
 }

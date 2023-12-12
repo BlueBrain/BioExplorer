@@ -132,6 +132,6 @@ digraph "platform/plugins/multiview/MultiviewPlugin.cpp"
   Node47 [label="platform/core/pluginapi\l/Plugin.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/def/Plugin_8h.html",tooltip=" "];
   Node47 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node48 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node48 [label="platform/plugins/multiview\l/common/CommonStructs.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d9b/plugins_2multiview_2common_2CommonStructs_8h.html",tooltip=" "];
+  Node48 [label="platform/plugins/multiview\l/common/CommonStructs.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d93/CommonStructs_8h.html",tooltip=" "];
   Node48 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

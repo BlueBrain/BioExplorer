@@ -28,7 +28,7 @@ digraph "platform/plugins/rockets/RocketsPlugin.cpp"
   Node29 [label="platform/core/common\l/scene/ClipPlane.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$d5/db5/ClipPlane_8h.html",tooltip=" "];
   Node29 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node3 -> Node31 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node31 [label="platform/core/common\l/transferFunction/TransferFunction.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d10/core_2common_2transferFunction_2TransferFunction_8h.html",tooltip=" "];
+  Node31 [label="platform/core/common\l/transferFunction/TransferFunction.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d18/TransferFunction_8h.html",tooltip=" "];
   Node31 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node3 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node32 [label="platform/core/common\l/utils/StringUtils.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d8f/StringUtils_8h.html",tooltip=" "];

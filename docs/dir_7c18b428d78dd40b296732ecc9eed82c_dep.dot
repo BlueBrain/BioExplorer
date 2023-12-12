@@ -7,5 +7,5 @@ digraph "platform/plugins/rockets" {
   dir_7c18b428d78dd40b296732ecc9eed82c [shape=box, label="rockets", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_7c18b428d78dd40b296732ecc9eed82c.html"];
   }
   dir_3066efc1f4040d52e90bf8a29ab3f16b [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_3066efc1f4040d52e90bf8a29ab3f16b.html"];
-  dir_7c18b428d78dd40b296732ecc9eed82c->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="54", labeldistance=1.5 headhref="dir_000081_000065.html"];
+  dir_7c18b428d78dd40b296732ecc9eed82c->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="54", labeldistance=1.5 headhref="dir_000080_000065.html"];
 }

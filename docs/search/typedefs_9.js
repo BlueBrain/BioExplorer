@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['jpegdata_7173',['JpegData',['../d4/d5b/structcore_1_1ImageGenerator_1_1ImageJPEG.html#ab76c6313d26a126a33def80d74e56811',1,'core::ImageGenerator::ImageJPEG']]],
-  ['jsonrpcserver_7174',['JsonRpcServer',['../dc/dfa/classcore_1_1RocketsPlugin_1_1Impl.html#aa8c46f5b1781dae53f3b93a0bb8db79d',1,'core::RocketsPlugin::Impl']]]
+  ['k_6881',['K',['../d0/d3e/namespacesonataexplorer_1_1meshing.html#a70a2011cda42636c31c451aaae8f4dbc',1,'sonataexplorer::meshing::K()'],['../d4/d2c/SonataExplorerPlugin_8cpp.html#a891e241aa245ae63618f03737efba309',1,'K():&#160;SonataExplorerPlugin.cpp']]]
 ];
