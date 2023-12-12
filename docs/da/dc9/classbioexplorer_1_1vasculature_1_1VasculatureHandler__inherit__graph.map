@@ -1,4 +1,0 @@
-<map id="bioexplorer::vasculature::VasculatureHandler" name="bioexplorer::vasculature::VasculatureHandler">
-<area shape="rect" id="node1" title="The VasculatureHandler class handles the mapping of the vasculature simulation to the geometry." alt="" coords="7,95,187,136"/>
-<area shape="rect" id="node2" href="$d5/d65/classcore_1_1AbstractSimulationHandler.html" title="The AbstractSimulationHandler class handles simulation frames for the current circuit." alt="" coords="5,5,188,47"/>
-</map>

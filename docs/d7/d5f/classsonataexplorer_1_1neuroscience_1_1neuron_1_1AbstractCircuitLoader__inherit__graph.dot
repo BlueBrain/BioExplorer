@@ -1,0 +1,20 @@
+digraph "sonataexplorer::neuroscience::neuron::AbstractCircuitLoader"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="sonataexplorer::neuroscience\l::neuron::AbstractCircuitLoader",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="core::Loader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d2b/classcore_1_1Loader.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="sonataexplorer::neuroscience\l::neuron::AdvancedCircuitLoader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d55/classsonataexplorer_1_1neuroscience_1_1neuron_1_1AdvancedCircuitLoader.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="sonataexplorer::neuroscience\l::neuron::MeshCircuitLoader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/dd9/classsonataexplorer_1_1neuroscience_1_1neuron_1_1MeshCircuitLoader.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="sonataexplorer::neuroscience\l::neuron::MorphologyCollageLoader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d04/classsonataexplorer_1_1neuroscience_1_1neuron_1_1MorphologyCollageLoader.html",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="sonataexplorer::neuroscience\l::neuron::PairSynapsesLoader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d7c/classsonataexplorer_1_1neuroscience_1_1neuron_1_1PairSynapsesLoader.html",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="sonataexplorer::neuroscience\l::neuron::SynapseCircuitLoader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/df1/classsonataexplorer_1_1neuroscience_1_1neuron_1_1SynapseCircuitLoader.html",tooltip=" "];
+}

@@ -1,24 +1,26 @@
 /*
-@licstart  The following is the entire license notice for the
-JavaScript code in this file.
+ @licstart  The following is the entire license notice for the JavaScript code in this file.
 
-Copyright (C) 1997-2019 by Dimitri van Heesch
+ The MIT License (MIT)
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of version 2 of the GNU General Public License as published by
-the Free Software Foundation
+ Copyright (C) 1997-2020 by Dimitri van Heesch
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ and associated documentation files (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ The above copyright notice and this permission notice shall be included in all copies or
+ substantial portions of the Software.
 
-@licend  The above is the entire license notice
-for the JavaScript code in this file
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ @licend  The above is the entire license notice for the JavaScript code in this file
 */
 var NAVTREE =
 [
@@ -194,32 +196,37 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d0/de8/classcore_1_1DeflectParameters.html#a8645eff6082cb097460c53c700c31cf7",
-"d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a67cb91a2a11cde57a7379da48427fa25",
-"d1/d83/structcore_1_1GeometryData.html#a76d8285d854b716b3db42b5b73b9ced5a1528b0e85265db3d7cda0df205495872",
-"d1/df9/Albedo_8cu_source.html",
-"d2/db2/classcore_1_1ApplicationParameters.html#a07c55418793909e96d4ac3471544844d",
-"d3/d2f/structcore_1_1HitGroupData.html#a7e0d42d80560c3476fe4fcedaab6ef6d",
-"d3/ded/classcore_1_1TransferFunction.html#a72f6a1600b9e14d40c72dc0516011c38",
-"d4/d34/classcore_1_1RenderingParameters.html#ab6c4f68cc4556680c23003a6da79efb4",
-"d4/de5/SnapshotTask_8h_source.html",
-"d5/d7d/classcore_1_1BaseWindow.html#a4723985dd159e38e7653c8ca837a8f56",
-"d6/d21/Displacement_8h.html#ae73047950e75d266f2c4cd78dcb7033fa31869266b12eb1e39872c6743e729510",
-"d6/dac/structcore_1_1OctreeVector.html#a0d33d566df67813c5b385b401002e36d",
-"d7/d90/structsonataexplorer_1_1api_1_1AddGrid.html",
-"d8/d4a/structcore_1_1engine_1_1ospray_1_1FishEyeCamera.html#a761bcf6d1a7a095c49a54f76c62ace88",
-"d9/d2b/Assembly_8h.html",
-"d9/dff/CylindricCamera_8ispc_source.html",
-"da/ded/OptiXVolume_8h_source.html",
-"db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html#add21ce6cd38899b4f8603a25adc24dea",
-"dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a10e9bd89468a7fe9e810c20e7327eb1b",
-"dd/d10/structcore_1_1SDFGeometry.html#a93818456407beb1ccaeda00a8e2efced",
-"dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#a2ac8e00dd05d3f9cd0b53e1f7571295ca8f9f7411b80f43abea6989a946a4935c",
-"de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#af85fb0982b63e15598be3a8fc8b70f71",
-"de/d6e/engines_2optix7__experimental_2cuda_2renderer_2TransferFunction_8h.html",
-"df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#ad3d8a110481b08332e9f12fcd5131260",
-"df/de2/Glycans_8h_source.html",
-"functions_~.html"
+"d0/db8/namespacesonataexplorer_1_1api.html#a5f2a938917ddb658ca236d5175627f33",
+"d1/d11/classcore_1_1Model.html#afc93740cb95e07ed50ed2fdaad3df01a",
+"d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#afb16397ea088983031093f673fdb1cd2",
+"d1/dbc/md_ARCHITECTURE.html",
+"d2/d41/Light_8cpp_source.html",
+"d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a5edacf75df3097a9bc552abfe7902df7a6375905e4d6687d73f36cd3ab4745fa5",
+"d3/d35/platform_2engines_2ospray_2ispc_2geometry_2SDFGeometries_8h.html",
+"d3/df6/structCylinder.html",
+"d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html#af118ea36d7102300335e7b9b0925c1c4",
+"d4/df1/namespacesonataexplorer.html#a6f43e8ba50dc57e0ea3cd8dfe0cf2baf",
+"d5/d7d/classcore_1_1BaseWindow.html#a4330a239b7feca99a26866dcb33f1099",
+"d6/d21/Displacement_8h.html#ae73047950e75d266f2c4cd78dcb7033fa144bcb1a49d7bc6f73857dbd4c659399",
+"d6/dab/Morphologies_8h.html#af28e34685753c05d300261349cdc8ba0",
+"d7/d8e/classcore_1_1OptiXCamera.html#a2b089a6b135a950bbcb37df8740a3d72",
+"d8/d0f/structSphere.html#a5afb6deb9455e7608d3dd97cec60c82f",
+"d8/da0/classcore_1_1engine_1_1ospray_1_1OSPRayModel.html#a70ded9fb5c3e9fe88baa681cb1a97340",
+"d9/d0f/namespacecore.html#a6b2a9cc17209a4059abd51ca517c3066",
+"d9/d3e/ParametersManager_8cpp_source.html",
+"da/d0b/namespacebioexplorer_1_1common.html#a0a5c60da51c30895756bd229fac959bfa335cf4508dd597be4bfc9caa3e08b901",
+"da/d9f/classcore_1_1VectorOctreeNode.html#a1f0ee012b5dd9d4f227329fa6cec31d8",
+"db/da1/namespacecore_1_1engine_1_1ospray.html#a4058c8a116d7a112f4fa773e486c8be7",
+"dc/d2d/SphereClippingPerspectiveCamera_8ispc_source.html",
+"dc/df9/classcore_1_1AbstractManipulator.html#a1c1e47a4bc51b6e0e87217b411e34d84",
+"dd/d40/namespacebioexplorer_1_1morphology.html#aa301f51ccdcf89b7c5396064359b324e",
+"dd/db6/classbioexplorer_1_1atlas_1_1AtlasLoader.html#a8b282987923d47cba8ea09fb8eef509d",
+"de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#a1b088dcff603aa0c87b0aef839ccad02",
+"de/d53/platform_2core_2common_2Types_8h.html#ad43c1b0a03df44f7b1026c1325ce6de3",
+"de/df2/structcore_1_1SnapshotParams.html#a84ce1a51587b512e7eb4ef8ab12c4d20",
+"df/d66/classcore_1_1MTQueue.html#aa8ebe570092ed7f841a17d7f122777e1",
+"dir_86f0b4869ee09c874d23be5e71808b13.html",
+"namespacemembers_func_r.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

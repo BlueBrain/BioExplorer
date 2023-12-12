@@ -8,6 +8,7 @@ var classcore_1_1ModelDescriptor =
     [ "ModelDescriptor", "dc/d7f/classcore_1_1ModelDescriptor.html#a043f078275451dfc26f365e3c702c5a9", null ],
     [ "addInstance", "dc/d7f/classcore_1_1ModelDescriptor.html#a8257239892529d02c844d3b23b87a481", null ],
     [ "callOnRemoved", "dc/d7f/classcore_1_1ModelDescriptor.html#a4bba8c0686b83fba93c76fcc1014bcd6", null ],
+    [ "clearInstances", "dc/d7f/classcore_1_1ModelDescriptor.html#a2a0fbba8083bb3d8cbebbaf71ce62522", null ],
     [ "clone", "dc/d7f/classcore_1_1ModelDescriptor.html#ac14014653eca1fa4044bb4e6692fc1b8", null ],
     [ "computeBounds", "dc/d7f/classcore_1_1ModelDescriptor.html#a6e4b8d0550600806876cc3e1324a608e", null ],
     [ "getBounds", "dc/d7f/classcore_1_1ModelDescriptor.html#ac1c86e1e6fd57aa6a42ff1a45040c383", null ],

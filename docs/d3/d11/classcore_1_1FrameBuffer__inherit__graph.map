@@ -1,7 +1,0 @@
-<map id="core::FrameBuffer" name="core::FrameBuffer">
-<area shape="rect" id="node1" title="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an..." alt="" coords="185,78,324,105"/>
-<area shape="rect" id="node3" href="$d4/dc0/classcore_1_1engine_1_1optix_1_1OptiXFrameBuffer.html" title=" " alt="" coords="386,5,533,47"/>
-<area shape="rect" id="node4" href="$db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html" title=" " alt="" coords="379,71,540,112"/>
-<area shape="rect" id="node5" href="$d6/d1c/classcore_1_1OptiXFrameBuffer.html" title=" " alt="" coords="372,137,547,163"/>
-<area shape="rect" id="node2" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="5,78,137,105"/>
-</map>

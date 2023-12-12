@@ -1,0 +1,13 @@
+digraph "platform/plugins/multiview/ispc/multiview" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_ec9592b2adfad4c3a3d6e37de575f565 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="ispc" fontname="Helvetica", fontsize="10", URL="dir_ec9592b2adfad4c3a3d6e37de575f565.html"]
+  dir_9148752c8b710f4b593a72e37948709b [shape=box, label="multiview", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_9148752c8b710f4b593a72e37948709b.html"];
+  }
+  dir_3066efc1f4040d52e90bf8a29ab3f16b [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_3066efc1f4040d52e90bf8a29ab3f16b.html"];
+  dir_7ab62cd446c0e750eaefb644141a701e [shape=box label="common" URL="dir_7ab62cd446c0e750eaefb644141a701e.html"];
+  dir_9148752c8b710f4b593a72e37948709b->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="1", labeldistance=1.5 headhref="dir_000117_000065.html"];
+  dir_9148752c8b710f4b593a72e37948709b->dir_7ab62cd446c0e750eaefb644141a701e [headlabel="1", labeldistance=1.5 headhref="dir_000117_000108.html"];
+}

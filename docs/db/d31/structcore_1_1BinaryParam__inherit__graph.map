@@ -1,6 +1,0 @@
-<map id="core::BinaryParam" name="core::BinaryParam">
-<area shape="rect" id="node1" title=" " alt="" coords="11,229,153,256"/>
-<area shape="rect" id="node2" href="$d1/df6/classcore_1_1ModelParams.html" title="The ModelParams class represents the parameters needed for initializing a model instance." alt="" coords="9,155,155,181"/>
-<area shape="rect" id="node3" href="$d9/d63/classcore_1_1ModelInstance.html" title="A class representing an instance of a 3D model." alt="" coords="5,80,159,107"/>
-<area shape="rect" id="node4" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="16,5,148,32"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="sonataexplorer::neuroscience::neuron::CellGrowthHandler" name="sonataexplorer::neuroscience::neuron::CellGrowthHandler">
-<area shape="rect" id="node1" title="The CellGrowthHandler class handles distance to the soma." alt="" coords="5,95,220,136"/>
-<area shape="rect" id="node2" href="$d5/d65/classcore_1_1AbstractSimulationHandler.html" title="The AbstractSimulationHandler class handles simulation frames for the current circuit." alt="" coords="21,5,204,47"/>
-</map>

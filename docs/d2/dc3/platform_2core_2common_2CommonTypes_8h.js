@@ -25,6 +25,8 @@ var platform_2core_2common_2CommonTypes_8h =
     [ "OCTREE_DATA_SPACING_Y", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a400fac5aee0d39f7394f9d79f25238d8", null ],
     [ "OCTREE_DATA_SPACING_Z", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0a8154cdfa8c2e2547726439644f56ee", null ],
     [ "OCTREE_DATA_VALUES", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a2ff29d995d6a09115d42fe650efe4632", null ],
+    [ "RAY_FLAG_PRIMARY", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#abc7e3de205f5361fa7840a0f1ec5d523", null ],
+    [ "RAY_FLAG_SECONDARY", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a555c33820aba492a3fd2c5156cbfd513", null ],
     [ "CameraStereoMode", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86", [
       [ "mono", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86a105c91f33f6b7468e7e85e2524586aa8", null ],
       [ "left", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#ab7b7378c2c192d77fc2b7097708c6e86ab0ac36b187aa60c167ffcead3d5a03c0", null ],
@@ -51,7 +53,8 @@ var platform_2core_2common_2CommonTypes_8h =
       [ "perlin", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a5edacf75df3097a9bc552abfe7902df7aad26c122db3c5d2818db33e160f340ba", null ],
       [ "diffuse_transparency", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a5edacf75df3097a9bc552abfe7902df7add9f727a353fee69ace92aa57e0cda4d", null ],
       [ "checker", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a5edacf75df3097a9bc552abfe7902df7a94b912a497ea840b60a4bc09378096a5", null ],
-      [ "goodsell", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a5edacf75df3097a9bc552abfe7902df7a8e5ec7c5681dd1e77146a21d10e57504", null ]
+      [ "goodsell", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a5edacf75df3097a9bc552abfe7902df7a8e5ec7c5681dd1e77146a21d10e57504", null ],
+      [ "surface_normal", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a5edacf75df3097a9bc552abfe7902df7a0b6812f9bf1cf7d676c1a0dd3b12b247", null ]
     ] ],
     [ "OctreeDataType", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a852fb57fd2e171fa8e414603dfcc5937", [
       [ "point", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a852fb57fd2e171fa8e414603dfcc5937a447809d6711b98e2d75a5470063367ba", null ],

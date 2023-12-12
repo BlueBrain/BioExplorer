@@ -1,9 +1,0 @@
-<map id="core::Camera" name="core::Camera">
-<area shape="rect" id="node1" title="The Camera class is an abstract interface for a camera in a 3D graphics application...." alt="" coords="388,78,497,105"/>
-<area shape="rect" id="node4" href="$d4/d9d/classcore_1_1engine_1_1optix_1_1OptiXCamera.html" title=" " alt="" coords="551,5,694,47"/>
-<area shape="rect" id="node5" href="$dc/d0e/classcore_1_1engine_1_1ospray_1_1OSPRayCamera.html" title=" " alt="" coords="545,71,700,112"/>
-<area shape="rect" id="node6" href="$d7/d8e/classcore_1_1OptiXCamera.html" title=" " alt="" coords="551,137,695,163"/>
-<area shape="rect" id="node2" href="$d7/d67/classcore_1_1PropertyObject.html" title=" " alt="" coords="185,78,340,105"/>
-<area shape="rect" id="node3" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="5,78,137,105"/>
-<area shape="rect" id="node7" href="$d7/de4/classcore_1_1OptiXPerspectiveCamera.html" title=" " alt="" coords="748,137,969,163"/>
-</map>

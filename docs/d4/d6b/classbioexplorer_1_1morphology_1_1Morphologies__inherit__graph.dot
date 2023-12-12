@@ -1,0 +1,18 @@
+digraph "bioexplorer::morphology::Morphologies"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="bioexplorer::morphology\l::Morphologies",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="The Morphologies class."];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="bioexplorer::common\l::SDFGeometries",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html",tooltip="The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si..."];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="bioexplorer::common\l::Node",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d93/classbioexplorer_1_1common_1_1Node.html",tooltip="The Node class."];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="bioexplorer::morphology\l::Astrocytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d3a/classbioexplorer_1_1morphology_1_1Astrocytes.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="bioexplorer::morphology\l::Neurons",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d39/classbioexplorer_1_1morphology_1_1Neurons.html",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="bioexplorer::morphology\l::Synapses",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d10/classbioexplorer_1_1morphology_1_1Synapses.html",tooltip=" "];
+}

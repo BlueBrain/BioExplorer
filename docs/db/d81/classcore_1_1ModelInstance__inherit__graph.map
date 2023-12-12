@@ -1,7 +1,0 @@
-<map id="core::ModelInstance" name="core::ModelInstance">
-<area shape="rect" id="node1" title="A class representing an instance of a 3D model." alt="" coords="177,80,330,107"/>
-<area shape="rect" id="node3" href="$d1/df6/classcore_1_1ModelParams.html" title="The ModelParams class represents the parameters needed for initializing a model instance." alt="" coords="180,155,327,181"/>
-<area shape="rect" id="node2" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="187,5,319,32"/>
-<area shape="rect" id="node4" href="$d4/d24/structcore_1_1BinaryParam.html" title=" " alt="" coords="5,229,147,256"/>
-<area shape="rect" id="node5" href="$dc/d7f/classcore_1_1ModelDescriptor.html" title="The ModelDescriptor struct defines the metadata attached to a model." alt="" coords="171,229,336,256"/>
-</map>

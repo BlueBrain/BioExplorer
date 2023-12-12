@@ -5,7 +5,7 @@ var classcore_1_1ModelInstance =
     [ "getBoundingBox", "d9/d63/classcore_1_1ModelInstance.html#a3a12522d89f13f733033bc1b408ae1e5", null ],
     [ "getInstanceID", "d9/d63/classcore_1_1ModelInstance.html#ab784cda4343666e9c0763a9afacb47b8", null ],
     [ "getModelID", "d9/d63/classcore_1_1ModelInstance.html#ae1ea4ce8a1d861b2b4888d327b2a7b4a", null ],
-    [ "getTransformation", "d9/d63/classcore_1_1ModelInstance.html#aeb34768a906221f4edcb70fb9a91ef30", null ],
+    [ "getTransformation", "d9/d63/classcore_1_1ModelInstance.html#ac7053549bd905583218fe9872329389a", null ],
     [ "getVisible", "d9/d63/classcore_1_1ModelInstance.html#a41dc2e926171ace528757f2d0b4bbca7", null ],
     [ "setBoundingBox", "d9/d63/classcore_1_1ModelInstance.html#aeeb7fd92e0536797364074e43b73e7b0", null ],
     [ "setInstanceID", "d9/d63/classcore_1_1ModelInstance.html#ab1b2e4697b72c917029df47d43bf05f8", null ],

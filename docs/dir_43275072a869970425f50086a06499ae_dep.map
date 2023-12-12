@@ -1,9 +1,0 @@
-<map id="bioexplorer/backend/plugins/MediaMaker/module/ispc/renderer" name="bioexplorer/backend/plugins/MediaMaker/module/ispc/renderer">
-<area shape="rect" id="node1" href="dir_43275072a869970425f50086a06499ae.html" title="renderer" alt="" coords="27,52,104,100"/>
-<area shape="rect" id="node2" href="dir_c5a52a81292cf9a5167198f4f346d6d9.html" title="platform" alt="" coords="25,244,103,292"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000016_000059.html" title="8" alt="" coords="60,217,70,232"/>
-<area shape="rect" id="node3" href="dir_b52349f5576cfd3d293727016b3a4bfd.html" title="plugin" alt="" coords="65,148,137,196"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000016_000017.html" title="6" alt="" coords="89,121,99,135"/>
-<area shape="rect" id="edge3-headlabel" href="dir_000017_000059.html" title="10" alt="" coords="79,223,96,238"/>
-<area shape="rect" id="clust1" href="dir_1ec2d5b7d2b22ab2ad5468b780dda495.html" title="ispc" alt="" coords="16,16,115,111"/>
-</map>
