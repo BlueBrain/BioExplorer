@@ -62,30 +62,9 @@ public:
     /**
      * @brief Get the Memory Buffer object
      *
-     * @return const uint8_ts&
+     * @return const uint8_ts& Memory buffer
      */
     const uint8_ts& getMemoryBuffer() const { return _memoryBuffer; }
-
-    /**
-     * @brief Get the Octree Indices object
-     *
-     * @return const uint32_ts&
-     */
-    const uint32_ts& getOctreeIndices() const { return _octreeIndices; }
-
-    /**
-     * @brief Get the Octree Values object
-     *
-     * @return const floats&
-     */
-    const floats& getOctreeValues() const { return _octreeValues; }
-
-    /**
-     * @brief Get the Octree Data Type object
-     *
-     * @return OctreeDataType
-     */
-    OctreeDataType getOctreeDataType() const { return _octreeDataType; }
 
 protected:
     /**
@@ -106,10 +85,6 @@ protected:
     ~SharedDataVolume();
 
 protected:
-    // Octree
-    uint32_ts _octreeIndices;
-    floats _octreeValues;
-    OctreeDataType _octreeDataType;
     uint8_ts _memoryBuffer; // The buffer containing the mapped data
 
 private:

@@ -547,6 +547,12 @@ BrickedVolumePtr OSPRayModel::createBrickedVolume(const Vector3ui& dimensions, c
     return std::make_shared<OSPRayBrickedVolume>(dimensions, spacing, type, _volumeParameters, _ospTransferFunction);
 }
 
+OctreeVolumePtr OSPRayModel::createOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing,
+                                                const DataType type)
+{
+    CORE_THROW("Octree volumes are currently not supported by the OSPRay engine");
+}
+
 void OSPRayModel::_commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities,
                                               const Vector2d valueRange)
 {

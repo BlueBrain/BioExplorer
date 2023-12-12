@@ -23,10 +23,10 @@
 
 namespace core
 {
-Volume::Volume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type)
+Volume::Volume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType dataType)
     : _dimensions(dimensions)
     , _spacing(spacing)
-    , _dataType(type)
+    , _dataType(dataType)
 {
 }
 } // namespace core

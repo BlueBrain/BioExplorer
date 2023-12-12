@@ -67,14 +67,34 @@ public:
      * @brief Gets the bounding box of the volume.
      * @return The bounding box of the volume as a Boxd object.
      */
-    PLATFORM_API Boxd getBounds() const
-    {
-        return {{0, 0, 0}, {_dimensions.x * _spacing.x, _dimensions.y * _spacing.y, _dimensions.z * _spacing.z}};
-    }
+    PLATFORM_API Boxd getBounds() const { return {_offset, _offset + Vector3f(_dimensions) * _spacing}; }
 
+    /**
+     * @brief Get the Dimensions object
+     *
+     * @return The dimensions of the volume in the 3D scene
+     */
     PLATFORM_API Vector3f getDimensions() const { return _dimensions; }
+
+    /**
+     * @brief Get the Element Spacing object
+     *
+     * @return The voxel size
+     */
     PLATFORM_API Vector3f getElementSpacing() const { return _spacing; }
+
+    /**
+     * @brief Get the Offset object
+     *
+     * @return The location of the volume in the 3D scene
+     */
     PLATFORM_API Vector3f getOffset() const { return _offset; }
+
+    /**
+     * @brief Get the Value Range object
+     *
+     * @return The range of values in the volume
+     */
     PLATFORM_API Vector2f getValueRange() const { return _valueRange; }
 
 protected:

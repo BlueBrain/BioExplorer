@@ -23,7 +23,9 @@
 
 #include <platform/core/common/CommonTypes.h>
 #include <platform/core/common/transferFunction/TransferFunction.h>
+#include <platform/core/engineapi/OctreeVolume.h>
 #include <platform/core/engineapi/SharedDataVolume.h>
+#include <platform/core/engineapi/Volume.h>
 
 #include "OptiXModel.h"
 #include "OptiXTypes.h"
@@ -37,31 +39,53 @@ namespace engine
 {
 namespace optix
 {
-class OptiXVolume : public SharedDataVolume
+class OptiXVolume : public virtual Volume
 {
 public:
-    OptiXVolume(OptiXModel* model, const Vector3ui& dimensions, const Vector3f& spacing, const DataType dataType,
+    /** @copydoc Volume::Volume */
+    OptiXVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType dataType,
                 const VolumeParameters& params);
 
-    void setDataRange(const Vector2f&) final{}
-    void commit() final{}
-    void setVoxels(const void* voxels) final;
-    void setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
-                   const OctreeDataType dataType);
+    /** @copydoc Volume::setDataRange */
+    void setDataRange(const Vector2f&) final
+    { /*Not applicable*/
+    }
+
+    /** @copydoc Volume::commit */
+    void commit() final
+    { /*Not applicable*/
+    }
 
 protected:
-    void _createBox(OptiXModel* model);
-
-    float _getVoxelValue(const void* voxels, const uint16_t x, const uint16_t y, const uint16_t z) const;
-
     const VolumeParameters& _parameters;
 
     RTformat _dataType{RT_FORMAT_UNSIGNED_BYTE};
     uint64_t _dataTypeSize{1};
-
-private:
-    OptiXModel* _model{nullptr};
 };
+
+class OptiXSharedDataVolume : public SharedDataVolume, public OptiXVolume
+{
+public:
+    /** @copydoc SharedDataVolume::SharedDataVolume */
+    OptiXSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType dataType,
+                          const VolumeParameters& params);
+
+    /** @copydoc SharedDataVolume::setVoxels */
+    void setVoxels(const void* voxels) final;
+};
+
+class OptiXOctreeVolume : public OctreeVolume, public OptiXVolume
+{
+public:
+    /** @copydoc OctreeVolume::OctreeVolume */
+    OptiXOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType dataType,
+                      const VolumeParameters& params);
+
+    /** @copydoc OctreeVolume::setOctree */
+    void setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
+                   const OctreeDataType dataType) final;
+};
+
 } // namespace optix
 } // namespace engine
 } // namespace core
