@@ -11,6 +11,6 @@ digraph "platform/engines/ospray" {
   }
   }
   dir_3066efc1f4040d52e90bf8a29ab3f16b [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_3066efc1f4040d52e90bf8a29ab3f16b.html"];
-  dir_6dfc784f4fc06052f5a0f2da9bf54d9c->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="30", labeldistance=1.5 headhref="dir_000103_000065.html"];
+  dir_6dfc784f4fc06052f5a0f2da9bf54d9c->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="28", labeldistance=1.5 headhref="dir_000103_000065.html"];
   dir_f0df884ce09817da20ab1128f63a79fe->dir_6dfc784f4fc06052f5a0f2da9bf54d9c [headlabel="7", labeldistance=1.5 headhref="dir_000075_000103.html"];
 }

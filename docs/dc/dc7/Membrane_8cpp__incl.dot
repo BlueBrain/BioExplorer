@@ -30,6 +30,8 @@ digraph "bioexplorer/backend/science/molecularsystems/Membrane.cpp"
   Node13 [label="glm/glm.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node12 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node14 [label="glm/ext.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node12 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="glm/gtx/io.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node12 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node16 [label="vector",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node12 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -139,15 +141,12 @@ digraph "bioexplorer/backend/science/molecularsystems/Membrane.cpp"
   Node63 [label="platform/core/common\l/geometry/Curve.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/de7/Curve_8h.html",tooltip=" "];
   Node63 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node62 -> Node44 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node62 -> Node64 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node64 [label="platform/core/common\l/geometry/SDFBezier.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/d88/SDFBezier_8h.html",tooltip=" "];
-  Node64 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node62 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node62 -> Node45 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node62 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node62 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node62 -> Node65 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node65 [label="platform/core/common\l/transferFunction/TransferFunction.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d18/TransferFunction_8h.html",tooltip=" "];
-  Node65 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node62 -> Node64 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node64 [label="platform/core/common\l/transferFunction/TransferFunction.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d18/TransferFunction_8h.html",tooltip=" "];
+  Node64 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node62 -> Node38 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

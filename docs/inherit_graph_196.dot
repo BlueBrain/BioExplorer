@@ -4,9 +4,7 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="core::TaskFunctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d67/classcore_1_1TaskFunctor.html",tooltip=" "];
-  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 [label="core::LoadModelFunctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d4d/classcore_1_1LoadModelFunctor.html",tooltip=" "];
-  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="core::SnapshotFunctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d3b/classcore_1_1SnapshotFunctor.html",tooltip=" "];
+  Node345 [label="std::runtime_error",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node345 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 [label="core::TaskRuntimeError",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dee/classcore_1_1TaskRuntimeError.html",tooltip=" "];
 }

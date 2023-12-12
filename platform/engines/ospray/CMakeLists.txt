@@ -42,7 +42,6 @@ set(${NAME}_ISPC_SOURCES
   ispc/camera/FishEyeCamera.ispc
   ispc/camera/PerspectiveParallaxCamera.ispc
   ispc/geometry/Cones.ispc
-  ispc/geometry/SDFBeziers.ispc
   ispc/geometry/SDFGeometries.ispc
   ispc/geometry/RayMarching.isph
   ispc/render/BasicRenderer.ispc
@@ -71,7 +70,6 @@ set(${NAME}_SOURCES
   ispc/camera/PerspectiveStereoCamera.cpp
   ispc/camera/PerspectiveParallaxCamera.cpp
   ispc/geometry/Cones.cpp
-  ispc/geometry/SDFBeziers.cpp
   ispc/geometry/SDFGeometries.cpp
   ispc/render/BasicRenderer.cpp
   ispc/render/AdvancedRenderer.cpp
@@ -107,7 +105,6 @@ set(${NAME}_HEADERS
 set(${NAME}_PUBLIC_HEADERS
   ispc/camera/utils/CameraUtils.ih
   ispc/geometry/Cones.h
-  ispc/geometry/SDFBeziers.h
   ispc/geometry/SDFGeometries.h
   ispc/render/BasicRenderer.ih
   ispc/render/AdvancedRenderer.ih

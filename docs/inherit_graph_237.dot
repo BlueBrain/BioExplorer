@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="sonataexplorer::neuroscience\l::common::MorphologyInfo",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dd3/structsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyInfo.html",tooltip=" "];
+  Node0 [label="sonataexplorer::neuroscience\l::common::MorphologyTreeStructure",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d47/structsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyTreeStructure.html",tooltip=" "];
 }

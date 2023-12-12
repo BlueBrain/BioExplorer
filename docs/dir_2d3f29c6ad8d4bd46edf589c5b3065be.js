@@ -8,7 +8,6 @@ var dir_2d3f29c6ad8d4bd46edf589c5b3065be =
     [ "Cylinder.h", "d9/d0a/Cylinder_8h.html", [
       [ "Cylinder", "d3/df6/structCylinder.html", "d3/df6/structCylinder" ]
     ] ],
-    [ "SDFBezier.h", "db/d88/SDFBezier_8h.html", "db/d88/SDFBezier_8h" ],
     [ "SDFGeometry.h", "d2/df3/SDFGeometry_8h.html", "d2/df3/SDFGeometry_8h" ],
     [ "Sphere.h", "d3/dca/Sphere_8h.html", [
       [ "Sphere", "d8/d0f/structSphere.html", "d8/d0f/structSphere" ]

@@ -212,7 +212,6 @@ var hierarchy =
     [ "core::Model::Geometries", "d1/d10/structcore_1_1Model_1_1Geometries.html", null ],
     [ "ospray::Geometry", null, [
       [ "core::engine::ospray::Cones", "d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html", null ],
-      [ "core::engine::ospray::SDFBeziers", "d9/db6/structcore_1_1engine_1_1ospray_1_1SDFBeziers.html", null ],
       [ "core::engine::ospray::SDFGeometries", "d4/dac/structcore_1_1engine_1_1ospray_1_1SDFGeometries.html", null ]
     ] ],
     [ "core::GeometryData", "d1/d83/structcore_1_1GeometryData.html", null ],
@@ -406,7 +405,6 @@ var hierarchy =
     [ "bioexplorer::details::SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", null ],
     [ "core::SchemaParam", "d3/d13/structcore_1_1SchemaParam.html", null ],
     [ "core::RocketsPlugin::Impl::ScopedCurrentClient", "df/d91/structcore_1_1RocketsPlugin_1_1Impl_1_1ScopedCurrentClient.html", null ],
-    [ "core::SDFBezier", "da/d35/structcore_1_1SDFBezier.html", null ],
     [ "core::SDFGeometry", "dd/d10/structcore_1_1SDFGeometry.html", null ],
     [ "core::SDFGeometryData", "d6/d7a/structcore_1_1SDFGeometryData.html", null ],
     [ "bioexplorer::common::SDFMorphologyData", "d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html", null ],
