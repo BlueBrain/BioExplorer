@@ -1,0 +1,9 @@
+digraph "platform/core/common/scene" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_ff47398fa61110350cc6863e3680f308 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="common" fontname="Helvetica", fontsize="10", URL="dir_ff47398fa61110350cc6863e3680f308.html"]
+  dir_e495587e10dfada59ad7758a2f7f97be [shape=box, label="scene", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_e495587e10dfada59ad7758a2f7f97be.html"];
+  }
+}

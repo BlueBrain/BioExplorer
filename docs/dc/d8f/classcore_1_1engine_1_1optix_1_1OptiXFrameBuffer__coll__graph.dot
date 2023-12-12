@@ -1,0 +1,11 @@
+digraph "core::engine::optix::OptiXFrameBuffer"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="core::engine::optix\l::OptiXFrameBuffer",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="core::FrameBuffer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/ddf/classcore_1_1FrameBuffer.html",tooltip="This class represents a frame buffer for an engine specific code. It provides an API for utilizing an..."];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="core::BaseObject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dc6/classcore_1_1BaseObject.html",tooltip=" "];
+}

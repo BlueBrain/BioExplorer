@@ -18,7 +18,7 @@ var structbioexplorer_1_1details_1_1NeuronsDetails =
     [ "populationColorScheme", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a7fbd3e8d52d863611c86cf72a2ee080c", null ],
     [ "populationName", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a325c02f92bba314ff2534c2941829a1d", null ],
     [ "radiusMultiplier", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a10e9bd89468a7fe9e810c20e7327eb1b", null ],
-    [ "realismLevel", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#ae2cf76461fb5fe810da428667663776c", null ],
+    [ "realismLevel", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#aadc2800865b6962b337c893b479fa8d5", null ],
     [ "scale", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a9cf4924dd60b7da38cba95fec7e17c57", null ],
     [ "showMembrane", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#af487e1e284f3b638df22ceca063caf27", null ],
     [ "simulationReportId", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html#a8a3613b4c2fa6524c1b73c6f2e309a16", null ],

@@ -8,7 +8,7 @@ var structbioexplorer_1_1details_1_1VasculatureDetails =
     [ "gids", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a1d81290bc0ca948425747e81cdeec49b", null ],
     [ "populationName", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a5f0823da6124d100df264e71c7a58743", null ],
     [ "radiusMultiplier", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a3b653e8d4aa042a73bcefa2ae367eacc", null ],
-    [ "realismLevel", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#ab6574b1e2415b600a830f0876313dd2f", null ],
+    [ "realismLevel", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#af9aea7bf1f0d1084119540b3297a1d2e", null ],
     [ "representation", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#acfe7a093d7a39abaa46bfd1e75bf5413", null ],
     [ "scale", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#af65bed7582e728d464888813304d55b9", null ],
     [ "sqlFilter", "dd/d98/structbioexplorer_1_1details_1_1VasculatureDetails.html#a202ca00c5489cd1e2412c024863ef1fd", null ]

@@ -1,7 +1,0 @@
-<map id="core::Scene" name="core::Scene">
-<area shape="rect" id="node1" title="Scene object This object contains collections of geometries, materials and light sources that are use..." alt="" coords="201,80,299,107"/>
-<area shape="rect" id="node3" href="$da/dc3/classcore_1_1engine_1_1optix_1_1OptiXScene.html" title=" " alt="" coords="5,155,148,196"/>
-<area shape="rect" id="node4" href="$d6/da6/classcore_1_1engine_1_1ospray_1_1OSPRayScene.html" title=" " alt="" coords="173,155,327,196"/>
-<area shape="rect" id="node5" href="$d5/d44/classcore_1_1OptiXScene.html" title=" " alt="" coords="351,162,485,189"/>
-<area shape="rect" id="node2" href="$d1/dc6/classcore_1_1BaseObject.html" title=" " alt="" coords="184,5,316,32"/>
-</map>

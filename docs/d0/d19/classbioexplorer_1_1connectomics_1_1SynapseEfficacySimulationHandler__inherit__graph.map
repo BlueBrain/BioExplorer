@@ -1,4 +1,0 @@
-<map id="bioexplorer::connectomics::SynapseEfficacySimulationHandler" name="bioexplorer::connectomics::SynapseEfficacySimulationHandler">
-<area shape="rect" id="node1" title="The SynapseEfficacySimulationHandler handles the reading of simulation information from the database ..." alt="" coords="5,95,263,136"/>
-<area shape="rect" id="node2" href="$d5/d65/classcore_1_1AbstractSimulationHandler.html" title="The AbstractSimulationHandler class handles simulation frames for the current circuit." alt="" coords="43,5,225,47"/>
-</map>

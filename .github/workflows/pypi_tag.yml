@@ -21,7 +21,7 @@ jobs:
       run: |
         cd bioexplorer/pythonsdk
         python -m pip install --upgrade pip
-        pip install -r requirements_dev.txt    
+        pip install --no-deps -r requirements_dev.txt    
         python setup.py sdist
     - name: Publish Python package to PyPI (test)
       uses: pypa/gh-action-pypi-publish@release/v1

@@ -1,0 +1,14 @@
+digraph "bioexplorer/backend/module/ispc/renderer/field" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_86f0b4869ee09c874d23be5e71808b13 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="renderer" fontname="Helvetica", fontsize="10", URL="dir_86f0b4869ee09c874d23be5e71808b13.html"]
+  dir_e621d151632c4ea9ff46846cedc37e96 [shape=box, label="field", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_e621d151632c4ea9ff46846cedc37e96.html"];
+  }
+  dir_14d627cccd023aaf4f18eaf1359097e2 [shape=box label="science" fillcolor="white" style="filled" color="red" URL="dir_14d627cccd023aaf4f18eaf1359097e2.html"];
+  dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
+  dir_14d627cccd023aaf4f18eaf1359097e2->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="129", labeldistance=1.5 headhref="dir_000038_000059.html"];
+  dir_e621d151632c4ea9ff46846cedc37e96->dir_14d627cccd023aaf4f18eaf1359097e2 [headlabel="4", labeldistance=1.5 headhref="dir_000009_000038.html"];
+  dir_e621d151632c4ea9ff46846cedc37e96->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="6", labeldistance=1.5 headhref="dir_000009_000059.html"];
+}

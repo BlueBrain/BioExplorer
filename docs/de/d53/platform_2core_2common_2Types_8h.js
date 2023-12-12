@@ -24,6 +24,7 @@ var platform_2core_2common_2Types_8h =
     [ "CylindersMap", "de/d53/platform_2core_2common_2Types_8h.html#a7ae9d422b1064493e5ce8636c0461640", null ],
     [ "DirectionalLightPtr", "de/d53/platform_2core_2common_2Types_8h.html#ae04832fbf5c05f2377893e47bee2fd77", null ],
     [ "doubles", "de/d53/platform_2core_2common_2Types_8h.html#a17c6390b300f46e869fff15887a1d73d", null ],
+    [ "EnginePtr", "de/d53/platform_2core_2common_2Types_8h.html#ad74a973e04dcdfa7c2a547d2ae9b7672", null ],
     [ "floats", "de/d53/platform_2core_2common_2Types_8h.html#a9d2c176afbd7d66aee6797f357a13dc1", null ],
     [ "FrameBufferPtr", "de/d53/platform_2core_2common_2Types_8h.html#a5d8120691cd70cf84654555673e1dcd7", null ],
     [ "index_t", "de/d53/platform_2core_2common_2Types_8h.html#a67c93bf564a8eda9d42e1751bf3f1322", null ],
@@ -48,6 +49,7 @@ var platform_2core_2common_2Types_8h =
     [ "ModelPtr", "de/d53/platform_2core_2common_2Types_8h.html#aed4c31aa10d4636d323d992762965988", null ],
     [ "OctreePoints", "de/d53/platform_2core_2common_2Types_8h.html#ada1eae57500f81e693e99f5023652a12", null ],
     [ "OctreeVectors", "de/d53/platform_2core_2common_2Types_8h.html#a8350e093d546614df35e86f81834e00d", null ],
+    [ "OctreeVolumePtr", "de/d53/platform_2core_2common_2Types_8h.html#a9e5427969511779a205a7fec3380fdea", null ],
     [ "Palette", "de/d53/platform_2core_2common_2Types_8h.html#a0b4d11b08d34826dbc61a9c1d385c400", null ],
     [ "Plane", "de/d53/platform_2core_2common_2Types_8h.html#af71079ae2e2d490bcb2b3c4224fd7675", null ],
     [ "Planes", "de/d53/platform_2core_2common_2Types_8h.html#a9b3f970fa1a23c4bc509c119da6e2981", null ],
@@ -156,5 +158,5 @@ var platform_2core_2common_2Types_8h =
       [ "octree_indices", "de/d53/platform_2core_2common_2Types_8h.html#a942b62b36204ca1117f092b071bce51dae544028148cebd0cd9f35d540ac74eaa", null ],
       [ "octree_values", "de/d53/platform_2core_2common_2Types_8h.html#a942b62b36204ca1117f092b071bce51da726dd8cc7fc6ae6939d56d7d951b8d00", null ]
     ] ],
-    [ "enumMap", "de/d53/platform_2core_2common_2Types_8h.html#a883832a62b24f86cc38ed05b71e6fe56", null ]
+    [ "enumMap", "de/d53/platform_2core_2common_2Types_8h.html#ac526150165765af46e727c409e07f4b9", null ]
 ];

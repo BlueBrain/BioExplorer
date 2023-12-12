@@ -1,0 +1,25 @@
+digraph "platform/core/common/utils/FileSystem.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="platform/core/common\l/utils/FileSystem.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="platform/core/common\l/ImageManager.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/dbd/ImageManager_8cpp.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="platform/core/common\l/loader/LoaderRegistry.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d5f/LoaderRegistry_8cpp.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="platform/core/common\l/utils/Utils.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d98/platform_2core_2common_2utils_2Utils_8cpp.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="platform/core/engineapi\l/Model.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d2e/Model_8cpp.html",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="platform/core/engineapi\l/Scene.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d15/Scene_8cpp.html",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="platform/core/io/Archive\lLoader.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/da5/ArchiveLoader_8cpp.html",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="platform/core/io/MeshLoader.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d87/MeshLoader_8cpp.html",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="platform/core/io/VolumeLoader.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/daa/VolumeLoader_8cpp.html",tooltip=" "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="platform/core/io/XYZBLoader.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d8e/XYZBLoader_8cpp.html",tooltip=" "];
+}

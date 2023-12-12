@@ -1,6 +1,0 @@
-<map id="bioexplorer::fields::FieldsHandler" name="bioexplorer::fields::FieldsHandler">
-<area shape="rect" id="node1" title="The FieldsHandler class handles electro&#45;magnetic fields data structures." alt="" coords="101,95,240,136"/>
-<area shape="rect" id="node3" href="$dd/df2/classbioexplorer_1_1fields_1_1PointFieldsHandler.html" title="The PointFieldsHandler class handles electro&#45;magnetic fields data structures." alt="" coords="5,184,157,225"/>
-<area shape="rect" id="node4" href="$dd/d8c/classbioexplorer_1_1fields_1_1VectorFieldsHandler.html" title="The VectorFieldsHandler class handles electro&#45;magnetic fields data structures." alt="" coords="181,184,341,225"/>
-<area shape="rect" id="node2" href="$d5/d65/classcore_1_1AbstractSimulationHandler.html" title="The AbstractSimulationHandler class handles simulation frames for the current circuit." alt="" coords="79,5,262,47"/>
-</map>

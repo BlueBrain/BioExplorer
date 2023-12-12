@@ -1,8 +1,0 @@
-<map id="core::Light" name="core::Light">
-<area shape="rect" id="node1" title="The Light class defines the common base class for all lights." alt="" coords="5,107,96,133"/>
-<area shape="rect" id="node2" href="$d7/d04/classcore_1_1AmbientLight.html" title=" " alt="" coords="152,5,297,32"/>
-<area shape="rect" id="node3" href="$dd/d27/classcore_1_1DirectionalLight.html" title=" " alt="" coords="144,56,305,83"/>
-<area shape="rect" id="node4" href="$de/d4d/classcore_1_1QuadLight.html" title=" " alt="" coords="163,107,287,133"/>
-<area shape="rect" id="node5" href="$df/dda/classcore_1_1SphereLight.html" title=" " alt="" coords="157,157,292,184"/>
-<area shape="rect" id="node6" href="$d7/dae/classcore_1_1SpotLight.html" title=" " alt="" coords="165,208,284,235"/>
-</map>

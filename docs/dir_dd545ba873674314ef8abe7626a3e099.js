@@ -54,6 +54,8 @@ var dir_dd545ba873674314ef8abe7626a3e099 =
     [ "OptiXUtils.h", "d8/de5/optix6_2OptiXUtils_8h.html", "d8/de5/optix6_2OptiXUtils_8h" ],
     [ "OptiXVolume.cpp", "d8/daf/OptiXVolume_8cpp.html", null ],
     [ "OptiXVolume.h", "da/ded/OptiXVolume_8h.html", [
-      [ "OptiXVolume", "d1/db3/classcore_1_1engine_1_1optix_1_1OptiXVolume.html", "d1/db3/classcore_1_1engine_1_1optix_1_1OptiXVolume" ]
+      [ "OptiXVolume", "d1/db3/classcore_1_1engine_1_1optix_1_1OptiXVolume.html", "d1/db3/classcore_1_1engine_1_1optix_1_1OptiXVolume" ],
+      [ "OptiXSharedDataVolume", "d1/da5/classcore_1_1engine_1_1optix_1_1OptiXSharedDataVolume.html", "d1/da5/classcore_1_1engine_1_1optix_1_1OptiXSharedDataVolume" ],
+      [ "OptiXOctreeVolume", "d9/dcc/classcore_1_1engine_1_1optix_1_1OptiXOctreeVolume.html", "d9/dcc/classcore_1_1engine_1_1optix_1_1OptiXOctreeVolume" ]
     ] ]
 ];

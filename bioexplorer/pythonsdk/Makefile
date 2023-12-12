@@ -33,7 +33,7 @@ unexport DISPLAY
 # Test coverage pass threshold (percent)
 MIN_COV?=45
 VENV_INSTALLED=.installed
-PIP_INSTALL_OPTIONS=--ignore-installed
+PIP_INSTALL_OPTIONS=--ignore-installed --no-deps
 
 FIND_LINT_PY=`find bioexplorer -name "*.py" -not -path "*/*test*"`
 LINT_PYFILES := $(shell find $(FIND_LINT_PY))

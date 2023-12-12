@@ -23,7 +23,7 @@ set(NAME BIOEXPLORER)
 set(PACKAGE_VERSION_ABI 1)
 set(PACKAGE_VERSION_MAJOR 1)
 set(PACKAGE_VERSION_MINOR 7)
-set(PACKAGE_VERSION_PATCH 0)
+set(PACKAGE_VERSION_PATCH 1)
 
 # Get the Git revision using the git command
 execute_process(

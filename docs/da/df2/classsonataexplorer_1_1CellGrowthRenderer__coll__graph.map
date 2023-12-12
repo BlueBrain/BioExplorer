@@ -1,8 +1,0 @@
-<map id="sonataexplorer::CellGrowthRenderer" name="sonataexplorer::CellGrowthRenderer">
-<area shape="rect" id="node1" title="The CellGrowthRenderer class can perform fast transparency and mapping of simulation data on the geom..." alt="" coords="5,367,205,408"/>
-<area shape="rect" id="node2" href="$d3/df5/classcore_1_1engine_1_1ospray_1_1SimulationRenderer.html" title=" " alt="" coords="26,276,185,317"/>
-<area shape="rect" id="node3" href="$d1/d8d/classcore_1_1engine_1_1ospray_1_1AbstractRenderer.html" title=" " alt="" coords="28,185,183,227"/>
-<area shape="rect" id="node4" title=" " alt="" coords="43,89,125,115"/>
-<area shape="rect" id="node5" href="$db/da7/structcore_1_1engine_1_1ospray_1_1AdvancedMaterial.html" title=" " alt="" coords="149,81,304,123"/>
-<area shape="rect" id="node6" title=" " alt="" coords="163,5,290,32"/>
-</map>

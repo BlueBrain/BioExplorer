@@ -3040,7 +3040,14 @@ class BioExplorer:
 
         return self._invoke_and_check("add-sdf-demo")
 
-    def add_torus(self, name, position, outer_radius, inner_radius, displacement_parameters=Vector3()):
+    def add_torus(
+        self,
+        name,
+        position,
+        outer_radius,
+        inner_radius,
+        displacement_parameters=Vector3(),
+    ):
         """
         Add a torus to the scene
 
@@ -3063,7 +3070,14 @@ class BioExplorer:
         params["displacement"] = displacement_parameters.to_list()
         return self._invoke_and_check("add-torus", params)
 
-    def add_vesica(self, name, source_position, target_position, radius, displacement_parameters=Vector3()):
+    def add_vesica(
+        self,
+        name,
+        source_position,
+        target_position,
+        radius,
+        displacement_parameters=Vector3(),
+    ):
         """
         Add a vesica to the scene
 

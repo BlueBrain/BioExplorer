@@ -1,0 +1,20 @@
+digraph "core::GeometryData"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="core::GeometryData",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cone" ,fontname="Helvetica"];
+  Node2 [label="core::GeometryData\l::Cone",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d73/structcore_1_1GeometryData_1_1Cone.html",tooltip=" "];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" volume" ,fontname="Helvetica"];
+  Node3 [label="core::GeometryData\l::Volume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d83/structcore_1_1GeometryData_1_1Volume.html",tooltip=" "];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" sphere" ,fontname="Helvetica"];
+  Node4 [label="core::GeometryData\l::Sphere",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dd2/structcore_1_1GeometryData_1_1Sphere.html",tooltip=" "];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" streamLines" ,fontname="Helvetica"];
+  Node5 [label="core::GeometryData\l::StreamLines",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/da2/structcore_1_1GeometryData_1_1StreamLines.html",tooltip=" "];
+  Node6 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" triangle_mesh" ,fontname="Helvetica"];
+  Node6 [label="core::GeometryData\l::TriangleMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dee/structcore_1_1GeometryData_1_1TriangleMesh.html",tooltip=" "];
+  Node7 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cylinder" ,fontname="Helvetica"];
+  Node7 [label="core::GeometryData\l::Cylinder",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d65/structcore_1_1GeometryData_1_1Cylinder.html",tooltip=" "];
+}

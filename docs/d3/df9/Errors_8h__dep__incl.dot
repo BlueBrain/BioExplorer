@@ -1,0 +1,22 @@
+digraph "platform/core/tasks/Errors.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="platform/core/tasks\l/Errors.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="platform/core/tasks\l/AddModelFromBlobTask.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d65/AddModelFromBlobTask_8cpp.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="platform/core/tasks\l/AddModelTask.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dd0/AddModelTask_8cpp.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="platform/core/tasks\l/LoadModelFunctor.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d96/LoadModelFunctor_8cpp.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="platform/plugins/rockets\l/BinaryRequests.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d8e/BinaryRequests_8h.html",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="platform/plugins/rockets\l/RocketsPlugin.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/dc1/RocketsPlugin_8cpp.html",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="platform/plugins/rockets\l/jsonSerialization.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d2c/jsonSerialization_8h.html",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="platform/plugins/rockets\l/jsonPropertyMap.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/df7/jsonPropertyMap_8h.html",tooltip=" "];
+  Node8 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}
