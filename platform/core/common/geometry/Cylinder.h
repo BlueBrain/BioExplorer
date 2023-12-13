@@ -24,6 +24,8 @@
 
 #include "CommonDefines.h"
 
+#include <Defines.h>
+
 #if __cplusplus
 namespace core
 {
@@ -41,10 +43,11 @@ struct Cylinder
     }
 #endif
 
-    uint64_t userData;
+    UINT64_T userData;
     VEC3_TYPE center;
     VEC3_TYPE up;
     float radius;
+    __MEMORY_ALIGNMENT__
 };
 
 #if __cplusplus

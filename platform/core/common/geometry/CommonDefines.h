@@ -25,9 +25,11 @@
 #include <platform/core/common/Types.h>
 #define VEC3_TYPE core::Vector3f
 #define UINT64_T uint64_t
+#define UINT8_T uint8_t
 #endif
 
 #if ISPC
 #define VEC3_TYPE vec3f
 #define UINT64_T unsigned int64
+#define UINT8_T unsigned int8
 #endif

@@ -21,7 +21,11 @@
 
 #pragma once
 
+#include "CommonDefines.h"
+
 #include <platform/core/common/Types.h>
+
+#include <Defines.h>
 
 namespace core
 {
@@ -48,6 +52,7 @@ struct SDFGeometry
     uint64_t neighboursIndex = 0;
     uint8_t numNeighbours = 0;
     SDFType type;
+    __MEMORY_ALIGNMENT__
 };
 
 inline SDFGeometry createSDFSphere(const Vector3f& center, const float radius, const uint64_t data = 0,

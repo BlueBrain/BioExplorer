@@ -47,4 +47,12 @@
 #define USE_NETWORKING
 #endif
 
+// Memory alignment (optional). Can be necessary for compatibility between multiple engines
+#define PLATFORM_MEMORY_ALIGNMENT @PLATFORM_MEMORY_ALIGNMENT@ 
+#ifdef PLATFORM_MEMORY_ALIGNMENT
+#define __MEMORY_ALIGNMENT__ UINT8_T alignment[256 * @PLATFORM_MEMORY_ALIGNMENT@];
+#else
+#define __MEMORY_ALIGNMENT__ UINT8_T alignment[4096];
+#endif
+
 // clang-format-on
