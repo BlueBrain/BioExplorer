@@ -1,13 +1,15 @@
 var searchData=
 [
-  ['taskptr_7268',['TaskPtr',['../d9/d0f/namespacecore.html#acded582f43619d6c00d30512ad7b0523',1,'core']]],
-  ['texture2dptr_7269',['Texture2DPtr',['../d9/d0f/namespacecore.html#a4163834a271e04972bda640b10e0962b',1,'core']]],
-  ['texturedescriptors_7270',['TextureDescriptors',['../d9/d0f/namespacecore.html#a2a89da4da97ca342666167654225ed31',1,'core']]],
-  ['texturesmap_7271',['TexturesMap',['../d9/d0f/namespacecore.html#a2480e733fbce1cb288dda94147d5badd',1,'core']]],
-  ['threadsafecontainers_7272',['ThreadSafeContainers',['../da/d0b/namespacebioexplorer_1_1common.html#a6b8e4ec36867cb533565eca0e26a4773',1,'bioexplorer::common']]],
-  ['traits_7273',['Traits',['../d4/d2c/SonataExplorerPlugin_8cpp.html#ad71296531765d4fe8591935e6845e187',1,'SonataExplorerPlugin.cpp']]],
-  ['transformations_7274',['Transformations',['../d9/d0f/namespacecore.html#a0352e0e9dac0a105e9924c943162fa4f',1,'core']]],
-  ['triangle_5f3_7275',['Triangle_3',['../d0/d3e/namespacesonataexplorer_1_1meshing.html#ad530d681466539ab059dbd249d0231a5',1,'sonataexplorer::meshing']]],
-  ['trianglemeshmap_7276',['TriangleMeshMap',['../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0',1,'core']]],
-  ['type_7277',['Type',['../dd/d57/classcore_1_1Task.html#a25885988b48745f178ae96cd996a2f35',1,'core::Task']]]
+  ['uint16_6956',['uint16',['../de/d53/platform_2core_2common_2Types_8h.html#a8a665d04ad8887804396255743572861',1,'Types.h']]],
+  ['uint16_5fts_6957',['uint16_ts',['../de/d53/platform_2core_2common_2Types_8h.html#a52e5fb6e8ac62710dbae5d67a2e704a2',1,'Types.h']]],
+  ['uint32_6958',['uint32',['../de/d53/platform_2core_2common_2Types_8h.html#a8e343e73d99f989962d44424f7eea754',1,'Types.h']]],
+  ['uint32_5fts_6959',['uint32_ts',['../de/d53/platform_2core_2common_2Types_8h.html#a896e10012bca68883b132febce577898',1,'Types.h']]],
+  ['uint64_6960',['uint64',['../de/d53/platform_2core_2common_2Types_8h.html#a7abd8d6bea4dec8f71dfc071b7c565fb',1,'Types.h']]],
+  ['uint64_5ftm_6961',['uint64_tm',['../de/d53/platform_2core_2common_2Types_8h.html#ab90819230101bfc02c345de21f2c0fb1',1,'Types.h']]],
+  ['uint64_5fts_6962',['uint64_ts',['../de/d53/platform_2core_2common_2Types_8h.html#a9ccc0fe415de6f612b17c393b59b9fdf',1,'Types.h']]],
+  ['uint8_6963',['uint8',['../de/d53/platform_2core_2common_2Types_8h.html#ae28130b362cb6bd74184b148791d13ca',1,'Types.h']]],
+  ['uint8_5ftm_6964',['uint8_tm',['../de/d53/platform_2core_2common_2Types_8h.html#acfca436db553a146fb39b743cef4f6d4',1,'Types.h']]],
+  ['uint8_5fts_6965',['uint8_ts',['../de/d53/platform_2core_2common_2Types_8h.html#a1055443cb442724187c3ec3e54a01564',1,'Types.h']]],
+  ['uints_6966',['uints',['../de/d53/platform_2core_2common_2Types_8h.html#a9268a182aff674248cfdfaefa1ce5c60',1,'Types.h']]],
+  ['union_5fof_5fballs_5f3_6967',['Union_of_balls_3',['../d4/d2c/SonataExplorerPlugin_8cpp.html#a60e1c8366ef803d7e4c8c96634199317',1,'SonataExplorerPlugin.cpp']]]
 ];

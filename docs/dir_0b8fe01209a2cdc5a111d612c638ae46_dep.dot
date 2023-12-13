@@ -1,9 +1,0 @@
-digraph "platform/engines/optix7_experimental/cuda/renderer" {
-  compound=true
-  node [ fontsize="10", fontname="Helvetica"];
-  edge [ labelfontsize="10", labelfontname="Helvetica"];
-  subgraph clusterdir_543ca4d887e927bbe4ecd89a70c2df6c {
-    graph [ bgcolor="#ddddee", pencolor="black", label="cuda" fontname="Helvetica", fontsize="10", URL="dir_543ca4d887e927bbe4ecd89a70c2df6c.html"]
-  dir_0b8fe01209a2cdc5a111d612c638ae46 [shape=box, label="renderer", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_0b8fe01209a2cdc5a111d612c638ae46.html"];
-  }
-}

@@ -41,4 +41,9 @@ ENV PATH /app/BioExplorer:$PATH
 
 RUN chmod +x /app/BioExplorer/bioexplorer_python_sdk
 
+# Expose a port from the container
+# For more ports, use the `--expose` flag when running the container,
+# see https://docs.docker.com/engine/reference/run/#expose-incoming-ports for docs.
+EXPOSE 8888
+
 ENTRYPOINT ["bioexplorer_python_sdk"]

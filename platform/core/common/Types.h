@@ -133,10 +133,6 @@ struct Cone;
 using Cones = std::vector<Cone>;
 using ConesMap = std::map<size_t, Cones>;
 
-struct SDFBezier;
-using SDFBeziers = std::vector<SDFBezier>;
-using SDFBeziersMap = std::map<size_t, SDFBeziers>;
-
 struct TriangleMesh;
 using TriangleMeshMap = std::map<size_t, TriangleMesh>;
 
@@ -200,7 +196,6 @@ class Statistics;
 /** Supported engines */
 static const char* ENGINE_OSPRAY = "ospray";
 static const char* ENGINE_OPTIX_6 = "optix6";
-static const char* ENGINE_OPTIX_7 = "optix7";
 
 /** Define the frame buffer format */
 enum class FrameBufferFormat

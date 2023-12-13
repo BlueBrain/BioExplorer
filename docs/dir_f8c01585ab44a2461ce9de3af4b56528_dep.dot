@@ -13,7 +13,7 @@ digraph "platform/plugins/openDeck/module/ispc" {
   }
   }
   dir_3066efc1f4040d52e90bf8a29ab3f16b [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_3066efc1f4040d52e90bf8a29ab3f16b.html"];
-  dir_d65fdbbd25357d4888eb2d567ceb7eef->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="1", labeldistance=1.5 headhref="dir_000124_000065.html"];
-  dir_b2e9be835f53e13fdcd91a6dfd8ac9d9->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="1", labeldistance=1.5 headhref="dir_000125_000065.html"];
-  dir_b2e9be835f53e13fdcd91a6dfd8ac9d9->dir_d65fdbbd25357d4888eb2d567ceb7eef [headlabel="1", labeldistance=1.5 headhref="dir_000125_000124.html"];
+  dir_d65fdbbd25357d4888eb2d567ceb7eef->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="1", labeldistance=1.5 headhref="dir_000119_000065.html"];
+  dir_b2e9be835f53e13fdcd91a6dfd8ac9d9->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="1", labeldistance=1.5 headhref="dir_000120_000065.html"];
+  dir_b2e9be835f53e13fdcd91a6dfd8ac9d9->dir_d65fdbbd25357d4888eb2d567ceb7eef [headlabel="1", labeldistance=1.5 headhref="dir_000120_000119.html"];
 }

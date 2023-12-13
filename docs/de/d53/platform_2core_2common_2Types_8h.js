@@ -57,8 +57,6 @@ var platform_2core_2common_2Types_8h =
     [ "Quaternions", "de/d53/platform_2core_2common_2Types_8h.html#a864fdeb818d259f686844bdef4ecce9a", null ],
     [ "RendererPtr", "de/d53/platform_2core_2common_2Types_8h.html#a5873bb7d057c637cd3961989e4f5cc59", null ],
     [ "ScenePtr", "de/d53/platform_2core_2common_2Types_8h.html#a7ddbdfa16725b7bd2d34a2e1fad4ee62", null ],
-    [ "SDFBeziers", "de/d53/platform_2core_2common_2Types_8h.html#a3f1b07adff0626841f0d6852b70a5c2d", null ],
-    [ "SDFBeziersMap", "de/d53/platform_2core_2common_2Types_8h.html#ac2f667ae08f24d7aa5b86e8e1c224741", null ],
     [ "SharedDataVolumePtr", "de/d53/platform_2core_2common_2Types_8h.html#a4002b2e868b2019f07a0e23c69e7e605", null ],
     [ "size_ts", "de/d53/platform_2core_2common_2Types_8h.html#a569abdee2e3c0f3b7d844bcf27724e02", null ],
     [ "SphereLightPtr", "de/d53/platform_2core_2common_2Types_8h.html#a79dde08d1ec86ca8c6a5b36b78d6daf6", null ],

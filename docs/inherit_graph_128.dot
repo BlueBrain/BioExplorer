@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="core::engine::ospray\l::TextureTypeMaterialAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/da1/structcore_1_1engine_1_1ospray_1_1TextureTypeMaterialAttribute.html",tooltip=" "];
+  Node0 [label="core::EnvironmentMapParam",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d85/structcore_1_1EnvironmentMapParam.html",tooltip=" "];
 }

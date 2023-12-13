@@ -153,13 +153,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3cd31657a986bd91c7c055026034c5f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dfa/classcore_1_1RocketsPlugin_1_1Impl.html#a3cd31657a986bd91c7c055026034c5f9">_bindEndpoint</a> (const std::string &amp;method, rockets::jsonrpc::ResponseCallback action)</td></tr>
 <tr class="separator:a3cd31657a986bd91c7c055026034c5f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40098d4d951b15d0e0d44ca30d8ba24c"><td class="memTemplParams" colspan="2">template&lt;typename Params , typename RetVal &gt; </td></tr>
-<tr class="memitem:a40098d4d951b15d0e0d44ca30d8ba24c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../dc/dfa/classcore_1_1RocketsPlugin_1_1Impl.html#a40098d4d951b15d0e0d44ca30d8ba24c">_bindEndpoint</a> (const std::string &amp;method, std::function&lt; RetVal(<a class="el" href="../../d2/dc9/structcore_1_1Params.html">Params</a>)&gt; action)</td></tr>
+<tr class="memitem:a40098d4d951b15d0e0d44ca30d8ba24c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../dc/dfa/classcore_1_1RocketsPlugin_1_1Impl.html#a40098d4d951b15d0e0d44ca30d8ba24c">_bindEndpoint</a> (const std::string &amp;method, std::function&lt; RetVal(Params)&gt; action)</td></tr>
 <tr class="separator:a40098d4d951b15d0e0d44ca30d8ba24c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a663fa8f781e27bdd917febebed27b50d"><td class="memTemplParams" colspan="2">template&lt;typename RetVal &gt; </td></tr>
 <tr class="memitem:a663fa8f781e27bdd917febebed27b50d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../dc/dfa/classcore_1_1RocketsPlugin_1_1Impl.html#a663fa8f781e27bdd917febebed27b50d">_bindEndpoint</a> (const std::string &amp;method, std::function&lt; RetVal()&gt; action)</td></tr>
 <tr class="separator:a663fa8f781e27bdd917febebed27b50d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a491ac4fedcf0e93a7faba8de78935e64"><td class="memTemplParams" colspan="2">template&lt;typename Params &gt; </td></tr>
-<tr class="memitem:a491ac4fedcf0e93a7faba8de78935e64"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../dc/dfa/classcore_1_1RocketsPlugin_1_1Impl.html#a491ac4fedcf0e93a7faba8de78935e64">_bindEndpoint</a> (const std::string &amp;method, std::function&lt; void(<a class="el" href="../../d2/dc9/structcore_1_1Params.html">Params</a>)&gt; action)</td></tr>
+<tr class="memitem:a491ac4fedcf0e93a7faba8de78935e64"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../dc/dfa/classcore_1_1RocketsPlugin_1_1Impl.html#a491ac4fedcf0e93a7faba8de78935e64">_bindEndpoint</a> (const std::string &amp;method, std::function&lt; void(Params)&gt; action)</td></tr>
 <tr class="separator:a491ac4fedcf0e93a7faba8de78935e64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22264a254c33b12c4cca983e7f434a0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dfa/classcore_1_1RocketsPlugin_1_1Impl.html#a22264a254c33b12c4cca983e7f434a0b">_bindEndpoint</a> (const std::string &amp;method, rockets::jsonrpc::VoidCallback action)</td></tr>
 <tr class="separator:a22264a254c33b12c4cca983e7f434a0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -306,10 +306,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a82fd03430c6124df523b21d53a8cb131 inherit pub_methods_classcore_1_1ActionInterface"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d1b/classcore_1_1ActionInterface.html#a82fd03430c6124df523b21d53a8cb131">registerNotification</a> (const std::string &amp;name, const std::function&lt; void()&gt; &amp;action)</td></tr>
 <tr class="separator:a82fd03430c6124df523b21d53a8cb131 inherit pub_methods_classcore_1_1ActionInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade914977e23030066b538d775aa8ad26 inherit pub_methods_classcore_1_1ActionInterface"><td class="memTemplParams" colspan="2">template&lt;typename Params &gt; </td></tr>
-<tr class="memitem:ade914977e23030066b538d775aa8ad26 inherit pub_methods_classcore_1_1ActionInterface"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d6/d1b/classcore_1_1ActionInterface.html#ade914977e23030066b538d775aa8ad26">registerNotification</a> (const std::string &amp;name, const std::function&lt; void(<a class="el" href="../../d2/dc9/structcore_1_1Params.html">Params</a>)&gt; &amp;action)</td></tr>
+<tr class="memitem:ade914977e23030066b538d775aa8ad26 inherit pub_methods_classcore_1_1ActionInterface"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d6/d1b/classcore_1_1ActionInterface.html#ade914977e23030066b538d775aa8ad26">registerNotification</a> (const std::string &amp;name, const std::function&lt; void(Params)&gt; &amp;action)</td></tr>
 <tr class="separator:ade914977e23030066b538d775aa8ad26 inherit pub_methods_classcore_1_1ActionInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6643cd2fc224dac1d4b4729d1afaf03 inherit pub_methods_classcore_1_1ActionInterface"><td class="memTemplParams" colspan="2">template&lt;typename Params , typename RetVal &gt; </td></tr>
-<tr class="memitem:ae6643cd2fc224dac1d4b4729d1afaf03 inherit pub_methods_classcore_1_1ActionInterface"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d6/d1b/classcore_1_1ActionInterface.html#ae6643cd2fc224dac1d4b4729d1afaf03">registerRequest</a> (const std::string &amp;name, const std::function&lt; RetVal(<a class="el" href="../../d2/dc9/structcore_1_1Params.html">Params</a>)&gt; &amp;action)</td></tr>
+<tr class="memitem:ae6643cd2fc224dac1d4b4729d1afaf03 inherit pub_methods_classcore_1_1ActionInterface"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d6/d1b/classcore_1_1ActionInterface.html#ae6643cd2fc224dac1d4b4729d1afaf03">registerRequest</a> (const std::string &amp;name, const std::function&lt; RetVal(Params)&gt; &amp;action)</td></tr>
 <tr class="separator:ae6643cd2fc224dac1d4b4729d1afaf03 inherit pub_methods_classcore_1_1ActionInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9dfaf2865f08a1b4def0a586dc273439 inherit pub_methods_classcore_1_1ActionInterface"><td class="memTemplParams" colspan="2">template&lt;typename RetVal &gt; </td></tr>
 <tr class="memitem:a9dfaf2865f08a1b4def0a586dc273439 inherit pub_methods_classcore_1_1ActionInterface"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d6/d1b/classcore_1_1ActionInterface.html#a9dfaf2865f08a1b4def0a586dc273439">registerRequest</a> (const std::string &amp;name, const std::function&lt; RetVal()&gt; &amp;action)</td></tr>
@@ -600,7 +600,7 @@ template&lt;typename Params , typename RetVal &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::function&lt; RetVal(<a class="el" href="../../d2/dc9/structcore_1_1Params.html">Params</a>)&gt;&#160;</td>
+          <td class="paramtype">std::function&lt; RetVal(Params)&gt;&#160;</td>
           <td class="paramname"><em>action</em>&#160;</td>
         </tr>
         <tr>
@@ -640,7 +640,7 @@ template&lt;typename Params &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::function&lt; void(<a class="el" href="../../d2/dc9/structcore_1_1Params.html">Params</a>)&gt;&#160;</td>
+          <td class="paramtype">std::function&lt; void(Params)&gt;&#160;</td>
           <td class="paramname"><em>action</em>&#160;</td>
         </tr>
         <tr>

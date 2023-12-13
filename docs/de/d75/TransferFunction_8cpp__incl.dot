@@ -5,7 +5,7 @@ digraph "platform/core/common/transferFunction/TransferFunction.cpp"
   node [fontname="Helvetica",fontsize="10",shape=record];
   Node1 [label="platform/core/common\l/transferFunction/TransferFunction.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
   Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="TransferFunction.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d10/core_2common_2transferFunction_2TransferFunction_8h.html",tooltip=" "];
+  Node2 [label="TransferFunction.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d18/TransferFunction_8h.html",tooltip=" "];
   Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node3 [label="platform/core/common\l/Types.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d53/platform_2core_2common_2Types_8h.html",tooltip=" "];
   Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

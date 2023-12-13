@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['glm_5fenable_5fexperimental_7660',['GLM_ENABLE_EXPERIMENTAL',['../d5/d55/MathTypes_8h.html#abd75661fe7969e19439052a5f69ba5d1',1,'MathTypes.h']]],
-  ['glm_5fforce_5fctor_5finit_7661',['GLM_FORCE_CTOR_INIT',['../d5/d55/MathTypes_8h.html#ac627c73454e4c96daef4a3fa6b2408fc',1,'MathTypes.h']]]
+  ['no_5fuser_5fdata_7334',['NO_USER_DATA',['../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#abac666041f596ed965984c84b83caf95',1,'CommonTypes.h']]]
 ];

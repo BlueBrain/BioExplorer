@@ -35,8 +35,6 @@ namespace engine
 {
 namespace optix
 {
-#define CORE_OPTIX_SAMPLE_NAME "braynsOptix7Engine"
-
 #define RT_DESTROY(__object)         \
     {                                \
         try                          \

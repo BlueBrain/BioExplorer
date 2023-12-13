@@ -171,8 +171,6 @@ static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_BLEND_LERP_FACTOR = "blendLerpFa
 static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_OMEGA = "omega";
 static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_DISTANCE = "distance";
 
-static const char* OSPRAY_GEOMETRY_PROPERTY_SDF_BEZIERS = "sdfbeziers";
-
 static const char* OSPRAY_GEOMETRY_PROPERTY_TRIANGLE_MESH = "trianglemesh";
 static const char* OSPRAY_GEOMETRY_PROPERTY_TRIANGLE_MESH_VERTEX = "position";
 static const char* OSPRAY_GEOMETRY_PROPERTY_TRIANGLE_MESH_INDEX = "index";

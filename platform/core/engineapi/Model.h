@@ -30,7 +30,6 @@
 #include <platform/core/common/geometry/Cone.h>
 #include <platform/core/common/geometry/Curve.h>
 #include <platform/core/common/geometry/Cylinder.h>
-#include <platform/core/common/geometry/SDFBezier.h>
 #include <platform/core/common/geometry/SDFGeometry.h>
 #include <platform/core/common/geometry/Sphere.h>
 #include <platform/core/common/geometry/Streamline.h>
@@ -626,26 +625,6 @@ public:
     PLATFORM_API uint64_t addCone(const size_t materialId, const Cone& cone);
 
     /**
-     * @brief Returns SDFBezier handled by the model
-     * @return Map of SDFBeziers
-     */
-    PLATFORM_API const SDFBeziersMap& getSDFBeziers() const { return _geometries->_sdfBeziers; }
-
-    PLATFORM_API SDFBeziersMap& getSDFBeziers()
-    {
-        _sdfBeziersDirty = true;
-        return _geometries->_sdfBeziers;
-    }
-
-    /**
-     * @brief Adds an SDFBezier to the model
-     * @param materialId ID of material
-     * @param sdfBezier SDFBezier to add
-     * @return Index of bezier for the specified material
-     */
-    PLATFORM_API uint64_t addSDFBezier(const size_t materialId, const SDFBezier& sdfBezier);
-
-    /**
      * @brief Adds a streamline to the model
      * @param materialId ID of material
      * @param streamline Streamline to add
@@ -868,7 +847,6 @@ protected:
         SpheresMap _spheres;
         CylindersMap _cylinders;
         ConesMap _cones;
-        SDFBeziersMap _sdfBeziers;
         TriangleMeshMap _triangleMeshes;
         StreamlinesDataMap _streamlines;
         SDFGeometryData _sdf;
@@ -878,7 +856,6 @@ protected:
         Boxd _sphereBounds;
         Boxd _cylindersBounds;
         Boxd _conesBounds;
-        Boxd _sdfBeziersBounds;
         Boxd _triangleMeshesBounds;
         Boxd _streamlinesBounds;
         Boxd _sdfGeometriesBounds;
@@ -887,9 +864,8 @@ protected:
 
         bool isEmpty() const
         {
-            return _spheres.empty() && _cylinders.empty() && _cones.empty() && _sdfBeziers.empty() &&
-                   _triangleMeshes.empty() && _sdf.geometries.empty() && _streamlines.empty() && _volumes.empty() &&
-                   _curves.empty();
+            return _spheres.empty() && _cylinders.empty() && _cones.empty() && _triangleMeshes.empty() &&
+                   _sdf.geometries.empty() && _streamlines.empty() && _volumes.empty() && _curves.empty();
         }
     };
 
@@ -901,7 +877,6 @@ protected:
     bool _spheresDirty{false};
     bool _cylindersDirty{false};
     bool _conesDirty{false};
-    bool _sdfBeziersDirty{false};
     bool _triangleMeshesDirty{false};
     bool _streamlinesDirty{false};
     bool _sdfGeometriesDirty{false};
@@ -910,8 +885,8 @@ protected:
 
     bool _areGeometriesDirty() const
     {
-        return _spheresDirty || _cylindersDirty || _conesDirty || _sdfBeziersDirty || _triangleMeshesDirty ||
-               _sdfGeometriesDirty || _curvesDirty;
+        return _spheresDirty || _cylindersDirty || _conesDirty || _triangleMeshesDirty || _sdfGeometriesDirty ||
+               _curvesDirty;
     }
 
     Boxd _bounds;

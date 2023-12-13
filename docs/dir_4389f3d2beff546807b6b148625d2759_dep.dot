@@ -9,12 +9,9 @@ digraph "platform/engines" {
     graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_4389f3d2beff546807b6b148625d2759.html"];
     dir_4389f3d2beff546807b6b148625d2759 [shape=plaintext label="engines"];
   dir_dd545ba873674314ef8abe7626a3e099 [shape=box label="optix6" fillcolor="white" style="filled" color="red" URL="dir_dd545ba873674314ef8abe7626a3e099.html"];
-  dir_25260f97aed3865a711b51cb3b50e03e [shape=box label="optix7_experimental" fillcolor="white" style="filled" color="red" URL="dir_25260f97aed3865a711b51cb3b50e03e.html"];
   dir_f0df884ce09817da20ab1128f63a79fe [shape=box label="ospray" fillcolor="white" style="filled" color="red" URL="dir_f0df884ce09817da20ab1128f63a79fe.html"];
   }
   }
-  dir_25260f97aed3865a711b51cb3b50e03e->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="23", labeldistance=1.5 headhref="dir_000075_000065.html"];
-  dir_25260f97aed3865a711b51cb3b50e03e->dir_dd545ba873674314ef8abe7626a3e099 [headlabel="1", labeldistance=1.5 headhref="dir_000075_000074.html"];
   dir_dd545ba873674314ef8abe7626a3e099->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="43", labeldistance=1.5 headhref="dir_000074_000065.html"];
-  dir_f0df884ce09817da20ab1128f63a79fe->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="73", labeldistance=1.5 headhref="dir_000076_000065.html"];
+  dir_f0df884ce09817da20ab1128f63a79fe->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="71", labeldistance=1.5 headhref="dir_000075_000065.html"];
 }

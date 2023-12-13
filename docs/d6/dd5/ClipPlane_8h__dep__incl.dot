@@ -9,7 +9,7 @@ digraph "platform/core/common/scene/ClipPlane.h"
   Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node3 [label="platform/core/engineapi\l/Scene.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d15/Scene_8cpp.html",tooltip=" "];
   Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node4 [label="platform/engines/optix6\l/OptiXScene.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d63/optix6_2OptiXScene_8cpp.html",tooltip=" "];
+  Node4 [label="platform/engines/optix6\l/OptiXScene.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d5c/OptiXScene_8cpp.html",tooltip=" "];
   Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node5 [label="platform/engines/ospray\l/OSPRayRenderer.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/dec/OSPRayRenderer_8cpp.html",tooltip=" "];
   Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

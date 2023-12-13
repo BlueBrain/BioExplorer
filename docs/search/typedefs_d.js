@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['neighbours_7200',['Neighbours',['../da/d0b/namespacebioexplorer_1_1common.html#a1b337a1336e6ff9985dd8465b864aba4',1,'bioexplorer::common']]],
-  ['neuronsomamap_7201',['NeuronSomaMap',['../dd/d40/namespacebioexplorer_1_1morphology.html#aa5d342fa6d8b00a9d8010a6cf58f4fea',1,'bioexplorer::morphology']]],
-  ['neuronsptr_7202',['NeuronsPtr',['../dd/d40/namespacebioexplorer_1_1morphology.html#a7a98f782f0017feb62c81b142e3b80f7',1,'bioexplorer::morphology']]],
-  ['nodemap_7203',['NodeMap',['../da/d0b/namespacebioexplorer_1_1common.html#aa4d8bf48069207558c5343c69f6a25c1',1,'bioexplorer::common']]],
-  ['nodeptr_7204',['NodePtr',['../da/d0b/namespacebioexplorer_1_1common.html#acc7c9c5d45f0114f129d29a91eea807c',1,'bioexplorer::common']]],
-  ['nucleotidmap_7205',['NucleotidMap',['../d1/dc2/namespacebioexplorer_1_1molecularsystems.html#a852fd83164bd5d1b33d6cf0ddd1c70fb',1,'bioexplorer::molecularsystems']]]
+  ['octreepoints_6887',['OctreePoints',['../d9/d0f/namespacecore.html#ada1eae57500f81e693e99f5023652a12',1,'core']]],
+  ['octreevectors_6888',['OctreeVectors',['../d9/d0f/namespacecore.html#a8350e093d546614df35e86f81834e00d',1,'core']]],
+  ['octreevolumeptr_6889',['OctreeVolumePtr',['../d9/d0f/namespacecore.html#a9e5427969511779a205a7fec3380fdea',1,'core']]],
+  ['oocmanagerptr_6890',['OOCManagerPtr',['../d1/d74/namespacebioexplorer_1_1io.html#a68c02fcdfa01a4f1db0d5caa9d063d5f',1,'bioexplorer::io']]],
+  ['optixcameraprogramptr_6891',['OptiXCameraProgramPtr',['../d2/dcc/namespacecore_1_1engine_1_1optix.html#a8c60e79f98c80eac0dc7506fc9421789',1,'core::engine::optix']]],
+  ['optixcameraptr_6892',['OptiXCameraPtr',['../d2/dcc/namespacecore_1_1engine_1_1optix.html#a267a9887776daa4d18988815c136a7b6',1,'core::engine::optix']]],
+  ['optixshaderprogramptr_6893',['OptiXShaderProgramPtr',['../d2/dcc/namespacecore_1_1engine_1_1optix.html#ae37e6ad4cf7f4d6e12760006c706ef42',1,'core::engine::optix']]]
 ];
