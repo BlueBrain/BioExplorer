@@ -24,6 +24,8 @@
 
 #include "CommonDefines.h"
 
+#include <Defines.h>
+
 #if __cplusplus
 namespace core
 {
@@ -48,6 +50,7 @@ struct Cone
     VEC3_TYPE up;
     float centerRadius;
     float upRadius;
+    __MEMORY_ALIGNMENT__
 };
 
 #if __cplusplus

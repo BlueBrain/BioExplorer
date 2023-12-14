@@ -26,6 +26,8 @@
 #include "OSPRayUtils.h"
 #include "OSPRayVolume.h"
 
+#include <Defines.h>
+
 #include <platform/core/common/simulation/AbstractSimulationHandler.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Scene.h>

@@ -24,6 +24,8 @@
 
 #include "CommonDefines.h"
 
+#include "Defines.h"
+
 #if __cplusplus
 namespace core
 {
@@ -40,9 +42,10 @@ struct Sphere
     }
 #endif
 
-    uint64_t userData;
+    UINT64_T userData;
     VEC3_TYPE center;
     float radius;
+    __MEMORY_ALIGNMENT__
 };
 
 #if __cplusplus
