@@ -556,6 +556,11 @@ void BioExplorerPlugin::init()
             endPoint,
             [&](const SpikeReportVisualizationSettingsDetails &s) { return _setSpikeReportVisualizationSettings(s); });
 
+        endPoint = PLUGIN_API_PREFIX + "add-graph";
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
+        _api->getActionInterface()->registerRequest<GraphDetails, Response>(endPoint, [&](const GraphDetails &payload)
+                                                                            { return _addGraph(payload); });
+
         endPoint = PLUGIN_API_PREFIX + "add-white-matter";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
         _api->getActionInterface()->registerRequest<WhiteMatterDetails, Response>(endPoint,
@@ -2032,6 +2037,11 @@ Response BioExplorerPlugin::_addAtlas(const AtlasDetails &payload)
 Response BioExplorerPlugin::_addWhiteMatter(const WhiteMatterDetails &payload)
 {
     ASSEMBLY_CALL_VOID(payload.assemblyName, addWhiteMatter(payload));
+}
+
+Response BioExplorerPlugin::_addGraph(const GraphDetails &payload)
+{
+    ASSEMBLY_CALL_VOID(payload.assemblyName, addGraph(payload));
 }
 
 Response BioExplorerPlugin::_addSynapses(const SynapsesDetails &payload)

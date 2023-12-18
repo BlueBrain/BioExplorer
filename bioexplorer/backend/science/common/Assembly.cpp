@@ -39,6 +39,7 @@
 #include <science/common/shapes/SinusoidShape.h>
 #include <science/common/shapes/SphereShape.h>
 #include <science/common/shapes/SphericalCellDiffusionShape.h>
+#include <science/connectomics/graph/Graph.h>
 #include <science/connectomics/synapses/SynapseEfficacy.h>
 #include <science/connectomics/synapses/SynapseEfficacySimulationHandler.h>
 #include <science/connectomics/whitematter/WhiteMatter.h>
@@ -177,6 +178,12 @@ Assembly::~Assembly()
     if (_synapseEfficacy)
     {
         const auto modelId = _synapseEfficacy->getModelDescriptor()->getModelID();
+        PLUGIN_INFO(3, "Removing synapse efficacy [" << modelId << "] from assembly [" << _details.name << "]");
+        _scene.removeModel(modelId);
+    }
+    if (_graph)
+    {
+        const auto modelId = _graph->getModelDescriptor()->getModelID();
         PLUGIN_INFO(3, "Removing synapse efficacy [" << modelId << "] from assembly [" << _details.name << "]");
         _scene.removeModel(modelId);
     }
@@ -653,6 +660,16 @@ void Assembly::addNeurons(const NeuronsDetails &details)
 
     _neurons.reset(new Neurons(_scene, details, _position, _rotation));
     _scene.addModel(_neurons->getModelDescriptor());
+    _scene.markModified(false);
+}
+
+void Assembly::addGraph(const GraphDetails &details)
+{
+    if (_graph)
+        PLUGIN_THROW("Graph already exists in assembly " + details.assemblyName);
+
+    _graph.reset(new Graph(_scene, details, _position, _rotation));
+    _scene.addModel(_graph->getModelDescriptor());
     _scene.markModified(false);
 }
 

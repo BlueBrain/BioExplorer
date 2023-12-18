@@ -117,6 +117,7 @@ bool from_json(bioexplorer::details::NeuronIdDetails &param, const std::string &
 std::string to_json(const bioexplorer::details::NeuronPointsDetails &param);
 
 // Connectomics
+bool from_json(bioexplorer::details::GraphDetails &param, const std::string &payload);
 bool from_json(bioexplorer::details::WhiteMatterDetails &param, const std::string &payload);
 bool from_json(bioexplorer::details::SynapsesDetails &param, const std::string &payload);
 bool from_json(bioexplorer::details::SynapseEfficacyDetails &param, const std::string &payload);
