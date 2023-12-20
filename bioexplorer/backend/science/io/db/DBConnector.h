@@ -391,6 +391,15 @@ public:
     std::map<uint64_t, floats> getSynapseEfficacyReportValues(const std::string& populationName, const uint64_t frame,
                                                               const std::string& sqlCondition = "") const;
 
+    /**
+     * @brief Get synaptome
+     *
+     * @param populationName Name of the population
+     * @param sqlCondition SQL condition
+     * @return Map of pre and postsynaptic node guids
+     */
+    uint64_tm getSynaptome(const std::string& populationName, const std::string& sqlCondition = "") const;
+
     static std::mutex _mutex;
     static DBConnector* _instance;
 

@@ -1227,6 +1227,33 @@ std::map<uint64_t, floats> DBConnector::getSynapseEfficacyReportValues(const std
     return reportValues;
 }
 
+uint64_tm DBConnector::getSynaptome(const std::string& populationName, const std::string& sqlCondition) const
+{
+    CHECK_DB_INITIALIZATION
+    uint64_tm synaptome;
+    pqxx::nontransaction transaction(*_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
+    {
+        Timer chrono;
+        std::string sql = "SELECT presynaptic_node_guid, postsynaptic_node_guid FROM " + populationName + ".synaptome";
+        if (!sqlCondition.empty())
+            sql += " WHERE " + sqlCondition;
+
+        PLUGIN_DB_INFO(1, sql);
+        const auto res = transaction.exec(sql);
+        uint64_t i = 0;
+        for (auto c = res.begin(); c != res.end(); ++c)
+            synaptome[c[0].as<uint64_t>()] = c[1].as<uint64_t>();
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getSynaptome(populationName=" << populationName << ",  sqlCondition=" << sqlCondition << ")");
+    }
+    catch (pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+    return synaptome;
+}
+
 } // namespace db
 } // namespace io
 } // namespace bioexplorer

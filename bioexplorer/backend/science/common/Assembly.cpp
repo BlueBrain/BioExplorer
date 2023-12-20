@@ -41,6 +41,7 @@
 #include <science/common/shapes/SphericalCellDiffusionShape.h>
 #include <science/connectomics/synapses/SynapseEfficacy.h>
 #include <science/connectomics/synapses/SynapseEfficacySimulationHandler.h>
+#include <science/connectomics/synaptome/Synaptome.h>
 #include <science/connectomics/whitematter/WhiteMatter.h>
 #include <science/molecularsystems/EnzymeReaction.h>
 #include <science/molecularsystems/Membrane.h>
@@ -177,6 +178,12 @@ Assembly::~Assembly()
     if (_synapseEfficacy)
     {
         const auto modelId = _synapseEfficacy->getModelDescriptor()->getModelID();
+        PLUGIN_INFO(3, "Removing synapse efficacy [" << modelId << "] from assembly [" << _details.name << "]");
+        _scene.removeModel(modelId);
+    }
+    if (_synaptome)
+    {
+        const auto modelId = _synaptome->getModelDescriptor()->getModelID();
         PLUGIN_INFO(3, "Removing synapse efficacy [" << modelId << "] from assembly [" << _details.name << "]");
         _scene.removeModel(modelId);
     }
@@ -653,6 +660,16 @@ void Assembly::addNeurons(const NeuronsDetails &details)
 
     _neurons.reset(new Neurons(_scene, details, _position, _rotation));
     _scene.addModel(_neurons->getModelDescriptor());
+    _scene.markModified(false);
+}
+
+void Assembly::addSynaptome(const SynaptomeDetails &details)
+{
+    if (_synaptome)
+        PLUGIN_THROW("Synaptome already exists in assembly " + details.assemblyName);
+
+    _synaptome.reset(new Synaptome(_scene, details, _position, _rotation));
+    _scene.addModel(_synaptome->getModelDescriptor());
     _scene.markModified(false);
 }
 

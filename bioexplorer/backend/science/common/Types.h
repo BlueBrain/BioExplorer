@@ -476,6 +476,9 @@ using WhiteMatterStreamlines = std::vector<core::Vector3fs>;
 
 class SynapseEfficacy;
 using SynapseEfficacyPtr = std::shared_ptr<SynapseEfficacy>;
+
+class Synaptome;
+using SynaptomePtr = std::shared_ptr<Synaptome>;
 } // namespace connectomics
 
 namespace io
@@ -1614,6 +1617,22 @@ typedef struct
     /** Scale of the streamlines in the scene */
     doubles scale{1.0, 1.0, 1.0};
 } WhiteMatterDetails;
+
+typedef struct
+{
+    /** Name of the assembly containing the graph */
+    std::string assemblyName;
+    /** Name of the white matter population  */
+    std::string populationName;
+    /** radius */
+    double radius{1.0};
+    /** radius */
+    double force{1.0};
+    /** SQL filter for neurons (WHERE condition) */
+    std::string sqlNodeFilter;
+    /** SQL filter for synapses (WHERE condition) */
+    std::string sqlEdgeFilter;
+} SynaptomeDetails;
 
 enum class SynapseRepresentation
 {

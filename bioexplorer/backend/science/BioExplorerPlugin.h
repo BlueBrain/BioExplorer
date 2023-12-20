@@ -158,6 +158,7 @@ private:
     details::NeuronPointsDetails _getNeuronVaricosities(const details::NeuronIdDetails &payload);
 
     // Connectomics
+    details::Response _addSynaptome(const details::SynaptomeDetails &payload);
     details::Response _addWhiteMatter(const details::WhiteMatterDetails &payload);
     details::Response _addSynapses(const details::SynapsesDetails &payload);
     details::Response _addSynapseEfficacy(const details::SynapseEfficacyDetails &payload);
