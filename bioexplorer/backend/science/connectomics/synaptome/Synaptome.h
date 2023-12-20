@@ -30,27 +30,26 @@ namespace bioexplorer
 namespace connectomics
 {
 
-struct GraphNode
+struct SynaptomeNode
 {
     core::Vector3f position;
     core::Vector3f direction;
     float mass{1.f};
 };
 /**
- * Load whitematter from database
+ * Load Synaptome from database
  */
-class Graph : public common::SDFGeometries
+class Synaptome : public common::SDFGeometries
 {
 public:
     /**
-     * @brief Construct a new Grapth object
+     * @brief Construct a new Synaptome object
      *
-     * @param scene 3D scene into which the white matter should be loaded
-     * @param details Set of attributes defining how the graph should be
-     * loaded
+     * @param scene 3D scene into which the Synaptome should be loaded
+     * @param details Set of attributes defining how the Synaptome should be loaded
      */
-    Graph(core::Scene& scene, const details::GraphDetails& details, const core::Vector3d& position,
-          const core::Quaterniond& rotation, const core::LoaderProgress& callback = core::LoaderProgress());
+    Synaptome(core::Scene& scene, const details::SynaptomeDetails& details, const core::Vector3d& position,
+              const core::Quaterniond& rotation, const core::LoaderProgress& callback = core::LoaderProgress());
 
 protected:
     void _addNode(const uint64_t id, const core::Vector3f& position, float mass);
@@ -61,10 +60,10 @@ private:
 
     void _buildModel(const core::LoaderProgress& callback);
 
-    const details::GraphDetails _details;
+    const details::SynaptomeDetails _details;
     core::Scene& _scene;
 
-    std::map<uint64_t, GraphNode> _nodes;
+    std::map<uint64_t, SynaptomeNode> _nodes;
     std::vector<core::Vector2ui> _edges;
 };
 } // namespace connectomics

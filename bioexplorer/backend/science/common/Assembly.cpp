@@ -39,9 +39,9 @@
 #include <science/common/shapes/SinusoidShape.h>
 #include <science/common/shapes/SphereShape.h>
 #include <science/common/shapes/SphericalCellDiffusionShape.h>
-#include <science/connectomics/graph/Graph.h>
 #include <science/connectomics/synapses/SynapseEfficacy.h>
 #include <science/connectomics/synapses/SynapseEfficacySimulationHandler.h>
+#include <science/connectomics/synaptome/Synaptome.h>
 #include <science/connectomics/whitematter/WhiteMatter.h>
 #include <science/molecularsystems/EnzymeReaction.h>
 #include <science/molecularsystems/Membrane.h>
@@ -181,9 +181,9 @@ Assembly::~Assembly()
         PLUGIN_INFO(3, "Removing synapse efficacy [" << modelId << "] from assembly [" << _details.name << "]");
         _scene.removeModel(modelId);
     }
-    if (_graph)
+    if (_synaptome)
     {
-        const auto modelId = _graph->getModelDescriptor()->getModelID();
+        const auto modelId = _synaptome->getModelDescriptor()->getModelID();
         PLUGIN_INFO(3, "Removing synapse efficacy [" << modelId << "] from assembly [" << _details.name << "]");
         _scene.removeModel(modelId);
     }
@@ -663,13 +663,13 @@ void Assembly::addNeurons(const NeuronsDetails &details)
     _scene.markModified(false);
 }
 
-void Assembly::addGraph(const GraphDetails &details)
+void Assembly::addSynaptome(const SynaptomeDetails &details)
 {
-    if (_graph)
-        PLUGIN_THROW("Graph already exists in assembly " + details.assemblyName);
+    if (_synaptome)
+        PLUGIN_THROW("Synaptome already exists in assembly " + details.assemblyName);
 
-    _graph.reset(new Graph(_scene, details, _position, _rotation));
-    _scene.addModel(_graph->getModelDescriptor());
+    _synaptome.reset(new Synaptome(_scene, details, _position, _rotation));
+    _scene.addModel(_synaptome->getModelDescriptor());
     _scene.markModified(false);
 }
 

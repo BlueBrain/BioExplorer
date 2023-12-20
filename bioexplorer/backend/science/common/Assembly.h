@@ -262,11 +262,11 @@ public:
     void addNeurons(const details::NeuronsDetails &details);
 
     /**
-     * @brief Add graph to the assembly
+     * @brief Add synaptome to the assembly
      *
-     * @param details Details of the graph
+     * @param details Details of the synaptome
      */
-    void addGraph(const details::GraphDetails &details);
+    void addSynaptome(const details::SynaptomeDetails &details);
 
     /**
      * @brief Get the neuron section points
@@ -333,7 +333,7 @@ private:
     morphology::SynapsesPtr _synapses{nullptr};
     connectomics::SynapseEfficacyPtr _synapseEfficacy{nullptr};
     connectomics::WhiteMatterPtr _whiteMatter{nullptr};
-    connectomics::GraphPtr _graph{nullptr};
+    connectomics::SynaptomePtr _synaptome{nullptr};
 
     core::Vector3d _position;
     core::Quaterniond _rotation;

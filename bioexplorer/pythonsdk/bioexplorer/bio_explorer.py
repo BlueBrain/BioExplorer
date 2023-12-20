@@ -3709,7 +3709,7 @@ class BioExplorer:
         q = response["rotation"]
         return Quaternion(q[3], q[0], q[1], q[2])
 
-    def add_graph(
+    def add_synaptome(
         self,
         assembly_name,
         population_name,
@@ -3719,12 +3719,13 @@ class BioExplorer:
         sql_edge_filter="",
     ):
         """
-        Add synapse efficacy report to the 3D scene
+        Add synaptome to the 3D scene
 
-        :assembly_name: Name of the assembly to which the vasculature should be added
+        :assembly_name: Name of the assembly to which the synaptome should be added
         :population_name: Name of the node population
         :radius: Radius of the sphere representing the node
-        :sql_filter: Condition added to the SQL statement loading the synapses
+        :sql_node_filter: Condition added to the SQL statement loading the neurons
+        :sql_edge_filter: Condition added to the SQL statement loading the synapses
 
         :return: Result of the request submission
         """
@@ -3735,7 +3736,7 @@ class BioExplorer:
         params["force"] = force
         params["sqlNodeFilter"] = sql_node_filter
         params["sqlEdgeFilter"] = sql_edge_filter
-        return self._invoke_and_check("add-graph", params)
+        return self._invoke_and_check("add-synaptome", params)
 
 
 # Private classes

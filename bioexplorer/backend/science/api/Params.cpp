@@ -1099,7 +1099,7 @@ bool from_json(WhiteMatterDetails &param, const std::string &payload)
     return true;
 }
 
-bool from_json(GraphDetails &param, const std::string &payload)
+bool from_json(SynaptomeDetails &param, const std::string &payload)
 {
     try
     {

@@ -1235,7 +1235,7 @@ uint64_tm DBConnector::getSynaptome(const std::string& populationName, const std
     try
     {
         Timer chrono;
-        std::string sql = "SELECT presynatic_node_guid, postsynatic_node_guid FROM " + populationName + ".synaptome";
+        std::string sql = "SELECT presynaptic_node_guid, postsynaptic_node_guid FROM " + populationName + ".synaptome";
         if (!sqlCondition.empty())
             sql += " WHERE " + sqlCondition;
 

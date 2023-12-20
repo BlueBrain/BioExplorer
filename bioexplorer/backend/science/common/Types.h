@@ -477,8 +477,8 @@ using WhiteMatterStreamlines = std::vector<core::Vector3fs>;
 class SynapseEfficacy;
 using SynapseEfficacyPtr = std::shared_ptr<SynapseEfficacy>;
 
-class Graph;
-using GraphPtr = std::shared_ptr<Graph>;
+class Synaptome;
+using SynaptomePtr = std::shared_ptr<Synaptome>;
 } // namespace connectomics
 
 namespace io
@@ -1630,9 +1630,9 @@ typedef struct
     double force{1.0};
     /** SQL filter for neurons (WHERE condition) */
     std::string sqlNodeFilter;
-    /** SQL filter for synaptome (WHERE condition) */
+    /** SQL filter for synapses (WHERE condition) */
     std::string sqlEdgeFilter;
-} GraphDetails;
+} SynaptomeDetails;
 
 enum class SynapseRepresentation
 {
