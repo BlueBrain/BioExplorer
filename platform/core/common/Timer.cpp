@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023, EPFL/Blue Brain Project
+ * Copyright (c) 2017-2024, EPFL/Blue Brain Project
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *

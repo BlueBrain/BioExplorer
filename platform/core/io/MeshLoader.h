@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2023 Blue Brain Project / EPFL
+ * Copyright 2015-2024 Blue Brain Project / EPFL
  *
  * The Blue Brain BioExplorer is a tool for scientists to extract and analyse
  * scientific data from visualization

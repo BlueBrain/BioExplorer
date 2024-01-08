@@ -5,7 +5,7 @@
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
- * Copyright 2020-2023 Blue BrainProject / EPFL
+ * Copyright 2020-2024 Blue BrainProject / EPFL
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
