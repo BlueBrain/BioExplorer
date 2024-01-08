@@ -98,6 +98,10 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html">SynapseEfficacySimulationHandler</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html" title="The SynapseEfficacySimulationHandler handles the reading of simulation information from the database ...">SynapseEfficacySimulationHandler</a> handles the reading of simulation information from the database at a soma level. When attached to a model, the simulation data is communicated to the renderer by Core, and mapped to the geometry by the BioExplorer advanced renderer.  <a href="../../de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/de4/structbioexplorer_1_1connectomics_1_1SynaptomeNode.html">SynaptomeNode</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/df5/classbioexplorer_1_1connectomics_1_1Synaptome.html">Synaptome</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html">WhiteMatter</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0b/classbioexplorer_1_1connectomics_1_1WhiteMatterLoader.html">WhiteMatterLoader</a></td></tr>
@@ -111,9 +115,15 @@ Typedefs</h2></td></tr>
 <tr class="separator:adabe47d8efd77f08214b71948068ddaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff18f4dc986a037178276a13dd504be5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8f/namespacebioexplorer_1_1connectomics.html#aff18f4dc986a037178276a13dd504be5">SynapseEfficacyPtr</a> = std::shared_ptr&lt; <a class="el" href="../../da/daf/classbioexplorer_1_1connectomics_1_1SynapseEfficacy.html">SynapseEfficacy</a> &gt;</td></tr>
 <tr class="separator:aff18f4dc986a037178276a13dd504be5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49704e6e682d617abd34b6c0f1dafcf0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8f/namespacebioexplorer_1_1connectomics.html#a49704e6e682d617abd34b6c0f1dafcf0">SynaptomePtr</a> = std::shared_ptr&lt; <a class="el" href="../../d7/df5/classbioexplorer_1_1connectomics_1_1Synaptome.html">Synaptome</a> &gt;</td></tr>
+<tr class="separator:a49704e6e682d617abd34b6c0f1dafcf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:afacbd0cd11ef5faab0ce2a22fa877194"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8f/namespacebioexplorer_1_1connectomics.html#afacbd0cd11ef5faab0ce2a22fa877194">springConstant</a> = 0.01f</td></tr>
+<tr class="separator:afacbd0cd11ef5faab0ce2a22fa877194"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace0e81335db2c2b79a9d15de9ca1b262"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8f/namespacebioexplorer_1_1connectomics.html#ace0e81335db2c2b79a9d15de9ca1b262">idealEdgeLength</a> = 100.0f</td></tr>
+<tr class="separator:ace0e81335db2c2b79a9d15de9ca1b262"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f03243c71c65cc540e204fae0dc2588"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8f/namespacebioexplorer_1_1connectomics.html#a8f03243c71c65cc540e204fae0dc2588">LOADER_NAME</a> = LOADER_WHITE_MATTER</td></tr>
 <tr class="separator:a8f03243c71c65cc540e204fae0dc2588"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5e6c66642cb1359ebca352cb30385ea"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8f/namespacebioexplorer_1_1connectomics.html#aa5e6c66642cb1359ebca352cb30385ea">SUPPORTED_PROTOCOL_WHITE_MATTER</a> = &quot;whitematter://&quot;</td></tr>
@@ -133,6 +143,22 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00478">478</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
+<a id="a49704e6e682d617abd34b6c0f1dafcf0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49704e6e682d617abd34b6c0f1dafcf0">&#9670;&nbsp;</a></span>SynaptomePtr</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d8f/namespacebioexplorer_1_1connectomics.html#a49704e6e682d617abd34b6c0f1dafcf0">bioexplorer::connectomics::SynaptomePtr</a> = typedef std::shared_ptr&lt;<a class="el" href="../../d7/df5/classbioexplorer_1_1connectomics_1_1Synaptome.html">Synaptome</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html#l00481">481</a> of file <a class="el" href="../../d1/d29/bioexplorer_2backend_2science_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -169,6 +195,22 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="ace0e81335db2c2b79a9d15de9ca1b262"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace0e81335db2c2b79a9d15de9ca1b262">&#9670;&nbsp;</a></span>idealEdgeLength</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const float bioexplorer::connectomics::idealEdgeLength = 100.0f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/dea/Graph_8cpp_source.html#l00049">49</a> of file <a class="el" href="../../dd/dea/Graph_8cpp_source.html">Graph.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a8f03243c71c65cc540e204fae0dc2588"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8f03243c71c65cc540e204fae0dc2588">&#9670;&nbsp;</a></span>LOADER_NAME</h2>
 
@@ -182,6 +224,22 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../df/d63/WhiteMatterLoader_8cpp_source.html#l00042">42</a> of file <a class="el" href="../../df/d63/WhiteMatterLoader_8cpp_source.html">WhiteMatterLoader.cpp</a>.</p>
+
+</div>
+</div>
+<a id="afacbd0cd11ef5faab0ce2a22fa877194"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afacbd0cd11ef5faab0ce2a22fa877194">&#9670;&nbsp;</a></span>springConstant</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const float bioexplorer::connectomics::springConstant = 0.01f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/dea/Graph_8cpp_source.html#l00048">48</a> of file <a class="el" href="../../dd/dea/Graph_8cpp_source.html">Graph.cpp</a>.</p>
 
 </div>
 </div>

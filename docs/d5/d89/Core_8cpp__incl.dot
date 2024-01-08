@@ -120,6 +120,7 @@ digraph "platform/core/Core.cpp"
   Node47 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node47 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node49 [label="platform/core/common\l/geometry/Cone.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$d1/d9b/Cone_8h.html",tooltip=" "];
+  Node49 -> Node28 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node47 -> Node51 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node51 [label="platform/core/common\l/geometry/Curve.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/de7/Curve_8h.html",tooltip=" "];
   Node51 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

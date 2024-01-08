@@ -24,6 +24,7 @@ var classbioexplorer_1_1io_1_1db_1_1DBConnector =
     [ "getSynapseEfficacyPositions", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ae469f59396a929c155f39731b2bf542d", null ],
     [ "getSynapseEfficacyReportValues", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a483090762ff5c92fe381b7d30bd90935", null ],
     [ "getSynapses", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a831ac383ee0a6fc68d1ab22b7abc6872", null ],
+    [ "getSynaptome", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a8807515016f607a0a09e9ccee81c14c5", null ],
     [ "getVasculatureBifurcations", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a17e6e76dce912c358f070fb2b2c84c6c", null ],
     [ "getVasculatureEdges", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a180c4b378ceb2e989928886d505268a9", null ],
     [ "getVasculatureNbNodes", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a9a979ea8203cbdc75a77dc9c48ae37aa", null ],

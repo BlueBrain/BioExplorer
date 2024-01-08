@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="core::GetInstances",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d87/structcore_1_1GetInstances.html",tooltip=" "];
+  Node0 [label="core::GeometryData\l::TriangleMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dee/structcore_1_1GeometryData_1_1TriangleMesh.html",tooltip=" "];
 }

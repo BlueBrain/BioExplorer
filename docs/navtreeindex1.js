@@ -1,5 +1,8 @@
 var NAVTREEINDEX1 =
 {
+"d0/db8/namespacesonataexplorer_1_1api.html#aa78046684dd86fc80440d5f81bfb774a":[9,0,7,0,34],
+"d0/db8/namespacesonataexplorer_1_1api.html#aaa4ab6ea45aad85a868fdd4e12729c64":[9,0,7,0,35],
+"d0/db8/namespacesonataexplorer_1_1api.html#ab3b1599c6c728c8d521ff57d762348cc":[9,0,7,0,29],
 "d0/db8/namespacesonataexplorer_1_1api.html#ab7876edad267015c39034eda3a20a035":[9,0,7,0,30],
 "d0/db8/namespacesonataexplorer_1_1api.html#abbe142306e72c5f07ab527bc6ccb58a3":[9,0,7,0,33],
 "d0/db8/namespacesonataexplorer_1_1api.html#abc6be176f140baf037d011441c0fec2f":[9,0,7,0,43],
@@ -246,8 +249,5 @@ var NAVTREEINDEX1 =
 "d1/d15/structcore_1_1Core_1_1Impl.html#a2994d8f3bf7513a374d2ed18b9e5cf9a":[10,0,2,55,0,4],
 "d1/d15/structcore_1_1Core_1_1Impl.html#a33e77bd83d37d4520b2bddadd0ed8d4b":[10,0,2,55,0,1],
 "d1/d15/structcore_1_1Core_1_1Impl.html#a3c36d9eda855c8d87b47bb89c03a4a5b":[10,0,2,55,0,9],
-"d1/d15/structcore_1_1Core_1_1Impl.html#a3fa4932000b45ac796a121884441d49d":[10,0,2,55,0,16],
-"d1/d15/structcore_1_1Core_1_1Impl.html#a7665ad929846d6e9752a2cbc3aa39b39":[10,0,2,55,0,14],
-"d1/d15/structcore_1_1Core_1_1Impl.html#a7ead52b945a395f9f973855b90b1356a":[10,0,2,55,0,11],
-"d1/d15/structcore_1_1Core_1_1Impl.html#a88abd7536286bd80a05206894bc635d9":[10,0,2,55,0,3]
+"d1/d15/structcore_1_1Core_1_1Impl.html#a3fa4932000b45ac796a121884441d49d":[10,0,2,55,0,16]
 };

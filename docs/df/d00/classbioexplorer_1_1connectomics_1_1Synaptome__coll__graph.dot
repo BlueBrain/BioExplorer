@@ -1,0 +1,15 @@
+digraph "bioexplorer::connectomics::Synaptome"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="bioexplorer::connectomics\l::Synaptome",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="bioexplorer::common\l::SDFGeometries",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html",tooltip="The SDFGeometries abstract class is used as a parent to any assembly that potentially requires the si..."];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="bioexplorer::common\l::Node",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d93/classbioexplorer_1_1common_1_1Node.html",tooltip="The Node class."];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" _bounds" ,fontname="Helvetica"];
+  Node4 [label="core::Box\< double \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d44/classcore_1_1Box.html",tooltip=" "];
+  Node5 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" _animationDetails" ,fontname="Helvetica"];
+  Node5 [label="bioexplorer::details\l::CellAnimationDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html",tooltip=" "];
+}

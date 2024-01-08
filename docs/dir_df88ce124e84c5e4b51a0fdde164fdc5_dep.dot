@@ -7,5 +7,5 @@ digraph "platform/apps/service" {
   dir_df88ce124e84c5e4b51a0fdde164fdc5 [shape=box, label="service", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_df88ce124e84c5e4b51a0fdde164fdc5.html"];
   }
   dir_3066efc1f4040d52e90bf8a29ab3f16b [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_3066efc1f4040d52e90bf8a29ab3f16b.html"];
-  dir_df88ce124e84c5e4b51a0fdde164fdc5->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="7", labeldistance=1.5 headhref="dir_000062_000065.html"];
+  dir_df88ce124e84c5e4b51a0fdde164fdc5->dir_3066efc1f4040d52e90bf8a29ab3f16b [headlabel="7", labeldistance=1.5 headhref="dir_000064_000067.html"];
 }

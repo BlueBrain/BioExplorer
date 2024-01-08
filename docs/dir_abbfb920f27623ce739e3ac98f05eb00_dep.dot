@@ -13,8 +13,8 @@ digraph "bioexplorer/backend/plugins/Metabolism" {
   }
   dir_14d627cccd023aaf4f18eaf1359097e2 [shape=box label="science" fillcolor="white" style="filled" color="red" URL="dir_14d627cccd023aaf4f18eaf1359097e2.html"];
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_14d627cccd023aaf4f18eaf1359097e2->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="129", labeldistance=1.5 headhref="dir_000038_000059.html"];
-  dir_0ad6af54793517655e416bafc9796de3->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="2", labeldistance=1.5 headhref="dir_000019_000059.html"];
+  dir_14d627cccd023aaf4f18eaf1359097e2->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="133", labeldistance=1.5 headhref="dir_000038_000061.html"];
+  dir_0ad6af54793517655e416bafc9796de3->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="2", labeldistance=1.5 headhref="dir_000019_000061.html"];
   dir_6ca321a7dcb70fc74a18e8569f0858b0->dir_14d627cccd023aaf4f18eaf1359097e2 [headlabel="4", labeldistance=1.5 headhref="dir_000022_000038.html"];
-  dir_6ca321a7dcb70fc74a18e8569f0858b0->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="11", labeldistance=1.5 headhref="dir_000022_000059.html"];
+  dir_6ca321a7dcb70fc74a18e8569f0858b0->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="11", labeldistance=1.5 headhref="dir_000022_000061.html"];
 }

@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="core::SphereHitGroupData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/d73/structcore_1_1SphereHitGroupData.html",tooltip=" "];
+  Node0 [label="core::ShortcutInformation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dd1/structcore_1_1ShortcutInformation.html",tooltip=" "];
 }

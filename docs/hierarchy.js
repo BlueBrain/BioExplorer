@@ -212,6 +212,7 @@ var hierarchy =
     [ "core::Model::Geometries", "d1/d10/structcore_1_1Model_1_1Geometries.html", null ],
     [ "ospray::Geometry", null, [
       [ "core::engine::ospray::Cones", "d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html", null ],
+      [ "core::engine::ospray::OctreeVolume", "dd/de0/structcore_1_1engine_1_1ospray_1_1OctreeVolume.html", null ],
       [ "core::engine::ospray::SDFGeometries", "d4/dac/structcore_1_1engine_1_1ospray_1_1SDFGeometries.html", null ]
     ] ],
     [ "core::GeometryData", "d1/d83/structcore_1_1GeometryData.html", null ],
@@ -308,6 +309,7 @@ var hierarchy =
       [ "bioexplorer::common::SDFGeometries", "d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html", [
         [ "bioexplorer::atlas::Atlas", "d3/d86/classbioexplorer_1_1atlas_1_1Atlas.html", null ],
         [ "bioexplorer::connectomics::SynapseEfficacy", "da/daf/classbioexplorer_1_1connectomics_1_1SynapseEfficacy.html", null ],
+        [ "bioexplorer::connectomics::Synaptome", "d7/df5/classbioexplorer_1_1connectomics_1_1Synaptome.html", null ],
         [ "bioexplorer::connectomics::WhiteMatter", "d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html", null ],
         [ "bioexplorer::molecularsystems::Membrane", "d4/d3d/classbioexplorer_1_1molecularsystems_1_1Membrane.html", null ],
         [ "bioexplorer::molecularsystems::Molecule", "da/dff/classbioexplorer_1_1molecularsystems_1_1Molecule.html", [
@@ -446,6 +448,8 @@ var hierarchy =
     [ "bioexplorer::details::SynapseEfficacyDetails", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html", null ],
     [ "bioexplorer::details::SynapsesDetails", "d5/ddf/structbioexplorer_1_1details_1_1SynapsesDetails.html", null ],
     [ "sonataexplorer::neuroscience::common::SynapsesInfo", "d1/dfe/structsonataexplorer_1_1neuroscience_1_1common_1_1SynapsesInfo.html", null ],
+    [ "bioexplorer::details::SynaptomeDetails", "d4/dc4/structbioexplorer_1_1details_1_1SynaptomeDetails.html", null ],
+    [ "bioexplorer::connectomics::SynaptomeNode", "d3/de4/structbioexplorer_1_1connectomics_1_1SynaptomeNode.html", null ],
     [ "core::TaskFunctor", "dd/d67/classcore_1_1TaskFunctor.html", [
       [ "core::LoadModelFunctor", "d2/d4d/classcore_1_1LoadModelFunctor.html", null ],
       [ "core::SnapshotFunctor", "d4/d3b/classcore_1_1SnapshotFunctor.html", null ]

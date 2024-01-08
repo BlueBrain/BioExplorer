@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::details\l::AddStreamlinesDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d91/structbioexplorer_1_1details_1_1AddStreamlinesDetails.html",tooltip="The Streamlines struct handles a set of streamlines. Indices are used to specify the first point of e..."];
+  Node0 [label="bioexplorer::details\l::AddSpheresDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d74/structbioexplorer_1_1details_1_1AddSpheresDetails.html",tooltip="Defines the parameters needed when adding sphere to the scene."];
 }
