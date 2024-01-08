@@ -13,6 +13,6 @@ digraph "bioexplorer/backend/plugins/MediaMaker/module/ispc" {
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
   dir_b52349f5576cfd3d293727016b3a4bfd [shape=box label="plugin" fillcolor="white" style="filled" color="red" URL="dir_b52349f5576cfd3d293727016b3a4bfd.html"];
   dir_43275072a869970425f50086a06499ae->dir_b52349f5576cfd3d293727016b3a4bfd [headlabel="6", labeldistance=1.5 headhref="dir_000016_000017.html"];
-  dir_43275072a869970425f50086a06499ae->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="8", labeldistance=1.5 headhref="dir_000016_000059.html"];
-  dir_b52349f5576cfd3d293727016b3a4bfd->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="10", labeldistance=1.5 headhref="dir_000017_000059.html"];
+  dir_43275072a869970425f50086a06499ae->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="8", labeldistance=1.5 headhref="dir_000016_000061.html"];
+  dir_b52349f5576cfd3d293727016b3a4bfd->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="10", labeldistance=1.5 headhref="dir_000017_000061.html"];
 }

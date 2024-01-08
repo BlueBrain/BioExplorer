@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="core::Picture",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/dac/classcore_1_1Picture.html",tooltip=" "];
+  Node0 [label="core::OctreeVector",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/dac/structcore_1_1OctreeVector.html",tooltip=" "];
 }

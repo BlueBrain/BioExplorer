@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('d1/d9b/Cone_8h_source.html','../../');
 </div><!--header-->
 <div class="contents">
 <a href="../../d1/d9b/Cone_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright (c) 2015-2023, EPFL/Blue Brain Project</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright (c) 2015-2024, EPFL/Blue Brain Project</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
@@ -112,45 +112,48 @@ $(document).ready(function(){initNavTree('d1/d9b/Cone_8h_source.html','../../');
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../de/d05/CommonDefines_8h.html">CommonDefines.h</a>&quot;</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#if __cplusplus</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../d9/d5c/structCone.html">   32</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../d9/d5c/structCone.html">Cone</a></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#if __cplusplus</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="../../d9/d5c/structCone.html">Cone</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> c = {0.f, 0.f, 0.f}, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> u = {0.f, 0.f, 0.f}, <span class="keyword">const</span> <span class="keywordtype">float</span> cr = 0.f,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;         <span class="keyword">const</span> <span class="keywordtype">float</span> ur = 0.f, <span class="keyword">const</span> uint64_t <a class="code" href="../../de/df1/namespacecheck__version.html#aaac2d8c1e2f61a3c0b8b47160810cfcc">data</a> = 0)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        : userData(<a class="code" href="../../de/df1/namespacecheck__version.html#aaac2d8c1e2f61a3c0b8b47160810cfcc">data</a>)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        , center(c)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        , up(u)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        , centerRadius(cr)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        , upRadius(ur)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../d9/d5c/structCone.html#ad2dce7f516f780c2c975624b29c38818">   46</a></span>&#160;    UINT64_T <a class="code" href="../../d9/d5c/structCone.html#ad2dce7f516f780c2c975624b29c38818">userData</a>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../d9/d5c/structCone.html#acb132e0eb566c58c3ec57c92107620af">   47</a></span>&#160;    VEC3_TYPE <a class="code" href="../../d9/d5c/structCone.html#acb132e0eb566c58c3ec57c92107620af">center</a>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../d9/d5c/structCone.html#ae8acf83a443ad79f0183f0ae4c28d7fe">   48</a></span>&#160;    VEC3_TYPE <a class="code" href="../../d9/d5c/structCone.html#ae8acf83a443ad79f0183f0ae4c28d7fe">up</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../d9/d5c/structCone.html#a567a62d26f1ef27f4cc4b9719956814f">   49</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d9/d5c/structCone.html#a567a62d26f1ef27f4cc4b9719956814f">centerRadius</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../d9/d5c/structCone.html#ac4f85068c088bcbfad21774a1c4f9b0f">   50</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d9/d5c/structCone.html#ac4f85068c088bcbfad21774a1c4f9b0f">upRadius</a>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#if __cplusplus</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;} <span class="comment">// Platform</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;Defines.h&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#if __cplusplus</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../d9/d5c/structCone.html">   34</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../d9/d5c/structCone.html">Cone</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#if __cplusplus</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="../../d9/d5c/structCone.html">Cone</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> c = {0.f, 0.f, 0.f}, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> u = {0.f, 0.f, 0.f}, <span class="keyword">const</span> <span class="keywordtype">float</span> cr = 0.f,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;         <span class="keyword">const</span> <span class="keywordtype">float</span> ur = 0.f, <span class="keyword">const</span> uint64_t <a class="code" href="../../de/df1/namespacecheck__version.html#aaac2d8c1e2f61a3c0b8b47160810cfcc">data</a> = 0)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        : userData(<a class="code" href="../../de/df1/namespacecheck__version.html#aaac2d8c1e2f61a3c0b8b47160810cfcc">data</a>)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        , center(c)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        , up(u)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        , centerRadius(cr)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        , upRadius(ur)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../d9/d5c/structCone.html#ad2dce7f516f780c2c975624b29c38818">   48</a></span>&#160;    UINT64_T <a class="code" href="../../d9/d5c/structCone.html#ad2dce7f516f780c2c975624b29c38818">userData</a>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../d9/d5c/structCone.html#acb132e0eb566c58c3ec57c92107620af">   49</a></span>&#160;    VEC3_TYPE <a class="code" href="../../d9/d5c/structCone.html#acb132e0eb566c58c3ec57c92107620af">center</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../d9/d5c/structCone.html#ae8acf83a443ad79f0183f0ae4c28d7fe">   50</a></span>&#160;    VEC3_TYPE <a class="code" href="../../d9/d5c/structCone.html#ae8acf83a443ad79f0183f0ae4c28d7fe">up</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../d9/d5c/structCone.html#a567a62d26f1ef27f4cc4b9719956814f">   51</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d9/d5c/structCone.html#a567a62d26f1ef27f4cc4b9719956814f">centerRadius</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="../../d9/d5c/structCone.html#ac4f85068c088bcbfad21774a1c4f9b0f">   52</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d9/d5c/structCone.html#ac4f85068c088bcbfad21774a1c4f9b0f">upRadius</a>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    __MEMORY_ALIGNMENT__</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#if __cplusplus</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;} <span class="comment">// Platform</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aCommonDefines_8h_html"><div class="ttname"><a href="../../de/d05/CommonDefines_8h.html">CommonDefines.h</a></div></div>
 <div class="ttc" id="anamespacecheck__version_html_aaac2d8c1e2f61a3c0b8b47160810cfcc"><div class="ttname"><a href="../../de/df1/namespacecheck__version.html#aaac2d8c1e2f61a3c0b8b47160810cfcc">check_version.data</a></div><div class="ttdeci">data</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d77/check__version_8py_source.html#l00011">check_version.py:11</a></div></div>
 <div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00052">BaseWindow.cpp:53</a></div></div>
 <div class="ttc" id="anamespacecore_html_a1d753103280aad72e5924fcfff96dc28"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">core::Vector3f</a></div><div class="ttdeci">glm::vec3 Vector3f</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00137">MathTypes.h:137</a></div></div>
-<div class="ttc" id="astructCone_html"><div class="ttname"><a href="../../d9/d5c/structCone.html">Cone</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d9b/Cone_8h_source.html#l00032">Cone.h:33</a></div></div>
-<div class="ttc" id="astructCone_html_a567a62d26f1ef27f4cc4b9719956814f"><div class="ttname"><a href="../../d9/d5c/structCone.html#a567a62d26f1ef27f4cc4b9719956814f">Cone::centerRadius</a></div><div class="ttdeci">float centerRadius</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d9b/Cone_8h_source.html#l00049">Cone.h:49</a></div></div>
-<div class="ttc" id="astructCone_html_ac4f85068c088bcbfad21774a1c4f9b0f"><div class="ttname"><a href="../../d9/d5c/structCone.html#ac4f85068c088bcbfad21774a1c4f9b0f">Cone::upRadius</a></div><div class="ttdeci">float upRadius</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d9b/Cone_8h_source.html#l00050">Cone.h:50</a></div></div>
-<div class="ttc" id="astructCone_html_acb132e0eb566c58c3ec57c92107620af"><div class="ttname"><a href="../../d9/d5c/structCone.html#acb132e0eb566c58c3ec57c92107620af">Cone::center</a></div><div class="ttdeci">VEC3_TYPE center</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d9b/Cone_8h_source.html#l00047">Cone.h:47</a></div></div>
-<div class="ttc" id="astructCone_html_ad2dce7f516f780c2c975624b29c38818"><div class="ttname"><a href="../../d9/d5c/structCone.html#ad2dce7f516f780c2c975624b29c38818">Cone::userData</a></div><div class="ttdeci">UINT64_T userData</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d9b/Cone_8h_source.html#l00046">Cone.h:46</a></div></div>
-<div class="ttc" id="astructCone_html_ae8acf83a443ad79f0183f0ae4c28d7fe"><div class="ttname"><a href="../../d9/d5c/structCone.html#ae8acf83a443ad79f0183f0ae4c28d7fe">Cone::up</a></div><div class="ttdeci">VEC3_TYPE up</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d9b/Cone_8h_source.html#l00048">Cone.h:48</a></div></div>
+<div class="ttc" id="astructCone_html"><div class="ttname"><a href="../../d9/d5c/structCone.html">Cone</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d9b/Cone_8h_source.html#l00034">Cone.h:35</a></div></div>
+<div class="ttc" id="astructCone_html_a567a62d26f1ef27f4cc4b9719956814f"><div class="ttname"><a href="../../d9/d5c/structCone.html#a567a62d26f1ef27f4cc4b9719956814f">Cone::centerRadius</a></div><div class="ttdeci">float centerRadius</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d9b/Cone_8h_source.html#l00051">Cone.h:51</a></div></div>
+<div class="ttc" id="astructCone_html_ac4f85068c088bcbfad21774a1c4f9b0f"><div class="ttname"><a href="../../d9/d5c/structCone.html#ac4f85068c088bcbfad21774a1c4f9b0f">Cone::upRadius</a></div><div class="ttdeci">float upRadius</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d9b/Cone_8h_source.html#l00052">Cone.h:52</a></div></div>
+<div class="ttc" id="astructCone_html_acb132e0eb566c58c3ec57c92107620af"><div class="ttname"><a href="../../d9/d5c/structCone.html#acb132e0eb566c58c3ec57c92107620af">Cone::center</a></div><div class="ttdeci">VEC3_TYPE center</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d9b/Cone_8h_source.html#l00049">Cone.h:49</a></div></div>
+<div class="ttc" id="astructCone_html_ad2dce7f516f780c2c975624b29c38818"><div class="ttname"><a href="../../d9/d5c/structCone.html#ad2dce7f516f780c2c975624b29c38818">Cone::userData</a></div><div class="ttdeci">UINT64_T userData</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d9b/Cone_8h_source.html#l00048">Cone.h:48</a></div></div>
+<div class="ttc" id="astructCone_html_ae8acf83a443ad79f0183f0ae4c28d7fe"><div class="ttname"><a href="../../d9/d5c/structCone.html#ae8acf83a443ad79f0183f0ae4c28d7fe">Cone::up</a></div><div class="ttdeci">VEC3_TYPE up</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d9b/Cone_8h_source.html#l00050">Cone.h:50</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

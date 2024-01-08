@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::details\l::AstrocytesDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html",tooltip=" "];
+  Node0 [label="bioexplorer::details\l::AssemblyTransformationsDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/dd0/structbioexplorer_1_1details_1_1AssemblyTransformationsDetails.html",tooltip="Structure defining transformations to apply to assembly elements."];
 }

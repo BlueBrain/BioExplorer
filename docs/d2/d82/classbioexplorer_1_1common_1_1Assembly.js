@@ -13,6 +13,7 @@ var classbioexplorer_1_1common_1_1Assembly =
     [ "addSugar", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a38deec06f0747922912b8bbc394a6c00", null ],
     [ "addSynapseEfficacy", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a054217115d5846694504ea3b88b5e8df", null ],
     [ "addSynapses", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a58a378dbdb1bbb31734cf0d3869b823b", null ],
+    [ "addSynaptome", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#af9ed9f42127b61c925c90a00b7479dbf", null ],
     [ "addVasculature", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a9f166e804bdbf92c2cce1f2b30140c41", null ],
     [ "addWhiteMatter", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a1ba83f492b6e6bb3b812653a804c0163", null ],
     [ "getAminoAcidInformation", "d2/d82/classbioexplorer_1_1common_1_1Assembly.html#a5298d7fc452506d8ea5f040325df1501", null ],

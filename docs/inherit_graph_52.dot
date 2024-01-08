@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::details\l::ProteinColorSchemeDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d19/structbioexplorer_1_1details_1_1ProteinColorSchemeDetails.html",tooltip="Defines the color scheme to apply to a protein."];
+  Node0 [label="bioexplorer::details\l::OOCSceneConfigurationDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d25/structbioexplorer_1_1details_1_1OOCSceneConfigurationDetails.html",tooltip=" "];
 }

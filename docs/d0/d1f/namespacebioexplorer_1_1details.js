@@ -54,6 +54,7 @@ var namespacebioexplorer_1_1details =
     [ "LookAtDetails", "dd/d4c/structbioexplorer_1_1details_1_1LookAtDetails.html", "dd/d4c/structbioexplorer_1_1details_1_1LookAtDetails" ],
     [ "LookAtResponseDetails", "d6/d4b/structbioexplorer_1_1details_1_1LookAtResponseDetails.html", "d6/d4b/structbioexplorer_1_1details_1_1LookAtResponseDetails" ],
     [ "WhiteMatterDetails", "da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html", "da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails" ],
+    [ "SynaptomeDetails", "d4/dc4/structbioexplorer_1_1details_1_1SynaptomeDetails.html", "d4/dc4/structbioexplorer_1_1details_1_1SynaptomeDetails" ],
     [ "SynapsesDetails", "d5/ddf/structbioexplorer_1_1details_1_1SynapsesDetails.html", "d5/ddf/structbioexplorer_1_1details_1_1SynapsesDetails" ],
     [ "SynapseEfficacyDetails", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails" ],
     [ "SpikeReportVisualizationSettingsDetails", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails.html", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails" ],

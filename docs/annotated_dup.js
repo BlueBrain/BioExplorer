@@ -31,6 +31,8 @@ var annotated_dup =
       [ "connectomics", "d0/d8f/namespacebioexplorer_1_1connectomics.html", [
         [ "SynapseEfficacy", "da/daf/classbioexplorer_1_1connectomics_1_1SynapseEfficacy.html", "da/daf/classbioexplorer_1_1connectomics_1_1SynapseEfficacy" ],
         [ "SynapseEfficacySimulationHandler", "de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html", "de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler" ],
+        [ "SynaptomeNode", "d3/de4/structbioexplorer_1_1connectomics_1_1SynaptomeNode.html", "d3/de4/structbioexplorer_1_1connectomics_1_1SynaptomeNode" ],
+        [ "Synaptome", "d7/df5/classbioexplorer_1_1connectomics_1_1Synaptome.html", "d7/df5/classbioexplorer_1_1connectomics_1_1Synaptome" ],
         [ "WhiteMatter", "d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter.html", "d6/dcd/classbioexplorer_1_1connectomics_1_1WhiteMatter" ],
         [ "WhiteMatterLoader", "da/d0b/classbioexplorer_1_1connectomics_1_1WhiteMatterLoader.html", "da/d0b/classbioexplorer_1_1connectomics_1_1WhiteMatterLoader" ]
       ] ],
@@ -89,6 +91,7 @@ var annotated_dup =
         [ "LookAtDetails", "dd/d4c/structbioexplorer_1_1details_1_1LookAtDetails.html", "dd/d4c/structbioexplorer_1_1details_1_1LookAtDetails" ],
         [ "LookAtResponseDetails", "d6/d4b/structbioexplorer_1_1details_1_1LookAtResponseDetails.html", "d6/d4b/structbioexplorer_1_1details_1_1LookAtResponseDetails" ],
         [ "WhiteMatterDetails", "da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails.html", "da/d1a/structbioexplorer_1_1details_1_1WhiteMatterDetails" ],
+        [ "SynaptomeDetails", "d4/dc4/structbioexplorer_1_1details_1_1SynaptomeDetails.html", "d4/dc4/structbioexplorer_1_1details_1_1SynaptomeDetails" ],
         [ "SynapsesDetails", "d5/ddf/structbioexplorer_1_1details_1_1SynapsesDetails.html", "d5/ddf/structbioexplorer_1_1details_1_1SynapsesDetails" ],
         [ "SynapseEfficacyDetails", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails.html", "d4/d3d/structbioexplorer_1_1details_1_1SynapseEfficacyDetails" ],
         [ "SpikeReportVisualizationSettingsDetails", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails.html", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails" ],
@@ -213,6 +216,7 @@ var annotated_dup =
           [ "PerspectiveParallaxCamera", "d5/d80/structcore_1_1engine_1_1ospray_1_1PerspectiveParallaxCamera.html", "d5/d80/structcore_1_1engine_1_1ospray_1_1PerspectiveParallaxCamera" ],
           [ "PerspectiveStereoCamera", "d0/d8d/structcore_1_1engine_1_1ospray_1_1PerspectiveStereoCamera.html", "d0/d8d/structcore_1_1engine_1_1ospray_1_1PerspectiveStereoCamera" ],
           [ "Cones", "d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html", "d4/d79/structcore_1_1engine_1_1ospray_1_1Cones" ],
+          [ "OctreeVolume", "dd/de0/structcore_1_1engine_1_1ospray_1_1OctreeVolume.html", "dd/de0/structcore_1_1engine_1_1ospray_1_1OctreeVolume" ],
           [ "SDFGeometries", "d4/dac/structcore_1_1engine_1_1ospray_1_1SDFGeometries.html", "d4/dac/structcore_1_1engine_1_1ospray_1_1SDFGeometries" ],
           [ "AdvancedRenderer", "d1/d9c/classcore_1_1engine_1_1ospray_1_1AdvancedRenderer.html", "d1/d9c/classcore_1_1engine_1_1ospray_1_1AdvancedRenderer" ],
           [ "BasicRenderer", "d3/dff/classcore_1_1engine_1_1ospray_1_1BasicRenderer.html", "d3/dff/classcore_1_1engine_1_1ospray_1_1BasicRenderer" ],

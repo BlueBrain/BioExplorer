@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::details\l::RNASequenceDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d00/structbioexplorer_1_1details_1_1RNASequenceDetails.html",tooltip="RNA sequence descriptor."];
+  Node0 [label="bioexplorer::details\l::Response",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d45/structbioexplorer_1_1details_1_1Response.html",tooltip="Structure defining the entry point response of the remote API."];
 }

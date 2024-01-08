@@ -7,5 +7,5 @@ digraph "bioexplorer/backend/plugins/Sonata/common" {
   dir_26ddc90037ea0f279e3316cb1bad6b6d [shape=box, label="common", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_26ddc90037ea0f279e3316cb1bad6b6d.html"];
   }
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_26ddc90037ea0f279e3316cb1bad6b6d->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="4", labeldistance=1.5 headhref="dir_000090_000059.html"];
+  dir_26ddc90037ea0f279e3316cb1bad6b6d->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="4", labeldistance=1.5 headhref="dir_000092_000061.html"];
 }

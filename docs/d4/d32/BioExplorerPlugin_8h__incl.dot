@@ -115,8 +115,8 @@ digraph "bioexplorer/backend/science/BioExplorerPlugin.h"
   Node44 -> Node21 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node44 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node40 -> Node44 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node40 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node47 [label="platform/core/common\l/geometry/Cone.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$d1/d9b/Cone_8h.html",tooltip=" "];
+  Node40 -> Node48 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node48 [label="platform/core/common\l/geometry/Cone.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$d1/d9b/Cone_8h.html",tooltip=" "];
   Node40 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node49 [label="platform/core/common\l/geometry/Cylinder.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$d9/d0a/Cylinder_8h.html",tooltip=" "];
   Node40 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
