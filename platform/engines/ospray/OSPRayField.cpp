@@ -1,7 +1,8 @@
 /*
  * Copyright (c) 2015-2024, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
- * Author: Jafet Villafranca Diaz <jafet.villafrancadiaz@epfl.ch>
+ *
+ * The Blue Brain BioExplorer is a tool for scientists to extract and analyse
+ * scientific data from visualization
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
@@ -19,9 +20,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#pragma once
-
-#include "ospray/SDK/geometry/Geometry.h"
+#include "OSPRayField.h"
 
 namespace core
 {
@@ -29,17 +28,16 @@ namespace engine
 {
 namespace ospray
 {
-struct Cones : public ::ospray::Geometry
+OSPRayField::OSPRayField(const Vector3ui& dimensions, const Vector3f& spacing, const VolumeParameters& parameters,
+                         OSPTransferFunction transferFunction)
+    : Field(dimensions, spacing, parameters)
 {
-public:
-    Cones();
+}
 
-    std::string toString() const final { return "cones"; }
-    void finalize(::ospray::Model* model) final;
-
-protected:
-    ::ospray::Ref<::ospray::Data> data;
-};
+void OSPRayField::setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
+                            const OctreeDataType dataType)
+{
+}
 } // namespace ospray
 } // namespace engine
 } // namespace core

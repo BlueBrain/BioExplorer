@@ -29,12 +29,9 @@
 #include <platform/core/common/octree/VectorOctree.h>
 #include <platform/core/common/scene/ClipPlane.h>
 #include <platform/core/engineapi/Engine.h>
+#include <platform/core/engineapi/Field.h>
 #include <platform/core/engineapi/Model.h>
 #include <platform/core/parameters/ParametersManager.h>
-
-#ifdef USE_OPTIX6
-#include <platform/engines/optix6/OptiXVolume.h>
-#endif
 
 #include <fstream>
 
@@ -152,42 +149,10 @@ void VectorFieldsHandler::_buildOctree()
 
     const auto& params = _engine.getParametersManager().getApplicationParameters();
     const auto& engineName = params.getEngine();
-#ifdef USE_OSPRAY
-    if (engineName == ENGINE_OSPRAY)
-    {
-        _frameData.push_back(_offset.x);
-        _frameData.push_back(_offset.y);
-        _frameData.push_back(_offset.z);
-        _frameData.push_back(_spacing.x);
-        _frameData.push_back(_spacing.y);
-        _frameData.push_back(_spacing.z);
-        _frameData.push_back(_dimensions.x);
-        _frameData.push_back(_dimensions.y);
-        _frameData.push_back(_dimensions.z);
-        _frameData.push_back(accelerator.getOctreeSize());
-        _frameData.push_back(indices.size());
-        _frameData.insert(_frameData.end(), indices.begin(), indices.end());
-        _frameData.insert(_frameData.end(), data.begin(), data.end());
-        _frameSize = _frameData.size();
-
-        const size_t materialId = 0;
-        auto material = _model->createMaterial(0, "Octree");
-        const TriangleMesh mesh = createBox(bounds.getMin(), bounds.getMax());
-        _model->getTriangleMeshes()[materialId] = mesh;
-        _model->markInstancesDirty();
-    }
-#endif
-
-#ifdef USE_OPTIX6
-    if (engineName == ENGINE_OPTIX_6)
-    {
-        auto volume = _model->createOctreeVolume(_dimensions, _spacing, DataType::FLOAT);
-        auto optixVolume = dynamic_cast<core::engine::optix::OptiXOctreeVolume*>(volume.get());
-        optixVolume->setOctree(_offset, indices, data, OctreeDataType::vector);
-        _frameData.clear();
-        _frameSize = 0;
-    }
-#endif
+    auto field = _model->createField(_dimensions, _spacing);
+    field->setOctree(_offset, indices, data, OctreeDataType::vector);
+    _frameData.clear();
+    _frameSize = 0;
 
     PLUGIN_INFO(1, "--------------------------------------------");
     PLUGIN_INFO(1, "Vector Octree information (" << vectors.size() << " vectors)");

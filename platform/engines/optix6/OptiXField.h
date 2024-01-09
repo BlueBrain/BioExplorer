@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2015-2024, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Author: Jafet Villafranca Diaz <jafet.villafrancadiaz@epfl.ch>
+ * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
@@ -21,25 +21,32 @@
 
 #pragma once
 
-#include "ospray/SDK/geometry/Geometry.h"
+#include <platform/core/common/CommonTypes.h>
+#include <platform/core/common/transferFunction/TransferFunction.h>
+#include <platform/core/engineapi/Field.h>
+
+#include "OptiXModel.h"
+#include "OptiXTypes.h"
+
+#include <optixu/optixpp_namespace.h>
+#include <optixu/optixu_math_stream_namespace.h>
 
 namespace core
 {
 namespace engine
 {
-namespace ospray
+namespace optix
 {
-struct Cones : public ::ospray::Geometry
+class OptiXField : public Field
 {
 public:
-    Cones();
+    /** @copydoc Volume::Volume */
+    OptiXField(const Vector3ui& dimensions, const Vector3f& spacing, const VolumeParameters& params);
 
-    std::string toString() const final { return "cones"; }
-    void finalize(::ospray::Model* model) final;
-
-protected:
-    ::ospray::Ref<::ospray::Data> data;
+    /** @copydoc OctreeVolume::setOctree */
+    void setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
+                   const OctreeDataType dataType) final;
 };
-} // namespace ospray
+} // namespace optix
 } // namespace engine
 } // namespace core

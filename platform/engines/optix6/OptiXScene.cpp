@@ -164,6 +164,19 @@ void OptiXScene::_commitVolumeParameters()
     context[CONTEXT_VOLUME_CLIPPING_BOX_UPPER]->setFloat(boxUpper.x, boxUpper.y, boxUpper.z);
 }
 
+void OptiXScene::_commitFieldParameters()
+{
+    auto context = OptiXContext::get().getOptixContext();
+    context[CONTEXT_VOLUME_GRADIENT_SHADING_ENABLED]->setUint(_volumeParameters.getGradientShading());
+    context[CONTEXT_FIELD_GRADIENT_OFFSET]->setFloat(_volumeParameters.getGradientOffset());
+    context[CONTEXT_FIELD_SINGLE_SHADE]->setUint(_volumeParameters.getSingleShade());
+    context[CONTEXT_FIELD_PRE_INTEGRATION]->setUint(_volumeParameters.getPreIntegration());
+    context[CONTEXT_FIELD_SAMPLING_RATE]->setFloat(_volumeParameters.getSamplingRate());
+    const Vector3f specular = _volumeParameters.getSpecular();
+    const Vector3f userParameters = _volumeParameters.getUserParameters();
+    context[CONTEXT_FIELD_USER_PARAMETERS]->setFloat(userParameters.x, userParameters.y, userParameters.z);
+}
+
 void OptiXScene::_commitGeometryParameters()
 {
     auto context = OptiXContext::get().getOptixContext();
@@ -217,6 +230,7 @@ void OptiXScene::commit()
         if (model.commitTransferFunction())
             markModified();
         _commitVolumeParameters();
+        _commitFieldParameters();
     }
 
     commitLights();

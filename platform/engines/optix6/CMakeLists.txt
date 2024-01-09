@@ -51,6 +51,7 @@ set(${NAME}_CU
   cuda/geometry/TriangleMesh.cu
   cuda/geometry/Volumes.cu
   cuda/geometry/Streamlines.cu
+  cuda/geometry/Fields.cu
   cuda/renderer/Basic.cu
   cuda/renderer/Advanced.cu
 )
@@ -76,6 +77,7 @@ set(${NAME}_SOURCES
   OptiXMaterial.cpp
   OptiXModel.cpp
   OptiXVolume.cpp
+  OptiXField.cpp
   OptiXUtils.cpp
 )
 
@@ -92,6 +94,7 @@ set_source_files_properties(
   OptiXMaterial.cpp
   OptiXModel.cpp
   OptiXVolume.cpp
+  OptiXField.cpp
   OptiXUtils.cpp
   PROPERTIES COMPILE_FLAGS -Wno-shadow
 )
@@ -108,6 +111,7 @@ set(${NAME}_HEADERS
   OptiXRenderer.h
   OptiXEngine.h
   OptiXVolume.h
+  OptiXField.h
 )
 
 set(${NAME}_PUBLIC_HEADERS

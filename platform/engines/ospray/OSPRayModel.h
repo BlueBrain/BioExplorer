@@ -52,7 +52,7 @@ public:
     BrickedVolumePtr createBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
                                          const DataType type) final;
 
-    OctreeVolumePtr createOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type) final;
+    FieldPtr createField(const Vector3ui& dimensions, const Vector3f& spacing) final;
 
     void buildBoundingBox() final;
 

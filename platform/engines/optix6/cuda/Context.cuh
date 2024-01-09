@@ -131,6 +131,13 @@ rtDeclareVariable(uint, volumeSingleShade, , );
 rtDeclareVariable(float, volumeSamplingRate, , );
 rtDeclareVariable(float3, volumeSpecularColor, , );
 
+// Fields
+rtDeclareVariable(uint, fieldGradientShadingEnabled, , );
+rtDeclareVariable(float, fieldGradientOffset, , );
+rtDeclareVariable(float3, fieldUserParameters, , );
+rtDeclareVariable(uint, fieldSingleShade, , );
+rtDeclareVariable(float, fieldSamplingRate, , );
+
 // Geometry parameters
 rtDeclareVariable(float, geometrySdfEpsilon, , );
 rtDeclareVariable(uint, geometrySdfNbMarchIterations, , );

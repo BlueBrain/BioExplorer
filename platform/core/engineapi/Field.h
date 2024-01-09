@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2024, EPFL/Blue Brain Project
+ * Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
  *
@@ -22,8 +22,10 @@
 #pragma once
 
 #include <platform/core/common/Api.h>
+#include <platform/core/common/CommonTypes.h>
+#include <platform/core/common/PropertyObject.h>
 
-#include <platform/core/engineapi/Volume.h>
+SERIALIZATION_ACCESS(Field)
 
 namespace core
 {
@@ -32,9 +34,28 @@ namespace core
  * position and value)
  * @extends Volume
  */
-class OctreeVolume : public virtual Volume
+class Field : public PropertyObject
 {
 public:
+    /**
+     * @brief Constructs a new Field object.
+     * @param dimensions The dimensions of the volume as a Vector3ui object.
+     * @param spacing The spacing between voxels as a Vector3f object.
+     * @param type The data type of the volume.
+     */
+    PLATFORM_API Field(const Vector3ui& dimensions, const Vector3f& spacing, const VolumeParameters& parameters)
+        : _dimensions(dimensions)
+        , _spacing(spacing)
+        , _parameters(parameters)
+    {
+    }
+
+    /**
+     * @brief Gets the bounding box of the volume.
+     * @return The bounding box of the volume as a Boxd object.
+     */
+    PLATFORM_API Boxd getBounds() const { return {_offset, _offset + Vector3f(_dimensions) * _spacing}; }
+
     /**
      * @brief Set the Octree object
      *
@@ -45,6 +66,27 @@ public:
      */
     PLATFORM_API virtual void setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
                                         const OctreeDataType dataType) = 0;
+
+    /**
+     * @brief Get the Dimensions object
+     *
+     * @return The dimensions of the volume in the 3D scene
+     */
+    PLATFORM_API Vector3f getDimensions() const { return _dimensions; }
+
+    /**
+     * @brief Get the Element Spacing object
+     *
+     * @return The voxel size
+     */
+    PLATFORM_API Vector3f getElementSpacing() const { return _spacing; }
+
+    /**
+     * @brief Get the Offset object
+     *
+     * @return The location of the volume in the 3D scene
+     */
+    PLATFORM_API Vector3f getOffset() const { return _offset; }
 
     /**
      * @brief Get the Octree Indices object
@@ -68,20 +110,16 @@ public:
     PLATFORM_API OctreeDataType getOctreeDataType() const { return _octreeDataType; }
 
 protected:
-    /**
-     * @brief Constructs a new BrickedVolume object.
-     * @param dimensions The dimensions of the volume as a Vector3ui object.
-     * @param spacing The spacing between voxels as a Vector3f object.
-     * @param type The data type of the volume.
-     */
-    OctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type)
-        : Volume(dimensions, spacing, type)
-    {
-    }
-
     // Octree
+    Vector3ui _dimensions;
+    Vector3f _spacing;
+    Vector3f _offset;
     uint32_ts _octreeIndices;
     floats _octreeValues;
     OctreeDataType _octreeDataType;
+    const VolumeParameters& _parameters;
+
+private:
+    SERIALIZATION_FRIEND(Field);
 };
 } // namespace core

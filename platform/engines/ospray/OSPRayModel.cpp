@@ -21,6 +21,7 @@
  */
 
 #include "OSPRayModel.h"
+#include "OSPRayField.h"
 #include "OSPRayMaterial.h"
 #include "OSPRayProperties.h"
 #include "OSPRayUtils.h"
@@ -532,10 +533,9 @@ BrickedVolumePtr OSPRayModel::createBrickedVolume(const Vector3ui& dimensions, c
     return std::make_shared<OSPRayBrickedVolume>(dimensions, spacing, type, _volumeParameters, _ospTransferFunction);
 }
 
-OctreeVolumePtr OSPRayModel::createOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                                                const DataType type)
+FieldPtr OSPRayModel::createField(const Vector3ui& dimensions, const Vector3f& spacing)
 {
-    CORE_THROW("Octree volumes are currently not supported by the OSPRay engine");
+    return std::make_shared<OSPRayField>(dimensions, spacing, _volumeParameters, _ospTransferFunction);
 }
 
 void OSPRayModel::_commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities,

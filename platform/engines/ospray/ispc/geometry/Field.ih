@@ -1,0 +1,61 @@
+/*
+ * Copyright (c) 2015-2024, EPFL/Blue Brain Project
+ * All rights reserved. Do not distribute without permission.
+ *
+ * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License version 3.0 as published
+ * by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+#pragma once
+
+#include <platform/core/common/CommonTypes.h>
+
+#include <ospray/SDK/common/Material.ih>
+#include <ospray/SDK/geometry/Geometry.ih>
+#include <ospray/SDK/transferFunction/TransferFunction.ih>
+#include <ospray/SDK/volume/structured/StructuredVolume.ih>
+
+struct Field
+{
+    StructuredVolume super;
+
+    const uniform TransferFunction *uniform transferFunction;
+
+    uniform uint64 *uniform indices;
+    uniform float *uniform values;
+    // vec3ui dimensions;
+    // vec3f spacing;
+    // vec3f offset;
+    OctreeDataType dataType;
+    float distance;
+    float cutoff;
+    float gradientOffset;
+    bool gradientShadingEnabled;
+    float samplingRate;
+    bool useSafeIncrement;
+};
+
+void Field_Constructor(Field *uniform volume, void *uniform cppEquivalent, const uniform vec3f &offset,
+                       const uniform vec3i &dimensions, const uniform vec3f &scale, const uint64 *uniform indices,
+                       const float *uniform values, const float &distance, const float &cutoff,
+                       const float &volumeGradientOffset, const bool &gradientShadingEnabled)
+{
+}
+
+export void Field_setTransferFunction(void *uniform _self, void *uniform value)
+{
+    uniform Field *uniform self = (uniform Field * uniform) _self;
+    self->transferFunction = (TransferFunction * uniform) value;
+}

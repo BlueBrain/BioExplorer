@@ -45,10 +45,20 @@ struct VolumeGeometry
     float volumeSamplerId;
     float transferFunctionSamplerId;
     Vector2f valueRange;
+};
+
+struct FieldGeometry
+{
+    Vector3f dimensions;
+    Vector3f offset;
+    Vector3f spacing;
+    float transferFunctionSamplerId;
+    Vector2f valueRange;
     float octreeIndicesSamplerId;
     float octreeValuesSamplerId;
     float octreeDataType;
 };
+
 } // namespace optix
 } // namespace engine
 } // namespace core

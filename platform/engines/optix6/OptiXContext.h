@@ -96,6 +96,7 @@ static const char* CONTEXT_CYLINDER_SIZE = "cylinder_size";
 static const char* CONTEXT_CONE_SIZE = "cone_size";
 static const char* CONTEXT_SDF_GEOMETRY_SIZE = "sdf_geometry_size";
 static const char* CONTEXT_VOLUME_SIZE = "volume_size";
+static const char* CONTEXT_FIELD_SIZE = "field_size";
 
 // Material
 static const char* CONTEXT_MATERIAL_KA = "Ka";
@@ -141,6 +142,14 @@ static const char* CONTEXT_VOLUME_CLIPPING_BOX_LOWER = "volumeClippingBoxLower";
 static const char* CONTEXT_VOLUME_CLIPPING_BOX_UPPER = "volumeClippingBoxUpper";
 static const char* CONTEXT_VOLUME_USER_PARAMETERS = "volumeUserParameters";
 
+// Fields parameters
+static const char* CONTEXT_FIELD_GRADIENT_SHADING_ENABLED = "fieldGradientShadingEnabled";
+static const char* CONTEXT_FIELD_GRADIENT_OFFSET = "fieldGradientOffset";
+static const char* CONTEXT_FIELD_SINGLE_SHADE = "fieldSingleShade";
+static const char* CONTEXT_FIELD_PRE_INTEGRATION = "fieldPreIntegration";
+static const char* CONTEXT_FIELD_SAMPLING_RATE = "fieldSamplingRate";
+static const char* CONTEXT_FIELD_USER_PARAMETERS = "fieldUserParameters";
+
 // Geometry parameters
 static const char* CONTEXT_GEOMETRY_SDF_EPSILON = "geometrySdfEpsilon";
 static const char* CONTEXT_GEOMETRY_SDF_NB_MARCH_ITERATIONS = "geometrySdfNbMarchIterations";
@@ -161,6 +170,7 @@ enum class OptixGeometryType
     volume,
     streamline,
     sdfGeometry,
+    field,
 };
 
 struct OptixShaderProgram

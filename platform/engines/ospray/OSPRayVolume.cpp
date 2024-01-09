@@ -100,6 +100,14 @@ OSPRaySharedDataVolume::OSPRaySharedDataVolume(const Vector3ui& dimensions, cons
 {
 }
 
+OSPRayOctreeVolume::OSPRayOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type,
+                                       const VolumeParameters& params, OSPTransferFunction transferFunction)
+    : Volume(dimensions, spacing, type)
+    , OctreeVolume(dimensions, spacing, type)
+    , OSPRayVolume(dimensions, spacing, type, params, transferFunction, OSPRAY_VOLUME_PROPERTY_TYPE_OCTREE)
+{
+}
+
 void OSPRayVolume::setDataRange(const Vector2f& range)
 {
     _valueRange = range;
@@ -125,6 +133,29 @@ void OSPRaySharedDataVolume::setVoxels(const void* voxels)
     markModified();
 }
 
+void OSPRayOctreeVolume::setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
+                                   const OctreeDataType dataType)
+{
+    _octreeIndices = indices;
+    _octreeValues = values;
+    _octreeDataType = dataType;
+    _offset = offset;
+
+    osphelper::set(_volume, OSPRAY_VOLUME_DIMENSIONS, Vector3f(_dimensions));
+    osphelper::set(_volume, OSPRAY_VOLUME_OFFSET, _offset);
+    osphelper::set(_volume, OSPRAY_VOLUME_SPACING, _spacing);
+
+    OSPData indicesData = ospNewData(_octreeIndices.size(), OSP_ULONG, _octreeIndices.data(), OSP_DATA_SHARED_BUFFER);
+    ospSetData(_volume, OSPRAY_VOLUME_OCTREE_INDICES, indicesData);
+    ospRelease(indicesData);
+
+    OSPData valuesData = ospNewData(_octreeValues.size(), OSP_FLOAT, _octreeValues.data(), OSP_DATA_SHARED_BUFFER);
+    ospSetData(_volume, OSPRAY_VOLUME_OCTREE_VALUES, valuesData);
+    ospRelease(valuesData);
+
+    markModified();
+}
+
 void OSPRayVolume::commit()
 {
     if (_parameters.isModified())
@@ -139,13 +170,14 @@ void OSPRayVolume::commit()
         osphelper::set(_volume, OSPRAY_VOLUME_SAMPLING_RATE, static_cast<float>(_parameters.getSamplingRate()));
         osphelper::set(_volume, OSPRAY_VOLUME_SPECULAR_EXPONENT, Vector3f(_parameters.getSpecular()));
         osphelper::set(_volume, OSPRAY_VOLUME_USER_PARAMETERS, Vector3f(_parameters.getUserParameters()));
-        osphelper::set(_volume, OSPRAY_VOLUME_VOLUME_CLIPPING_BOX_LOWER, Vector3f(_parameters.getClipBox().getMin()));
-        osphelper::set(_volume, OSPRAY_VOLUME_VOLUME_CLIPPING_BOX_UPPER, Vector3f(_parameters.getClipBox().getMax()));
+        osphelper::set(_volume, OSPRAY_VOLUME_CLIPPING_BOX_LOWER, Vector3f(_parameters.getClipBox().getMin()));
+        osphelper::set(_volume, OSPRAY_VOLUME_CLIPPING_BOX_UPPER, Vector3f(_parameters.getClipBox().getMax()));
     }
     if (isModified() || _parameters.isModified())
         ospCommit(_volume);
     resetModified();
 }
+
 } // namespace ospray
 } // namespace engine
 } // namespace core

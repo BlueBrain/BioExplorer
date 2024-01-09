@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2015-2024, EPFL/Blue Brain Project
+ * Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Author: Jafet Villafranca Diaz <jafet.villafrancadiaz@epfl.ch>
+ * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
@@ -19,27 +19,36 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#pragma once
+#include "OptiXField.h"
+#include "OptiXContext.h"
+#include "OptiXMaterial.h"
+#include "OptiXUtils.h"
 
-#include "ospray/SDK/geometry/Geometry.h"
+#include <platform/core/parameters/VolumeParameters.h>
+
+using namespace optix;
 
 namespace core
 {
 namespace engine
 {
-namespace ospray
+namespace optix
 {
-struct Cones : public ::ospray::Geometry
+
+OptiXField::OptiXField(const Vector3ui& dimensions, const Vector3f& spacing, const VolumeParameters& params)
+    : Field(dimensions, spacing, params)
 {
-public:
-    Cones();
+}
 
-    std::string toString() const final { return "cones"; }
-    void finalize(::ospray::Model* model) final;
-
-protected:
-    ::ospray::Ref<::ospray::Data> data;
-};
-} // namespace ospray
+void OptiXField::setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
+                           const OctreeDataType dataType)
+{
+    _octreeIndices = indices;
+    _octreeValues = values;
+    _offset = offset;
+    _octreeDataType = dataType;
+    markModified();
+}
+} // namespace optix
 } // namespace engine
 } // namespace core

@@ -63,6 +63,7 @@ public:
 
 private:
     void _commitVolumeParameters();
+    void _commitFieldParameters();
     void _commitGeometryParameters();
     void _commitClippingPlanes();
 

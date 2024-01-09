@@ -46,7 +46,7 @@ set(${NAME}_PUBLIC_HEADERS
   LightManager.h
   Material.h
   Model.h
-  OctreeVolume.h
+  Field.h
   Renderer.h
   Scene.h
   SharedDataVolume.h

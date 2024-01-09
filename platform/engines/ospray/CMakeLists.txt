@@ -44,6 +44,7 @@ set(${NAME}_ISPC_SOURCES
   ispc/geometry/Cones.ispc
   ispc/geometry/SDFGeometries.ispc
   ispc/geometry/RayMarching.isph
+  ispc/geometry/Field.ispc
   ispc/render/BasicRenderer.ispc
   ispc/render/AdvancedRenderer.ispc
   ispc/render/utils/AdvancedMaterial.ispc
@@ -63,6 +64,7 @@ set(${NAME}_SOURCES
   OSPRayScene.cpp
   OSPRayVolume.cpp
   OSPRayUtils.cpp
+  OSPRayField.cpp
   ispc/camera/AnaglyphCamera.cpp
   ispc/camera/OrthographicCamera.cpp
   ispc/camera/PanoramicCamera.cpp
@@ -71,6 +73,7 @@ set(${NAME}_SOURCES
   ispc/camera/PerspectiveParallaxCamera.cpp
   ispc/geometry/Cones.cpp
   ispc/geometry/SDFGeometries.cpp
+  ispc/geometry/Field.cpp
   ispc/render/BasicRenderer.cpp
   ispc/render/AdvancedRenderer.cpp
   ispc/render/utils/AdvancedMaterial.cpp
@@ -89,6 +92,7 @@ set(${NAME}_HEADERS
   OSPRayRenderer.h
   OSPRayScene.h
   OSPRayVolume.h
+  OSPRayField.h
   ispc/camera/AnaglyphCamera.h
   ispc/camera/OrthographicCamera.h
   ispc/camera/PanoramicCamera.h 
@@ -106,6 +110,7 @@ set(${NAME}_PUBLIC_HEADERS
   ispc/camera/utils/CameraUtils.ih
   ispc/geometry/Cones.h
   ispc/geometry/SDFGeometries.h
+  ispc/geometry/Field.ih
   ispc/render/BasicRenderer.ih
   ispc/render/AdvancedRenderer.ih
   ispc/render/utils/SkyBox.ih

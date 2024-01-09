@@ -29,6 +29,7 @@
 
 #include <platform/engines/optix6/OptiX6Engine_generated_Cones.cu.ptx.h>
 #include <platform/engines/optix6/OptiX6Engine_generated_Cylinders.cu.ptx.h>
+#include <platform/engines/optix6/OptiX6Engine_generated_Fields.cu.ptx.h>
 #include <platform/engines/optix6/OptiX6Engine_generated_SDFGeometries.cu.ptx.h>
 #include <platform/engines/optix6/OptiX6Engine_generated_Spheres.cu.ptx.h>
 #include <platform/engines/optix6/OptiX6Engine_generated_Streamlines.cu.ptx.h>
@@ -46,6 +47,7 @@ static const char* CUDA_SDF_GEOMETRIES = OptiX6Engine_generated_SDFGeometries_cu
 static const char* CUDA_TRIANGLES_MESH = OptiX6Engine_generated_TriangleMesh_cu_ptx;
 static const char* CUDA_VOLUMES = OptiX6Engine_generated_Volumes_cu_ptx;
 static const char* CUDA_STREAMLINES = OptiX6Engine_generated_Streamlines_cu_ptx;
+static const char* CUDA_FIELDS = OptiX6Engine_generated_Fields_cu_ptx;
 
 template <typename T>
 T white();
@@ -380,6 +382,7 @@ void OptiXContext::_initialize()
         _optixContext->createProgramFromPTXString(CUDA_VOLUMES, OPTIX_CUDA_FUNCTION_BOUNDS);
     _optixIntersectionPrograms[OptixGeometryType::volume] =
         _optixContext->createProgramFromPTXString(CUDA_VOLUMES, OPTIX_CUDA_FUNCTION_INTERSECTION);
+    _optixContext[CONTEXT_VOLUME_SIZE]->setUint(sizeof(VolumeGeometry) / sizeof(float));
 
     _optixBoundsPrograms[OptixGeometryType::streamline] =
         _optixContext->createProgramFromPTXString(CUDA_STREAMLINES, OPTIX_CUDA_FUNCTION_BOUNDS);
@@ -391,12 +394,14 @@ void OptiXContext::_initialize()
     _optixIntersectionPrograms[OptixGeometryType::sdfGeometry] =
         _optixContext->createProgramFromPTXString(CUDA_SDF_GEOMETRIES, OPTIX_CUDA_FUNCTION_INTERSECTION);
 
+    _optixBoundsPrograms[OptixGeometryType::field] =
+        _optixContext->createProgramFromPTXString(CUDA_FIELDS, OPTIX_CUDA_FUNCTION_BOUNDS);
+    _optixIntersectionPrograms[OptixGeometryType::field] =
+        _optixContext->createProgramFromPTXString(CUDA_FIELDS, OPTIX_CUDA_FUNCTION_INTERSECTION);
+    _optixContext[CONTEXT_FIELD_SIZE]->setUint(sizeof(FieldGeometry) / sizeof(float));
+
     // Exceptions
     _optixContext[CONTEXT_EXCEPTION_BAD_COLOR]->setFloat(1.0f, 0.0f, 0.0f, 1.f);
-
-    // Volumes
-    _optixContext[CONTEXT_VOLUME_SIZE]->setUint(sizeof(VolumeGeometry) / sizeof(float));
-
     PLUGIN_DEBUG("Context created");
 }
 

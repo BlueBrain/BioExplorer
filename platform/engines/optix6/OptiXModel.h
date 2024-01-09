@@ -57,13 +57,12 @@ public:
     virtual SharedDataVolumePtr createSharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing,
                                                        const DataType type) final;
 
-    /** @copydoc Model::createOctreeVolume */
-    virtual OctreeVolumePtr createOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                                               const DataType type) final;
-
     /** @copydoc Model::createBrickedVolume */
     virtual BrickedVolumePtr createBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
                                                  const DataType type) final;
+
+    /** @copydoc Model::createField */
+    virtual FieldPtr createField(const Vector3ui& dimensions, const Vector3f& spacing) final;
 
     ::optix::GeometryGroup getGeometryGroup() const { return _geometryGroup; }
     ::optix::GeometryGroup getBoundingBoxGroup() const { return _boundingBoxGroup; }
@@ -75,6 +74,7 @@ protected:
     void _commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities, const Vector2d valueRange) final;
     void _commitSimulationDataImpl(const float* frameData, const size_t frameSize) final;
     void _commitVolumesBuffers(const size_t materialId);
+    void _commitFieldsBuffers(const size_t materialId);
 
 private:
     void _resetUserDataBuffer();
@@ -84,6 +84,7 @@ private:
     uint64_t _commitSDFGeometries();
     uint64_t _commitMeshes(const size_t materialId);
     uint64_t _commitVolumes(const size_t materialId);
+    uint64_t _commitFields(const size_t materialId);
     uint64_t _commitStreamlines(const size_t materialId);
     uint64_t _commitMaterials();
     uint64_t _commitSimulationData();
@@ -118,6 +119,10 @@ private:
     std::map<size_t, ::optix::Buffer> _volumesBuffers;
     std::map<size_t, ::optix::Geometry> _optixVolumes;
 
+    // Fields
+    std::map<size_t, ::optix::Buffer> _fieldsBuffers;
+    std::map<size_t, ::optix::Geometry> _optixFields;
+
     // Meshes
     struct OptiXTriangleMeshBuffers
     {
@@ -133,6 +138,10 @@ private:
     // Volume
     ::optix::Buffer _volumeBuffer{nullptr};
     std::map<size_t, VolumeGeometry> _volumeGeometries;
+
+    // Fields
+    ::optix::Buffer _fieldBuffer{nullptr};
+    std::map<size_t, FieldGeometry> _fieldGeometries;
 
     // Streamlines
     struct Streamlines

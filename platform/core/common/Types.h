@@ -143,6 +143,10 @@ struct Curve;
 using Curves = std::vector<Curve>;
 using CurvesMap = std::map<size_t, Curves>;
 
+class Field;
+using FieldPtr = std::shared_ptr<Field>;
+using FieldsMap = std::map<size_t, FieldPtr>;
+
 class Volume;
 class BrickedVolume;
 class SharedDataVolume;
@@ -231,6 +235,7 @@ static const size_t SECONDARY_MODEL_MATERIAL_ID = NO_MATERIAL - 2;
 static const size_t VOLUME_MATERIAL_ID = NO_MATERIAL - 3;
 static const size_t VOLUME_OCTREE_INDICES_MATERIAL_ID = NO_MATERIAL - 4;
 static const size_t VOLUME_OCTREE_VALUES_MATERIAL_ID = NO_MATERIAL - 5;
+static const size_t FIELD_MATERIAL_ID = NO_MATERIAL - 6;
 
 static const std::string IRRADIANCE_MAP = "-irradiance";
 static const std::string RADIANCE_MAP = "-radiance";

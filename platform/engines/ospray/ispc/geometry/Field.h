@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2015-2024, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
- * Author: Jafet Villafranca Diaz <jafet.villafrancadiaz@epfl.ch>
  *
  * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
  *
@@ -21,7 +20,8 @@
 
 #pragma once
 
-#include "ospray/SDK/geometry/Geometry.h"
+#include "ospray/SDK/common/Model.h"
+#include "ospray/SDK/volume/Volume.h"
 
 namespace core
 {
@@ -29,16 +29,21 @@ namespace engine
 {
 namespace ospray
 {
-struct Cones : public ::ospray::Geometry
+struct Field : public ::ospray::Volume
 {
 public:
-    Cones();
+    Field();
 
-    std::string toString() const final { return "cones"; }
-    void finalize(::ospray::Model* model) final;
+    std::string toString() const final { return ("octree_volume"); }
+    void commit() final;
+    int setRegion(const void *source, const ::ospray::vec3i &index, const ::ospray::vec3i &count) final;
 
 protected:
-    ::ospray::Ref<::ospray::Data> data;
+    ::ospray::Ref<::ospray::Data> _indices;
+    ::ospray::Ref<::ospray::Data> _values;
+    ::ospray::vec3i _dimensions;
+    ::ospray::vec3f _spacing;
+    ::ospray::vec3f _offset;
 };
 } // namespace ospray
 } // namespace engine
