@@ -20,8 +20,7 @@
 
 #pragma once
 
-#include "ospray/SDK/common/Model.h"
-#include "ospray/SDK/volume/Volume.h"
+#include <ospray/SDK/geometry/Geometry.h>
 
 namespace core
 {
@@ -29,14 +28,13 @@ namespace engine
 {
 namespace ospray
 {
-struct Field : public ::ospray::Volume
+struct Fields : public ::ospray::Geometry
 {
 public:
-    Field();
+    Fields();
 
-    std::string toString() const final { return ("octree_volume"); }
-    void commit() final;
-    int setRegion(const void *source, const ::ospray::vec3i &index, const ::ospray::vec3i &count) final;
+    std::string toString() const final { return ("field"); }
+    void finalize(::ospray::Model* model) final;
 
 protected:
     ::ospray::Ref<::ospray::Data> _indices;

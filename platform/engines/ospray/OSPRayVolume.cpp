@@ -75,7 +75,7 @@ OSPRayVolume::OSPRayVolume(const Vector3ui& dimensions, const Vector3f& spacing,
         throw std::runtime_error("Unsupported voxel type " + std::to_string(int(type)));
     }
 
-    ospSetObject(_volume, RENDERER_PROPERTY_TRANSFER_FUNCTION, transferFunction);
+    ospSetObject(_volume, DEFAULT_COMMON_TRANSFER_FUNCTION, transferFunction);
 }
 
 OSPRayVolume::~OSPRayVolume()

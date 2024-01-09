@@ -72,7 +72,7 @@ public:
      *
      * @return The dimensions of the volume in the 3D scene
      */
-    PLATFORM_API Vector3f getDimensions() const { return _dimensions; }
+    PLATFORM_API Vector3i getDimensions() const { return _dimensions; }
 
     /**
      * @brief Get the Element Spacing object
@@ -111,7 +111,7 @@ public:
 
 protected:
     // Octree
-    Vector3ui _dimensions;
+    Vector3i _dimensions;
     Vector3f _spacing;
     Vector3f _offset;
     uint32_ts _octreeIndices;

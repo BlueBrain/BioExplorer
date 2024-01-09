@@ -18,15 +18,15 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "Field.ih"
+#include "Fields.ih"
 #include "utils/SafeIncrement.ih"
 
 #include <ospray/SDK/common/Model.ih>
 #include <ospray/SDK/geometry/Geometry.ih>
 
-DEFINE_SAFE_INCREMENT(Field);
+DEFINE_SAFE_INCREMENT(Fields);
 
-float treeWalker(const uniform Field* uniform self, const vec3f& point, const varying float distance,
+float treeWalker(const uniform Fields* uniform self, const vec3f& point, const varying float distance,
                  const varying float cutoff, const varying int32 index = 0)
 {
     const uint64 begin = self->indices[index * 2];
@@ -53,7 +53,7 @@ float treeWalker(const uniform Field* uniform self, const vec3f& point, const va
     return voxelValue;
 }
 
-vec3f treeWalker3(const uniform Field* uniform self, const vec3f& point, const varying float distance,
+vec3f treeWalker3(const uniform Fields* uniform self, const vec3f& point, const varying float distance,
                   const varying float cutoff, const varying int32 index = 0)
 {
     const uint64 begin = self->indices[index * 2];
@@ -84,7 +84,7 @@ vec3f treeWalker3(const uniform Field* uniform self, const vec3f& point, const v
     return voxelValue;
 }
 
-float get_voxel_value(const uniform Field* uniform self, const vec3f& p)
+float get_voxel_value(const uniform Fields* uniform self, const vec3f& p)
 {
     switch (self->dataType)
     {
@@ -94,27 +94,27 @@ float get_voxel_value(const uniform Field* uniform self, const vec3f& p)
         const vec3f sampleValue = treeWalker3(self, p, self->distance, self->cutoff, 0u);
         return clamp(length(sampleValue), self->transferFunction->valueRange.x, self->transferFunction->valueRange.y);
     }
+    return 0.f;
 }
 
 unmasked void Field_bounds(const RTCBoundsFunctionArguments* uniform args)
 {
-    const uniform Field* uniform self = (uniform Field * uniform) args->geometryUserPtr;
+    const uniform Fields* uniform self = (uniform Fields * uniform) args->geometryUserPtr;
     const uniform int primID = args->primID;
 
     box3fa* uniform bbox = (box3fa * uniform) args->bounds_o;
-    *bbox = make_box3fa(self->super.gridOrigin,
-                        self->super.gridOrigin + make_vec3f(self->super.dimensions) * self->super.gridSpacing);
+    *bbox = make_box3fa(self->offset, self->offset + make_vec3f(self->dimensions) * self->spacing);
 }
 
 unmasked void Field_intersect(const RTCIntersectFunctionNArguments* uniform args)
 {
-    const uniform Field* uniform self = (uniform Field * uniform) args->geometryUserPtr;
+    const uniform Fields* uniform self = (uniform Fields * uniform) args->geometryUserPtr;
     const uniform int primID = args->primID;
 
     varying Ray* uniform ray = (varying Ray * uniform) args->rayhit;
 
-    const vec3f boxMin = self->super.gridOrigin;
-    const vec3f boxMax = self->super.gridOrigin + make_vec3f(self->super.dimensions) * self->super.gridSpacing;
+    const vec3f boxMin = self->offset;
+    const vec3f boxMax = self->offset + make_vec3f(self->dimensions) * self->spacing;
 
     const vec3f a = (boxMin - ray->org) / ray->dir;
     const vec3f b = (boxMax - ray->org) / ray->dir;
@@ -123,7 +123,7 @@ unmasked void Field_intersect(const RTCIntersectFunctionNArguments* uniform args
     float t0 = reduce_max(near);
     float t1 = reduce_min(far);
 
-    const float diag = max(self->super.gridSpacing.x, max(self->super.gridSpacing.y, self->super.gridSpacing.z));
+    const float diag = max(self->spacing.x, max(self->spacing.y, self->spacing.z));
     const float step = max(0.1f, diag / self->samplingRate);
     const float random = 0; // TODO: rnd(seed) * step;
 
@@ -137,10 +137,9 @@ unmasked void Field_intersect(const RTCIntersectFunctionNArguments* uniform args
         while (t < t1)
         {
             const vec3f p = ray->org + t * ray->dir;
-            const vec3f p0 = (p - self->super.gridOrigin) / self->super.gridSpacing;
+            const vec3f p0 = (p - self->offset) / self->spacing;
             const float voxelValue = get_voxel_value(self, p0);
             const float voxelAlpha = self->transferFunction->getOpacityForValue(self->transferFunction, voxelValue);
-            const vec3f voxelColor = self->transferFunction->getColorForValue(self->transferFunction, voxelValue);
             if (voxelAlpha > 0.f)
             {
                 vec3f normal = make_vec3f(voxelValue);
@@ -157,10 +156,11 @@ unmasked void Field_intersect(const RTCIntersectFunctionNArguments* uniform args
                     normal = normalize(-1.f * normal);
                 }
                 ray->primID = primID;
-                // ray->geomID = self->super.geomID;
+                ray->geomID = self->super.geomID;
                 ray->instID = args->context->instID[0];
                 ray->t = t;
                 ray->Ng = normal;
+                ray->time = voxelValue;
                 break;
             }
             t += step;
@@ -171,7 +171,7 @@ unmasked void Field_intersect(const RTCIntersectFunctionNArguments* uniform args
 static void Field_postIntersect(uniform Geometry* uniform geometry, uniform Model* uniform model,
                                 varying DifferentialGeometry& dg, const varying Ray& ray, uniform int64 flags)
 {
-    uniform Field* uniform this = (uniform Field * uniform) geometry;
+    uniform Fields* uniform this = (uniform Fields * uniform) geometry;
     dg.geometry = geometry;
     vec3f Ng = ray.Ng;
     vec3f Ns = Ng;
@@ -190,54 +190,44 @@ static void Field_postIntersect(uniform Geometry* uniform geometry, uniform Mode
     }
     dg.Ng = Ng;
     dg.Ns = Ns;
+    dg.color = make_vec4f(this->transferFunction->getColorForValue(this->transferFunction, ray.time),
+                          this->transferFunction->getOpacityForValue(this->transferFunction, ray.time));
 }
 
-void Field_Constructor(Field* uniform volume,
-                       /*! pointer to the c++-equivalent class of this entity */
-                       void* uniform cppEquivalent, const uniform int voxelType, const uniform vec3i& dimensions)
-{
-    StructuredVolume_Constructor(&volume->super, cppEquivalent, dimensions);
-}
-
-export void* uniform Field_createInstance(void* uniform cppEquivalent, const uniform int voxelType,
-                                          const uniform vec3i& dimensions)
-{
-    // The volume container.
-    Field* uniform volume = uniform new uniform Field;
-    Field_Constructor(volume, cppEquivalent, voxelType, dimensions);
-
-    return volume;
-}
-
-#if 0
 export void* uniform Field_create(void* uniform cppEquivalent)
 {
-    uniform Field* uniform geom = uniform new uniform Field;
-    Geometry_Constructor(&geom->super.super, cppEquivalent, Field_postIntersect, NULL, NULL, 0, NULL);
+    uniform Fields* uniform geom = uniform new uniform Fields;
+    Geometry_Constructor(&geom->super, cppEquivalent, Field_postIntersect, NULL, NULL, 0, NULL);
     return geom;
 }
-#endif
 
-export void Field_set(void* uniform _self, const uniform vec3i& dimensions, const uniform vec3f& spacing,
-                      const uniform vec3f& gridOrigin, void* uniform indices, void* uniform values)
+export void Field_set(void* uniform _self, void* uniform _model, const uniform vec3i& dimensions,
+                      const uniform vec3f& spacing, const uniform vec3f& offset, void* uniform indices,
+                      void* uniform values, int uniform numPrimitives)
 {
-    uniform Field* uniform self = (uniform Field * uniform) _self;
+    uniform Fields* uniform self = (uniform Fields * uniform) _self;
+    uniform Model* uniform model = (uniform Model * uniform) _model;
+
     RTCGeometry geom = rtcNewGeometry(ispc_embreeDevice(), RTC_GEOMETRY_TYPE_USER);
-    // uniform uint32 geomID = rtcAttachGeometry(model->embreeSceneHandle, geom);
-    // self->super.geomID = geomID;
+    uniform uint32 geomID = rtcAttachGeometry(model->embreeSceneHandle, geom);
 
-    // uniform Model* uniform model = (uniform Model * uniform) _model;
-    // self->super.model = model;
-
-    // self->super.snumPrimitives = 1;
-    self->super.dimensions = dimensions;
-    self->super.gridOrigin = gridOrigin;
-    self->super.gridSpacing = spacing;
-    self->indices = (uniform uint64 * uniform) indices;
+    self->super.model = model;
+    self->super.geomID = geomID;
+    self->super.numPrimitives = numPrimitives;
+    self->dimensions = dimensions;
+    self->offset = offset;
+    self->spacing = spacing;
+    self->indices = (uniform uint32 * uniform) indices;
     self->values = (uniform float* uniform)values;
 
+    self->distance = 1.f;
+    self->cutoff = 1500.f;
+    self->gradientOffset = 0.001f;
+    self->gradientShadingEnabled = false;
+    self->samplingRate = 1.f;
+
     rtcSetGeometryUserData(geom, self);
-    rtcSetGeometryUserPrimitiveCount(geom, 1);
+    rtcSetGeometryUserPrimitiveCount(geom, numPrimitives);
     rtcSetGeometryBoundsFunction(geom, (uniform RTCBoundsFunction)&Field_bounds, self);
     rtcSetGeometryIntersectFunction(geom, (uniform RTCIntersectFunctionN)&Field_intersect);
     rtcSetGeometryOccludedFunction(geom, (uniform RTCOccludedFunctionN)&Field_intersect);

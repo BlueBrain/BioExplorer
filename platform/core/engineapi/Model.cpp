@@ -618,6 +618,7 @@ void Model::_markGeometriesClean()
     _sdfGeometriesDirty = false;
     _volumesDirty = false;
     _curvesDirty = false;
+    _fieldsDirty = false;
 }
 
 MaterialPtr Model::createMaterial(const size_t materialId, const std::string& name, const PropertyMap& properties)

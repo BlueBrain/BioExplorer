@@ -65,7 +65,7 @@ void VectorFieldsRenderer::commit()
 
     // Transfer function
     ::ospray::TransferFunction* transferFunction =
-        (::ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, nullptr);
+        (::ospray::TransferFunction*)getParamObject(DEFAULT_COMMON_TRANSFER_FUNCTION, nullptr);
     if (transferFunction)
         ::ispc::VectorFieldsRenderer_setTransferFunction(getIE(), transferFunction->getIE());
 

@@ -37,6 +37,11 @@ OSPRayField::OSPRayField(const Vector3ui& dimensions, const Vector3f& spacing, c
 void OSPRayField::setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
                             const OctreeDataType dataType)
 {
+    _octreeIndices = indices;
+    _octreeValues = values;
+    _offset = offset;
+    _octreeDataType = dataType;
+    markModified();
 }
 } // namespace ospray
 } // namespace engine

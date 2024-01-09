@@ -29,6 +29,7 @@
 
 #include <Defines.h>
 
+#include <platform/core/common/Properties.h>
 #include <platform/core/common/simulation/AbstractSimulationHandler.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Scene.h>
@@ -400,6 +401,33 @@ void OSPRayModel::_commitCurves(const size_t materialId)
     }
 }
 
+void OSPRayModel::_commitFields(const size_t materialId)
+{
+    auto& geometry = _createGeometry(_ospCones, materialId, OSPRAY_GEOMETRY_PROPERTY_FIELDS);
+    auto& field = _geometries->_fields.at(materialId);
+
+    const auto& indices = field->getOctreeIndices();
+    const auto& values = field->getOctreeValues();
+    if (indices.empty() || values.empty())
+        return;
+
+    auto indicesBuffer = allocateVectorData(field->getOctreeIndices(), OSP_INT, _memoryManagementFlags);
+    ospSetObject(geometry, OSPRAY_GEOMETRY_PROPERTY_FIELD_INDICES, indicesBuffer);
+    ospRelease(indicesBuffer);
+
+    auto valuesBuffer = allocateVectorData(field->getOctreeValues(), OSP_FLOAT, _memoryManagementFlags);
+    ospSetObject(geometry, OSPRAY_GEOMETRY_PROPERTY_FIELD_VALUES, valuesBuffer);
+    ospRelease(valuesBuffer);
+
+    osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_FIELD_DIMENSIONS, field->getDimensions());
+    osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_FIELD_SPACING, field->getElementSpacing());
+    osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_FIELD_OFFSET, field->getOffset());
+    ospSetObject(geometry, DEFAULT_COMMON_TRANSFER_FUNCTION, _ospTransferFunction);
+
+    ospCommit(geometry);
+    _addGeometryToModel(geometry, materialId);
+}
+
 void OSPRayModel::_setBVHFlags()
 {
     osphelper::set(_primaryModel, OSPRAY_MODEL_PROPERTY_DYNAMIC_SCENE,
@@ -455,6 +483,10 @@ void OSPRayModel::commitGeometry()
     if (_curvesDirty)
         for (const auto& curve : _geometries->_curves)
             _commitCurves(curve.first);
+
+    if (_fieldsDirty)
+        for (const auto& field : _geometries->_fields)
+            _commitFields(field.first);
 
     updateBounds();
     _markGeometriesClean();

@@ -77,7 +77,6 @@ static const char* RENDERER_PROPERTY_TYPE_ADVANCED = "advanced";
 
 static const char* RENDERER_PROPERTY_USER_DATA = "userDataBuffer";
 static const char* RENDERER_PROPERTY_SECONDARY_MODEL = "secondaryModel";
-static const char* RENDERER_PROPERTY_TRANSFER_FUNCTION = "transferFunction";
 static const char* RENDERER_PROPERTY_BACKGROUND_MATERIAL = "bgMaterial";
 static const char* RENDERER_PROPERTY_LIGHTS = "lights";
 static const char* RENDERER_PROPERTY_RANDOM_NUMBER = "randomNumber";
@@ -165,6 +164,7 @@ Common properties
 */
 static const char* DEFAULT = "default";
 
+static const char* DEFAULT_COMMON_TRANSFER_FUNCTION = "transferFunction";
 static constexpr double DEFAULT_COMMON_EXPOSURE = 1.0;
 static constexpr bool DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER = false;
 

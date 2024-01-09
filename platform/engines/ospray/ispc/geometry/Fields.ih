@@ -27,28 +27,27 @@
 #include <ospray/SDK/transferFunction/TransferFunction.ih>
 #include <ospray/SDK/volume/structured/StructuredVolume.ih>
 
-struct Field
+struct Fields
 {
-    StructuredVolume super;
+    uniform Geometry super;
 
     const uniform TransferFunction *uniform transferFunction;
 
-    uniform uint64 *uniform indices;
+    uniform uint32 *uniform indices;
     uniform float *uniform values;
-    // vec3ui dimensions;
-    // vec3f spacing;
-    // vec3f offset;
+    vec3i dimensions;
+    vec3f spacing;
+    vec3f offset;
     OctreeDataType dataType;
     float distance;
     float cutoff;
     float gradientOffset;
     bool gradientShadingEnabled;
     float samplingRate;
-    bool useSafeIncrement;
 };
 
-void Field_Constructor(Field *uniform volume, void *uniform cppEquivalent, const uniform vec3f &offset,
-                       const uniform vec3i &dimensions, const uniform vec3f &scale, const uint64 *uniform indices,
+void Field_Constructor(Fields *uniform volume, void *uniform cppEquivalent, const uniform vec3f &offset,
+                       const uniform vec3ui &dimensions, const uniform vec3f &scale, const uint32 *uniform indices,
                        const float *uniform values, const float &distance, const float &cutoff,
                        const float &volumeGradientOffset, const bool &gradientShadingEnabled)
 {
@@ -56,6 +55,6 @@ void Field_Constructor(Field *uniform volume, void *uniform cppEquivalent, const
 
 export void Field_setTransferFunction(void *uniform _self, void *uniform value)
 {
-    uniform Field *uniform self = (uniform Field * uniform) _self;
+    uniform Fields *uniform self = (uniform Fields * uniform) _self;
     self->transferFunction = (TransferFunction * uniform) value;
 }

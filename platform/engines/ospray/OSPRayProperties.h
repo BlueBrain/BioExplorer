@@ -202,6 +202,13 @@ static const char* OSPRAY_GEOMETRY_PROPERTY_CURVE_TANGENT = "vertex.tangent";
 static const char* OSPRAY_GEOMETRY_PROPERTY_CURVE_BASIS = "curveBasis";
 static const char* OSPRAY_GEOMETRY_PROPERTY_CURVE_TYPE = "curveType";
 
+static const char* OSPRAY_GEOMETRY_PROPERTY_FIELDS = "fields";
+static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_DIMENSIONS = "dimensions";
+static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_SPACING = "spacing";
+static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_OFFSET = "offset";
+static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_INDICES = "indices";
+static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_VALUES = "values";
+
 /*
 Frame buffer properties
 */

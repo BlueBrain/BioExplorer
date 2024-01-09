@@ -74,6 +74,7 @@ private:
     void _commitStreamlines(const size_t materialId);
     void _commitSDFGeometries();
     void _commitCurves(const size_t materialId);
+    void _commitFields(const size_t materialId);
 
     void _addGeometryToModel(const OSPGeometry geometry, const size_t materialId);
     void _setBVHFlags();
