@@ -41,12 +41,21 @@ public:
      * @brief Constructs a new Field object.
      * @param dimensions The dimensions of the volume as a Vector3ui object.
      * @param spacing The spacing between voxels as a Vector3f object.
-     * @param type The data type of the volume.
+     * @param offset Location of the octree in the 3D scene
+     * @param indices Indices of the Octree
+     * @param values Values of the Octree
+     * @param dataType The data type of the field (point or vector)
      */
-    PLATFORM_API Field(const Vector3ui& dimensions, const Vector3f& spacing, const VolumeParameters& parameters)
-        : _dimensions(dimensions)
+    PLATFORM_API Field(const FieldParameters& parameters, const Vector3ui& dimensions, const Vector3f& spacing,
+                       const Vector3f& offset, const uint32_ts& indices, const floats& values,
+                       const OctreeDataType dataType)
+        : _parameters(parameters)
+        , _dimensions(dimensions)
         , _spacing(spacing)
-        , _parameters(parameters)
+        , _offset(offset)
+        , _octreeIndices(indices)
+        , _octreeValues(values)
+        , _octreeDataType(dataType)
     {
     }
 
@@ -55,17 +64,6 @@ public:
      * @return The bounding box of the volume as a Boxd object.
      */
     PLATFORM_API Boxd getBounds() const { return {_offset, _offset + Vector3f(_dimensions) * _spacing}; }
-
-    /**
-     * @brief Set the Octree object
-     *
-     * @param offset Location of the octree in the 3D scene
-     * @param indices Indices of the Octree
-     * @param values Values of the Octree
-     * @param dataType Data type
-     */
-    PLATFORM_API virtual void setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
-                                        const OctreeDataType dataType) = 0;
 
     /**
      * @brief Get the Dimensions object
@@ -117,7 +115,7 @@ protected:
     uint32_ts _octreeIndices;
     floats _octreeValues;
     OctreeDataType _octreeDataType;
-    const VolumeParameters& _parameters;
+    const FieldParameters& _parameters;
 
 private:
     SERIALIZATION_FRIEND(Field);

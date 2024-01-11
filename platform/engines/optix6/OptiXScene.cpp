@@ -43,8 +43,8 @@ namespace engine
 namespace optix
 {
 OptiXScene::OptiXScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
-                       VolumeParameters& volumeParameters)
-    : Scene(animationParameters, geometryParameters, volumeParameters)
+                       VolumeParameters& volumeParameters, FieldParameters& fieldParameters)
+    : Scene(animationParameters, geometryParameters, volumeParameters, fieldParameters)
     , _lightBuffer(nullptr)
 {
     _backgroundMaterial = std::make_shared<OptiXMaterial>();
@@ -141,7 +141,7 @@ bool OptiXScene::commitLights()
 
 ModelPtr OptiXScene::createModel() const
 {
-    return std::make_unique<OptiXModel>(_animationParameters, _volumeParameters, _geometryParameters);
+    return std::make_unique<OptiXModel>(_animationParameters, _volumeParameters, _geometryParameters, _fieldParameters);
 }
 
 void OptiXScene::_commitVolumeParameters()
@@ -167,14 +167,11 @@ void OptiXScene::_commitVolumeParameters()
 void OptiXScene::_commitFieldParameters()
 {
     auto context = OptiXContext::get().getOptixContext();
-    context[CONTEXT_VOLUME_GRADIENT_SHADING_ENABLED]->setUint(_volumeParameters.getGradientShading());
-    context[CONTEXT_FIELD_GRADIENT_OFFSET]->setFloat(_volumeParameters.getGradientOffset());
-    context[CONTEXT_FIELD_SINGLE_SHADE]->setUint(_volumeParameters.getSingleShade());
-    context[CONTEXT_FIELD_PRE_INTEGRATION]->setUint(_volumeParameters.getPreIntegration());
-    context[CONTEXT_FIELD_SAMPLING_RATE]->setFloat(_volumeParameters.getSamplingRate());
-    const Vector3f specular = _volumeParameters.getSpecular();
-    const Vector3f userParameters = _volumeParameters.getUserParameters();
-    context[CONTEXT_FIELD_USER_PARAMETERS]->setFloat(userParameters.x, userParameters.y, userParameters.z);
+    context[CONTEXT_VOLUME_GRADIENT_SHADING_ENABLED]->setUint(_fieldParameters.getGradientShading());
+    context[CONTEXT_FIELD_GRADIENT_OFFSET]->setFloat(_fieldParameters.getGradientOffset());
+    context[CONTEXT_FIELD_CUTOFF]->setFloat(_fieldParameters.getCutoff());
+    context[CONTEXT_FIELD_DISTANCE]->setFloat(_fieldParameters.getCutoff());
+    context[CONTEXT_FIELD_SAMPLING_RATE]->setFloat(_fieldParameters.getSamplingRate());
 }
 
 void OptiXScene::_commitGeometryParameters()
@@ -229,8 +226,10 @@ void OptiXScene::commit()
         model.commitSimulationData();
         if (model.commitTransferFunction())
             markModified();
-        _commitVolumeParameters();
-        _commitFieldParameters();
+        if (_volumeParameters.isModified())
+            _commitVolumeParameters();
+        if (_fieldParameters.isModified())
+            _commitFieldParameters();
     }
 
     commitLights();

@@ -131,23 +131,22 @@ void PointFieldsHandler::_buildOctree()
     extendedHalfSize = sceneSize * 0.5f;
 
     // Compute volume information
-    const Vector3f minAABB = center - extendedHalfSize;
-    const Vector3f maxAABB = center + extendedHalfSize;
+    Boxd extendedAABB;
+    extendedAABB.merge(center - extendedHalfSize);
+    extendedAABB.merge(center + extendedHalfSize);
 
     // Build acceleration structure
-    const PointOctree accelerator(points, _voxelSize, minAABB, maxAABB);
+    const PointOctree accelerator(points, _voxelSize, extendedAABB.getMin(), extendedAABB.getMax());
     const auto& indices = accelerator.getFlatIndices();
     const auto& data = accelerator.getFlatData();
 
-    const uint32_t volumeSize = accelerator.getVolumeSize();
-    _offset = center - extendedHalfSize;
+    _offset = extendedAABB.getMin();
     _dimensions = accelerator.getVolumeDimensions();
-    _spacing = sceneSize / Vector3f(_dimensions);
+    _spacing = extendedAABB.getSize() / Vector3d(_dimensions);
 
     const auto& params = _engine.getParametersManager().getApplicationParameters();
     const auto& engineName = params.getEngine();
-    auto field = _model->createField(_dimensions, _spacing);
-    field->setOctree(_offset, indices, data, OctreeDataType::point);
+    auto field = _model->createField(_dimensions, _spacing, _offset, indices, data, OctreeDataType::point);
     const size_t materialId = FIELD_MATERIAL_ID;
     _model->addField(materialId, field);
     _model->createMaterial(materialId, std::to_string(materialId));
@@ -158,15 +157,15 @@ void PointFieldsHandler::_buildOctree()
     PLUGIN_INFO(1, "--------------------------------------------");
     PLUGIN_INFO(1, "Point Octree information (" << points.size() << " points)");
     PLUGIN_INFO(1, "--------------------------------------------");
-    PLUGIN_INFO(1, "Scene AABB        : " << bounds);
-    PLUGIN_INFO(1, "Scene dimension   : " << sceneSize);
+    PLUGIN_INFO(1, "Dimensions        : " << sceneSize);
     PLUGIN_INFO(1, "Element spacing   : " << _spacing);
+    PLUGIN_INFO(1, "Offset            : " << _offset);
+    PLUGIN_INFO(1, "Bounding box      : " << bounds);
     PLUGIN_INFO(1, "Volume dimensions : " << _dimensions);
-    PLUGIN_INFO(1, "Element offset    : " << _offset);
-    PLUGIN_INFO(1, "Volume size       : " << volumeSize << " bytes");
+    PLUGIN_INFO(1, "Volume size       : " << accelerator.getVolumeSize() << " bytes");
     PLUGIN_INFO(1, "Indices size      : " << indices.size());
     PLUGIN_INFO(1, "Data size         : " << _frameSize);
-    PLUGIN_INFO(1, "PointOctree depth      : " << accelerator.getOctreeDepth());
+    PLUGIN_INFO(1, "PointOctree depth : " << accelerator.getOctreeDepth());
     PLUGIN_INFO(1, "--------------------------------------------");
     _octreeInitialized = true;
 }

@@ -1037,8 +1037,9 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
             // Initialize geometry shading attributes
             setGeometryShadingAttributes(self, dg, sample, ray, attributes);
 
-            const bool discardIntersection =
-                isClipped(self, dg.P, attributes.clippingMode) || attributes.chameleonMode == emitter;
+            const bool discardIntersection = attributes.opacity == 0.f ||
+                                             isClipped(self, dg.P, attributes.clippingMode) ||
+                                             attributes.chameleonMode == emitter;
 
             if (discardIntersection)
                 nearClip = ray.t + self->super.epsilonMultiplier * dg.epsilon;

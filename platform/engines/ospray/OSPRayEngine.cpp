@@ -95,7 +95,8 @@ OSPRayEngine::OSPRayEngine(ParametersManager& parametersManager)
 
     _scene = std::make_shared<OSPRayScene>(_parametersManager.getAnimationParameters(),
                                            _parametersManager.getGeometryParameters(),
-                                           _parametersManager.getVolumeParameters());
+                                           _parametersManager.getVolumeParameters(),
+                                           _parametersManager.getFieldParameters());
 
     _createCameras();
 
@@ -191,9 +192,9 @@ FrameBufferPtr OSPRayEngine::createFrameBuffer(const std::string& name, const Ve
 }
 
 ScenePtr OSPRayEngine::createScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
-                                   VolumeParameters& volumeParameters) const
+                                   VolumeParameters& volumeParameters, FieldParameters& fieldParameters) const
 {
-    return std::make_shared<OSPRayScene>(animationParameters, geometryParameters, volumeParameters);
+    return std::make_shared<OSPRayScene>(animationParameters, geometryParameters, volumeParameters, fieldParameters);
 }
 
 CameraPtr OSPRayEngine::createCamera() const

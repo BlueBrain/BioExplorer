@@ -33,6 +33,7 @@ set(${NAME}_SOURCES
   GeometryParameters.cpp
   ApplicationParameters.cpp
   VolumeParameters.cpp
+  FieldParameters.cpp
 )
 
 set(${NAME}_PUBLIC_HEADERS
@@ -43,6 +44,7 @@ set(${NAME}_PUBLIC_HEADERS
   GeometryParameters.h
   ApplicationParameters.h
   VolumeParameters.h
+  FieldParameters.h
 )
 
 # ==============================================================================

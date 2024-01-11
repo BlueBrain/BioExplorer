@@ -41,11 +41,11 @@ class OptiXField : public Field
 {
 public:
     /** @copydoc Volume::Volume */
-    OptiXField(const Vector3ui& dimensions, const Vector3f& spacing, const VolumeParameters& params);
-
-    /** @copydoc OctreeVolume::setOctree */
-    void setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
-                   const OctreeDataType dataType) final;
+    OptiXField(const FieldParameters& parameters, const Vector3ui& dimensions, const Vector3f& spacing,
+               const Vector3f& offset, const uint32_ts& indices, const floats& values, const OctreeDataType dataType)
+        : Field(parameters, dimensions, spacing, offset, indices, values, dataType)
+    {
+    }
 };
 } // namespace optix
 } // namespace engine

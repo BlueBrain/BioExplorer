@@ -26,6 +26,7 @@
 #include <platform/core/common/Types.h>
 #include <platform/core/parameters/AnimationParameters.h>
 #include <platform/core/parameters/ApplicationParameters.h>
+#include <platform/core/parameters/FieldParameters.h>
 #include <platform/core/parameters/GeometryParameters.h>
 #include <platform/core/parameters/RenderingParameters.h>
 #include <platform/core/parameters/VolumeParameters.h>
@@ -95,6 +96,13 @@ public:
     PLATFORM_API VolumeParameters& getVolumeParameters();
     PLATFORM_API const VolumeParameters& getVolumeParameters() const;
 
+    /**
+       Gets field parameters
+       @return Parameters for the current field
+    */
+    PLATFORM_API FieldParameters& getFieldParameters();
+    PLATFORM_API const FieldParameters& getFieldParameters() const;
+
     /** Call resetModified on all parameters. */
     void resetModified();
 
@@ -116,5 +124,6 @@ private:
     GeometryParameters _geometryParameters;
     RenderingParameters _renderingParameters;
     VolumeParameters _volumeParameters;
+    FieldParameters _fieldParameters;
 };
 } // namespace core

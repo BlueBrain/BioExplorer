@@ -77,7 +77,6 @@ set(${NAME}_SOURCES
   OptiXMaterial.cpp
   OptiXModel.cpp
   OptiXVolume.cpp
-  OptiXField.cpp
   OptiXUtils.cpp
 )
 
@@ -94,7 +93,6 @@ set_source_files_properties(
   OptiXMaterial.cpp
   OptiXModel.cpp
   OptiXVolume.cpp
-  OptiXField.cpp
   OptiXUtils.cpp
   PROPERTIES COMPILE_FLAGS -Wno-shadow
 )

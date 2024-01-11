@@ -35,13 +35,21 @@ public:
 
     std::string toString() const final { return ("field"); }
     void finalize(::ospray::Model* model) final;
+    void commit() final;
 
 protected:
     ::ospray::Ref<::ospray::Data> _indices;
     ::ospray::Ref<::ospray::Data> _values;
+    int _dataType;
     ::ospray::vec3i _dimensions;
     ::ospray::vec3f _spacing;
     ::ospray::vec3f _offset;
+    float _distance;
+    float _cutoff;
+    float _gradientOffset;
+    bool _gradientShadingEnabled;
+    float _samplingRate;
+    float _epsilon;
 };
 } // namespace ospray
 } // namespace engine

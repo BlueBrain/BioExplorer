@@ -24,77 +24,93 @@
 #include <ospray/SDK/common/Model.ih>
 #include <ospray/SDK/geometry/Geometry.ih>
 
-DEFINE_SAFE_INCREMENT(Fields);
+#define MAX_RECURSION_DEPTH 30
 
-float treeWalker(const uniform Fields* uniform self, const vec3f& point, const varying float distance,
-                 const varying float cutoff, const varying int32 index = 0)
+float treeWalker(const uniform Fields* uniform self, const varying int32 depth, const vec3f& point,
+                 const varying float distance, const varying float cutoff, const varying int32 index = 0)
 {
-    const uint64 begin = self->indices[index * 2];
-    const uint64 end = self->indices[index * 2 + 1];
+    if (depth >= MAX_RECURSION_DEPTH)
+        return 0.f;
+
+    const uint32 begin = self->indices[index * 2];
+    const uint32 end = self->indices[index * 2 + 1];
+    const uint32 idxData = index * FIELD_POINT_DATA_SIZE;
+
     if (begin == 0 && end == 0)
-        return self->values[index] / (distance * distance);
+        return self->values[idxData + FIELD_POINT_OFFSET_VALUE] / (distance * distance);
 
     float voxelValue = 0.f;
-    for (uint64 childIndex = begin; childIndex <= end; ++childIndex)
+    for (uint32 childIndex = begin; childIndex <= end; ++childIndex)
     {
-        const uint64 idx = childIndex * 4; // 4 Floats per value (position + value)
-        const vec3f childPosition = make_vec3f(self->values[idx], self->values[idx + 1], self->values[idx + 2]);
+        const uint32 childIdxData = childIndex * FIELD_POINT_DATA_SIZE;
+        const vec3f childPosition = make_vec3f(self->values[childIdxData + FIELD_POINT_OFFSET_POSITION_X],
+                                               self->values[childIdxData + FIELD_POINT_OFFSET_POSITION_Y],
+                                               self->values[childIdxData + FIELD_POINT_OFFSET_POSITION_Z]);
         const float d = length(point - childPosition);
         if (d >= cutoff)
         {
             // Child is further than the cutoff distance, no need to evaluate events in the child node, we take the
             // precomputed value of node instead
-            voxelValue += self->values[childIndex + 3] / (d * d);
+            voxelValue += self->values[childIdxData + FIELD_POINT_OFFSET_VALUE] / (d * d);
         }
         else
             // Dive into the child node and compute its contents
-            voxelValue += treeWalker(self, point, d, cutoff / 2.f, childIndex);
+            voxelValue += treeWalker(self, depth + 1, point, d, cutoff / 2.f, childIndex);
     }
     return voxelValue;
 }
 
-vec3f treeWalker3(const uniform Fields* uniform self, const vec3f& point, const varying float distance,
-                  const varying float cutoff, const varying int32 index = 0)
+vec3f treeWalker3(const uniform Fields* uniform self, const varying int32 depth, const vec3f& point,
+                  const varying float distance, const varying float cutoff, const varying int32 index = 0)
 {
-    const uint64 begin = self->indices[index * 2];
-    const uint64 end = self->indices[index * 2 + 1];
-    const uint64 idx = index * 6; // 6 Floats per value (position + direction)
+    if (depth >= MAX_RECURSION_DEPTH)
+        return make_vec3f(0.f);
+
+    const uint32 begin = self->indices[index * 2];
+    const uint32 end = self->indices[index * 2 + 1];
+    const uint32 idx = index * FIELD_VECTOR_DATA_SIZE;
 
     if (begin == 0 && end == 0)
-        return make_vec3f(self->values[idx], self->values[idx + 1], self->values[idx + 2]) /
+        return make_vec3f(self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_X],
+                          self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_Y],
+                          self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_Z]) /
                (self->distance * self->distance);
 
     vec3f voxelValue = make_vec3f(0.f);
-    for (uint64 childIndex = begin; childIndex <= end; ++childIndex)
+    for (uint32 childIndex = begin; childIndex <= end; ++childIndex)
     {
-        uint64 idx = childIndex * 3;
-        const vec3f childPosition = make_vec3f(self->values[idx], self->values[idx + 1], self->values[idx + 2]);
+        uint32 idx = childIndex * FIELD_VECTOR_DATA_SIZE;
+        const vec3f childPosition = make_vec3f(self->values[idx + FIELD_VECTOR_OFFSET_POSITION_X],
+                                               self->values[idx + FIELD_VECTOR_OFFSET_POSITION_Y],
+                                               self->values[idx + FIELD_VECTOR_OFFSET_POSITION_Z]);
         const float d = length(point - childPosition);
         if (d >= cutoff)
         {
             // Child is further than the cutoff distance, no need to evaluate events in the child node, we take the
             // precomputed value of node instead
-            const vec3f value = make_vec3f(self->values[idx + 3], self->values[idx + 4], self->values[idx + 5]);
-            voxelValue = voxelValue + value / (d * d);
+            const vec3f vectorDirection = make_vec3f(self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_X],
+                                                     self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_Y],
+                                                     self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_Z]);
+            voxelValue = voxelValue + vectorDirection / (d * d);
         }
         else
             // Dive into the child node and compute its contents
-            voxelValue = voxelValue + treeWalker3(self, point, d, cutoff / 2.f, childIndex);
+            voxelValue = voxelValue + treeWalker3(self, depth + 1, point, d, cutoff / 2.f, childIndex);
     }
     return voxelValue;
 }
 
-float get_voxel_value(const uniform Fields* uniform self, const vec3f& p)
+vec4f get_voxel_value(const uniform Fields* uniform self, const vec3f& p)
 {
     switch (self->dataType)
     {
     case point:
-        return treeWalker(self, p, self->distance, self->cutoff, 0u);
+        return make_vec4f(0.f, 0.f, 0.f, treeWalker(self, 0, p, self->distance, self->cutoff));
     case vector:
-        const vec3f sampleValue = treeWalker3(self, p, self->distance, self->cutoff, 0u);
-        return clamp(length(sampleValue), self->transferFunction->valueRange.x, self->transferFunction->valueRange.y);
+        const vec3f sampleValue = treeWalker3(self, 0, p, self->distance, self->cutoff);
+        return make_vec4f(normalize(sampleValue), length(sampleValue));
     }
-    return 0.f;
+    return make_vec4f(0.f);
 }
 
 unmasked void Field_bounds(const RTCBoundsFunctionArguments* uniform args)
@@ -123,9 +139,12 @@ unmasked void Field_intersect(const RTCIntersectFunctionNArguments* uniform args
     float t0 = reduce_max(near);
     float t1 = reduce_min(far);
 
-    const float diag = max(self->spacing.x, max(self->spacing.y, self->spacing.z));
-    const float step = max(0.1f, diag / self->samplingRate);
-    const float random = 0; // TODO: rnd(seed) * step;
+    const float diag = reduce_max(self->spacing);
+    const float step = max(self->epsilon, diag / self->samplingRate);
+
+    float random = 0.f;
+    rdrand(&random);
+    random *= step;
 
     // Apply ray clipping
     t0 = max(t0, ray->t0);
@@ -138,20 +157,20 @@ unmasked void Field_intersect(const RTCIntersectFunctionNArguments* uniform args
         {
             const vec3f p = ray->org + t * ray->dir;
             const vec3f p0 = (p - self->offset) / self->spacing;
-            const float voxelValue = get_voxel_value(self, p0);
-            const float voxelAlpha = self->transferFunction->getOpacityForValue(self->transferFunction, voxelValue);
+            const vec4f voxelValue = get_voxel_value(self, p0);
+            const float voxelAlpha = self->transferFunction->getOpacityForValue(self->transferFunction, voxelValue.w);
             if (voxelAlpha > 0.f)
             {
-                vec3f normal = make_vec3f(voxelValue);
+                vec3f normal = make_vec3f(0.f);
                 if (self->gradientShadingEnabled)
                 {
                     normal = make_vec3f(0);
                     const vec3f positions[6] = {{-1, 0, 0}, {1, 0, 0}, {0, -1, 0}, {0, 1, 0}, {0, 0, -1}, {0, 0, 1}};
-                    for (uint64 i = 0; i < 6; ++i)
+                    for (uint32 i = 0; i < 6; ++i)
                     {
                         const vec3f p1 = p0 + (positions[i] * self->gradientOffset);
-                        const float voxelValue = get_voxel_value(self, p1);
-                        normal = normal + voxelValue * positions[i];
+                        const vec4f voxelValue = get_voxel_value(self, p1);
+                        normal = normal + voxelValue.w * positions[i];
                     }
                     normal = normalize(-1.f * normal);
                 }
@@ -160,12 +179,13 @@ unmasked void Field_intersect(const RTCIntersectFunctionNArguments* uniform args
                 ray->instID = args->context->instID[0];
                 ray->t = t;
                 ray->Ng = normal;
-                ray->time = voxelValue;
-                break;
+                ray->time = voxelValue.w;
+                return;
             }
             t += step;
         }
     }
+    return;
 }
 
 static void Field_postIntersect(uniform Geometry* uniform geometry, uniform Model* uniform model,
@@ -190,8 +210,14 @@ static void Field_postIntersect(uniform Geometry* uniform geometry, uniform Mode
     }
     dg.Ng = Ng;
     dg.Ns = Ns;
-    dg.color = make_vec4f(this->transferFunction->getColorForValue(this->transferFunction, ray.time),
-                          this->transferFunction->getOpacityForValue(this->transferFunction, ray.time));
+    const float voxelValue = ray.time;
+    const float opacity = this->transferFunction->getOpacityForValue(this->transferFunction, voxelValue);
+    const vec3f color = this->transferFunction->getColorForValue(this->transferFunction, voxelValue);
+    dg.color = make_vec4f(color, opacity);
+
+    const float diag = reduce_max(this->spacing);
+    const float step = max(this->epsilon, diag / this->samplingRate);
+    dg.epsilon = step;
 }
 
 export void* uniform Field_create(void* uniform cppEquivalent)
@@ -203,7 +229,7 @@ export void* uniform Field_create(void* uniform cppEquivalent)
 
 export void Field_set(void* uniform _self, void* uniform _model, const uniform vec3i& dimensions,
                       const uniform vec3f& spacing, const uniform vec3f& offset, void* uniform indices,
-                      void* uniform values, int uniform numPrimitives)
+                      void* uniform values, int uniform dataType, int uniform numPrimitives)
 {
     uniform Fields* uniform self = (uniform Fields * uniform) _self;
     uniform Model* uniform model = (uniform Model * uniform) _model;
@@ -214,17 +240,14 @@ export void Field_set(void* uniform _self, void* uniform _model, const uniform v
     self->super.model = model;
     self->super.geomID = geomID;
     self->super.numPrimitives = numPrimitives;
+
     self->dimensions = dimensions;
-    self->offset = offset;
     self->spacing = spacing;
+    self->offset = offset;
+
     self->indices = (uniform uint32 * uniform) indices;
     self->values = (uniform float* uniform)values;
-
-    self->distance = 1.f;
-    self->cutoff = 1500.f;
-    self->gradientOffset = 0.001f;
-    self->gradientShadingEnabled = false;
-    self->samplingRate = 1.f;
+    self->dataType = dataType;
 
     rtcSetGeometryUserData(geom, self);
     rtcSetGeometryUserPrimitiveCount(geom, numPrimitives);
@@ -233,4 +256,17 @@ export void Field_set(void* uniform _self, void* uniform _model, const uniform v
     rtcSetGeometryOccludedFunction(geom, (uniform RTCOccludedFunctionN)&Field_intersect);
     rtcCommitGeometry(geom);
     rtcReleaseGeometry(geom);
+}
+
+export void Field_commit(void* uniform _self, const uniform float& distance, const uniform float& cutoff,
+                         const uniform float& gradientOffset, const uniform bool& gradientShadingEnabled,
+                         const uniform float& samplingRate, const uniform float& epsilon)
+{
+    uniform Fields* uniform self = (uniform Fields * uniform) _self;
+    self->distance = distance;
+    self->cutoff = cutoff;
+    self->gradientOffset = gradientOffset;
+    self->gradientShadingEnabled = gradientShadingEnabled;
+    self->samplingRate = samplingRate;
+    self->epsilon = epsilon;
 }

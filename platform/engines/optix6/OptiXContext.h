@@ -145,10 +145,9 @@ static const char* CONTEXT_VOLUME_USER_PARAMETERS = "volumeUserParameters";
 // Fields parameters
 static const char* CONTEXT_FIELD_GRADIENT_SHADING_ENABLED = "fieldGradientShadingEnabled";
 static const char* CONTEXT_FIELD_GRADIENT_OFFSET = "fieldGradientOffset";
-static const char* CONTEXT_FIELD_SINGLE_SHADE = "fieldSingleShade";
-static const char* CONTEXT_FIELD_PRE_INTEGRATION = "fieldPreIntegration";
 static const char* CONTEXT_FIELD_SAMPLING_RATE = "fieldSamplingRate";
-static const char* CONTEXT_FIELD_USER_PARAMETERS = "fieldUserParameters";
+static const char* CONTEXT_FIELD_CUTOFF = "fieldCutoff";
+static const char* CONTEXT_FIELD_DISTANCE = "fieldDistance";
 
 // Geometry parameters
 static const char* CONTEXT_GEOMETRY_SDF_EPSILON = "geometrySdfEpsilon";

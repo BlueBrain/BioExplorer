@@ -24,6 +24,7 @@
 
 #include <platform/core/common/Api.h>
 #include <platform/core/common/BaseObject.h>
+#include <platform/core/common/CommonTypes.h>
 #include <platform/core/common/PropertyMap.h>
 #include <platform/core/common/Transformation.h>
 #include <platform/core/common/Types.h>
@@ -473,7 +474,7 @@ public:
      * @param volumeParameters Parameters for volume
      */
     PLATFORM_API Model(AnimationParameters& animationParameters, VolumeParameters& volumeParameters,
-                       GeometryParameters& geometryParameters);
+                       GeometryParameters& geometryParameters, FieldParameters& fieldParameters);
 
     /**
      * @brief Virtual destructor for Model class
@@ -531,11 +532,11 @@ public:
 
     /**
      * @brief Create a computed field with the given dimensions, voxel spacing and data type
-     * @param dimensions Dimensions of volume
-     * @param spacing Spacing of volume
      * @return Pointer to created field
      */
-    PLATFORM_API virtual FieldPtr createField(const Vector3ui& dimensions, const Vector3f& spacing) = 0;
+    PLATFORM_API virtual FieldPtr createField(const Vector3ui& dimensions, const Vector3f& spacing,
+                                              const Vector3f& offset, const uint32_ts& indices, const floats& values,
+                                              const OctreeDataType dataType) = 0;
 
     /**
      * @brief Pure virtual function to build bounding box
@@ -840,6 +841,7 @@ protected:
     AnimationParameters& _animationParameters;
     VolumeParameters& _volumeParameters;
     GeometryParameters& _geometryParameters;
+    FieldParameters& _fieldParameters;
 
     AbstractSimulationHandlerPtr _simulationHandler;
     TransferFunction _transferFunction;

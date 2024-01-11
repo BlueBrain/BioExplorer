@@ -34,14 +34,11 @@ namespace ospray
 class OSPRayField : public Field
 {
 public:
-    OSPRayField(const Vector3ui& dimensions, const Vector3f& spacing, const VolumeParameters& parameters,
-                OSPTransferFunction transferFunction);
-
-    /** @copydoc OctreeVolume::setOctree */
-    void setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
-                   const OctreeDataType dataType) final;
-
-protected:
+    OSPRayField(const FieldParameters& parameters, const Vector3ui& dimensions, const Vector3f& spacing,
+                const Vector3f& offset, const uint32_ts& indices, const floats& values, const OctreeDataType dataType)
+        : Field(parameters, dimensions, spacing, offset, indices, values, dataType)
+    {
+    }
 };
 } // namespace ospray
 } // namespace engine

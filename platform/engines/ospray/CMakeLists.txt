@@ -64,7 +64,6 @@ set(${NAME}_SOURCES
   OSPRayScene.cpp
   OSPRayVolume.cpp
   OSPRayUtils.cpp
-  OSPRayField.cpp
   ispc/camera/AnaglyphCamera.cpp
   ispc/camera/OrthographicCamera.cpp
   ispc/camera/PanoramicCamera.cpp

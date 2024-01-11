@@ -187,6 +187,7 @@ class GeometryParameters;
 class ParametersManager;
 class RenderingParameters;
 class VolumeParameters;
+class FieldParameters;
 
 class PluginAPI;
 class ExtensionPlugin;

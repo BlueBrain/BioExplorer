@@ -40,7 +40,7 @@ class OptiXModel : public Model
 {
 public:
     OptiXModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters,
-               GeometryParameters& geometryParameters);
+               GeometryParameters& geometryParameters, FieldParameters& fieldParameters);
 
     ~OptiXModel();
 
@@ -62,7 +62,8 @@ public:
                                                  const DataType type) final;
 
     /** @copydoc Model::createField */
-    virtual FieldPtr createField(const Vector3ui& dimensions, const Vector3f& spacing) final;
+    virtual FieldPtr createField(const Vector3ui& dimensions, const Vector3f& spacing, const Vector3f& offset,
+                                 const uint32_ts& indices, const floats& values, const OctreeDataType dataType) final;
 
     ::optix::GeometryGroup getGeometryGroup() const { return _geometryGroup; }
     ::optix::GeometryGroup getBoundingBoxGroup() const { return _boundingBoxGroup; }

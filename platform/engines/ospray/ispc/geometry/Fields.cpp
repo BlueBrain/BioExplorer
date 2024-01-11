@@ -44,19 +44,35 @@ void Fields::finalize(::ospray::Model *model)
     const size_t numFields = 1;
     _indices = getParamData(OSPRAY_GEOMETRY_PROPERTY_FIELD_INDICES, nullptr);
     _values = getParamData(OSPRAY_GEOMETRY_PROPERTY_FIELD_VALUES, nullptr);
+    _dataType = getParam1i(OSPRAY_GEOMETRY_PROPERTY_FIELD_DATATYPE, 0);
 
     _dimensions = getParam3i(OSPRAY_GEOMETRY_PROPERTY_FIELD_DIMENSIONS, ::ospray::vec3i());
     _spacing = getParam3f(OSPRAY_GEOMETRY_PROPERTY_FIELD_SPACING, ::ospray::vec3f());
     _offset = getParam3f(OSPRAY_GEOMETRY_PROPERTY_FIELD_OFFSET, ::ospray::vec3f());
 
     ::ispc::Field_set(getIE(), model->getIE(), (ispc::vec3i &)_dimensions, (ispc::vec3f &)_spacing,
-                      (ispc::vec3f &)_offset, _indices->data, _values->data, numFields);
+                      (ispc::vec3f &)_offset, _indices->data, _values->data, _dataType, numFields);
 
     // Transfer function
     ::ospray::TransferFunction *transferFunction =
         (::ospray::TransferFunction *)getParamObject(DEFAULT_COMMON_TRANSFER_FUNCTION, nullptr);
     if (transferFunction)
         ::ispc::Field_setTransferFunction(getIE(), transferFunction->getIE());
+
+    commit();
+}
+
+void Fields::commit()
+{
+    _distance = getParamf(OSPRAY_FIELD_PROPERTY_DISTANCE, 1.f);
+    _cutoff = getParamf(OSPRAY_FIELD_PROPERTY_CUTOFF, 1500.f);
+    _gradientOffset = getParamf(OSPRAY_FIELD_PROPERTY_GRADIENT_OFFSET, 1e-6f);
+    _gradientShadingEnabled = getParam1i(OSPRAY_FIELD_PROPERTY_GRADIENT_SHADING_ENABLED, false);
+    _samplingRate = getParamf(OSPRAY_FIELD_PROPERTY_SAMPLING_RATE, 1.f);
+    _epsilon = getParamf(OSPRAY_FIELD_PROPERTY_EPSILON, 1e-6f);
+
+    ::ispc::Field_commit(getIE(), _distance, _cutoff, _gradientOffset, _gradientShadingEnabled, _samplingRate,
+                         _epsilon);
 }
 
 OSP_REGISTER_GEOMETRY(Fields, fields);

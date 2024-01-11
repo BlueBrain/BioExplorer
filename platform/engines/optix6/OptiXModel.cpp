@@ -70,8 +70,8 @@ void setBuffer(RTbuffertype bufferType, RTformat bufferFormat, ::optix::Handle<:
 }
 
 OptiXModel::OptiXModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters,
-                       GeometryParameters& geometryParameters)
-    : Model(animationParameters, volumeParameters, geometryParameters)
+                       GeometryParameters& geometryParameters, FieldParameters& fieldParameters)
+    : Model(animationParameters, volumeParameters, geometryParameters, fieldParameters)
 {
 }
 
@@ -694,7 +694,8 @@ SharedDataVolumePtr OptiXModel::createSharedDataVolume(const Vector3ui& dimensio
     return volume;
 }
 
-FieldPtr OptiXModel::createField(const Vector3ui& dimensions, const Vector3f& spacing)
+FieldPtr OptiXModel::createField(const Vector3ui& dimensions, const Vector3f& spacing, const Vector3f& offset,
+                                 const uint32_ts& indices, const floats& values, const OctreeDataType dataType)
 {
     if (!_geometries->_volumes.empty())
         return nullptr;
@@ -706,14 +707,12 @@ FieldPtr OptiXModel::createField(const Vector3ui& dimensions, const Vector3f& sp
     auto material = createMaterial(materialId, "volume" + std::to_string(materialId));
     _materials[materialId] = material;
 
-    const auto field = std::make_shared<OptiXField>(dimensions, spacing, _volumeParameters);
+    const auto field =
+        std::make_shared<OptiXField>(_fieldParameters, dimensions, spacing, offset, indices, values, dataType);
     _geometries->_fields[materialId] = field;
 
-    VolumeGeometry volumeGeometry;
-    volumeGeometry.dimensions = field->getDimensions();
-    volumeGeometry.offset = field->getOffset();
-    volumeGeometry.spacing = field->getElementSpacing();
-    _volumeGeometries[materialId] = volumeGeometry;
+    FieldGeometry fieldGeometry;
+    _fieldGeometries[materialId] = fieldGeometry;
 
     _fieldsDirty = true;
     return field;

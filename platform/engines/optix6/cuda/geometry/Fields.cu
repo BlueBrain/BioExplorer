@@ -71,18 +71,18 @@ __device__ float treeWalker(const int fieldOctreeIndicesId, const int fieldOctre
     float voxelValue = 0.f;
     for (uint childIndex = begin; childIndex <= end; ++childIndex)
     {
-        const uint idx = childIndex * FIELD_POINT_DATA_SIZE;
+        const uint childIdxData = childIndex * FIELD_POINT_DATA_SIZE;
         const float3 childPosition =
-            make_float3(optix::rtTex1D<float>(fieldOctreeValuesId, idx + FIELD_POINT_OFFSET_POSITION_X),
-                        optix::rtTex1D<float>(fieldOctreeValuesId, idx + FIELD_POINT_OFFSET_POSITION_Y),
-                        optix::rtTex1D<float>(fieldOctreeValuesId, idx + FIELD_POINT_OFFSET_POSITION_Z));
+            make_float3(optix::rtTex1D<float>(fieldOctreeValuesId, childIdxData + FIELD_POINT_OFFSET_POSITION_X),
+                        optix::rtTex1D<float>(fieldOctreeValuesId, childIdxData + FIELD_POINT_OFFSET_POSITION_Y),
+                        optix::rtTex1D<float>(fieldOctreeValuesId, childIdxData + FIELD_POINT_OFFSET_POSITION_Z));
         const float d = length(point - childPosition);
 
         if (d >= cutoff)
         {
             // Child is further than the cutoff distance, no need to evaluate events in the child node, we take the
             // precomputed value of node instead
-            const float value = optix::rtTex1D<float>(fieldOctreeValuesId, idx + FIELD_POINT_OFFSET_VALUE);
+            const float value = optix::rtTex1D<float>(fieldOctreeValuesId, childIdxData + FIELD_POINT_OFFSET_VALUE);
             voxelValue += value / (d * d);
         }
         else
@@ -165,16 +165,15 @@ static __device__ float4 get_voxel_value(const int idx, const float3& point)
     const int fieldOctreeType = static_cast<int>(fields[idx + FIELD_OFFSET_OCTREE_TYPE]);
     if (fieldOctreeIndicesId != 0 && fieldOctreeValuesId != 0)
     {
-        const float distance = fieldUserParameters.x;
-        const float cutoff = fieldUserParameters.y;
         switch (fieldOctreeType)
         {
         case OctreeDataType::point:
             return make_float4(0.f, 0.f, 0.f,
-                               treeWalker<0>(fieldOctreeIndicesId, fieldOctreeValuesId, point, distance, cutoff, 0u));
+                               treeWalker<0>(fieldOctreeIndicesId, fieldOctreeValuesId, point, fieldDistance,
+                                             fieldCutoff, 0u));
         case OctreeDataType::vector:
             const float3 sampleValue =
-                treeWalker3<0>(fieldOctreeIndicesId, fieldOctreeValuesId, point, distance, cutoff, 0u);
+                treeWalker3<0>(fieldOctreeIndicesId, fieldOctreeValuesId, point, fieldDistance, fieldCutoff, 0u);
             return make_float4(normalize(sampleValue), length(sampleValue));
         }
     }

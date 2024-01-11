@@ -197,10 +197,11 @@ ModelDescriptorPtr ModelDescriptor::clone(ModelPtr model) const
 }
 
 Model::Model(AnimationParameters& animationParameters, VolumeParameters& volumeParameters,
-             GeometryParameters& geometryParameters)
+             GeometryParameters& geometryParameters, FieldParameters& fieldParameters)
     : _animationParameters(animationParameters)
     , _volumeParameters(volumeParameters)
     , _geometryParameters(geometryParameters)
+    , _fieldParameters(fieldParameters)
 {
 }
 

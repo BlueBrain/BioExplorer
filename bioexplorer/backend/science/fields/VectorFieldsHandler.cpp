@@ -149,8 +149,7 @@ void VectorFieldsHandler::_buildOctree()
 
     const auto& params = _engine.getParametersManager().getApplicationParameters();
     const auto& engineName = params.getEngine();
-    auto field = _model->createField(_dimensions, _spacing);
-    field->setOctree(_offset, indices, data, OctreeDataType::vector);
+    auto field = _model->createField(_dimensions, _spacing, _offset, indices, data, OctreeDataType::vector);
     _frameData.clear();
     _frameSize = 0;
 
