@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "FieldsHandler.h"
+#include "FieldBuilder.h"
 
 #include <platform/core/common/Types.h>
 #include <platform/core/engineapi/Scene.h>
@@ -33,28 +33,19 @@ namespace bioexplorer
 namespace fields
 {
 /**
- * @brief The VectorFieldsHandler class handles electro-magnetic fields data
+ * @brief The VectorFieldBuilder class handles electro-magnetic fields data
  * structures
  */
-class VectorFieldsHandler : public FieldsHandler
+class VectorFieldBuilder : public FieldBuilder
 {
 public:
     /**
      * @brief Default constructor
      */
-    VectorFieldsHandler(core::Engine& engine, core::Model& model, const double voxelSize, const double density,
-                        const uint32_ts& modelIds);
+    VectorFieldBuilder();
 
-    /**
-     * @brief Clone the AbstractSimulationHandler
-     *
-     * @return AbstractSimulationHandlerPtr Clone of the  AbstractSimulationHandler
-     */
-    core::AbstractSimulationHandlerPtr clone() const final;
-
-private:
-    void _buildOctree() final;
+    void buildOctree(core::Engine& engine, core::Model& model, const double voxelSize, const double density,
+                     const uint32_ts& modelIds) final;
 };
-typedef std::shared_ptr<VectorFieldsHandler> VectorFieldsHandlerPtr;
 } // namespace fields
 } // namespace bioexplorer

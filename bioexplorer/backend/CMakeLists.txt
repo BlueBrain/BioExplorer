@@ -60,9 +60,8 @@ set(${NAME}_SOURCES
     science/common/shapes/PointShape.cpp
     science/common/Assembly.cpp
     science/common/ThreadSafeContainer.cpp
-    science/fields/FieldsHandler.cpp
-    science/fields/PointFieldsHandler.cpp
-    science/fields/VectorFieldsHandler.cpp
+    science/fields/PointFieldBuilder.cpp
+    science/fields/VectorFieldBuilder.cpp
     science/io/CacheLoader.cpp
     science/io/OOCManager.cpp
     science/io/db/DBConnector.cpp
@@ -145,9 +144,9 @@ set(${NAME}_PUBLIC_HEADERS
     science/common/shapes/RNAShape.h
     science/common/shapes/PointShape.h
     science/meshing/PointCloudMesher.h
-    science/fields/FieldsHandler.h
-    science/fields/PointFieldsHandler.h
-    science/fields/VectorFieldsHandler.h
+    science/fields/FieldBuilder.h
+    science/fields/PointFieldBuilder.h
+    science/fields/VectorFieldBuilder.h
     science/meshing/SurfaceMesher.h
     science/api/Params.h
     science/BioExplorerPlugin.h
