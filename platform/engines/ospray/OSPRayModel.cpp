@@ -424,6 +424,7 @@ void OSPRayModel::_commitFields(const size_t materialId)
     osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_DIMENSIONS, field->getDimensions());
     osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_SPACING, field->getElementSpacing());
     osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_OFFSET, field->getOffset());
+    osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_DATATYPE, field->getOctreeDataType());
     ospSetObject(ospField, DEFAULT_COMMON_TRANSFER_FUNCTION, _ospTransferFunction);
 
     ospCommit(ospField);

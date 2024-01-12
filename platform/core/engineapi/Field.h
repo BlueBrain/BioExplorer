@@ -30,17 +30,16 @@ SERIALIZATION_ACCESS(Field)
 namespace core
 {
 /**
- * @brief A volume type where the voxels are computed in real-time using a pre-loaded Octree structure of events (3D
- * position and value)
- * @extends Volume
+ * @brief A field is volume in which voxels are computed in real-time using a pre-loaded Octree structure of events
+ * defined by a 3D position and a value (float or Vector3)
  */
 class Field : public PropertyObject
 {
 public:
     /**
      * @brief Constructs a new Field object.
-     * @param dimensions The dimensions of the volume as a Vector3ui object.
-     * @param spacing The spacing between voxels as a Vector3f object.
+     * @param dimensions The dimensions of the volume
+     * @param spacing The spacing between voxels
      * @param offset Location of the octree in the 3D scene
      * @param indices Indices of the Octree
      * @param values Values of the Octree
@@ -60,15 +59,15 @@ public:
     }
 
     /**
-     * @brief Gets the bounding box of the volume.
-     * @return The bounding box of the volume as a Boxd object.
+     * @brief Gets the bounding box of the field
+     * @return The bounding box of the field as a Boxd object.
      */
     PLATFORM_API Boxd getBounds() const { return {_offset, _offset + Vector3f(_dimensions) * _spacing}; }
 
     /**
      * @brief Get the Dimensions object
      *
-     * @return The dimensions of the volume in the 3D scene
+     * @return The dimensions of the field in the 3D scene
      */
     PLATFORM_API Vector3i getDimensions() const { return _dimensions; }
 
@@ -82,7 +81,7 @@ public:
     /**
      * @brief Get the Offset object
      *
-     * @return The location of the volume in the 3D scene
+     * @return The location of the field in the 3D scene
      */
     PLATFORM_API Vector3f getOffset() const { return _offset; }
 

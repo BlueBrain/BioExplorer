@@ -145,6 +145,9 @@ void VectorFieldBuilder::buildOctree(core::Engine& engine, core::Model& model, c
     const auto& params = engine.getParametersManager().getApplicationParameters();
     const auto& engineName = params.getEngine();
     auto field = model.createField(dimensions, spacing, offset, indices, data, OctreeDataType::vector);
+    const size_t materialId = FIELD_MATERIAL_ID;
+    model.addField(materialId, field);
+    model.createMaterial(materialId, std::to_string(materialId));
 
     PLUGIN_INFO(1, "--------------------------------------------");
     PLUGIN_INFO(1, "Vector Octree information (" << vectors.size() << " vectors)");

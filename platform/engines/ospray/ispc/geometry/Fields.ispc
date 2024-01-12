@@ -74,7 +74,7 @@ vec3f treeWalker3(const uniform Fields* uniform self, const varying int32 depth,
         return make_vec3f(self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_X],
                           self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_Y],
                           self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_Z]) /
-               (self->distance * self->distance);
+               (distance * distance);
 
     vec3f voxelValue = make_vec3f(0.f);
     for (uint32 childIndex = begin; childIndex <= end; ++childIndex)
@@ -128,6 +128,9 @@ unmasked void Field_intersect(const RTCIntersectFunctionNArguments* uniform args
     const uniform int primID = args->primID;
 
     varying Ray* uniform ray = (varying Ray * uniform) args->rayhit;
+
+    if (ray->flags == RAY_FLAG_SECONDARY)
+        return;
 
     const vec3f boxMin = self->offset;
     const vec3f boxMax = self->offset + make_vec3f(self->dimensions) * self->spacing;

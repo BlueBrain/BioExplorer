@@ -23,7 +23,6 @@
 
 #include <platform/core/common/CommonTypes.h>
 #include <platform/core/engineapi/BrickedVolume.h>
-#include <platform/core/engineapi/OctreeVolume.h>
 #include <platform/core/engineapi/SharedDataVolume.h>
 
 #include <ospray/SDK/volume/Volume.h>
@@ -59,7 +58,7 @@ protected:
 class OSPRayBrickedVolume : public BrickedVolume, public OSPRayVolume
 {
 public:
-    /** @copydoc OctreeVolume::OctreeVolume */
+    /** @copydoc BrickedVolume::BrickedVolume */
     OSPRayBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type,
                         const VolumeParameters& params, OSPTransferFunction transferFunction);
     /** @copydoc SharedDataVolume::setBrick */
@@ -69,24 +68,12 @@ public:
 class OSPRaySharedDataVolume : public SharedDataVolume, public OSPRayVolume
 {
 public:
-    /** @copydoc OctreeVolume::OctreeVolume */
+    /** @copydoc SharedDataVolume::SharedDataVolume */
     OSPRaySharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type,
                            const VolumeParameters& params, OSPTransferFunction transferFunction);
 
     /** @copydoc SharedDataVolume::setVoxels */
     void setVoxels(const void* voxels) final;
-};
-
-class OSPRayOctreeVolume : public OctreeVolume, public OSPRayVolume
-{
-public:
-    /** @copydoc OctreeVolume::OctreeVolume */
-    OSPRayOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType Type,
-                       const VolumeParameters& params, OSPTransferFunction transferFunction);
-
-    /** @copydoc OctreeVolume::setOctree */
-    void setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
-                   const OctreeDataType dataType) final;
 };
 } // namespace ospray
 } // namespace engine

@@ -150,11 +150,9 @@ using FieldsMap = std::map<size_t, FieldPtr>;
 class Volume;
 class BrickedVolume;
 class SharedDataVolume;
-class OctreeVolume;
 using VolumePtr = std::shared_ptr<Volume>;
 using SharedDataVolumePtr = std::shared_ptr<SharedDataVolume>;
 using BrickedVolumePtr = std::shared_ptr<BrickedVolume>;
-using OctreeVolumePtr = std::shared_ptr<OctreeVolume>;
 using VolumesMap = std::map<size_t, VolumePtr>;
 
 class Texture2D;

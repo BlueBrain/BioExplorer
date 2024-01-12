@@ -100,14 +100,6 @@ OSPRaySharedDataVolume::OSPRaySharedDataVolume(const Vector3ui& dimensions, cons
 {
 }
 
-OSPRayOctreeVolume::OSPRayOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type,
-                                       const VolumeParameters& params, OSPTransferFunction transferFunction)
-    : Volume(dimensions, spacing, type)
-    , OctreeVolume(dimensions, spacing, type)
-    , OSPRayVolume(dimensions, spacing, type, params, transferFunction, OSPRAY_VOLUME_PROPERTY_TYPE_OCTREE)
-{
-}
-
 void OSPRayVolume::setDataRange(const Vector2f& range)
 {
     _valueRange = range;
@@ -130,29 +122,6 @@ void OSPRaySharedDataVolume::setVoxels(const void* voxels)
     SharedDataVolume::_sizeInBytes += glm::compMul(SharedDataVolume::_dimensions) * _dataSize;
     ospSetData(_volume, OSPRAY_VOLUME_VOXEL_DATA, data);
     ospRelease(data);
-    markModified();
-}
-
-void OSPRayOctreeVolume::setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
-                                   const OctreeDataType dataType)
-{
-    _octreeIndices = indices;
-    _octreeValues = values;
-    _octreeDataType = dataType;
-    _offset = offset;
-
-    osphelper::set(_volume, OSPRAY_VOLUME_DIMENSIONS, Vector3f(_dimensions));
-    osphelper::set(_volume, OSPRAY_VOLUME_OFFSET, _offset);
-    osphelper::set(_volume, OSPRAY_VOLUME_SPACING, _spacing);
-
-    OSPData indicesData = ospNewData(_octreeIndices.size(), OSP_ULONG, _octreeIndices.data(), OSP_DATA_SHARED_BUFFER);
-    ospSetData(_volume, OSPRAY_VOLUME_OCTREE_INDICES, indicesData);
-    ospRelease(indicesData);
-
-    OSPData valuesData = ospNewData(_octreeValues.size(), OSP_FLOAT, _octreeValues.data(), OSP_DATA_SHARED_BUFFER);
-    ospSetData(_volume, OSPRAY_VOLUME_OCTREE_VALUES, valuesData);
-    ospRelease(valuesData);
-
     markModified();
 }
 
