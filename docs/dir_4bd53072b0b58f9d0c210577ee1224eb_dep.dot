@@ -9,5 +9,5 @@ digraph "bioexplorer" {
   dir_5d3b5975966398b5baf34c09cbec0461 [shape=box label="pythonsdk" fillcolor="white" style="filled" color="red" URL="dir_5d3b5975966398b5baf34c09cbec0461.html"];
   }
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_cdbbbf3321683c1efcc0d976dd1498c7->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="265", labeldistance=1.5 headhref="dir_000001_000061.html"];
+  dir_cdbbbf3321683c1efcc0d976dd1498c7->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="267", labeldistance=1.5 headhref="dir_000001_000061.html"];
 }

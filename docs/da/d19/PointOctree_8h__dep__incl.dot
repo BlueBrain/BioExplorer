@@ -7,7 +7,7 @@ digraph "platform/core/common/octree/PointOctree.h"
   Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node2 [label="platform/core/common\l/octree/PointOctree.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d0a/PointOctree_8cpp.html",tooltip=" "];
   Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node3 [label="bioexplorer/backend\l/science/fields/PointFields\lHandler.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d19/PointFieldsHandler_8cpp.html",tooltip=" "];
+  Node3 [label="bioexplorer/backend\l/science/fields/PointField\lBuilder.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d00/PointFieldBuilder_8cpp.html",tooltip=" "];
   Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node4 [label="bioexplorer/backend\l/plugins/Sonata/plugin\l/neuroscience/neuron/MEGHandler.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d89/MEGHandler_8cpp.html",tooltip=" "];
 }

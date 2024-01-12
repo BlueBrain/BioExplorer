@@ -49,9 +49,9 @@ digraph "platform/core/parameters/ParametersManager.h"
   Node1 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node23 [label="bioexplorer/backend\l/science/BioExplorerPlugin.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d19/BioExplorerPlugin_8cpp.html",tooltip=" "];
   Node1 -> Node24 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node24 [label="bioexplorer/backend\l/science/fields/PointFields\lHandler.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d19/PointFieldsHandler_8cpp.html",tooltip=" "];
+  Node24 [label="bioexplorer/backend\l/science/fields/PointField\lBuilder.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d00/PointFieldBuilder_8cpp.html",tooltip=" "];
   Node1 -> Node25 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node25 [label="bioexplorer/backend\l/science/fields/VectorFields\lHandler.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d11/VectorFieldsHandler_8cpp.html",tooltip=" "];
+  Node25 [label="bioexplorer/backend\l/science/fields/VectorField\lBuilder.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/de8/VectorFieldBuilder_8cpp.html",tooltip=" "];
   Node1 -> Node26 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node26 [label="bioexplorer/backend\l/science/io/CacheLoader.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/dec/CacheLoader_8cpp.html",tooltip=" "];
   Node1 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

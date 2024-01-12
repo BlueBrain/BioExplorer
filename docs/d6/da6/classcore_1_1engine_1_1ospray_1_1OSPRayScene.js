@@ -1,6 +1,6 @@
 var classcore_1_1engine_1_1ospray_1_1OSPRayScene =
 [
-    [ "OSPRayScene", "d6/da6/classcore_1_1engine_1_1ospray_1_1OSPRayScene.html#aca2ced7926be502fd54c3025116efe30", null ],
+    [ "OSPRayScene", "d6/da6/classcore_1_1engine_1_1ospray_1_1OSPRayScene.html#a8e7b7ceffbf9147f2e9b87ff93af902b", null ],
     [ "~OSPRayScene", "d6/da6/classcore_1_1engine_1_1ospray_1_1OSPRayScene.html#ab20317d51684b9a9b7dbfcedc613873c", null ],
     [ "commit", "d6/da6/classcore_1_1engine_1_1ospray_1_1OSPRayScene.html#a30824ee4ad3dbd057f7938f0e10dc3ae", null ],
     [ "commitLights", "d6/da6/classcore_1_1engine_1_1ospray_1_1OSPRayScene.html#ab8322891f288002956845eb161827bfc", null ],

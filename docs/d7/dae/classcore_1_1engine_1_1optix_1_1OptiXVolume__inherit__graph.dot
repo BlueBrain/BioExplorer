@@ -9,7 +9,5 @@ digraph "core::engine::optix::OptiXVolume"
   Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node3 [label="core::BaseObject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dc6/classcore_1_1BaseObject.html",tooltip=" "];
   Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node4 [label="core::engine::optix\l::OptiXOctreeVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dcc/classcore_1_1engine_1_1optix_1_1OptiXOctreeVolume.html",tooltip=" "];
-  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node5 [label="core::engine::optix\l::OptiXSharedDataVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/da5/classcore_1_1engine_1_1optix_1_1OptiXSharedDataVolume.html",tooltip=" "];
+  Node4 [label="core::engine::optix\l::OptiXSharedDataVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/da5/classcore_1_1engine_1_1optix_1_1OptiXSharedDataVolume.html",tooltip=" "];
 }

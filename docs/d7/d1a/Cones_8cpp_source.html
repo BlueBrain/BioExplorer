@@ -107,14 +107,14 @@ $(document).ready(function(){initNavTree('d7/d1a/Cones_8cpp_source.html','../../
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d1/d9b/Cone_8h.html">platform/core/common/geometry/Cone.h</a>&gt;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d2/d87/OSPRayProperties_8h.html">platform/engines/ospray/OSPRayProperties.h</a>&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../da/d86/Cones_8h.html">Cones.h</a>&quot;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;Cones_ispc.h&quot;</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../da/d86/Cones_8h.html">Cones.h</a>&quot;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;ospray/SDK/common/Data.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;ospray/SDK/common/Model.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Cones_ispc.h&quot;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d1/d9b/Cone_8h.html">platform/core/common/geometry/Cone.h</a>&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d2/d87/OSPRayProperties_8h.html">platform/engines/ospray/OSPRayProperties.h</a>&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/common/Data.h&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/common/Model.h&gt;</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;climits&gt;</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
@@ -140,28 +140,13 @@ $(document).ready(function(){initNavTree('d7/d1a/Cones_8cpp_source.html','../../
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;#ospray:geometry/cones: no &#39;cones&#39; data specified&quot;</span>);</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> numCones = <a class="code" href="../../d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html#af2fa98c0f4a977a05f2e190acc00081e">data</a>-&gt;numBytes / bytesPerCone;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    bounds = ::ospray::empty;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> geoms = <span class="keyword">static_cast&lt;</span><a class="code" href="../../d9/d5c/structCone.html">Cone</a>*<span class="keyword">&gt;</span>(<a class="code" href="../../d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html#af2fa98c0f4a977a05f2e190acc00081e">data</a>-&gt;data);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; numCones; i++)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keyword">const</span> core::Cone&amp; geom = geoms[i];</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> center = ::ospray::vec3f(geom.center[0], geom.center[1], geom.center[2]);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> up = ::ospray::vec3f(geom.up[0], geom.up[1], geom.up[2]);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        bounds.extend(center - geom.centerRadius);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        bounds.extend(center + geom.centerRadius);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        bounds.extend(up - geom.upRadius);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        bounds.extend(up + geom.upRadius);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    ::ispc::ConesGeometry_set(getIE(), model-&gt;getIE(), <a class="code" href="../../d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html#af2fa98c0f4a977a05f2e190acc00081e">data</a>-&gt;data, numCones);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../db/da1/namespacecore_1_1engine_1_1ospray.html#aae5b4cde7e663b25244010e89e8df220">   73</a></span>&#160;<a class="code" href="../../db/da1/namespacecore_1_1engine_1_1ospray.html#aae5b4cde7e663b25244010e89e8df220">OSP_REGISTER_GEOMETRY</a>(<a class="code" href="../../d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html">Cones</a>, cones);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;} <span class="comment">// namespace ospray</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;} <span class="comment">// namespace engine</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;} <span class="comment">// namespace core</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    ::ispc::ConesGeometry_set(getIE(), model-&gt;getIE(), <a class="code" href="../../d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html#af2fa98c0f4a977a05f2e190acc00081e">data</a>-&gt;data, numCones);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="../../db/da1/namespacecore_1_1engine_1_1ospray.html#aae5b4cde7e663b25244010e89e8df220">   58</a></span>&#160;<a class="code" href="../../db/da1/namespacecore_1_1engine_1_1ospray.html#aae5b4cde7e663b25244010e89e8df220">OSP_REGISTER_GEOMETRY</a>(<a class="code" href="../../d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html">Cones</a>, cones);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;} <span class="comment">// namespace ospray</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;} <span class="comment">// namespace engine</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;} <span class="comment">// namespace core</span></div>
 <div class="ttc" id="aCone_8h_html"><div class="ttname"><a href="../../d1/d9b/Cone_8h.html">Cone.h</a></div></div>
 <div class="ttc" id="aCones_8h_html"><div class="ttname"><a href="../../da/d86/Cones_8h.html">Cones.h</a></div></div>
 <div class="ttc" id="aOSPRayProperties_8h_html"><div class="ttname"><a href="../../d2/d87/OSPRayProperties_8h.html">OSPRayProperties.h</a></div></div>
@@ -172,7 +157,7 @@ $(document).ready(function(){initNavTree('d7/d1a/Cones_8cpp_source.html','../../
 <div class="ttc" id="astructcore_1_1engine_1_1ospray_1_1Cones_html"><div class="ttname"><a href="../../d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html">core::engine::ospray::Cones</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d86/Cones_8h_source.html#l00032">Cones.h:33</a></div></div>
 <div class="ttc" id="astructcore_1_1engine_1_1ospray_1_1Cones_html_a3392f1ada74565c1d3184a1a4d5b39c6"><div class="ttname"><a href="../../d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html#a3392f1ada74565c1d3184a1a4d5b39c6">core::engine::ospray::Cones::Cones</a></div><div class="ttdeci">Cones()</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d1a/Cones_8cpp_source.html#l00041">Cones.cpp:41</a></div></div>
 <div class="ttc" id="astructcore_1_1engine_1_1ospray_1_1Cones_html_abe9b4d31032c31fe10b5272686f562dd"><div class="ttname"><a href="../../d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html#abe9b4d31032c31fe10b5272686f562dd">core::engine::ospray::Cones::finalize</a></div><div class="ttdeci">void finalize(::ospray::Model *model) final</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d1a/Cones_8cpp_source.html#l00046">Cones.cpp:46</a></div></div>
-<div class="ttc" id="astructcore_1_1engine_1_1ospray_1_1Cones_html_af2fa98c0f4a977a05f2e190acc00081e"><div class="ttname"><a href="../../d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html#af2fa98c0f4a977a05f2e190acc00081e">core::engine::ospray::Cones::data</a></div><div class="ttdeci">::ospray::Ref&lt;::ospray::Data &gt; data</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d86/Cones_8h_source.html#l00037">Cones.h:37</a></div></div>
+<div class="ttc" id="astructcore_1_1engine_1_1ospray_1_1Cones_html_af2fa98c0f4a977a05f2e190acc00081e"><div class="ttname"><a href="../../d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html#af2fa98c0f4a977a05f2e190acc00081e">core::engine::ospray::Cones::data</a></div><div class="ttdeci">::ospray::Ref&lt;::ospray::Data &gt; data</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d86/Cones_8h_source.html#l00041">Cones.h:41</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

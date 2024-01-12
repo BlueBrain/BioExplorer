@@ -2,6 +2,7 @@ var structcore_1_1SnapshotParams =
 [
     [ "animParams", "de/df2/structcore_1_1SnapshotParams.html#a4011d8a53dead7ded999cec563562f77", null ],
     [ "camera", "de/df2/structcore_1_1SnapshotParams.html#a73f8655e2b02def93fe9178252bc05ed", null ],
+    [ "fieldParams", "de/df2/structcore_1_1SnapshotParams.html#a2e6086175ae191485525c10bdc119094", null ],
     [ "filePath", "de/df2/structcore_1_1SnapshotParams.html#a29166f883834c8b0ec3c9576842b9920", null ],
     [ "format", "de/df2/structcore_1_1SnapshotParams.html#ab20a10efe17d8002cfaf95099213f994", null ],
     [ "geometryParams", "de/df2/structcore_1_1SnapshotParams.html#a4817b6eeaeaac744163df5ca94c3ed75", null ],
