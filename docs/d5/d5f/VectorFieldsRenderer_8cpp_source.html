@@ -153,7 +153,7 @@ $(document).ready(function(){initNavTree('d5/d5f/VectorFieldsRenderer_8cpp_sourc
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">// Transfer function</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    ::ospray::TransferFunction* transferFunction =</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        (::ospray::TransferFunction*)getParamObject(RENDERER_PROPERTY_TRANSFER_FUNCTION, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        (::ospray::TransferFunction*)getParamObject(DEFAULT_COMMON_TRANSFER_FUNCTION, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span> (transferFunction)</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        ::ispc::VectorFieldsRenderer_setTransferFunction(getIE(), transferFunction-&gt;getIE());</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>

@@ -24,6 +24,7 @@
 
 #include <platform/core/common/Api.h>
 #include <platform/core/common/BaseObject.h>
+#include <platform/core/common/CommonTypes.h>
 #include <platform/core/common/PropertyMap.h>
 #include <platform/core/common/Transformation.h>
 #include <platform/core/common/Types.h>
@@ -473,7 +474,7 @@ public:
      * @param volumeParameters Parameters for volume
      */
     PLATFORM_API Model(AnimationParameters& animationParameters, VolumeParameters& volumeParameters,
-                       GeometryParameters& geometryParameters);
+                       GeometryParameters& geometryParameters, FieldParameters& fieldParameters);
 
     /**
      * @brief Virtual destructor for Model class
@@ -530,15 +531,12 @@ public:
                                                               const DataType type) = 0;
 
     /**
-     * @brief Create a computed volume with the given dimensions, voxel spacing and data type
-     * where the voxels are set via setVoxels() from any memory location.
-     * @param dimensions Dimensions of volume
-     * @param spacing Spacing of volume
-     * @param type Data type of volume
-     * @return Pointer to created OctreeVolume
+     * @brief Create a computed field with the given dimensions, voxel spacing and data type
+     * @return Pointer to created field
      */
-    PLATFORM_API virtual OctreeVolumePtr createOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                                                            const DataType type) = 0;
+    PLATFORM_API virtual FieldPtr createField(const Vector3ui& dimensions, const Vector3f& spacing,
+                                              const Vector3f& offset, const uint32_ts& indices, const floats& values,
+                                              const OctreeDataType dataType) = 0;
 
     /**
      * @brief Pure virtual function to build bounding box
@@ -707,6 +705,13 @@ public:
     PLATFORM_API void addVolume(const size_t materialId, VolumePtr);
 
     /**
+     * @brief Add a field to the model
+     * @param materialId ID of material
+     * @param volume Pointer to field to add
+     */
+    PLATFORM_API void addField(const size_t materialId, FieldPtr);
+
+    /**
      * @brief Remove a volume from the model
      * @param materialId ID of material
      */
@@ -836,6 +841,7 @@ protected:
     AnimationParameters& _animationParameters;
     VolumeParameters& _volumeParameters;
     GeometryParameters& _geometryParameters;
+    FieldParameters& _fieldParameters;
 
     AbstractSimulationHandlerPtr _simulationHandler;
     TransferFunction _transferFunction;
@@ -852,6 +858,7 @@ protected:
         SDFGeometryData _sdf;
         VolumesMap _volumes;
         CurvesMap _curves;
+        FieldsMap _fields;
 
         Boxd _sphereBounds;
         Boxd _cylindersBounds;
@@ -861,6 +868,7 @@ protected:
         Boxd _sdfGeometriesBounds;
         Boxd _volumesBounds;
         Boxd _curvesBounds;
+        Boxd _fieldsBounds;
 
         bool isEmpty() const
         {
@@ -882,11 +890,12 @@ protected:
     bool _sdfGeometriesDirty{false};
     bool _volumesDirty{false};
     bool _curvesDirty{false};
+    bool _fieldsDirty{false};
 
     bool _areGeometriesDirty() const
     {
         return _spheresDirty || _cylindersDirty || _conesDirty || _triangleMeshesDirty || _sdfGeometriesDirty ||
-               _curvesDirty;
+               _curvesDirty || _fieldsDirty;
     }
 
     Boxd _bounds;

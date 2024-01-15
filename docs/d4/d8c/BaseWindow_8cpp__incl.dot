@@ -93,10 +93,8 @@ digraph "platform/apps/viewer/ui/BaseWindow.cpp"
   Node38 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node38 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node38 -> Node39 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node39 [label="platform/core/common\l/utils/ImageUtils.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/dc9/ImageUtils_8h.html",tooltip=" "];
+  Node39 [label="platform/core/common\l/utils/ImageUtils.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$d7/dc9/ImageUtils_8h.html",tooltip=" "];
   Node39 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node39 -> Node40 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node40 [label="FreeImage.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node41 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node41 [label="platform/core/engineapi\l/Renderer.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/db2/Renderer_8h.html",tooltip=" "];
   Node41 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -136,15 +134,17 @@ digraph "platform/apps/viewer/ui/BaseWindow.cpp"
   Node58 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node58 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node57 -> Node59 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node59 [label="platform/core/parameters\l/GeometryParameters.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$db/db5/GeometryParameters_8h.html",tooltip=" "];
-  Node59 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node57 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node59 [label="platform/core/parameters\l/FieldParameters.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$dc/dbf/FieldParameters_8h.html",tooltip=" "];
   Node57 -> Node60 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node60 [label="platform/core/parameters\l/VolumeParameters.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$de/d1b/VolumeParameters_8h.html",tooltip=" "];
-  Node1 -> Node61 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node61 [label="assert.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node60 [label="platform/core/parameters\l/GeometryParameters.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$db/db5/GeometryParameters_8h.html",tooltip=" "];
+  Node60 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 -> Node61 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node61 [label="platform/core/parameters\l/VolumeParameters.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$de/d1b/VolumeParameters_8h.html",tooltip=" "];
   Node1 -> Node62 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node62 [label="GL/glut.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node62 [label="assert.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node63 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node63 [label="GL/freeglut_ext.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node63 [label="GL/glut.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node64 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node64 [label="GL/freeglut_ext.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

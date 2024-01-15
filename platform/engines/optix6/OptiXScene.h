@@ -46,7 +46,7 @@ class OptiXScene : public Scene
 {
 public:
     OptiXScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
-               VolumeParameters& volumeParameters);
+               VolumeParameters& volumeParameters, FieldParameters& fieldParameters);
     ~OptiXScene();
 
     /** @copydoc Scene::commit */
@@ -63,6 +63,7 @@ public:
 
 private:
     void _commitVolumeParameters();
+    void _commitFieldParameters();
     void _commitGeometryParameters();
     void _commitClippingPlanes();
 

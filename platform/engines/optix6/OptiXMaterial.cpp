@@ -39,9 +39,7 @@ namespace optix
 OptiXMaterial::~OptiXMaterial()
 {
     for (auto textureSampler : _textureSamplers)
-    {
         RT_DESTROY(textureSampler.second);
-    }
 
     RT_DESTROY(_optixMaterial);
 }
@@ -70,8 +68,8 @@ void OptiXMaterial::commit()
     _optixMaterial[CONTEXT_MATERIAL_CLIPPING_MODE]->setUint(_clippingMode);
     _optixMaterial[CONTEXT_MATERIAL_VALUE_RANGE]->setFloat(_valueRange.x, _valueRange.y);
 
-    for (const auto& textureDescriptor : getTextureDescriptors())
-    {
+    const auto& textureDescriptors = getTextureDescriptors();
+    for (const auto& textureDescriptor : textureDescriptors)
         if (!_textureSamplers.count(textureDescriptor.first))
         {
             const auto textureSampler = OptiXContext::get().createTextureSampler(textureDescriptor.second);
@@ -79,7 +77,6 @@ void OptiXMaterial::commit()
             _optixMaterial[textureTypeToString[static_cast<uint8_t>(textureDescriptor.first)]]->setInt(
                 textureSampler->getId());
         }
-    }
 }
 } // namespace optix
 } // namespace engine

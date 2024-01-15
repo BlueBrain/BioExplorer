@@ -62,7 +62,7 @@ public:
      * @brief Creates a scene object responsible for handling models, simulations and light sources.
      */
     PLATFORM_API Scene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
-                       VolumeParameters& volumeParameters);
+                       VolumeParameters& volumeParameters, FieldParameters& fieldParameters);
     /**
      * @brief Returns the bounding box of the scene
      */
@@ -239,6 +239,7 @@ protected:
     AnimationParameters& _animationParameters;
     GeometryParameters& _geometryParameters;
     VolumeParameters& _volumeParameters;
+    FieldParameters& _fieldParameters;
     MaterialPtr _backgroundMaterial{nullptr};
     std::string _environmentMap;
 

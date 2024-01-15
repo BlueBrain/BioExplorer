@@ -30,6 +30,7 @@ var namespaces_dup =
       [ "init", "d7/dd5/namespacestaticjson.html#ade74896e49b75f8b3e65be26c9d8006a", null ],
       [ "init", "d7/dd5/namespacestaticjson.html#a3db32f5cb78d11c5f244764ba6654c92", null ],
       [ "init", "d7/dd5/namespacestaticjson.html#ae6cbafb65e60a69c2f5aa20fddc29121", null ],
+      [ "init", "d7/dd5/namespacestaticjson.html#a183a1fdcd1e6be470da6a1413ebfd37f", null ],
       [ "init", "d7/dd5/namespacestaticjson.html#ad0f78f55c23ee83ae98daa28bd532ba0", null ],
       [ "init", "d7/dd5/namespacestaticjson.html#a18e71eba0ca25766ba4192d373006325", null ],
       [ "init", "d7/dd5/namespacestaticjson.html#a954d93f89f2b77f5f0919702073ceec8", null ],

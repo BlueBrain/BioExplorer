@@ -94,11 +94,14 @@ Volume properties
 */
 static const char* OSPRAY_VOLUME_PROPERTY_TYPE_BLOCK_BRICKED = "block_bricked_volume";
 static const char* OSPRAY_VOLUME_PROPERTY_TYPE_SHARED_STRUCTURED = "shared_structured_volume";
+static const char* OSPRAY_VOLUME_PROPERTY_TYPE_OCTREE = "octree_volume";
 static const char* OSPRAY_VOLUME_PROPERTY_DIMENSIONS = "dimensions";
 static const char* OSPRAY_VOLUME_PROPERTY_GRID_SPACING = "gridSpacing";
 static const char* OSPRAY_VOLUME_VOXEL_TYPE = "voxelType";
 static const char* OSPRAY_VOLUME_VOXEL_RANGE = "voxelRange";
 static const char* OSPRAY_VOLUME_VOXEL_DATA = "voxelData";
+static const char* OSPRAY_VOLUME_OCTREE_INDICES = "octreeIndices";
+static const char* OSPRAY_VOLUME_OCTREE_VALUES = "octreeValues";
 
 static const char* OSPRAY_VOLUME_GRADIENT_SHADING_ENABLED = "gradientShadingEnabled";
 static const char* OSPRAY_VOLUME_GRADIENT_OFFSET = "gradientOffset";
@@ -108,9 +111,12 @@ static const char* OSPRAY_VOLUME_SINGLE_SHADE = "singleShade";
 static const char* OSPRAY_VOLUME_PRE_INTEGRATION = "preIntegration";
 static const char* OSPRAY_VOLUME_SAMPLING_RATE = "samplingRate";
 static const char* OSPRAY_VOLUME_SPECULAR_EXPONENT = "specular";
-static const char* OSPRAY_VOLUME_VOLUME_CLIPPING_BOX_LOWER = "volumeClippingBoxLower";
-static const char* OSPRAY_VOLUME_VOLUME_CLIPPING_BOX_UPPER = "volumeClippingBoxUpper";
+static const char* OSPRAY_VOLUME_CLIPPING_BOX_LOWER = "volumeClippingBoxLower";
+static const char* OSPRAY_VOLUME_CLIPPING_BOX_UPPER = "volumeClippingBoxUpper";
 static const char* OSPRAY_VOLUME_USER_PARAMETERS = "userParameters";
+static const char* OSPRAY_VOLUME_DIMENSIONS = "volumeDimensions";
+static const char* OSPRAY_VOLUME_OFFSET = "volumeOffset";
+static const char* OSPRAY_VOLUME_SPACING = "volumeSpacing";
 
 /*
 Material properties
@@ -195,6 +201,24 @@ static const char* OSPRAY_GEOMETRY_PROPERTY_CURVE_NORMAL = "vertex.normal";
 static const char* OSPRAY_GEOMETRY_PROPERTY_CURVE_TANGENT = "vertex.tangent";
 static const char* OSPRAY_GEOMETRY_PROPERTY_CURVE_BASIS = "curveBasis";
 static const char* OSPRAY_GEOMETRY_PROPERTY_CURVE_TYPE = "curveType";
+
+/*
+Fields
+*/
+static const char* OSPRAY_GEOMETRY_PROPERTY_FIELDS = "fields";
+static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_DIMENSIONS = "dimensions";
+static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_SPACING = "spacing";
+static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_OFFSET = "offset";
+static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_INDICES = "indices";
+static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_VALUES = "values";
+static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_DATATYPE = "dataType";
+
+static const char* OSPRAY_FIELD_PROPERTY_GRADIENT_SHADING_ENABLED = "gradientShadingEnabled";
+static const char* OSPRAY_FIELD_PROPERTY_GRADIENT_OFFSET = "gradientOffset";
+static const char* OSPRAY_FIELD_PROPERTY_SAMPLING_RATE = "samplingRate";
+static const char* OSPRAY_FIELD_PROPERTY_DISTANCE = "distance";
+static const char* OSPRAY_FIELD_PROPERTY_CUTOFF = "cutoff";
+static const char* OSPRAY_FIELD_PROPERTY_EPSILON = "epsilon";
 
 /*
 Frame buffer properties

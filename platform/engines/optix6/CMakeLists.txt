@@ -51,6 +51,7 @@ set(${NAME}_CU
   cuda/geometry/TriangleMesh.cu
   cuda/geometry/Volumes.cu
   cuda/geometry/Streamlines.cu
+  cuda/geometry/Fields.cu
   cuda/renderer/Basic.cu
   cuda/renderer/Advanced.cu
 )
@@ -108,6 +109,7 @@ set(${NAME}_HEADERS
   OptiXRenderer.h
   OptiXEngine.h
   OptiXVolume.h
+  OptiXField.h
 )
 
 set(${NAME}_PUBLIC_HEADERS

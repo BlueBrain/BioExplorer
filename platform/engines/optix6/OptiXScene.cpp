@@ -43,8 +43,8 @@ namespace engine
 namespace optix
 {
 OptiXScene::OptiXScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
-                       VolumeParameters& volumeParameters)
-    : Scene(animationParameters, geometryParameters, volumeParameters)
+                       VolumeParameters& volumeParameters, FieldParameters& fieldParameters)
+    : Scene(animationParameters, geometryParameters, volumeParameters, fieldParameters)
     , _lightBuffer(nullptr)
 {
     _backgroundMaterial = std::make_shared<OptiXMaterial>();
@@ -141,7 +141,7 @@ bool OptiXScene::commitLights()
 
 ModelPtr OptiXScene::createModel() const
 {
-    return std::make_unique<OptiXModel>(_animationParameters, _volumeParameters, _geometryParameters);
+    return std::make_unique<OptiXModel>(_animationParameters, _volumeParameters, _geometryParameters, _fieldParameters);
 }
 
 void OptiXScene::_commitVolumeParameters()
@@ -162,6 +162,16 @@ void OptiXScene::_commitVolumeParameters()
     context[CONTEXT_VOLUME_CLIPPING_BOX_LOWER]->setFloat(boxLower.x, boxLower.y, boxLower.z);
     const auto boxUpper = _volumeParameters.getClipBox().getMin();
     context[CONTEXT_VOLUME_CLIPPING_BOX_UPPER]->setFloat(boxUpper.x, boxUpper.y, boxUpper.z);
+}
+
+void OptiXScene::_commitFieldParameters()
+{
+    auto context = OptiXContext::get().getOptixContext();
+    context[CONTEXT_VOLUME_GRADIENT_SHADING_ENABLED]->setUint(_fieldParameters.getGradientShading());
+    context[CONTEXT_FIELD_GRADIENT_OFFSET]->setFloat(_fieldParameters.getGradientOffset());
+    context[CONTEXT_FIELD_CUTOFF]->setFloat(_fieldParameters.getCutoff());
+    context[CONTEXT_FIELD_DISTANCE]->setFloat(_fieldParameters.getCutoff());
+    context[CONTEXT_FIELD_SAMPLING_RATE]->setFloat(_fieldParameters.getSamplingRate());
 }
 
 void OptiXScene::_commitGeometryParameters()
@@ -216,7 +226,10 @@ void OptiXScene::commit()
         model.commitSimulationData();
         if (model.commitTransferFunction())
             markModified();
-        _commitVolumeParameters();
+        if (_volumeParameters.isModified())
+            _commitVolumeParameters();
+        if (_fieldParameters.isModified())
+            _commitFieldParameters();
     }
 
     commitLights();

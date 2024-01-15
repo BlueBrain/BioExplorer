@@ -2,7 +2,7 @@ var dir_e2b1a7c2667e1aabfb6dc4db9fd1d046 =
 [
     [ "Cones.cu", "d9/dbb/Cones_8cu.html", null ],
     [ "Cylinders.cu", "d4/d90/Cylinders_8cu.html", null ],
-    [ "GeometryData.h", "de/dc5/GeometryData_8h.html", "de/dc5/GeometryData_8h" ],
+    [ "Fields.cu", "db/d0b/Fields_8cu.html", null ],
     [ "IntersectionRefinement.h", "dc/dc3/IntersectionRefinement_8h.html", null ],
     [ "SDFGeometries.cu", "da/d5c/SDFGeometries_8cu.html", null ],
     [ "Spheres.cu", "d0/db3/Spheres_8cu.html", null ],

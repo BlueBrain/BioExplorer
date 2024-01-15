@@ -256,6 +256,16 @@ const VolumeParameters& ParametersManager::getVolumeParameters() const
     return _volumeParameters;
 }
 
+FieldParameters& ParametersManager::getFieldParameters()
+{
+    return _fieldParameters;
+}
+
+const FieldParameters& ParametersManager::getFieldParameters() const
+{
+    return _fieldParameters;
+}
+
 void ParametersManager::_processUnrecognizedOptions(const std::vector<std::string>& unrecognizedOptions) const
 {
     if (unrecognizedOptions.empty())

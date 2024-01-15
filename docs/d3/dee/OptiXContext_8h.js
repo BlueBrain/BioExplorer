@@ -10,6 +10,7 @@ var OptiXContext_8h =
       [ "triangleMesh", "d3/dee/OptiXContext_8h.html#ae53996c952b50499ec10f342c7a2a100a4711b9f1991aa54809d9f97d426c39de", null ],
       [ "volume", "d3/dee/OptiXContext_8h.html#ae53996c952b50499ec10f342c7a2a100a210ab9e731c9c36c2c38db15c28a8d1c", null ],
       [ "streamline", "d3/dee/OptiXContext_8h.html#ae53996c952b50499ec10f342c7a2a100abc54434650f05104057ae08fc16b01d1", null ],
-      [ "sdfGeometry", "d3/dee/OptiXContext_8h.html#ae53996c952b50499ec10f342c7a2a100a67e0e9d78cb39c8dde7b7b737bc38ee5", null ]
+      [ "sdfGeometry", "d3/dee/OptiXContext_8h.html#ae53996c952b50499ec10f342c7a2a100a67e0e9d78cb39c8dde7b7b737bc38ee5", null ],
+      [ "field", "d3/dee/OptiXContext_8h.html#ae53996c952b50499ec10f342c7a2a100a06e3d36fa30cea095545139854ad1fb9", null ]
     ] ]
 ];

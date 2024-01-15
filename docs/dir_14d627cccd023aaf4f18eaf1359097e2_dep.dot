@@ -24,8 +24,8 @@ digraph "bioexplorer/backend/science" {
   dir_98cf319380d5aa60df08e1dfcafaa4d5->dir_250f267abadc546ecc00bd4d0ef83277 [headlabel="1", labeldistance=1.5 headhref="dir_000042_000051.html"];
   dir_98cf319380d5aa60df08e1dfcafaa4d5->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="6", labeldistance=1.5 headhref="dir_000042_000043.html"];
   dir_98cf319380d5aa60df08e1dfcafaa4d5->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="6", labeldistance=1.5 headhref="dir_000042_000061.html"];
-  dir_03a5de27bb9d02219a41ab33fd9ec920->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="6", labeldistance=1.5 headhref="dir_000050_000043.html"];
-  dir_03a5de27bb9d02219a41ab33fd9ec920->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="15", labeldistance=1.5 headhref="dir_000050_000061.html"];
+  dir_03a5de27bb9d02219a41ab33fd9ec920->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="4", labeldistance=1.5 headhref="dir_000050_000043.html"];
+  dir_03a5de27bb9d02219a41ab33fd9ec920->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="17", labeldistance=1.5 headhref="dir_000050_000061.html"];
   dir_ce7c53f7ae7b05cd876b756753a17bbc->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="4", labeldistance=1.5 headhref="dir_000054_000043.html"];
   dir_ce7c53f7ae7b05cd876b756753a17bbc->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="5", labeldistance=1.5 headhref="dir_000054_000061.html"];
   dir_250f267abadc546ecc00bd4d0ef83277->dir_13b993dc952a68eedc739b9f16aeee83 [headlabel="1", labeldistance=1.5 headhref="dir_000051_000055.html"];

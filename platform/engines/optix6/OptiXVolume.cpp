@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2024, EPFL/Blue Brain Project
+ * Copyright (c) 2015-2023, EPFL/Blue Brain Project
  * All rights reserved. Do not distribute without permission.
  * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
  *
@@ -147,24 +147,6 @@ void OptiXSharedDataVolume::setVoxels(const void* voxels)
     const size_t bufferSize = volumeAsFloats.size() * sizeof(float);
     _memoryBuffer.resize(bufferSize);
     memcpy(_memoryBuffer.data(), volumeAsFloats.data(), bufferSize);
-}
-
-OptiXOctreeVolume::OptiXOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType dataType,
-                                     const VolumeParameters& params)
-    : Volume(dimensions, spacing, dataType)
-    , OctreeVolume(dimensions, spacing, dataType)
-    , OptiXVolume(dimensions, spacing, dataType, params)
-{
-}
-
-void OptiXOctreeVolume::setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
-                                  const OctreeDataType dataType)
-{
-    _octreeIndices = indices;
-    _octreeValues = values;
-    _offset = offset;
-    _octreeDataType = dataType;
-    markModified();
 }
 } // namespace optix
 } // namespace engine

@@ -19,14 +19,14 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include "Cones.h"
+#include "Cones_ispc.h"
+
 #include <platform/core/common/geometry/Cone.h>
 #include <platform/engines/ospray/OSPRayProperties.h>
 
-#include "Cones.h"
-#include "ospray/SDK/common/Data.h"
-#include "ospray/SDK/common/Model.h"
-
-#include "Cones_ispc.h"
+#include <ospray/SDK/common/Data.h>
+#include <ospray/SDK/common/Model.h>
 
 #include <climits>
 
@@ -52,21 +52,6 @@ void Cones::finalize(::ospray::Model* model)
         throw std::runtime_error("#ospray:geometry/cones: no 'cones' data specified");
 
     const size_t numCones = data->numBytes / bytesPerCone;
-
-    bounds = ::ospray::empty;
-    const auto geoms = static_cast<Cone*>(data->data);
-    for (size_t i = 0; i < numCones; i++)
-    {
-        const core::Cone& geom = geoms[i];
-        const auto center = ::ospray::vec3f(geom.center[0], geom.center[1], geom.center[2]);
-        const auto up = ::ospray::vec3f(geom.up[0], geom.up[1], geom.up[2]);
-
-        bounds.extend(center - geom.centerRadius);
-        bounds.extend(center + geom.centerRadius);
-        bounds.extend(up - geom.upRadius);
-        bounds.extend(up + geom.upRadius);
-    }
-
     ::ispc::ConesGeometry_set(getIE(), model->getIE(), data->data, numCones);
 }
 

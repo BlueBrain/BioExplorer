@@ -104,7 +104,8 @@ public:
      */
     PLATFORM_API virtual ScenePtr createScene(AnimationParameters& animationParameters,
                                               GeometryParameters& geometryParameters,
-                                              VolumeParameters& volumeParameters) const = 0;
+                                              VolumeParameters& volumeParameters,
+                                              FieldParameters& fieldParameters) const = 0;
 
     /**
      * @brief Factory method to create an engine-specific camera.

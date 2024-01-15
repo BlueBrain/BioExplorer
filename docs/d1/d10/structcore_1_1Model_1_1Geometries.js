@@ -7,6 +7,8 @@ var structcore_1_1Model_1_1Geometries =
     [ "_curvesBounds", "d1/d10/structcore_1_1Model_1_1Geometries.html#a1dac1c58c7eca4b08f69f6c388769365", null ],
     [ "_cylinders", "d1/d10/structcore_1_1Model_1_1Geometries.html#ab0c03c42ddf0d7b58296133a1c8ecd60", null ],
     [ "_cylindersBounds", "d1/d10/structcore_1_1Model_1_1Geometries.html#a13a9c8d0c0e9babfd5e1583107b3e2ec", null ],
+    [ "_fields", "d1/d10/structcore_1_1Model_1_1Geometries.html#ab13f0e7234251cee0cbbb8c7778ce35e", null ],
+    [ "_fieldsBounds", "d1/d10/structcore_1_1Model_1_1Geometries.html#a403c91bc0f22d52b37c16f0d9369a052", null ],
     [ "_sdf", "d1/d10/structcore_1_1Model_1_1Geometries.html#adb4a487a0751962d3700731d254bd6d1", null ],
     [ "_sdfGeometriesBounds", "d1/d10/structcore_1_1Model_1_1Geometries.html#a58b81d2ce055b8bb962300423638ee27", null ],
     [ "_sphereBounds", "d1/d10/structcore_1_1Model_1_1Geometries.html#a5124c97ed963c33c752485cafc83708c", null ],

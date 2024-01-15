@@ -1,6 +1,6 @@
 var classcore_1_1Scene =
 [
-    [ "Scene", "d5/d76/classcore_1_1Scene.html#ac85fd624a96d9001575538a80d0bc363", null ],
+    [ "Scene", "d5/d76/classcore_1_1Scene.html#ae8a3c23082bd18ec385a5dae4d02f7a3", null ],
     [ "_loadIBLMaps", "d5/d76/classcore_1_1Scene.html#adc2c43d64af48c58e909a0e42a1f0844", null ],
     [ "acquireReadAccess", "d5/d76/classcore_1_1Scene.html#acc0cb250f1e3a24ed4a85f0d2b7ca8f6", null ],
     [ "addClipPlane", "d5/d76/classcore_1_1Scene.html#a73201fbd2e05fa2b4815cb3287b70c2e", null ],
@@ -37,6 +37,7 @@ var classcore_1_1Scene =
     [ "_bounds", "d5/d76/classcore_1_1Scene.html#a8cfadf65933d162242b1efc7b132411d", null ],
     [ "_clipPlanes", "d5/d76/classcore_1_1Scene.html#a11f6cf52e87df9bd4e385462bafa88dc", null ],
     [ "_environmentMap", "d5/d76/classcore_1_1Scene.html#a810868303c8e088db0bb791ec1351cf8", null ],
+    [ "_fieldParameters", "d5/d76/classcore_1_1Scene.html#a9944bc9a02c540b6ab2e5f917649b403", null ],
     [ "_geometryParameters", "d5/d76/classcore_1_1Scene.html#a7be71977f0eb871485220603a64dc79d", null ],
     [ "_lightManager", "d5/d76/classcore_1_1Scene.html#aaab6d4aff90ebbc0d1288b25b272155f", null ],
     [ "_loaderRegistry", "d5/d76/classcore_1_1Scene.html#a65ddf14dbd86e9bc3656205e7743ae24", null ],

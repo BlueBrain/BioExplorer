@@ -20,6 +20,9 @@ var dir_dd545ba873674314ef8abe7626a3e099 =
     [ "OptiXEngine.h", "da/d54/OptiXEngine_8h.html", [
       [ "OptiXEngine", "d7/d7f/classcore_1_1engine_1_1optix_1_1OptiXEngine.html", "d7/d7f/classcore_1_1engine_1_1optix_1_1OptiXEngine" ]
     ] ],
+    [ "OptiXField.h", "da/d86/OptiXField_8h.html", [
+      [ "OptiXField", "d1/db5/classcore_1_1engine_1_1optix_1_1OptiXField.html", "d1/db5/classcore_1_1engine_1_1optix_1_1OptiXField" ]
+    ] ],
     [ "OptiXFrameBuffer.cpp", "d9/def/OptiXFrameBuffer_8cpp.html", null ],
     [ "OptiXFrameBuffer.h", "df/d5d/OptiXFrameBuffer_8h.html", [
       [ "OptiXFrameBuffer", "d4/dc0/classcore_1_1engine_1_1optix_1_1OptiXFrameBuffer.html", "d4/dc0/classcore_1_1engine_1_1optix_1_1OptiXFrameBuffer" ]
@@ -55,7 +58,6 @@ var dir_dd545ba873674314ef8abe7626a3e099 =
     [ "OptiXVolume.cpp", "d8/daf/OptiXVolume_8cpp.html", null ],
     [ "OptiXVolume.h", "da/ded/OptiXVolume_8h.html", [
       [ "OptiXVolume", "d1/db3/classcore_1_1engine_1_1optix_1_1OptiXVolume.html", "d1/db3/classcore_1_1engine_1_1optix_1_1OptiXVolume" ],
-      [ "OptiXSharedDataVolume", "d1/da5/classcore_1_1engine_1_1optix_1_1OptiXSharedDataVolume.html", "d1/da5/classcore_1_1engine_1_1optix_1_1OptiXSharedDataVolume" ],
-      [ "OptiXOctreeVolume", "d9/dcc/classcore_1_1engine_1_1optix_1_1OptiXOctreeVolume.html", "d9/dcc/classcore_1_1engine_1_1optix_1_1OptiXOctreeVolume" ]
+      [ "OptiXSharedDataVolume", "d1/da5/classcore_1_1engine_1_1optix_1_1OptiXSharedDataVolume.html", "d1/da5/classcore_1_1engine_1_1optix_1_1OptiXSharedDataVolume" ]
     ] ]
 ];

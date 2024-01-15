@@ -20,8 +20,6 @@ digraph "platform/core/engineapi/Engine.cpp"
   Node8 [label="glm/glm.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node7 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node9 [label="glm/ext.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node7 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node10 [label="glm/gtx/io.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node7 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node11 [label="vector",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node7 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -147,11 +145,14 @@ digraph "platform/core/engineapi/Engine.cpp"
   Node54 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node54 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node53 -> Node55 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node55 [label="platform/core/parameters\l/GeometryParameters.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/db5/GeometryParameters_8h.html",tooltip=" "];
+  Node55 [label="platform/core/parameters\l/FieldParameters.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/dbf/FieldParameters_8h.html",tooltip=" "];
   Node55 -> Node36 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node55 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node53 -> Node42 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node53 -> Node56 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node56 [label="platform/core/parameters\l/VolumeParameters.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d1b/VolumeParameters_8h.html",tooltip=" "];
+  Node56 [label="platform/core/parameters\l/GeometryParameters.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/db5/GeometryParameters_8h.html",tooltip=" "];
   Node56 -> Node36 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node56 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node53 -> Node42 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node53 -> Node57 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="platform/core/parameters\l/VolumeParameters.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d1b/VolumeParameters_8h.html",tooltip=" "];
+  Node57 -> Node36 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

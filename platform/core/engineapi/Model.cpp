@@ -25,6 +25,7 @@
 #include <platform/core/common/Logs.h>
 #include <platform/core/common/Transformation.h>
 #include <platform/core/common/material/Texture2D.h>
+#include <platform/core/engineapi/Field.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Volume.h>
 
@@ -196,10 +197,11 @@ ModelDescriptorPtr ModelDescriptor::clone(ModelPtr model) const
 }
 
 Model::Model(AnimationParameters& animationParameters, VolumeParameters& volumeParameters,
-             GeometryParameters& geometryParameters)
+             GeometryParameters& geometryParameters, FieldParameters& fieldParameters)
     : _animationParameters(animationParameters)
     , _volumeParameters(volumeParameters)
     , _geometryParameters(geometryParameters)
+    , _fieldParameters(fieldParameters)
 {
 }
 
@@ -305,6 +307,12 @@ void Model::addVolume(const size_t materialId, VolumePtr volume)
 {
     _geometries->_volumes[materialId] = volume;
     _volumesDirty = true;
+}
+
+void Model::addField(const size_t materialId, FieldPtr field)
+{
+    _geometries->_fields[materialId] = field;
+    _fieldsDirty = true;
 }
 
 void Model::removeVolume(const size_t materialId)
@@ -582,6 +590,13 @@ void Model::updateBounds()
                     _geometries->_curvesBounds.merge(vertex);
     }
 
+    if (_fieldsDirty)
+    {
+        _geometries->_fieldsBounds.reset();
+        for (const auto& field : _geometries->_fields)
+            _geometries->_fieldsBounds.merge(field.second->getBounds());
+    }
+
     _bounds.reset();
     _bounds.merge(_geometries->_sphereBounds);
     _bounds.merge(_geometries->_cylindersBounds);
@@ -591,6 +606,7 @@ void Model::updateBounds()
     _bounds.merge(_geometries->_sdfGeometriesBounds);
     _bounds.merge(_geometries->_volumesBounds);
     _bounds.merge(_geometries->_curvesBounds);
+    _bounds.merge(_geometries->_fieldsBounds);
 }
 
 void Model::_markGeometriesClean()
@@ -603,6 +619,7 @@ void Model::_markGeometriesClean()
     _sdfGeometriesDirty = false;
     _volumesDirty = false;
     _curvesDirty = false;
+    _fieldsDirty = false;
 }
 
 MaterialPtr Model::createMaterial(const size_t materialId, const std::string& name, const PropertyMap& properties)

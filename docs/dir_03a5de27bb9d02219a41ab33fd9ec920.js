@@ -1,9 +1,14 @@
 var dir_03a5de27bb9d02219a41ab33fd9ec920 =
 [
-    [ "FieldsHandler.cpp", "d9/dc0/FieldsHandler_8cpp.html", null ],
-    [ "FieldsHandler.h", "d9/d68/FieldsHandler_8h.html", "d9/d68/FieldsHandler_8h" ],
-    [ "PointFieldsHandler.cpp", "d5/d19/PointFieldsHandler_8cpp.html", null ],
-    [ "PointFieldsHandler.h", "df/dc2/PointFieldsHandler_8h.html", "df/dc2/PointFieldsHandler_8h" ],
-    [ "VectorFieldsHandler.cpp", "df/d11/VectorFieldsHandler_8cpp.html", null ],
-    [ "VectorFieldsHandler.h", "d4/db3/VectorFieldsHandler_8h.html", "d4/db3/VectorFieldsHandler_8h" ]
+    [ "FieldBuilder.h", "d4/d9d/FieldBuilder_8h.html", [
+      [ "FieldBuilder", "d9/dcb/classbioexplorer_1_1fields_1_1FieldBuilder.html", "d9/dcb/classbioexplorer_1_1fields_1_1FieldBuilder" ]
+    ] ],
+    [ "PointFieldBuilder.cpp", "df/d00/PointFieldBuilder_8cpp.html", null ],
+    [ "PointFieldBuilder.h", "df/ddf/PointFieldBuilder_8h.html", [
+      [ "PointFieldBuilder", "d9/dd7/classbioexplorer_1_1fields_1_1PointFieldBuilder.html", "d9/dd7/classbioexplorer_1_1fields_1_1PointFieldBuilder" ]
+    ] ],
+    [ "VectorFieldBuilder.cpp", "d0/de8/VectorFieldBuilder_8cpp.html", null ],
+    [ "VectorFieldBuilder.h", "d2/d6f/VectorFieldBuilder_8h.html", [
+      [ "VectorFieldBuilder", "d6/d92/classbioexplorer_1_1fields_1_1VectorFieldBuilder.html", "d6/d92/classbioexplorer_1_1fields_1_1VectorFieldBuilder" ]
+    ] ]
 ];

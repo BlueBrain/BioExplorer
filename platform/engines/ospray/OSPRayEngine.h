@@ -50,7 +50,7 @@ public:
                                      FrameBufferFormat frameBufferFormat) const final;
 
     ScenePtr createScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
-                         VolumeParameters& volumeParameters) const final;
+                         VolumeParameters& volumeParameters, FieldParameters& fieldParameters) const final;
     CameraPtr createCamera() const final;
     RendererPtr createRenderer(const AnimationParameters& animationParameters,
                                const RenderingParameters& renderingParameters) const final;

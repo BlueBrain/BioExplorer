@@ -1,6 +1,6 @@
 var classcore_1_1engine_1_1optix_1_1OptiXScene =
 [
-    [ "OptiXScene", "da/dc3/classcore_1_1engine_1_1optix_1_1OptiXScene.html#a6cc05ec0a879f8ffecd2f997aa1d91f4", null ],
+    [ "OptiXScene", "da/dc3/classcore_1_1engine_1_1optix_1_1OptiXScene.html#a77a3fbf381ad819a541043757fc96977", null ],
     [ "~OptiXScene", "da/dc3/classcore_1_1engine_1_1optix_1_1OptiXScene.html#ad2c7ca66715d16207e33d51cc3f53946", null ],
     [ "commit", "da/dc3/classcore_1_1engine_1_1optix_1_1OptiXScene.html#ac3c0b1d8fcca3673bfc3665b4afda0ce", null ],
     [ "commitLights", "da/dc3/classcore_1_1engine_1_1optix_1_1OptiXScene.html#a8cffae958155adfb41b17d3eccd7e0e5", null ],

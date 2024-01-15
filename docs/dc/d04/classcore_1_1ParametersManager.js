@@ -5,6 +5,8 @@ var classcore_1_1ParametersManager =
     [ "getAnimationParameters", "dc/d04/classcore_1_1ParametersManager.html#a3cb729042d53b1cbb2384a9dab3d28ff", null ],
     [ "getApplicationParameters", "dc/d04/classcore_1_1ParametersManager.html#a07c5b2046b887538161068fe05b5cdfa", null ],
     [ "getApplicationParameters", "dc/d04/classcore_1_1ParametersManager.html#a35c529256331571191669ec155a12dc3", null ],
+    [ "getFieldParameters", "dc/d04/classcore_1_1ParametersManager.html#ac4b60c649083e1e444e27f444900ff47", null ],
+    [ "getFieldParameters", "dc/d04/classcore_1_1ParametersManager.html#a89d269f51e7681a437bfa0217d136cfa", null ],
     [ "getGeometryParameters", "dc/d04/classcore_1_1ParametersManager.html#a01d87adbef8b08e6b54ae7f04e88ba78", null ],
     [ "getGeometryParameters", "dc/d04/classcore_1_1ParametersManager.html#a6d996dc352bbd74e4184ac648b046700", null ],
     [ "getRenderingParameters", "dc/d04/classcore_1_1ParametersManager.html#a85f0a55d8f71b26e3d859160d7caa287", null ],

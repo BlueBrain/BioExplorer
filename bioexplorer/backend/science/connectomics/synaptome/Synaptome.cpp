@@ -67,9 +67,9 @@ void Synaptome::_addNode(const uint64_t id, const Vector3f& position, float mass
 void Synaptome::_addEdge(uint64_t source, uint64_t target, const core::Vector3f& direction)
 {
     _edges.push_back({source, target});
-    _nodes[source].position += direction;
+    _nodes[source].direction += direction;
     _nodes[source].mass++;
-    _nodes[target].position -= direction;
+    _nodes[target].direction -= direction;
     _nodes[target].mass++;
 }
 
@@ -90,7 +90,7 @@ void Synaptome::_buildModel(const LoaderProgress& callback)
     const size_t edgeMaterialId = 1;
     const bool useSdf = false;
     const float nodeRadius = _details.radius;
-    const float edgeRadius = _details.radius / 10.f;
+    const float edgeRadius = _details.radius / 5.f;
 
     for (const auto& soma : somas)
         _addNode(soma.first, soma.second.position, 1.f);
@@ -105,14 +105,12 @@ void Synaptome::_buildModel(const LoaderProgress& callback)
             _addEdge(edge.first, edge.second, direction);
         }
     }
-
-    // Draw nodes
     for (const auto& node : _nodes)
-        container.addSphere(node.second.position, nodeRadius, nodeMaterialId, useSdf);
-
-    // Draw edges
+        container.addSphere(node.second.position + node.second.direction * node.second.mass, nodeRadius, nodeMaterialId,
+                            useSdf);
     for (const auto& edge : _edges)
-        container.addCone(_nodes[edge.x].position, edgeRadius, _nodes[edge.y].position, edgeRadius,
+        container.addCone(_nodes[edge.x].position + _nodes[edge.x].direction * _nodes[edge.x].mass, edgeRadius,
+                          _nodes[edge.y].position + _nodes[edge.y].direction * _nodes[edge.y].mass, edgeRadius,
                           static_cast<size_t>(_nodes[edge.x].mass + 1), useSdf);
     container.commitToModel();
     model->applyDefaultColormap();

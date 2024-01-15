@@ -104,7 +104,7 @@ void OSPRayRenderer::commit()
             auto& model = static_cast<OSPRayModel&>(simulationModel->getModel());
             ospSetObject(_renderer, RENDERER_PROPERTY_SECONDARY_MODEL, model.getSecondaryModel());
             ospSetData(_renderer, RENDERER_PROPERTY_USER_DATA, model.simulationData());
-            ospSetObject(_renderer, RENDERER_PROPERTY_TRANSFER_FUNCTION, model.transferFunction());
+            ospSetObject(_renderer, DEFAULT_COMMON_TRANSFER_FUNCTION, model.transferFunction());
         }
         else
         {

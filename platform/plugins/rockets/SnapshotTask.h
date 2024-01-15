@@ -43,6 +43,7 @@ struct SnapshotParams
     std::unique_ptr<AnimationParameters> animParams;
     std::unique_ptr<GeometryParameters> geometryParams;
     std::unique_ptr<VolumeParameters> volumeParams;
+    std::unique_ptr<FieldParameters> fieldParams;
     std::unique_ptr<Renderer> renderer;
     std::unique_ptr<Camera> camera;
     int samplesPerPixel{1};
@@ -87,7 +88,13 @@ public:
             _params.volumeParams = std::make_unique<VolumeParameters>(parametersManager.getVolumeParameters());
         }
 
-        _scene = engine.createScene(*_params.animParams, *_params.geometryParams, *_params.volumeParams);
+        if (_params.fieldParams == nullptr)
+        {
+            _params.fieldParams = std::make_unique<FieldParameters>(parametersManager.getFieldParameters());
+        }
+
+        _scene = engine.createScene(*_params.animParams, *_params.geometryParams, *_params.volumeParams,
+                                    *_params.fieldParams);
 
         if (_params.camera)
         {

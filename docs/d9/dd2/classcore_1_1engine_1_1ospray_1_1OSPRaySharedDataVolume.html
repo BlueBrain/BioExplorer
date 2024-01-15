@@ -105,6 +105,7 @@ Collaboration diagram for core::engine::ospray::OSPRaySharedDataVolume:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ae3d6d4fa801d5bf6427b5d7d4260ec81"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd2/classcore_1_1engine_1_1ospray_1_1OSPRaySharedDataVolume.html#ae3d6d4fa801d5bf6427b5d7d4260ec81">OSPRaySharedDataVolume</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a> &amp;dimensions, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;spacing, const <a class="el" href="../../d9/d0f/namespacecore.html#a5f3273b25e834b08ca52b42611a66e4e">DataType</a> type, const <a class="el" href="../../df/da5/classcore_1_1VolumeParameters.html">VolumeParameters</a> &amp;params, OSPTransferFunction transferFunction)</td></tr>
+<tr class="memdesc:ae3d6d4fa801d5bf6427b5d7d4260ec81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new <a class="el" href="../../df/df4/classcore_1_1SharedDataVolume.html">SharedDataVolume</a> object.  <a href="../../d9/dd2/classcore_1_1engine_1_1ospray_1_1OSPRaySharedDataVolume.html#ae3d6d4fa801d5bf6427b5d7d4260ec81">More...</a><br /></td></tr>
 <tr class="separator:ae3d6d4fa801d5bf6427b5d7d4260ec81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88884748e786a21f10c37222ee7c46e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd2/classcore_1_1engine_1_1ospray_1_1OSPRaySharedDataVolume.html#a88884748e786a21f10c37222ee7c46e3">setVoxels</a> (const void *voxels) final</td></tr>
 <tr class="memdesc:a88884748e786a21f10c37222ee7c46e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the voxels of the volume.  <a href="../../d9/dd2/classcore_1_1engine_1_1ospray_1_1OSPRaySharedDataVolume.html#a88884748e786a21f10c37222ee7c46e3">More...</a><br /></td></tr>
@@ -228,7 +229,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d4/df5/OSPRayVolume_8h_source.html#l00065">65</a> of file <a class="el" href="../../d4/df5/OSPRayVolume_8h_source.html">OSPRayVolume.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df5/OSPRayVolume_8h_source.html#l00068">68</a> of file <a class="el" href="../../d4/df5/OSPRayVolume_8h_source.html">OSPRayVolume.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ae3d6d4fa801d5bf6427b5d7d4260ec81"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae3d6d4fa801d5bf6427b5d7d4260ec81">&#9670;&nbsp;</a></span>OSPRaySharedDataVolume()</h2>
@@ -273,6 +274,16 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Constructs a new <a class="el" href="../../df/df4/classcore_1_1SharedDataVolume.html">SharedDataVolume</a> object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dimensions</td><td>The dimensions of the volume as a Vector3ui object. </td></tr>
+    <tr><td class="paramname">spacing</td><td>The spacing between voxels as a Vector3f object. </td></tr>
+    <tr><td class="paramname">type</td><td>The data type of the volume. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d2/d77/OSPRayVolume_8cpp_source.html#l00094">94</a> of file <a class="el" href="../../d2/d77/OSPRayVolume_8cpp_source.html">OSPRayVolume.cpp</a>.</p>
 

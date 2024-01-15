@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <platform/core/common/CommonTypes.h>
 #include <platform/core/engineapi/BrickedVolume.h>
 #include <platform/core/engineapi/SharedDataVolume.h>
 
@@ -57,17 +58,21 @@ protected:
 class OSPRayBrickedVolume : public BrickedVolume, public OSPRayVolume
 {
 public:
+    /** @copydoc BrickedVolume::BrickedVolume */
     OSPRayBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type,
                         const VolumeParameters& params, OSPTransferFunction transferFunction);
+    /** @copydoc SharedDataVolume::setBrick */
     void setBrick(const void* data, const Vector3ui& position, const Vector3ui& size) final;
 };
 
 class OSPRaySharedDataVolume : public SharedDataVolume, public OSPRayVolume
 {
 public:
+    /** @copydoc SharedDataVolume::SharedDataVolume */
     OSPRaySharedDataVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type,
                            const VolumeParameters& params, OSPTransferFunction transferFunction);
 
+    /** @copydoc SharedDataVolume::setVoxels */
     void setVoxels(const void* voxels) final;
 };
 } // namespace ospray

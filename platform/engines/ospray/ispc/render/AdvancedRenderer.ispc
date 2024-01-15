@@ -203,7 +203,7 @@ inline void setGeometryShadingAttributes(const uniform AdvancedRenderer* uniform
         if (valid(mat->map_d))
             attributes.opacity = mat->d * get1f(mat->map_d, dg);
         else
-            attributes.opacity = mat->d;
+            attributes.opacity = dg.color.w;
 
         // Diffuse color
         attributes.diffuseColor = mat->Kd * make_vec3f(dg.color);
@@ -1037,8 +1037,9 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
             // Initialize geometry shading attributes
             setGeometryShadingAttributes(self, dg, sample, ray, attributes);
 
-            const bool discardIntersection =
-                isClipped(self, dg.P, attributes.clippingMode) || attributes.chameleonMode == emitter;
+            const bool discardIntersection = attributes.opacity == 0.f ||
+                                             isClipped(self, dg.P, attributes.clippingMode) ||
+                                             attributes.chameleonMode == emitter;
 
             if (discardIntersection)
                 nearClip = ray.t + self->super.epsilonMultiplier * dg.epsilon;

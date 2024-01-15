@@ -31,12 +31,14 @@ namespace ospray
 {
 struct Cones : public ::ospray::Geometry
 {
+public:
+    Cones();
+
     std::string toString() const final { return "cones"; }
     void finalize(::ospray::Model* model) final;
 
+protected:
     ::ospray::Ref<::ospray::Data> data;
-
-    Cones();
 };
 } // namespace ospray
 } // namespace engine

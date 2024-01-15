@@ -23,7 +23,6 @@
 
 #include <platform/core/common/CommonTypes.h>
 #include <platform/core/common/transferFunction/TransferFunction.h>
-#include <platform/core/engineapi/OctreeVolume.h>
 #include <platform/core/engineapi/SharedDataVolume.h>
 #include <platform/core/engineapi/Volume.h>
 
@@ -73,19 +72,6 @@ public:
     /** @copydoc SharedDataVolume::setVoxels */
     void setVoxels(const void* voxels) final;
 };
-
-class OptiXOctreeVolume : public OctreeVolume, public OptiXVolume
-{
-public:
-    /** @copydoc OctreeVolume::OctreeVolume */
-    OptiXOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType dataType,
-                      const VolumeParameters& params);
-
-    /** @copydoc OctreeVolume::setOctree */
-    void setOctree(const Vector3f& offset, const uint32_ts& indices, const floats& values,
-                   const OctreeDataType dataType) final;
-};
-
 } // namespace optix
 } // namespace engine
 } // namespace core

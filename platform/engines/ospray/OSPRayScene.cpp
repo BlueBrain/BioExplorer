@@ -33,6 +33,7 @@
 #include <platform/core/common/light/Light.h>
 #include <platform/core/engineapi/Model.h>
 
+#include <platform/core/parameters/FieldParameters.h>
 #include <platform/core/parameters/GeometryParameters.h>
 #include <platform/core/parameters/VolumeParameters.h>
 
@@ -43,8 +44,8 @@ namespace engine
 namespace ospray
 {
 OSPRayScene::OSPRayScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
-                         VolumeParameters& volumeParameters)
-    : Scene(animationParameters, geometryParameters, volumeParameters)
+                         VolumeParameters& volumeParameters, FieldParameters& fieldParameters)
+    : Scene(animationParameters, geometryParameters, volumeParameters, fieldParameters)
     , _memoryManagementFlags(geometryParameters.getMemoryMode() == MemoryMode::shared ? uint32_t(OSP_DATA_SHARED_BUFFER)
                                                                                       : 0)
 {
@@ -89,6 +90,12 @@ void OSPRayScene::commit()
         for (auto& modelDescriptor : modelDescriptors)
         {
             auto& model = modelDescriptor->getModel();
+            if (_fieldParameters.isModified())
+            {
+                auto& impl = static_cast<OSPRayModel&>(model);
+                impl.commitFieldParameters();
+            }
+
             if (model.isDirty())
             {
                 model.commitGeometry();
@@ -127,14 +134,11 @@ void OSPRayScene::commit()
         // add volumes to root model, because scivis renderer does not consider
         // volumes from instances
         if (modelDescriptor->getVisible())
-        {
-            modelDescriptor->getModel().commitGeometry();
             for (auto volume : modelDescriptor->getModel().getVolumes())
             {
                 auto ospVolume = std::dynamic_pointer_cast<OSPRayVolume>(volume.second);
                 ospAddVolume(_rootModel, ospVolume->impl());
             }
-        }
 
         const auto& instances = modelDescriptor->getInstances();
         for (size_t i = 0; i < instances.size(); ++i)
@@ -280,7 +284,8 @@ bool OSPRayScene::_commitVolumeAndTransferFunction(ModelDescriptors& modelDescri
 
 ModelPtr OSPRayScene::createModel() const
 {
-    return std::make_unique<OSPRayModel>(_animationParameters, _volumeParameters, _geometryParameters);
+    return std::make_unique<OSPRayModel>(_animationParameters, _volumeParameters, _geometryParameters,
+                                         _fieldParameters);
 }
 
 ModelDescriptorPtr OSPRayScene::getSimulatedModel()

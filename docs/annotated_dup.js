@@ -100,9 +100,9 @@ var annotated_dup =
         [ "SDFVesicaDetails", "db/d85/structbioexplorer_1_1details_1_1SDFVesicaDetails.html", "db/d85/structbioexplorer_1_1details_1_1SDFVesicaDetails" ]
       ] ],
       [ "fields", "d9/dc7/namespacebioexplorer_1_1fields.html", [
-        [ "FieldsHandler", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler.html", "d9/d6e/classbioexplorer_1_1fields_1_1FieldsHandler" ],
-        [ "PointFieldsHandler", "dd/df2/classbioexplorer_1_1fields_1_1PointFieldsHandler.html", "dd/df2/classbioexplorer_1_1fields_1_1PointFieldsHandler" ],
-        [ "VectorFieldsHandler", "dd/d8c/classbioexplorer_1_1fields_1_1VectorFieldsHandler.html", "dd/d8c/classbioexplorer_1_1fields_1_1VectorFieldsHandler" ]
+        [ "FieldBuilder", "d9/dcb/classbioexplorer_1_1fields_1_1FieldBuilder.html", "d9/dcb/classbioexplorer_1_1fields_1_1FieldBuilder" ],
+        [ "PointFieldBuilder", "d9/dd7/classbioexplorer_1_1fields_1_1PointFieldBuilder.html", "d9/dd7/classbioexplorer_1_1fields_1_1PointFieldBuilder" ],
+        [ "VectorFieldBuilder", "d6/d92/classbioexplorer_1_1fields_1_1VectorFieldBuilder.html", "d6/d92/classbioexplorer_1_1fields_1_1VectorFieldBuilder" ]
       ] ],
       [ "io", "d1/d74/namespacebioexplorer_1_1io.html", [
         [ "db", "dc/d01/namespacebioexplorer_1_1io_1_1db.html", [
@@ -195,6 +195,7 @@ var annotated_dup =
           [ "OptixShaderProgram", "db/dcd/structcore_1_1engine_1_1optix_1_1OptixShaderProgram.html", "db/dcd/structcore_1_1engine_1_1optix_1_1OptixShaderProgram" ],
           [ "OptiXContext", "d3/d32/classcore_1_1engine_1_1optix_1_1OptiXContext.html", "d3/d32/classcore_1_1engine_1_1optix_1_1OptiXContext" ],
           [ "OptiXEngine", "d7/d7f/classcore_1_1engine_1_1optix_1_1OptiXEngine.html", "d7/d7f/classcore_1_1engine_1_1optix_1_1OptiXEngine" ],
+          [ "OptiXField", "d1/db5/classcore_1_1engine_1_1optix_1_1OptiXField.html", "d1/db5/classcore_1_1engine_1_1optix_1_1OptiXField" ],
           [ "OptiXFrameBuffer", "d4/dc0/classcore_1_1engine_1_1optix_1_1OptiXFrameBuffer.html", "d4/dc0/classcore_1_1engine_1_1optix_1_1OptiXFrameBuffer" ],
           [ "OptiXMaterial", "dd/dff/classcore_1_1engine_1_1optix_1_1OptiXMaterial.html", "dd/dff/classcore_1_1engine_1_1optix_1_1OptiXMaterial" ],
           [ "OptiXModel", "db/d5a/classcore_1_1engine_1_1optix_1_1OptiXModel.html", "db/d5a/classcore_1_1engine_1_1optix_1_1OptiXModel" ],
@@ -203,9 +204,9 @@ var annotated_dup =
           [ "OptiXRenderer", "d5/dd9/classcore_1_1engine_1_1optix_1_1OptiXRenderer.html", "d5/dd9/classcore_1_1engine_1_1optix_1_1OptiXRenderer" ],
           [ "OptiXScene", "da/dc3/classcore_1_1engine_1_1optix_1_1OptiXScene.html", "da/dc3/classcore_1_1engine_1_1optix_1_1OptiXScene" ],
           [ "VolumeGeometry", "d2/de2/structcore_1_1engine_1_1optix_1_1VolumeGeometry.html", "d2/de2/structcore_1_1engine_1_1optix_1_1VolumeGeometry" ],
+          [ "FieldGeometry", "df/d4b/structcore_1_1engine_1_1optix_1_1FieldGeometry.html", "df/d4b/structcore_1_1engine_1_1optix_1_1FieldGeometry" ],
           [ "OptiXVolume", "d1/db3/classcore_1_1engine_1_1optix_1_1OptiXVolume.html", "d1/db3/classcore_1_1engine_1_1optix_1_1OptiXVolume" ],
           [ "OptiXSharedDataVolume", "d1/da5/classcore_1_1engine_1_1optix_1_1OptiXSharedDataVolume.html", "d1/da5/classcore_1_1engine_1_1optix_1_1OptiXSharedDataVolume" ],
-          [ "OptiXOctreeVolume", "d9/dcc/classcore_1_1engine_1_1optix_1_1OptiXOctreeVolume.html", "d9/dcc/classcore_1_1engine_1_1optix_1_1OptiXOctreeVolume" ],
           [ "OptiXCylindricStereoCamera", "d4/d0d/classcore_1_1engine_1_1optix_1_1OptiXCylindricStereoCamera.html", "d4/d0d/classcore_1_1engine_1_1optix_1_1OptiXCylindricStereoCamera" ]
         ] ],
         [ "ospray", "db/da1/namespacecore_1_1engine_1_1ospray.html", [
@@ -216,7 +217,7 @@ var annotated_dup =
           [ "PerspectiveParallaxCamera", "d5/d80/structcore_1_1engine_1_1ospray_1_1PerspectiveParallaxCamera.html", "d5/d80/structcore_1_1engine_1_1ospray_1_1PerspectiveParallaxCamera" ],
           [ "PerspectiveStereoCamera", "d0/d8d/structcore_1_1engine_1_1ospray_1_1PerspectiveStereoCamera.html", "d0/d8d/structcore_1_1engine_1_1ospray_1_1PerspectiveStereoCamera" ],
           [ "Cones", "d4/d79/structcore_1_1engine_1_1ospray_1_1Cones.html", "d4/d79/structcore_1_1engine_1_1ospray_1_1Cones" ],
-          [ "OctreeVolume", "dd/de0/structcore_1_1engine_1_1ospray_1_1OctreeVolume.html", "dd/de0/structcore_1_1engine_1_1ospray_1_1OctreeVolume" ],
+          [ "Fields", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields" ],
           [ "SDFGeometries", "d4/dac/structcore_1_1engine_1_1ospray_1_1SDFGeometries.html", "d4/dac/structcore_1_1engine_1_1ospray_1_1SDFGeometries" ],
           [ "AdvancedRenderer", "d1/d9c/classcore_1_1engine_1_1ospray_1_1AdvancedRenderer.html", "d1/d9c/classcore_1_1engine_1_1ospray_1_1AdvancedRenderer" ],
           [ "BasicRenderer", "d3/dff/classcore_1_1engine_1_1ospray_1_1BasicRenderer.html", "d3/dff/classcore_1_1engine_1_1ospray_1_1BasicRenderer" ],
@@ -225,6 +226,7 @@ var annotated_dup =
           [ "SimulationRenderer", "d3/df5/classcore_1_1engine_1_1ospray_1_1SimulationRenderer.html", "d3/df5/classcore_1_1engine_1_1ospray_1_1SimulationRenderer" ],
           [ "OSPRayCamera", "dc/d0e/classcore_1_1engine_1_1ospray_1_1OSPRayCamera.html", "dc/d0e/classcore_1_1engine_1_1ospray_1_1OSPRayCamera" ],
           [ "OSPRayEngine", "d3/d21/classcore_1_1engine_1_1ospray_1_1OSPRayEngine.html", "d3/d21/classcore_1_1engine_1_1ospray_1_1OSPRayEngine" ],
+          [ "OSPRayField", "d0/d76/classcore_1_1engine_1_1ospray_1_1OSPRayField.html", "d0/d76/classcore_1_1engine_1_1ospray_1_1OSPRayField" ],
           [ "OSPRayFrameBuffer", "db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html", "db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer" ],
           [ "TextureTypeMaterialAttribute", "d7/da1/structcore_1_1engine_1_1ospray_1_1TextureTypeMaterialAttribute.html", "d7/da1/structcore_1_1engine_1_1ospray_1_1TextureTypeMaterialAttribute" ],
           [ "OSPRayMaterial", "d7/dda/classcore_1_1engine_1_1ospray_1_1OSPRayMaterial.html", "d7/dda/classcore_1_1engine_1_1ospray_1_1OSPRayMaterial" ],
@@ -297,6 +299,7 @@ var annotated_dup =
       [ "BrickedVolume", "db/de9/classcore_1_1BrickedVolume.html", "db/de9/classcore_1_1BrickedVolume" ],
       [ "Camera", "d6/da7/classcore_1_1Camera.html", "d6/da7/classcore_1_1Camera" ],
       [ "Engine", "d8/dab/classcore_1_1Engine.html", "d8/dab/classcore_1_1Engine" ],
+      [ "Field", "df/dad/classcore_1_1Field.html", "df/dad/classcore_1_1Field" ],
       [ "FrameBuffer", "db/ddf/classcore_1_1FrameBuffer.html", "db/ddf/classcore_1_1FrameBuffer" ],
       [ "LightManager", "d0/dc8/classcore_1_1LightManager.html", "d0/dc8/classcore_1_1LightManager" ],
       [ "Material", "d3/d69/classcore_1_1Material.html", "d3/d69/classcore_1_1Material" ],
@@ -305,7 +308,6 @@ var annotated_dup =
       [ "ModelParams", "d1/df6/classcore_1_1ModelParams.html", "d1/df6/classcore_1_1ModelParams" ],
       [ "ModelDescriptor", "dc/d7f/classcore_1_1ModelDescriptor.html", "dc/d7f/classcore_1_1ModelDescriptor" ],
       [ "Model", "d1/d11/classcore_1_1Model.html", "d1/d11/classcore_1_1Model" ],
-      [ "OctreeVolume", "dc/d87/classcore_1_1OctreeVolume.html", "dc/d87/classcore_1_1OctreeVolume" ],
       [ "Renderer", "dd/d5b/classcore_1_1Renderer.html", "dd/d5b/classcore_1_1Renderer" ],
       [ "Scene", "d5/d76/classcore_1_1Scene.html", "d5/d76/classcore_1_1Scene" ],
       [ "SharedDataVolume", "df/df4/classcore_1_1SharedDataVolume.html", "df/df4/classcore_1_1SharedDataVolume" ],
@@ -322,6 +324,7 @@ var annotated_dup =
       [ "AbstractParameters", "da/dda/classcore_1_1AbstractParameters.html", "da/dda/classcore_1_1AbstractParameters" ],
       [ "AnimationParameters", "d4/dfb/classcore_1_1AnimationParameters.html", "d4/dfb/classcore_1_1AnimationParameters" ],
       [ "ApplicationParameters", "d2/db2/classcore_1_1ApplicationParameters.html", "d2/db2/classcore_1_1ApplicationParameters" ],
+      [ "FieldParameters", "d3/d75/classcore_1_1FieldParameters.html", "d3/d75/classcore_1_1FieldParameters" ],
       [ "GeometryParameters", "d8/d43/classcore_1_1GeometryParameters.html", "d8/d43/classcore_1_1GeometryParameters" ],
       [ "ParametersManager", "dc/d04/classcore_1_1ParametersManager.html", "dc/d04/classcore_1_1ParametersManager" ],
       [ "RenderingParameters", "d4/d34/classcore_1_1RenderingParameters.html", "d4/d34/classcore_1_1RenderingParameters" ],
@@ -334,11 +337,6 @@ var annotated_dup =
       [ "AddModelFromBlobTask", "d7/dc3/classcore_1_1AddModelFromBlobTask.html", "d7/dc3/classcore_1_1AddModelFromBlobTask" ],
       [ "AddModelTask", "d0/dbb/classcore_1_1AddModelTask.html", "d0/dbb/classcore_1_1AddModelTask" ],
       [ "LoadModelFunctor", "d2/d4d/classcore_1_1LoadModelFunctor.html", "d2/d4d/classcore_1_1LoadModelFunctor" ],
-      [ "Vec2f", "d1/df6/structcore_1_1Vec2f.html", "d1/df6/structcore_1_1Vec2f" ],
-      [ "Vec4f", "dc/d64/structcore_1_1Vec4f.html", "dc/d64/structcore_1_1Vec4f" ],
-      [ "Record", "d2/dd1/structcore_1_1Record.html", "d2/dd1/structcore_1_1Record" ],
-      [ "GeometryData", "d1/d83/structcore_1_1GeometryData.html", "d1/d83/structcore_1_1GeometryData" ],
-      [ "SphereHitGroupData", "d3/d73/structcore_1_1SphereHitGroupData.html", "d3/d73/structcore_1_1SphereHitGroupData" ],
       [ "DeflectParameters", "d0/de8/classcore_1_1DeflectParameters.html", "d0/de8/classcore_1_1DeflectParameters" ],
       [ "DeflectPixelOp", "da/d56/classcore_1_1DeflectPixelOp.html", "da/d56/classcore_1_1DeflectPixelOp" ],
       [ "DeflectPlugin", "da/d23/classcore_1_1DeflectPlugin.html", "da/d23/classcore_1_1DeflectPlugin" ],

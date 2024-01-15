@@ -21,6 +21,7 @@
  */
 
 #include "OSPRayModel.h"
+#include "OSPRayField.h"
 #include "OSPRayMaterial.h"
 #include "OSPRayProperties.h"
 #include "OSPRayUtils.h"
@@ -28,10 +29,12 @@
 
 #include <Defines.h>
 
+#include <platform/core/common/Properties.h>
 #include <platform/core/common/simulation/AbstractSimulationHandler.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Scene.h>
 #include <platform/core/parameters/AnimationParameters.h>
+#include <platform/core/parameters/FieldParameters.h>
 #include <platform/core/parameters/GeometryParameters.h>
 
 namespace
@@ -51,8 +54,8 @@ namespace engine
 namespace ospray
 {
 OSPRayModel::OSPRayModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters,
-                         GeometryParameters& geometryParameters)
-    : Model(animationParameters, volumeParameters, geometryParameters)
+                         GeometryParameters& geometryParameters, FieldParameters& fieldParameters)
+    : Model(animationParameters, volumeParameters, geometryParameters, fieldParameters)
 {
     _ospTransferFunction = ospNewTransferFunction(OSPRAY_TRANSFER_FUNCTION_PROPERTY_TYPE_PIECEWISE_LINEAR);
     if (_ospTransferFunction)
@@ -399,6 +402,53 @@ void OSPRayModel::_commitCurves(const size_t materialId)
     }
 }
 
+void OSPRayModel::_commitFields(const size_t materialId)
+{
+    _ospFields[materialId] = _createGeometry(_ospFields, materialId, OSPRAY_GEOMETRY_PROPERTY_FIELDS);
+    auto& ospField = _ospFields[materialId];
+    auto& field = _geometries->_fields.at(materialId);
+
+    const auto& indices = field->getOctreeIndices();
+    const auto& values = field->getOctreeValues();
+    if (indices.empty() || values.empty())
+        return;
+
+    auto indicesBuffer = allocateVectorData(field->getOctreeIndices(), OSP_UINT, _memoryManagementFlags);
+    ospSetObject(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_INDICES, indicesBuffer);
+    ospRelease(indicesBuffer);
+
+    auto valuesBuffer = allocateVectorData(field->getOctreeValues(), OSP_FLOAT, _memoryManagementFlags);
+    ospSetObject(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_VALUES, valuesBuffer);
+    ospRelease(valuesBuffer);
+
+    osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_DIMENSIONS, field->getDimensions());
+    osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_SPACING, field->getElementSpacing());
+    osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_OFFSET, field->getOffset());
+    osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_DATATYPE, field->getOctreeDataType());
+    ospSetObject(ospField, DEFAULT_COMMON_TRANSFER_FUNCTION, _ospTransferFunction);
+
+    ospCommit(ospField);
+    _addGeometryToModel(ospField, materialId);
+}
+
+void OSPRayModel::commitFieldParameters()
+{
+    for (auto& field : _geometries->_fields)
+    {
+        auto& ospField = _ospFields[field.first];
+        osphelper::set(ospField, OSPRAY_FIELD_PROPERTY_GRADIENT_SHADING_ENABLED,
+                       static_cast<int>(_fieldParameters.getGradientShading()));
+        osphelper::set(ospField, OSPRAY_FIELD_PROPERTY_GRADIENT_OFFSET,
+                       static_cast<float>(_fieldParameters.getGradientOffset()));
+        osphelper::set(ospField, OSPRAY_FIELD_PROPERTY_SAMPLING_RATE,
+                       static_cast<float>(_fieldParameters.getSamplingRate()));
+        osphelper::set(ospField, OSPRAY_FIELD_PROPERTY_DISTANCE, static_cast<float>(_fieldParameters.getDistance()));
+        osphelper::set(ospField, OSPRAY_FIELD_PROPERTY_CUTOFF, static_cast<float>(_fieldParameters.getCutoff()));
+        osphelper::set(ospField, OSPRAY_FIELD_PROPERTY_EPSILON, static_cast<float>(_fieldParameters.getEpsilon()));
+        ospCommit(ospField);
+    }
+}
+
 void OSPRayModel::_setBVHFlags()
 {
     osphelper::set(_primaryModel, OSPRAY_MODEL_PROPERTY_DYNAMIC_SCENE,
@@ -454,6 +504,10 @@ void OSPRayModel::commitGeometry()
     if (_curvesDirty)
         for (const auto& curve : _geometries->_curves)
             _commitCurves(curve.first);
+
+    if (_fieldsDirty)
+        for (const auto& field : _geometries->_fields)
+            _commitFields(field.first);
 
     updateBounds();
     _markGeometriesClean();
@@ -532,10 +586,10 @@ BrickedVolumePtr OSPRayModel::createBrickedVolume(const Vector3ui& dimensions, c
     return std::make_shared<OSPRayBrickedVolume>(dimensions, spacing, type, _volumeParameters, _ospTransferFunction);
 }
 
-OctreeVolumePtr OSPRayModel::createOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing,
-                                                const DataType type)
+FieldPtr OSPRayModel::createField(const Vector3ui& dimensions, const Vector3f& spacing, const Vector3f& offset,
+                                  const uint32_ts& indices, const floats& values, const OctreeDataType dataType)
 {
-    CORE_THROW("Octree volumes are currently not supported by the OSPRay engine");
+    return std::make_shared<OSPRayField>(_fieldParameters, dimensions, spacing, offset, indices, values, dataType);
 }
 
 void OSPRayModel::_commitTransferFunctionImpl(const Vector3fs& colors, const floats& opacities,

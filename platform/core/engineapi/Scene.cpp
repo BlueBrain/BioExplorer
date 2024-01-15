@@ -63,10 +63,11 @@ std::shared_ptr<T> _remove(std::vector<std::shared_ptr<T>>& list, const size_t i
 namespace core
 {
 Scene::Scene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
-             VolumeParameters& volumeParameters)
+             VolumeParameters& volumeParameters, FieldParameters& fieldParameters)
     : _animationParameters(animationParameters)
     , _geometryParameters(geometryParameters)
     , _volumeParameters(volumeParameters)
+    , _fieldParameters(fieldParameters)
 {
 }
 

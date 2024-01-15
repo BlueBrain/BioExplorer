@@ -50,9 +50,10 @@ OptiXEngine::OptiXEngine(ParametersManager& parametersManager)
     _initializeContext();
 
     PLUGIN_INFO("Initializing scene");
-    _scene = std::make_shared<OptiXScene>(_parametersManager.getAnimationParameters(),
-                                          _parametersManager.getGeometryParameters(),
-                                          _parametersManager.getVolumeParameters());
+    _scene =
+        std::make_shared<OptiXScene>(_parametersManager.getAnimationParameters(),
+                                     _parametersManager.getGeometryParameters(),
+                                     _parametersManager.getVolumeParameters(), _parametersManager.getFieldParameters());
 
     PLUGIN_INFO("Initializing renderers");
     _createRenderers();
@@ -214,9 +215,9 @@ void OptiXEngine::_createRenderers()
 }
 
 ScenePtr OptiXEngine::createScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
-                                  VolumeParameters& volumeParameters) const
+                                  VolumeParameters& volumeParameters, FieldParameters& fieldParameters) const
 {
-    return std::make_shared<OptiXScene>(animationParameters, geometryParameters, volumeParameters);
+    return std::make_shared<OptiXScene>(animationParameters, geometryParameters, volumeParameters, fieldParameters);
 }
 
 FrameBufferPtr OptiXEngine::createFrameBuffer(const std::string& name, const Vector2ui& frameSize,

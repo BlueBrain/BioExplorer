@@ -6,6 +6,6 @@ var classcore_1_1engine_1_1optix_1_1OptiXEngine =
     [ "createCamera", "d7/d7f/classcore_1_1engine_1_1optix_1_1OptiXEngine.html#ad8ea442d20d29220a8db3676d0a944b1", null ],
     [ "createFrameBuffer", "d7/d7f/classcore_1_1engine_1_1optix_1_1OptiXEngine.html#ab4067a655ebd7c01bb468e923f4b6cfd", null ],
     [ "createRenderer", "d7/d7f/classcore_1_1engine_1_1optix_1_1OptiXEngine.html#a203efb5550d1339c1addd72a094d3e61", null ],
-    [ "createScene", "d7/d7f/classcore_1_1engine_1_1optix_1_1OptiXEngine.html#a294f297cc5d76163e3e14dd32ac79ba3", null ],
+    [ "createScene", "d7/d7f/classcore_1_1engine_1_1optix_1_1OptiXEngine.html#ab35059954a4bda3aa6cc47ebda277bbf", null ],
     [ "getMinimumFrameSize", "d7/d7f/classcore_1_1engine_1_1optix_1_1OptiXEngine.html#a6c9ce37747892e3fc1a6854926c18c08", null ]
 ];

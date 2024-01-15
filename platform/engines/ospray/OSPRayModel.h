@@ -36,12 +36,13 @@ class OSPRayModel : public Model
 {
 public:
     OSPRayModel(AnimationParameters& animationParameters, VolumeParameters& volumeParameters,
-                GeometryParameters& geometryParameters);
+                GeometryParameters& geometryParameters, FieldParameters& fieldParameters);
     ~OSPRayModel() final;
 
     void setMemoryFlags(const size_t memoryManagementFlags);
 
     void commitGeometry() final;
+    void commitFieldParameters();
     void commitMaterials(const std::string& renderer);
 
     OSPModel getPrimaryModel() const { return _primaryModel; }
@@ -52,7 +53,8 @@ public:
     BrickedVolumePtr createBrickedVolume(const Vector3ui& dimensions, const Vector3f& spacing,
                                          const DataType type) final;
 
-    OctreeVolumePtr createOctreeVolume(const Vector3ui& dimensions, const Vector3f& spacing, const DataType type) final;
+    FieldPtr createField(const Vector3ui& dimensions, const Vector3f& spacing, const Vector3f& offset,
+                         const uint32_ts& indices, const floats& values, const OctreeDataType dataType) final;
 
     void buildBoundingBox() final;
 
@@ -74,6 +76,7 @@ private:
     void _commitStreamlines(const size_t materialId);
     void _commitSDFGeometries();
     void _commitCurves(const size_t materialId);
+    void _commitFields(const size_t materialId);
 
     void _addGeometryToModel(const OSPGeometry geometry, const size_t materialId);
     void _setBVHFlags();
@@ -99,6 +102,7 @@ private:
     std::map<size_t, OSPGeometry> _ospStreamlines;
     std::map<size_t, OSPGeometry> _ospSDFGeometries;
     std::map<size_t, OSPGeometry> _ospCurves;
+    std::map<size_t, OSPGeometry> _ospFields;
 
     size_t _memoryManagementFlags{OSP_DATA_SHARED_BUFFER};
 

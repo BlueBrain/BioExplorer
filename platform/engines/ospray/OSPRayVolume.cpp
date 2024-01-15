@@ -75,7 +75,7 @@ OSPRayVolume::OSPRayVolume(const Vector3ui& dimensions, const Vector3f& spacing,
         throw std::runtime_error("Unsupported voxel type " + std::to_string(int(type)));
     }
 
-    ospSetObject(_volume, RENDERER_PROPERTY_TRANSFER_FUNCTION, transferFunction);
+    ospSetObject(_volume, DEFAULT_COMMON_TRANSFER_FUNCTION, transferFunction);
 }
 
 OSPRayVolume::~OSPRayVolume()
@@ -139,13 +139,14 @@ void OSPRayVolume::commit()
         osphelper::set(_volume, OSPRAY_VOLUME_SAMPLING_RATE, static_cast<float>(_parameters.getSamplingRate()));
         osphelper::set(_volume, OSPRAY_VOLUME_SPECULAR_EXPONENT, Vector3f(_parameters.getSpecular()));
         osphelper::set(_volume, OSPRAY_VOLUME_USER_PARAMETERS, Vector3f(_parameters.getUserParameters()));
-        osphelper::set(_volume, OSPRAY_VOLUME_VOLUME_CLIPPING_BOX_LOWER, Vector3f(_parameters.getClipBox().getMin()));
-        osphelper::set(_volume, OSPRAY_VOLUME_VOLUME_CLIPPING_BOX_UPPER, Vector3f(_parameters.getClipBox().getMax()));
+        osphelper::set(_volume, OSPRAY_VOLUME_CLIPPING_BOX_LOWER, Vector3f(_parameters.getClipBox().getMin()));
+        osphelper::set(_volume, OSPRAY_VOLUME_CLIPPING_BOX_UPPER, Vector3f(_parameters.getClipBox().getMax()));
     }
     if (isModified() || _parameters.isModified())
         ospCommit(_volume);
     resetModified();
 }
+
 } // namespace ospray
 } // namespace engine
 } // namespace core

@@ -44,7 +44,7 @@ class OSPRayScene : public Scene
 {
 public:
     OSPRayScene(AnimationParameters& animationParameters, GeometryParameters& geometryParameters,
-                VolumeParameters& volumeParameters);
+                VolumeParameters& volumeParameters, FieldParameters& fieldParameters);
     ~OSPRayScene();
 
     /** @copydoc Scene::commit */

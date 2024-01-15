@@ -32,6 +32,8 @@
 #include <science/common/Properties.h>
 #include <science/common/Utils.h>
 #include <science/connectomics/whitematter/WhiteMatterLoader.h>
+#include <science/fields/PointFieldBuilder.h>
+#include <science/fields/VectorFieldBuilder.h>
 #include <science/io/CacheLoader.h>
 #include <science/io/OOCManager.h>
 #include <science/morphologies/AstrocytesLoader.h>
@@ -1796,20 +1798,14 @@ Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
         {
         case FieldDataType::point:
         {
-            auto handler = std::make_shared<PointFieldsHandler>(engine, *model, payload.voxelSize, payload.density,
-                                                                payload.modelIds);
-            // Force Octree initialization (if not already done) by specifying a negative frame number
-            handler->getFrameData(-1);
-            model->setSimulationHandler(handler);
+            PointFieldBuilder builder;
+            builder.buildOctree(engine, *model, payload.voxelSize, payload.density, payload.modelIds);
             break;
         }
         case FieldDataType::vector:
         {
-            auto handler = std::make_shared<VectorFieldsHandler>(engine, *model, payload.voxelSize, payload.density,
-                                                                 payload.modelIds);
-            // Force Octree initialization (if not already done) by specifying a negative frame number
-            handler->getFrameData(-1);
-            model->setSimulationHandler(handler);
+            VectorFieldBuilder builder;
+            builder.buildOctree(engine, *model, payload.voxelSize, payload.density, payload.modelIds);
             break;
         }
         default:

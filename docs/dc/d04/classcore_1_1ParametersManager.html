@@ -122,6 +122,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:add53a77e5924772782b527f7e5ef87d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a076c3aaf0242d90979b9fb52c6942fd7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> const <a class="el" href="../../df/da5/classcore_1_1VolumeParameters.html">VolumeParameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d04/classcore_1_1ParametersManager.html#a076c3aaf0242d90979b9fb52c6942fd7">getVolumeParameters</a> () const</td></tr>
 <tr class="separator:a076c3aaf0242d90979b9fb52c6942fd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4b60c649083e1e444e27f444900ff47"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> <a class="el" href="../../d3/d75/classcore_1_1FieldParameters.html">FieldParameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d04/classcore_1_1ParametersManager.html#ac4b60c649083e1e444e27f444900ff47">getFieldParameters</a> ()</td></tr>
+<tr class="separator:ac4b60c649083e1e444e27f444900ff47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89d269f51e7681a437bfa0217d136cfa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d21/Api_8h.html#aa0578dcc49794f43d92a24724d60af3f">PLATFORM_API</a> const <a class="el" href="../../d3/d75/classcore_1_1FieldParameters.html">FieldParameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d04/classcore_1_1ParametersManager.html#a89d269f51e7681a437bfa0217d136cfa">getFieldParameters</a> () const</td></tr>
+<tr class="separator:a89d269f51e7681a437bfa0217d136cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd66057b252eabd4397f7fd91bfd3250"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d04/classcore_1_1ParametersManager.html#abd66057b252eabd4397f7fd91bfd3250">resetModified</a> ()</td></tr>
 <tr class="separator:abd66057b252eabd4397f7fd91bfd3250"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9355a84a74488798efb269a24728c68f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d04/classcore_1_1ParametersManager.html#a9355a84a74488798efb269a24728c68f">isAnyModified</a> () const</td></tr>
@@ -130,7 +134,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class managing all parameters registered by the application. By default this class create an instance of Application, Rendering, and Geometry parameters are registered. Other parameters can also be added using the registerParameters method for as long as they are inherited from <a class="el" href="../../da/dda/classcore_1_1AbstractParameters.html">AbstractParameters</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d16/ParametersManager_8h_source.html#l00042">42</a> of file <a class="el" href="../../d4/d16/ParametersManager_8h_source.html">ParametersManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d16/ParametersManager_8h_source.html#l00043">43</a> of file <a class="el" href="../../d4/d16/ParametersManager_8h_source.html">ParametersManager.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="afb126133d17afc2011f5f23a367a60e2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afb126133d17afc2011f5f23a367a60e2">&#9670;&nbsp;</a></span>ParametersManager()</h2>
@@ -238,6 +242,45 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d3e/ParametersManager_8cpp_source.html#l00224">224</a> of file <a class="el" href="../../d9/d3e/ParametersManager_8cpp_source.html">ParametersManager.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ac4b60c649083e1e444e27f444900ff47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4b60c649083e1e444e27f444900ff47">&#9670;&nbsp;</a></span>getFieldParameters() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/d75/classcore_1_1FieldParameters.html">FieldParameters</a> &amp; core::ParametersManager::getFieldParameters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Gets field parameters </p><dl class="section return"><dt>Returns</dt><dd>Parameters for the current field </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d9/d3e/ParametersManager_8cpp_source.html#l00259">259</a> of file <a class="el" href="../../d9/d3e/ParametersManager_8cpp_source.html">ParametersManager.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a89d269f51e7681a437bfa0217d136cfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89d269f51e7681a437bfa0217d136cfa">&#9670;&nbsp;</a></span>getFieldParameters() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../d3/d75/classcore_1_1FieldParameters.html">FieldParameters</a> &amp; core::ParametersManager::getFieldParameters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d9/d3e/ParametersManager_8cpp_source.html#l00264">264</a> of file <a class="el" href="../../d9/d3e/ParametersManager_8cpp_source.html">ParametersManager.cpp</a>.</p>
 
 </div>
 </div>

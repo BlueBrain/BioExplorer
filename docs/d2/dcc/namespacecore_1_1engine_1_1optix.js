@@ -6,6 +6,7 @@ var namespacecore_1_1engine_1_1optix =
     [ "OptixShaderProgram", "db/dcd/structcore_1_1engine_1_1optix_1_1OptixShaderProgram.html", "db/dcd/structcore_1_1engine_1_1optix_1_1OptixShaderProgram" ],
     [ "OptiXContext", "d3/d32/classcore_1_1engine_1_1optix_1_1OptiXContext.html", "d3/d32/classcore_1_1engine_1_1optix_1_1OptiXContext" ],
     [ "OptiXEngine", "d7/d7f/classcore_1_1engine_1_1optix_1_1OptiXEngine.html", "d7/d7f/classcore_1_1engine_1_1optix_1_1OptiXEngine" ],
+    [ "OptiXField", "d1/db5/classcore_1_1engine_1_1optix_1_1OptiXField.html", "d1/db5/classcore_1_1engine_1_1optix_1_1OptiXField" ],
     [ "OptiXFrameBuffer", "d4/dc0/classcore_1_1engine_1_1optix_1_1OptiXFrameBuffer.html", "d4/dc0/classcore_1_1engine_1_1optix_1_1OptiXFrameBuffer" ],
     [ "OptiXMaterial", "dd/dff/classcore_1_1engine_1_1optix_1_1OptiXMaterial.html", "dd/dff/classcore_1_1engine_1_1optix_1_1OptiXMaterial" ],
     [ "OptiXModel", "db/d5a/classcore_1_1engine_1_1optix_1_1OptiXModel.html", "db/d5a/classcore_1_1engine_1_1optix_1_1OptiXModel" ],
@@ -14,9 +15,9 @@ var namespacecore_1_1engine_1_1optix =
     [ "OptiXRenderer", "d5/dd9/classcore_1_1engine_1_1optix_1_1OptiXRenderer.html", "d5/dd9/classcore_1_1engine_1_1optix_1_1OptiXRenderer" ],
     [ "OptiXScene", "da/dc3/classcore_1_1engine_1_1optix_1_1OptiXScene.html", "da/dc3/classcore_1_1engine_1_1optix_1_1OptiXScene" ],
     [ "VolumeGeometry", "d2/de2/structcore_1_1engine_1_1optix_1_1VolumeGeometry.html", "d2/de2/structcore_1_1engine_1_1optix_1_1VolumeGeometry" ],
+    [ "FieldGeometry", "df/d4b/structcore_1_1engine_1_1optix_1_1FieldGeometry.html", "df/d4b/structcore_1_1engine_1_1optix_1_1FieldGeometry" ],
     [ "OptiXVolume", "d1/db3/classcore_1_1engine_1_1optix_1_1OptiXVolume.html", "d1/db3/classcore_1_1engine_1_1optix_1_1OptiXVolume" ],
     [ "OptiXSharedDataVolume", "d1/da5/classcore_1_1engine_1_1optix_1_1OptiXSharedDataVolume.html", "d1/da5/classcore_1_1engine_1_1optix_1_1OptiXSharedDataVolume" ],
-    [ "OptiXOctreeVolume", "d9/dcc/classcore_1_1engine_1_1optix_1_1OptiXOctreeVolume.html", "d9/dcc/classcore_1_1engine_1_1optix_1_1OptiXOctreeVolume" ],
     [ "OptiXCylindricStereoCamera", "d4/d0d/classcore_1_1engine_1_1optix_1_1OptiXCylindricStereoCamera.html", "d4/d0d/classcore_1_1engine_1_1optix_1_1OptiXCylindricStereoCamera" ],
     [ "OptiXCameraProgramPtr", "d2/dcc/namespacecore_1_1engine_1_1optix.html#a8c60e79f98c80eac0dc7506fc9421789", null ],
     [ "OptiXCameraPtr", "d2/dcc/namespacecore_1_1engine_1_1optix.html#a267a9887776daa4d18988815c136a7b6", null ],
@@ -28,7 +29,8 @@ var namespacecore_1_1engine_1_1optix =
       [ "triangleMesh", "d2/dcc/namespacecore_1_1engine_1_1optix.html#ae53996c952b50499ec10f342c7a2a100a4711b9f1991aa54809d9f97d426c39de", null ],
       [ "volume", "d2/dcc/namespacecore_1_1engine_1_1optix.html#ae53996c952b50499ec10f342c7a2a100a210ab9e731c9c36c2c38db15c28a8d1c", null ],
       [ "streamline", "d2/dcc/namespacecore_1_1engine_1_1optix.html#ae53996c952b50499ec10f342c7a2a100abc54434650f05104057ae08fc16b01d1", null ],
-      [ "sdfGeometry", "d2/dcc/namespacecore_1_1engine_1_1optix.html#ae53996c952b50499ec10f342c7a2a100a67e0e9d78cb39c8dde7b7b737bc38ee5", null ]
+      [ "sdfGeometry", "d2/dcc/namespacecore_1_1engine_1_1optix.html#ae53996c952b50499ec10f342c7a2a100a67e0e9d78cb39c8dde7b7b737bc38ee5", null ],
+      [ "field", "d2/dcc/namespacecore_1_1engine_1_1optix.html#ae53996c952b50499ec10f342c7a2a100a06e3d36fa30cea095545139854ad1fb9", null ]
     ] ],
     [ "setBuffer", "d2/dcc/namespacecore_1_1engine_1_1optix.html#a8044b447c0a09e05c6852d31abe3b529", null ],
     [ "setBufferRaw", "d2/dcc/namespacecore_1_1engine_1_1optix.html#af3b06b50cac465e67d0c2935c2b9ea44", null ],

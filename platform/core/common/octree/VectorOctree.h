@@ -55,7 +55,7 @@ public:
     ~VectorOctree();
 
     /**
-     * @brief Get the volume dimentions defined by the scene and the voxel sizes
+     * @brief Get the volume dimensions defined by the scene and the voxel sizes
      *
      * @return The dimensions of the volume
      */

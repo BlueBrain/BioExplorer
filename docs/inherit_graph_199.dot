@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="core::Texture2D",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/dff/classcore_1_1Texture2D.html",tooltip=" "];
+  Node0 [label="PerRayData_radiance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/db2/structPerRayData__radiance.html",tooltip=" "];
 }

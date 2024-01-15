@@ -64,6 +64,7 @@ static const char* OPTIX_GEOMETRY_PROPERTY_SDF_GEOMETRIES = "sdf_geometries_buff
 static const char* OPTIX_GEOMETRY_PROPERTY_SDF_GEOMETRIES_INDICES = "sdf_geometries_indices_buffer";
 static const char* OPTIX_GEOMETRY_PROPERTY_SDF_GEOMETRIES_NEIGHBOURS = "sdf_geometries_neighbours_buffer";
 static const char* OPTIX_GEOMETRY_PROPERTY_VOLUMES = "volumes";
+static const char* OPTIX_GEOMETRY_PROPERTY_FIELDS = "fields";
 
 static const char* OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_VERTEX = "vertices_buffer";
 static const char* OPTIX_GEOMETRY_PROPERTY_TRIANGLE_MESH_INDEX = "indices_buffer";

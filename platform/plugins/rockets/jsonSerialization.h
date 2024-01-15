@@ -40,6 +40,7 @@
 #include <platform/core/engineapi/Scene.h>
 #include <platform/core/parameters/AnimationParameters.h>
 #include <platform/core/parameters/ApplicationParameters.h>
+#include <platform/core/parameters/FieldParameters.h>
 #include <platform/core/parameters/RenderingParameters.h>
 #include <platform/core/parameters/VolumeParameters.h>
 #include <platform/core/tasks/AddModelFromBlobTask.h>
@@ -468,6 +469,17 @@ inline void init(core::VolumeParameters* v, ObjectHandler* h)
     h->add_property("specular", toArray<3, double>(v->_specular), Flags::Optional);
     h->add_property("clip_box", &v->_clipBox, Flags::Optional);
     h->add_property("user_parameters", toArray<3, double>(v->_userParameters), Flags::Optional);
+    h->set_flags(Flags::DisallowUnknownKey);
+}
+
+inline void init(core::FieldParameters* v, ObjectHandler* h)
+{
+    h->add_property("gradient_shading", &v->_gradientShading, Flags::Optional);
+    h->add_property("gradient_offset", &v->_gradientOffset, Flags::Optional);
+    h->add_property("sampling_rate", &v->_samplingRate, Flags::Optional);
+    h->add_property("distance", &v->_distance, Flags::Optional);
+    h->add_property("cutoff", &v->_cutoff, Flags::Optional);
+    h->add_property("epsilon", &v->_epsilon, Flags::Optional);
     h->set_flags(Flags::DisallowUnknownKey);
 }
 
