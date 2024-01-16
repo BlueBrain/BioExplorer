@@ -153,33 +153,6 @@ void _addBioExplorerVoxelRenderer(Engine &engine)
     engine.addRendererType(RENDERER_VOXEL, properties);
 }
 
-void _addBioExplorerPointFieldsRenderer(Engine &engine)
-{
-    PLUGIN_REGISTER_RENDERER(RENDERER_POINT_FIELDS);
-    PropertyMap properties;
-    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_MIN_RAY_STEP);
-    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_STEPS);
-    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_REFINEMENT_STEPS);
-    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_CUTOFF_DISTANCE);
-    properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
-    properties.setProperty(COMMON_PROPERTY_EXPOSURE);
-    engine.addRendererType(RENDERER_POINT_FIELDS, properties);
-}
-
-void _addBioExplorerVectorFieldsRenderer(Engine &engine)
-{
-    PLUGIN_REGISTER_RENDERER(RENDERER_VECTOR_FIELDS);
-    PropertyMap properties;
-    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_MIN_RAY_STEP);
-    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_STEPS);
-    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_NB_RAY_REFINEMENT_STEPS);
-    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_CUTOFF_DISTANCE);
-    properties.setProperty(BIOEXPLORER_RENDERER_PROPERTY_FIELDS_SHOW_VECTOR_DIRECTIONS);
-    properties.setProperty(RENDERER_PROPERTY_ALPHA_CORRECTION);
-    properties.setProperty(COMMON_PROPERTY_EXPOSURE);
-    engine.addRendererType(RENDERER_VECTOR_FIELDS, properties);
-}
-
 void _addBioExplorerDensityRenderer(Engine &engine)
 {
     PLUGIN_REGISTER_RENDERER(RENDERER_DENSITY);
@@ -683,11 +656,6 @@ void BioExplorerPlugin::_createRenderers()
     auto &engine = _api->getEngine();
     auto &params = engine.getParametersManager().getApplicationParameters();
     const auto &engineName = params.getEngine();
-    if (engineName == ENGINE_OSPRAY)
-    {
-        _addBioExplorerPointFieldsRenderer(engine);
-        _addBioExplorerVectorFieldsRenderer(engine);
-    }
     _addBioExplorerVoxelRenderer(engine);
     _addBioExplorerDensityRenderer(engine);
     _addBioExplorerPathTracingRenderer(engine);

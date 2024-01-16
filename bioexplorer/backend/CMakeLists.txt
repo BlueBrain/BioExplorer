@@ -170,8 +170,6 @@ set(${NAME}_PRIVATE_MODULE_LIBRARIES)
 if(PLATFORM_OSPRAY_ENABLED)
     list(APPEND ${NAME}_SOURCES
         module/ispc/renderer/artistic/GolgiStyleRenderer.cpp
-        module/ispc/renderer/field/PointFieldsRenderer.cpp
-        module/ispc/renderer/field/VectorFieldsRenderer.cpp
         module/ispc/renderer/DensityRenderer.cpp
         module/ispc/renderer/PathTracingRenderer.cpp
         module/ispc/renderer/VoxelRenderer.cpp
@@ -179,8 +177,6 @@ if(PLATFORM_OSPRAY_ENABLED)
 
     set(${NAME}_ISPC_SOURCES
         module/ispc/renderer/artistic/GolgiStyleRenderer.ispc
-        module/ispc/renderer/field/PointFieldsRenderer.ispc
-        module/ispc/renderer/field/VectorFieldsRenderer.ispc
         module/ispc/renderer/DensityRenderer.ispc
         module/ispc/renderer/PathTracingRenderer.ispc
         module/ispc/renderer/VoxelRenderer.ispc
