@@ -272,31 +272,31 @@ class Widgets:
                 self._widget_value = None
                 self._x = 0.5
                 self._y = 0.5
-                self._aperture = 0.0
-                self._focus_radius = 0.01
-                self._focus_distance = 0.0
-                self._nb_focus_points = 20
+                self._aperture_radius = 0.0
+                self._focal_radius = 0.01
+                self._focal_distance = 0.0
+                self._nb_focal_points = 20
                 self._snapshot = None
                 self._with_preview = with_preview
 
             def _update_camera(self):
-                self._focus_distance = 1e6
-                for _ in range(self._nb_focus_points):
-                    self._focus_distance = min(
-                        self._focus_distance,
+                self._focal_distance = 1e6
+                for _ in range(self._nb_focal_points):
+                    self._focal_distance = min(
+                        self._focal_distance,
                         self._get_focal_distance(
                             (
-                                self._x + random.random() * self._focus_radius,
-                                self._y + random.random() * self._focus_radius,
+                                self._x + random.random() * self._focal_radius,
+                                self._y + random.random() * self._focal_radius,
                             )
                         ),
                     )
 
                 params = self._client.PerspectiveCameraParams()
-                params.focus_distance = self._focus_distance
-                params.aperture_radius = self._aperture
+                params.focal_distance = self._focal_distance
+                params.aperture_radius = self._aperture_radius
                 params.enable_clipping_planes = True
-                d_slider.value = self._focus_distance
+                d_slider.value = self._focal_distance
                 self._client.set_camera_params(params)
 
                 if self._with_preview:
@@ -317,16 +317,16 @@ class Widgets:
                     self._client.set_camera(target=position)
                     self._client.set_renderer()
 
-            def update_focus_radius(self, val_dict) -> None:
+            def update_focal_radius(self, val_dict) -> None:
                 """Update camera focus radius"""
                 self._widget_value = val_dict["new"]
-                self._focus_radius = self._widget_value
+                self._focal_radius = self._widget_value
                 self._update_camera()
 
-            def update_aperture(self, val_dict) -> None:
+            def update_aperture_radius(self, val_dict) -> None:
                 """Update camera aperture"""
                 self._widget_value = val_dict["new"]
-                self._aperture = self._widget_value
+                self._aperture_radius = self._widget_value
                 self._update_camera()
 
             def update_x(self, val_dict) -> None:
@@ -372,8 +372,8 @@ class Widgets:
 
                 x = self._x * size[0]
                 y = (1.0 - self._y) * size[1]
-                rx = self._focus_radius * size[0]
-                ry = self._focus_radius * size[1]
+                rx = self._focal_radius * size[0]
+                ry = self._focal_radius * size[1]
                 byte_io = io.BytesIO()
                 snapshot = self._snapshot.copy()
                 draw = ImageDraw.Draw(snapshot)
@@ -392,11 +392,11 @@ class Widgets:
         def update_y(value):
             update_class.update_y(value)
 
-        def update_aperture(value):
-            update_class.update_aperture(value)
+        def update_aperture_radius(value):
+            update_class.update_aperture_radius(value)
 
-        def update_focus_radius(value):
-            update_class.update_focus_radius(value)
+        def update_focal_radius(value):
+            update_class.update_focal_radius(value)
 
         def update_button(_):
             update_class.update()
@@ -406,8 +406,8 @@ class Widgets:
 
         x_slider.observe(update_x, "value")
         y_slider.observe(update_y, "value")
-        a_slider.observe(update_aperture, "value")
-        f_slider.observe(update_focus_radius, "value")
+        a_slider.observe(update_aperture_radius, "value")
+        f_slider.observe(update_focal_radius, "value")
         f_button.on_click(update_button)
         f_target.on_click(update_target)
 
