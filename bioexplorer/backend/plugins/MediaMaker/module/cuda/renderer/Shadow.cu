@@ -81,6 +81,7 @@ static __device__ inline void shade()
     }
     attenuation = ::optix::clamp(attenuation / float(shadowSamples), 0.f, 1.f);
     prd.result = make_float4(make_float3(attenuation), 1.f);
+    prd.zDepth = optix::length(eye - hit_point);
 }
 
 RT_PROGRAM void any_hit_shadow()

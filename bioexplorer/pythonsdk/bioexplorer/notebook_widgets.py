@@ -252,14 +252,14 @@ class Widgets:
         self._be = bioexplorer
         self._client = bioexplorer.core_api()
 
-    def display_focal_distance(self, with_preview=False):
+    def focal_distance(self, with_preview=False):
         """Display visual controls for setting camera focal distance"""
-        x_slider = FloatSlider(description="X", min=0, max=1, value=0.5)
-        y_slider = FloatSlider(description="Y", min=0, max=1, value=0.5)
-        a_slider = FloatSlider(description="Aperture", min=0, max=1, value=0)
-        f_slider = FloatSlider(description="Focus radius", min=0, max=1, value=0.01)
+        x_slider = FloatSlider(description="X", min=0.0, max=1.0, value=0.5)
+        y_slider = FloatSlider(description="Y", min=0.0, max=1.0, value=0.5)
+        a_slider = FloatSlider(description="Aperture", min=0.0, max=10.0, value=0.0)
+        f_slider = FloatSlider(description="Focus radius", min=0.0, max=1.0, value=0.01)
         d_slider = FloatSlider(
-            description="Focus distance", min=0, max=10000, value=0, disabled=True
+            description="Focus distance", min=0.0, max=10000.0, value=0.0, disabled=True
         )
         f_button = Button(description="Refresh")
         f_target = Button(description="Target")
@@ -423,7 +423,7 @@ class Widgets:
             preview = Image(value=byte_io.getvalue(), format="png", width=1, height=1)
             display(preview)
 
-    def display_palette_for_models(self):
+    def model_material(self):
         """Display visual controls for color palettes applied to models"""
         def set_colormap(model_id, colormap_name, shading_mode):
             material_ids = self._be.get_material_ids(model_id)["ids"]
@@ -546,7 +546,7 @@ class Widgets:
         )
         display(vertical_box)
 
-    def display_model_visibility(self):
+    def model_visibility(self):
         """Display visual controls for setting visibility of models"""
         model_names = list()
         for model in self._client.scene.models:
@@ -640,7 +640,7 @@ class Widgets:
         hbox = HBox([model_select, hbox_params], layout=Widgets.DEFAULT_GRID_LAYOUT)
         display(hbox)
 
-    def display_model_focus(self, max_number_of_instances=1e6):
+    def model_focus(self, max_number_of_instances=1e6):
         """Display visual controls for setting visibility of models"""
         directions = dict()
         directions["front"] = Vector3(0, 0, -1)
@@ -699,7 +699,7 @@ class Widgets:
 
         display(vbox)
 
-    def __display_advanced_settings(self, object_type, threaded):
+    def __advanced_settings(self, object_type, threaded):
         """Display visual controls for camera or renderer advanced settings"""
         class Updated:
             """Inner class that insures communication with the remote server"""
@@ -845,15 +845,15 @@ class Widgets:
         hbox = VBox(vboxes, layout=Widgets.DEFAULT_GRID_LAYOUT)
         display(hbox)
 
-    def display_advanced_rendering_settings(self, is_threaded=True):
+    def advanced_rendering_settings(self, is_threaded=True):
         """Display visual controls for renderer advanced settings"""
-        self.__display_advanced_settings("renderer", is_threaded)
+        self.__advanced_settings("renderer", is_threaded)
 
-    def display_advanced_camera_settings(self, is_threaded=True):
+    def advanced_camera_settings(self, is_threaded=True):
         """Display visual controls for camera advanced settings"""
-        self.__display_advanced_settings("camera", is_threaded)
+        self.__advanced_settings("camera", is_threaded)
 
-    def display_rendering_settings(self):
+    def rendering_settings(self):
         """Display visual controls for renderer settings"""
         def update_params(_):
             """Update renderer params"""
@@ -906,7 +906,7 @@ class Widgets:
         )
         display(VBox([hbox_1, hbox_2], layout=Widgets.DEFAULT_GRID_LAYOUT))
 
-    def display_environment_maps(self, folder):
+    def environment_maps(self, folder):
         """Display visual controls for setting environment map"""
         supported_extensions = ["jpg", "jpeg", "png"]
         hdri_files = list()
@@ -925,7 +925,7 @@ class Widgets:
         cb_names.observe(update_envmap, "value")
         display(cb_names)
 
-    def show_amino_acid_on_protein(
+    def protein_amino_acids(
         self, assembly_name, name, sequence_id=0, palette_name="Set1", palette_size=2
     ):
         """
@@ -969,7 +969,7 @@ class Widgets:
         display(irs)
         display(lbl)
 
-    def display_clipping_planes(self, value_range=[0, 128]):
+    def clipping_planes(self, value_range=[0, 128]):
         """
         Add and manipulate clip planes in a 3D space
 
@@ -1058,7 +1058,7 @@ class Widgets:
         hbox = HBox([w_x, w_y, w_z], layout=Widgets.DEFAULT_GRID_LAYOUT)
         display(hbox)
 
-    def display_model_transformation(self, model_id):
+    def model_transformation(self, model_id):
         """
         Manipulate and transform models within a 3D scene
 

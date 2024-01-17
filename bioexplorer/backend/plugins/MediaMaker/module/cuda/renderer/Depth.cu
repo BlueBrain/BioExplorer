@@ -30,6 +30,7 @@ static __device__ inline void shade()
     const float3 hit_point = ray.origin + t_hit * ray.direction;
     const float depth = 1.f - ::optix::length(eye - hit_point) / infinity;
     prd.result = make_float4(make_float3(depth), 1.f);
+    prd.zDepth = optix::length(eye - hit_point);
 }
 
 RT_PROGRAM void any_hit_shadow()

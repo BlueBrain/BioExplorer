@@ -51,8 +51,9 @@ public:
     void setAccumulation(const bool accumulation) final;
 
     std::unique_lock<std::mutex> getScopeLock() { return std::unique_lock<std::mutex>(_mapMutex); }
-    const uint8_t* getColorBuffer() const final { return _colorBuffer; }
-    const float* getFloatBuffer() const final { return _floatBuffer; }
+    const uint8_t* getColorBuffer() const final { return _colorDataBuffer; }
+    const float* getFloatBuffer() const final { return _floatDataBuffer; }
+    const float* getDepthBuffer() const { return _depthDataBuffer; }
 
 private:
     void _cleanup();
@@ -61,14 +62,17 @@ private:
 
     ::optix::Buffer _outputBuffer{nullptr};
     ::optix::Buffer _accumBuffer{nullptr};
+    ::optix::Buffer _depthBuffer{nullptr};
     ::optix::Buffer _tonemappedBuffer{nullptr};
     ::optix::Buffer _denoisedBuffer{nullptr};
 
-    uint8_t* _colorBuffer{nullptr};
-    float* _floatBuffer{nullptr};
+    uint8_t* _colorDataBuffer{nullptr};
+    float* _floatDataBuffer{nullptr};
+    float* _depthDataBuffer{nullptr};
     void* _imageData{nullptr};
     void* _colorData{nullptr};
     void* _floatData{nullptr};
+    void* _depthData{nullptr};
 
     // Post processing
     void _initializePostProcessingStages();

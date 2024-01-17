@@ -48,6 +48,7 @@ struct PerRayData_radiance
     ::optix::float4 result;
     float importance;
     int depth;
+    float zDepth;
     ::optix::float3 rayDdx;
     ::optix::float3 rayDdy;
 };

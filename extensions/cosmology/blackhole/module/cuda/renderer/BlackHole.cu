@@ -217,6 +217,8 @@ static __device__ inline void shade()
         outCol = make_float4(make_float3(col) + make_float3(glow) * (col.w + glow.w), 1.f);
 
     prd.result = ::optix::clamp(outCol, 0.f, 1.f);
+    const float3 hit_point = ray.origin + t_hit * ray.direction;
+    prd.zDepth = optix::length(eye - hit_point);
 }
 
 RT_PROGRAM void any_hit_shadow()

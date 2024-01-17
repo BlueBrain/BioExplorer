@@ -86,6 +86,7 @@ static __device__ inline void shade(bool textured)
     }
 
     prd.result = make_float4(color, opacity);
+    prd.zDepth = optix::length(eye - hit_point);
 }
 
 RT_PROGRAM void any_hit_shadow()

@@ -27,6 +27,8 @@ static __device__ inline void shade()
 {
     const float3 world_geometric_normal = optix::normalize(rtTransformNormal(RT_OBJECT_TO_WORLD, geometric_normal));
     prd.result = make_float4(0.5 + 0.5 * world_geometric_normal, 1.f);
+    const float3 hit_point = ray.origin + t_hit * ray.direction;
+    prd.zDepth = optix::length(eye - hit_point);
 }
 
 RT_PROGRAM void any_hit_shadow()

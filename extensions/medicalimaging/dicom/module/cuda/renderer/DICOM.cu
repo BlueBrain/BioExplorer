@@ -261,6 +261,7 @@ static __device__ void dicomShade(const bool textured)
 
     // Final result
     prd.result = make_float4(result, 1.f);
+    prd.zDepth = z;
 }
 
 RT_PROGRAM void any_hit_shadow()
@@ -282,4 +283,5 @@ RT_PROGRAM void closest_hit_radiance_textured()
 RT_PROGRAM void exception()
 {
     output_buffer[launch_index] = make_color(make_float4(0.f, 1.f, 0.f, 1.f));
+    depth_buffer[launch_index] = INFINITY;
 }

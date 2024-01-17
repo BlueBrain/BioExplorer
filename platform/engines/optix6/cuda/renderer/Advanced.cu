@@ -284,8 +284,9 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         result = make_float3(result.x * 0.666f, result.y * 0.8f, result.z * 0.666f);
 
     // Fog attenuation
-    const float z = optix::length(eye - hit_point);
-    const float fogAttenuation = z > fogStart ? optix::clamp((z - fogStart) / fogThickness, 0.f, 1.f) : 0.f;
+    prd.zDepth = optix::length(eye - hit_point);
+    const float fogAttenuation =
+        prd.zDepth > fogStart ? optix::clamp((prd.zDepth - fogStart) / fogThickness, 0.f, 1.f) : 0.f;
     result = result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor(ray.direction);
 
     prd.result = make_float4(result, finalColor.w);
@@ -340,4 +341,5 @@ RT_PROGRAM void closest_hit_radiance_textured()
 RT_PROGRAM void exception()
 {
     output_buffer[launch_index] = make_color(bad_color);
+    depth_buffer[launch_index] = INFINITY;
 }

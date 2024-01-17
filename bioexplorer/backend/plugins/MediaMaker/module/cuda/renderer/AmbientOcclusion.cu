@@ -95,6 +95,7 @@ static __device__ inline void shade()
     }
 
     prd.result = make_float4(::optix::clamp(color, 0.f, 1.f), opacity);
+    prd.zDepth = optix::length(eye - hit_point);
 }
 
 RT_PROGRAM void any_hit_shadow()

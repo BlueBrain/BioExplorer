@@ -114,7 +114,43 @@ void OptiXRenderer::commit()
     toOptiXProperties(getPropertyMap());
 }
 
-void OptiXRenderer::setCamera(CameraPtr /*camera*/) {}
+void OptiXRenderer::setCamera(CameraPtr camera)
+{
+    _camera = static_cast<OptiXCamera*>(camera.get());
+    assert(_camera);
+    markModified();
+}
+
+Renderer::PickResult OptiXRenderer::pick(const Vector2f& pickPos)
+{
+    PickResult result;
+    if (_camera)
+    {
+        auto context = OptiXContext::get().getOptixContext();
+        auto& frameBuffer = _engine->getFrameBuffer();
+        OptiXFrameBuffer* optixFrameBuffer = dynamic_cast<OptiXFrameBuffer*>(&frameBuffer);
+        if (optixFrameBuffer)
+        {
+            const auto frameSize = optixFrameBuffer->getSize();
+            const size_t indexX = static_cast<size_t>(pickPos.x * frameSize.x);
+            const size_t indexY = static_cast<size_t>(pickPos.y * frameSize.y);
+            const size_t index = indexY * frameSize.x + indexX;
+            if (index >= frameSize.x * frameSize.y)
+                return result;
+            const float* depthBuffer = optixFrameBuffer->getDepthBuffer();
+            const float depth = depthBuffer[index];
+            if (depth < INFINITY)
+            {
+                const Vector3f pos = _camera->getPosition();
+                const Vector3f dir = normalize(_camera->getTarget() - _camera->getPosition());
+                result.pos = pos + dir * depth;
+                result.hit = true;
+            }
+        }
+    }
+    return result;
+}
+
 } // namespace optix
 } // namespace engine
 } // namespace core

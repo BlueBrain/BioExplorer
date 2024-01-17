@@ -203,7 +203,7 @@ inline void setGeometryShadingAttributes(const uniform AdvancedRenderer* uniform
         if (valid(mat->map_d))
             attributes.opacity = mat->d * get1f(mat->map_d, dg);
         else
-            attributes.opacity = dg.color.w;
+            attributes.opacity = min(dg.color.w, mat->d);
 
         // Diffuse color
         attributes.diffuseColor = mat->Kd * make_vec3f(dg.color);

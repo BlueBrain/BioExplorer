@@ -119,6 +119,7 @@ static const char* CONTEXT_STAGE_TONE_MAPPER = "TonemapperSimple";
 static const char* CONTEXT_STAGE_DENOISER = "DLDenoiser";
 static const char* CONTEXT_INPUT_BUFFER = "input_buffer";
 static const char* CONTEXT_OUTPUT_BUFFER = "output_buffer";
+static const char* CONTEXT_DEPTH_BUFFER = "depth_buffer";
 static const char* CONTEXT_INPUT_ALBEDO_BUFFER = "input_albedo_buffer";
 static const char* CONTEXT_INPUT_NORMAL_BUFFER = "input_normal_buffer";
 static const char* CONTEXT_TONE_MAPPER_EXPOSURE = "exposure";
