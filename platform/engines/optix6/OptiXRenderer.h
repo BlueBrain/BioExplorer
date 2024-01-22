@@ -49,7 +49,10 @@ public:
 
     void setCamera(CameraPtr camera) final;
 
+    PickResult pick(const Vector2f& pickPos) final;
+
 private:
+    OptiXCamera* _camera{nullptr};
     Timer _timer;
 };
 } // namespace optix

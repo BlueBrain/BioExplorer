@@ -55,11 +55,11 @@ OptiXEngine::OptiXEngine(ParametersManager& parametersManager)
                                      _parametersManager.getGeometryParameters(),
                                      _parametersManager.getVolumeParameters(), _parametersManager.getFieldParameters());
 
-    PLUGIN_INFO("Initializing renderers");
-    _createRenderers();
-
     PLUGIN_INFO("Initializing cameras");
     _createCameras();
+
+    PLUGIN_INFO("Initializing renderers");
+    _createRenderers();
 
     PLUGIN_INFO("Engine initialization complete");
 }
@@ -148,6 +148,7 @@ void OptiXEngine::_createRenderers()
     _renderer = std::make_shared<OptiXRenderer>(_parametersManager.getAnimationParameters(),
                                                 _parametersManager.getRenderingParameters());
     _renderer->setEngine(this);
+    _renderer->setCamera(_camera);
     OptiXContext& context = OptiXContext::get();
 
     { // Advanced renderer

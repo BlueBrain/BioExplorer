@@ -38,6 +38,8 @@ static __device__ inline void shade(bool textured)
         color = Kd;
 
     prd.result = make_float4(color * max(0.f, optix::dot(-ray.direction, normal)), 1.f);
+    const float3 hit_point = ray.origin + t_hit * ray.direction;
+    prd.zDepth = optix::length(eye - hit_point);
 }
 
 RT_PROGRAM void any_hit_shadow()
@@ -58,4 +60,5 @@ RT_PROGRAM void closest_hit_radiance_textured()
 RT_PROGRAM void exception()
 {
     output_buffer[launch_index] = make_color(bad_color);
+    depth_buffer[launch_index] = INFINITY;
 }

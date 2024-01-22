@@ -56,6 +56,7 @@ void OptiXFrameBuffer::_cleanup()
     // Buffers
     RT_DESTROY(_outputBuffer);
     RT_DESTROY(_accumBuffer);
+    RT_DESTROY(_depthBuffer);
     RT_DESTROY(_tonemappedBuffer);
     RT_DESTROY(_denoisedBuffer);
 
@@ -100,6 +101,9 @@ void OptiXFrameBuffer::resize(const Vector2ui& frameSize)
     _outputBuffer = context->createBuffer(RT_BUFFER_OUTPUT, format, _frameSize.x, _frameSize.y);
     context[CONTEXT_OUTPUT_BUFFER]->set(_outputBuffer);
 
+    _depthBuffer = context->createBuffer(RT_BUFFER_OUTPUT, RT_FORMAT_FLOAT, _frameSize.x, _frameSize.y);
+    context[CONTEXT_DEPTH_BUFFER]->set(_depthBuffer);
+
     _accumBuffer = context->createBuffer(RT_BUFFER_INPUT_OUTPUT, RT_FORMAT_FLOAT4, _frameSize.x, _frameSize.y);
     context[CONTEXT_ACCUMULATION_BUFFER]->set(_accumBuffer);
 
@@ -124,11 +128,13 @@ void OptiXFrameBuffer::_mapUnsafe()
         _initializePostProcessingStages();
 
     rtBufferMap(_outputBuffer->get(), &_colorData);
+    rtBufferMap(_depthBuffer->get(), &_depthData);
 
     auto context = OptiXContext::get().getOptixContext();
     context[CONTEXT_FRAME_NUMBER]->setUint(_accumulationFrameNumber);
 
-    _colorBuffer = (uint8_t*)(_colorData);
+    _colorDataBuffer = (uint8_t*)(_colorData);
+    _depthDataBuffer = (float*)(_depthData);
 
     // Post processing
     if (_accumulationType == AccumulationType::ai_denoised)
@@ -140,7 +146,7 @@ void OptiXFrameBuffer::_mapUnsafe()
         else
             rtBufferMap(_tonemappedBuffer->get(), &_floatData);
 
-        _floatBuffer = (float*)_floatData;
+        _floatDataBuffer = (float*)_floatData;
     }
     ++_accumulationFrameNumber;
 }
@@ -176,6 +182,7 @@ void OptiXFrameBuffer::_unmapUnsafe()
     }
 
     rtBufferUnmap(_outputBuffer->get());
+    rtBufferUnmap(_depthBuffer->get());
 
     if (_postprocessingStagesInitialized)
     {

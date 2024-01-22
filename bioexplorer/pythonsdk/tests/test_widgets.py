@@ -29,23 +29,23 @@ widgets = Widgets(bio_explorer)
 
 
 def test_widgets_environment_maps():
-    widgets.display_environment_maps('')
+    widgets.environment_maps('')
 
 
 def test_widgets_advanced_camera_settings():
-    widgets.display_advanced_camera_settings(is_threaded=False)
+    widgets.advanced_camera_settings(is_threaded=False)
 
 
 def test_widgets_display_rendering_settings():
-    widgets.display_rendering_settings()
+    widgets.rendering_settings()
 
 
 def test_widgets_advanced_rendering_settings():
-    widgets.display_advanced_rendering_settings(is_threaded=False)
+    widgets.advanced_rendering_settings(is_threaded=False)
 
 
 def test_widgets_focal_distance():
-    widgets.display_focal_distance()
+    widgets.focal_distance()
 
 
 if __name__ == '__main__':

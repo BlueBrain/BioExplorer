@@ -26,6 +26,8 @@
 static __device__ inline void shade()
 {
     prd.result = make_float4(Ka, 1.f);
+    const float3 hit_point = ray.origin + t_hit * ray.direction;
+    prd.zDepth = optix::length(eye - hit_point);
 }
 
 RT_PROGRAM void any_hit_shadow()

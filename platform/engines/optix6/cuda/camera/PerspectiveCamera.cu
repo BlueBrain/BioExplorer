@@ -25,7 +25,7 @@
 using namespace optix;
 
 // Pass 'seed' by reference to keep randomness state
-__device__ float4 launch(uint& seed, const float2 screen, const bool use_randomness)
+__device__ void launch(uint& seed, const float2 screen, const bool use_randomness, float4& result, float& depth)
 {
     float3 ray_origin = eye;
 
@@ -63,6 +63,7 @@ __device__ float4 launch(uint& seed, const float2 screen, const bool use_randomn
     prd.depth = 0;
     prd.rayDdx = (dotD * U - dot(d, U) * d) / (denom * screen.x);
     prd.rayDdy = (dotD * V - dot(d, V) * d) / (denom * screen.y);
+    prd.zDepth = INFINITY;
 
     if (apertureRadius > 0.f)
     {
@@ -83,7 +84,8 @@ __device__ float4 launch(uint& seed, const float2 screen, const bool use_randomn
     optix::Ray ray(ray_origin, ray_direction, radiance_ray_type, near, far);
     rtTrace(top_object, ray, prd);
 
-    return make_float4(make_float3(prd.result) * mainExposure, prd.result.w);
+    result = make_float4(make_float3(prd.result) * mainExposure, prd.result.w);
+    depth = prd.zDepth;
 }
 
 RT_PROGRAM void perspectiveCamera()
@@ -95,21 +97,30 @@ RT_PROGRAM void perspectiveCamera()
 
     const int num_samples = max(1, samples_per_pixel);
     const bool use_randomness = frame > 0 || num_samples > 1;
-    float4 result = make_float4(0.f);
+    float4 color = make_float4(0.f);
+    float depth = 0.f;
     for (int i = 0; i < num_samples; i++)
-        result += launch(seed, screen_f, use_randomness);
-    result /= num_samples;
+    {
+        float4 result;
+        float d;
+        launch(seed, screen_f, use_randomness, result, d);
+        color += result;
+        depth += d;
+    }
+    color /= num_samples;
+    depth /= num_samples;
 
     float4 acc_val;
     if (frame > 0)
     {
         acc_val = accum_buffer[launch_index];
-        acc_val = lerp(acc_val, result, 1.0f / static_cast<float>(frame + 1));
+        acc_val = lerp(acc_val, color, 1.0f / static_cast<float>(frame + 1));
     }
     else
-        acc_val = result;
+        acc_val = color;
 
     output_buffer[launch_index] = make_color(acc_val);
+    depth_buffer[launch_index] = depth;
 
     if (accum_buffer.size().x > 1 && accum_buffer.size().y > 1)
         accum_buffer[launch_index] = acc_val;
@@ -118,4 +129,5 @@ RT_PROGRAM void perspectiveCamera()
 RT_PROGRAM void exception()
 {
     output_buffer[launch_index] = make_color(bad_color);
+    depth_buffer[launch_index] = INFINITY;
 }

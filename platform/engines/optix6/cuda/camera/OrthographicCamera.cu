@@ -41,6 +41,7 @@ __device__ float4 launch(uint& seed, const float2 screen, const bool use_randomn
     PerRayData_radiance prd;
     prd.importance = 1.f;
     prd.depth = 0;
+    prd.zDepth = INFINITY;
 
     float near = sceneEpsilon;
     float far = INFINITY;
@@ -88,4 +89,5 @@ RT_PROGRAM void orthographicCamera()
 RT_PROGRAM void exception()
 {
     output_buffer[launch_index] = make_color(bad_color);
+    depth_buffer[launch_index] = INFINITY;
 }

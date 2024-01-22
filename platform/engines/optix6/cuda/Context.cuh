@@ -49,6 +49,7 @@ rtDeclareVariable(uint2, launch_index, rtLaunchIndex, );
 
 rtBuffer<uchar4, 2> output_buffer;
 rtBuffer<float4, 2> accum_buffer;
+rtBuffer<float, 2> depth_buffer;
 
 rtDeclareVariable(float, height, , );
 rtDeclareVariable(float4, jitter4, , );

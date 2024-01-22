@@ -203,7 +203,10 @@ Renderer::PickResult OSPRayRenderer::pick(const Vector2f& pickPos)
     PickResult result;
     result.hit = ospResult.hit;
     if (result.hit)
+    {
         result.pos = {ospResult.position.x, ospResult.position.y, ospResult.position.z};
+        CORE_INFO("OSPRAY Depth: " << pickPos << " - " << result.pos);
+    }
     return result;
 }
 
