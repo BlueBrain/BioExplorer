@@ -1550,6 +1550,8 @@ typedef struct
     double radiusMultiplier{1.0};
     /** Simulation report identifier */
     int64_t simulationReportId{-1};
+    /** Simulation frame */
+    int64_t simulationFrame{0};
     /** Load non-simulated nodes  */
     bool loadNonSimulatedNodes{false};
     /** SQL filter for nodes (WHERE condition) */

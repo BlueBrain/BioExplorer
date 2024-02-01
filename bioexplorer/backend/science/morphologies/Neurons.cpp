@@ -62,6 +62,7 @@ const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
 const double DEFAULT_ARROW_RADIUS_RATIO = 10.0;
 const uint64_t DEFAULT_DEBUG_SYNAPSE_DENSITY_RATIO = 5;
 const double MAX_SOMA_RADIUS = 10.0;
+const double DEFAULT_VOLTAGE_SCALING_AMPLITUDE = 0.01;
 
 const Vector2d DEFAULT_SIMULATION_VALUE_RANGE = {-80.0, -10.0};
 
@@ -199,11 +200,13 @@ void Neurons::_buildModel(const LoaderProgress& callback)
     auto model = _scene.createModel();
 
     // Simulation report
+    float* voltages = nullptr;
     std::string sqlNodeFilter = _details.sqlNodeFilter;
     if (_details.simulationReportId != -1)
     {
         _simulationReport = connector.getSimulationReport(_details.populationName, _details.simulationReportId);
         _attachSimulationReport(*model);
+        voltages = static_cast<float*>(model->getSimulationHandler()->getFrameData(_details.simulationFrame));
     }
 
     // Neurons
@@ -246,7 +249,7 @@ void Neurons::_buildModel(const LoaderProgress& callback)
         }
         default:
         {
-            _buildSomasOnly(container, somas);
+            _buildSomasOnly(*model, container, somas);
             break;
         }
         }
@@ -287,7 +290,7 @@ void Neurons::_buildModel(const LoaderProgress& callback)
                 std::advance(it, neuronIndex);
                 const auto& soma = it->second;
                 ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation, _scale);
-                _buildMorphology(container, it->first, soma, neuronIndex);
+                _buildMorphology(container, it->first, soma, neuronIndex, voltages);
 
 #pragma omp critical
                 containers.push_back(container);
@@ -337,11 +340,16 @@ void Neurons::_buildModel(const LoaderProgress& callback)
         PLUGIN_THROW("Neurons model could not be created");
 }
 
-void Neurons::_buildSomasOnly(ThreadSafeContainer& container, const NeuronSomaMap& somas)
+void Neurons::_buildSomasOnly(Model& model, ThreadSafeContainer& container, const NeuronSomaMap& somas)
 {
     uint64_t progress = 0;
     uint64_t i = 0;
     _minMaxSomaRadius = Vector2d(_details.radiusMultiplier, _details.radiusMultiplier);
+
+    float* voltages = nullptr;
+    if (_details.simulationReportId != -1)
+        voltages = static_cast<float*>(model.getSimulationHandler()->getFrameData(_details.simulationFrame));
+
     for (const auto soma : somas)
     {
         PLUGIN_PROGRESS("Loading somas", progress, somas.size());
@@ -373,8 +381,14 @@ void Neurons::_buildSomasOnly(ThreadSafeContainer& container, const NeuronSomaMa
             }
             }
 
+            auto radius = _details.radiusMultiplier;
+            if (voltages)
+                radius = _details.radiusMultiplier +
+                         DEFAULT_VOLTAGE_SCALING_AMPLITUDE *
+                             std::max(0.0, voltages[somaUserData] - DEFAULT_SIMULATION_VALUE_RANGE.x);
+
             const Vector3d position = soma.second.position;
-            container.addSphere(position, _details.radiusMultiplier, baseMaterialId, useSdf, somaUserData, {},
+            container.addSphere(position, radius, baseMaterialId, useSdf, somaUserData, {},
                                 Vector3f(_getDisplacementValue(DisplacementElement::morphology_soma_strength),
                                          _getDisplacementValue(DisplacementElement::morphology_soma_frequency), 0.f));
         }
@@ -452,7 +466,7 @@ SectionSynapseMap Neurons::_buildDebugSynapses(const uint64_t neuronId, const Se
 }
 
 void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t neuronId, const NeuronSoma& soma,
-                               const uint64_t neuronIndex)
+                               const uint64_t neuronIndex, const float* voltages)
 {
     const auto& connector = DBConnector::getInstance();
 
@@ -538,6 +552,10 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
         break;
     }
     }
+    float voltageScaling = 1.f;
+    if (voltages)
+        voltageScaling = 1.f + DEFAULT_VOLTAGE_SCALING_AMPLITUDE *
+                                   std::max(0.0, voltages[somaUserData] - DEFAULT_SIMULATION_VALUE_RANGE.x);
 
     // Load synapses for all sections
     SectionSynapseMap synapses;
@@ -589,7 +607,15 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
         // Sections connected to the soma
         if (_details.showMembrane && _details.loadSomas && section.second.parentId == SOMA_AS_PARENT)
         {
-            const auto& points = section.second.points;
+            auto points = section.second.points;
+            for (uint64_t i = 0; i < points.size(); ++i)
+            {
+                auto& point = points[i];
+                point.x *= voltageScaling;
+                point.y *= voltageScaling;
+                point.z *= voltageScaling;
+            }
+
             const auto& firstPoint = points[0];
             const auto& lastPoint = points[points.size() - 1];
             auto point = firstPoint;
@@ -617,11 +643,14 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
                 Vector3f(_getDisplacementValue(DisplacementElement::morphology_soma_strength),
                          _getDisplacementValue(DisplacementElement::morphology_soma_frequency), 0.f)};
 
-            const Vector3d segmentDirection = normalize(lastPoint - firstPoint);
-            const double halfDistanceToSoma = length(Vector3d(point)) * 0.5f;
-            const Vector3d p1 = Vector3d(point) - halfDistanceToSoma * segmentDirection;
-
-            const Vector3d p2 = p1 * dstRadius / somaRadius * 0.95;
+            Vector3d p2 = Vector3d();
+            if (voltageScaling == 1.f)
+            {
+                const Vector3d segmentDirection = normalize(lastPoint - firstPoint);
+                const double halfDistanceToSoma = length(Vector3d(point)) * 0.5;
+                const Vector3d p1 = Vector3d(point) - halfDistanceToSoma * segmentDirection;
+                p2 = p1 * dstRadius / somaRadius * 0.95;
+            }
             const auto src = _animatedPosition(Vector4d(somaPosition + somaRotation * p2, srcRadius), neuronId);
 
             correctedSomaRadius = std::max(correctedSomaRadius, length(p2)) * 2.0;
@@ -646,7 +675,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
         if (distanceToSoma <= _details.maxDistanceToSoma)
             _addSection(container, neuronId, soma.morphologyId, section.first, section.second, somaPosition,
                         somaRotation, parentRadius, baseMaterialId, mitochondriaDensity, somaUserData, synapses,
-                        distanceToSoma, sectionNeighbours);
+                        distanceToSoma, sectionNeighbours, voltageScaling);
     }
 
     if (_details.loadSomas)
@@ -759,7 +788,8 @@ void Neurons::_addSection(ThreadSafeContainer& container, const uint64_t neuronI
                           const uint64_t sectionId, const Section& section, const Vector3d& somaPosition,
                           const Quaterniond& somaRotation, const double parentRadius, const size_t baseMaterialId,
                           const double mitochondriaDensity, const uint64_t somaUserData,
-                          const SectionSynapseMap& synapses, const double distanceToSoma, const Neighbours& neighbours)
+                          const SectionSynapseMap& synapses, const double distanceToSoma, const Neighbours& neighbours,
+                          const float voltageScaling)
 {
     const auto& connector = DBConnector::getInstance();
     const auto sectionType = static_cast<NeuronSectionType>(section.type);
@@ -779,6 +809,14 @@ void Neurons::_addSection(ThreadSafeContainer& container, const uint64_t neuronI
     auto userData = NO_USER_DATA;
 
     auto points = section.points;
+
+    for (auto& point : points)
+    {
+        point.x *= voltageScaling;
+        point.y *= voltageScaling;
+        point.z *= voltageScaling;
+    }
+
     points[0].w = parentRadius;
 
     size_t sectionMaterialId;

@@ -3451,6 +3451,7 @@ class BioExplorer:
         population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
         radius_multiplier=1.0,
         simulation_report_id=-1,
+        simulation_frame=0,
         load_non_simulated_nodes=False,
         sql_node_filter="",
         sql_section_filter="",
@@ -3480,6 +3481,7 @@ class BioExplorer:
         :populationColorScheme: Color scheme of the population of astrocytes
         :radius_multiplier: Applies the multiplier to all radii of the astrocyte sections
         :simulation_report_id: Identifier of the simulation report (Optional)
+        :simulation_frame: Initial simulation frame (Optional). Default is 0.
         :load_non_simulated_nodes: Defines if non-simulated should be loaded
         :sql_node_filter: Condition added to the SQL statement loading the nodes
         :sql_section_filter: Condition added to the SQL statement loading the sections
@@ -3513,6 +3515,7 @@ class BioExplorer:
         params["populationColorScheme"] = population_color_scheme
         params["radiusMultiplier"] = radius_multiplier
         params["simulationReportId"] = simulation_report_id
+        params["simulationFrame"] = simulation_frame
         params["loadNonSimulatedNodes"] = load_non_simulated_nodes
         params["sqlNodeFilter"] = sql_node_filter
         params["sqlSectionFilter"] = sql_section_filter
