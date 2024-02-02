@@ -88,7 +88,8 @@ public:
                                             const SynapsesInfo& synapsesInfo,
                                             const core::Matrix4f& transformation = core::Matrix4f(),
                                             CompartmentReportPtr compartmentReport = nullptr,
-                                            const float mitochondriaDensity = 0.f) const;
+                                            const float mitochondriaDensity = 0.f, const float voltageScaling = 1.f,
+                                            const floats& voltages = floats()) const;
 
     /**
      * @brief setBaseMaterialId Set the base material ID for the morphology
@@ -118,7 +119,8 @@ private:
     void _importMorphology(const Gid& gid, const core::PropertyMap& properties, const std::string& source,
                            const uint64_t index, const core::Matrix4f& transformation,
                            common::ParallelModelContainer& model, CompartmentReportPtr compartmentReport,
-                           const SynapsesInfo& synapsesInfo, const float mitochondriaDensity = 0.f) const;
+                           const SynapsesInfo& synapsesInfo, const float mitochondriaDensity = 0.f,
+                           const float voltageScaling = 1.f, const floats& voltages = floats()) const;
 
     /**
      * @brief _importMorphologyAsPoint places sphere at the specified morphology
@@ -147,7 +149,8 @@ private:
     void _importMorphologyFromURI(const Gid& gid, const core::PropertyMap& properties, const std::string& uri,
                                   const uint64_t index, const core::Matrix4f& transformation,
                                   CompartmentReportPtr compartmentReport, ParallelModelContainer& model,
-                                  const SynapsesInfo& synapsesInfo, const float mitochondriaDensity) const;
+                                  const SynapsesInfo& synapsesInfo, const float mitochondriaDensity,
+                                  const float voltageScaling = 1.f, const floats& voltages = floats()) const;
 
     size_t _addSDFGeometry(SDFMorphologyData& sdfMorphologyData, const core::SDFGeometry& geometry,
                            const std::set<size_t>& neighbours, const size_t materialId, const int section) const;
@@ -186,7 +189,7 @@ private:
     void _addSomaGeometry(const uint64_t index, const core::PropertyMap& properties, const brain::neuron::Soma& soma,
                           uint64_t offset, ParallelModelContainer& model, SDFMorphologyData& sdfMorphologyData,
                           const bool useSimulationModel, const bool generateInternals, const float mitochondriaDensity,
-                          uint32_t& sdfGroupId) const;
+                          uint32_t& sdfGroupId, const float voltageScaling = 1.f) const;
 
     /**
      * Adds the sphere between the steps in the sections

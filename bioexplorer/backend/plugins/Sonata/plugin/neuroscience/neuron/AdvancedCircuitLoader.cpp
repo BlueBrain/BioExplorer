@@ -69,6 +69,7 @@ PropertyMap AdvancedCircuitLoader::getCLIProperties()
     pm.setProperty(PROP_REPORT);
     pm.setProperty(PROP_REPORT_TYPE);
     pm.setProperty(PROP_SYNCHRONOUS_MODE);
+    pm.setProperty(PROP_VOLTAGE_SCALING);
     pm.setProperty(PROP_TARGETS);
     pm.setProperty(PROP_GIDS);
     pm.setProperty(PROP_CIRCUIT_COLOR_SCHEME);

@@ -25,6 +25,7 @@
 #include "SpikeSimulationHandler.h"
 #include "VoltageSimulationHandler.h"
 
+#include <platform/core/parameters/AnimationParameters.h>
 #include <plugin/neuroscience/common/MorphologyLoader.h>
 #include <plugin/neuroscience/common/ParallelModelContainer.h>
 #include <plugin/neuroscience/common/Types.h>
@@ -786,6 +787,9 @@ float AbstractCircuitLoader::_importMorphologies(const PropertyMap &properties, 
     const bool loadEfferentSynapses = properties.getProperty<bool>(PROP_LOAD_EFFERENT_SYNAPSES.name);
     const auto position = properties.getProperty<std::array<double, 3>>(PROP_POSITION.name);
     const auto rotation = properties.getProperty<std::array<double, 4>>(PROP_ROTATION.name);
+    const auto voltageScaling = properties.getProperty<double>(PROP_VOLTAGE_SCALING.name);
+    const auto initialSimulationFrame = properties.getProperty<int>(PROP_INITIAL_SIMULATION_FRAME.name);
+
     Transformation transformation;
     transformation.setTranslation(Vector3d(position[0], position[1], position[2]));
     transformation.setRotation(Quaterniond(rotation[0], rotation[1], rotation[2], rotation[3]));
@@ -806,6 +810,20 @@ float AbstractCircuitLoader::_importMorphologies(const PropertyMap &properties, 
     std::vector<Gid> localGids;
     for (const auto gid : gids)
         localGids.push_back(gid);
+
+    // Report voltages
+    floats voltages;
+    if (compartmentReport && voltageScaling != 1.0)
+    {
+        const float timestamp =
+            (initialSimulationFrame % compartmentReport->getFrameSize()) * compartmentReport->getTimestep();
+        std::future<brion::Frame> currentFrameFuture = compartmentReport->loadFrame(timestamp);
+        if (currentFrameFuture.valid())
+        {
+            currentFrameFuture.wait();
+            voltages = std::move(*currentFrameFuture.get().data);
+        }
+    }
 
     std::vector<ParallelModelContainer> containers;
     uint64_t morphologyId;
@@ -839,9 +857,11 @@ float AbstractCircuitLoader::_importMorphologies(const PropertyMap &properties, 
             const auto layerId = layerIds.empty() ? 0 : layerIds[morphologyId];
             const auto mitochondriaDensity =
                 (layerId < MITOCHONDRIA_DENSITY.size() ? MITOCHONDRIA_DENSITY[layerId] : 0.f);
+
             ParallelModelContainer modelContainer =
                 loader.importMorphology(gid, morphologyProps, uri, morphologyId, synapsesInfo,
-                                        transformations[morphologyId], compartmentReport, mitochondriaDensity);
+                                        transformations[morphologyId], compartmentReport, mitochondriaDensity,
+                                        voltageScaling, voltages);
 #pragma omp critical
             containers.push_back(modelContainer);
         }
