@@ -145,6 +145,14 @@ details::MolecularSystemAnimationDetails doublesToMolecularSystemAnimationDetail
 details::CellAnimationDetails doublesToCellAnimationDetails(const doubles& values);
 
 /**
+ * @brief Converts a vector of doubles into neurons report parameters details
+ *
+ * @param value Vector of doubles
+ * @return NeuronsReportParameters The neurons report parameters details
+ */
+details::NeuronsReportParameters doublesToNeuronsReportParametersDetails(const doubles& values);
+
+/**
  * @brief Returns a position and a rotation of a instance on a sphere using a
  * sphere-filling algorithm
  *

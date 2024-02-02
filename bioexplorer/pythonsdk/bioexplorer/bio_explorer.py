@@ -378,6 +378,70 @@ class NeuronDisplacementParams:
         )
 
 
+class NeuronReportParams:
+    """Parameters used to map report data to the neurons"""
+
+    def __init__(
+        self,
+        report_id=-1,
+        value_range=Vector2(-80.0, 10.0),
+        scaling_range=Vector2(0.1, 1.0),
+        initial_simulation_frame=0,
+        load_non_simulated_nodes=False
+    ):
+        """
+        Parameters used to define how cells should be represented using the SDF technique
+
+        :report_id: (int, optional): Report id
+        :value_range: (Vector2, optional): Range of values for the mapped data. Defaults are [-80.0, -10.0]
+        :scaling_range: (Vector2, optional): Minimum and maximum scaling factors. Defaults are [-1.0, 1.0] (no scaling)
+        :initial_simulation_frame: (int, optional): Initial simulation frame. Default is 0
+        :load_non_simulated_nodes: Defines if non-simulated should be loaded
+        """
+        assert isinstance(report_id, int)
+        assert isinstance(value_range, Vector2)
+        assert isinstance(scaling_range, Vector2)
+        assert isinstance(initial_simulation_frame, int)
+        assert isinstance(load_non_simulated_nodes, bool)
+
+        self.report_id = report_id
+        self.value_range = value_range
+        self.scaling_range = scaling_range
+        self.initial_simulation_frame = initial_simulation_frame
+        self.load_non_simulated_nodes=load_non_simulated_nodes
+
+    def to_list(self):
+        """
+        A list containing the values of class members
+
+        :return: A list containing the values of class members
+        :rtype: list
+        """
+        return [
+            float(self.report_id),
+            self.value_range.x,
+            self.value_range.y,
+            self.scaling_range.x,
+            self.scaling_range.y,
+            float(self.initial_simulation_frame),
+            float(self.load_non_simulated_nodes)
+        ]
+
+    def copy(self):
+        """
+        Copy the current object
+
+        :return: NeuronDisplacementParams: A copy of the object
+        """
+        return NeuronReportParams(
+            self.report_id,
+            self.value_range,
+            self.scaling_range,
+            self.initial_simulation_frame,
+            self.load_non_simulated_nodes
+        )
+
+
 class AstrocyteDisplacementParams:
     """Parameters used for the sinusoidal SDF displacement function for astrocyte morphologies"""
 
@@ -3450,9 +3514,7 @@ class BioExplorer:
         morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
         population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
         radius_multiplier=1.0,
-        simulation_report_id=-1,
-        simulation_frame=0,
-        load_non_simulated_nodes=False,
+        report_params=NeuronReportParams(),
         sql_node_filter="",
         sql_section_filter="",
         scale=Vector3(1.0, 1.0, 1.0),
@@ -3480,9 +3542,7 @@ class BioExplorer:
         :morphology_color_scheme: Color scheme of the sections of the astrocytes
         :populationColorScheme: Color scheme of the population of astrocytes
         :radius_multiplier: Applies the multiplier to all radii of the astrocyte sections
-        :simulation_report_id: Identifier of the simulation report (Optional)
-        :simulation_frame: Initial simulation frame (Optional). Default is 0.
-        :load_non_simulated_nodes: Defines if non-simulated should be loaded
+        :report_params: Report parameters (Optional)
         :sql_node_filter: Condition added to the SQL statement loading the nodes
         :sql_section_filter: Condition added to the SQL statement loading the sections
         :scale: Scale in the 3D scene
@@ -3496,6 +3556,7 @@ class BioExplorer:
         assert isinstance(scale, Vector3)
         assert isinstance(animation_params, CellAnimationParams)
         assert isinstance(displacement_params, NeuronDisplacementParams)
+        assert isinstance(report_params, NeuronReportParams)
 
         params = dict()
         params["assemblyName"] = assembly_name
@@ -3514,9 +3575,7 @@ class BioExplorer:
         params["morphologyColorScheme"] = morphology_color_scheme
         params["populationColorScheme"] = population_color_scheme
         params["radiusMultiplier"] = radius_multiplier
-        params["simulationReportId"] = simulation_report_id
-        params["simulationFrame"] = simulation_frame
-        params["loadNonSimulatedNodes"] = load_non_simulated_nodes
+        params["reportParams"] = report_params.to_list()
         params["sqlNodeFilter"] = sql_node_filter
         params["sqlSectionFilter"] = sql_section_filter
         params["scale"] = scale.to_list()

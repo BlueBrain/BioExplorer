@@ -62,9 +62,6 @@ const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
 const double DEFAULT_ARROW_RADIUS_RATIO = 10.0;
 const uint64_t DEFAULT_DEBUG_SYNAPSE_DENSITY_RATIO = 5;
 const double MAX_SOMA_RADIUS = 10.0;
-const double DEFAULT_VOLTAGE_SCALING_AMPLITUDE = 0.01;
-
-const Vector2d DEFAULT_SIMULATION_VALUE_RANGE = {-80.0, -10.0};
 
 std::map<ReportType, std::string> reportTypeAsString = {{ReportType::undefined, "undefined"},
                                                         {ReportType::spike, "spike"},
@@ -199,14 +196,16 @@ void Neurons::_buildModel(const LoaderProgress& callback)
 
     auto model = _scene.createModel();
 
-    // Simulation report
+    // Report parameters
     float* voltages = nullptr;
     std::string sqlNodeFilter = _details.sqlNodeFilter;
-    if (_details.simulationReportId != -1)
+    _neuronsReportParameters = doublesToNeuronsReportParametersDetails(_details.reportParams);
+    if (_neuronsReportParameters.reportId != -1)
     {
-        _simulationReport = connector.getSimulationReport(_details.populationName, _details.simulationReportId);
+        _simulationReport = connector.getSimulationReport(_details.populationName, _neuronsReportParameters.reportId);
         _attachSimulationReport(*model);
-        voltages = static_cast<float*>(model->getSimulationHandler()->getFrameData(_details.simulationFrame));
+        voltages = static_cast<float*>(
+            model->getSimulationHandler()->getFrameData(_neuronsReportParameters.initialSimulationFrame));
     }
 
     // Neurons
@@ -320,8 +319,8 @@ void Neurons::_buildModel(const LoaderProgress& callback)
         container.commitToModel();
     }
     model->applyDefaultColormap();
-    if (_details.simulationReportId != -1)
-        setDefaultTransferFunction(*model, DEFAULT_SIMULATION_VALUE_RANGE);
+    if (_neuronsReportParameters.reportId != -1)
+        setDefaultTransferFunction(*model, _neuronsReportParameters.valueRange);
 
     ModelMetadata metadata = {{"Number of Neurons", std::to_string(somas.size())},
                               {"Number of Spines", std::to_string(_nbSpines)},
@@ -347,8 +346,9 @@ void Neurons::_buildSomasOnly(Model& model, ThreadSafeContainer& container, cons
     _minMaxSomaRadius = Vector2d(_details.radiusMultiplier, _details.radiusMultiplier);
 
     float* voltages = nullptr;
-    if (_details.simulationReportId != -1)
-        voltages = static_cast<float*>(model.getSimulationHandler()->getFrameData(_details.simulationFrame));
+    if (_neuronsReportParameters.reportId != -1)
+        voltages = static_cast<float*>(
+            model.getSimulationHandler()->getFrameData(_neuronsReportParameters.initialSimulationFrame));
 
     for (const auto soma : somas)
     {
@@ -373,7 +373,7 @@ void Neurons::_buildSomasOnly(Model& model, ThreadSafeContainer& container, cons
                 else
                 {
                     const auto it = _simulationReport.guids.find(neuronId);
-                    if (it == _simulationReport.guids.end() && !_details.loadNonSimulatedNodes)
+                    if (it == _simulationReport.guids.end() && !_neuronsReportParameters.loadNonSimulatedNodes)
                         continue; // Ignore non-simulated nodes
                     somaUserData = (*it).second;
                 }
@@ -383,9 +383,8 @@ void Neurons::_buildSomasOnly(Model& model, ThreadSafeContainer& container, cons
 
             auto radius = _details.radiusMultiplier;
             if (voltages)
-                radius = _details.radiusMultiplier +
-                         DEFAULT_VOLTAGE_SCALING_AMPLITUDE *
-                             std::max(0.0, voltages[somaUserData] - DEFAULT_SIMULATION_VALUE_RANGE.x);
+                radius = _details.radiusMultiplier * _neuronsReportParameters.scalingRange.x *
+                         std::max(0.0, voltages[somaUserData] - _neuronsReportParameters.valueRange.x);
 
             const Vector3d position = soma.second.position;
             container.addSphere(position, radius, baseMaterialId, useSdf, somaUserData, {},
@@ -532,7 +531,8 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
     case ReportType::compartment:
     {
         const auto compartments =
-            connector.getNeuronSectionCompartments(_details.populationName, _details.simulationReportId, neuronId, 0);
+            connector.getNeuronSectionCompartments(_details.populationName, _neuronsReportParameters.reportId, neuronId,
+                                                   0);
         if (!compartments.empty())
             somaUserData = compartments[0];
         break;
@@ -545,7 +545,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
         else
         {
             const auto it = _simulationReport.guids.find(neuronId);
-            if (it == _simulationReport.guids.end() && !_details.loadNonSimulatedNodes)
+            if (it == _simulationReport.guids.end() && !_neuronsReportParameters.loadNonSimulatedNodes)
                 return; // Ignore non-simulated nodes
             somaUserData = (*it).second + 1;
         }
@@ -554,8 +554,8 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
     }
     float voltageScaling = 1.f;
     if (voltages)
-        voltageScaling = 1.f + DEFAULT_VOLTAGE_SCALING_AMPLITUDE *
-                                   std::max(0.0, voltages[somaUserData] - DEFAULT_SIMULATION_VALUE_RANGE.x);
+        voltageScaling = _neuronsReportParameters.scalingRange.x *
+                         std::max(0.0, voltages[somaUserData] - _neuronsReportParameters.valueRange.x);
 
     // Load synapses for all sections
     SectionSynapseMap synapses;
@@ -860,8 +860,8 @@ void Neurons::_addSection(ThreadSafeContainer& container, const uint64_t neuronI
     }
     case ReportType::compartment:
     {
-        compartments = connector.getNeuronSectionCompartments(_details.populationName, _details.simulationReportId,
-                                                              neuronId, sectionId);
+        compartments = connector.getNeuronSectionCompartments(_details.populationName,
+                                                              _neuronsReportParameters.reportId, neuronId, sectionId);
         break;
     }
     }
@@ -1250,7 +1250,8 @@ void Neurons::_attachSimulationReport(Model& model)
         PLUGIN_INFO(1,
                     "Initialize spike simulation handler and restrain "
                     "guids to the simulated ones");
-        auto handler = std::make_shared<SpikeSimulationHandler>(_details.populationName, _details.simulationReportId);
+        auto handler =
+            std::make_shared<SpikeSimulationHandler>(_details.populationName, _neuronsReportParameters.reportId);
         model.setSimulationHandler(handler);
         break;
     }
@@ -1259,7 +1260,8 @@ void Neurons::_attachSimulationReport(Model& model)
         PLUGIN_INFO(1,
                     "Initialize soma simulation handler and restrain guids "
                     "to the simulated ones");
-        auto handler = std::make_shared<SomaSimulationHandler>(_details.populationName, _details.simulationReportId);
+        auto handler =
+            std::make_shared<SomaSimulationHandler>(_details.populationName, _neuronsReportParameters.reportId);
         model.setSimulationHandler(handler);
         break;
     }
@@ -1269,7 +1271,7 @@ void Neurons::_attachSimulationReport(Model& model)
                     "Initialize compartment simulation handler and restrain "
                     "guids to the simulated ones");
         auto handler =
-            std::make_shared<CompartmentSimulationHandler>(_details.populationName, _details.simulationReportId);
+            std::make_shared<CompartmentSimulationHandler>(_details.populationName, _neuronsReportParameters.reportId);
         model.setSimulationHandler(handler);
         break;
     }

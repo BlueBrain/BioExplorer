@@ -1515,6 +1515,15 @@ enum class NeuronSectionType
 
 typedef struct
 {
+    int64_t reportId{-1};
+    core::Vector2d valueRange{-100, 100};
+    core::Vector2d scalingRange{1.0, 1.0};
+    uint64_t initialSimulationFrame{0};
+    bool loadNonSimulatedNodes{false};
+} NeuronsReportParameters;
+
+typedef struct
+{
     /** Name of the assembly containing the astrocytes */
     std::string assemblyName;
     /** Name of the population of astrocytes */
@@ -1548,12 +1557,8 @@ typedef struct
     morphology::PopulationColorScheme populationColorScheme{morphology::PopulationColorScheme::none};
     /** Multiplies the astrocyte section radii by the specified value */
     double radiusMultiplier{1.0};
-    /** Simulation report identifier */
-    int64_t simulationReportId{-1};
-    /** Simulation frame */
-    int64_t simulationFrame{0};
-    /** Load non-simulated nodes  */
-    bool loadNonSimulatedNodes{false};
+    /** Report parameters */
+    doubles reportParams;
     /** SQL filter for nodes (WHERE condition) */
     std::string sqlNodeFilter;
     /** SQL filter dor sections (WHERE condition) */
@@ -1710,6 +1715,5 @@ typedef struct
     double radius;
     doubles displacement;
 } SDFVesicaDetails;
-
 } // namespace details
 } // namespace bioexplorer

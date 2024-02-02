@@ -124,6 +124,7 @@ private:
     double _maxDistanceToSoma{0.0};
     core::Vector2d _minMaxSomaRadius{1e6, -1e6};
     common::SimulationReport _simulationReport;
+    details::NeuronsReportParameters _neuronsReportParameters;
 };
 } // namespace morphology
 } // namespace bioexplorer
