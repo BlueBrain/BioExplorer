@@ -24,6 +24,10 @@
 #include <common/Logs.h>
 #include <common/Utils.h>
 
+#if 0
+#include <plugin/neuroscience/common/MorphologyCache.h>
+#endif
+
 #include <plugin/neuroscience/common/ParallelModelContainer.h>
 
 #include <platform/core/common/Types.h>
@@ -585,8 +589,8 @@ void MorphologyLoader::_importMorphologyFromURI(const Gid& gid, const PropertyMa
     const auto generateInternals = properties.getProperty<bool>(PROP_INTERNALS.name);
     const auto generateExternals = properties.getProperty<bool>(PROP_EXTERNALS.name);
 
-    // If there is no compartment report, the offset in the simulation
-    // buffer is the index of the morphology in the circuit
+    // If there is no compartment report, the offset in the simulation buffer is the index of the morphology in the
+    // circuit
     uint64_t userDataOffset = 0;
     double scaling = 1.0;
     if (compartmentReport)
@@ -596,9 +600,14 @@ void MorphologyLoader::_importMorphologyFromURI(const Gid& gid, const PropertyMa
             scaling = 1.0 + voltageScaling * (80.0 + voltages[userDataOffset]);
     }
 
+#if 1
     const brion::URI source(uri);
     const brain::neuron::Morphology morphology(source);
     const auto sections = morphology.getSections(sectionTypes);
+#else
+    const auto morphology = MorphologyCache::getInstance()->getMorphology(uri);
+    const auto sections = MorphologyCache::getInstance()->getSections(uri, sectionTypes);
+#endif
 
     uint32_t sdfGroupId = 0;
     if (std::find(sectionTypes.begin(), sectionTypes.end(), brain::neuron::SectionType::soma) != sectionTypes.end())
@@ -607,14 +616,18 @@ void MorphologyLoader::_importMorphologyFromURI(const Gid& gid, const PropertyMa
                          compartmentReport != nullptr, generateInternals, mitochondriaDensity, sdfGroupId, scaling);
     }
 
-    // Only the first one or two axon sections are reported, so find the
-    // last one and use its offset for all the other axon sections
+    // Only the first one or two axon sections are reported, so find the last one and use its offset for all the other
+    // axon sections
     uint16_t lastAxon = 0;
     if (compartmentReport &&
         std::find(sectionTypes.begin(), sectionTypes.end(), brain::neuron::SectionType::axon) != sectionTypes.end())
     {
         const auto& counts = compartmentReport->getCompartmentCounts()[index];
+#if 1
         const auto& axon = morphology.getSections(brain::neuron::SectionType::axon);
+#else
+        const auto& axon = MorphologyCache::getInstance()->getSections(uri, {brain::neuron::SectionType::axon});
+#endif
         for (const auto& section : axon)
         {
             if (counts[section.getID()] > 0)

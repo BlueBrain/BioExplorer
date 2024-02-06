@@ -30,6 +30,7 @@
 
 #include <plugin/io/SonataCacheLoader.h>
 #include <plugin/neuroscience/astrocyte/AstrocyteLoader.h>
+#include <plugin/neuroscience/common/MorphologyCache.h>
 #include <plugin/neuroscience/common/MorphologyLoader.h>
 #include <plugin/neuroscience/neuron/AdvancedCircuitLoader.h>
 #include <plugin/neuroscience/neuron/CellGrowthHandler.h>
@@ -316,6 +317,11 @@ void SonataExplorerPlugin::init()
         _api->getActionInterface()->registerRequest<LoadMEGSettings, Response>(endPoint,
                                                                                [&](const LoadMEGSettings& details)
                                                                                { return _loadMEG(details); });
+
+        endPoint = PLUGIN_API_PREFIX + "enable-morphology-cache";
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
+        _api->getActionInterface()->registerRequest<EnableMorphologyCache, Response>(
+            endPoint, [&](const EnableMorphologyCache& details) { return _enabledMorphologyCache(details); });
     }
 }
 
@@ -781,6 +787,18 @@ Response SonataExplorerPlugin::_addColumn(const AddColumn& details)
             model->addCylinder(0, {verticesBottom[i], verticesTop[i], r / 2.f});
 
         scene.addModel(std::make_shared<ModelDescriptor>(std::move(model), "Column"));
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response SonataExplorerPlugin::_enabledMorphologyCache(const api::EnableMorphologyCache& payload)
+{
+    Response response;
+    try
+    {
+        PLUGIN_INFO("Morphology cache " << (payload.enabled ? "enabled" : "disabled"));
+        ::sonataexplorer::neuroscience::common::MorphologyCache::getInstance()->setEnabled(payload.enabled);
     }
     CATCH_STD_EXCEPTION()
     return response;

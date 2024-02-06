@@ -684,3 +684,15 @@ class SonataExplorer:
         return self._core.rockets_client.request(
             self.PLUGIN_API_PREFIX + 'load-meg', params,
             response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+
+    def enabled_morphology_cache(self, enabled):
+        """
+        Enables or disables the morphology cache
+
+        :param bool enabled: Enables cache if true, disables otherwise
+        """
+        params = dict()
+        params['enabled'] = enabled
+        return self._core.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'enable-morphology-cache', params,
+            response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)

@@ -265,5 +265,11 @@ struct LoadMEGSettings
 };
 bool from_json(LoadMEGSettings& param, const std::string& payload);
 
+struct EnableMorphologyCache
+{
+    bool enabled{false};
+};
+bool from_json(EnableMorphologyCache& param, const std::string& payload);
+
 } // namespace api
 } // namespace sonataexplorer

@@ -79,6 +79,9 @@ private:
     // MEG
     api::Response _loadMEG(const api::LoadMEGSettings& payload);
 
+    // Morphology cache
+    api::Response _enabledMorphologyCache(const api::EnableMorphologyCache& payload);
+
     bool _dirty{false};
 };
 } // namespace sonataexplorer

@@ -75,6 +75,7 @@ list(APPEND ${NAME}_SOURCES
     module/ispc/render/ProximityDetectionRenderer.cpp
     module/ispc/render/CellGrowthRenderer.cpp
     plugin/neuroscience/common/MorphologyLoader.cpp
+    plugin/neuroscience/common/MorphologyCache.cpp
     plugin/neuroscience/common/ParallelModelContainer.cpp
     plugin/neuroscience/neuron/CellGrowthHandler.cpp
     plugin/neuroscience/neuron/VoltageSimulationHandler.cpp
@@ -92,6 +93,7 @@ list(APPEND ${NAME}_SOURCES
 list(APPEND ${NAME}_PUBLIC_HEADERS
     plugin/neuroscience/common/ParallelModelContainer.h
     plugin/neuroscience/common/MorphologyLoader.h
+    plugin/neuroscience/common/MorphologyCache.h
     plugin/neuroscience/neuron/CellGrowthHandler.h
     plugin/neuroscience/neuron/VoltageSimulationHandler.h
     plugin/neuroscience/neuron/SpikeSimulationHandler.h
