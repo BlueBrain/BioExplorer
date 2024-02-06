@@ -78,12 +78,12 @@ private:
 
     void _buildSurface(const NeuronSomaMap& somas);
 
-    void _buildSomasOnly(common::ThreadSafeContainer& container, const NeuronSomaMap& somas);
+    void _buildSomasOnly(core::Model& model, common::ThreadSafeContainer& container, const NeuronSomaMap& somas);
 
     void _buildOrientations(common::ThreadSafeContainer& container, const NeuronSomaMap& somas);
 
     void _buildMorphology(common::ThreadSafeContainer& container, const uint64_t neuronId, const NeuronSoma& soma,
-                          const uint64_t neuronIndex);
+                          const uint64_t neuronIndex, const float* voltages = nullptr);
 
     SectionSynapseMap _buildDebugSynapses(const uint64_t neuronId, const SectionMap& sections);
 
@@ -96,7 +96,8 @@ private:
                      const uint64_t sectionId, const Section& section, const core::Vector3d& somaPosition,
                      const core::Quaterniond& somaRotation, const double somaRadius, const size_t baseMaterialId,
                      const double mitochondriaDensity, const uint64_t somaUserData, const SectionSynapseMap& synapses,
-                     const double distanceToSoma, const common::Neighbours& somaNeighbours);
+                     const double distanceToSoma, const common::Neighbours& somaNeighbours,
+                     const float voltageScaling = 1.f);
 
     void _addSpine(common::ThreadSafeContainer& container, const uint64_t neuronId, const uint64_t morphologyId,
                    const uint64_t sectionId, const Synapse& synapse, const size_t baseMaterialId,
@@ -123,6 +124,7 @@ private:
     double _maxDistanceToSoma{0.0};
     core::Vector2d _minMaxSomaRadius{1e6, -1e6};
     common::SimulationReport _simulationReport;
+    details::NeuronsReportParameters _neuronsReportParameters;
 };
 } // namespace morphology
 } // namespace bioexplorer

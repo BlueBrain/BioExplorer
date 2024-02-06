@@ -89,19 +89,17 @@ bool MorphologyLoader::isSupported(const std::string& /*filename*/, const std::s
     return types.find(extension) != types.end();
 }
 
-ParallelModelContainer MorphologyLoader::importMorphology(const Gid& gid, const PropertyMap& properties,
-                                                          const std::string& source, const uint64_t index,
-                                                          const SynapsesInfo& synapsesInfo,
-                                                          const Matrix4f& transformation,
-                                                          CompartmentReportPtr compartmentReport,
-                                                          const float mitochondriaDensity) const
+ParallelModelContainer MorphologyLoader::importMorphology(
+    const Gid& gid, const PropertyMap& properties, const std::string& source, const uint64_t index,
+    const SynapsesInfo& synapsesInfo, const Matrix4f& transformation, CompartmentReportPtr compartmentReport,
+    const float mitochondriaDensity, const float voltageScaling, const floats& voltages) const
 {
     // Initialize randomizer for current neuron
     srand(gid);
 
     ParallelModelContainer modelContainer(_transformation);
     _importMorphology(gid, properties, source, index, transformation, modelContainer, compartmentReport, synapsesInfo,
-                      mitochondriaDensity);
+                      mitochondriaDensity, voltageScaling, voltages);
 
     // Apply transformation to everything except synapses
     modelContainer.applyTransformation(properties, transformation);
@@ -111,7 +109,8 @@ ParallelModelContainer MorphologyLoader::importMorphology(const Gid& gid, const 
 void MorphologyLoader::_importMorphology(const Gid& gid, const PropertyMap& properties, const std::string& source,
                                          const uint64_t index, const Matrix4f& transformation,
                                          ParallelModelContainer& model, CompartmentReportPtr compartmentReport,
-                                         const SynapsesInfo& synapsesInfo, const float mitochondriaDensity) const
+                                         const SynapsesInfo& synapsesInfo, const float mitochondriaDensity,
+                                         const float voltageScaling, const floats& voltages) const
 {
     const auto sectionTypes = getSectionTypesFromProperties(properties);
 
@@ -119,7 +118,7 @@ void MorphologyLoader::_importMorphology(const Gid& gid, const PropertyMap& prop
         _importMorphologyAsPoint(properties, index, compartmentReport, model);
     else
         _importMorphologyFromURI(gid, properties, source, index, transformation, compartmentReport, model, synapsesInfo,
-                                 mitochondriaDensity);
+                                 mitochondriaDensity, voltageScaling, voltages);
 }
 
 float MorphologyLoader::_getCorrectedRadius(const PropertyMap& properties, const float diameter) const
@@ -429,7 +428,7 @@ void MorphologyLoader::_addSomaGeometry(const uint64_t index, const PropertyMap&
                                         const brain::neuron::Soma& soma, uint64_t offset, ParallelModelContainer& model,
                                         SDFMorphologyData& sdfMorphologyData, const bool /*useSimulationModel*/,
                                         const bool generateInternals, const float mitochondriaDensity,
-                                        uint32_t& sdfGroupId) const
+                                        uint32_t& sdfGroupId, const float voltageScaling) const
 {
     size_t materialId = _getMaterialIdFromColorScheme(properties, brain::neuron::SectionType::soma);
 
@@ -453,7 +452,8 @@ void MorphologyLoader::_addSomaGeometry(const uint64_t index, const PropertyMap&
         for (const auto& child : children)
         {
             const auto& samples = child.getSamples();
-            const Vector3f sample{samples[0].x, samples[0].y, samples[0].z};
+            const Vector3f sample{samples[0].x * voltageScaling, samples[0].y * voltageScaling,
+                                  samples[0].z * voltageScaling};
 
             model.getMorphologyInfo().bounds.merge(sample);
             const float sampleRadius = _getCorrectedRadius(properties, samples[0].w);
@@ -562,7 +562,8 @@ float MorphologyLoader::_distanceToSoma(const brain::neuron::Section& section, c
 void MorphologyLoader::_importMorphologyFromURI(const Gid& gid, const PropertyMap& properties, const std::string& uri,
                                                 const uint64_t index, const Matrix4f& transformation,
                                                 CompartmentReportPtr compartmentReport, ParallelModelContainer& model,
-                                                const SynapsesInfo& synapsesInfo, const float mitochondriaDensity) const
+                                                const SynapsesInfo& synapsesInfo, const float mitochondriaDensity,
+                                                const float voltageScaling, const floats& voltages) const
 {
     SDFMorphologyData sdfMorphologyData;
 
@@ -587,8 +588,13 @@ void MorphologyLoader::_importMorphologyFromURI(const Gid& gid, const PropertyMa
     // If there is no compartment report, the offset in the simulation
     // buffer is the index of the morphology in the circuit
     uint64_t userDataOffset = 0;
+    double scaling = 1.0;
     if (compartmentReport)
+    {
         userDataOffset = compartmentReport->getOffsets()[index][0];
+        if (userDataOffset < voltages.size())
+            scaling = 1.0 + voltageScaling * (80.0 + voltages[userDataOffset]);
+    }
 
     const brion::URI source(uri);
     const brain::neuron::Morphology morphology(source);
@@ -598,7 +604,7 @@ void MorphologyLoader::_importMorphologyFromURI(const Gid& gid, const PropertyMa
     if (std::find(sectionTypes.begin(), sectionTypes.end(), brain::neuron::SectionType::soma) != sectionTypes.end())
     {
         _addSomaGeometry(index, properties, morphology.getSoma(), userDataOffset, model, sdfMorphologyData,
-                         compartmentReport != nullptr, generateInternals, mitochondriaDensity, sdfGroupId);
+                         compartmentReport != nullptr, generateInternals, mitochondriaDensity, sdfGroupId, scaling);
     }
 
     // Only the first one or two axon sections are reported, so find the
@@ -632,10 +638,17 @@ void MorphologyLoader::_importMorphologyFromURI(const Gid& gid, const PropertyMa
             continue;
 
         const auto materialId = _getMaterialIdFromColorScheme(properties, section.getType());
-        const auto& samples = section.getSamples();
+        auto samples = section.getSamples();
         if (samples.empty())
             continue;
 
+        if (scaling != 1.0)
+            for (auto& sample : samples)
+            {
+                sample.x *= scaling;
+                sample.y *= scaling;
+                sample.z *= scaling;
+            }
         const size_t nbSamples = samples.size();
 
         Vector3f dstPosition;

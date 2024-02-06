@@ -322,6 +322,19 @@ CellAnimationDetails doublesToCellAnimationDetails(const doubles& values)
     return details;
 }
 
+NeuronsReportParameters doublesToNeuronsReportParametersDetails(const doubles& values)
+{
+    NeuronsReportParameters details;
+    details.reportId = (values.size() > 0 ? values[0] : 0);
+    details.valueRange.x = (values.size() > 1 ? values[1] : -80.0);
+    details.valueRange.y = (values.size() > 2 ? values[2] : 10.0);
+    details.scalingRange.x = (values.size() > 3 ? values[3] : 1.0);
+    details.scalingRange.y = (values.size() > 4 ? values[4] : 1.0);
+    details.initialSimulationFrame = (values.size() > 5 ? values[5] : 0.0);
+    details.loadNonSimulatedNodes = (values.size() > 6 ? (values[6] != 0) : false);
+    return details;
+}
+
 std::vector<std::string> split(const std::string& s, const std::string& delimiter)
 {
     std::vector<std::string> values;

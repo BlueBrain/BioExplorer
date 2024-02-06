@@ -143,7 +143,8 @@ class SonataExplorer:
                      cell_clipping=False, load_afferent_synapses=False,
                      load_efferent_synapses=False, generate_internals=False,
                      generate_externals=False, align_to_grid=0.0,
-                     position=Vector3(), rotation=Quaternion()):
+                     position=Vector3(), rotation=Quaternion(), voltage_scaling=1.0,
+                     initial_simulation_frame=0):
         """
         Load a circuit from a give Blue/Circuit configuration file
 
@@ -204,6 +205,7 @@ class SonataExplorer:
         :param float align_to_grid: Align cells to grid (ignored if 0)
         :param Vector3 position: Position of the circuit
         :param Quaternion rotation: Rotation applied to the circuit
+        :param initial_simulation_frame: Initial simulation frame
         :return: Result of the request submission
         :rtype: str
         """
@@ -231,6 +233,8 @@ class SonataExplorer:
         props['021ReportType'] = report_type
         props['022UserDataType'] = user_data_type
         props['023SynchronousMode'] = synchronous_mode
+        props['024VoltageScaling'] = voltage_scaling
+        props['025InitialSimulationFrame'] = initial_simulation_frame
 
         props['030CircuitColorScheme'] = circuit_color_scheme
 
