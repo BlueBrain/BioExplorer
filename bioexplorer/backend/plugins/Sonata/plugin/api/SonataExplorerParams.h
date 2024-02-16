@@ -271,5 +271,13 @@ struct EnableMorphologyCache
 };
 bool from_json(EnableMorphologyCache& param, const std::string& payload);
 
+struct ImportCircuitMorphologies
+{
+    std::string circuitPath;
+    std::string populationName;
+    std::string morphologyPath;
+};
+bool from_json(ImportCircuitMorphologies& param, const std::string& payload);
+
 } // namespace api
 } // namespace sonataexplorer

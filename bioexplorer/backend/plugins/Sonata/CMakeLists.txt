@@ -60,6 +60,7 @@ set(${NAME}_SOURCES
     plugin/SonataExplorerPlugin.cpp
     plugin/api/SonataExplorerParams.cpp
     plugin/io/SonataCacheLoader.cpp
+    plugin/io/db/DBConnector.cpp
     module/ispc/camera/SphereClippingPerspectiveCamera.cpp
 )
 
@@ -68,6 +69,7 @@ set(${NAME}_PUBLIC_HEADERS
     plugin/SonataExplorerPlugin.h
     plugin/api/SonataExplorerParams.h
     plugin/io/SonataCacheLoader.h
+    plugin/io/db/DBConnector.h
 )
 
 list(APPEND ${NAME}_SOURCES

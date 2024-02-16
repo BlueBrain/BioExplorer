@@ -696,3 +696,19 @@ class SonataExplorer:
         return self._core.rockets_client.request(
             self.PLUGIN_API_PREFIX + 'enable-morphology-cache', params,
             response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)
+
+    def import_circuit_morphologies(self, circuit_path, population_name, morphology_path=''):
+        """
+        Imports circuit morphologies from file system to database
+
+        :param circuit_path: Path to the circuit configuration file
+        :param population_name: Name of database schema
+        :morphology_path: Folder where morphologies are stored
+        """
+        params = dict()
+        params['circuitPath'] = circuit_path
+        params['populationName'] = population_name
+        params['morphologyPath'] = morphology_path
+        return self._core.rockets_client.request(
+            self.PLUGIN_API_PREFIX + 'import-circuit-morphologies', params,
+            response_timeout=self.DEFAULT_RESPONSE_TIMEOUT)

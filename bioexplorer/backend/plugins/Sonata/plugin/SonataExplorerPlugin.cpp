@@ -29,8 +29,8 @@
 #include <common/Properties.h>
 
 #include <plugin/io/SonataCacheLoader.h>
+#include <plugin/io/db/DBConnector.h>
 #include <plugin/neuroscience/astrocyte/AstrocyteLoader.h>
-#include <plugin/neuroscience/common/MorphologyCache.h>
 #include <plugin/neuroscience/common/MorphologyLoader.h>
 #include <plugin/neuroscience/neuron/AdvancedCircuitLoader.h>
 #include <plugin/neuroscience/neuron/CellGrowthHandler.h>
@@ -102,7 +102,9 @@ namespace sonataexplorer
 {
 using namespace api;
 using namespace io;
+using namespace db;
 using namespace loader;
+using namespace common;
 using namespace neuroscience;
 using namespace neuron;
 using namespace astrocyte;
@@ -194,9 +196,10 @@ std::vector<std::string> _splitString(const std::string& source, const char toke
     return result;
 }
 
-SonataExplorerPlugin::SonataExplorerPlugin()
+SonataExplorerPlugin::SonataExplorerPlugin(int argc, char** argv)
     : ExtensionPlugin()
 {
+    _parseCommandLineArguments(argc, argv);
 }
 
 void SonataExplorerPlugin::init()
@@ -318,10 +321,21 @@ void SonataExplorerPlugin::init()
                                                                                [&](const LoadMEGSettings& details)
                                                                                { return _loadMEG(details); });
 
-        endPoint = PLUGIN_API_PREFIX + "enable-morphology-cache";
+        endPoint = PLUGIN_API_PREFIX + "import-circuit-morphologies";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        _api->getActionInterface()->registerRequest<EnableMorphologyCache, Response>(
-            endPoint, [&](const EnableMorphologyCache& details) { return _enabledMorphologyCache(details); });
+        _api->getActionInterface()->registerRequest<ImportCircuitMorphologies, Response>(
+            endPoint, [&](const ImportCircuitMorphologies& details) { return _importCircuitMorphologies(details); });
+    }
+
+    // Database
+    try
+    {
+        auto& dbConnector = DBConnector::getInstance();
+        dbConnector.init(_commandLineArguments);
+    }
+    catch (const std::runtime_error& e)
+    {
+        PLUGIN_ERROR(e.what());
     }
 }
 
@@ -792,19 +806,38 @@ Response SonataExplorerPlugin::_addColumn(const AddColumn& details)
     return response;
 }
 
-Response SonataExplorerPlugin::_enabledMorphologyCache(const api::EnableMorphologyCache& payload)
+api::Response SonataExplorerPlugin::_importCircuitMorphologies(const api::ImportCircuitMorphologies& payload)
 {
     Response response;
     try
     {
-        PLUGIN_INFO("Morphology cache " << (payload.enabled ? "enabled" : "disabled"));
-        ::sonataexplorer::neuroscience::common::MorphologyCache::getInstance()->setEnabled(payload.enabled);
+        DBConnector::getInstance().importCircuitMorphologies(payload.populationName, payload.circuitPath,
+                                                             payload.morphologyPath);
     }
     CATCH_STD_EXCEPTION()
     return response;
 }
 
-extern "C" ExtensionPlugin* core_plugin_create(int /*argc*/, char** /*argv*/)
+void SonataExplorerPlugin::_parseCommandLineArguments(int argc, char** argv)
+{
+    for (size_t i = 0; i < argc; ++i)
+    {
+        const std::string argument = argv[i];
+        std::string key;
+        std::string value;
+        const int pos = argument.find("=");
+        if (pos == std::string::npos)
+            key = argument;
+        else
+        {
+            key = argument.substr(0, pos);
+            value = argument.substr(pos + 1);
+        }
+        _commandLineArguments[key] = value;
+    }
+}
+
+extern "C" ExtensionPlugin* core_plugin_create(int argc, char** argv)
 {
     PLUGIN_INFO("");
 
@@ -831,6 +864,6 @@ extern "C" ExtensionPlugin* core_plugin_create(int /*argc*/, char** /*argv*/)
         "                         ");
     PLUGIN_INFO("");
     PLUGIN_INFO("Initializing SonataExplorer plug-in");
-    return new SonataExplorerPlugin();
+    return new SonataExplorerPlugin(argc, argv);
 }
 } // namespace sonataexplorer
