@@ -30,6 +30,7 @@
 #include <science/common/Utils.h>
 #include <science/common/shapes/Shape.h>
 
+#include <science/io/cache/MemoryCache.h>
 #include <science/io/db/DBConnector.h>
 
 #include <platform/core/common/Timer.h>
@@ -479,7 +480,11 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
     double somaRadius = _getCorrectedRadius(1.f, _details.radiusMultiplier);
     if (_details.loadAxon || _details.loadApicalDendrites || _details.loadBasalDendrites)
     {
+#if 0
         sections = connector.getNeuronSections(_details.populationName, neuronId, _details.sqlSectionFilter);
+#else
+        sections = MemoryCache::getInstance()->getNeuronSections(connector, neuronId, _details);
+#endif
         double count = 0.0;
         for (const auto& section : sections)
             if (section.second.parentId == SOMA_AS_PARENT)

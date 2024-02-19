@@ -325,7 +325,7 @@ CellAnimationDetails doublesToCellAnimationDetails(const doubles& values)
 NeuronsReportParameters doublesToNeuronsReportParametersDetails(const doubles& values)
 {
     NeuronsReportParameters details;
-    details.reportId = (values.size() > 0 ? values[0] : 0);
+    details.reportId = (values.size() > 0 ? values[0] : -1);
     details.valueRange.x = (values.size() > 1 ? values[1] : -80.0);
     details.valueRange.y = (values.size() > 2 ? values[2] : 10.0);
     details.scalingRange.x = (values.size() > 3 ? values[3] : 1.0);
