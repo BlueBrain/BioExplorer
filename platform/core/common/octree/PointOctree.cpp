@@ -82,7 +82,11 @@ PointOctree::PointOctree(const OctreePoints &points, double voxelSize, const Vec
 
                 if (octree[level].find(index) == octree[level].end())
                 {
-                    octree[level].insert(PointOctreeLevelMap::value_type(index, PointOctreeNode(center, size)));
+                    Vector3f p{(points[i].position.x - minAABB.x) / voxelSize,
+                               (points[i].position.y - minAABB.y) / voxelSize,
+                               (points[i].position.z - minAABB.z) / voxelSize};
+
+                    octree[level].insert(PointOctreeLevelMap::value_type(index, PointOctreeNode(p, size)));
                     newNode = true;
                 }
 
