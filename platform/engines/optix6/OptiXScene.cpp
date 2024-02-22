@@ -172,6 +172,7 @@ void OptiXScene::_commitFieldParameters()
     context[CONTEXT_FIELD_CUTOFF]->setFloat(_fieldParameters.getCutoff());
     context[CONTEXT_FIELD_DISTANCE]->setFloat(_fieldParameters.getCutoff());
     context[CONTEXT_FIELD_SAMPLING_RATE]->setFloat(_fieldParameters.getSamplingRate());
+    context[CONTEXT_FIELD_ACCUMULATION_STEPS]->setUint(_fieldParameters.getAccumulationSteps());
 }
 
 void OptiXScene::_commitGeometryParameters()

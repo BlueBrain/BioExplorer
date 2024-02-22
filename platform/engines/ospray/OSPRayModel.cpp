@@ -445,6 +445,8 @@ void OSPRayModel::commitFieldParameters()
         osphelper::set(ospField, OSPRAY_FIELD_PROPERTY_DISTANCE, static_cast<float>(_fieldParameters.getDistance()));
         osphelper::set(ospField, OSPRAY_FIELD_PROPERTY_CUTOFF, static_cast<float>(_fieldParameters.getCutoff()));
         osphelper::set(ospField, OSPRAY_FIELD_PROPERTY_EPSILON, static_cast<float>(_fieldParameters.getEpsilon()));
+        osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_ACCUMULATION_STEPS,
+                       static_cast<int>(_fieldParameters.getAccumulationSteps()));
         ospCommit(ospField);
     }
 }

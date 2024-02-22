@@ -263,7 +263,8 @@ export void Field_set(void* uniform _self, void* uniform _model, const uniform v
 
 export void Field_commit(void* uniform _self, const uniform float& distance, const uniform float& cutoff,
                          const uniform float& gradientOffset, const uniform bool& gradientShadingEnabled,
-                         const uniform float& samplingRate, const uniform float& epsilon)
+                         const uniform float& samplingRate, const uniform float& epsilon,
+                         const uniform int accumulationSteps)
 {
     uniform Fields* uniform self = (uniform Fields * uniform) _self;
     self->distance = distance;
@@ -271,5 +272,6 @@ export void Field_commit(void* uniform _self, const uniform float& distance, con
     self->gradientOffset = gradientOffset;
     self->gradientShadingEnabled = gradientShadingEnabled;
     self->samplingRate = samplingRate;
+    self->accumulationSteps = accumulationSteps;
     self->epsilon = epsilon;
 }

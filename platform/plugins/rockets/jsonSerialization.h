@@ -480,6 +480,7 @@ inline void init(core::FieldParameters* v, ObjectHandler* h)
     h->add_property("distance", &v->_distance, Flags::Optional);
     h->add_property("cutoff", &v->_cutoff, Flags::Optional);
     h->add_property("epsilon", &v->_epsilon, Flags::Optional);
+    h->add_property("accumulation_steps", &v->_randomAccumulation, Flags::Optional);
     h->set_flags(Flags::DisallowUnknownKey);
 }
 

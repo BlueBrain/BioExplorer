@@ -149,6 +149,7 @@ static const char* CONTEXT_FIELD_GRADIENT_OFFSET = "fieldGradientOffset";
 static const char* CONTEXT_FIELD_SAMPLING_RATE = "fieldSamplingRate";
 static const char* CONTEXT_FIELD_CUTOFF = "fieldCutoff";
 static const char* CONTEXT_FIELD_DISTANCE = "fieldDistance";
+static const char* CONTEXT_FIELD_ACCUMULATION_STEPS = "fieldAccumulationSteps";
 
 // Geometry parameters
 static const char* CONTEXT_GEOMETRY_SDF_EPSILON = "geometrySdfEpsilon";
