@@ -36,6 +36,7 @@
 #include <science/fields/VectorFieldBuilder.h>
 #include <science/io/CacheLoader.h>
 #include <science/io/OOCManager.h>
+#include <science/io/cache/MemoryCache.h>
 #include <science/morphologies/AstrocytesLoader.h>
 #include <science/morphologies/NeuronsLoader.h>
 #include <science/morphologies/SpikeSimulationHandler.h>
@@ -842,6 +843,8 @@ Response BioExplorerPlugin::_setGeneralSettings(const GeneralSettingsDetails &pa
         instance->setLoggingLevel(payload.loggingLevel);
         instance->setDBLoggingLevel(payload.databaseLoggingLevel);
         instance->setV1Compatibility(payload.v1Compatibility);
+
+        MemoryCache::getInstance()->setEnabled(payload.cacheEnabled);
         PLUGIN_INFO(3, "Setting general options for the plugin");
 
         response.contents = "OK";

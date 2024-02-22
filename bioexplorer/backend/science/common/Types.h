@@ -540,7 +540,8 @@ typedef struct
     std::string meshFolder;
     uint32_t loggingLevel;
     uint32_t databaseLoggingLevel;
-    bool v1Compatibility;
+    bool v1Compatibility{false};
+    bool cacheEnabled{false};
 } GeneralSettingsDetails;
 
 typedef struct

@@ -443,5 +443,36 @@ bool from_json(LoadMEGSettings& param, const std::string& payload)
     }
     return true;
 }
+
+bool from_json(EnableMorphologyCache& param, const std::string& payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, enabled);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool from_json(ImportCircuitMorphologies& param, const std::string& payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, circuitPath);
+        FROM_JSON(param, js, populationName);
+        FROM_JSON(param, js, morphologyPath);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 } // namespace api
 } // namespace sonataexplorer

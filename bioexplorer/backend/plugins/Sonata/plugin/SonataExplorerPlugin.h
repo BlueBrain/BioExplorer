@@ -39,7 +39,7 @@ namespace sonataexplorer
 class SonataExplorerPlugin : public core::ExtensionPlugin
 {
 public:
-    SonataExplorerPlugin();
+    SonataExplorerPlugin(int argc, char** argv);
 
     void init() final;
 
@@ -51,6 +51,7 @@ public:
 private:
     // Plug-in
     api::Response _getVersion() const;
+    void _parseCommandLineArguments(int argc, char** argv);
     void _markModified() { _dirty = true; };
 
     // Handlers
@@ -78,6 +79,12 @@ private:
 
     // MEG
     api::Response _loadMEG(const api::LoadMEGSettings& payload);
+
+    // Import to DB
+    api::Response _importCircuitMorphologies(const api::ImportCircuitMorphologies& payload);
+
+    // Command line arguments
+    std::map<std::string, std::string> _commandLineArguments;
 
     bool _dirty{false};
 };

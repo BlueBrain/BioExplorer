@@ -65,6 +65,7 @@ set(${NAME}_SOURCES
     science/io/CacheLoader.cpp
     science/io/OOCManager.cpp
     science/io/db/DBConnector.cpp
+    science/io/cache/MemoryCache.cpp
     science/molecularsystems/EnzymeReaction.cpp
     science/molecularsystems/Molecule.cpp
     science/molecularsystems/Membrane.cpp
@@ -99,6 +100,7 @@ set(${NAME}_SOURCES
 set(${NAME}_PUBLIC_HEADERS
     science/io/OOCManager.h
     science/io/CacheLoader.h
+    science/io/cache/MemoryCache.h
     science/io/db/DBConnector.h
     science/common/Assembly.h
     science/common/Node.h

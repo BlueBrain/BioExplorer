@@ -94,6 +94,7 @@ bool from_json(GeneralSettingsDetails &param, const std::string &payload)
         FROM_JSON(param, js, loggingLevel);
         FROM_JSON(param, js, databaseLoggingLevel);
         FROM_JSON(param, js, v1Compatibility);
+        FROM_JSON(param, js, cacheEnabled);
     }
     catch (...)
     {

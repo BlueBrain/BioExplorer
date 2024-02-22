@@ -885,7 +885,7 @@ float AbstractCircuitLoader::_importMorphologies(const PropertyMap &properties, 
         PLUGIN_PROGRESS("- Compiling 3D geometry...", i + 1, containers.size());
         callback.updateProgress("Compiling 3D geometry...", 0.5f + 0.5f * (float)(1 + i) / (float)containers.size());
         auto &container = containers[i];
-        maxDistanceToSoma = std::max(container.getMorphologyInfo().maxDistanceToSoma, maxDistanceToSoma);
+        // maxDistanceToSoma = std::max(container.getMorphologyInfo().maxDistanceToSoma, maxDistanceToSoma);
         container.moveGeometryToModel(model);
     }
     PLUGIN_INFO("");

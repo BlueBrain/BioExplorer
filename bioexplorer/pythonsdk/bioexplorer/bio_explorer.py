@@ -3194,6 +3194,7 @@ class BioExplorer:
         logging_level=1,
         database_logging_level=1,
         v1_compatibility=False,
+        cache_enabled=False
     ):
         """
         Set general settings for the plugin
@@ -3202,6 +3203,7 @@ class BioExplorer:
         :logging_level: Back-end logging level (0=no information logs, 3=full logging)
         :database_logging_level: Back-end logging level for database (0=no information logs, 3=full
         logging)
+        :cache_enabled: Enabled memory cache
         :return: Result of the request submission
         """
         self._v1_compatibility = v1_compatibility
@@ -3210,6 +3212,7 @@ class BioExplorer:
         params["loggingLevel"] = logging_level
         params["databaseLoggingLevel"] = database_logging_level
         params["v1Compatibility"] = v1_compatibility
+        params["cacheEnabled"] = cache_enabled
         response = self._invoke_and_check("set-general-settings", params)
         return response
 
