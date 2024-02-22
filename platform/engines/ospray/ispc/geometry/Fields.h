@@ -50,6 +50,7 @@ protected:
     bool _gradientShadingEnabled;
     float _samplingRate;
     float _epsilon;
+    int _accumulationSteps;
 };
 } // namespace ospray
 } // namespace engine

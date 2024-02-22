@@ -209,7 +209,9 @@ static __device__ void intersect_field(int primIdx)
 
     const float diag = max(spacing.x, max(spacing.y, spacing.z));
     const float step = max(0.1f, diag / fieldSamplingRate);
-    const float random = rnd(seed) * step;
+    const float random = fieldAccumulationSteps > 0
+                             ? float(frame % fieldAccumulationSteps) / float(fieldAccumulationSteps) * step
+                             : rnd(seed) * step;
 
     // Apply ray clipping
     t0 = max(t0, ray.tmin);

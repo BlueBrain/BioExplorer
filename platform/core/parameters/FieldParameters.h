@@ -54,6 +54,9 @@ public:
     void setEpsilon(const double value) { _updateValue(_epsilon, value); }
     double getEpsilon() const { return _epsilon; }
 
+    void setAccumulationSteps(const uint64_t value) { _updateValue(_randomAccumulation, value); }
+    uint64_t getAccumulationSteps() const { return _randomAccumulation; }
+
 protected:
     void parse(const po::variables_map& vm) final;
 
@@ -67,6 +70,7 @@ protected:
     double _distance{1.f};
     double _cutoff{1500.f};
     double _epsilon{1e-6};
+    uint64_t _randomAccumulation{0};
 
     SERIALIZATION_FRIEND(FieldParameters)
 };

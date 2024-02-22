@@ -49,6 +49,7 @@ void Fields::finalize(::ospray::Model *model)
     _dimensions = getParam3i(OSPRAY_GEOMETRY_PROPERTY_FIELD_DIMENSIONS, ::ospray::vec3i());
     _spacing = getParam3f(OSPRAY_GEOMETRY_PROPERTY_FIELD_SPACING, ::ospray::vec3f());
     _offset = getParam3f(OSPRAY_GEOMETRY_PROPERTY_FIELD_OFFSET, ::ospray::vec3f());
+    _accumulationSteps = getParam1i(OSPRAY_GEOMETRY_PROPERTY_FIELD_ACCUMULATION_STEPS, 0);
 
     ::ispc::Field_set(getIE(), model->getIE(), (ispc::vec3i &)_dimensions, (ispc::vec3f &)_spacing,
                       (ispc::vec3f &)_offset, _indices->data, _values->data, _dataType, numFields);
@@ -70,9 +71,10 @@ void Fields::commit()
     _gradientShadingEnabled = getParam1i(OSPRAY_FIELD_PROPERTY_GRADIENT_SHADING_ENABLED, false);
     _samplingRate = getParamf(OSPRAY_FIELD_PROPERTY_SAMPLING_RATE, 1.f);
     _epsilon = getParamf(OSPRAY_FIELD_PROPERTY_EPSILON, 1e-6f);
+    _accumulationSteps = getParam1i(OSPRAY_GEOMETRY_PROPERTY_FIELD_ACCUMULATION_STEPS, 0);
 
-    ::ispc::Field_commit(getIE(), _distance, _cutoff, _gradientOffset, _gradientShadingEnabled, _samplingRate,
-                         _epsilon);
+    ::ispc::Field_commit(getIE(), _distance, _cutoff, _gradientOffset, _gradientShadingEnabled, _samplingRate, _epsilon,
+                         _accumulationSteps);
 }
 
 OSP_REGISTER_GEOMETRY(Fields, fields);
