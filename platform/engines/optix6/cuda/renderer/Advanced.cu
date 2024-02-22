@@ -275,21 +275,17 @@ static __device__ void phongShade(float3 p_Kd, float3 p_Ka, float3 p_Ks, float3 
         }
     }
 
-    float4 finalColor = make_float4(color, ::optix::luminance(p_Ko));
-
-    float3 result = make_float3(finalColor);
-
     // Matrix filter :)
     if (matrixFilter)
-        result = make_float3(result.x * 0.666f, result.y * 0.8f, result.z * 0.666f);
+        color = make_float3(color.x * 0.666f, color.y * 0.8f, color.z * 0.666f);
 
     // Fog attenuation
     prd.zDepth = optix::length(eye - hit_point);
     const float fogAttenuation =
         prd.zDepth > fogStart ? optix::clamp((prd.zDepth - fogStart) / fogThickness, 0.f, 1.f) : 0.f;
-    result = result * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor(ray.direction);
+    color = color * (1.f - fogAttenuation) + fogAttenuation * getEnvironmentColor(ray.direction);
 
-    prd.result = make_float4(result, finalColor.w);
+    prd.result = make_float4(color, prd.importance);
 }
 
 RT_PROGRAM void any_hit_shadow()
