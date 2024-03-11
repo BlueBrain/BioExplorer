@@ -138,7 +138,9 @@ rtDeclareVariable(float, fieldGradientOffset, , );
 rtDeclareVariable(float, fieldSamplingRate, , );
 rtDeclareVariable(float, fieldCutoff, , );
 rtDeclareVariable(float, fieldDistance, , );
+rtDeclareVariable(float, fieldEpsilon, , );
 rtDeclareVariable(uint, fieldAccumulationSteps, , );
+rtDeclareVariable(uint, fieldUseOctree, , );
 
 // Geometry parameters
 rtDeclareVariable(float, geometrySdfEpsilon, , );

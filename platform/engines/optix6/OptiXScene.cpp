@@ -167,12 +167,14 @@ void OptiXScene::_commitVolumeParameters()
 void OptiXScene::_commitFieldParameters()
 {
     auto context = OptiXContext::get().getOptixContext();
-    context[CONTEXT_VOLUME_GRADIENT_SHADING_ENABLED]->setUint(_fieldParameters.getGradientShading());
+    context[CONTEXT_FIELD_GRADIENT_SHADING_ENABLED]->setUint(_fieldParameters.getGradientShading());
     context[CONTEXT_FIELD_GRADIENT_OFFSET]->setFloat(_fieldParameters.getGradientOffset());
     context[CONTEXT_FIELD_CUTOFF]->setFloat(_fieldParameters.getCutoff());
     context[CONTEXT_FIELD_DISTANCE]->setFloat(_fieldParameters.getCutoff());
     context[CONTEXT_FIELD_SAMPLING_RATE]->setFloat(_fieldParameters.getSamplingRate());
+    context[CONTEXT_FIELD_EPSILON]->setFloat(_fieldParameters.getEpsilon());
     context[CONTEXT_FIELD_ACCUMULATION_STEPS]->setUint(_fieldParameters.getAccumulationSteps());
+    context[CONTEXT_FIELD_USE_OCTREE]->setUint(_fieldParameters.getUseOctree());
 }
 
 void OptiXScene::_commitGeometryParameters()

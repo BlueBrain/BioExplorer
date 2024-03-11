@@ -38,6 +38,7 @@ const uint FIELD_OFFSET_VALUE_RANGE = FIELD_OFFSET_TRANSFER_FUNCTION_TEXTURE_SAM
 const uint FIELD_OFFSET_OCTREE_INDICES_SAMPLER_ID = FIELD_OFFSET_VALUE_RANGE + 2;
 const uint FIELD_OFFSET_OCTREE_VALUES_SAMPLER_ID = FIELD_OFFSET_OCTREE_INDICES_SAMPLER_ID + 1;
 const uint FIELD_OFFSET_OCTREE_TYPE = FIELD_OFFSET_OCTREE_VALUES_SAMPLER_ID + 1;
+const uint FIELD_OFFSET_NB_VALUES = FIELD_OFFSET_OCTREE_TYPE + 1;
 
 rtDeclareVariable(uint, field_size, , );
 
@@ -158,24 +159,49 @@ __device__ float3 treeWalker3<MAX_RECURSION_DEPTH>(const int fieldOctreeIndicesI
     return make_float3(0.f);
 }
 
-static __device__ float4 get_voxel_value(const int idx, const float3& point)
+static __device__ float get_field_value(const int fieldOctreeValuesId, const float3& point, const int nbValues)
+{
+    float result = 0.f;
+    for (uint i = 0; i < nbValues; ++i)
+    {
+        const uint index = i * FIELD_POINT_DATA_SIZE;
+        const float3 position =
+            make_float3(optix::rtTex1D<float>(fieldOctreeValuesId, index + FIELD_POINT_OFFSET_POSITION_X),
+                        optix::rtTex1D<float>(fieldOctreeValuesId, index + FIELD_POINT_OFFSET_POSITION_Y),
+                        optix::rtTex1D<float>(fieldOctreeValuesId, index + FIELD_POINT_OFFSET_POSITION_Z));
+        const float d = length(point - position);
+        if (d < fieldCutoff)
+        {
+            const float value = optix::rtTex1D<float>(fieldOctreeValuesId, index + FIELD_POINT_OFFSET_VALUE);
+            result += value / (d * d);
+        }
+    }
+    return result;
+}
+
+static __device__ float4 get_voxel_value(const int idx, const float3& point, const int nbValues)
 {
     const int fieldOctreeIndicesId = static_cast<int>(fields[idx + FIELD_OFFSET_OCTREE_INDICES_SAMPLER_ID]);
     const int fieldOctreeValuesId = static_cast<int>(fields[idx + FIELD_OFFSET_OCTREE_VALUES_SAMPLER_ID]);
-    const int fieldOctreeType = static_cast<int>(fields[idx + FIELD_OFFSET_OCTREE_TYPE]);
     if (fieldOctreeIndicesId != 0 && fieldOctreeValuesId != 0)
     {
-        switch (fieldOctreeType)
+        if (fieldUseOctree)
         {
-        case OctreeDataType::point:
-            return make_float4(0.f, 0.f, 0.f,
-                               treeWalker<0>(fieldOctreeIndicesId, fieldOctreeValuesId, point, fieldDistance,
-                                             fieldCutoff, 0u));
-        case OctreeDataType::vector:
-            const float3 sampleValue =
-                treeWalker3<0>(fieldOctreeIndicesId, fieldOctreeValuesId, point, fieldDistance, fieldCutoff, 0u);
-            return make_float4(normalize(sampleValue), length(sampleValue));
+            const int fieldOctreeType = static_cast<int>(fields[idx + FIELD_OFFSET_OCTREE_TYPE]);
+            switch (fieldOctreeType)
+            {
+            case OctreeDataType::point:
+                return make_float4(0.f, 0.f, 0.f,
+                                   treeWalker<0>(fieldOctreeIndicesId, fieldOctreeValuesId, point, fieldDistance,
+                                                 fieldCutoff, 0u));
+            case OctreeDataType::vector:
+                const float3 sampleValue =
+                    treeWalker3<0>(fieldOctreeIndicesId, fieldOctreeValuesId, point, fieldDistance, fieldCutoff, 0u);
+                return make_float4(normalize(sampleValue), length(sampleValue));
+            }
         }
+        else
+            return make_float4(0.f, 0.f, 0.f, get_field_value(fieldOctreeValuesId, point, nbValues));
     }
     return make_float4(0.f);
 }
@@ -193,6 +219,7 @@ static __device__ void intersect_field(int primIdx)
     const int transferFunctionSamplerId =
         static_cast<int>(fields[idx + FIELD_OFFSET_TRANSFER_FUNCTION_TEXTURE_SAMPLER_ID]);
     const float2 valueRange = {fields[idx + FIELD_OFFSET_VALUE_RANGE], fields[idx + FIELD_OFFSET_VALUE_RANGE + 1]};
+    const int nbValues = fields[idx + FIELD_OFFSET_NB_VALUES];
 
     const float3 boxMin = offset;
     const float3 boxMax = offset + dimensions * spacing;
@@ -224,12 +251,13 @@ static __device__ void intersect_field(int primIdx)
         {
             const float3 p = ray.origin + t * ray.direction;
             const float3 p0 = (p - offset) / spacing;
-            const float4 voxelValue = get_voxel_value(idx, p0);
+            const float4 voxelValue = get_voxel_value(idx, p0, nbValues);
             const float4 voxelColor = calcTransferFunctionColor(transferFunctionSamplerId, valueRange, voxelValue.w);
             if (voxelColor.w > 0.f)
-                if (rtPotentialIntersection(t - sceneEpsilon))
+                if (rtPotentialIntersection(t - sceneEpsilon + fieldEpsilon))
                 {
                     float3 normal = make_float3(voxelValue);
+                    float value = voxelValue.w;
                     if (fieldGradientShadingEnabled)
                     {
                         normal = make_float3(0);
@@ -238,15 +266,17 @@ static __device__ void intersect_field(int primIdx)
                         for (const auto& position : positions)
                         {
                             const float3 p1 = p0 + (position * fieldGradientOffset);
-                            const float4 voxelValue = get_voxel_value(idx, p1);
+                            const float4 voxelValue = get_voxel_value(idx, p1, nbValues);
+                            value += voxelValue.w;
                             normal += voxelValue.w * position;
                         }
                         normal = ::optix::normalize(-1.f * normal);
+                        value /= 7.f;
                     }
 
                     geometric_normal = shading_normal = normal;
                     userDataIndex = 0;
-                    texcoord = make_float2(voxelValue.w, 0.f);
+                    texcoord = make_float2(value, 0.f);
                     texcoord3d = p0;
                     rtReportIntersection(0);
                     break;
