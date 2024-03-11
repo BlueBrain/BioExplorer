@@ -800,11 +800,16 @@ uint64_t OptiXModel::_commitFields(const size_t materialId)
     _geometryGroup->addChild(instance);
 
     const auto field = dynamic_cast<OptiXField*>((*iter).second.get());
+    const auto& octreeIndices = field->getOctreeIndices();
+    const auto& octreeValues = field->getOctreeValues();
     _fieldGeometries[materialId].dimensions = field->getDimensions();
     _fieldGeometries[materialId].spacing = field->getElementSpacing();
     _fieldGeometries[materialId].offset = field->getOffset();
-    _fieldGeometries[materialId].octreeDataType = field->getOctreeDataType();
-    const auto& octreeIndices = field->getOctreeIndices();
+    const auto fieldType = field->getOctreeDataType();
+    _fieldGeometries[materialId].octreeDataType = fieldType;
+    _fieldGeometries[materialId].octreeNbValues =
+        octreeValues.size() / (fieldType == OctreeDataType::point ? FIELD_POINT_DATA_SIZE : FIELD_VECTOR_DATA_SIZE);
+
     if (!octreeIndices.empty())
     {
         // Octree indices as texture
@@ -817,7 +822,6 @@ uint64_t OptiXModel::_commitFields(const size_t materialId)
         memoryFootPrint += size * sizeof(uint32_t);
     }
 
-    const auto& octreeValues = field->getOctreeValues();
     if (!octreeValues.empty())
     {
         // Octree values as texture

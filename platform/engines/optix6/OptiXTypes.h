@@ -57,6 +57,7 @@ struct FieldGeometry
     float octreeIndicesSamplerId;
     float octreeValuesSamplerId;
     float octreeDataType;
+    float octreeNbValues;
 };
 
 } // namespace optix

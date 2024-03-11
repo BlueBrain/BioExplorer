@@ -57,6 +57,9 @@ public:
     void setAccumulationSteps(const uint64_t value) { _updateValue(_randomAccumulation, value); }
     uint64_t getAccumulationSteps() const { return _randomAccumulation; }
 
+    void setUseOctree(const bool value) { _updateValue(_useOctree, value); }
+    bool getUseOctree() const { return _useOctree; }
+
 protected:
     void parse(const po::variables_map& vm) final;
 
@@ -71,6 +74,7 @@ protected:
     double _cutoff{1500.f};
     double _epsilon{1e-6};
     uint64_t _randomAccumulation{0};
+    bool _useOctree{true};
 
     SERIALIZATION_FRIEND(FieldParameters)
 };
