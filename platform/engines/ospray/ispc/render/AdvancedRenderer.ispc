@@ -1135,7 +1135,8 @@ inline vec3f AdvancedRenderer_shadeRay(const uniform AdvancedRenderer* uniform s
     const float fog = 1.f - color.w * (1.f - fogAttenuation);
 
     // Final color
-    sample.alpha = min(1.f, color.w);
+    // sample.alpha = min(1.f, color.w);
+    sample.alpha = color.w > 0.f ? 1.f : 0.f;
     vec3f finalColor = (make_vec3f(color) * (1.f - fog) + fog * bgColor) * self->super.super.exposure;
 
     if (self->matrixFilter)
