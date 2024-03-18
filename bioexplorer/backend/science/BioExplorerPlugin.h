@@ -170,6 +170,7 @@ private:
     // SDF Geometries
     details::Response _addTorus(const details::SDFTorusDetails &payload);
     details::Response _addVesica(const details::SDFVesicaDetails &payload);
+    details::Response _addEllipsoid(const details::SDFEllipsoidDetails &payload);
 
     // Attributes
     common::AssemblyMap _assemblies;

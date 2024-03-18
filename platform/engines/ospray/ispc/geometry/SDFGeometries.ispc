@@ -46,7 +46,8 @@ enum SDFType
     sdf_cone = 4,
     sdf_torus = 5,
     sdf_cut_sphere = 6,
-    sdf_vesica = 7
+    sdf_vesica = 7,
+    sdf_ellipsoid = 8
 };
 
 inline vec3f mod(const vec3f& v, const int m)
@@ -216,6 +217,14 @@ inline float sdVesica(const vec3f& p, const vec3f a, const vec3f b, float w)
     return length(q - make_vec3f(h.x, h.y, 0.f)) - h.z;
 }
 
+inline float sdEllipsoid(const vec3f& p, const vec3f a, const vec3f r)
+{
+    const vec3f pa = p - a;
+    const float k0 = length(pa / r);
+    const float k1 = length(pa / (r * r));
+    return k0 * (k0 - 1.f) / k1;
+}
+
 // NOTE: This layout must match exactly the 'SDFGeometry' struct in
 // 'SDFGeometry.h'
 struct SDFGeometry
@@ -303,6 +312,8 @@ inline float calcDistance(const uniform SDFGeometry& primitive, const vec3f& p, 
         return displacement + sdCutSphere(p, primitive.p0, primitive.r0, primitive.r1);
     case sdf_vesica:
         return displacement + sdVesica(p, primitive.p0, primitive.p1, primitive.r0);
+    case sdf_ellipsoid:
+        return displacement + sdEllipsoid(p, primitive.p0, primitive.p1);
     }
     return SDF_NO_INTERSECTION;
 }
@@ -316,14 +327,25 @@ uniform box3fa sdfBounds(uDataPtr_t geo_, uDataPtr_t prim_)
     {
     case sdf_sphere:
     case sdf_cut_sphere:
+    {
         return make_box3fa(prim->p0 - radius, prim->p0 + radius);
+    }
     case sdf_torus:
+    {
         const uniform float r = prim->r0 + prim->r1 + prim->userParams.x;
         return make_box3fa(prim->p0 - r, prim->p0 + r);
+    }
+    case sdf_ellipsoid:
+    {
+        const uniform vec3f r = prim->p1 + prim->userParams.x;
+        return make_box3fa(prim->p0 - r, prim->p0 + r);
+    }
     default:
+    {
         const uniform vec3f minV = min(prim->p0, prim->p1);
         const uniform vec3f maxV = max(prim->p0, prim->p1);
         return make_box3fa(minV - radius, maxV + radius);
+    }
     }
 }
 

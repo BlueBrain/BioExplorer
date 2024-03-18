@@ -147,6 +147,23 @@ public:
     uint64_t addVesica(const core::Vector3f& sourcePosition, const core::Vector3f& targetPosition, const float radius,
                        const size_t materialId, const uint64_t userDataOffset = 0, const Neighbours& neighbours = {},
                        const core::Vector3f displacement = core::Vector3f());
+
+    /**
+     * @brief Add a vesica to the thread safe model
+     *
+     * @param position Position of the ellipsoid
+     * @param radii Radii of the vesica
+     * @param materialId Material identifier
+     * @param useSdf Defines if signed-distance field technique should be used
+     * @param userDataOffset User data to attach to the sphere
+     * @param neighbours Neighbours identifiers (For signed-distance field geometry)
+     * @param displacement Displacement ratio (For signed-distance field geometry)
+     * @return uint64_t Index of the geometry in the model
+     */
+    uint64_t addEllipsoid(const core::Vector3f& position, const core::Vector3f& radii, const size_t materialId,
+                          const uint64_t userDataOffset, const Neighbours& neighbours,
+                          const core::Vector3f displacement);
+
     /**
      * @brief Add a mesh to the thread safe model
      *

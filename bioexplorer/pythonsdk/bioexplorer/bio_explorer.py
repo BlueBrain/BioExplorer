@@ -3164,6 +3164,33 @@ class BioExplorer:
         params["displacement"] = displacement_parameters.to_list()
         return self._invoke_and_check("add-vesica", params)
 
+    def add_ellipsoid(
+        self,
+        name,
+        position,
+        radii,
+        displacement_parameters=Vector3(),
+    ):
+        """
+        Add a ellipsoid to the scene
+
+        :return: Result of the request submission
+        """
+        if self._client is None:
+            return
+
+        assert isinstance(name, str)
+        assert isinstance(position, Vector3)
+        assert isinstance(radii, Vector3)
+        assert isinstance(displacement_parameters, Vector3)
+
+        params = dict()
+        params["name"] = name
+        params["position"] = position.to_list()
+        params["radii"] = radii.to_list()
+        params["displacement"] = displacement_parameters.to_list()
+        return self._invoke_and_check("add-ellipsoid", params)
+
     def add_streamlines(self, name, indices, vertices, colors):
         """
         Add streamlines to the scene

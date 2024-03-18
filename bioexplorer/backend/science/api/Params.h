@@ -126,6 +126,7 @@ bool from_json(bioexplorer::details::SpikeReportVisualizationSettingsDetails &pa
 // Extra geometry
 bool from_json(bioexplorer::details::SDFTorusDetails &param, const std::string &payload);
 bool from_json(bioexplorer::details::SDFVesicaDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::SDFEllipsoidDetails &param, const std::string &payload);
 
 // Utilities
 bool from_json(bioexplorer::details::LookAtDetails &param, const std::string &payload);
