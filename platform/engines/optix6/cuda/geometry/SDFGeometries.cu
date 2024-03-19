@@ -44,7 +44,8 @@ enum SDFType : uint8_t
     sdf_cone = 4,
     sdf_torus = 5,
     sdf_cut_sphere = 6,
-    sdf_vesica = 7
+    sdf_vesica = 7,
+    sdf_ellipsoid = 8
 };
 
 #define OFFSET_USER_DATA 0
@@ -179,7 +180,7 @@ static __device__ inline float sdTorus(const float3& p, const float3& c, float r
     return ::optix::length(q) - rb;
 }
 
-static __device__ inline float sdCutSphere(const float3& p, const float3 c, float r, float h)
+static __device__ inline float sdCutSphere(const float3& p, const float3& c, float r, float h)
 {
     // sampling independent computations (only depend on shape)
     const float w = sqrt(r * r - h * h);
@@ -191,7 +192,7 @@ static __device__ inline float sdCutSphere(const float3& p, const float3 c, floa
     return (s < 0.f) ? ::optix::length(q) - r : (q.x < w) ? h - q.y : ::optix::length(q - make_float3(w, h, 0.f));
 }
 
-static __device__ inline float sdVesica(const float3& p, const float3 a, const float3 b, float w)
+static __device__ inline float sdVesica(const float3& p, const float3& a, const float3& b, float w)
 {
     const float3 c = (a + b) * 0.5;
     float l = ::optix::length(b - a);
@@ -204,6 +205,14 @@ static __device__ inline float sdVesica(const float3& p, const float3 a, const f
     const float3 h = (r * q.x < d * (q.y - r)) ? make_float3(0.f, r, 0.f) : make_float3(-d, 0.f, d + w);
 
     return ::optix::length(q - make_float3(h.x, h.y, 0.f)) - h.z;
+}
+
+static __device__ inline float sdEllipsoid(const float3& p, const float3& a, const float3& r)
+{
+    const float3 pa = p - a;
+    const float k0 = ::optix::length(pa / r);
+    const float k1 = ::optix::length(pa / (r * r));
+    return k0 * (k0 - 1.f) / k1;
 }
 
 static __device__ inline float reduce_min(const float4& a)
@@ -256,6 +265,13 @@ static __device__ inline ::optix::Aabb getBounds(const SDFGeometry* primitive)
         aabb.m_max = primitive->p0 + r;
         return aabb;
     }
+    case SDFType::sdf_ellipsoid:
+    {
+        const float3 r = primitive->p1 + primitive->userParams.x;
+        aabb.m_min = primitive->p0 - r;
+        aabb.m_max = primitive->p0 + r;
+        return aabb;
+    }
     default:
         const float radius = max(primitive->r0, primitive->r1) + primitive->userParams.x;
         aabb.m_min = make_float3(min(primitive->p0.x, primitive->p1.x), min(primitive->p0.y, primitive->p1.y),
@@ -291,6 +307,8 @@ static __device__ inline float calcDistance(const SDFGeometry* primitive, const 
         return displacement + sdCutSphere(position, primitive->p0, primitive->r0, primitive->r1);
     case SDFType::sdf_vesica:
         return displacement + sdVesica(position, primitive->p0, primitive->p1, primitive->r0);
+    case SDFType::sdf_ellipsoid:
+        return displacement + sdEllipsoid(position, primitive->p0, primitive->p1);
     }
     return SDF_NO_INTERSECTION; // TODO: Weird return value...
 }

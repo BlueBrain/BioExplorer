@@ -45,6 +45,7 @@ class TransferFunction:
         alpha=0.0,
         value_range=[0, 255],
         continuous_update=False,
+        show_widget=True
     ):
         """
         Initialize the TransferFunction object
@@ -56,6 +57,7 @@ class TransferFunction:
         :alpha: Default alpha value
         :value_range: Data range
         :continuous_update: Enable continuous synchronization with the back-end
+        :show_widget: Enable widget visibiliy (typically removed in scripts)
         """
         self._core = bioexplorer.core_api()
         self._model_id = model_id
@@ -65,6 +67,7 @@ class TransferFunction:
         self._continuous_update = continuous_update
         self._value_range = value_range
         self._send_updates_to_renderer = True
+        self._show_widget = show_widget
 
         if filename is None:
             # Initialize palette from seaborn
@@ -76,8 +79,9 @@ class TransferFunction:
             self._load(filename)
 
         # Create control and assign palette
-        self._create_controls()
-        self._update_controls()
+        if show_widget:
+            self._create_controls()
+            self._update_controls()
         self._callback()
 
     def _load(self, filename):
@@ -86,9 +90,10 @@ class TransferFunction:
 
         :filename: Full file name of the transfer function
         """
-        # Clear controls
-        self._alpha_sliders.clear()
-        self._color_pickers.clear()
+        if self._show_widget:
+            # Clear controls
+            self._alpha_sliders.clear()
+            self._color_pickers.clear()
 
         # Read colormap file
         lines = tuple(open(filename, "r"))
@@ -145,7 +150,7 @@ class TransferFunction:
         :name: Name of the Seaborn color palette
         """
         self._value_range = value_range
-        self._callback()
+        self._update_palette()
 
     def _html_color(self, index):
         """
@@ -236,19 +241,19 @@ class TransferFunction:
         if not self._send_updates_to_renderer:
             return
 
-        for i in range(len(self._palette)):
-            try:
-                color = name_to_rgb(self._color_pickers[i].value)
-            except ValueError:
-                color = hex_to_rgb(self._color_pickers[i].value)
-
-            c = [
-                float(color.red) / 255.0,
-                float(color.green) / 255.0,
-                float(color.blue) / 255.0,
-                float(self._alpha_sliders[i].value) / 255.0,
-            ]
-            self._palette[i] = c
+        if self._show_widget:
+            for i in range(len(self._palette)):
+                try:
+                    color = name_to_rgb(self._color_pickers[i].value)
+                except ValueError:
+                    color = hex_to_rgb(self._color_pickers[i].value)
+                c = [
+                    float(color.red) / 255.0,
+                    float(color.green) / 255.0,
+                    float(color.blue) / 255.0,
+                    float(self._alpha_sliders[i].value) / 255.0,
+                ]
+                self._palette[i] = c
         self._update_palette()
 
     @staticmethod
@@ -260,22 +265,15 @@ class TransferFunction:
 
     def _update_palette(self):
         """Update color palette"""
-        intensity = 1
         btf = self._core.get_model_transfer_function(id=self._model_id)
         colors = list()
         points = list()
-        nb_points = len(self._alpha_sliders)
+        nb_points = len(self._palette)
         step = 1.0 / float(nb_points - 1)
         for i in range(nb_points):
-            color = self._hex_to_rgb(self._color_pickers[i].value)
-            colors.append(
-                [
-                    intensity * float(color[0]) / 256.0,
-                    intensity * float(color[1]) / 256.0,
-                    intensity * float(color[2]) / 256.0,
-                ]
-            )
-            points.append([i * step, self._alpha_sliders[i].value / 255.0])
+            c = self._palette[i]
+            colors.append([c[0], c[1], c[2]])
+            points.append([i * step, c[3]])
 
         btf["colormap"]["name"] = "TransferFunctionEditor"
         btf["colormap"]["colors"] = colors

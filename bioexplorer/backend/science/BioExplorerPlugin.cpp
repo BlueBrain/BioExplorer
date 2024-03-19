@@ -575,6 +575,11 @@ void BioExplorerPlugin::init()
         _api->getActionInterface()->registerRequest<SDFVesicaDetails, Response>(endPoint,
                                                                                 [&](const SDFVesicaDetails &payload)
                                                                                 { return _addVesica(payload); });
+
+        endPoint = PLUGIN_API_PREFIX + "add-ellipsoid";
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
+        _api->getActionInterface()->registerRequest<SDFEllipsoidDetails, Response>(
+            endPoint, [&](const SDFEllipsoidDetails &payload) { return _addEllipsoid(payload); });
     }
 
     auto &params = engine.getParametersManager().getApplicationParameters();
@@ -2170,6 +2175,26 @@ Response BioExplorerPlugin::_addVesica(const details::SDFVesicaDetails &payload)
         const auto target = doublesToVector3d(payload.dstPosition);
         const auto displacement = doublesToVector3d(payload.displacement);
         modelContainer.addVesica(source, target, payload.radius, materialId, NO_USER_DATA, {}, displacement);
+        modelContainer.commitToModel();
+        scene.addModel(std::make_shared<ModelDescriptor>(std::move(model), payload.name));
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+
+Response BioExplorerPlugin::_addEllipsoid(const details::SDFEllipsoidDetails &payload)
+{
+    Response response;
+    try
+    {
+        auto &scene = _api->getScene();
+        auto model = scene.createModel();
+        ThreadSafeContainer modelContainer(*model, 0.f, Vector3d(), Quaterniond());
+        const size_t materialId = 0;
+        const auto source = doublesToVector3d(payload.position);
+        const auto radii = doublesToVector3d(payload.radii);
+        const auto displacement = doublesToVector3d(payload.displacement);
+        modelContainer.addEllipsoid(source, radii, materialId, NO_USER_DATA, {}, displacement);
         modelContainer.commitToModel();
         scene.addModel(std::make_shared<ModelDescriptor>(std::move(model), payload.name));
     }

@@ -1716,5 +1716,13 @@ typedef struct
     double radius;
     doubles displacement;
 } SDFVesicaDetails;
+
+typedef struct
+{
+    std::string name;
+    doubles position;
+    doubles radii;
+    doubles displacement;
+} SDFEllipsoidDetails;
 } // namespace details
 } // namespace bioexplorer

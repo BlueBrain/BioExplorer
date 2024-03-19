@@ -73,7 +73,7 @@ uint64_t ThreadSafeContainer::addSphere(const Vector3f& position, const float ra
     return _addSphere(materialId, {scaledPosition, scaledRadius, userDataOffset});
 }
 
-uint64_t ThreadSafeContainer::addCutSphere(const core::Vector3f& position, const float radius, const float cutRadius,
+uint64_t ThreadSafeContainer::addCutSphere(const Vector3f& position, const float radius, const float cutRadius,
                                            const size_t materialId, const uint64_t userDataOffset,
                                            const Neighbours& neighbours, const Vector3f displacement)
 {
@@ -153,9 +153,9 @@ uint64_t ThreadSafeContainer::addTorus(const Vector3f& position, const float out
                            neighbours);
 }
 
-uint64_t ThreadSafeContainer::addVesica(const core::Vector3f& sourcePosition, const core::Vector3f& targetPosition,
+uint64_t ThreadSafeContainer::addVesica(const Vector3f& sourcePosition, const Vector3f& targetPosition,
                                         const float radius, const size_t materialId, const uint64_t userDataOffset,
-                                        const Neighbours& neighbours, const core::Vector3f displacement)
+                                        const Neighbours& neighbours, const Vector3f displacement)
 {
     const Vector3f scale = _scale;
     const Vector3f scaledSrcPosition =
@@ -170,6 +170,21 @@ uint64_t ThreadSafeContainer::addVesica(const core::Vector3f& sourcePosition, co
     _bounds.merge(scaledSrcPosition - scaledRadius);
     _bounds.merge(scaledDstPosition + scaledRadius);
     _bounds.merge(scaledDstPosition - scaledRadius);
+    return _addSDFGeometry(materialId, geom, neighbours);
+}
+
+uint64_t ThreadSafeContainer::addEllipsoid(const Vector3f& position, const Vector3f& radii, const size_t materialId,
+                                           const uint64_t userDataOffset, const Neighbours& neighbours,
+                                           const Vector3f displacement)
+{
+    const Vector3f scale = _scale;
+    const Vector3f scaledPosition =
+        getAlignmentToGrid(_alignToGrid, Vector3f(_position + _rotation * Vector3d(position)) * scale);
+    const Vector3f scaledDisplacement{displacement.x * scale.x, displacement.y / scale.x, displacement.z};
+    const auto scaledRadius = (radii - displacement.x) * scale.x;
+    const auto geom = createSDFEllipsoid(scaledPosition, scaledRadius, userDataOffset, scaledDisplacement);
+    _bounds.merge(scaledPosition + scaledRadius);
+    _bounds.merge(scaledPosition - scaledRadius);
     return _addSDFGeometry(materialId, geom, neighbours);
 }
 

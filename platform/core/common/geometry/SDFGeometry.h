@@ -38,7 +38,8 @@ enum class SDFType : uint8_t
     sdf_cone = 4,
     sdf_torus = 5,
     sdf_cut_sphere = 6,
-    sdf_vesica = 7
+    sdf_vesica = 7,
+    sdf_ellipsoid = 8
 };
 
 struct SDFGeometry
@@ -148,6 +149,18 @@ inline SDFGeometry createSDFVesica(const Vector3f& p0, const Vector3f& p1, const
     return geom;
 }
 
+inline SDFGeometry createSDFEllipsoid(const Vector3f& p0, const Vector3f& r, const uint64_t data = 0,
+                                      const Vector3f& userParams = Vector3f(0.f))
+{
+    SDFGeometry geom;
+    geom.userData = data;
+    geom.userParams = userParams;
+    geom.p0 = p0;
+    geom.p1 = r;
+    geom.type = SDFType::sdf_ellipsoid;
+    return geom;
+}
+
 inline Boxd getSDFBoundingBox(const SDFGeometry& geom)
 {
     Boxd bounds;
@@ -183,6 +196,12 @@ inline Boxd getSDFBoundingBox(const SDFGeometry& geom)
     {
         bounds.merge(geom.p0 - Vector3f(geom.r0 + geom.r1));
         bounds.merge(geom.p0 + Vector3f(geom.r0 + geom.r1));
+        break;
+    }
+    case SDFType::sdf_ellipsoid:
+    {
+        bounds.merge(geom.p0 - geom.p1);
+        bounds.merge(geom.p0 + geom.p1);
         break;
     }
     default:
