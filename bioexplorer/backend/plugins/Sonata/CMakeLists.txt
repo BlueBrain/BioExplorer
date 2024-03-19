@@ -157,7 +157,7 @@ include_directories(
 
 set(
     ${NAME}_LINK_LIBRARIES
-    PRIVATE CoreCommon CoreParameters CoreIO CoreEngine OSPRayEngine ${GLM_LIBRARIES} Brion Brain ${OSPRAY_LIBRARIES}
+    PRIVATE CoreCommon CoreParameters CoreIO CoreEngine OSPRayEngine ${GLM_LIBRARIES} Brion Brain ${OSPRAY_LIBRARIES} ${PQXX_LIBRARIES}
 )
 
 if(${CGAL_FOUND})
