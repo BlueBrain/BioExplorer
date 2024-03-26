@@ -858,6 +858,7 @@ bool from_json(AtlasDetails &param, const std::string &payload)
     {
         auto js = nlohmann::json::parse(payload);
         FROM_JSON(param, js, assemblyName);
+        FROM_JSON(param, js, populationName);
         FROM_JSON(param, js, loadCells);
         FROM_JSON(param, js, cellRadius);
         FROM_JSON(param, js, loadMeshes);

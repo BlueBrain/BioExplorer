@@ -326,30 +326,33 @@ public:
     /**
      * @brief Get the regions from the brain atlas
      *
+     * @param populationName Name of the population
      * @param sqlCondition String containing an WHERE condition for the SQL
      * statement
      * @return A vector of regions Ids
      */
-    uint64_ts getAtlasRegions(const std::string& sqlCondition = "") const;
+    uint64_ts getAtlasRegions(const std::string& populationName, const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the cells from the brain atlas
      *
+     * @param populationName Name of the population
      * @param regionId Region identifier
      * @param sqlCondition String containing an WHERE condition for the SQL
      * statement
      * @return CellMap A map of cells (position, orientation, type, etc)
      */
-    morphology::CellMap getAtlasCells(const uint64_t regionId, const std::string& sqlCondition = "") const;
+    morphology::CellMap getAtlasCells(const std::string& populationName, const uint64_t regionId, const std::string& sqlCondition = "") const;
 
     /**
      * @brief Get the mesh of a given region from the brain atlas
      *
+     * @param populationName Name of the population
      * @param regionId Region identifier
      * statement
      * @return TrianglesMesh A triangles mesh
      */
-    core::TriangleMesh getAtlasMesh(const uint64_t regionId) const;
+    core::TriangleMesh getAtlasMesh(const std::string& populationName, const uint64_t regionId) const;
 
     /**
      * @brief Get the White Matter streamlines for a given population

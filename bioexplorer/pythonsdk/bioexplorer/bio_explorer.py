@@ -3298,6 +3298,7 @@ class BioExplorer:
     def add_atlas(
         self,
         assembly_name,
+        population_name,
         load_cells=True,
         cell_radius=1.0,
         load_meshes=False,
@@ -3312,6 +3313,7 @@ class BioExplorer:
         Add a brain atlas the 3D scene
 
         :assembly_name: Name of the assembly to which the astrocytes should be added
+        :population_name: Name of the atlas population
         :load_cells: Load cells if set to true
         :cell_radius: Cell radius
         :load_meshes: Load meshes if set to true
@@ -3328,6 +3330,7 @@ class BioExplorer:
 
         params = dict()
         params["assemblyName"] = assembly_name
+        params["populationName"] = population_name
         params["loadCells"] = load_cells
         params["cellRadius"] = cell_radius
         params["loadMeshes"] = load_meshes
