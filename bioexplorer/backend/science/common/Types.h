@@ -1341,6 +1341,8 @@ typedef struct
 {
     /** Name of the assembly containing the atlas */
     std::string assemblyName;
+    /** Population name */
+    std::string populationName;
     /** Load cells if set to true */
     bool loadCells{true};
     /** Cell radius **/

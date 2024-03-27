@@ -65,7 +65,7 @@ void Atlas::_buildModel(const LoaderProgress& callback)
     auto model = _scene.createModel();
 
     auto& connector = DBConnector::getInstance();
-    const auto regions = connector.getAtlasRegions(_details.regionSqlFilter);
+    const auto regions = connector.getAtlasRegions(_details.populationName, _details.regionSqlFilter);
     const bool useSdf = false;
 
     ThreadSafeContainers containers;
@@ -103,7 +103,7 @@ void Atlas::_buildModel(const LoaderProgress& callback)
             const auto region = regions[index];
             if (_details.loadCells)
             {
-                const auto cells = connector.getAtlasCells(region, _details.cellSqlFilter);
+                const auto cells = connector.getAtlasCells(_details.populationName, region, _details.cellSqlFilter);
                 for (const auto& cell : cells)
                     container.addSphere(cell.second.position, _details.cellRadius, cell.second.region, useSdf);
 #pragma omp critical
@@ -115,7 +115,7 @@ void Atlas::_buildModel(const LoaderProgress& callback)
                 const Vector3d position = doublesToVector3d(_details.meshPosition);
                 const Quaterniond rotation = doublesToQuaterniond(_details.meshRotation);
                 const Vector3d scale = doublesToVector3d(_details.meshScale);
-                auto mesh = connector.getAtlasMesh(region);
+                auto mesh = connector.getAtlasMesh(_details.populationName, region);
                 for (auto& vertex : mesh.vertices)
                 {
                     const Vector3d p = Vector3d(vertex) + position;

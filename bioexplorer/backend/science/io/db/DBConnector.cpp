@@ -47,7 +47,6 @@ namespace io
 namespace db
 {
 const std::string DB_SCHEMA_OUT_OF_CORE = "outofcore";
-const std::string DB_SCHEMA_ATLAS = "atlas";
 const std::string DB_SCHEMA_METABOLISM = "metabolism";
 const std::string DB_SCHEMA_CONNECTOME = "connectome";
 
@@ -958,7 +957,7 @@ floats DBConnector::getNeuronCompartmentReportValues(const std::string& populati
     return values;
 }
 
-uint64_ts DBConnector::getAtlasRegions(const std::string& sqlCondition) const
+uint64_ts DBConnector::getAtlasRegions(const std::string& populationName, const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION
     uint64_ts regions;
@@ -967,7 +966,7 @@ uint64_ts DBConnector::getAtlasRegions(const std::string& sqlCondition) const
     try
     {
         Timer chrono;
-        std::string sql = "SELECT guid, code, description FROM " + DB_SCHEMA_ATLAS + ".region";
+        std::string sql = "SELECT guid, code, description FROM " + populationName + ".region";
 
         if (!sqlCondition.empty())
             sql += " WHERE " + sqlCondition;
@@ -988,7 +987,7 @@ uint64_ts DBConnector::getAtlasRegions(const std::string& sqlCondition) const
     return regions;
 }
 
-CellMap DBConnector::getAtlasCells(const uint64_t regionId, const std::string& sqlCondition) const
+CellMap DBConnector::getAtlasCells(const std::string& populationName, const uint64_t regionId, const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION
     CellMap cells;
@@ -1001,7 +1000,7 @@ CellMap DBConnector::getAtlasCells(const uint64_t regionId, const std::string& s
             "SELECT guid, x, y, z, rotation_x, rotation_y, rotation_z, "
             "rotation_w, cell_type_guid, electrical_type_guid, region_guid "
             "FROM " +
-            DB_SCHEMA_ATLAS + ".cell WHERE region_guid=" + std::to_string(regionId);
+            populationName + ".cell WHERE region_guid=" + std::to_string(regionId);
 
         if (!sqlCondition.empty())
             sql += " AND " + sqlCondition;
@@ -1029,7 +1028,7 @@ CellMap DBConnector::getAtlasCells(const uint64_t regionId, const std::string& s
     return cells;
 }
 
-TriangleMesh DBConnector::getAtlasMesh(const uint64_t regionId) const
+TriangleMesh DBConnector::getAtlasMesh(const std::string& populationName, const uint64_t regionId) const
 {
     CHECK_DB_INITIALIZATION
     TriangleMesh mesh;
@@ -1038,7 +1037,7 @@ TriangleMesh DBConnector::getAtlasMesh(const uint64_t regionId) const
     try
     {
         Timer chrono;
-        const std::string sql = "SELECT vertices, indices, normals, colors FROM " + DB_SCHEMA_ATLAS +
+        const std::string sql = "SELECT vertices, indices, normals, colors FROM " + populationName +
                                 ".mesh WHERE guid=" + std::to_string(regionId);
 
         PLUGIN_DB_INFO(1, sql);
