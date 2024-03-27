@@ -1,5 +1,6 @@
 var namespacesonataexplorer_1_1neuroscience_1_1common =
 [
+    [ "MorphologyCache", "da/d46/classsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyCache.html", "da/d46/classsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyCache" ],
     [ "MorphologyTreeStructure", "dc/d47/structsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyTreeStructure.html", "dc/d47/structsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyTreeStructure" ],
     [ "MorphologyLoader", "d5/d4a/classsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyLoader.html", "d5/d4a/classsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyLoader" ],
     [ "ParallelModelContainer", "dc/dfd/classsonataexplorer_1_1neuroscience_1_1common_1_1ParallelModelContainer.html", "dc/dfd/classsonataexplorer_1_1neuroscience_1_1common_1_1ParallelModelContainer" ],
@@ -75,6 +76,7 @@ var namespacesonataexplorer_1_1neuroscience_1_1common =
     [ "PROP_DENSITY", "de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#af39c30fd56340ad28d08c809f3cde426", null ],
     [ "PROP_EXTERNALS", "de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#a5ffcfcf32458f57e41317281f295a6e7", null ],
     [ "PROP_GIDS", "de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#a43f06fcd9ae3c57db1f995f616729e50", null ],
+    [ "PROP_INITIAL_SIMULATION_FRAME", "de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#a93f114e79256375d3e0ac021418aa06c", null ],
     [ "PROP_INTERNALS", "de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#a2370b8209880f2535ee71659925e9f2e", null ],
     [ "PROP_LOAD_AFFERENT_SYNAPSES", "de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#a46f19576fbb1c56993a5f49304333870", null ],
     [ "PROP_LOAD_EFFERENT_SYNAPSES", "de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#ad939a9a05626e16a3b2811b4cb26829c", null ],
@@ -104,6 +106,7 @@ var namespacesonataexplorer_1_1neuroscience_1_1common =
     [ "PROP_USE_SDF_SOMA", "de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#a506f0fa13c05bd31bca644fe3e494ddb", null ],
     [ "PROP_USE_SDF_SYNAPSES", "de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#a0491e6544945a4799f141ba5ddcda765", null ],
     [ "PROP_USER_DATA_TYPE", "de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#ae66601dd1c0a670aafd87a36113e80a6", null ],
+    [ "PROP_VOLTAGE_SCALING", "de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#a7259505c73c1906103d46337ed21ee8f", null ],
     [ "SUPPORTED_EXTENTION_H5", "de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#a07675a1ed69bc7ff7bca0e5397e5a9a1", null ],
     [ "SUPPORTED_EXTENTION_SWC", "de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html#afec72c015654a585ed1be63004fd453a", null ]
 ];

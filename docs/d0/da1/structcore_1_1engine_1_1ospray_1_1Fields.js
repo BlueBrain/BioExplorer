@@ -4,6 +4,7 @@ var structcore_1_1engine_1_1ospray_1_1Fields =
     [ "commit", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#a4dd17e964367b64a52628d5763b0495f", null ],
     [ "finalize", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#abab630b9de3327e1520ca236734569e8", null ],
     [ "toString", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#a3e4cdb836e0e7f7912045db567cb81c2", null ],
+    [ "_accumulationSteps", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#afebe6b74c86995bb053ebe0292d46efa", null ],
     [ "_cutoff", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#afb12cc7368b09295b53341bdb53b8588", null ],
     [ "_dataType", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#af62d01d773cc1ee4eef88baa74444b44", null ],
     [ "_dimensions", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#a31e6076623a0eca2ba5735c28ab2103b", null ],

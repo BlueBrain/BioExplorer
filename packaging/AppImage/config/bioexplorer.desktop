@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Exec=service
+Name=BioExplorer
+Terminal=true
+Comment=A tool for data visualization experts and scientists to extract and analyze scientific data from visualization and interactive exploration
+Categories=science;exploration;visualization
+Icon=bioexplorer

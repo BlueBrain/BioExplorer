@@ -33,8 +33,6 @@ var namespacebioexplorer =
     [ "_addBioExplorerDensityRenderer", "d8/d8e/namespacebioexplorer.html#abb07f23d8c225c275744896b1676c931", null ],
     [ "_addBioExplorerGolgiStyleRenderer", "d8/d8e/namespacebioexplorer.html#a631c218a0996c61a421977a8a8c39512", null ],
     [ "_addBioExplorerPathTracingRenderer", "d8/d8e/namespacebioexplorer.html#ae7971cb20a108f1a545e783eab6e8a20", null ],
-    [ "_addBioExplorerPointFieldsRenderer", "d8/d8e/namespacebioexplorer.html#a9451255e8aaee770227405d52217323a", null ],
-    [ "_addBioExplorerVectorFieldsRenderer", "d8/d8e/namespacebioexplorer.html#a40f7f8be4e192c2cecce5317db0efa45", null ],
     [ "_addBioExplorerVoxelRenderer", "d8/d8e/namespacebioexplorer.html#ac6f55eb7d77c3958865a8cdfe9dc8a07", null ],
     [ "core_plugin_create", "d8/d8e/namespacebioexplorer.html#af3ac039c708795333505d48a28905fb1", null ],
     [ "vector_to_bounds", "d8/d8e/namespacebioexplorer.html#aea651f1280bd472dcc562a5ee0a41297", null ],

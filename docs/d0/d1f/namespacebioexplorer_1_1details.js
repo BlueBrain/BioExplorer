@@ -47,6 +47,7 @@ var namespacebioexplorer_1_1details =
     [ "VasculatureReportDetails", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails" ],
     [ "VasculatureRadiusReportDetails", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails" ],
     [ "AstrocytesDetails", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails" ],
+    [ "NeuronsReportParameters", "d7/dbc/structbioexplorer_1_1details_1_1NeuronsReportParameters.html", "d7/dbc/structbioexplorer_1_1details_1_1NeuronsReportParameters" ],
     [ "NeuronsDetails", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails" ],
     [ "NeuronIdSectionIdDetails", "d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails.html", "d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails" ],
     [ "NeuronIdDetails", "da/dc3/structbioexplorer_1_1details_1_1NeuronIdDetails.html", "da/dc3/structbioexplorer_1_1details_1_1NeuronIdDetails" ],
@@ -61,6 +62,7 @@ var namespacebioexplorer_1_1details =
     [ "CellAnimationDetails", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails" ],
     [ "SDFTorusDetails", "da/d06/structbioexplorer_1_1details_1_1SDFTorusDetails.html", "da/d06/structbioexplorer_1_1details_1_1SDFTorusDetails" ],
     [ "SDFVesicaDetails", "db/d85/structbioexplorer_1_1details_1_1SDFVesicaDetails.html", "db/d85/structbioexplorer_1_1details_1_1SDFVesicaDetails" ],
+    [ "SDFEllipsoidDetails", "d3/d06/structbioexplorer_1_1details_1_1SDFEllipsoidDetails.html", "d3/d06/structbioexplorer_1_1details_1_1SDFEllipsoidDetails" ],
     [ "AssemblyShape", "d0/d1f/namespacebioexplorer_1_1details.html#af608e48ca83174d68456a1069a6f07a1", [
       [ "point", "d0/d1f/namespacebioexplorer_1_1details.html#af608e48ca83174d68456a1069a6f07a1a78ee54aa8f813885fe2fe20d232518b9", null ],
       [ "empty_sphere", "d0/d1f/namespacebioexplorer_1_1details.html#af608e48ca83174d68456a1069a6f07a1a4cfc023d382f7ad28cfa60a9413b3ec8", null ],

@@ -8,7 +8,7 @@ digraph "bioexplorer/backend/science/fields" {
   dir_03a5de27bb9d02219a41ab33fd9ec920 [shape=box, label="fields", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_03a5de27bb9d02219a41ab33fd9ec920.html"];
   }
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_03a5de27bb9d02219a41ab33fd9ec920->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="4", labeldistance=1.5 headhref="dir_000050_000043.html"];
-  dir_03a5de27bb9d02219a41ab33fd9ec920->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="17", labeldistance=1.5 headhref="dir_000050_000061.html"];
-  dir_5e35986c19ea419782b8bbaa2dbf7d22->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="24", labeldistance=1.5 headhref="dir_000043_000061.html"];
+  dir_03a5de27bb9d02219a41ab33fd9ec920->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="4", labeldistance=1.5 headhref="dir_000048_000042.html"];
+  dir_03a5de27bb9d02219a41ab33fd9ec920->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="17", labeldistance=1.5 headhref="dir_000048_000061.html"];
+  dir_5e35986c19ea419782b8bbaa2dbf7d22->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="24", labeldistance=1.5 headhref="dir_000042_000061.html"];
 }

@@ -165,9 +165,11 @@ var hierarchy =
     [ "bioexplorer::details::DatabaseAccessDetails", "dc/dd9/structbioexplorer_1_1details_1_1DatabaseAccessDetails.html", null ],
     [ "bioexplorer::io::db::DBConnector", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html", null ],
     [ "bioexplorer::metabolism::DBConnector", "db/df8/classbioexplorer_1_1metabolism_1_1DBConnector.html", null ],
+    [ "sonataexplorer::io::db::DBConnector", "d3/dd0/classsonataexplorer_1_1io_1_1db_1_1DBConnector.html", null ],
     [ "core::DirectoryFileList", "d6/d42/structcore_1_1DirectoryFileList.html", null ],
     [ "core::DirectoryFiles", "d9/d44/structcore_1_1DirectoryFiles.html", null ],
     [ "core::DynamicLib", "d9/d2d/classcore_1_1DynamicLib.html", null ],
+    [ "sonataexplorer::api::EnableMorphologyCache", "d8/da9/structsonataexplorer_1_1api_1_1EnableMorphologyCache.html", null ],
     [ "core::Encoder", "de/d28/classcore_1_1Encoder.html", null ],
     [ "bioexplorer::morphology::EndFoot", "d6/d46/structbioexplorer_1_1morphology_1_1EndFoot.html", null ],
     [ "core::Engine", "d8/dab/classcore_1_1Engine.html", [
@@ -223,6 +225,7 @@ var hierarchy =
     [ "core::ImageManager", "d9/dab/classcore_1_1ImageManager.html", null ],
     [ "core::ImageStreamingMethod", "d2/d56/structcore_1_1ImageStreamingMethod.html", null ],
     [ "core::DeflectPlugin::Impl", "d6/d3c/classcore_1_1DeflectPlugin_1_1Impl.html", null ],
+    [ "sonataexplorer::api::ImportCircuitMorphologies", "de/dbc/structsonataexplorer_1_1api_1_1ImportCircuitMorphologies.html", null ],
     [ "core::InputPath", "d1/da5/structcore_1_1InputPath.html", null ],
     [ "bioexplorer::details::InspectionDetails", "dd/dc0/structbioexplorer_1_1details_1_1InspectionDetails.html", null ],
     [ "ospray::PixelOp::Instance", null, [
@@ -276,6 +279,7 @@ var hierarchy =
     [ "sonataexplorer::api::MaterialsDescriptor", "d9/d26/structsonataexplorer_1_1api_1_1MaterialsDescriptor.html", null ],
     [ "bioexplorer::details::MaterialsDetails", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html", null ],
     [ "bioexplorer::details::MembraneDetails", "d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html", null ],
+    [ "bioexplorer::io::MemoryCache", "d5/d89/classbioexplorer_1_1io_1_1MemoryCache.html", null ],
     [ "core::freeimage::MemoryDeleter", "d1/d3c/structcore_1_1freeimage_1_1MemoryDeleter.html", null ],
     [ "sonataexplorer::meshing::MetaballsGenerator", "de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html", null ],
     [ "core::Property::MetaData", "d1/da5/structcore_1_1Property_1_1MetaData.html", null ],
@@ -292,6 +296,7 @@ var hierarchy =
     [ "core::ModelTransferFunction", "d0/dfb/structcore_1_1ModelTransferFunction.html", null ],
     [ "bioexplorer::details::ModelTransformationDetails", "d7/d2b/structbioexplorer_1_1details_1_1ModelTransformationDetails.html", null ],
     [ "bioexplorer::details::MolecularSystemAnimationDetails", "df/d9c/structbioexplorer_1_1details_1_1MolecularSystemAnimationDetails.html", null ],
+    [ "sonataexplorer::neuroscience::common::MorphologyCache", "da/d46/classsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyCache.html", null ],
     [ "sonataexplorer::neuroscience::common::MorphologyInfo", "dd/dd3/structsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyInfo.html", null ],
     [ "sonataexplorer::neuroscience::common::MorphologyTreeStructure", "dc/d47/structsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyTreeStructure.html", null ],
     [ "core::MTQueue< T, S >", "df/d66/classcore_1_1MTQueue.html", null ],
@@ -302,6 +307,7 @@ var hierarchy =
     [ "bioexplorer::details::NeuronPointsDetails", "d0/d6e/structbioexplorer_1_1details_1_1NeuronPointsDetails.html", null ],
     [ "bioexplorer::details::NeuronsDetails", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html", null ],
     [ "bioexplorer::morphology::NeuronSoma", "d9/d24/structbioexplorer_1_1morphology_1_1NeuronSoma.html", null ],
+    [ "bioexplorer::details::NeuronsReportParameters", "d7/dbc/structbioexplorer_1_1details_1_1NeuronsReportParameters.html", null ],
     [ "bioexplorer::common::Node", "d7/d93/classbioexplorer_1_1common_1_1Node.html", [
       [ "bioexplorer::common::SDFGeometries", "d1/d1c/classbioexplorer_1_1common_1_1SDFGeometries.html", [
         [ "bioexplorer::atlas::Atlas", "d3/d86/classbioexplorer_1_1atlas_1_1Atlas.html", null ],
@@ -369,8 +375,6 @@ var hierarchy =
       [ "core::engine::ospray::AbstractRenderer", "d1/d8d/classcore_1_1engine_1_1ospray_1_1AbstractRenderer.html", [
         [ "bioexplorer::rendering::DensityRenderer", "de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html", null ],
         [ "bioexplorer::rendering::GolgiStyleRenderer", "d5/df2/classbioexplorer_1_1rendering_1_1GolgiStyleRenderer.html", null ],
-        [ "bioexplorer::rendering::PointFieldsRenderer", "d8/dc9/classbioexplorer_1_1rendering_1_1PointFieldsRenderer.html", null ],
-        [ "bioexplorer::rendering::VectorFieldsRenderer", "d1/dd1/classbioexplorer_1_1rendering_1_1VectorFieldsRenderer.html", null ],
         [ "core::engine::ospray::BasicRenderer", "d3/dff/classcore_1_1engine_1_1ospray_1_1BasicRenderer.html", null ],
         [ "core::engine::ospray::SimulationRenderer", "d3/df5/classcore_1_1engine_1_1ospray_1_1SimulationRenderer.html", [
           [ "bioexplorer::mediamaker::rendering::AlbedoRenderer", "d6/d4f/classbioexplorer_1_1mediamaker_1_1rendering_1_1AlbedoRenderer.html", null ],
@@ -402,6 +406,7 @@ var hierarchy =
     [ "bioexplorer::details::SceneInformationDetails", "d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html", null ],
     [ "core::SchemaParam", "d3/d13/structcore_1_1SchemaParam.html", null ],
     [ "core::RocketsPlugin::Impl::ScopedCurrentClient", "df/d91/structcore_1_1RocketsPlugin_1_1Impl_1_1ScopedCurrentClient.html", null ],
+    [ "bioexplorer::details::SDFEllipsoidDetails", "d3/d06/structbioexplorer_1_1details_1_1SDFEllipsoidDetails.html", null ],
     [ "core::SDFGeometry", "dd/d10/structcore_1_1SDFGeometry.html", null ],
     [ "core::SDFGeometryData", "d6/d7a/structcore_1_1SDFGeometryData.html", null ],
     [ "bioexplorer::common::SDFMorphologyData", "d6/d8d/structbioexplorer_1_1common_1_1SDFMorphologyData.html", null ],

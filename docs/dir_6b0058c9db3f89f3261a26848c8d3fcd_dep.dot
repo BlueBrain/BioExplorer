@@ -1,0 +1,14 @@
+digraph "bioexplorer/backend/science/io/cache" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_250f267abadc546ecc00bd4d0ef83277 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="io" fontname="Helvetica", fontsize="10", URL="dir_250f267abadc546ecc00bd4d0ef83277.html"]
+  dir_aef464c5d97c1e0202d33a8646202420 [shape=box label="db" URL="dir_aef464c5d97c1e0202d33a8646202420.html"];
+  dir_6b0058c9db3f89f3261a26848c8d3fcd [shape=box, label="cache", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_6b0058c9db3f89f3261a26848c8d3fcd.html"];
+  }
+  dir_5e35986c19ea419782b8bbaa2dbf7d22 [shape=box label="common" fillcolor="white" style="filled" color="red" URL="dir_5e35986c19ea419782b8bbaa2dbf7d22.html"];
+  dir_6b0058c9db3f89f3261a26848c8d3fcd->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="1", labeldistance=1.5 headhref="dir_000050_000042.html"];
+  dir_6b0058c9db3f89f3261a26848c8d3fcd->dir_aef464c5d97c1e0202d33a8646202420 [headlabel="1", labeldistance=1.5 headhref="dir_000050_000051.html"];
+  dir_aef464c5d97c1e0202d33a8646202420->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="2", labeldistance=1.5 headhref="dir_000051_000042.html"];
+}

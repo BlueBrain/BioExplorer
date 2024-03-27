@@ -4,7 +4,9 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="core::ActionInterface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d1b/classcore_1_1ActionInterface.html",tooltip=" "];
+  Node0 [label="core::AbstractManipulator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/df9/classcore_1_1AbstractManipulator.html",tooltip=" "];
   Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 [label="core::RocketsPlugin\l::Impl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/dfa/classcore_1_1RocketsPlugin_1_1Impl.html",tooltip=" "];
+  Node1 [label="core::FlyingModeManipulator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d1a/classcore_1_1FlyingModeManipulator.html",tooltip=" "];
+  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="core::InspectCenterManipulator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/de2/classcore_1_1InspectCenterManipulator.html",tooltip=" "];
 }

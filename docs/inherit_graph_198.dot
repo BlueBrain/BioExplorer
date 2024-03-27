@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="Cylinder",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/df6/structCylinder.html",tooltip=" "];
+  Node0 [label="core::VectorOctreeNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d9f/classcore_1_1VectorOctreeNode.html",tooltip="The VectorOctreeNode class implement a spherical node of the Octree acceleration structure used by th..."];
 }

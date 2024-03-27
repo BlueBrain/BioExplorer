@@ -8,6 +8,7 @@ var structbioexplorer_1_1details_1_1AtlasDetails =
     [ "meshPosition", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails.html#aed639c840b140c406adadf019aea9edd", null ],
     [ "meshRotation", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails.html#a3295c85ad40c902238fea7b6f3e02ec4", null ],
     [ "meshScale", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails.html#a245ba3e7362fd85673920aafabbd964a", null ],
+    [ "populationName", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails.html#a0c0fe0386257f2b1c68f11aa878fe35b", null ],
     [ "regionSqlFilter", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails.html#aed3a45f401403f1923420e2ee935e6c9", null ],
     [ "scale", "d1/da9/structbioexplorer_1_1details_1_1AtlasDetails.html#a8606b8eb28c82240ecf2bbf2033ca627", null ]
 ];

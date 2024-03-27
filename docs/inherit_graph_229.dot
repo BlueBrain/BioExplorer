@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="sonataexplorer::neuroscience\l::common::SDFMorphologyData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/db9/structsonataexplorer_1_1neuroscience_1_1common_1_1SDFMorphologyData.html",tooltip=" "];
+  Node0 [label="sonataexplorer::io\l::db::DBConnector",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/dd0/classsonataexplorer_1_1io_1_1db_1_1DBConnector.html",tooltip="The DBConnector class allows the BioExplorer to communicate with a PostgreSQL database...."];
 }

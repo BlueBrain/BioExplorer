@@ -84,6 +84,7 @@ var annotated_dup =
         [ "VasculatureReportDetails", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails.html", "d1/d4e/structbioexplorer_1_1details_1_1VasculatureReportDetails" ],
         [ "VasculatureRadiusReportDetails", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails.html", "de/da6/structbioexplorer_1_1details_1_1VasculatureRadiusReportDetails" ],
         [ "AstrocytesDetails", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html", "df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails" ],
+        [ "NeuronsReportParameters", "d7/dbc/structbioexplorer_1_1details_1_1NeuronsReportParameters.html", "d7/dbc/structbioexplorer_1_1details_1_1NeuronsReportParameters" ],
         [ "NeuronsDetails", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails.html", "dc/d93/structbioexplorer_1_1details_1_1NeuronsDetails" ],
         [ "NeuronIdSectionIdDetails", "d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails.html", "d9/d86/structbioexplorer_1_1details_1_1NeuronIdSectionIdDetails" ],
         [ "NeuronIdDetails", "da/dc3/structbioexplorer_1_1details_1_1NeuronIdDetails.html", "da/dc3/structbioexplorer_1_1details_1_1NeuronIdDetails" ],
@@ -97,7 +98,8 @@ var annotated_dup =
         [ "SpikeReportVisualizationSettingsDetails", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails.html", "d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails" ],
         [ "CellAnimationDetails", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails" ],
         [ "SDFTorusDetails", "da/d06/structbioexplorer_1_1details_1_1SDFTorusDetails.html", "da/d06/structbioexplorer_1_1details_1_1SDFTorusDetails" ],
-        [ "SDFVesicaDetails", "db/d85/structbioexplorer_1_1details_1_1SDFVesicaDetails.html", "db/d85/structbioexplorer_1_1details_1_1SDFVesicaDetails" ]
+        [ "SDFVesicaDetails", "db/d85/structbioexplorer_1_1details_1_1SDFVesicaDetails.html", "db/d85/structbioexplorer_1_1details_1_1SDFVesicaDetails" ],
+        [ "SDFEllipsoidDetails", "d3/d06/structbioexplorer_1_1details_1_1SDFEllipsoidDetails.html", "d3/d06/structbioexplorer_1_1details_1_1SDFEllipsoidDetails" ]
       ] ],
       [ "fields", "d9/dc7/namespacebioexplorer_1_1fields.html", [
         [ "FieldBuilder", "d9/dcb/classbioexplorer_1_1fields_1_1FieldBuilder.html", "d9/dcb/classbioexplorer_1_1fields_1_1FieldBuilder" ],
@@ -108,6 +110,7 @@ var annotated_dup =
         [ "db", "dc/d01/namespacebioexplorer_1_1io_1_1db.html", [
           [ "DBConnector", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector" ]
         ] ],
+        [ "MemoryCache", "d5/d89/classbioexplorer_1_1io_1_1MemoryCache.html", "d5/d89/classbioexplorer_1_1io_1_1MemoryCache" ],
         [ "CacheLoader", "d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html", "d1/d5f/classbioexplorer_1_1io_1_1CacheLoader" ],
         [ "OOCManager", "da/d6e/classbioexplorer_1_1io_1_1OOCManager.html", "da/d6e/classbioexplorer_1_1io_1_1OOCManager" ]
       ] ],
@@ -169,8 +172,6 @@ var annotated_dup =
       [ "rendering", "d7/dee/namespacebioexplorer_1_1rendering.html", [
         [ "GolgiStyleRenderer", "d5/df2/classbioexplorer_1_1rendering_1_1GolgiStyleRenderer.html", "d5/df2/classbioexplorer_1_1rendering_1_1GolgiStyleRenderer" ],
         [ "DensityRenderer", "de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html", "de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer" ],
-        [ "PointFieldsRenderer", "d8/dc9/classbioexplorer_1_1rendering_1_1PointFieldsRenderer.html", "d8/dc9/classbioexplorer_1_1rendering_1_1PointFieldsRenderer" ],
-        [ "VectorFieldsRenderer", "d1/dd1/classbioexplorer_1_1rendering_1_1VectorFieldsRenderer.html", "d1/dd1/classbioexplorer_1_1rendering_1_1VectorFieldsRenderer" ],
         [ "PathTracingRenderer", "de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer.html", "de/da9/classbioexplorer_1_1rendering_1_1PathTracingRenderer" ],
         [ "VoxelRenderer", "d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer.html", "d9/da0/classbioexplorer_1_1rendering_1_1VoxelRenderer" ]
       ] ],
@@ -407,9 +408,14 @@ var annotated_dup =
         [ "AddCylinder", "db/dcd/structsonataexplorer_1_1api_1_1AddCylinder.html", "db/dcd/structsonataexplorer_1_1api_1_1AddCylinder" ],
         [ "AddBox", "d2/d81/structsonataexplorer_1_1api_1_1AddBox.html", "d2/d81/structsonataexplorer_1_1api_1_1AddBox" ],
         [ "SpikeReportVisualizationSettings", "d5/df4/structsonataexplorer_1_1api_1_1SpikeReportVisualizationSettings.html", "d5/df4/structsonataexplorer_1_1api_1_1SpikeReportVisualizationSettings" ],
-        [ "LoadMEGSettings", "d6/de7/structsonataexplorer_1_1api_1_1LoadMEGSettings.html", "d6/de7/structsonataexplorer_1_1api_1_1LoadMEGSettings" ]
+        [ "LoadMEGSettings", "d6/de7/structsonataexplorer_1_1api_1_1LoadMEGSettings.html", "d6/de7/structsonataexplorer_1_1api_1_1LoadMEGSettings" ],
+        [ "EnableMorphologyCache", "d8/da9/structsonataexplorer_1_1api_1_1EnableMorphologyCache.html", "d8/da9/structsonataexplorer_1_1api_1_1EnableMorphologyCache" ],
+        [ "ImportCircuitMorphologies", "de/dbc/structsonataexplorer_1_1api_1_1ImportCircuitMorphologies.html", "de/dbc/structsonataexplorer_1_1api_1_1ImportCircuitMorphologies" ]
       ] ],
       [ "io", "de/d27/namespacesonataexplorer_1_1io.html", [
+        [ "db", "dc/d0d/namespacesonataexplorer_1_1io_1_1db.html", [
+          [ "DBConnector", "d3/dd0/classsonataexplorer_1_1io_1_1db_1_1DBConnector.html", "d3/dd0/classsonataexplorer_1_1io_1_1db_1_1DBConnector" ]
+        ] ],
         [ "loader", "d8/d33/namespacesonataexplorer_1_1io_1_1loader.html", [
           [ "SonataCacheLoader", "d3/de0/classsonataexplorer_1_1io_1_1loader_1_1SonataCacheLoader.html", "d3/de0/classsonataexplorer_1_1io_1_1loader_1_1SonataCacheLoader" ]
         ] ]
@@ -423,6 +429,7 @@ var annotated_dup =
           [ "AstrocyteLoader", "d9/d93/classsonataexplorer_1_1neuroscience_1_1astrocyte_1_1AstrocyteLoader.html", "d9/d93/classsonataexplorer_1_1neuroscience_1_1astrocyte_1_1AstrocyteLoader" ]
         ] ],
         [ "common", "de/dfd/namespacesonataexplorer_1_1neuroscience_1_1common.html", [
+          [ "MorphologyCache", "da/d46/classsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyCache.html", "da/d46/classsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyCache" ],
           [ "MorphologyTreeStructure", "dc/d47/structsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyTreeStructure.html", "dc/d47/structsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyTreeStructure" ],
           [ "MorphologyLoader", "d5/d4a/classsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyLoader.html", "d5/d4a/classsonataexplorer_1_1neuroscience_1_1common_1_1MorphologyLoader" ],
           [ "ParallelModelContainer", "dc/dfd/classsonataexplorer_1_1neuroscience_1_1common_1_1ParallelModelContainer.html", "dc/dfd/classsonataexplorer_1_1neuroscience_1_1common_1_1ParallelModelContainer" ],

@@ -9,6 +9,7 @@ var bioexplorer_2backend_2science_2common_2Utils_8cpp =
     [ "cylinderVolume", "de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#ad43ada64d8f6e879c0765778030c73f5", null ],
     [ "doublesToCellAnimationDetails", "de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#af85fb0982b63e15598be3a8fc8b70f71", null ],
     [ "doublesToMolecularSystemAnimationDetails", "de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#aed4fabf1739ad002a894a8a4f7468f4a", null ],
+    [ "doublesToNeuronsReportParametersDetails", "de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#ae7eaff3a972fabfa4129133c997be05b", null ],
     [ "doublesToQuaterniond", "de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#a5668fdbf6c942c12711568c6b009a839", null ],
     [ "doublesToVector2d", "de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#a3e1770a7c4c6af174fd36ca3030ee3b9", null ],
     [ "doublesToVector3d", "de/d1e/bioexplorer_2backend_2science_2common_2Utils_8cpp.html#ad1bcb53dae7ecdf7c4357218be6a4908", null ],

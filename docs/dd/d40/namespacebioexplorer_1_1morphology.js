@@ -76,7 +76,6 @@ var namespacebioexplorer_1_1morphology =
     [ "DEFAULT_ENDFOOT_RADIUS_RATIO", "dd/d40/namespacebioexplorer_1_1morphology.html#a592204656c82a9d7ded38185ab0c2639", null ],
     [ "DEFAULT_ENDFOOT_RADIUS_SHIFTING_RATIO", "dd/d40/namespacebioexplorer_1_1morphology.html#a6db22345ec62f76ec06617dcfec4fd61", null ],
     [ "DEFAULT_MITOCHONDRIA_DENSITY", "dd/d40/namespacebioexplorer_1_1morphology.html#a2bbafd5cb3aee2d6be3986fa45a9d178", null ],
-    [ "DEFAULT_SIMULATION_VALUE_RANGE", "dd/d40/namespacebioexplorer_1_1morphology.html#af018492c7c2b834b060698d3538db8d6", null ],
     [ "DEFAULT_SPINE_RADIUS", "dd/d40/namespacebioexplorer_1_1morphology.html#aa301f51ccdcf89b7c5396064359b324e", null ],
     [ "LOADER_NAME", "dd/d40/namespacebioexplorer_1_1morphology.html#a757e43c4b127824b917a33d4b8eca356", null ],
     [ "MATERIAL_OFFSET_AFFERENT_SYNAPSE", "dd/d40/namespacebioexplorer_1_1morphology.html#ac7255de5e0d73bbafe3b2631fc9d34b8", null ],

@@ -564,6 +564,8 @@ Enumerations</h2></td></tr>
 , <a class="el" href="../../d9/d0f/namespacecore.html#a1825934eaf517efdbf160e6ee1037c5aa42e76dd5c0f37f630115e82a187f926d">sdf_torus</a> = 5
 , <a class="el" href="../../d9/d0f/namespacecore.html#a1825934eaf517efdbf160e6ee1037c5aa01cfe1ee25ca859c89da095d9e91471a">sdf_cut_sphere</a> = 6
 , <a class="el" href="../../d9/d0f/namespacecore.html#a1825934eaf517efdbf160e6ee1037c5aaef1e52df775a039476ce0c7132a073db">sdf_vesica</a> = 7
+, <br />
+&#160;&#160;<a class="el" href="../../d9/d0f/namespacecore.html#a1825934eaf517efdbf160e6ee1037c5aae4ec9d29e95bd59edfe2549c92259f92">sdf_ellipsoid</a> = 8
 <br />
  }</td></tr>
 <tr class="separator:a1825934eaf517efdbf160e6ee1037c5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -710,6 +712,8 @@ Functions</h2></td></tr>
 <tr class="separator:ad52ec21277ab8ce9e10182749ff85279"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae141cc65ef43540a01d4e9f2e6f76b06"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d10/structcore_1_1SDFGeometry.html">SDFGeometry</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#ae141cc65ef43540a01d4e9f2e6f76b06">createSDFVesica</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;p0, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;p1, const float r0, const uint64_t data=0, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;userParams=<a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a>(0.f))</td></tr>
 <tr class="separator:ae141cc65ef43540a01d4e9f2e6f76b06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a009e49e3fa93bb7a5951a9fb6c48709e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d10/structcore_1_1SDFGeometry.html">SDFGeometry</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a009e49e3fa93bb7a5951a9fb6c48709e">createSDFEllipsoid</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;p0, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;r, const uint64_t data=0, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;userParams=<a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a>(0.f))</td></tr>
+<tr class="separator:a009e49e3fa93bb7a5951a9fb6c48709e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85059c3b85c629958c1ea10e70b60958"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d0f/namespacecore.html#af8525fbf2d49b92c0f085bf707f1fdf8">Boxd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a85059c3b85c629958c1ea10e70b60958">getSDFBoundingBox</a> (const <a class="el" href="../../dd/d10/structcore_1_1SDFGeometry.html">SDFGeometry</a> &amp;geom)</td></tr>
 <tr class="separator:a85059c3b85c629958c1ea10e70b60958"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb5415bdb0221677cc977eeb6124d343"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/df0/structcore_1_1TriangleMesh.html">TriangleMesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#adb5415bdb0221677cc977eeb6124d343">createBox</a> (const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;minCorner, const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;maxCorner)</td></tr>
@@ -2425,6 +2429,7 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a1825934eaf517efdbf160e6ee1037c5aa42e76dd5c0f37f630115e82a187f926d"></a>sdf_torus&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a1825934eaf517efdbf160e6ee1037c5aa01cfe1ee25ca859c89da095d9e91471a"></a>sdf_cut_sphere&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a1825934eaf517efdbf160e6ee1037c5aaef1e52df775a039476ce0c7132a073db"></a>sdf_vesica&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1825934eaf517efdbf160e6ee1037c5aae4ec9d29e95bd59edfe2549c92259f92"></a>sdf_ellipsoid&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00032">32</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
@@ -3248,7 +3253,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00096">96</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00097">97</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
 
 </div>
 </div>
@@ -3310,7 +3315,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00117">117</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00118">118</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
 
 </div>
 </div>
@@ -3366,7 +3371,57 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00070">70</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00071">71</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
+
+</div>
+</div>
+<a id="a009e49e3fa93bb7a5951a9fb6c48709e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a009e49e3fa93bb7a5951a9fb6c48709e">&#9670;&nbsp;</a></span>createSDFEllipsoid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dd/d10/structcore_1_1SDFGeometry.html">SDFGeometry</a> core::createSDFEllipsoid </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;&#160;</td>
+          <td class="paramname"><em>p0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint64_t&#160;</td>
+          <td class="paramname"><em>data</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> &amp;&#160;</td>
+          <td class="paramname"><em>userParams</em> = <code><a class="el" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a>(0.f)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00152">152</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
 
 </div>
 </div>
@@ -3422,7 +3477,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00083">83</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00084">84</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
 
 </div>
 </div>
@@ -3472,7 +3527,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00058">58</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00059">59</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
 
 </div>
 </div>
@@ -3528,7 +3583,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00125">125</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00126">126</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
 
 </div>
 </div>
@@ -3584,7 +3639,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00138">138</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00139">139</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
 
 </div>
 </div>
@@ -3908,7 +3963,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00151">151</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html#l00164">164</a> of file <a class="el" href="../../d2/df3/SDFGeometry_8h_source.html">SDFGeometry.h</a>.</p>
 
 </div>
 </div>

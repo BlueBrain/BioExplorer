@@ -67,6 +67,7 @@ var bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8
     [ "PROP_DENSITY", "dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#af39c30fd56340ad28d08c809f3cde426", null ],
     [ "PROP_EXTERNALS", "dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#a5ffcfcf32458f57e41317281f295a6e7", null ],
     [ "PROP_GIDS", "dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#a43f06fcd9ae3c57db1f995f616729e50", null ],
+    [ "PROP_INITIAL_SIMULATION_FRAME", "dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#a93f114e79256375d3e0ac021418aa06c", null ],
     [ "PROP_INTERNALS", "dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#a2370b8209880f2535ee71659925e9f2e", null ],
     [ "PROP_LOAD_AFFERENT_SYNAPSES", "dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#a46f19576fbb1c56993a5f49304333870", null ],
     [ "PROP_LOAD_EFFERENT_SYNAPSES", "dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#ad939a9a05626e16a3b2811b4cb26829c", null ],
@@ -95,5 +96,6 @@ var bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8
     [ "PROP_USE_SDF_NUCLEUS", "dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#a347d54a2f4787ad8b2e4342cf79fbc00", null ],
     [ "PROP_USE_SDF_SOMA", "dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#a506f0fa13c05bd31bca644fe3e494ddb", null ],
     [ "PROP_USE_SDF_SYNAPSES", "dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#a0491e6544945a4799f141ba5ddcda765", null ],
-    [ "PROP_USER_DATA_TYPE", "dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#ae66601dd1c0a670aafd87a36113e80a6", null ]
+    [ "PROP_USER_DATA_TYPE", "dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#ae66601dd1c0a670aafd87a36113e80a6", null ],
+    [ "PROP_VOLTAGE_SCALING", "dd/dc2/bioexplorer_2backend_2plugins_2Sonata_2plugin_2neuroscience_2common_2Types_8h.html#a7259505c73c1906103d46337ed21ee8f", null ]
 ];

@@ -1,7 +1,6 @@
 var dir_86f0b4869ee09c874d23be5e71808b13 =
 [
     [ "artistic", "dir_46d750f99bdad3940df2dcd775c4dbce.html", "dir_46d750f99bdad3940df2dcd775c4dbce" ],
-    [ "field", "dir_e621d151632c4ea9ff46846cedc37e96.html", "dir_e621d151632c4ea9ff46846cedc37e96" ],
     [ "DensityRenderer.cpp", "dd/df6/DensityRenderer_8cpp.html", "dd/df6/DensityRenderer_8cpp" ],
     [ "DensityRenderer.h", "d3/d65/DensityRenderer_8h.html", [
       [ "DensityRenderer", "de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer.html", "de/d24/classbioexplorer_1_1rendering_1_1DensityRenderer" ]
