@@ -213,6 +213,7 @@ static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_INDICES = "indices";
 static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_VALUES = "values";
 static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_DATATYPE = "dataType";
 static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_ACCUMULATION_STEPS = "accumulationSteps";
+static const char* OSPRAY_GEOMETRY_PROPERTY_FIELD_ACCUMULATION_COUNT = "accumulationCount";
 
 static const char* OSPRAY_FIELD_PROPERTY_GRADIENT_SHADING_ENABLED = "gradientShadingEnabled";
 static const char* OSPRAY_FIELD_PROPERTY_GRADIENT_OFFSET = "gradientOffset";
@@ -220,6 +221,7 @@ static const char* OSPRAY_FIELD_PROPERTY_SAMPLING_RATE = "samplingRate";
 static const char* OSPRAY_FIELD_PROPERTY_DISTANCE = "distance";
 static const char* OSPRAY_FIELD_PROPERTY_CUTOFF = "cutoff";
 static const char* OSPRAY_FIELD_PROPERTY_EPSILON = "epsilon";
+static const char* OSPRAY_FIELD_PROPERTY_USE_OCTREE = "useOctree";
 
 /*
 Frame buffer properties

@@ -48,9 +48,11 @@ protected:
     float _cutoff;
     float _gradientOffset;
     bool _gradientShadingEnabled;
+    bool _useOctree;
     float _samplingRate;
     float _epsilon;
     int _accumulationSteps;
+    int _accumulationCount;
 };
 } // namespace ospray
 } // namespace engine

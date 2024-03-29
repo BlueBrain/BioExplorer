@@ -105,6 +105,7 @@ private:
     std::map<size_t, OSPGeometry> _ospFields;
 
     size_t _memoryManagementFlags{OSP_DATA_SHARED_BUFFER};
+    size_t _commitFieldCount{0};
 
     std::string _renderer;
 

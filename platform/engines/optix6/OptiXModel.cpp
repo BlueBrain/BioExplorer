@@ -808,7 +808,8 @@ uint64_t OptiXModel::_commitFields(const size_t materialId)
     const auto fieldType = field->getOctreeDataType();
     _fieldGeometries[materialId].octreeDataType = fieldType;
     _fieldGeometries[materialId].octreeNbValues =
-        octreeValues.size() / (fieldType == OctreeDataType::point ? FIELD_POINT_DATA_SIZE : FIELD_VECTOR_DATA_SIZE);
+        octreeValues.size() /
+        (fieldType == OctreeDataType::odt_points ? FIELD_POINT_DATA_SIZE : FIELD_VECTOR_DATA_SIZE);
 
     if (!octreeIndices.empty())
     {

@@ -21,13 +21,15 @@
 #include "Fields.ih"
 #include "utils/SafeIncrement.ih"
 
+#include <platform/core/common/CommonTypes.h>
+
 #include <ospray/SDK/common/Model.ih>
 #include <ospray/SDK/geometry/Geometry.ih>
 
 #define MAX_RECURSION_DEPTH 30
 
-float treeWalker(const uniform Fields* uniform self, const varying int32 depth, const vec3f& point,
-                 const varying float distance, const varying float cutoff, const varying int32 index = 0)
+unmasked float treeWalker(const uniform Fields* uniform self, const varying int32 depth, const vec3f& point,
+                          const varying float distance, const varying float cutoff, const varying int32 index = 0)
 {
     if (depth >= MAX_RECURSION_DEPTH)
         return 0.f;
@@ -60,8 +62,8 @@ float treeWalker(const uniform Fields* uniform self, const varying int32 depth, 
     return voxelValue;
 }
 
-vec3f treeWalker3(const uniform Fields* uniform self, const varying int32 depth, const vec3f& point,
-                  const varying float distance, const varying float cutoff, const varying int32 index = 0)
+unmasked vec3f treeWalker3(const uniform Fields* uniform self, const varying int32 depth, const vec3f& point,
+                           const varying float distance, const varying float cutoff, const varying int32 index = 0)
 {
     if (depth >= MAX_RECURSION_DEPTH)
         return make_vec3f(0.f);
@@ -100,14 +102,14 @@ vec3f treeWalker3(const uniform Fields* uniform self, const varying int32 depth,
     return voxelValue;
 }
 
-vec4f get_voxel_value(const uniform Fields* uniform self, const vec3f& p)
+unmasked vec4f get_voxel_value(const uniform Fields* uniform self, const vec3f& point)
 {
     switch (self->dataType)
     {
-    case point:
-        return make_vec4f(0.f, 0.f, 0.f, treeWalker(self, 0, p, self->distance, self->cutoff));
-    case vector:
-        const vec3f sampleValue = treeWalker3(self, 0, p, self->distance, self->cutoff);
+    case odt_points:
+        return make_vec4f(0.f, 0.f, 0.f, treeWalker(self, 0, point, self->distance, self->cutoff));
+    case odt_vectors:
+        const vec3f sampleValue = treeWalker3(self, 0, point, self->distance, self->cutoff);
         return make_vec4f(normalize(sampleValue), length(sampleValue));
     }
     return make_vec4f(0.f);
@@ -146,8 +148,13 @@ unmasked void Field_intersect(const RTCIntersectFunctionNArguments* uniform args
     const float step = max(self->epsilon, diag / self->samplingRate);
 
     float random = 0.f;
-    rdrand(&random);
-    random *= step;
+    if (self->accumulationSteps > 0)
+        random = (float)(self->accumulationCount % self->accumulationSteps) / (float)(self->accumulationSteps) * step;
+    else
+    {
+        rdrand(&random);
+        random *= step;
+    }
 
     // Apply ray clipping
     t0 = max(t0, ray->t0);
@@ -164,7 +171,7 @@ unmasked void Field_intersect(const RTCIntersectFunctionNArguments* uniform args
             const float voxelAlpha = self->transferFunction->getOpacityForValue(self->transferFunction, voxelValue.w);
             if (voxelAlpha > 0.f)
             {
-                vec3f normal = make_vec3f(0.f);
+                vec3f normal = make_vec3f(0.f, 0.f, 1.f);
                 if (self->gradientShadingEnabled)
                 {
                     normal = make_vec3f(0);
@@ -181,8 +188,7 @@ unmasked void Field_intersect(const RTCIntersectFunctionNArguments* uniform args
                 ray->geomID = self->super.geomID;
                 ray->instID = args->context->instID[0];
                 ray->t = t;
-                ray->Ng = normal;
-                ray->time = voxelValue.w;
+                ray->Ng = voxelValue.w * normalize(normal);
                 return;
             }
             t += step;
@@ -196,8 +202,10 @@ static void Field_postIntersect(uniform Geometry* uniform geometry, uniform Mode
 {
     uniform Fields* uniform this = (uniform Fields * uniform) geometry;
     dg.geometry = geometry;
-    vec3f Ng = ray.Ng;
-    vec3f Ns = Ng;
+    const vec3f nNg = normalize(ray.Ng);
+    vec3f Ng = nNg;
+    vec3f Ns = nNg;
+    const float voxelValue = length(ray.Ng);
 
     if (flags & DG_NORMALIZE)
     {
@@ -213,7 +221,6 @@ static void Field_postIntersect(uniform Geometry* uniform geometry, uniform Mode
     }
     dg.Ng = Ng;
     dg.Ns = Ns;
-    const float voxelValue = ray.time;
     const float opacity = this->transferFunction->getOpacityForValue(this->transferFunction, voxelValue);
     const vec3f color = this->transferFunction->getColorForValue(this->transferFunction, voxelValue);
     dg.color = make_vec4f(color, opacity);
@@ -263,15 +270,17 @@ export void Field_set(void* uniform _self, void* uniform _model, const uniform v
 
 export void Field_commit(void* uniform _self, const uniform float& distance, const uniform float& cutoff,
                          const uniform float& gradientOffset, const uniform bool& gradientShadingEnabled,
-                         const uniform float& samplingRate, const uniform float& epsilon,
-                         const uniform int accumulationSteps)
+                         const uniform bool& useOctree, const uniform float& samplingRate, const uniform float& epsilon,
+                         const uniform int accumulationSteps, const uniform int accumulationCount)
 {
     uniform Fields* uniform self = (uniform Fields * uniform) _self;
     self->distance = distance;
     self->cutoff = cutoff;
     self->gradientOffset = gradientOffset;
     self->gradientShadingEnabled = gradientShadingEnabled;
+    self->useOctree = useOctree;
     self->samplingRate = samplingRate;
-    self->accumulationSteps = accumulationSteps;
     self->epsilon = epsilon;
+    self->accumulationSteps = accumulationSteps;
+    self->accumulationCount = accumulationCount;
 }
