@@ -104,12 +104,23 @@ ENV PATH $PATH:${ISPC_PATH}/bin
 # Install embree
 # https://github.com/embree/embree/releases
 # --------------------------------------------------------------------------------
-ARG EMBREE_VERSION=3.5.2
-ARG EMBREE_FILE=embree-${EMBREE_VERSION}.x86_64.linux.tar.gz
-RUN mkdir -p ${DIST_PATH} \
-   && wget --no-verbose https://github.com/embree/embree/releases/download/v${EMBREE_VERSION}/${EMBREE_FILE} \
-   && tar zxvf ${EMBREE_FILE} -C ${DIST_PATH} --strip-components=1 \
-   && rm -rf ${DIST_PATH}/bin ${DIST_PATH}/doc
+ARG EMBREE_TAG=v3.8.0
+ARG EMBREE_SRC=/app/embree
+
+RUN mkdir -p ${EMBREE_SRC} \
+   && git clone https://github.com/embree/embree.git ${EMBREE_SRC} \
+   && cd ${EMBREE_SRC} \
+   && git checkout ${EMBREE_TAG} \
+   && mkdir -p build \
+   && cd build \
+   && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
+   -DEMBREE_ISPC_EXECUTABLE=${ISPC_PATH}/bin/ispc \
+   -DEMBREE_TUTORIALS=OFF \
+   -DEMBREE_IGNORE_INVALID_RAYS=ON \
+   -DEMBREE_ISA_AVX512SKX=ON \
+   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+   && ninja install \
+   && ninja clean
 
 # --------------------------------------------------------------------------------
 # Install OSPRay
@@ -128,6 +139,11 @@ RUN mkdir -p ${OSPRAY_SRC} \
    -DOSPRAY_ENABLE_TUTORIALS=OFF \
    -DOSPRAY_ENABLE_APPS=OFF \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+   -DOSPRAY_APPS_BENCHMARK=OFF \
+   -DOSPRAY_APPS_EXAMPLEVIEWER=OFF \
+   -DOSPRAY_APPS_UTILITIES=OFF \
+   -DOSPRAY_AUTO_DOWNLOAD_TEST_IMAGES=OFF \
+   -DOSPRAY_ENABLE_TUTORIALS=OFF \
    && ninja install \
    && ninja clean
 
@@ -238,6 +254,7 @@ RUN apt-get update \
    libpqxx-6.2 \
    libtiff5 \
    libmpfr6 \
+   libtbb-dev \
    exiv2 \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
