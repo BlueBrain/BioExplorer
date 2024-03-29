@@ -153,7 +153,7 @@ unmasked void Field_intersect(const RTCIntersectFunctionNArguments* uniform args
     t0 = max(t0, ray->t0);
     t1 = min(t1, ray->t);
 
-    if (t0 > 0.f && t0 <= t1)
+    if (t0 <= t1)
     {
         float t = t0 + random;
         while (t < t1)
