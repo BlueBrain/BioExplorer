@@ -36,24 +36,24 @@ unmasked float treeWalker(const uniform Fields* uniform self, const varying int3
 
     const uint32 begin = self->indices[index * 2];
     const uint32 end = self->indices[index * 2 + 1];
-    const uint32 idxData = index * FIELD_POINT_DATA_SIZE;
+    const uint32 idx1 = index * FIELD_POINT_DATA_SIZE;
 
     if (begin == 0 && end == 0)
-        return self->values[idxData + FIELD_POINT_OFFSET_VALUE] / (distance * distance);
+        return self->values[idx1 + FIELD_POINT_OFFSET_VALUE] / (distance * distance);
 
     float voxelValue = 0.f;
     for (uint32 childIndex = begin; childIndex <= end; ++childIndex)
     {
-        const uint32 childIdxData = childIndex * FIELD_POINT_DATA_SIZE;
-        const vec3f childPosition = make_vec3f(self->values[childIdxData + FIELD_POINT_OFFSET_POSITION_X],
-                                               self->values[childIdxData + FIELD_POINT_OFFSET_POSITION_Y],
-                                               self->values[childIdxData + FIELD_POINT_OFFSET_POSITION_Z]);
+        const uint32 idx2 = childIndex * FIELD_POINT_DATA_SIZE;
+        const vec3f childPosition = make_vec3f(self->values[idx2 + FIELD_POINT_OFFSET_POSITION_X],
+                                               self->values[idx2 + FIELD_POINT_OFFSET_POSITION_Y],
+                                               self->values[idx2 + FIELD_POINT_OFFSET_POSITION_Z]);
         const float d = length(point - childPosition);
         if (d >= cutoff)
         {
             // Child is further than the cutoff distance, no need to evaluate events in the child node, we take the
             // precomputed value of node instead
-            voxelValue += self->values[childIdxData + FIELD_POINT_OFFSET_VALUE] / (d * d);
+            voxelValue += self->values[idx2 + FIELD_POINT_OFFSET_VALUE] / (d * d);
         }
         else
             // Dive into the child node and compute its contents
@@ -70,29 +70,29 @@ unmasked vec3f treeWalker3(const uniform Fields* uniform self, const varying int
 
     const uint32 begin = self->indices[index * 2];
     const uint32 end = self->indices[index * 2 + 1];
-    const uint32 idx = index * FIELD_VECTOR_DATA_SIZE;
+    const uint32 idx1 = index * FIELD_VECTOR_DATA_SIZE;
 
     if (begin == 0 && end == 0)
-        return make_vec3f(self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_X],
-                          self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_Y],
-                          self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_Z]) /
+        return make_vec3f(self->values[idx1 + FIELD_VECTOR_OFFSET_DIRECTION_X],
+                          self->values[idx1 + FIELD_VECTOR_OFFSET_DIRECTION_Y],
+                          self->values[idx1 + FIELD_VECTOR_OFFSET_DIRECTION_Z]) /
                (distance * distance);
 
     vec3f voxelValue = make_vec3f(0.f);
     for (uint32 childIndex = begin; childIndex <= end; ++childIndex)
     {
-        uint32 idx = childIndex * FIELD_VECTOR_DATA_SIZE;
-        const vec3f childPosition = make_vec3f(self->values[idx + FIELD_VECTOR_OFFSET_POSITION_X],
-                                               self->values[idx + FIELD_VECTOR_OFFSET_POSITION_Y],
-                                               self->values[idx + FIELD_VECTOR_OFFSET_POSITION_Z]);
+        const uint32 idx2 = childIndex * FIELD_VECTOR_DATA_SIZE;
+        const vec3f childPosition = make_vec3f(self->values[idx2 + FIELD_VECTOR_OFFSET_POSITION_X],
+                                               self->values[idx2 + FIELD_VECTOR_OFFSET_POSITION_Y],
+                                               self->values[idx2 + FIELD_VECTOR_OFFSET_POSITION_Z]);
         const float d = length(point - childPosition);
         if (d >= cutoff)
         {
             // Child is further than the cutoff distance, no need to evaluate events in the child node, we take the
             // precomputed value of node instead
-            const vec3f vectorDirection = make_vec3f(self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_X],
-                                                     self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_Y],
-                                                     self->values[idx + FIELD_VECTOR_OFFSET_DIRECTION_Z]);
+            const vec3f vectorDirection = make_vec3f(self->values[idx2 + FIELD_VECTOR_OFFSET_DIRECTION_X],
+                                                     self->values[idx2 + FIELD_VECTOR_OFFSET_DIRECTION_Y],
+                                                     self->values[idx2 + FIELD_VECTOR_OFFSET_DIRECTION_Z]);
             voxelValue = voxelValue + vectorDirection / (d * d);
         }
         else

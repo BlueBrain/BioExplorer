@@ -212,8 +212,8 @@ void OSPRayModel::_commitCylinders(const size_t materialId)
 void OSPRayModel::_commitCones(const size_t materialId)
 {
     auto& geometry = _createGeometry(_ospCones, materialId, OSPRAY_GEOMETRY_PROPERTY_CONES);
-    auto data = allocateVectorData(_geometries->_cones.at(materialId), OSP_FLOAT, _memoryManagementFlags);
 
+    auto data = allocateVectorData(_geometries->_cones.at(materialId), OSP_FLOAT, _memoryManagementFlags);
     ospSetObject(geometry, OSPRAY_GEOMETRY_PROPERTY_CONES, data);
     ospRelease(data);
 
@@ -417,10 +417,12 @@ void OSPRayModel::_commitFields(const size_t materialId)
         return;
     }
 
+    CORE_DEBUG("Fields: Committing " << field->getOctreeIndices().size() << " indices");
     auto indicesBuffer = allocateVectorData(field->getOctreeIndices(), OSP_UINT, _memoryManagementFlags);
     ospSetObject(geometry, OSPRAY_GEOMETRY_PROPERTY_FIELD_INDICES, indicesBuffer);
     ospRelease(indicesBuffer);
 
+    CORE_DEBUG("Fields: Committing " << field->getOctreeValues().size() << " values");
     auto valuesBuffer = allocateVectorData(field->getOctreeValues(), OSP_FLOAT, _memoryManagementFlags);
     ospSetObject(geometry, OSPRAY_GEOMETRY_PROPERTY_FIELD_VALUES, valuesBuffer);
     ospRelease(valuesBuffer);
@@ -432,7 +434,7 @@ void OSPRayModel::_commitFields(const size_t materialId)
     ospSetObject(geometry, DEFAULT_COMMON_TRANSFER_FUNCTION, _ospTransferFunction);
 
     ospCommit(geometry);
-    _addGeometryToModel(geometry, materialId);
+    ospAddGeometry(_primaryModel, geometry);
 
     _ospFields[materialId] = geometry;
 }
