@@ -20,6 +20,7 @@
 FROM debian:buster-20230522-slim as builder
 LABEL maintainer="cyrille.favreau@epfl.ch"
 ARG DIST_PATH=/app/dist
+ARG BUILD_TYPE=Release
 
 # Install packages
 RUN apt-get update \
@@ -50,13 +51,13 @@ RUN apt-get update \
    libglm-dev \
    libtiff-dev \
    libmpfr-dev \
+   libdcmtk-dev \
    pkg-config \
    wget \
    ca-certificates \
    exiv2 \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 
 # --------------------------------------------------------------------------------
 # Get CMake 3.21.1
@@ -69,7 +70,7 @@ RUN wget -O cmake-linux.sh https://cmake.org/files/v3.21/cmake-3.21.1-linux-x86_
 # Install Brion
 # https://github.com/BlueBrain/Brion
 # --------------------------------------------------------------------------------
-# ARG BRION_TAG=3.3.9
+# ARG BRION_TAG=3.3.14
 # ARG BRION_SRC=/app/brion
 
 # RUN mkdir -p ${BRION_SRC} \
@@ -81,6 +82,7 @@ RUN wget -O cmake-linux.sh https://cmake.org/files/v3.21/cmake-3.21.1-linux-x86_
 #    && cd build \
 #    && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
 #    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+#    -DBRION_SKIP_LIBSONATA_SUBMODULE=ON \
 #    && ninja install \
 #    && ninja clean
 
@@ -114,6 +116,7 @@ RUN mkdir -p ${EMBREE_SRC} \
    && mkdir -p build \
    && cd build \
    && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
+   -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
    -DEMBREE_ISPC_EXECUTABLE=${ISPC_PATH}/bin/ispc \
    -DEMBREE_TUTORIALS=OFF \
    -DEMBREE_IGNORE_INVALID_RAYS=ON \
@@ -136,6 +139,7 @@ RUN mkdir -p ${OSPRAY_SRC} \
    && mkdir -p build \
    && cd build \
    && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
+   -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
    -DOSPRAY_ENABLE_TUTORIALS=OFF \
    -DOSPRAY_ENABLE_APPS=OFF \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
@@ -162,7 +166,7 @@ RUN mkdir -p ${LWS_SRC} \
    && mkdir -p build \
    && cd build \
    && cmake .. -GNinja \
-   -DCMAKE_BUILD_TYPE=Release \
+   -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
    -DLWS_STATIC_PIC=ON \
    -DLWS_WITH_SSL=ON \
    -DLWS_WITH_ZLIB=OFF \
@@ -189,13 +193,13 @@ RUN mkdir -p ${ROCKETS_SRC} \
    && mkdir -p build \
    && cd build \
    && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
+   -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
    && ninja install \
    && ninja clean
 
 # --------------------------------------------------------------------------------
 # Install BioExplorer
-# https://github.com/BlueBrain/BioExplorer
 # --------------------------------------------------------------------------------
 ARG BIOEXPLORER_SRC=/app
 ADD . ${BIOEXPLORER_SRC}
@@ -203,7 +207,6 @@ ADD . ${BIOEXPLORER_SRC}
 WORKDIR /app
 
 RUN cd ${BIOEXPLORER_SRC} \
-   && git clone --recursive https://github.com/BlueBrain/BioExplorer.git \
    && rm -rf build \
    && mkdir build \
    && cd build \
@@ -213,8 +216,8 @@ RUN cd ${BIOEXPLORER_SRC} \
    CMAKE_PREFIX_PATH=${DIST_PATH} \
    LDFLAGS="-lCGAL" \
    cmake .. -GNinja \
-   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
    -DCMAKE_BUILD_TYPE=Release \
+   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
    -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=ON \
    -DPLATFORM_USE_CGAL=ON \
    -DPLATFORM_OPTIX6_ENABLED=OFF \
@@ -228,6 +231,7 @@ RUN cd ${BIOEXPLORER_SRC} \
    -DBIOEXPLORER_SONATA_ENABLED=OFF \
    -DBIOEXPLORER_METABOLISM_ENABLED=OFF \
    -DBIOEXPLORER_MEDIAMAKER_ENABLED=ON \
+   -DMEDICALIMAGING_BUILD_ENABLED=ON \
    && ninja install \
    && ninja clean
 
@@ -255,6 +259,7 @@ RUN apt-get update \
    libtiff5 \
    libmpfr6 \
    libtbb-dev \
+   dcmtk \
    exiv2 \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -283,4 +288,4 @@ EXPOSE 8200
 # See https://docs.docker.com/engine/reference/run/#entrypoint-default-command-to-execute-at-runtime
 # for more docs
 ENTRYPOINT ["service"]
-CMD ["--http-server", ":8200", "--plugin", "MediaMaker", "--plugin", "BioExplorer"]
+CMD ["--http-server", ":8200", "--plugin", "MediaMaker", "--plugin", "DICOM", "--plugin", "BioExplorer"]
