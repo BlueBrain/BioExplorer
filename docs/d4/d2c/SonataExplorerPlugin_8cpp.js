@@ -14,6 +14,6 @@ var SonataExplorerPlugin_8cpp =
     [ "_addSphereClippingPerspectiveCamera", "d4/d2c/SonataExplorerPlugin_8cpp.html#a07d35dcadbbbce7995a3c61ec539969a", null ],
     [ "_sanitizeString", "d4/d2c/SonataExplorerPlugin_8cpp.html#a1474fe3176fdb12d5f302f56ae4725d3", null ],
     [ "_splitString", "d4/d2c/SonataExplorerPlugin_8cpp.html#ad1ab15b38df24e9a82ecd83a44884f0a", null ],
-    [ "core_plugin_create", "d4/d2c/SonataExplorerPlugin_8cpp.html#a2790dc7628f5f11fd841ddcd6e2969db", null ],
+    [ "core_plugin_create", "d4/d2c/SonataExplorerPlugin_8cpp.html#a6bb53ad82bb25f9d3962b8d2592ef3b3", null ],
     [ "PLUGIN_API_PREFIX", "d4/d2c/SonataExplorerPlugin_8cpp.html#a9f4145e9701d5c9255e0b34e7ba8beec", null ]
 ];

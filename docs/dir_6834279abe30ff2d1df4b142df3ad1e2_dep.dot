@@ -12,6 +12,6 @@ digraph "bioexplorer/backend/plugins/Sonata/module/ispc" {
   }
   }
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_2f67fd19608afbc70ae78fab334dc90d->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="7", labeldistance=1.5 headhref="dir_000029_000061.html"];
-  dir_b0f87433ee5bf2533ef69a9ff402bc5c->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="1", labeldistance=1.5 headhref="dir_000028_000061.html"];
+  dir_2f67fd19608afbc70ae78fab334dc90d->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="7", labeldistance=1.5 headhref="dir_000028_000061.html"];
+  dir_b0f87433ee5bf2533ef69a9ff402bc5c->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="1", labeldistance=1.5 headhref="dir_000027_000061.html"];
 }

@@ -134,6 +134,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a22161d69e38f5b4335b7f6c8b9c586ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77d0c92340afbb363b41cfdb0018959a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d75/classcore_1_1FieldParameters.html#a77d0c92340afbb363b41cfdb0018959a">getEpsilon</a> () const</td></tr>
 <tr class="separator:a77d0c92340afbb363b41cfdb0018959a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcce7c09f3e7db51dd6e8dc8a0934987"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d75/classcore_1_1FieldParameters.html#afcce7c09f3e7db51dd6e8dc8a0934987">setAccumulationSteps</a> (const uint64_t value)</td></tr>
+<tr class="separator:afcce7c09f3e7db51dd6e8dc8a0934987"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2314ae0404d4aaab310bf84b81345adf"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d75/classcore_1_1FieldParameters.html#a2314ae0404d4aaab310bf84b81345adf">getAccumulationSteps</a> () const</td></tr>
+<tr class="separator:a2314ae0404d4aaab310bf84b81345adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d0201bc2ddf1c6b8a0593e81c76c8be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d75/classcore_1_1FieldParameters.html#a1d0201bc2ddf1c6b8a0593e81c76c8be">setUseOctree</a> (const bool value)</td></tr>
+<tr class="separator:a1d0201bc2ddf1c6b8a0593e81c76c8be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf0b766a2bbf598608925712d7cf9375"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d75/classcore_1_1FieldParameters.html#acf0b766a2bbf598608925712d7cf9375">getUseOctree</a> () const</td></tr>
+<tr class="separator:acf0b766a2bbf598608925712d7cf9375"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcore_1_1AbstractParameters"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcore_1_1AbstractParameters')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../da/dda/classcore_1_1AbstractParameters.html">core::AbstractParameters</a></td></tr>
 <tr class="memitem:a4a6fc3575b71797c53c141b215349687 inherit pub_methods_classcore_1_1AbstractParameters"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dda/classcore_1_1AbstractParameters.html#a4a6fc3575b71797c53c141b215349687">AbstractParameters</a> (const std::string &amp;name)</td></tr>
 <tr class="separator:a4a6fc3575b71797c53c141b215349687 inherit pub_methods_classcore_1_1AbstractParameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -196,6 +204,10 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:af4183f28aa25326fc67a9cc66efb4db5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af75f79101aff8be20bfd2905747c8ab8"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d75/classcore_1_1FieldParameters.html#af75f79101aff8be20bfd2905747c8ab8">_epsilon</a> {1e-6}</td></tr>
 <tr class="separator:af75f79101aff8be20bfd2905747c8ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1275280998e15bc0cdccc91c7bab6d8"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d75/classcore_1_1FieldParameters.html#af1275280998e15bc0cdccc91c7bab6d8">_randomAccumulation</a> {0}</td></tr>
+<tr class="separator:af1275280998e15bc0cdccc91c7bab6d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc8cb82416b3b1599894b7c9082c6a5f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d75/classcore_1_1FieldParameters.html#acc8cb82416b3b1599894b7c9082c6a5f">_useOctree</a> {true}</td></tr>
+<tr class="separator:acc8cb82416b3b1599894b7c9082c6a5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classcore_1_1AbstractParameters"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classcore_1_1AbstractParameters')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../da/dda/classcore_1_1AbstractParameters.html">core::AbstractParameters</a></td></tr>
 <tr class="memitem:a9537a322660fb95014af97cfbb40dbcf inherit pro_attribs_classcore_1_1AbstractParameters"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dda/classcore_1_1AbstractParameters.html#a9537a322660fb95014af97cfbb40dbcf">_name</a></td></tr>
 <tr class="separator:a9537a322660fb95014af97cfbb40dbcf inherit pro_attribs_classcore_1_1AbstractParameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -235,6 +247,33 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a2314ae0404d4aaab310bf84b81345adf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2314ae0404d4aaab310bf84b81345adf">&#9670;&nbsp;</a></span>getAccumulationSteps()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t core::FieldParameters::getAccumulationSteps </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00058">58</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
+
+</div>
+</div>
 <a id="ae2a6b205a9547519259676d253d2f5f4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae2a6b205a9547519259676d253d2f5f4">&#9670;&nbsp;</a></span>getCutoff()</h2>
 
@@ -397,6 +436,33 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="acf0b766a2bbf598608925712d7cf9375"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf0b766a2bbf598608925712d7cf9375">&#9670;&nbsp;</a></span>getUseOctree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::FieldParameters::getUseOctree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00061">61</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
+
+</div>
+</div>
 <a id="a96f10a62e98e44b47be86d4311e0cc4f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a96f10a62e98e44b47be86d4311e0cc4f">&#9670;&nbsp;</a></span>parse()</h2>
 
@@ -462,6 +528,34 @@ Additional Inherited Members</h2></td></tr>
 <p>Reimplemented from <a class="el" href="../../da/dda/classcore_1_1AbstractParameters.html#aeb05afc431eae47d2a4345f5153fd9c7">core::AbstractParameters</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../d8/dd5/FieldParameters_8cpp_source.html#l00070">70</a> of file <a class="el" href="../../d8/dd5/FieldParameters_8cpp_source.html">FieldParameters.cpp</a>.</p>
+
+</div>
+</div>
+<a id="afcce7c09f3e7db51dd6e8dc8a0934987"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcce7c09f3e7db51dd6e8dc8a0934987">&#9670;&nbsp;</a></span>setAccumulationSteps()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::FieldParameters::setAccumulationSteps </td>
+          <td>(</td>
+          <td class="paramtype">const uint64_t&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00057">57</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
 
 </div>
 </div>
@@ -633,6 +727,34 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a1d0201bc2ddf1c6b8a0593e81c76c8be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d0201bc2ddf1c6b8a0593e81c76c8be">&#9670;&nbsp;</a></span>setUseOctree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::FieldParameters::setUseOctree </td>
+          <td>(</td>
+          <td class="paramtype">const bool&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00060">60</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="af4183f28aa25326fc67a9cc66efb4db5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af4183f28aa25326fc67a9cc66efb4db5">&#9670;&nbsp;</a></span>_cutoff</h2>
@@ -654,7 +776,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00068">68</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00074">74</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
 
 </div>
 </div>
@@ -678,7 +800,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00060">60</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00066">66</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
 
 </div>
 </div>
@@ -702,7 +824,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00067">67</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00073">73</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
 
 </div>
 </div>
@@ -726,7 +848,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00061">61</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00067">67</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
 
 </div>
 </div>
@@ -750,7 +872,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00069">69</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00075">75</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
 
 </div>
 </div>
@@ -774,7 +896,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00065">65</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00071">71</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
 
 </div>
 </div>
@@ -798,7 +920,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00064">64</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00070">70</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
 
 </div>
 </div>
@@ -822,7 +944,31 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00062">62</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00068">68</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
+
+</div>
+</div>
+<a id="af1275280998e15bc0cdccc91c7bab6d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1275280998e15bc0cdccc91c7bab6d8">&#9670;&nbsp;</a></span>_randomAccumulation</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t core::FieldParameters::_randomAccumulation {0}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00076">76</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
 
 </div>
 </div>
@@ -846,7 +992,31 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00066">66</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00072">72</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
+
+</div>
+</div>
+<a id="acc8cb82416b3b1599894b7c9082c6a5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc8cb82416b3b1599894b7c9082c6a5f">&#9670;&nbsp;</a></span>_useOctree</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::FieldParameters::_useOctree {true}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html#l00077">77</a> of file <a class="el" href="../../dc/dbf/FieldParameters_8h_source.html">FieldParameters.h</a>.</p>
 
 </div>
 </div>

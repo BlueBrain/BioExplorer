@@ -170,95 +170,99 @@ $(document).ready(function(){initNavTree('d5/d0a/PointOctree_8cpp_source.html','
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                <span class="keywordflow">if</span> (octree[level].find(index) == octree[level].end())</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                    octree[level].insert(PointOctreeLevelMap::value_type(index, <a class="code" href="../../d8/d84/classcore_1_1PointOctreeNode.html">PointOctreeNode</a>(center, size)));</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                    newNode = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                }</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                    <a class="code" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a> p{(points[i].position.x - minAABB.x) / voxelSize,</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                               (points[i].position.y - minAABB.y) / voxelSize,</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                               (points[i].position.z - minAABB.z) / voxelSize};</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                octree[level].at(index).addValue(value);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="keywordflow">if</span> ((level &gt; 0) &amp;&amp; (child != <span class="keyword">nullptr</span>))</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    octree[level].at(index).setChild(child);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                <span class="keywordflow">if</span> (newNode)</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    child = &amp;(octree[level].at(index));</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    child = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="keywordflow">for</span> (uint32_t level = 0; level &lt; _depth; ++level)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            {</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                <span class="keyword">const</span> uint32_t divisor = std::pow(2, level);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                <span class="keyword">const</span> uint32_t nBlock = _octreeSize / divisor;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                <span class="keyword">const</span> uint32_t index = std::floor(xpos / divisor) + nBlock * std::floor(ypos / divisor) +</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                                       nBlock * nBlock * std::floor(zpos / divisor);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                octree[level].at(index).addValue(value);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        }</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    }</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; octree.size(); ++i)</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <a class="code" href="../../de/df2/platform_2core_2common_2Logs_8h.html#a232e82d23668f5abcd8d3c0ad3ccf710">CORE_DEBUG</a>(<span class="stringliteral">&quot;Number of leaves [&quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;]: &quot;</span> &lt;&lt; octree[i].size());</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    _offsetPerLevel.resize(_depth);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    _offsetPerLevel[_depth - 1u] = 0;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    uint32_t previousOffset = 0u;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">for</span> (uint32_t i = _depth - 1u; i &gt; 0u; --i)</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        _offsetPerLevel[i - 1u] = previousOffset + octree[i].size();</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        previousOffset = _offsetPerLevel[i - 1u];</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    }</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    uint32_t totalNodeNumber = 0;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; octree.size(); ++i)</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        totalNodeNumber += octree[i].size();</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="comment">// need to be initialized with zeros</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    _flatIndices.resize(totalNodeNumber * 2u, 0);</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    _flatData.resize(totalNodeNumber * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a>);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                    octree[level].insert(PointOctreeLevelMap::value_type(index, <a class="code" href="../../d8/d84/classcore_1_1PointOctreeNode.html">PointOctreeNode</a>(p, size)));</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                    newNode = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                }</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                octree[level].at(index).addValue(value);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <span class="keywordflow">if</span> ((level &gt; 0) &amp;&amp; (child != <span class="keyword">nullptr</span>))</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    octree[level].at(index).setChild(child);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                <span class="keywordflow">if</span> (newNode)</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                    child = &amp;(octree[level].at(index));</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                    child = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        }</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">for</span> (uint32_t level = 0; level &lt; _depth; ++level)</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            {</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                <span class="keyword">const</span> uint32_t divisor = std::pow(2, level);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                <span class="keyword">const</span> uint32_t nBlock = _octreeSize / divisor;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                <span class="keyword">const</span> uint32_t index = std::floor(xpos / divisor) + nBlock * std::floor(ypos / divisor) +</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                                       nBlock * nBlock * std::floor(zpos / divisor);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                octree[level].at(index).addValue(value);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            }</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        }</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    }</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; octree.size(); ++i)</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <a class="code" href="../../de/df2/platform_2core_2common_2Logs_8h.html#a232e82d23668f5abcd8d3c0ad3ccf710">CORE_DEBUG</a>(<span class="stringliteral">&quot;Number of leaves [&quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;]: &quot;</span> &lt;&lt; octree[i].size());</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    _offsetPerLevel.resize(_depth);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    _offsetPerLevel[_depth - 1u] = 0;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    uint32_t previousOffset = 0u;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">for</span> (uint32_t i = _depth - 1u; i &gt; 0u; --i)</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    {</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        _offsetPerLevel[i - 1u] = previousOffset + octree[i].size();</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        previousOffset = _offsetPerLevel[i - 1u];</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    uint32_t totalNodeNumber = 0;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; octree.size(); ++i)</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        totalNodeNumber += octree[i].size();</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="comment">// The root node</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    _flattenChildren(&amp;(octree[_depth - 1u].at(0)), _depth - 1u);</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    _volumeDimensions =</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <a class="code" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a>(std::ceil((maxAABB.x - minAABB.x) / voxelSize), std::ceil((maxAABB.y - minAABB.y) / voxelSize),</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                  std::ceil((maxAABB.z - minAABB.z) / voxelSize));</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    _volumeSize = (uint32_t)_volumeDimensions.x * (uint32_t)_volumeDimensions.y * (uint32_t)_volumeDimensions.z;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;}</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
-<div class="line"><a name="l00141"></a><span class="lineno"><a class="line" href="../../d6/d8d/classcore_1_1PointOctree.html#aa8283f3eea13967dc25ee01bc59d1082">  141</a></span>&#160;<a class="code" href="../../d6/d8d/classcore_1_1PointOctree.html#aa8283f3eea13967dc25ee01bc59d1082">PointOctree::~PointOctree</a>() {}</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="keywordtype">void</span> PointOctree::_flattenChildren(<a class="code" href="../../d8/d84/classcore_1_1PointOctreeNode.html">PointOctreeNode</a> *node, uint32_t level)</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;{</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keyword">const</span> std::vector&lt;PointOctreeNode *&gt; children = node-&gt;getChildren();</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;position = node-&gt;getCenter();</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> value = node-&gt;getValue();</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordflow">if</span> ((children.empty()) || (level == 0))</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    {</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a065f3e813eb115cd1f28a76183b6b83e">FIELD_POINT_OFFSET_POSITION_X</a>] = position.x;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a3a7e7f12238c0b0392288b1261f56e74">FIELD_POINT_OFFSET_POSITION_Y</a>] = position.y;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a6b7fbbf4c5c3ee068b63f399ad2104b9">FIELD_POINT_OFFSET_POSITION_Z</a>] = position.z;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a66dbeecde92699025956e2e20e0ab476">FIELD_POINT_OFFSET_VALUE</a>] = value;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        _offsetPerLevel[level] += 1u;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    }</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a065f3e813eb115cd1f28a76183b6b83e">FIELD_POINT_OFFSET_POSITION_X</a>] = position.x;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a3a7e7f12238c0b0392288b1261f56e74">FIELD_POINT_OFFSET_POSITION_Y</a>] = position.y;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a6b7fbbf4c5c3ee068b63f399ad2104b9">FIELD_POINT_OFFSET_POSITION_Z</a>] = position.z;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a66dbeecde92699025956e2e20e0ab476">FIELD_POINT_OFFSET_VALUE</a>] = value;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    _flatIndices[_offsetPerLevel[level] * 2u] = _offsetPerLevel[level - 1];</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    _flatIndices[_offsetPerLevel[level] * 2u + 1] = _offsetPerLevel[level - 1] + children.size() - 1u;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    _offsetPerLevel[level] += 1u;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="comment">// need to be initialized with zeros</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    _flatIndices.resize(totalNodeNumber * 2u, 0);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    _flatData.resize(totalNodeNumber * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a>);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="comment">// The root node</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    _flattenChildren(&amp;(octree[_depth - 1u].at(0)), _depth - 1u);</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    _volumeDimensions =</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <a class="code" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a>(std::ceil((maxAABB.x - minAABB.x) / voxelSize), std::ceil((maxAABB.y - minAABB.y) / voxelSize),</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                  std::ceil((maxAABB.z - minAABB.z) / voxelSize));</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    _volumeSize = (uint32_t)_volumeDimensions.x * (uint32_t)_volumeDimensions.y * (uint32_t)_volumeDimensions.z;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;}</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
+<div class="line"><a name="l00145"></a><span class="lineno"><a class="line" href="../../d6/d8d/classcore_1_1PointOctree.html#aa8283f3eea13967dc25ee01bc59d1082">  145</a></span>&#160;<a class="code" href="../../d6/d8d/classcore_1_1PointOctree.html#aa8283f3eea13967dc25ee01bc59d1082">PointOctree::~PointOctree</a>() {}</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="keywordtype">void</span> PointOctree::_flattenChildren(<a class="code" href="../../d8/d84/classcore_1_1PointOctreeNode.html">PointOctreeNode</a> *node, uint32_t level)</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;{</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keyword">const</span> std::vector&lt;PointOctreeNode *&gt; children = node-&gt;getChildren();</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;position = node-&gt;getCenter();</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> value = node-&gt;getValue();</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">if</span> ((children.empty()) || (level == 0))</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    {</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a065f3e813eb115cd1f28a76183b6b83e">FIELD_POINT_OFFSET_POSITION_X</a>] = position.x;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a3a7e7f12238c0b0392288b1261f56e74">FIELD_POINT_OFFSET_POSITION_Y</a>] = position.y;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a6b7fbbf4c5c3ee068b63f399ad2104b9">FIELD_POINT_OFFSET_POSITION_Z</a>] = position.z;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a66dbeecde92699025956e2e20e0ab476">FIELD_POINT_OFFSET_VALUE</a>] = value;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        _offsetPerLevel[level] += 1u;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    }</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a065f3e813eb115cd1f28a76183b6b83e">FIELD_POINT_OFFSET_POSITION_X</a>] = position.x;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a3a7e7f12238c0b0392288b1261f56e74">FIELD_POINT_OFFSET_POSITION_Y</a>] = position.y;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a6b7fbbf4c5c3ee068b63f399ad2104b9">FIELD_POINT_OFFSET_POSITION_Z</a>] = position.z;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    _flatData[_offsetPerLevel[level] * <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a0dc13414878786fb69f03b5567744bf1">FIELD_POINT_DATA_SIZE</a> + <a class="code" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a66dbeecde92699025956e2e20e0ab476">FIELD_POINT_OFFSET_VALUE</a>] = value;</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordflow">for</span> (PointOctreeNode *child : children)</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        _flattenChildren(child, level - 1u);</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;}</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;} <span class="comment">// namespace core</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    _flatIndices[_offsetPerLevel[level] * 2u] = _offsetPerLevel[level - 1];</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    _flatIndices[_offsetPerLevel[level] * 2u + 1] = _offsetPerLevel[level - 1] + children.size() - 1u;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    _offsetPerLevel[level] += 1u;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="keywordflow">for</span> (PointOctreeNode *child : children)</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        _flattenChildren(child, level - 1u);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;}</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;} <span class="comment">// namespace core</span></div>
 <div class="ttc" id="aPointOctree_8h_html"><div class="ttname"><a href="../../de/d77/PointOctree_8h.html">PointOctree.h</a></div></div>
 <div class="ttc" id="aclasscore_1_1PointOctreeNode_html"><div class="ttname"><a href="../../d8/d84/classcore_1_1PointOctreeNode.html">core::PointOctreeNode</a></div><div class="ttdoc">The PointOctreeNode class implement a spherical node of the Octree acceleration structure used by the...</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d2a/PointOctreeNode_8h_source.html#l00035">PointOctreeNode.h:36</a></div></div>
-<div class="ttc" id="aclasscore_1_1PointOctree_html_aa8283f3eea13967dc25ee01bc59d1082"><div class="ttname"><a href="../../d6/d8d/classcore_1_1PointOctree.html#aa8283f3eea13967dc25ee01bc59d1082">core::PointOctree::~PointOctree</a></div><div class="ttdeci">~PointOctree()</div><div class="ttdoc">Destroy the PointOctree object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0a/PointOctree_8cpp_source.html#l00141">PointOctree.cpp:141</a></div></div>
+<div class="ttc" id="aclasscore_1_1PointOctree_html_aa8283f3eea13967dc25ee01bc59d1082"><div class="ttname"><a href="../../d6/d8d/classcore_1_1PointOctree.html#aa8283f3eea13967dc25ee01bc59d1082">core::PointOctree::~PointOctree</a></div><div class="ttdeci">~PointOctree()</div><div class="ttdoc">Destroy the PointOctree object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0a/PointOctree_8cpp_source.html#l00145">PointOctree.cpp:145</a></div></div>
 <div class="ttc" id="aclasscore_1_1PointOctree_html_aac849d5cbe646f918809e6e36e3cf5da"><div class="ttname"><a href="../../d6/d8d/classcore_1_1PointOctree.html#aac849d5cbe646f918809e6e36e3cf5da">core::PointOctree::PointOctree</a></div><div class="ttdeci">PointOctree(const OctreePoints &amp;points, double voxelSize, const Vector3f &amp;minAABB, const Vector3f &amp;maxAABB)</div><div class="ttdoc">Construct a new PointOctree object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0a/PointOctree_8cpp_source.html#l00033">PointOctree.cpp:33</a></div></div>
 <div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00052">BaseWindow.cpp:53</a></div></div>
 <div class="ttc" id="anamespacecore_html_a1d753103280aad72e5924fcfff96dc28"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">core::Vector3f</a></div><div class="ttdeci">glm::vec3 Vector3f</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00137">MathTypes.h:137</a></div></div>

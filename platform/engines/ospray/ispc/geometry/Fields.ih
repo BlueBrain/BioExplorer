@@ -43,9 +43,11 @@ struct Fields
     float cutoff;
     float gradientOffset;
     bool gradientShadingEnabled;
+    bool useOctree;
     float samplingRate;
     float epsilon;
     int accumulationSteps;
+    int accumulationCount;
 };
 
 void Field_Constructor(Fields *uniform volume, void *uniform cppEquivalent, const uniform vec3f &offset,

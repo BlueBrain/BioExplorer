@@ -133,20 +133,21 @@ $(document).ready(function(){initNavTree('df/df3/Fields_8ih_source.html','../../
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    bool gradientShadingEnabled;</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    float samplingRate;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    float epsilon;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;};</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;void Field_Constructor(Fields *uniform volume, void *uniform cppEquivalent, const uniform vec3f &amp;offset,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                       const uniform vec3ui &amp;dimensions, const uniform vec3f &amp;scale, const uint32 *uniform indices,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                       const float *uniform values, const float &amp;distance, const float &amp;cutoff,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                       const float &amp;volumeGradientOffset, const bool &amp;gradientShadingEnabled)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;export void Field_setTransferFunction(void *uniform _self, void *uniform value)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    uniform Fields *uniform self = (uniform Fields * uniform) _self;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    self-&gt;transferFunction = (TransferFunction * uniform) value;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    int accumulationSteps;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;};</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;void Field_Constructor(Fields *uniform volume, void *uniform cppEquivalent, const uniform vec3f &amp;offset,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                       const uniform vec3ui &amp;dimensions, const uniform vec3f &amp;scale, const uint32 *uniform indices,</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                       const float *uniform values, const float &amp;distance, const float &amp;cutoff,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                       const float &amp;volumeGradientOffset, const bool &amp;gradientShadingEnabled)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;export void Field_setTransferFunction(void *uniform _self, void *uniform value)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    uniform Fields *uniform self = (uniform Fields * uniform) _self;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    self-&gt;transferFunction = (TransferFunction * uniform) value;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

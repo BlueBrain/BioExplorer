@@ -80,6 +80,8 @@ OSPRayModel::~OSPRayModel()
     releaseAndClearGeometry(_ospMeshes);
     releaseAndClearGeometry(_ospStreamlines);
     releaseAndClearGeometry(_ospSDFGeometries);
+    releaseAndClearGeometry(_ospCurves);
+    releaseAndClearGeometry(_ospFields);
 
     ospRelease(_primaryModel);
     ospRelease(_secondaryModel);
@@ -210,8 +212,8 @@ void OSPRayModel::_commitCylinders(const size_t materialId)
 void OSPRayModel::_commitCones(const size_t materialId)
 {
     auto& geometry = _createGeometry(_ospCones, materialId, OSPRAY_GEOMETRY_PROPERTY_CONES);
-    auto data = allocateVectorData(_geometries->_cones.at(materialId), OSP_FLOAT, _memoryManagementFlags);
 
+    auto data = allocateVectorData(_geometries->_cones.at(materialId), OSP_FLOAT, _memoryManagementFlags);
     ospSetObject(geometry, OSPRAY_GEOMETRY_PROPERTY_CONES, data);
     ospRelease(data);
 
@@ -404,31 +406,37 @@ void OSPRayModel::_commitCurves(const size_t materialId)
 
 void OSPRayModel::_commitFields(const size_t materialId)
 {
-    _ospFields[materialId] = _createGeometry(_ospFields, materialId, OSPRAY_GEOMETRY_PROPERTY_FIELDS);
-    auto& ospField = _ospFields[materialId];
+    auto& geometry = _createGeometry(_ospFields, materialId, OSPRAY_GEOMETRY_PROPERTY_FIELDS);
     auto& field = _geometries->_fields.at(materialId);
 
     const auto& indices = field->getOctreeIndices();
     const auto& values = field->getOctreeValues();
     if (indices.empty() || values.empty())
+    {
+        CORE_ERROR("No values from Octree for fields geometry");
         return;
+    }
 
+    CORE_DEBUG("Fields: Committing " << field->getOctreeIndices().size() << " indices");
     auto indicesBuffer = allocateVectorData(field->getOctreeIndices(), OSP_UINT, _memoryManagementFlags);
-    ospSetObject(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_INDICES, indicesBuffer);
+    ospSetObject(geometry, OSPRAY_GEOMETRY_PROPERTY_FIELD_INDICES, indicesBuffer);
     ospRelease(indicesBuffer);
 
+    CORE_DEBUG("Fields: Committing " << field->getOctreeValues().size() << " values");
     auto valuesBuffer = allocateVectorData(field->getOctreeValues(), OSP_FLOAT, _memoryManagementFlags);
-    ospSetObject(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_VALUES, valuesBuffer);
+    ospSetObject(geometry, OSPRAY_GEOMETRY_PROPERTY_FIELD_VALUES, valuesBuffer);
     ospRelease(valuesBuffer);
 
-    osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_DIMENSIONS, field->getDimensions());
-    osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_SPACING, field->getElementSpacing());
-    osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_OFFSET, field->getOffset());
-    osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_DATATYPE, field->getOctreeDataType());
-    ospSetObject(ospField, DEFAULT_COMMON_TRANSFER_FUNCTION, _ospTransferFunction);
+    osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_FIELD_DIMENSIONS, field->getDimensions());
+    osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_FIELD_SPACING, field->getElementSpacing());
+    osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_FIELD_OFFSET, field->getOffset());
+    osphelper::set(geometry, OSPRAY_GEOMETRY_PROPERTY_FIELD_DATATYPE, static_cast<int>(field->getOctreeDataType()));
+    ospSetObject(geometry, DEFAULT_COMMON_TRANSFER_FUNCTION, _ospTransferFunction);
 
-    ospCommit(ospField);
-    _addGeometryToModel(ospField, materialId);
+    ospCommit(geometry);
+    ospAddGeometry(_primaryModel, geometry);
+
+    _ospFields[materialId] = geometry;
 }
 
 void OSPRayModel::commitFieldParameters()
@@ -447,6 +455,8 @@ void OSPRayModel::commitFieldParameters()
         osphelper::set(ospField, OSPRAY_FIELD_PROPERTY_EPSILON, static_cast<float>(_fieldParameters.getEpsilon()));
         osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_ACCUMULATION_STEPS,
                        static_cast<int>(_fieldParameters.getAccumulationSteps()));
+        osphelper::set(ospField, OSPRAY_GEOMETRY_PROPERTY_FIELD_ACCUMULATION_COUNT,
+                       static_cast<int>(++_commitFieldCount));
         ospCommit(ospField);
     }
 }

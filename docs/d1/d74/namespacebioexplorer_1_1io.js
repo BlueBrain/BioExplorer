@@ -1,6 +1,7 @@
 var namespacebioexplorer_1_1io =
 [
     [ "db", "dc/d01/namespacebioexplorer_1_1io_1_1db.html", "dc/d01/namespacebioexplorer_1_1io_1_1db" ],
+    [ "MemoryCache", "d5/d89/classbioexplorer_1_1io_1_1MemoryCache.html", "d5/d89/classbioexplorer_1_1io_1_1MemoryCache" ],
     [ "CacheLoader", "d1/d5f/classbioexplorer_1_1io_1_1CacheLoader.html", "d1/d5f/classbioexplorer_1_1io_1_1CacheLoader" ],
     [ "OOCManager", "da/d6e/classbioexplorer_1_1io_1_1OOCManager.html", "da/d6e/classbioexplorer_1_1io_1_1OOCManager" ],
     [ "OOCManagerPtr", "d1/d74/namespacebioexplorer_1_1io.html#a68c02fcdfa01a4f1db0d5caa9d063d5f", null ],

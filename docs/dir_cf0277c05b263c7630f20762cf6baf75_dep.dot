@@ -8,7 +8,7 @@ digraph "bioexplorer/backend/plugins/Sonata/plugin/neuroscience/astrocyte" {
   dir_cf0277c05b263c7630f20762cf6baf75 [shape=box, label="astrocyte", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_cf0277c05b263c7630f20762cf6baf75.html"];
   }
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_cf0277c05b263c7630f20762cf6baf75->dir_536f9cbd7f4a3361b357e6a928015c7e [headlabel="3", labeldistance=1.5 headhref="dir_000035_000036.html"];
-  dir_cf0277c05b263c7630f20762cf6baf75->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="7", labeldistance=1.5 headhref="dir_000035_000061.html"];
-  dir_536f9cbd7f4a3361b357e6a928015c7e->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="12", labeldistance=1.5 headhref="dir_000036_000061.html"];
+  dir_cf0277c05b263c7630f20762cf6baf75->dir_536f9cbd7f4a3361b357e6a928015c7e [headlabel="3", labeldistance=1.5 headhref="dir_000034_000035.html"];
+  dir_cf0277c05b263c7630f20762cf6baf75->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="7", labeldistance=1.5 headhref="dir_000034_000061.html"];
+  dir_536f9cbd7f4a3361b357e6a928015c7e->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="12", labeldistance=1.5 headhref="dir_000035_000061.html"];
 }

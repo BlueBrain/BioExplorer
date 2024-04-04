@@ -16,7 +16,7 @@ var namespacesonataexplorer =
     [ "_splitString", "d4/df1/namespacesonataexplorer.html#ad1ab15b38df24e9a82ecd83a44884f0a", null ],
     [ "capsuleVolume", "d4/df1/namespacesonataexplorer.html#a12a332e7b896c195a9d0a7a949077eef", null ],
     [ "coneVolume", "d4/df1/namespacesonataexplorer.html#a74658aedb4f4bb92d9266173b843e5cb", null ],
-    [ "core_plugin_create", "d4/df1/namespacesonataexplorer.html#a2790dc7628f5f11fd841ddcd6e2969db", null ],
+    [ "core_plugin_create", "d4/df1/namespacesonataexplorer.html#a6bb53ad82bb25f9d3962b8d2592ef3b3", null ],
     [ "cylinderVolume", "d4/df1/namespacesonataexplorer.html#a9285ad6f09f423fb0ee8a420bbbae28d", null ],
     [ "get_translation", "d4/df1/namespacesonataexplorer.html#a88d5d90a20796281c48453824cea7092", null ],
     [ "getPointInSphere", "d4/df1/namespacesonataexplorer.html#a6f43e8ba50dc57e0ea3cd8dfe0cf2baf", null ],
@@ -30,5 +30,13 @@ var namespacesonataexplorer =
     [ "OSP_REGISTER_RENDERER", "d4/df1/namespacesonataexplorer.html#a46c413a630dbef5570172e2d4afb5c28", null ],
     [ "sphereVolume", "d4/df1/namespacesonataexplorer.html#afd02130953a54888626e8977f8499085", null ],
     [ "transformVector3d", "d4/df1/namespacesonataexplorer.html#a4c26a2ffd19b4464c62650f612f2a061", null ],
+    [ "ARG_DB_BATCH_SIZE", "d4/df1/namespacesonataexplorer.html#a2acafa70a36fbec82e9b358a983fb48f", null ],
+    [ "ARG_DB_HOST", "d4/df1/namespacesonataexplorer.html#aa57cf2cd4c87a5dca59f7426beb7a22e", null ],
+    [ "ARG_DB_NAME", "d4/df1/namespacesonataexplorer.html#a6933eaeb36895f2c857215778ed4634b", null ],
+    [ "ARG_DB_NB_CONNECTIONS", "d4/df1/namespacesonataexplorer.html#a0278994e4107d9229a546d0c786ae3e7", null ],
+    [ "ARG_DB_PASSWORD", "d4/df1/namespacesonataexplorer.html#a510a5797d8ebcb42c60c618fb663a665", null ],
+    [ "ARG_DB_PORT", "d4/df1/namespacesonataexplorer.html#a4ae8665923d37457b295f49121c2cc39", null ],
+    [ "ARG_DB_USER", "d4/df1/namespacesonataexplorer.html#a710fe7cedb9da69e270c26afc80c9628", null ],
+    [ "DEFAULT_DB_NB_CONNECTIONS", "d4/df1/namespacesonataexplorer.html#ab3f076c695a8279b2e0462d7715a1023", null ],
     [ "PLUGIN_API_PREFIX", "d4/df1/namespacesonataexplorer.html#a9f4145e9701d5c9255e0b34e7ba8beec", null ]
 ];

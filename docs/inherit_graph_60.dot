@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="bioexplorer::details\l::SDFTorusDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d06/structbioexplorer_1_1details_1_1SDFTorusDetails.html",tooltip=" "];
+  Node0 [label="bioexplorer::details\l::SceneInformationDetails",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d03/structbioexplorer_1_1details_1_1SceneInformationDetails.html",tooltip="List of metrics for the current scene."];
 }

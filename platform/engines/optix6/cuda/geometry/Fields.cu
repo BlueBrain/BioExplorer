@@ -190,11 +190,11 @@ static __device__ float4 get_voxel_value(const int idx, const float3& point, con
             const int fieldOctreeType = static_cast<int>(fields[idx + FIELD_OFFSET_OCTREE_TYPE]);
             switch (fieldOctreeType)
             {
-            case OctreeDataType::point:
+            case odt_points:
                 return make_float4(0.f, 0.f, 0.f,
                                    treeWalker<0>(fieldOctreeIndicesId, fieldOctreeValuesId, point, fieldDistance,
                                                  fieldCutoff, 0u));
-            case OctreeDataType::vector:
+            case odt_vectors:
                 const float3 sampleValue =
                     treeWalker3<0>(fieldOctreeIndicesId, fieldOctreeValuesId, point, fieldDistance, fieldCutoff, 0u);
                 return make_float4(normalize(sampleValue), length(sampleValue));

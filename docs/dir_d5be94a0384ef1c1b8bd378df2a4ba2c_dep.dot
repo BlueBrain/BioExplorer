@@ -9,10 +9,10 @@ digraph "bioexplorer/backend/plugins/Sonata/plugin/neuroscience/neuron" {
   }
   dir_3b7f3ace1299a9efd090ecc9021e4bb3 [shape=box label="api" URL="dir_3b7f3ace1299a9efd090ecc9021e4bb3.html"];
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_d5be94a0384ef1c1b8bd378df2a4ba2c->dir_3b7f3ace1299a9efd090ecc9021e4bb3 [headlabel="2", labeldistance=1.5 headhref="dir_000037_000031.html"];
-  dir_d5be94a0384ef1c1b8bd378df2a4ba2c->dir_536f9cbd7f4a3361b357e6a928015c7e [headlabel="7", labeldistance=1.5 headhref="dir_000037_000036.html"];
-  dir_d5be94a0384ef1c1b8bd378df2a4ba2c->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="27", labeldistance=1.5 headhref="dir_000037_000061.html"];
-  dir_536f9cbd7f4a3361b357e6a928015c7e->dir_3b7f3ace1299a9efd090ecc9021e4bb3 [headlabel="1", labeldistance=1.5 headhref="dir_000036_000031.html"];
-  dir_536f9cbd7f4a3361b357e6a928015c7e->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="12", labeldistance=1.5 headhref="dir_000036_000061.html"];
-  dir_3b7f3ace1299a9efd090ecc9021e4bb3->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="1", labeldistance=1.5 headhref="dir_000031_000061.html"];
+  dir_d5be94a0384ef1c1b8bd378df2a4ba2c->dir_3b7f3ace1299a9efd090ecc9021e4bb3 [headlabel="2", labeldistance=1.5 headhref="dir_000036_000030.html"];
+  dir_d5be94a0384ef1c1b8bd378df2a4ba2c->dir_536f9cbd7f4a3361b357e6a928015c7e [headlabel="7", labeldistance=1.5 headhref="dir_000036_000035.html"];
+  dir_d5be94a0384ef1c1b8bd378df2a4ba2c->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="28", labeldistance=1.5 headhref="dir_000036_000061.html"];
+  dir_536f9cbd7f4a3361b357e6a928015c7e->dir_3b7f3ace1299a9efd090ecc9021e4bb3 [headlabel="1", labeldistance=1.5 headhref="dir_000035_000030.html"];
+  dir_536f9cbd7f4a3361b357e6a928015c7e->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="12", labeldistance=1.5 headhref="dir_000035_000061.html"];
+  dir_3b7f3ace1299a9efd090ecc9021e4bb3->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="1", labeldistance=1.5 headhref="dir_000030_000061.html"];
 }

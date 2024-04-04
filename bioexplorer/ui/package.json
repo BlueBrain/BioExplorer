@@ -1,6 +1,6 @@
 {
     "name": "bioexplorer-ui",
-    "version": "1.7.1",
+    "version": "1.8.0",
     "license": "LGPL-3.0+",
     "private": true,
     "scripts": {

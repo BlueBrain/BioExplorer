@@ -393,8 +393,10 @@ class NeuronReportParams:
         Parameters used to define how cells should be represented using the SDF technique
 
         :report_id: (int, optional): Report id
-        :value_range: (Vector2, optional): Range of values for the mapped data. Defaults are [-80.0, -10.0]
-        :scaling_range: (Vector2, optional): Minimum and maximum scaling factors. Defaults are [-1.0, 1.0] (no scaling)
+        :value_range: (Vector2, optional): Range of values for the mapped data. Defaults are
+        [-80.0, -10.0]
+        :scaling_range: (Vector2, optional): Minimum and maximum scaling factors. Defaults are
+        [-1.0, 1.0] (no scaling)
         :initial_simulation_frame: (int, optional): Initial simulation frame. Default is 0
         :load_non_simulated_nodes: Defines if non-simulated should be loaded
         """
@@ -408,7 +410,7 @@ class NeuronReportParams:
         self.value_range = value_range
         self.scaling_range = scaling_range
         self.initial_simulation_frame = initial_simulation_frame
-        self.load_non_simulated_nodes=load_non_simulated_nodes
+        self.load_non_simulated_nodes = load_non_simulated_nodes
 
     def to_list(self):
         """

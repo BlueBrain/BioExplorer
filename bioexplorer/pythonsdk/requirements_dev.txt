@@ -19,10 +19,10 @@
 
 
 jupyter~=1.0.0
-numpy~=1.21.6
+numpy~=1.22.4
 rockets~=1.0.3
 requests~=2.31.0
-python-jsonschema-objects~=0.4.1
+python-jsonschema-objects~=0.5.2
 semver~=2.8.1
 setuptools~=46.0.0
 stringcase~=1.2.0
@@ -35,7 +35,7 @@ coverage~=7.1.0
 nosexcover~=1.0.11
 tox~=3.6.1
 mock~=2.0.0
-sphinx==1.8.3
+sphinx==5.0.0
 sphinx_rtd_theme==0.4.2
 nbsphinx==0.8.3
 m2r~=0.2.1

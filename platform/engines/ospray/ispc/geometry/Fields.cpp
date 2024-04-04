@@ -59,7 +59,6 @@ void Fields::finalize(::ospray::Model *model)
         (::ospray::TransferFunction *)getParamObject(DEFAULT_COMMON_TRANSFER_FUNCTION, nullptr);
     if (transferFunction)
         ::ispc::Field_setTransferFunction(getIE(), transferFunction->getIE());
-
     commit();
 }
 
@@ -69,12 +68,14 @@ void Fields::commit()
     _cutoff = getParamf(OSPRAY_FIELD_PROPERTY_CUTOFF, 1500.f);
     _gradientOffset = getParamf(OSPRAY_FIELD_PROPERTY_GRADIENT_OFFSET, 1e-6f);
     _gradientShadingEnabled = getParam1i(OSPRAY_FIELD_PROPERTY_GRADIENT_SHADING_ENABLED, false);
+    _useOctree = getParam1i(OSPRAY_FIELD_PROPERTY_USE_OCTREE, true);
     _samplingRate = getParamf(OSPRAY_FIELD_PROPERTY_SAMPLING_RATE, 1.f);
     _epsilon = getParamf(OSPRAY_FIELD_PROPERTY_EPSILON, 1e-6f);
     _accumulationSteps = getParam1i(OSPRAY_GEOMETRY_PROPERTY_FIELD_ACCUMULATION_STEPS, 0);
+    _accumulationCount = getParam1i(OSPRAY_GEOMETRY_PROPERTY_FIELD_ACCUMULATION_COUNT, 0);
 
-    ::ispc::Field_commit(getIE(), _distance, _cutoff, _gradientOffset, _gradientShadingEnabled, _samplingRate, _epsilon,
-                         _accumulationSteps);
+    ::ispc::Field_commit(getIE(), _distance, _cutoff, _gradientOffset, _gradientShadingEnabled, _useOctree,
+                         _samplingRate, _epsilon, _accumulationSteps, _accumulationCount);
 }
 
 OSP_REGISTER_GEOMETRY(Fields, fields);

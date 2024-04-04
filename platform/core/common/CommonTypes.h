@@ -64,8 +64,8 @@ enum MaterialChameleonMode
 
 enum OctreeDataType
 {
-    point,
-    vector
+    odt_points = 0,
+    odt_vectors = 1
 };
 
 #define OCTREE_DATA_OFFSET_X 0

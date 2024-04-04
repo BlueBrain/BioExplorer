@@ -4,5 +4,7 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="core::PointOctreeNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d84/classcore_1_1PointOctreeNode.html",tooltip="The PointOctreeNode class implement a spherical node of the Octree acceleration structure used by the..."];
+  Node0 [label="core::PluginAPI",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d07/classcore_1_1PluginAPI.html",tooltip=" "];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="core::Core::Impl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d15/structcore_1_1Core_1_1Impl.html",tooltip=" "];
 }

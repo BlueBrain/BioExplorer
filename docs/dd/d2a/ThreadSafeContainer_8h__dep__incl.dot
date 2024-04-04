@@ -96,13 +96,11 @@ digraph "bioexplorer/backend/science/common/ThreadSafeContainer.h"
   Node40 [label="bioexplorer/backend\l/science/vasculature\l/VasculatureLoader.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d80/VasculatureLoader_8cpp.html",tooltip=" "];
   Node1 -> Node41 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node41 [label="bioexplorer/backend\l/science/common/ThreadSafe\lContainer.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d48/ThreadSafeContainer_8cpp.html",tooltip=" "];
-  Node1 -> Node42 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node42 [label="bioexplorer/backend\l/science/connectomics\l/graph/Graph.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dea/Graph_8cpp.html",tooltip=" "];
   Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 -> Node43 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node43 [label="bioexplorer/backend\l/science/meshing/PointCloud\lMesher.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/ddb/science_2meshing_2PointCloudMesher_8cpp.html",tooltip=" "];
+  Node1 -> Node42 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 [label="bioexplorer/backend\l/science/meshing/PointCloud\lMesher.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/ddb/science_2meshing_2PointCloudMesher_8cpp.html",tooltip=" "];
   Node1 -> Node28 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node35 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

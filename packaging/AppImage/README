@@ -1,0 +1,18 @@
+The generation of AppImage is performed in a Docker container.
+For that purpose two Docker images are used: A base image where all dependencies
+are installed and another one where RTNeuron is built. You don't have to build the base
+image as it is available at Docker Hub as bluebrain/rtneuron_builder
+(you can jump directly to point 2).
+
+The step-by-step instructions for generating the RTNeuron AppImage follow:
+
+1. Build the base image (optional):
+   - cd packaging/AppImage/builder
+   - docker build -t bluebrain/rtneuron_builder .
+2. cd ../../.. (the root of RTNeuron git repository)
+3. Build a docker image with command below:
+   - docker build  -f DockerfileAppImage  -t app_image_builder .
+3. Start the container mounting the volume where the AppImage  will be copied
+   (e.g. current working directory):
+   - docker run -ti --rm -v $(pwd):/tmp/output app_image_builder
+   The AppImage is copied into current path as rtneuron_x86_64.AppImage

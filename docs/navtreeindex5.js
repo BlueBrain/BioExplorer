@@ -1,5 +1,15 @@
 var NAVTREEINDEX5 =
 {
+"d2/d71/structcore_1_1engine_1_1ospray_1_1AnaglyphCamera.html#a7506132f4e6f1c36421ddcd3ce74eedd":[10,0,2,0,1,0,1],
+"d2/d71/structcore_1_1engine_1_1ospray_1_1AnaglyphCamera.html#a7723383758f9db9cdd7a8fe2b29ee8b9":[10,0,2,0,1,0,8],
+"d2/d71/structcore_1_1engine_1_1ospray_1_1AnaglyphCamera.html#a7cfc2164b66ed126024d38a44404c0b5":[10,0,2,0,1,0,0],
+"d2/d71/structcore_1_1engine_1_1ospray_1_1AnaglyphCamera.html#a983d2a84465f6a7ab19e5c67465b32a7":[10,0,2,0,1,0,4],
+"d2/d71/structcore_1_1engine_1_1ospray_1_1AnaglyphCamera.html#aa9da2228db33d65a31e3fa19ab706c91":[10,0,2,0,1,0,5],
+"d2/d71/structcore_1_1engine_1_1ospray_1_1AnaglyphCamera.html#ab6b96129a763843ffb6b64f1d830e872":[10,0,2,0,1,0,7],
+"d2/d77/OSPRayVolume_8cpp.html":[11,0,1,2,1,20],
+"d2/d77/OSPRayVolume_8cpp_source.html":[11,0,1,2,1,20],
+"d2/d7a/FileSystem_8h.html":[11,0,1,1,0,10,4],
+"d2/d7a/FileSystem_8h_source.html":[11,0,1,1,0,10,4],
 "d2/d80/VasculatureLoader_8cpp.html":[11,0,0,0,2,9,4],
 "d2/d80/VasculatureLoader_8cpp.html#a44fcc964f442bece5941171828c43457":[11,0,0,0,2,9,4,1],
 "d2/d80/VasculatureLoader_8cpp.html#abb4832fed05e89617b214c29ef048afd":[11,0,0,0,2,9,4,0],
@@ -207,8 +217,6 @@ var NAVTREEINDEX5 =
 "d2/dc6/science_2morphologies_2SpikeSimulationHandler_8cpp_source.html":[11,0,0,0,2,8,14],
 "d2/dc9/VolumeParameters_8cpp.html":[11,0,1,1,4,14],
 "d2/dc9/VolumeParameters_8cpp_source.html":[11,0,1,1,4,14],
-"d2/dcc/PointFieldsRenderer_8h.html":[11,0,0,0,0,1,0,1,1],
-"d2/dcc/PointFieldsRenderer_8h_source.html":[11,0,0,0,0,1,0,1,1],
 "d2/dcc/namespacecore_1_1engine_1_1optix.html":[9,0,3,0,0],
 "d2/dcc/namespacecore_1_1engine_1_1optix.html#a0805fd580605e5091a90ea3327ea3a16":[9,0,3,0,0,27],
 "d2/dcc/namespacecore_1_1engine_1_1optix.html#a089a08d25a7b0c16aceb0b8afceba735":[9,0,3,0,0,30],
@@ -241,13 +249,5 @@ var NAVTREEINDEX5 =
 "d2/dd7/SurfaceMesher_8h.html":[11,0,0,0,2,6,3],
 "d2/dd7/SurfaceMesher_8h_source.html":[11,0,0,0,2,6,3],
 "d2/ddb/Glycans_8cpp.html":[11,0,0,0,2,7,2],
-"d2/ddb/Glycans_8cpp_source.html":[11,0,0,0,2,7,2],
-"d2/ddf/OOCManager_8h.html":[11,0,0,0,2,5,4],
-"d2/ddf/OOCManager_8h_source.html":[11,0,0,0,2,5,4],
-"d2/de1/AdvancedMaterial_8h.html":[11,0,1,2,1,0,2,0,4],
-"d2/de1/AdvancedMaterial_8h.html#aa718bb25b7ce4185e08572b314061679":[11,0,1,2,1,0,2,0,4,1],
-"d2/de1/AdvancedMaterial_8h_source.html":[11,0,1,2,1,0,2,0,4],
-"d2/de2/structcore_1_1engine_1_1optix_1_1VolumeGeometry.html":[10,0,2,0,0,14],
-"d2/de2/structcore_1_1engine_1_1optix_1_1VolumeGeometry.html#a41557c323f90d27b85aab087a0e5653c":[10,0,2,0,0,14,3],
-"d2/de2/structcore_1_1engine_1_1optix_1_1VolumeGeometry.html#a67c05eca2dcebf14516dba63fc2354ea":[10,0,2,0,0,14,2]
+"d2/ddb/Glycans_8cpp_source.html":[11,0,0,0,2,7,2]
 };

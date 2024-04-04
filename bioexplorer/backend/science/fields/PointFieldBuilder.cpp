@@ -140,7 +140,7 @@ void PointFieldBuilder::buildOctree(core::Engine& engine, core::Model& model, co
 
     const auto& params = engine.getParametersManager().getApplicationParameters();
     const auto& engineName = params.getEngine();
-    auto field = model.createField(dimensions, spacing, offset, indices, data, OctreeDataType::point);
+    auto field = model.createField(dimensions, spacing, offset, indices, data, OctreeDataType::odt_points);
     const size_t materialId = FIELD_MATERIAL_ID;
     model.addField(materialId, field);
     model.createMaterial(materialId, std::to_string(materialId));

@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="Sphere",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d0f/structSphere.html",tooltip=" "];
+  Node0 [label="sonataexplorer::meshing\l::PointCloudMesher",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/dce/classsonataexplorer_1_1meshing_1_1PointCloudMesher.html",tooltip=" "];
 }
