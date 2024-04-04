@@ -24,6 +24,7 @@
 
 import copy
 import time
+import pyexiv2
 from ipywidgets import IntSlider, IntProgress
 from IPython.display import display
 from .bio_explorer import BioExplorer
@@ -596,3 +597,42 @@ class MovieMaker:
 
         progress_widget.description = "Done"
         progress_widget.value = 100
+
+
+    @staticmethod
+    def set_image_metadata(
+            file_name, description, owner, artist_name, copyright, software_name, software_version,
+            keywords=list(), artist_email=None, artist_orcid=None, artist_job_description=None,
+            contact_details=None, contributors=list()):
+        metadata = pyexiv2.ImageMetadata(file_name)
+        metadata.read()
+        '''XML tags'''
+        metadata['Xmp.dc.artist'] = artist_name
+        metadata.xmp_keys.append(['Xmp.dc.ORCID', artist_orcid])
+        if keywords:
+            metadata['Xmp.dc.subject'] = list(keywords)
+
+        '''Exif Tags'''
+        metadata['Exif.Image.Artist'] = owner
+        metadata['Exif.Image.Software'] = '%s %s' % (software_name, software_version)
+        metadata['Exif.Image.Copyright'] = copyright
+        metadata['Exif.Image.ImageDescription'] = description
+
+        '''IPTC tags'''
+        list_of_contributors = ''
+        list_of_contributors += '%s (%s)' % (artist_name, artist_email)
+        for contributor in contributors:
+            list_of_contributors += ',' + contributor
+
+        metadata['Iptc.Application2.Byline'] = [list_of_contributors]
+        metadata['Iptc.Application2.Caption'] = [description]
+        metadata['Iptc.Application2.Copyright'] = [copyright]
+        metadata['Iptc.Application2.Program'] = [software_name]
+        metadata['Iptc.Application2.ProgramVersion'] = [software_version]
+        if contact_details:
+            metadata['Iptc.Application2.Contact'] = [contact_details]
+        if keywords:
+            metadata['Iptc.Application2.Keywords'] = list(keywords)
+        if artist_job_description:
+            metadata['Iptc.Application2.BylineTitle'] = [artist_job_description]
+        metadata.write()
