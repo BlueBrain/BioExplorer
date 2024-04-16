@@ -383,8 +383,8 @@ void Neurons::_buildSomasOnly(Model& model, ThreadSafeContainer& container, cons
             }
 
             auto radius = _details.radiusMultiplier;
-            if (voltages)
-                radius = _details.radiusMultiplier * _neuronsReportParameters.scalingRange.x *
+            if (voltages && _neuronsReportParameters.voltageScalingEnabled)
+                radius = _details.radiusMultiplier * _neuronsReportParameters.voltageScalingRange.x *
                          std::max(0.0, voltages[somaUserData] - _neuronsReportParameters.valueRange.x);
 
             const Vector3d position = soma.second.position;
@@ -558,8 +558,8 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
     }
     }
     float voltageScaling = 1.f;
-    if (voltages)
-        voltageScaling = _neuronsReportParameters.scalingRange.x *
+    if (voltages && _neuronsReportParameters.voltageScalingEnabled)
+        voltageScaling = _neuronsReportParameters.voltageScalingRange.x *
                          std::max(0.0, voltages[somaUserData] - _neuronsReportParameters.valueRange.x);
 
     // Load synapses for all sections

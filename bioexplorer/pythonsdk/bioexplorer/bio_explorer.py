@@ -385,7 +385,7 @@ class NeuronReportParams:
         self,
         report_id=-1,
         value_range=Vector2(-80.0, 10.0),
-        scaling_range=Vector2(0.1, 1.0),
+        voltage_scaling_range=Vector2(1.0, 1.0),
         initial_simulation_frame=0,
         load_non_simulated_nodes=False
     ):
@@ -402,13 +402,13 @@ class NeuronReportParams:
         """
         assert isinstance(report_id, int)
         assert isinstance(value_range, Vector2)
-        assert isinstance(scaling_range, Vector2)
+        assert isinstance(voltage_scaling_range, Vector2)
         assert isinstance(initial_simulation_frame, int)
         assert isinstance(load_non_simulated_nodes, bool)
 
         self.report_id = report_id
         self.value_range = value_range
-        self.scaling_range = scaling_range
+        self.voltage_scaling_range = voltage_scaling_range
         self.initial_simulation_frame = initial_simulation_frame
         self.load_non_simulated_nodes = load_non_simulated_nodes
 
@@ -423,8 +423,8 @@ class NeuronReportParams:
             float(self.report_id),
             self.value_range.x,
             self.value_range.y,
-            self.scaling_range.x,
-            self.scaling_range.y,
+            self.voltage_scaling_range.x,
+            self.voltage_scaling_range.y,
             float(self.initial_simulation_frame),
             float(self.load_non_simulated_nodes)
         ]
@@ -438,7 +438,7 @@ class NeuronReportParams:
         return NeuronReportParams(
             self.report_id,
             self.value_range,
-            self.scaling_range,
+            self.voltage_scaling_range,
             self.initial_simulation_frame,
             self.load_non_simulated_nodes
         )
