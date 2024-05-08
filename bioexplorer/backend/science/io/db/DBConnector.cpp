@@ -647,6 +647,38 @@ TriangleMesh DBConnector::getAstrocyteMicroDomain(const std::string& populationN
     return mesh;
 }
 
+uint64_t DBConnector::getNumberOfNeurons(const std::string& populationName, const std::string& sqlCondition) const
+{
+    CHECK_DB_INITIALIZATION
+
+    uint64_t nbNeurons = 0;
+    pqxx::nontransaction transaction(*_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
+    {
+        Timer chrono;
+        std::string sql =
+            "SELECT COUNT(guid) FROM " + populationName + ".node";
+
+        if (!sqlCondition.empty())
+            sql += " WHERE " + sqlCondition;
+
+        PLUGIN_DB_INFO(1, sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+        {
+            nbNeurons = c[0].as<uint64_t>();
+        }
+        PLUGIN_DB_TIMER(chrono.elapsed(), "getNumberOfNeurons(populationName=" << populationName << ", sqlCondition="
+                                                                              << sqlCondition << ")");
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return nbNeurons;
+}
+
 NeuronSomaMap DBConnector::getNeurons(const std::string& populationName, const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION

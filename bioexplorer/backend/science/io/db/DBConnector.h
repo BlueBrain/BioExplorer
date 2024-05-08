@@ -236,6 +236,16 @@ public:
     core::TriangleMesh getAstrocyteMicroDomain(const std::string& populationName, const uint64_t astrocyteId) const;
 
     /**
+     * @brief Get the number of neurons for a given population and a specific filter
+     *
+     * @param populationName Name of the population
+     * @param sqlCondition String containing an WHERE condition for the SQL
+     * statement
+     * @return Number of neurons
+     */
+    uint64_t getNumberOfNeurons(const std::string& populationName, const std::string& sqlCondition = "") const;
+
+    /**
      * @brief Get the neurons locations
      *
      * @param populationName Name of the population

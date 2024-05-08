@@ -115,7 +115,7 @@ private:
 
     void _addVaricosity(core::Vector4fs& points);
 
-    void _attachSimulationReport(core::Model& model);
+    void _attachSimulationReport(core::Model& model, const uint64_t nbNeurons);
 
     const details::NeuronsDetails _details;
     core::Scene& _scene;

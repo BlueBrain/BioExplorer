@@ -328,10 +328,11 @@ NeuronsReportParameters doublesToNeuronsReportParametersDetails(const doubles& v
     details.reportId = (values.size() > 0 ? values[0] : -1);
     details.valueRange.x = (values.size() > 1 ? values[1] : -80.0);
     details.valueRange.y = (values.size() > 2 ? values[2] : 10.0);
-    details.scalingRange.x = (values.size() > 3 ? values[3] : 1.0);
-    details.scalingRange.y = (values.size() > 4 ? values[4] : 1.0);
+    details.voltageScalingRange.x = (values.size() > 3 ? values[3] : 1.0);
+    details.voltageScalingRange.y = (values.size() > 4 ? values[4] : 1.0);
     details.initialSimulationFrame = (values.size() > 5 ? values[5] : 0.0);
     details.loadNonSimulatedNodes = (values.size() > 6 ? (values[6] != 0) : false);
+    details.voltageScalingEnabled = (details.voltageScalingRange.y - details.voltageScalingRange.x) > 0.0001f;
     return details;
 }
 

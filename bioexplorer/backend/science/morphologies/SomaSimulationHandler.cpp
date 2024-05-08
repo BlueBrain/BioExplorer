@@ -41,8 +41,12 @@ SomaSimulationHandler::SomaSimulationHandler(const std::string& populationName, 
 {
     const auto& connector = DBConnector::getInstance();
     _simulationReport = connector.getSimulationReport(_populationName, _simulationReportId);
+    _frameSize = _simulationReport.guids.size();
+    if( _simulationReport.guids.empty() )
+        _frameSize = connector.getNumberOfNeurons(populationName);
 
     _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) / _simulationReport.timeStep;
+    _frameData.resize(_frameSize);
     _dt = _simulationReport.timeStep;
     _logSimulationInformation();
 }
@@ -70,19 +74,24 @@ SomaSimulationHandler::SomaSimulationHandler(const SomaSimulationHandler& rhs)
 
 void* SomaSimulationHandler::getFrameData(const uint32_t frame)
 {
-    const auto& connector = DBConnector::getInstance();
     const auto boundedFrame = _getBoundedFrame(frame);
     if (_currentFrame != boundedFrame)
     {
         _currentFrame = boundedFrame;
         if (_simulationReport.debugMode)
         {
-            for (uint64_t i = 0; i < _frameData.size(); ++i)
-                _frameData[i] = -70.f + 100 * cos((frame + i) * M_PI / 180.f);
+            for (uint64_t i = 0; i < _frameSize; ++i)
+            {
+                const float voltage = -100.f + 100.f * cos((frame + i) * M_PI / 180.f);
+                _frameData[i] = std::max(-80.f, voltage);
+            }
         }
         else
+        {
+            const auto& connector = DBConnector::getInstance();
             connector.getNeuronSomaReportValues(_populationName, _simulationReportId, _currentFrame, _frameData);
-        _frameSize = _frameData.size();
+            _frameSize = _frameData.size();
+        }
     }
 
     return _frameData.data();

@@ -1520,9 +1520,10 @@ typedef struct
 {
     int64_t reportId{-1};
     core::Vector2d valueRange{-100, 100};
-    core::Vector2d scalingRange{1.0, 1.0};
+    core::Vector2d voltageScalingRange{0.1, 1.0};
     uint64_t initialSimulationFrame{0};
     bool loadNonSimulatedNodes{false};
+    bool voltageScalingEnabled{false};
 } NeuronsReportParameters;
 
 typedef struct

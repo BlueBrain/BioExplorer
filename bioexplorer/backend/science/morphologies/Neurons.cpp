@@ -196,21 +196,21 @@ void Neurons::_buildModel(const LoaderProgress& callback)
     const auto& connector = DBConnector::getInstance();
 
     auto model = _scene.createModel();
+    std::string sqlNodeFilter = _details.sqlNodeFilter;
+
+    // Neurons
+    const auto somas = connector.getNeurons(_details.populationName, sqlNodeFilter);
 
     // Report parameters
     float* voltages = nullptr;
-    std::string sqlNodeFilter = _details.sqlNodeFilter;
     _neuronsReportParameters = doublesToNeuronsReportParametersDetails(_details.reportParams);
     if (_neuronsReportParameters.reportId != -1)
     {
         _simulationReport = connector.getSimulationReport(_details.populationName, _neuronsReportParameters.reportId);
-        _attachSimulationReport(*model);
+        _attachSimulationReport(*model, somas.size());
         voltages = static_cast<float*>(
             model->getSimulationHandler()->getFrameData(_neuronsReportParameters.initialSimulationFrame));
     }
-
-    // Neurons
-    const auto somas = connector.getNeurons(_details.populationName, sqlNodeFilter);
 
     if (somas.empty())
         PLUGIN_THROW("Selection returned no nodes");
@@ -383,8 +383,8 @@ void Neurons::_buildSomasOnly(Model& model, ThreadSafeContainer& container, cons
             }
 
             auto radius = _details.radiusMultiplier;
-            if (voltages)
-                radius = _details.radiusMultiplier * _neuronsReportParameters.scalingRange.x *
+            if (voltages && _neuronsReportParameters.voltageScalingEnabled)
+                radius = _details.radiusMultiplier * _neuronsReportParameters.voltageScalingRange.x *
                          std::max(0.0, voltages[somaUserData] - _neuronsReportParameters.valueRange.x);
 
             const Vector3d position = soma.second.position;
@@ -558,8 +558,8 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
     }
     }
     float voltageScaling = 1.f;
-    if (voltages)
-        voltageScaling = _neuronsReportParameters.scalingRange.x *
+    if (voltages && _neuronsReportParameters.voltageScalingEnabled)
+        voltageScaling = _neuronsReportParameters.voltageScalingRange.x *
                          std::max(0.0, voltages[somaUserData] - _neuronsReportParameters.valueRange.x);
 
     // Load synapses for all sections
@@ -1240,7 +1240,7 @@ Vector3ds Neurons::getNeuronVaricosities(const uint64_t neuronId)
     return _varicosities[neuronId];
 }
 
-void Neurons::_attachSimulationReport(Model& model)
+void Neurons::_attachSimulationReport(Model& model, const uint64_t nbNeurons)
 {
     // Simulation report
     std::string sqlNodeFilter = _details.sqlNodeFilter;
