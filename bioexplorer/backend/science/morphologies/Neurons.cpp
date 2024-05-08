@@ -416,7 +416,7 @@ void Neurons::_buildOrientations(ThreadSafeContainer& container, const NeuronSom
         const auto baseMaterialId =
             _details.populationColorScheme == PopulationColorScheme::id ? i * NB_MATERIALS_PER_MORPHOLOGY : 0;
         _addArrow(container, soma.first, soma.second.position, soma.second.rotation, Vector4d(0, 0, 0, radius * 0.2),
-                  Vector4d(radius, 0, 0, radius * 0.2), NeuronSectionType::soma, baseMaterialId, 0.0);
+                  Vector4d(0, radius, 0, radius * 0.2), NeuronSectionType::soma, baseMaterialId, 0.0);
         ++i;
     }
 }
@@ -758,13 +758,6 @@ void Neurons::_addArrow(ThreadSafeContainer& container, const uint64_t neuronId,
 
     auto src = _animatedPosition(Vector4d(somaPosition + somaRotation * Vector3d(srcNode), srcNode.w), neuronId);
     auto dst = _animatedPosition(Vector4d(somaPosition + somaRotation * Vector3d(dstNode), dstNode.w), neuronId);
-
-    if (sectionType != NeuronSectionType::axon)
-    {
-        auto tmp = src;
-        src = dst;
-        dst = tmp;
-    }
 
     const auto userData = neuronId;
     auto direction = dst - src;
