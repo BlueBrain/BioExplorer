@@ -236,7 +236,7 @@ class NeuromodulationScenario(MovieScenario):
         material_ids = self._be.get_material_ids(model_id)['ids']
         self._set_morphology_materials(
             model_id, 'Greys', len(material_ids),
-            self._be.SHADING_MODE_NONE, 1.0, 1.0)
+            self._be.shading_mode.NONE, 1.0, 1.0)
 
     def _apply_vasculature_report(self, frame):
         self._log(2, 'Apply radii changes on vasculature')
@@ -275,25 +275,25 @@ class NeuromodulationScenario(MovieScenario):
                 shading_modes.append(shading_mode)
                 glossinesses.append(glossiness)
                 specular_exponents.append(5.0)
-            elif mid == self._be.NEURON_MATERIAL_MITOCHONDRION:
+            elif mid == self._be.neuron_material.MITOCHONDRION:
                 colors.append([0.5, 0.1, 0.6])
                 opacities.append(1.0)
                 shading_modes.append(shading_mode)
                 glossinesses.append(glossiness)
                 specular_exponents.append(6.0)
-            elif mid == self._be.NEURON_MATERIAL_NUCLEUS:
+            elif mid == self._be.neuron_material.NUCLEUS:
                 colors.append([1.0, 1.0, 1.0])
                 opacities.append(1.0)
                 shading_modes.append(shading_mode)
                 glossinesses.append(glossiness)
                 specular_exponents.append(30.0)
-            elif mid == self._be.NEURON_MATERIAL_SOMA:
+            elif mid == self._be.neuron_material.SOMA:
                 colors.append(palette[0])
                 opacities.append(1.0)
                 shading_modes.append(shading_mode)
                 glossinesses.append(glossiness)
                 specular_exponents.append(5.0)
-            elif mid == self._be.NEURON_MATERIAL_MYELIN_STEATH:
+            elif mid == self._be.neuron_material.MYELIN_SHEATH:
                 colors.append([0.4, 0.3, 0.5])
                 opacities.append(1.0)
                 shading_modes.append(shading_mode)
@@ -335,11 +335,11 @@ class NeuromodulationScenario(MovieScenario):
             if self._draft:
                 self._set_morphology_materials(
                     model_id, palettes[i], self._be.NB_MATERIALS_PER_MORPHOLOGY,
-                    self._be.SHADING_MODE_CARTOON, 1.0, emission, 3.0)
+                    self._be.shading_mode.CARTOON, 1.0, emission, 3.0)
             else:
                 self._set_morphology_materials(
                     model_id, palettes[i], self._be.NB_MATERIALS_PER_MORPHOLOGY,
-                    self._be.SHADING_MODE_PERLIN, 0.1, emission, user_param)
+                    self._be.shading_mode.PERLIN, 0.1, emission, user_param)
             i += 1
 
     def set_rendering_settings(self, renderer):

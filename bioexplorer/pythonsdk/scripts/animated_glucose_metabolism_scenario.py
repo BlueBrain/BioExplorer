@@ -47,7 +47,7 @@ simulation_guid = 4
 concentration_visualization_ratio = 1.0
 
 ''' Protein representation '''
-representation = BioExplorer.REPRESENTATION_ATOMS_AND_STICKS
+representation = be.protein_representation.ATOMS_AND_STICKS
 atom_radius_multiplier = 1.0
 
 ''' Scene size '''
@@ -269,7 +269,7 @@ class GlucoseMetabolismScenario(MovieScenario):
 
                 volume = Volume(
                     name=name,
-                    shape=self._be.ASSEMBLY_SHAPE_CUBE,
+                    shape=self._be.assembly_shape.CUBE,
                     shape_params=area_size,
                     protein=metabolite
                 )
@@ -334,7 +334,7 @@ class GlucoseMetabolismScenario(MovieScenario):
         # Cell definition
         neuron = Cell(
             name=name,
-            shape=self._be.ASSEMBLY_SHAPE_SINUSOID,
+            shape=self._be.assembly_shape.SINUSOID,
             shape_params=membrane_size,
             membrane=membrane,
             proteins=transmembrane_proteins)
@@ -370,7 +370,7 @@ class GlucoseMetabolismScenario(MovieScenario):
         # Cell definition
         neuron_mitochodrion = Cell(
             name=name,
-            shape=self._be.ASSEMBLY_SHAPE_SINUSOID,
+            shape=self._be.assembly_shape.SINUSOID,
             shape_params=membrane_size,
             membrane=membrane,
             proteins=[transporter])
@@ -423,7 +423,7 @@ class GlucoseMetabolismScenario(MovieScenario):
         # Cell definition
         astrocyte = Cell(
             name=name,
-            shape=self._be.ASSEMBLY_SHAPE_SINUSOID,
+            shape=self._be.assembly_shape.SINUSOID,
             shape_params=membrane_size,
             membrane=membrane,
             proteins=transmembrane_proteins)
@@ -459,7 +459,7 @@ class GlucoseMetabolismScenario(MovieScenario):
         # Cell definition
         astrocyte_mitochodrion = Cell(
             name=name,
-            shape=self._be.ASSEMBLY_SHAPE_SINUSOID,
+            shape=self._be.assembly_shape.SINUSOID,
             shape_params=membrane_size,
             membrane=membrane,
             proteins=[transporter])
@@ -678,7 +678,7 @@ class GlucoseMetabolismScenario(MovieScenario):
 
     def set_rendering_settings(self, renderer):
         if renderer == 'bio_explorer':
-            self._be.set_rendering_quality(self._be.RENDERING_QUALITY_HIGH)
+            self._be.set_rendering_quality(self._be.rendering_quality.HIGH)
             params = self._core.AdvancedRendererParams()
             params.shadow_intensity = 1.0
             params.soft_shadow_strength = 0.1
@@ -709,7 +709,7 @@ class GlucoseMetabolismScenario(MovieScenario):
         self._log(1, 'Loading neuron mitochondrion membrane...')
         self._add_neuron_mitochondrion(frame)
         self._log(1, 'Applying materials...')
-        self._set_color_scheme(shading_mode=self._be.SHADING_MODE_PERLIN,
+        self._set_color_scheme(shading_mode=self._be.shading_mode.PERLIN,
                                user_parameter=0.001, specular_exponent=50.0)
         self._set_materials_to_transmembrane_proteins()
         self._log(1, 'Building geometry...')

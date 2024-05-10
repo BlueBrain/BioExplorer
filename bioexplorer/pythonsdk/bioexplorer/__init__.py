@@ -6,7 +6,7 @@
 # The Blue Brain BioExplorer is a tool for scientists to extract and analyse
 # scientific data from visualization
 #
-# Copyright 2020-2023 Blue BrainProject / EPFL
+# Copyright 2020-2024 Blue BrainProject / EPFL
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -22,41 +22,30 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from .version import VERSION as __version__
-from .bio_explorer import (
-    BioExplorer,
-    Volume,
-    Membrane,
-    AssemblyProtein,
-    Protein,
-    Sugar,
-    RNASequence,
-    Cell,
-    Surfactant,
-    Virus,
-    EnzymeReaction,
-    MolecularSystemAnimationParams,
-    CellAnimationParams,
-    NeuronDisplacementParams,
-    NeuronReportParams,
-    AstrocyteDisplacementParams,
-    VasculatureDisplacementParams,
-    SynapseDisplacementParams,
-    Vector2,
-    Vector3,
-    Quaternion,
-    Transformation,
-)
-
+from .math_utils import (Vector2, Vector3, Quaternion, Bounds, Transformation)
+from .animation_parameters import (
+    MolecularSystemAnimationParams, CellAnimationParams)
+from .displacement_parameters import (
+    NeuronDisplacementParams, AstrocyteDisplacementParams, VasculatureDisplacementParams,
+    SynapseDisplacementParams)
+from .molecular_systems import (Volume, Membrane, Protein, Sugar, RNASequence,
+    Cell, Surfactant, Virus, EnzymeReaction)
+from .report_parameters import NeuronReportParams
 from .movie_maker import MovieMaker
 from .movie_scenario import MovieScenario
 from .metabolism import Metabolism
 from .sonata_explorer import SonataExplorer
 from .notebook_widgets import Widgets
 from .transfer_function import TransferFunction
+from .bio_explorer import BioExplorer
 
 __all__ = [
-    "Widgets",
+    "__version__",
     "BioExplorer",
+    "Vector2",
+    "Vector3",
+    "Bounds",
+    "Transformation",
     "Membrane",
     "Protein",
     "AssemblyProtein",
@@ -65,22 +54,19 @@ __all__ = [
     "Volume",
     "Surfactant",
     "Cell",
-    "Vector2",
-    "Vector3",
+    "Virus",
+    "EnzymeReaction",
     "MolecularSystemAnimationParams",
     "CellAnimationParams",
-    "Quaternion",
-    "Virus",
-    "MovieMaker",
-    "TransferFunction",
-    "MovieScenario",
-    "Metabolism",
-    "EnzymeReaction",
     "NeuronDisplacementParams",
-    "NeuronReportParams",
     "AstrocyteDisplacementParams",
     "VasculatureDisplacementParams",
     "SynapseDisplacementParams",
+    "NeuronReportParams",
+    "MovieMaker",
     "SonataExplorer",
-    "__version__",
+    "Metabolism",
+    "MovieScenario",
+    "TransferFunction",
+    "Widgets"
 ]
