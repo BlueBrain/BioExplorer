@@ -417,8 +417,7 @@ void BioExplorerPlugin::init()
         endPoint = PLUGIN_API_PREFIX + "get-model-transformation";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
         actionInterface->registerRequest<ModelIdDetails, ModelTransformationDetails>(
-            endPoint,
-            [&](const ModelIdDetails &payload) -> ModelTransformationDetails
+            endPoint, [&](const ModelIdDetails &payload) -> ModelTransformationDetails
             { return _getModelTransformation(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "get-model-bounds";
@@ -490,8 +489,7 @@ void BioExplorerPlugin::init()
 
         endPoint = PLUGIN_API_PREFIX + "get-vasculature-info";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        actionInterface->registerRequest<NameDetails, Response>(endPoint,
-                                                                [&](const NameDetails &payload) -> Response
+        actionInterface->registerRequest<NameDetails, Response>(endPoint, [&](const NameDetails &payload) -> Response
                                                                 { return _getVasculatureInfo(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "set-vasculature-report";
@@ -1772,13 +1770,13 @@ Response BioExplorerPlugin::_buildFields(const BuildFieldsDetails &payload)
 
         switch (payload.dataType)
         {
-        case FieldDataType::point:
+        case FieldDataType::fdt_points:
         {
             PointFieldBuilder builder;
             builder.buildOctree(engine, *model, payload.voxelSize, payload.density, payload.modelIds);
             break;
         }
-        case FieldDataType::vector:
+        case FieldDataType::fdt_vectors:
         {
             VectorFieldBuilder builder;
             builder.buildOctree(engine, *model, payload.voxelSize, payload.density, payload.modelIds);

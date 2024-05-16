@@ -43,9 +43,9 @@ def test_layout():
 
     # Resources
 
-    protein_representation = BioExplorer.REPRESENTATION_ATOMS_AND_STICKS
+    protein_representation = be.protein_representation.ATOMS_AND_STICKS
     protein_radius_multiplier = 1.0
-    glycan_representation = BioExplorer.REPRESENTATION_ATOMS_AND_STICKS
+    glycan_representation = be.protein_representation.ATOMS_AND_STICKS
     glycan_radius_multiplier = 1.0
 
     # M Protein

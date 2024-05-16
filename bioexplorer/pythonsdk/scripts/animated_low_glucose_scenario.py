@@ -48,13 +48,13 @@ scene_size = Vector3(800.0, 800.0, 800.0)
 
 # Proteins
 protein_radius_multiplier = 1.0
-protein_representation = BioExplorer.REPRESENTATION_ATOMS_AND_STICKS
+protein_representation = be.protein_representation.ATOMS_AND_STICKS
 protein_load_hydrogen = False
 
 # Glycans
 add_glycans = True
 glycan_radius_multiplier = 1.0
-glycan_representation = BioExplorer.REPRESENTATION_ATOMS_AND_STICKS
+glycan_representation = be.protein_representation.ATOMS_AND_STICKS
 
 # Viruses
 nb_protein_s = 62

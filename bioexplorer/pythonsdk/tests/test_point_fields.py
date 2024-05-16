@@ -51,7 +51,7 @@ def test_fields():
 
     bio_explorer.build_fields(
         voxel_size=0.1, density=1.0,
-        data_type=bio_explorer.FIELD_DATA_TYPE_POINT)
+        data_type=bio_explorer.FieldDataType.POINT)
 
     # Virus
     bio_explorer.core_api().set_renderer(

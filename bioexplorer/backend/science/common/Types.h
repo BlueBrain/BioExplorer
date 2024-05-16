@@ -1219,9 +1219,9 @@ typedef struct
 enum class FieldDataType
 {
     /** Point field (spheres) */
-    point = 0,
+    fdt_points = 0,
     /** Vector field */
-    vector = 1
+    fdt_vectors = 1
 };
 
 /**

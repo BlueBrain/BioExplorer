@@ -21,6 +21,7 @@
 #pragma once
 
 #include <optix_world.h>
+#include <cuda_fp16.h>
 
 #include "Context.cuh"
 #include "Helpers.cuh"

@@ -6,7 +6,7 @@
 # The Blue Brain BioExplorer is a tool for scientists to extract and analyse
 # scientific data from visualization
 #
-# Copyright 2020-2023 Blue BrainProject / EPFL
+# Copyright 2020-2024 Blue BrainProject / EPFL
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -23,14 +23,20 @@
 
 import math
 import os
-
 from pyquaternion import Quaternion
-
+from typing import Dict, Any, List, Optional
 import seaborn as sns
 
-from .core.client import Client
-from .transfer_function import TransferFunction
 from .version import VERSION as __version__
+from .core.client import Client
+from .transfer_function import *
+from .math_utils import *
+from .report_parameters import *
+from .displacement_parameters import *
+from .animation_parameters import *
+from .molecular_systems import *
+from .enums import *
+
 
 # pylint: disable=no-member
 # pylint: disable=dangerous-default-value
@@ -47,606 +53,11 @@ from .version import VERSION as __version__
 # pylint: disable=missing-return-doc
 # pylint: disable=missing-raises-doc
 
-
-class Vector3:
-    """A Vector3 is an array of 3 floats representing a 3D vector"""
-
-    def __init__(self, *args):
-        """
-        Define a simple 3D vector
-
-        :args: 3 float values for x, y and z
-        :raises: RuntimeError: Invalid number of floats
-        """
-        if len(args) not in [0, 3]:
-            raise RuntimeError("Invalid number of floats (0 or 3 expected)")
-
-        self.x = 0.0
-        self.y = 0.0
-        self.z = 0.0
-        if len(args) == 3:
-            self.x = args[0]
-            self.y = args[1]
-            self.z = args[2]
-
-    def __str__(self):
-        """Returns a stringified representation of the object"""
-        return "[%f, %f, %f]" % (self.x, self.y, self.z)
-
-    def to_list(self):
-        """
-        A list containing the values of x, y and z attributes
-
-        :return: x, y and z attributes
-        :rtype: list
-        """
-        return [self.x, self.y, self.z]
-
-    def copy(self):
-        """
-        Copy the current object
-
-        :return: Vector3: A copy of the object
-        """
-        return Vector3(self.x, self.y, self.z)
-
-
-class Vector2:
-    """A Vector2 is an array of 2 floats representing a 2D vector"""
-
-    def __init__(self, *args):
-        """
-        Define a simple 2D vector
-
-        :args: 2 float values for x and y
-        :raises: RuntimeError: Invalid number of floats
-        """
-        if len(args) not in [0, 2]:
-            raise RuntimeError("Invalid number of floats (0 or 2 expected)")
-
-        self.x = 0.0
-        self.y = 0.0
-        if len(args) == 2:
-            self.x = args[0]
-            self.y = args[1]
-
-    def __str__(self):
-        """Returns a stringified representation of the object"""
-        return "[%f, %f]" % (self.x, self.y)
-
-    def to_list(self):
-        """:return: A list containing the values of x and y attributes"""
-        return [self.x, self.y]
-
-    def copy(self):
-        """
-        Copy the current object
-
-        :return: Vector2: A copy of the object
-        """
-        return Vector2(self.x, self.y)
-
-
-class MolecularSystemAnimationParams:
-    """
-    Parameters used to introduce some randomness in the position and orientation of the protein.
-
-    This is mainly used to make assemblies more realistic, and for animation purpose too.
-    """
-
-    def __init__(
-        self,
-        seed=0,
-        position_seed=0,
-        position_strength=0.0,
-        rotation_seed=0,
-        rotation_strength=0.0,
-        morphing_step=0.0,
-    ):
-        """
-        Animation parameters are used to define how molecules should be animated
-
-        :seed: (int, optional): Randomization seed. Defaults to 0.
-        :position_seed: (int, optional): Randomization seed for the position of the molecule.
-        Defaults to 0.
-        :position_strength: (float, optional): Strength of the position alteration. Defaults to 0.0.
-        :rotation_seed: (int, optional): Randomization seed for the rotation of the molecule.
-        Defaults to 0.
-        :rotation_strength: (float, optional): Strength of the rotation alteration. Defaults to 0.0.
-        :morphing_step: (float, optional): Morphing step between 0 and 1 for assemblies that
-        transition from one shape to another. Defaults to 0.0.
-        """
-        self.seed = seed
-        self.position_seed = position_seed
-        self.position_strength = position_strength
-        self.rotation_seed = rotation_seed
-        self.rotation_strength = rotation_strength
-        self.morphing_step = morphing_step
-
-    def to_list(self):
-        """
-        A list containing the values of class members
-
-        :return: A list containing the values of class members
-        :rtype: list
-        """
-        return [
-            self.seed,
-            self.position_seed,
-            self.position_strength,
-            self.rotation_seed,
-            self.rotation_strength,
-            self.morphing_step,
-        ]
-
-    def copy(self):
-        """
-        Copy the current object
-
-        :return: MolecularSystemAnimationParams: A copy of the object
-        """
-        return MolecularSystemAnimationParams(
-            self.seed,
-            self.position_seed,
-            self.position_strength,
-            self.rotation_seed,
-            self.rotation_strength,
-            self.morphing_step,
-        )
-
-
-class Bounds:
-    """Bounds of a 3D object"""
-
-    def __init__(self, min_aabb, max_aabb, center, size):
-        """
-        Class describing a bounding box
-
-        :min_aabb: Bounding box min coordinates
-        :max_aabb: Bounding box max coordinates
-        :center: Bodel bounding box center
-        :size: Bounding box size
-        """
-        assert isinstance(min_aabb, Vector3)
-        assert isinstance(max_aabb, Vector3)
-        assert isinstance(center, Vector3)
-        assert isinstance(size, Vector3)
-        self.min_aabb = min_aabb
-        self.max_aabb = max_aabb
-        self.center = center
-        self.size = size
-
-    def __str__(self):
-        """Returns a stringified representation of the object"""
-        return "min_aabb=%s, max_aabb=%s, center=%s, size=%s" % (
-            self.min_aabb,
-            self.max_aabb,
-            self.center,
-            self.size,
-        )
-
-    def copy(self):
-        """
-        Copy the current object
-
-        :return: Bounds: A copy of the object
-        """
-        return Bounds(self.min_aabb, self.max_aabb, self.center, self.size)
-
-
-class Transformation:
-    """Transformation defined by a translation, a rotation, a rotation center and a scale"""
-
-    def __init__(
-        self,
-        translation=Vector3(),
-        rotation=Quaternion(),
-        rotation_center=Vector3(),
-        scale=Vector3(),
-    ):
-        """
-        Transformation defined by a translation, a rotation, a rotation center and a scale
-
-        :param Vector3 translation: Translation. Defaults to Vector3()
-        :param Quaternion rotation: Rotation. Defaults to Quaternion()
-        :param Vector3 rotation_center: Rotation center. Defaults to Vector3()
-        :param Vector3 scale: Scale. Defaults to Vector3()
-        """
-        assert isinstance(translation, Vector3)
-        assert isinstance(rotation, Quaternion)
-        assert isinstance(rotation_center, Vector3)
-        assert isinstance(scale, Vector3)
-        self.translation = translation
-        self.rotation = rotation
-        self.rotation_center = rotation_center
-        self.scale = scale
-
-
-class CellAnimationParams:
-    """Parameters used to introduce some sinusoidal function in a cell structure"""
-
-    def __init__(self, seed=0, offset=0, amplitude=1.0, frequency=1.0):
-        """
-        Animation parameters are used to define how cells should be animated
-
-        :seed: (int, optional): Initial position in the sinusoidal function. Defaults to 0.
-        :offset: (int, optional): offset in the sinusoidal function. Defaults to 0.
-        :amplitude: (float, optional): Amplitude of the sinusoidal function
-        :frequency: (float, optional): Frequency of the sinusoidal function
-        """
-        self.seed = seed
-        self.offset = offset
-        self.amplitude = amplitude
-        self.frequency = frequency
-
-    def to_list(self):
-        """
-        A list containing the values of class members
-
-        :return: A list containing the values of class members
-        :rtype: list
-        """
-        return [self.seed, self.offset, self.amplitude, self.frequency]
-
-    def copy(self):
-        """
-        Copy the current object
-
-        :return: MolecularSystemAnimationParams: A copy of the object
-        """
-        return CellAnimationParams(
-            self.seed, self.offset, self.amplitude, self.frequency
-        )
-
-
-class NeuronDisplacementParams:
-    """Parameters used for the sinusoidal SDF displacement function for neuron morphologies"""
-
-    def __init__(
-        self,
-        soma=Vector2(0.1, 3.0),
-        section=Vector2(0.15, 2.0),
-        nucleus=Vector2(0.01, 2.0),
-        mitochondrion=Vector2(0.2, 100.0),
-        myelin_steath=Vector2(0.1, 2.5),
-        spine=Vector2(0.01, 25.0),
-    ):
-        """
-        Parameters used to define how cells should be represented using the SDF technique
-
-        :soma: (Vector2, optional): amplitude and frequency for the soma. Defaults are [0.1, 3.0]
-        :section: (Vector2, optional): amplitude and frequency for the section. Defaults are
-        [0.15, 2.0]
-        :nucleus: (Vector2, optional): amplitude and frequency for the nucleus. Defaults are
-        [0.01, 2.0]
-        :mitochondrion: (Vector2, optional): amplitude and frequency for the mitochondrion. Defaults
-        are [0.2, 100.0]
-        :myelin_steath: (Vector2, optional): amplitude and frequency for the myelin steath. Defaults
-        are [0.1, 2.5]
-        :spine: (Vector2, optional): amplitude and frequency for the spine. Defaults are
-        [0.01, 25.0]
-        """
-        assert isinstance(soma, Vector2)
-        assert isinstance(section, Vector2)
-        assert isinstance(nucleus, Vector2)
-        assert isinstance(mitochondrion, Vector2)
-        assert isinstance(myelin_steath, Vector2)
-        assert isinstance(spine, Vector2)
-
-        self.soma = soma
-        self.section = section
-        self.nucleus = nucleus
-        self.mitochondrion = mitochondrion
-        self.myelin_steath = myelin_steath
-        self.spine = spine
-
-    def to_list(self):
-        """
-        A list containing the values of class members
-
-        :return: A list containing the values of class members
-        :rtype: list
-        """
-        return [
-            self.soma.x,
-            self.soma.y,
-            self.section.x,
-            self.section.y,
-            self.nucleus.x,
-            self.nucleus.y,
-            self.mitochondrion.x,
-            self.mitochondrion.y,
-            self.myelin_steath.x,
-            self.myelin_steath.y,
-            self.spine.x,
-            self.spine.y,
-        ]
-
-    def copy(self):
-        """
-        Copy the current object
-
-        :return: NeuronDisplacementParams: A copy of the object
-        """
-        return NeuronDisplacementParams(
-            self.soma,
-            self.section,
-            self.nucleus,
-            self.mitochondrion,
-            self.myelin_steath,
-            self.spine,
-        )
-
-
-class NeuronReportParams:
-    """Parameters used to map report data to the neurons"""
-
-    def __init__(
-        self,
-        report_id=-1,
-        value_range=Vector2(-80.0, 10.0),
-        voltage_scaling_range=Vector2(1.0, 1.0),
-        initial_simulation_frame=0,
-        load_non_simulated_nodes=False
-    ):
-        """
-        Parameters used to define how cells should be represented using the SDF technique
-
-        :report_id: (int, optional): Report id
-        :value_range: (Vector2, optional): Range of values for the mapped data. Defaults are
-        [-80.0, -10.0]
-        :scaling_range: (Vector2, optional): Minimum and maximum scaling factors. Defaults are
-        [-1.0, 1.0] (no scaling)
-        :initial_simulation_frame: (int, optional): Initial simulation frame. Default is 0
-        :load_non_simulated_nodes: Defines if non-simulated should be loaded
-        """
-        assert isinstance(report_id, int)
-        assert isinstance(value_range, Vector2)
-        assert isinstance(voltage_scaling_range, Vector2)
-        assert isinstance(initial_simulation_frame, int)
-        assert isinstance(load_non_simulated_nodes, bool)
-
-        self.report_id = report_id
-        self.value_range = value_range
-        self.voltage_scaling_range = voltage_scaling_range
-        self.initial_simulation_frame = initial_simulation_frame
-        self.load_non_simulated_nodes = load_non_simulated_nodes
-
-    def to_list(self):
-        """
-        A list containing the values of class members
-
-        :return: A list containing the values of class members
-        :rtype: list
-        """
-        return [
-            float(self.report_id),
-            self.value_range.x,
-            self.value_range.y,
-            self.voltage_scaling_range.x,
-            self.voltage_scaling_range.y,
-            float(self.initial_simulation_frame),
-            float(self.load_non_simulated_nodes)
-        ]
-
-    def copy(self):
-        """
-        Copy the current object
-
-        :return: NeuronDisplacementParams: A copy of the object
-        """
-        return NeuronReportParams(
-            self.report_id,
-            self.value_range,
-            self.voltage_scaling_range,
-            self.initial_simulation_frame,
-            self.load_non_simulated_nodes
-        )
-
-
-class AstrocyteDisplacementParams:
-    """Parameters used for the sinusoidal SDF displacement function for astrocyte morphologies"""
-
-    def __init__(
-        self,
-        soma=Vector2(0.05, 0.5),
-        section=Vector2(0.5, 5.0),
-        nucleus=Vector2(0.01, 2.0),
-        mitochondrion=Vector2(0.2, 100.0),
-        end_foot=Vector2(0.3, 0.5),
-    ):
-        """
-        Parameters used to define how cells should be represented using the SDF technique
-
-        :soma: (Vector2, optional): amplitude and frequency for the soma. Defaults are [0.1, 3.0]
-        :section: (Vector2, optional): amplitude and frequency for the section. Defaults are
-        [0.15, 2.0]
-        :nucleus: (Vector2, optional): amplitude and frequency for the nucleus. Defaults are
-        [0.01, 2.0]
-        :mitochondrion: (Vector2, optional): amplitude and frequency for the mitochondrion. Defaults
-        are [0.2, 100.0]
-        :end_foot: (Vector2, optional): amplitude and frequency for the end foot. Defaults
-        are [0.3, 0.5]
-        """
-        assert isinstance(soma, Vector2)
-        assert isinstance(section, Vector2)
-        assert isinstance(nucleus, Vector2)
-        assert isinstance(mitochondrion, Vector2)
-        assert isinstance(end_foot, Vector2)
-
-        self.soma = soma
-        self.section = section
-        self.nucleus = nucleus
-        self.mitochondrion = mitochondrion
-        self.end_foot = end_foot
-
-    def to_list(self):
-        """
-        A list containing the values of class members
-
-        :return: A list containing the values of class members
-        :rtype: list
-        """
-        return [
-            self.soma.x,
-            self.soma.y,
-            self.section.x,
-            self.section.y,
-            self.nucleus.x,
-            self.nucleus.y,
-            self.mitochondrion.x,
-            self.mitochondrion.y,
-            self.end_foot.x,
-            self.end_foot.y,
-        ]
-
-    def copy(self):
-        """
-        Copy the current object
-
-        :return: AstrocyteDisplacementParams: A copy of the object
-        """
-        return AstrocyteDisplacementParams(
-            self.soma, self.section, self.nucleus, self.mitochondrion, self.end_foot
-        )
-
-
-class VasculatureDisplacementParams:
-    """Parameters used for the sinusoidal SDF displacement function for vasculature"""
-
-    def __init__(self, segment=Vector2(0.3, 0.5)):
-        """
-        Parameters used to define how cells should be represented using the SDF technique
-
-        :segment: (Vector2, optional): amplitude and frequency for the segment. Defaults are
-        [0.3, 5.0]
-        """
-        assert isinstance(segment, Vector2)
-
-        self.segment = segment
-
-    def to_list(self):
-        """
-        A list containing the values of class members
-
-        :return: A list containing the values of class members
-        :rtype: list
-        """
-        return [self.segment.x, self.segment.y]
-
-    def copy(self):
-        """
-        Copy the current object
-
-        :return: VasculatureDisplacementParams: A copy of the object
-        """
-        return VasculatureDisplacementParams(self.segment)
-
-
-class SynapseDisplacementParams:
-    """Parameters used for the sinusoidal SDF displacement function for synapse"""
-
-    def __init__(self, spine=Vector2(0.01, 25.0)):
-        """
-        Parameters used to define how cells should be represented using the SDF technique
-
-        :spine: (Vector2, optional): amplitude and frequency for the spine. Defaults are
-        [0.01, 25.0]
-        """
-        assert isinstance(spine, Vector2)
-
-        self.spine = spine
-
-    def to_list(self):
-        """
-        A list containing the values of class members
-
-        :return: A list containing the values of class members
-        :rtype: list
-        """
-        return [self.spine.x, self.spine.y]
-
-    def copy(self):
-        """
-        Copy the current object
-
-        :return: SynapseDisplacementParams: A copy of the object
-        """
-        return SynapseDisplacementParams(self.spine)
-
-
 class BioExplorer:
     """Blue Brain BioExplorer"""
 
     PLUGIN_API_PREFIX = "be-"
     CONTENTS_DELIMITER = "||||"
-
-    MODEL_LOADING_TRANSACTION_START = 0
-    MODEL_LOADING_TRANSACTION_COMMIT = 1
-
-    COLOR_SCHEME_NONE = 0
-    COLOR_SCHEME_ATOMS = 1
-    COLOR_SCHEME_CHAINS = 2
-    COLOR_SCHEME_RESIDUES = 3
-    COLOR_SCHEME_AMINO_ACID_SEQUENCE = 4
-    COLOR_SCHEME_GLYCOSYLATION_SITE = 5
-    COLOR_SCHEME_REGION = 6
-
-    SHADING_MODE_NONE = 0
-    SHADING_MODE_BASIC = 1
-    SHADING_MODE_DIFFUSE = 2
-    SHADING_MODE_ELECTRON = 3
-    SHADING_MODE_CARTOON = 4
-    SHADING_MODE_ELECTRON_TRANSPARENCY = 5
-    SHADING_MODE_PERLIN = 6
-    SHADING_MODE_DIFFUSE_TRANSPARENCY = 7
-    SHADING_MODE_CHECKER = 8
-    SHADING_MODE_GOODSELL = 9
-    SHADING_MODE_NORMAL = 10
-
-    SHADING_CHAMELEON_MODE_NONE = 0
-    SHADING_CHAMELEON_MODE_EMITTER = 1
-    SHADING_CHAMELEON_MODE_RECEIVER = 2
-
-    SHADING_CLIPPING_MODE_NONE = 0
-    SHADING_CLIPPING_PLANE = 1
-    SHADING_CLIPPING_SPHERE = 2
-
-    CAMERA_PROJECTION_PERSPECTIVE = 0
-    CAMERA_PROJECTION_FISHEYE = 1
-    CAMERA_PROJECTION_PANORAMIC = 2
-    CAMERA_PROJECTION_CYLINDRIC = 3
-
-    RNA_SHAPE_TREFOIL_KNOT = 0
-    RNA_SHAPE_TORUS = 1
-    RNA_SHAPE_STAR = 2
-    RNA_SHAPE_SPRING = 3
-    RNA_SHAPE_HEART = 4
-    RNA_SHAPE_THING = 5
-    RNA_SHAPE_MOEBIUS = 6
-
-    RENDERING_QUALITY_LOW = 0
-    RENDERING_QUALITY_HIGH = 1
-
-    REPRESENTATION_ATOMS = 0
-    REPRESENTATION_ATOMS_AND_STICKS = 1
-    REPRESENTATION_CONTOURS = 2
-    REPRESENTATION_SURFACE = 3
-    REPRESENTATION_UNION_OF_BALLS = 4
-    REPRESENTATION_DEBUG = 5
-    REPRESENTATION_MESH = 6
-
-    ASSEMBLY_SHAPE_POINT = 0
-    ASSEMBLY_SHAPE_EMPTY_SPHERE = 1
-    ASSEMBLY_SHAPE_PLANE = 2
-    ASSEMBLY_SHAPE_SINUSOID = 3
-    ASSEMBLY_SHAPE_CUBE = 4
-    ASSEMBLY_SHAPE_FAN = 5
-    ASSEMBLY_SHAPE_BEZIER = 6
-    ASSEMBLY_SHAPE_MESH = 7
-    ASSEMBLY_SHAPE_HELIX = 8
-    ASSEMBLY_SHAPE_FILLED_SPHERE = 9
-    ASSEMBLY_SHAPE_CELL_DIFFUSION = 10
 
     NAME_PROTEIN_S_OPEN = "Protein S (open)"
     NAME_PROTEIN_S_CLOSED = "Protein S (closed)"
@@ -671,106 +82,46 @@ class BioExplorer:
     NAME_GLYCAN_HYBRID = "Hybrid"
     NAME_GLYCAN_COMPLEX = "Complex"
 
-    SURFACTANT_BRANCH = 0
-    SURFACTANT_PROTEIN_A = 1
-    SURFACTANT_PROTEIN_D = 2
-
-    FILE_FORMAT_UNSPECIFIED = 0
-    FILE_FORMAT_XYZ_BINARY = 1
-    FILE_FORMAT_XYZR_BINARY = 2
-    FILE_FORMAT_XYZRV_BINARY = 3
-    FILE_FORMAT_XYZ_ASCII = 4
-    FILE_FORMAT_XYZR_ASCII = 5
-    FILE_FORMAT_XYZRV_ASCII = 6
-
-    POSITION_CONSTRAINT_INSIDE = 0
-    POSITION_CONSTRAINT_OUTSIDE = 1
-
-    VASCULATURE_REPRESENTATION_GRAPH = 0
-    VASCULATURE_REPRESENTATION_SECTION = 1
-    VASCULATURE_REPRESENTATION_SEGMENT = 2
-    VASCULATURE_REPRESENTATION_OPTIMIZED_SEGMENT = 3
-    VASCULATURE_REPRESENTATION_BEZIER = 4
-
-    VASCULATURE_COLOR_SCHEME_NONE = 0
-    VASCULATURE_COLOR_SCHEME_NODE = 1
-    VASCULATURE_COLOR_SCHEME_SECTION = 2
-    VASCULATURE_COLOR_SCHEME_SUBGRAPH = 3
-    VASCULATURE_COLOR_SCHEME_PAIR = 4
-    VASCULATURE_COLOR_SCHEME_ENTRYNODE = 5
-    VASCULATURE_COLOR_SCHEME_RADIUS = 6
-    VASCULATURE_COLOR_SCHEME_SECTION_POINTS = 7
-    VASCULATURE_COLOR_SCHEME_SECTION_ORIENTATION = 8
-    VASCULATURE_COLOR_SCHEME_REGION = 9
-
-    VASCULATURE_REALISM_LEVEL_NONE = 0
-    VASCULATURE_REALISM_LEVEL_SECTION = 1
-    VASCULATURE_REALISM_LEVEL_BIFURCATION = 2
-    VASCULATURE_REALISM_LEVEL_ALL = 255
-
-    MORPHOLOGY_COLOR_SCHEME_NONE = 0
-    MORPHOLOGY_COLOR_SCHEME_SECTION_TYPE = 1
-    MORPHOLOGY_COLOR_SCHEME_SECTION_ORIENTATION = 2
-    MORPHOLOGY_COLOR_SCHEME_DISTANCE_TO_SOMA = 3
-
-    POPULATION_COLOR_SCHEME_NONE = 0
-    POPULATION_COLOR_SCHEME_ID = 1
-
-    MORPHOLOGY_REPRESENTATION_GRAPH = 0
-    MORPHOLOGY_REPRESENTATION_SECTION = 1
-    MORPHOLOGY_REPRESENTATION_SEGMENT = 2
-    MORPHOLOGY_REPRESENTATION_ORIENTATION = 3
-    MORPHOLOGY_REPRESENTATION_BEZIER = 4
-    MORPHOLOGY_REPRESENTATION_CONTOUR = 5
-    MORPHOLOGY_REPRESENTATION_SURFACE = 6
-
-    MICRO_DOMAIN_REPRESENTATION_MESH = 0
-    MICRO_DOMAIN_REPRESENTATION_CONVEX_HULL = 1
-    MICRO_DOMAIN_REPRESENTATION_SURFACE = 2
-
-    MORPHOLOGY_REALISM_LEVEL_NONE = 0
-    MORPHOLOGY_REALISM_LEVEL_SOMA = 1
-    MORPHOLOGY_REALISM_LEVEL_AXON = 2
-    MORPHOLOGY_REALISM_LEVEL_DENDRITE = 4
-    MORPHOLOGY_REALISM_LEVEL_INTERNALS = 8
-    MORPHOLOGY_REALISM_LEVEL_EXTERNALS = 16
-    MORPHOLOGY_REALISM_LEVEL_SPINE = 32
-    MORPHOLOGY_REALISM_LEVEL_END_FOOT = 64
-    MORPHOLOGY_REALISM_LEVEL_ALL = 255
-
-    SYNAPSE_REPRESENTATION_SPHERE = 0
-    SYNAPSE_REPRESENTATION_SPINE = 1
-
-    # Neuron synapses types
-    NEURON_SYNAPSES_NONE = 0
-    NEURON_SYNAPSES_AFFERENT = 1
-    NEURON_SYNAPSES_EFFERENT = 2
-    NEURON_SYNAPSES_DEBUG = 4
-    NEURON_SYNAPSES_ALL = 8
-
-    # Material offsets in neurons
     NB_MATERIALS_PER_MORPHOLOGY = 10
-    NEURON_MATERIAL_VARICOSITY = 0
-    NEURON_MATERIAL_SOMA = 1
-    NEURON_MATERIAL_AXON = 2
-    NEURON_MATERIAL_BASAL_DENDRITE = 3
-    NEURON_MATERIAL_APICAL_DENDRITE = 4
-    NEURON_MATERIAL_AFFERENT_SYNAPSE = 5
-    NEURON_MATERIAL_EFFERENT_SYNAPSE = 6
-    NEURON_MATERIAL_MITOCHONDRION = 7
-    NEURON_MATERIAL_NUCLEUS = 8
-    NEURON_MATERIAL_MYELIN_SHEATH = 9
 
-    # Material offsets in astrocytes
-    ASTROCYTE_MATERIAL_SOMA = 1
-    ASTROCYTE_MATERIAL_END_FOOT = 4
-    ASTROCYTE_MATERIAL_MICRO_DOMAIN = 5
-    ASTROCYTE_MATERIAL_MITOCHONDRION = 7
-    ASTROCYTE_MATERIAL_NUCLEUS = 8
+    model_loading_transaction = TransactionType
 
-    # Field data types
-    FIELD_DATA_TYPE_POINT = 0
-    FIELD_DATA_TYPE_VECTOR = 1
+    shading_mode = ShadingMode
+    shading_chameleon_mode = ShadingChameleonMode
+    shading_clipping_mode = ShadingClippingMode
+
+    camera_projection = CameraProjection
+
+    rendering_quality = RenderingQuality
+
+    assembly_shape = AssemblyShape
+
+    material_offset = MaterialOffset
+
+    position_constraint = PositionConstraint
+
+    protein_color_scheme = ProteinColorScheme
+    protein_representation = ProteinRepresentation
+    surfactant_type = SurfactantType
+    rna_shape = RNAShape
+
+    vascular_representation = VascularRepresentation
+    vascular_color_scheme = VascularColorScheme
+    vascular_realism_level = VascularRealismLevel
+
+    morphology_representation = MorphologyRepresentation
+    morphology_color_scheme = MorphologyColorScheme
+    morphology_realism_level = MorphologyRealismLevel
+    
+    synapse_representation = SynapseRepresentation
+    
+    neuron_synapse_type = NeuronSynapseType
+    neuron_material = NeuronMaterial
+    
+    astrocyte_material = AstrocyteMaterial
+    
+    field_data_type = FieldDataType
+    file_format = FileFormat
 
     def __init__(self, url="localhost:5000"):
         """Create a new BioExplorer instance"""
@@ -804,24 +155,69 @@ class BioExplorer:
         """
         return self._client
 
-    @staticmethod
-    def _check(response):
-        if not response["status"]:
-            raise RuntimeError(response["contents"])
+    def _check(self, response: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Check the response from the BioExplorer backend.
+
+        Args:
+            response (Dict[str, Any]): The response to check.
+
+        Returns:
+            Dict[str, Any]: The validated response.
+
+        Raises:
+            RuntimeError: If the response indicates an error.
+        """
+        if not response.get("status"):
+            raise RuntimeError(f"Error from BioExplorer backend: {response.get('contents')}")
         return response
+        
+    def _invoke_and_check(self, method: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """
+        Invoke a method on the BioExplorer client and check the response.
+
+        Args:
+            method (str): The method to invoke.
+            params (Dict[str, Any], optional): Parameters to pass to the method. Defaults to None.
+
+        Returns:
+            Dict[str, Any]: The response from the BioExplorer backend after validation.
+
+        Raises:
+            RuntimeError: If the response from the backend indicates an error.
+        """
+        if params is None:
+            params = {}
+
+        prefixed_method = self.PLUGIN_API_PREFIX + method
+        response = self._client.rockets_client.request(
+            method=prefixed_method, params=params
+        )
+
+        return self._check(response)
 
     def _invoke(self, method, params=None):
+        """
+        Invoke a method on the BioExplorer client.
+
+        Args:
+            method (str): The method to invoke.
+            params (Dict[str, Any], optional): Parameters to pass to the method. Defaults to None.
+
+        Returns:
+            Dict[str, Any]: The response from the BioExplorer backend after validation.
+        """
         prefixed_method = self.PLUGIN_API_PREFIX + method
         return self._client.rockets_client.request(
             method=prefixed_method, params=params
         )
 
-    def _invoke_and_check(self, method, params=None):
-        prefixed_method = self.PLUGIN_API_PREFIX + method
-        response = self._client.rockets_client.request(
-            method=prefixed_method, params=params
-        )
-        return self._check(response)
+    @staticmethod
+    def _enums_to_list(the_enums):
+        the_list = list()
+        for item in the_enums:
+            the_list.append(item.value)
+        return the_list
 
     def version(self):
         """
@@ -849,11 +245,12 @@ class BioExplorer:
         return self._invoke_and_check("get-scene-information")
 
     @staticmethod
-    def authors():
+    def authors() -> List[str]:
         """
-        List of authors
+        Get the list of authors
 
-        :rtype: list
+        Returns:
+            List[str]: A list of author names.
         """
         return [
             "Cyrille Favreau",
@@ -877,7 +274,7 @@ class BioExplorer:
         """
         return self._invoke_and_check("reset-scene")
 
-    def reset_camera(self):
+    def reset_camera(self) -> Dict[str, Any]:
         """
         Reset the camera for the current scene
 
@@ -888,105 +285,90 @@ class BioExplorer:
 
     def set_focus_on(
         self,
-        model_id,
-        instance_id=0,
-        distance=0.0,
-        direction=Vector3(0.0, 0.0, 1.0),
-        max_number_of_instances=1e6,
-    ):
+        model_id: int,
+        instance_id: int = 0,
+        distance: float = 0.0,
+        direction: Vector3 = None,
+        max_number_of_instances: float = 1e6,
+    ) -> Dict[str, Any]:
         """
-        Set focus on a specific instance of a model
+        Set focus on a specific instance of a model.
 
-        :return: Result of the call to the BioExplorer backend
-        :rtype: Response
+        Args:
+            model_id (int): The ID of the model to focus on.
+            instance_id (int, optional): The instance ID of the model. Defaults to 0.
+            distance (float, optional): The distance for the focus setting. Defaults to 0.0.
+            direction (Vector3, optional): The direction vector for focus. Defaults to Vector3(0.0, 0.0, 1.0).
+            max_number_of_instances (float, optional): Maximum number of instances to consider. Defaults to 1e6.
+
+        Returns:
+            Dict[str, Any]: Result of the backend API call.
+
+        Raises:
+            ValueError: If the direction is not provided or not an instance of Vector3.
+            RuntimeError: If the backend call fails.
         """
-        assert isinstance(direction, Vector3)
+        if direction is None:
+            direction = Vector3(0.0, 0.0, 1.0)
+        if not isinstance(direction, Vector3):
+            raise ValueError("Direction must be an instance of Vector3")
 
-        params = dict()
-        params["modelId"] = model_id
-        params["instanceId"] = instance_id
-        params["distance"] = distance
-        params["direction"] = direction.to_list()
-        params["maxNbInstances"] = max_number_of_instances
+        params = {
+            "modelId": model_id,
+            "instanceId": instance_id,
+            "distance": distance,
+            "direction": direction.to_list(),
+            "maxNbInstances": max_number_of_instances
+        }
+        
         result = self._invoke_and_check("set-focus-on", params)
         if not result["status"]:
-            raise RuntimeError(result["contents"])
+            raise RuntimeError(f"Failed to set focus: {result['contents']}")
+        
         return result
-
+    
     def export_to_file(
         self,
         filename,
         low_bounds=Vector3(-1e38, -1e38, -1e38),
-        high_bounds=Vector3(1e38, 1e38, 1e38),
+        high_bounds=Vector3(1e38, 1e38, 1e38)
     ):
-        """
-        Export current scene to file as an optimized binary cache file
-
-        :filename: Full path of the binary cache file
-        :low_bounds: Brick low bounds
-        :high_bounds: Brick high bounds
-        :return: Result of the call to the BioExplorer backend
-        :rtype: Response
-        """
-        params = dict()
-        params["filename"] = filename
-        params["lowBounds"] = low_bounds.to_list()
-        params["highBounds"] = high_bounds.to_list()
-        params["fileFormat"] = BioExplorer.FILE_FORMAT_UNSPECIFIED
+        params = {
+            "filename": filename,
+            "lowBounds": low_bounds.to_list(),
+            "highBounds": high_bounds.to_list(),
+            "fileFormat": FileFormat.UNSPECIFIED
+        }
         result = self._invoke_and_check("export-to-file", params)
         if not result["status"]:
             raise RuntimeError(result["contents"])
         return result
 
-    def export_to_database(
-        self,
-        connection_string,
-        schema,
-        brick_id,
-        low_bounds=Vector3(-1e38, -1e38, -1e38),
-        high_bounds=Vector3(1e38, 1e38, 1e38),
-    ):
-        """
-        Export current scene to file as an optimized binary database entry
-
-        :connection_string: Connection string to the database
-        :schema: Database schema
-        :schema: Id of the brick
-        :low_bounds: Brick low bounds
-        :high_bounds: Brick high bounds
-        :return: Result of the call to the BioExplorer backend
-        :rtype: Response
-        """
-        assert isinstance(low_bounds, Vector3)
-        assert isinstance(high_bounds, Vector3)
-
-        params = dict()
-        params["connectionString"] = connection_string
-        params["schema"] = schema
-        params["brickId"] = brick_id
-        params["lowBounds"] = low_bounds.to_list()
-        params["highBounds"] = high_bounds.to_list()
+    def export_to_database(self, connection_string, schema, brick_id, low_bounds=None, high_bounds=None):
+        assert isinstance(low_bounds or Vector3(-1e38, -1e38, -1e38), Vector3)
+        assert isinstance(high_bounds or Vector3(1e38, 1e38, 1e38), Vector3)
+        params = {
+            "connectionString": connection_string,
+            "schema": schema,
+            "brickId": brick_id,
+            "lowBounds": (low_bounds or Vector3(-1e38, -1e38, -1e38)).to_list(),
+            "highBounds": (high_bounds or Vector3(1e38, 1e38, 1e38)).to_list()
+        }
         result = self._invoke_and_check("export-to-database", params)
         if not result["status"]:
             raise RuntimeError(result["contents"])
         return result
 
     def import_from_cache(self, filename):
-        """
-        Imports a 3D scene from an optimized binary cache file
-
-        :filename: Full path of the binary cache file
-        :return: Result of the call to the BioExplorer backend
-        :rtype: Response
-        """
-        params = dict()
-        params["filename"] = filename
-        params["fileFormat"] = BioExplorer.FILE_FORMAT_UNSPECIFIED
+        params = {
+            "filename": filename,
+            "fileFormat": FileFormat.UNSPECIFIED
+        }
         result = self._invoke_and_check("import-from-cache", params)
         if not result["status"]:
             raise RuntimeError(result["contents"])
         return result
-
+    
     def export_to_xyz(
         self,
         filename,
@@ -994,24 +376,17 @@ class BioExplorer:
         low_bounds=Vector3(-1e38, -1e38, -1e38),
         high_bounds=Vector3(1e38, 1e38, 1e38),
     ):
-        """
-        Exports current scene to file as a XYZ file
-
-        :filename: Full path of the XYZ file
-        :file_format: Defines the format of the XYZ file
-        :return: Result of the call to the BioExplorer backend
-        :rtype: Response
-        """
-        params = dict()
-        params["filename"] = filename
-        params["lowBounds"] = low_bounds.to_list()
-        params["highBounds"] = high_bounds.to_list()
-        params["fileFormat"] = file_format
+        params = {
+            "filename": filename,
+            "lowBounds": low_bounds.to_list(),
+            "highBounds": high_bounds.to_list(),
+            "fileFormat": file_format
+        }
         result = self._invoke_and_check("export-to-xyz", params)
         if not result["status"]:
             raise RuntimeError(result["contents"])
         return result
-
+    
     def add_sars_cov_2(
         self,
         name,
@@ -1025,7 +400,7 @@ class BioExplorer:
         atom_radius_multiplier=1.0,
         add_glycans=False,
         add_rna_sequence=False,
-        representation=REPRESENTATION_ATOMS_AND_STICKS,
+        representation=ProteinRepresentation.ATOMS_AND_STICKS,
         clipping_planes=list(),
         position=Vector3(),
         rotation=Quaternion(),
@@ -1141,7 +516,7 @@ class BioExplorer:
         # Cell
         virus_cell = Cell(
             name=name,
-            shape=self.ASSEMBLY_SHAPE_EMPTY_SPHERE,
+            shape=AssemblyShape.EMPTY_SPHERE,
             shape_params=shape_params,
             membrane=virus_membrane,
             proteins=membrane_proteins,
@@ -1178,8 +553,8 @@ class BioExplorer:
 
         if add_glycans:
             glycan_representation = representation
-            if representation == BioExplorer.REPRESENTATION_MESH:
-                glycan_representation = BioExplorer.REPRESENTATION_ATOMS_AND_STICKS
+            if representation == ProteinRepresentation.MESH:
+                glycan_representation = ProteinRepresentation.ATOMS_AND_STICKS
 
             complex_folder = os.path.join(glycan_folder, "complex")
             complex_paths = [
@@ -1214,8 +589,8 @@ class BioExplorer:
                     0,
                     0,
                     0.0,
-                    animation_params.rotation_seed + 7,
-                    animation_params.rotation_strength,
+                    animation_params.get_params('rotation_seed') + 7,
+                    animation_params.get_params('rotation_strength'),
                 ),
             )
             self.add_multiple_glycans(
@@ -1230,43 +605,14 @@ class BioExplorer:
                     0,
                     0,
                     0.0,
-                    animation_params.rotation_seed + 7,
-                    animation_params.rotation_strength,
+                    animation_params.get_params('rotation_seed') + 7,
+                    animation_params.get_params('rotation_strength'),
                 ),
             )
 
             # Complex
-            indices_closed = [
-                17,
-                74,
-                149,
-                165,
-                282,
-                331,
-                343,
-                616,
-                657,
-                1098,
-                1134,
-                1158,
-                1173,
-                1194,
-            ]
-            indices_open = [
-                17,
-                74,
-                149,
-                165,
-                282,
-                331,
-                343,
-                657,
-                1098,
-                1134,
-                1158,
-                1173,
-                1194,
-            ]
+            indices_closed = [17,74,149,165,282,331,343,616,657,1098,1134,1158,1173,1194]
+            indices_open = [17,74,149,165,282,331,343,657,1098,1134,1158,1173,1194]
             self.add_multiple_glycans(
                 assembly_name=name,
                 glycan_type=self.NAME_GLYCAN_COMPLEX,
@@ -1279,8 +625,8 @@ class BioExplorer:
                     0,
                     0,
                     0.0,
-                    animation_params.rotation_seed + 8,
-                    2.0 * animation_params.rotation_strength,
+                    animation_params.get_params('rotation_seed') + 8,
+                    2.0 * animation_params.get_params('rotation_strength'),
                 ),
             )
 
@@ -1296,8 +642,8 @@ class BioExplorer:
                     0,
                     0,
                     0.0,
-                    animation_params.rotation_seed + 8,
-                    2.0 * animation_params.rotation_strength,
+                    animation_params.get_params('rotation_seed') + 8,
+                    2.0 * animation_params.get_params('rotation_strength'),
                 ),
             )
 
@@ -1318,8 +664,8 @@ class BioExplorer:
                         0,
                         0,
                         0.0,
-                        animation_params.rotation_seed + 9,
-                        2.0 * animation_params.rotation_strength,
+                        animation_params.get_params('rotation_seed') + 9,
+                        2.0 * animation_params.get_params('rotation_strength'),
                     ),
                 )
                 self.add_sugar(o_glycan)
@@ -1339,8 +685,8 @@ class BioExplorer:
                     0,
                     0,
                     0.0,
-                    animation_params.rotation_seed + 10,
-                    2.0 * animation_params.rotation_strength,
+                    animation_params.get_params('rotation_seed') + 10,
+                    2.0 * animation_params.get_params('rotation_strength'),
                 ),
             )
             self.add_glycan(high_mannose_glycans)
@@ -1360,21 +706,21 @@ class BioExplorer:
                     0,
                     0,
                     0.0,
-                    animation_params.rotation_seed + 11,
-                    2.0 * animation_params.rotation_strength,
+                    animation_params.get_params('rotation_seed') + 11,
+                    2.0 * animation_params.get_params('rotation_strength'),
                 ),
             )
             self.add_glycan(complex_glycans)
 
         if apply_colors:
             # Apply default materials
-            self.apply_default_color_scheme(shading_mode=self.SHADING_MODE_BASIC)
+            self.apply_default_color_scheme(shading_mode=self.BASIC)
 
     def add_cell(
         self,
         cell,
         atom_radius_multiplier=1.0,
-        representation=REPRESENTATION_ATOMS,
+        representation=ProteinRepresentation.ATOMS,
         clipping_planes=list(),
         position=Vector3(),
         rotation=Quaternion(),
@@ -1439,11 +785,11 @@ class BioExplorer:
         self,
         volume,
         atom_radius_multiplier=1.0,
-        representation=REPRESENTATION_ATOMS_AND_STICKS,
+        representation=ProteinRepresentation.ATOMS_AND_STICKS,
         position=Vector3(),
         rotation=Quaternion(),
         constraints=list(),
-    ):
+    ) -> Dict[str, Any]:
         """
         Add a volume assembly to the scene
 
@@ -1455,10 +801,16 @@ class BioExplorer:
         :animation_params: Random seed used to define the positions of the proteins in the volume
         :constraints: List of assemblies that constraint the placememnt of the proteins
         """
-        assert isinstance(volume, Volume)
-        assert isinstance(position, Vector3)
-        assert isinstance(constraints, list)
+        if constraints is None:
+            constraints = []
 
+        if not isinstance(volume, Volume):
+            raise TypeError("volume must be an instance of Volume")
+        if not isinstance(position, Vector3):
+            raise TypeError("position must be an instance of Vector3")
+        if not isinstance(constraints, list):
+            raise TypeError("constraints must be a list")
+        
         _protein = AssemblyProtein(
             assembly_name=volume.name,
             name=volume.protein.name,
@@ -1476,6 +828,7 @@ class BioExplorer:
         )
 
         self.remove_assembly(volume.name)
+
         result = self.add_assembly(
             name=volume.name,
             shape=volume.shape,
@@ -1485,16 +838,18 @@ class BioExplorer:
         )
         if not result["status"]:
             raise RuntimeError(result["contents"])
+        
         result = self.add_assembly_protein(_protein)
         if not result["status"]:
             raise RuntimeError(result["contents"])
+        
         return result
 
     def add_surfactant(
         self,
         surfactant,
         atom_radius_multiplier=1.0,
-        representation=REPRESENTATION_ATOMS,
+        representation=ProteinRepresentation.ATOMS,
         position=Vector3(),
         rotation=Quaternion(),
         animation_params=MolecularSystemAnimationParams(),
@@ -1514,12 +869,12 @@ class BioExplorer:
         assert isinstance(rotation, Quaternion)
         assert isinstance(animation_params, MolecularSystemAnimationParams)
 
-        shape = self.ASSEMBLY_SHAPE_EMPTY_SPHERE
+        shape = AssemblyShape.EMPTY_SPHERE
         nb_branches = 1
-        if surfactant.surfactant_protein == self.SURFACTANT_PROTEIN_A:
-            shape = self.ASSEMBLY_SHAPE_FAN
+        if surfactant.surfactant_protein == SurfactantType.PROTEIN_A:
+            shape = AssemblyShape.FAN
             nb_branches = 6
-        elif surfactant.surfactant_protein == self.SURFACTANT_PROTEIN_D:
+        elif surfactant.surfactant_protein == SurfactantType.PROTEIN_D:
             nb_branches = 4
 
         nb_collagens = 2
@@ -1599,7 +954,7 @@ class BioExplorer:
         self.remove_assembly(enzyme_reaction.assembly_name)
         result = self.add_assembly(
             name=enzyme_reaction.assembly_name,
-            shape=BioExplorer.ASSEMBLY_SHAPE_POINT,
+            shape=AssemblyShape.POINT,
             shape_params=Vector3(),
         )
         if not result["status"]:
@@ -1720,7 +1075,7 @@ class BioExplorer:
     def add_assembly(
         self,
         name,
-        shape=ASSEMBLY_SHAPE_POINT,
+        shape=AssemblyShape.POINT,
         shape_params=Vector3(),
         shape_mesh_source="",
         clipping_planes=list(),
@@ -1751,7 +1106,7 @@ class BioExplorer:
 
         params = dict()
         params["name"] = name
-        params["shape"] = shape
+        params["shape"] = shape.value
         params["shapeParams"] = shape_params.to_list()
         params["shapeMeshContents"] = mesh_contents
         params["position"] = position.to_list()
@@ -1769,7 +1124,7 @@ class BioExplorer:
         """
         params = dict()
         params["name"] = name
-        params["shape"] = BioExplorer.ASSEMBLY_SHAPE_POINT
+        params["shape"] = AssemblyShape.POINT.value
         params["shapeParams"] = list()
         params["shapeMeshContents"] = ""
         params["position"] = Vector3().to_list()
@@ -1813,7 +1168,7 @@ class BioExplorer:
         params = dict()
         params["assemblyName"] = assembly_name
         params["name"] = name
-        params["colorScheme"] = color_scheme
+        params["colorScheme"] = color_scheme.value
         params["palette"] = local_palette
         params["chainIds"] = chain_ids
         result = self._invoke_and_check("set-protein-color-scheme", params)
@@ -2016,7 +1371,7 @@ class BioExplorer:
         params["valuesRange"] = values_range.to_list()
         params["curveParams"] = curve_params.to_list()
         params["atomRadiusMultiplier"] = rna_sequence.atom_radius_multiplier
-        params["representation"] = rna_sequence.representation
+        params["representation"] = rna_sequence.representation.value
         params["animationParams"] = rna_sequence.animation_params.to_list()
         params["position"] = rna_sequence.position.to_list()
         params["rotation"] = list(rna_sequence.rotation)
@@ -2064,7 +1419,7 @@ class BioExplorer:
         params["atomRadiusMultiplier"] = membrane.atom_radius_multiplier
         params["loadBonds"] = membrane.load_bonds
         params["loadNonPolymerChemicals"] = membrane.load_non_polymer_chemicals
-        params["representation"] = membrane.representation
+        params["representation"] = membrane.representation.value
         params["chainIds"] = membrane.chain_ids
         params["recenter"] = membrane.recenter
         params["animationParams"] = animation_params.to_list()
@@ -2074,7 +1429,7 @@ class BioExplorer:
         self,
         protein,
         recenter=True,
-        representation=REPRESENTATION_ATOMS_AND_STICKS,
+        representation=ProteinRepresentation.ATOMS_AND_STICKS,
         atom_radius_multiplier=1.0,
         position=Vector3(),
         rotation=Quaternion(),
@@ -2126,9 +1481,9 @@ class BioExplorer:
         for constraint in protein.constraints:
             if constraints != "":
                 constraints += self.CONTENTS_DELIMITER
-            if constraint[0] == BioExplorer.POSITION_CONSTRAINT_INSIDE:
+            if constraint[0] == PositionConstraint.INSIDE:
                 constraints += "+" + constraint[1]
-            elif constraint[0] == BioExplorer.POSITION_CONSTRAINT_OUTSIDE:
+            elif constraint[0] == PositionConstraint.OUTSIDE:
                 constraints += "-" + constraint[1]
             else:
                 raise RuntimeError("Unknown position constraint")
@@ -2142,7 +1497,7 @@ class BioExplorer:
         params["loadBonds"] = protein.load_bonds
         params["loadNonPolymerChemicals"] = protein.load_non_polymer_chemicals
         params["loadHydrogen"] = protein.load_hydrogen
-        params["representation"] = protein.representation
+        params["representation"] = protein.representation.value
         params["chainIds"] = protein.chain_ids
         params["recenter"] = protein.recenter
         params["transmembraneParams"] = protein.transmembrane_params.to_list()
@@ -2171,7 +1526,7 @@ class BioExplorer:
         params["proteinName"] = glycan.protein_name
         params["atomRadiusMultiplier"] = glycan.atom_radius_multiplier
         params["loadBonds"] = glycan.load_bonds
-        params["representation"] = glycan.representation
+        params["representation"] = glycan.representation.value
         params["recenter"] = glycan.recenter
         params["chainIds"] = glycan.chain_ids
         params["siteIndices"] = glycan.site_indices
@@ -2262,7 +1617,7 @@ class BioExplorer:
         params["proteinName"] = sugar.protein_name
         params["atomRadiusMultiplier"] = sugar.atom_radius_multiplier
         params["loadBonds"] = sugar.load_bonds
-        params["representation"] = sugar.representation
+        params["representation"] = sugar.representation.value
         params["recenter"] = sugar.recenter
         params["chainIds"] = sugar.chain_ids
         params["siteIndices"] = sugar.site_indices
@@ -2274,10 +1629,10 @@ class BioExplorer:
         """
         Set rendering quality using presets
 
-        :image_quality: Quality of the image (RENDERING_QUALITY_LOW or RENDERING_QUALITY_HIGH)
+        :image_quality: Quality of the image (LOW or HIGH)
         :return: Result of the call to the BioExplorer backend
         """
-        if image_quality == self.RENDERING_QUALITY_HIGH:
+        if image_quality == RenderingQuality.HIGH:
             self._client.set_renderer(
                 head_light=False,
                 background_color=[96 / 255, 125 / 255, 139 / 255],
@@ -2496,10 +1851,7 @@ class BioExplorer:
         :refraction_indices: List of refraction indices
         :glossinesses: List of glossinesses (value between 0 and 1)
         :cast_user_datas: List of user data casts
-        :shading_modes: List of shading modes (SHADING_MODE_NONE, SHADING_MODE_BASIC,
-                              SHADING_MODE_DIFFUSE, SHADING_MODE_ELECTRON, SHADING_MODE_CARTOON,
-                              SHADING_MODE_ELECTRON_TRANSPARENCY, SHADING_MODE_PERLIN or
-                              SHADING_MODE_DIFFUSE_TRANSPARENCY)
+        :shading_modes: List of shading modes (NONE, BASIC, DIFFUSE, ELECTRON, CARTOON,  ELECTRON_TRANSPARENCY, PERLIN or DIFFUSE_TRANSPARENCY)
         :emissions: List of light emission intensities
         :user_parameters: List of convenience parameter used by some of the shaders
         :chameleon_modes: List of chameleon mode attributes. If receiver, material take the color of
@@ -2520,6 +1872,9 @@ class BioExplorer:
             for k in range(3):
                 s_colors.append(specular[k])
 
+        shading_mode_values = self._enums_to_list(shading_modes)
+        chameleon_mode_values = self._enums_to_list(chameleon_modes)
+        clipping_modes_values = self._enums_to_list(clipping_modes)
         params = dict()
         params["modelIds"] = model_ids
         params["materialIds"] = material_ids
@@ -2532,10 +1887,10 @@ class BioExplorer:
         params["emissions"] = emissions
         params["glossinesses"] = glossinesses
         params["castUserData"] = cast_user_datas
-        params["shadingModes"] = shading_modes
+        params["shadingModes"] = shading_mode_values
         params["userParameters"] = user_parameters
-        params["chameleonModes"] = chameleon_modes
-        params["clippingModes"] = clipping_modes
+        params["chameleonModes"] = chameleon_mode_values
+        params["clippingModes"] = clipping_modes_values
         return self._invoke_and_check("set-materials", params)
 
     def set_materials_from_palette(
@@ -2552,8 +1907,8 @@ class BioExplorer:
         reflection_index=0.0,
         refraction_index=1.0,
         cast_user_data=False,
-        chameleon_mode=SHADING_CHAMELEON_MODE_NONE,
-        clipping_mode=SHADING_CLIPPING_MODE_NONE,
+        chameleon_mode=ShadingChameleonMode.NONE,
+        clipping_mode=ShadingClippingMode.NONE
     ):
         """
         Applies a palette of colors and attributes to specified materials
@@ -2882,14 +2237,14 @@ class BioExplorer:
         return None
 
     def build_fields(
-        self, voxel_size, density=1.0, data_type=FIELD_DATA_TYPE_POINT, model_ids=list()
+        self, voxel_size, density=1.0, data_type=FieldDataType.POINT, model_ids=list()
     ):
         """
         Build fields acceleration structures and creates according data handler
 
         :voxel_size: Voxel size
         :voxel_size: Density of atoms to consider (between 0 and 1)
-        :data_type: Type of field (FIELD_DATA_TYPE_POINT or FIELD_DATA_TYPE_VECTOR)
+        :data_type: Type of field (FieldDataType.POINT or FIELD_DATA_TYPE_VECTOR)
         :model_ids: List of model ids used to build the field
         :return: Result of the request submission
         """
@@ -3255,7 +2610,7 @@ class BioExplorer:
         :return: Result of the request submission
         """
         params = dict()
-        params["action"] = BioExplorer.MODEL_LOADING_TRANSACTION_START
+        params["action"] = TransactionType.START.value
         return self._invoke("model-loading-transaction", params)
 
     def commit_model_loading_transaction(self):
@@ -3265,7 +2620,7 @@ class BioExplorer:
         :return: Result of the request submission
         """
         params = dict()
-        params["action"] = BioExplorer.MODEL_LOADING_TRANSACTION_COMMIT
+        params["action"] = TransactionType.COMMIT.value
         return self._invoke("model-loading-transaction", params)
 
     def get_out_of_core_configuration(self):
@@ -3348,11 +2703,11 @@ class BioExplorer:
         self,
         assembly_name,
         population_name,
-        color_scheme=VASCULATURE_COLOR_SCHEME_NONE,
-        realism_level=VASCULATURE_REALISM_LEVEL_NONE,
+        color_scheme=VascularColorScheme.NONE,
+        realism_level=VascularRealismLevel.NONE,
         section_gids=list(),
         load_capilarities=False,
-        representation=VASCULATURE_REPRESENTATION_SEGMENT,
+        representation=VascularRepresentation.SEGMENT,
         radius_multiplier=1.0,
         sql_filter="",
         scale=Vector3(1.0, 1.0, 1.0),
@@ -3387,11 +2742,11 @@ class BioExplorer:
         params = dict()
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
-        params["colorScheme"] = color_scheme
-        params["realismLevel"] = realism_level
+        params["colorScheme"] = color_scheme.value
+        params["realismLevel"] = realism_level.value
         params["gids"] = section_gids
         params["loadCapilarities"] = load_capilarities
-        params["representation"] = representation
+        params["representation"] = representation.value
         params["radiusMultiplier"] = radius_multiplier
         params["sqlFilter"] = sql_filter
         params["scale"] = scale.to_list()
@@ -3463,15 +2818,15 @@ class BioExplorer:
         assembly_name,
         population_name,
         vasculature_population_name="",
-        realism_level=MORPHOLOGY_REALISM_LEVEL_NONE,
+        realism_level=MorphologyRealismLevel.NONE,
         load_somas=True,
         load_dendrites=True,
         generate_internals=False,
         load_micro_domains=False,
-        morphology_representation=MORPHOLOGY_REPRESENTATION_SEGMENT,
-        micro_domain_representation=MICRO_DOMAIN_REPRESENTATION_MESH,
-        morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
-        population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
+        morphology_representation=MorphologyRepresentation.SEGMENT,
+        micro_domain_representation=MicroDomainRepresentation.MESH,
+        morphology_color_scheme=MorphologyColorScheme.NONE,
+        population_color_scheme=PopulationColorScheme.NONE,
         radius_multiplier=1.0,
         sql_filter="",
         scale=Vector3(1.0, 1.0, 1.0),
@@ -3517,11 +2872,11 @@ class BioExplorer:
         params["loadDendrites"] = load_dendrites
         params["generateInternals"] = generate_internals
         params["loadMicroDomains"] = load_micro_domains
-        params["realismLevel"] = realism_level
-        params["morphologyRepresentation"] = morphology_representation
-        params["microDomainRepresentation"] = micro_domain_representation
-        params["morphologyColorScheme"] = morphology_color_scheme
-        params["populationColorScheme"] = population_color_scheme
+        params["realismLevel"] = realism_level.value
+        params["morphologyRepresentation"] = morphology_representation.value
+        params["microDomainRepresentation"] = micro_domain_representation.value
+        params["morphologyColorScheme"] = morphology_color_scheme.value
+        params["populationColorScheme"] = population_color_scheme.value
         params["radiusMultiplier"] = radius_multiplier
         params["sqlFilter"] = sql_filter
         params["scale"] = scale.to_list()
@@ -3535,19 +2890,19 @@ class BioExplorer:
         self,
         assembly_name,
         population_name,
-        realism_level=MORPHOLOGY_REALISM_LEVEL_NONE,
+        realism_level=MorphologyRealismLevel.NONE,
         load_somas=True,
         load_axon=True,
         load_basal_dendrites=True,
         load_apical_dendrites=True,
-        synapses_type=NEURON_SYNAPSES_NONE,
+        synapses_type=NeuronSynapseType.NONE,
         generate_internals=False,
         generate_externals=False,
         generate_varicosities=False,
         show_membrane=True,
-        morphology_representation=MORPHOLOGY_REPRESENTATION_SEGMENT,
-        morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
-        population_color_scheme=POPULATION_COLOR_SCHEME_NONE,
+        morphology_representation=MorphologyRepresentation.SEGMENT,
+        morphology_color_scheme=MorphologyColorScheme.NONE,
+        population_color_scheme=PopulationColorScheme.NONE,
         radius_multiplier=1.0,
         report_params=NeuronReportParams(),
         sql_node_filter="",
@@ -3600,15 +2955,15 @@ class BioExplorer:
         params["loadAxon"] = load_axon
         params["loadBasalDendrites"] = load_basal_dendrites
         params["loadApicalDendrites"] = load_apical_dendrites
-        params["synapsesType"] = synapses_type
+        params["synapsesType"] = synapses_type.value
         params["generateInternals"] = generate_internals
         params["generateExternals"] = generate_externals
         params["showMembrane"] = show_membrane
         params["generateVaricosities"] = generate_varicosities
-        params["realismLevel"] = realism_level
-        params["morphologyRepresentation"] = morphology_representation
-        params["morphologyColorScheme"] = morphology_color_scheme
-        params["populationColorScheme"] = population_color_scheme
+        params["realismLevel"] = realism_level.value
+        params["morphologyRepresentation"] = morphology_representation.value
+        params["morphologyColorScheme"] = morphology_color_scheme.value
+        params["populationColorScheme"] = population_color_scheme.value
         params["radiusMultiplier"] = radius_multiplier
         params["reportParams"] = report_params.to_list()
         params["sqlNodeFilter"] = sql_node_filter
@@ -3636,7 +2991,7 @@ class BioExplorer:
         params["sectionId"] = section_guid
         response = self._invoke("get-neuron-section-points", params)
         if not response["status"]:
-            raise "Failed to get neuron section points"
+            raise RuntimeError("Failed to get neuron section points")
         points = response["points"]
         ps = list()
         for i in range(0, len(points), 4):
@@ -3660,7 +3015,7 @@ class BioExplorer:
         params["neuronId"] = neuron_guid
         response = self._invoke("get-neuron-varicosities", params)
         if not response["status"]:
-            raise "Failed to get neuron varicosities"
+            raise RuntimeError("Failed to get neuron varicosities")
         points = response["points"]
         ps = list()
         for i in range(0, len(points), 3):
@@ -3725,8 +3080,8 @@ class BioExplorer:
         assembly_name,
         population_name,
         radius_multiplier=1.0,
-        representation=SYNAPSE_REPRESENTATION_SPHERE,
-        realism_level=VASCULATURE_REALISM_LEVEL_NONE,
+        representation=SynapseRepresentation.SPHERE,
+        realism_level=VascularRealismLevel.NONE,
         sql_filter="",
         displacement_params=list(),
     ):
@@ -3748,7 +3103,7 @@ class BioExplorer:
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
         params["radiusMultiplier"] = radius_multiplier
-        params["representation"] = representation
+        params["representation"] = representation.value
         params["realismLevel"] = realism_level
         params["sqlFilter"] = sql_filter
         params["displacementParams"] = displacement_params
@@ -3849,7 +3204,7 @@ class AssemblyProtein:
         source,
         atom_radius_multiplier=1.0,
         load_bonds=True,
-        representation=BioExplorer.REPRESENTATION_ATOMS,
+        representation=ProteinRepresentation.ATOMS,
         load_non_polymer_chemicals=False,
         load_hydrogen=True,
         chain_ids=list(),
@@ -3905,351 +3260,3 @@ class AssemblyProtein:
         self.position = position.copy()
         self.rotation = rotation
         self.constraints = constraints
-
-
-# Public classes
-
-
-class Membrane:
-    """A membrane is a shaped assembly of phospholipids"""
-
-    def __init__(
-        self,
-        lipid_sources,
-        lipid_rotation=Quaternion(),
-        lipid_density=1.0,
-        atom_radius_multiplier=1.0,
-        load_bonds=False,
-        representation=BioExplorer.REPRESENTATION_ATOMS_AND_STICKS,
-        load_non_polymer_chemicals=False,
-        chain_ids=list(),
-        recenter=True,
-        animation_params=MolecularSystemAnimationParams(),
-    ):
-        """
-        A membrane is an assembly of proteins with a given size and shape
-
-        :size: Size of the cell in the scene (in nanometers)
-        :shape: Shape of the membrane (Spherical, planar, sinusoidal, cubic, etc)
-        :lipid_sources: Full paths of the PDB files containing the building blocks of the membrane
-        :atom_radius_multiplier: Multiplies atom radius by the specified value
-        :load_bonds: Defines if bonds should be loaded
-        :representation: Representation of the protein (Atoms, atoms and sticks, etc)
-        :load_non_polymer_chemicals: Defines if non-polymer chemical should be loaded
-        :chain_ids: IDs of the protein chains to be loaded
-        :recenter: Defines if proteins should be centered when loaded from PDB files
-        :position: Relative position of the membrane in the assembly
-        :rotation: Relative rotation of the membrane in the assembly
-        """
-        assert isinstance(lipid_rotation, Quaternion)
-        assert isinstance(animation_params, MolecularSystemAnimationParams)
-        assert lipid_density > 0.0
-        assert lipid_density <= 10.0
-
-        self.lipid_sources = lipid_sources
-        self.lipid_rotation = lipid_rotation
-        self.lipid_density = lipid_density
-        self.atom_radius_multiplier = atom_radius_multiplier
-        self.load_bonds = load_bonds
-        self.load_non_polymer_chemicals = load_non_polymer_chemicals
-        self.representation = representation
-        self.chain_ids = chain_ids.copy()
-        self.recenter = recenter
-        self.animation_params = animation_params.copy()
-
-
-class Sugar:
-    """Sugars are glycan trees that can be added to the glycosylation sites of a given protein"""
-
-    def __init__(
-        self,
-        assembly_name,
-        name,
-        source,
-        protein_name,
-        atom_radius_multiplier=1.0,
-        load_bonds=True,
-        representation=BioExplorer.REPRESENTATION_ATOMS,
-        recenter=True,
-        chain_ids=list(),
-        site_indices=list(),
-        rotation=Quaternion(),
-        animation_params=MolecularSystemAnimationParams(),
-    ):
-        """
-        Sugar descriptor
-
-        :assembly_name: Name of the assembly in the scene
-        :name: Name of sugar in the scene
-        :source: Full path to the PDB file
-        :protein_name: Name of the protein to which sugars are added
-        :atom_radius_multiplier: Multiplier for the size of the atoms
-        :load_bonds: Defines if bonds should be loaded
-        :representation: Representation of the protein (Atoms, atoms and sticks, etc)
-        :recenter: Centers the protein if True
-        :chain_ids: Ids of chains to be loaded
-        :site_indices: Indices on which sugars should be added on the protein
-        :rotation: Rotation of the sugar on the protein
-        :shape_params: Extra optional parameters for positioning on the protein
-        """
-        assert isinstance(chain_ids, list)
-        assert isinstance(site_indices, list)
-        assert isinstance(rotation, Quaternion)
-        assert isinstance(animation_params, MolecularSystemAnimationParams)
-
-        self.assembly_name = assembly_name
-        self.name = name
-        self.pdb_id = os.path.splitext(os.path.basename(source))[0].lower()
-        self.contents = "".join(open(source).readlines())
-        self.protein_name = protein_name
-        self.atom_radius_multiplier = atom_radius_multiplier
-        self.load_bonds = load_bonds
-        self.representation = representation
-        self.recenter = recenter
-        self.chain_ids = chain_ids.copy()
-        self.site_indices = site_indices.copy()
-        self.rotation = rotation
-        self.animation_params = animation_params.copy()
-
-
-class RNASequence:
-    """An RNASequence is an assembly of a given shape holding a given genetic code"""
-
-    def __init__(
-        self,
-        source,
-        shape,
-        shape_params,
-        protein_source="",
-        values_range=Vector2(),
-        curve_params=Vector3(),
-        position=Vector3(),
-        rotation=Quaternion(),
-        atom_radius_multiplier=1.0,
-        representation=BioExplorer.REPRESENTATION_ATOMS,
-        animation_params=MolecularSystemAnimationParams(),
-    ):
-        """
-        RNA sequence descriptor
-
-        :source: Full path of the file containing the RNA sequence
-        :lipid_sources: Full path of the file containing the PDB representation of the N protein
-        :shape: Shape of the sequence (Trefoil knot, torus, star, spring, heart, Moebiusknot, etc)
-        :shape_params: Assembly parameters (radius, etc.)
-        :t_range: Range of values used to enroll the RNA thread
-        :shape_params: Shape parameters
-        :position: Relative position of the RNA sequence in the assembly
-        :rotation: Relative position of the RNA sequence in the assembly
-        """
-        assert isinstance(values_range, Vector2)
-        assert isinstance(shape_params, Vector2)
-        assert isinstance(curve_params, Vector3)
-        assert isinstance(position, Vector3)
-        assert isinstance(rotation, Quaternion)
-        assert isinstance(animation_params, MolecularSystemAnimationParams)
-
-        self.source = source
-        self.protein_source = protein_source
-        self.shape = shape
-        self.shape_params = shape_params.copy()
-        self.values_range = values_range.copy()
-        self.curve_params = curve_params.copy()
-        self.atom_radius_multiplier = atom_radius_multiplier
-        self.representation = representation
-        self.animation_params = animation_params.copy()
-        self.position = position.copy()
-        self.rotation = rotation
-
-
-class Surfactant:
-    """A Surfactant is a lipoprotein complex composed of multiple branches + head structures"""
-
-    def __init__(self, name, surfactant_protein, head_source, branch_source):
-        """
-        Surfactant descriptor
-
-        :name: Name of the surfactant in the scene
-        :surfactant_protein: Type of surfactant (A, D, etc.)
-        :head_source: Full path to the PDB file for the head of the surfactant
-        :branch_source: Full path to the PDB file for the branch of the surfactant
-        """
-        self.surfactant_protein = surfactant_protein
-        self.name = name
-        self.head_source = head_source
-        self.branch_source = branch_source
-
-
-class Cell:
-    """A Cell is a membrane with transmembrane proteins"""
-
-    def __init__(
-        self, name, shape, shape_params, membrane, proteins=list(), shape_mesh_source=""
-    ):
-        """
-        Cell descriptor
-
-        :name: Name of the cell in the scene
-        :membrane: Membrane descriptor
-        :proteins: List of trans-membrane proteins
-        """
-        assert isinstance(shape_params, Vector3)
-        assert isinstance(membrane, Membrane)
-        assert isinstance(proteins, list)
-        self.name = name
-        self.shape = shape
-        self.shape_params = shape_params.copy()
-        self.shape_mesh_source = shape_mesh_source
-        self.membrane = membrane
-        self.proteins = proteins.copy()
-
-
-class Volume:
-    """A volume define a 3D space in which proteins can be added"""
-
-    def __init__(self, name, shape, shape_params, protein):
-        """
-        Volume description
-
-        :name: Name of the volume in the scene
-        :shape_params: Size of the volume in the scene (in nanometers)
-        :protein: Protein descriptor
-        """
-        assert isinstance(shape_params, Vector3)
-        assert isinstance(protein, Protein)
-
-        self.name = name
-        self.shape = shape
-        self.shape_params = shape_params.copy()
-        self.protein = protein
-
-
-class Protein:
-    """A Protein holds the 3D structure of a protein as well as it Amino Acid sequences"""
-
-    def __init__(
-        self,
-        name,
-        source,
-        occurrences=1,
-        load_bonds=False,
-        load_hydrogen=False,
-        load_non_polymer_chemicals=False,
-        position=Vector3(),
-        rotation=Quaternion(),
-        allowed_occurrences=list(),
-        chain_ids=list(),
-        transmembrane_params=Vector2(),
-        animation_params=MolecularSystemAnimationParams(),
-    ):
-        """
-        Protein descriptor
-
-        :source: Full path to the protein PDB file
-        :occurrences: Number of occurrences to be added to the assembly
-        :load_bonds: Loads bonds if True
-        :load_hydrogen: Loads hydrogens if True
-        :load_non_polymer_chemicals: Loads non-polymer chemicals if True
-        :position: Position of the mesh in the scene
-        :rotation: Rotation of the mesh in the scene
-        :allowed_occurrences: Specific occurrences for which an instance is added to the assembly
-        """
-        assert isinstance(occurrences, int)
-        assert isinstance(position, Vector3)
-        assert isinstance(rotation, Quaternion)
-        assert isinstance(transmembrane_params, Vector2)
-        assert isinstance(allowed_occurrences, list)
-        assert isinstance(animation_params, MolecularSystemAnimationParams)
-
-        self.name = name
-        self.pdb_id = os.path.splitext(os.path.basename(source))[0].lower()
-        self.source = source
-        self.occurrences = occurrences
-        self.load_bonds = load_bonds
-        self.load_hydrogen = load_hydrogen
-        self.load_non_polymer_chemicals = load_non_polymer_chemicals
-        self.position = position.copy()
-        self.rotation = rotation
-        self.allowed_occurrences = allowed_occurrences.copy()
-        self.chain_ids = chain_ids.copy()
-        self.transmembrane_params = transmembrane_params.copy()
-        self.animation_params = animation_params.copy()
-
-
-class Virus:
-    """A Virus is an assembly of proteins (S, M and E), a membrane, and an RNA sequence"""
-
-    def __init__(
-        self,
-        name,
-        shape_params,
-        protein_s=None,
-        protein_e=None,
-        protein_m=None,
-        membrane=None,
-        rna_sequence=None,
-    ):
-        """
-        Virus descriptor
-
-        :name: Name of the virus in the scene
-        :shape_params: Assembly parameters (Virus radius and maximum range for random
-                                positions of membrane components)
-        :protein_s: Protein S descriptor
-        :protein_e: Protein E descriptor
-        :protein_m: Protein M descriptor
-        :membrane: Membrane descriptor
-        :rna_sequence: RNA descriptor
-        """
-        if protein_s is not None:
-            assert isinstance(protein_s, Protein)
-        if protein_e is not None:
-            assert isinstance(protein_e, Protein)
-        if protein_m is not None:
-            assert isinstance(protein_m, Protein)
-        if membrane is not None:
-            assert isinstance(membrane, Membrane)
-        if rna_sequence is not None:
-            assert isinstance(rna_sequence, RNASequence)
-        assert isinstance(shape_params, list)
-        self.name = name
-        self.protein_s = protein_s
-        self.protein_e = protein_e
-        self.protein_m = protein_m
-        self.membrane = membrane
-        self.rna_sequence = rna_sequence
-        self.shape_params = shape_params
-
-
-class EnzymeReaction:
-    """
-    Enzyme reaction descriptor
-
-    Enzymes are catalysts and increase the speed of a chemical reaction without themselves
-    undergoing any permanent chemical change. They are neither used up in the reaction nor do
-    they appear as reaction products.
-
-    The basic enzymatic reaction can be represented as follows:
-    - E represents the enzyme catalyzing the reaction,
-    - S the substrate, the substance being changed
-    - P the product of the reaction
-
-    S + E -> P + E
-    """
-
-    def __init__(self, assembly_name, name, enzyme, substrates, products):
-        """
-        Enzyme reaction descriptor
-
-        :name: Name of the reaction in the scene
-        :enzyme: The enzyme catalyzing the reaction
-        :substrates: List of substrates by name
-        :products: List of products by name
-        """
-        assert isinstance(enzyme, Protein)
-        assert isinstance(substrates, list)
-        assert isinstance(products, list)
-        self.assembly_name = assembly_name
-        self.name = name
-        self.enzyme = enzyme
-        self.substrates = substrates
-        self.products = products

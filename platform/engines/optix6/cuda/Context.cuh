@@ -22,6 +22,7 @@
 
 #include <platform/engines/optix6/OptiXCommonStructs.h>
 
+
 #include <optix_world.h>
 #include <optixu/optixu_math_namespace.h>
 

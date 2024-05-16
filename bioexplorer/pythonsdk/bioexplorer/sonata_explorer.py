@@ -120,7 +120,7 @@ class SonataExplorer:
     MATERIAL_OFFSET_EFFERENT_SYNPASE = 6
     MATERIAL_OFFSET_MITOCHONDRION = 7
     MATERIAL_OFFSET_NUCLEUS = 8
-    MATERIAL_OFFSET_MYELIN_STEATH = 9
+    MATERIAL_OFFSET_myelin_sheath = 9
 
     def __init__(self, bioexplorer):
         """Create a new Circuit Explorer instance"""
@@ -137,7 +137,7 @@ class SonataExplorer:
                      radius_correction=0, load_soma=True, load_axon=True, load_dendrite=True,
                      load_apical_dendrite=True, use_sdf_soma=False, use_sdf_branches=False,
                      use_sdf_nucleus=False, use_sdf_mitochondria=False, use_sdf_synapses=False,
-                     use_sdf_myelin_steath=False, dampen_branch_thickness_change_rate=True,
+                     use_sdf_myelin_sheath=False, dampen_branch_thickness_change_rate=True,
                      morphology_color_scheme=MORPHOLOGY_COLOR_SCHEME_NONE,
                      morphology_quality=GEOMETRY_QUALITY_HIGH, max_distance_to_soma=1e6,
                      cell_clipping=False, load_afferent_synapses=False,
@@ -186,7 +186,7 @@ class SonataExplorer:
         for the mitochondria
         :param bool use_sdf_synapses: Defines if signed distance field technique should be used for
         the synapses
-        :param bool use_sdf_myelin_steath: Defines if signed distance field technique should be used
+        :param bool use_sdf_myelin_sheath: Defines if signed distance field technique should be used
         for the myelin steath
         :param bool dampen_branch_thickness_change_rate: Defines if the dampen branch
         thickness change rate option should be used (Only application is use_sdf is True)
@@ -254,7 +254,7 @@ class SonataExplorer:
         props['062UseSdfNucleus'] = use_sdf_nucleus
         props['063UseSdfMitochondria'] = use_sdf_mitochondria
         props['064UseSdfSynapses'] = use_sdf_synapses
-        props['065UseSdfMyelinSteath'] = use_sdf_myelin_steath
+        props['065UseSdfMyelinSteath'] = use_sdf_myelin_sheath
         props['066DampenBranchThicknessChangerate'] = dampen_branch_thickness_change_rate
 
         props['070Position'] = position.to_list()
