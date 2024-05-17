@@ -1186,7 +1186,7 @@ typedef struct
     /** List of model identifiers */
     int32_ts modelIds;
     /** List of material identifiers */
-    int32_ts materialIds;
+    int64_ts materialIds;
     /** List of RGB values for diffuse colors */
     doubles diffuseColors;
     /** List of RGB values for specular colors */
