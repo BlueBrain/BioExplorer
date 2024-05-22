@@ -175,6 +175,8 @@ class Bounds:
         assert isinstance(max_aabb, Vector3), "max_aabb must be an instance of Vector3"
         self.min_aabb = min_aabb
         self.max_aabb = max_aabb
+        self.center = Vector3()
+        self.size = Vector3()
         self.update()
 
     def update(self):

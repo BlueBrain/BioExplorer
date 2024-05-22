@@ -1713,11 +1713,7 @@ class BioExplorer:
         min_aabb = Vector3(value[0], value[1], value[2])
         value = model_bounds["maxAABB"]
         max_aabb = Vector3(value[0], value[1], value[2])
-        value = model_bounds["center"]
-        center = Vector3(value[0], value[1], value[2])
-        value = model_bounds["size"]
-        size = Vector3(value[0], value[1], value[2])
-        return Bounds(min_aabb, max_aabb, center, size)
+        return Bounds(min_aabb, max_aabb)
 
     def get_model_ids(self):
         """
