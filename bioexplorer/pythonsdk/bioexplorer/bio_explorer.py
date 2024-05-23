@@ -112,6 +112,8 @@ class BioExplorer:
     morphology_representation = MorphologyRepresentation
     morphology_color_scheme = MorphologyColorScheme
     morphology_realism_level = MorphologyRealismLevel
+
+    population_color_scheme = PopulationColorScheme
     
     synapse_representation = SynapseRepresentation
     
@@ -2814,6 +2816,7 @@ class BioExplorer:
         assembly_name,
         population_name,
         vasculature_population_name="",
+        connectome_population_name="",
         realism_level=MorphologyRealismLevel.NONE,
         load_somas=True,
         load_dendrites=True,
@@ -2838,6 +2841,8 @@ class BioExplorer:
         :population_name: Name of the population of astrocytes
         :vasculature_population_name: Name of the vasculature population. Automatically load
                                       end-feet if not empty
+        :connectome_population_name: Name of the connectome population. Automatically load
+                                      end-feet if not empty
         :load_somas: Load somas if set to true
         :load_dendrites: Load dendrites if set to true
         :generate_internals: Generate internals (Nucleus and mitochondria)
@@ -2859,11 +2864,15 @@ class BioExplorer:
         assert isinstance(scale, Vector3)
         assert isinstance(animation_params, CellAnimationParams)
         assert isinstance(displacement_params, AstrocyteDisplacementParams)
+        if vasculature_population_name != '':
+            if connectome_population_name == '':
+                raise RuntimeError("A connectome population must be specified together with the vasculature population")
 
         params = dict()
         params["assemblyName"] = assembly_name
         params["populationName"] = population_name
         params["vasculaturePopulationName"] = vasculature_population_name
+        params["connectomePopulationName"] = connectome_population_name
         params["loadSomas"] = load_somas
         params["loadDendrites"] = load_dendrites
         params["generateInternals"] = generate_internals

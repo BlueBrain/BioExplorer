@@ -944,6 +944,7 @@ bool from_json(AstrocytesDetails &param, const std::string &payload)
         FROM_JSON(param, js, assemblyName);
         FROM_JSON(param, js, populationName);
         FROM_JSON(param, js, vasculaturePopulationName);
+        FROM_JSON(param, js, connectomePopulationName);
         FROM_JSON(param, js, loadSomas);
         FROM_JSON(param, js, loadDendrites);
         FROM_JSON(param, js, generateInternals);

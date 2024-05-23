@@ -48,7 +48,6 @@ namespace db
 {
 const std::string DB_SCHEMA_OUT_OF_CORE = "outofcore";
 const std::string DB_SCHEMA_METABOLISM = "metabolism";
-const std::string DB_SCHEMA_CONNECTOME = "connectome";
 
 DBConnector* DBConnector::_instance = nullptr;
 std::mutex DBConnector::_mutex;
@@ -568,7 +567,7 @@ SectionMap DBConnector::getAstrocyteSections(const std::string& populationName, 
     return sections;
 }
 
-EndFootMap DBConnector::getAstrocyteEndFeet(const std::string& vasculaturePopulationName,
+EndFootMap DBConnector::getAstrocyteEndFeet(const std::string& vasculaturePopulationName, const std::string& connectomePopulationName,
                                             const uint64_t astrocyteId) const
 {
     CHECK_DB_INITIALIZATION
@@ -584,7 +583,7 @@ EndFootMap DBConnector::getAstrocyteEndFeet(const std::string& vasculaturePopula
             "c.endfoot_compartment_length, c.endfoot_compartment_diameter "
             "* "
             "0.5 FROM " +
-            DB_SCHEMA_CONNECTOME + ".glio_vascular as c, " + vasculaturePopulationName +
+            connectomePopulationName + ".glio_vascular as c, " + vasculaturePopulationName +
             ".node as n WHERE c.vasculature_node_guid=n.guid AND "
             "c.astrocyte_guid=" +
             std::to_string(astrocyteId);
