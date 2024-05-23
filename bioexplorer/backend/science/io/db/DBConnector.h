@@ -220,10 +220,11 @@ public:
      * @brief Get the end-feet as nodes for a given astrocyte
      *
      * @param vasculaturePopulationName Name of the vasculature population
+     * @param connectomePopulationName Name of the connectome population
      * @param astrocyteId Identifier of the astrocyte
      * @return EndFootNodesMap A map of end-feet
      */
-    morphology::EndFootMap getAstrocyteEndFeet(const std::string& vasculaturePopulationName,
+    morphology::EndFootMap getAstrocyteEndFeet(const std::string& vasculaturePopulationName, const std::string& connectomePopulationName,
                                                const uint64_t astrocyteId) const;
 
     /**

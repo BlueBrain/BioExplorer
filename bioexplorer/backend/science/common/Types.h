@@ -1469,9 +1469,10 @@ typedef struct
     std::string assemblyName;
     /** Name of the population of astrocytes */
     std::string populationName;
-    /** Name of the vasculature population. If not empty, endfeet are
-     * automatically loaded */
+    /** Name of the vasculature population. If not empty, endfeet are automatically loaded */
     std::string vasculaturePopulationName;
+    /** Name of the connectome population. If not empty, endfeet are automatically loaded */
+    std::string connectomePopulationName;
     /** Load somas if set to true */
     bool loadSomas{true};
     /** Load dendrites if set to true */

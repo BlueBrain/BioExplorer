@@ -170,7 +170,7 @@ void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radi
             // End feet
             EndFootMap endFeet;
             if (loadEndFeet)
-                endFeet = connector.getAstrocyteEndFeet(_details.vasculaturePopulationName, somaId);
+                endFeet = connector.getAstrocyteEndFeet(_details.vasculaturePopulationName, _details.connectomePopulationName, somaId);
 
             // Soma radius
             uint64_t count = 1;
@@ -421,6 +421,8 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container, const Vector3d& som
                 connector.getVasculatureNodes(_details.vasculaturePopulationName,
                                               "section_guid=" + std::to_string(endFoot.second.vasculatureSectionId));
 
+            if (vasculatureNodes.empty())
+                continue;
             uint64_t startIndex = 0;
             uint64_t endIndex = 1;
             const auto halfLength = endFoot.second.length / 2.0;
