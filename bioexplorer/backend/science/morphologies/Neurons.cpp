@@ -948,7 +948,7 @@ void Neurons::_addSection(ThreadSafeContainer& container, const uint64_t neuronI
                                         (dstRadius - srcRadius);
                     const Vector3d positionInSegment =
                         src + normalize(segmentDirection) * synapse.preSynapticSegmentDistance;
-                    _addSpine(container, neuronId, morphologyId, sectionId, synapse, spineMaterialId, positionInSegment,
+                    _addSpine(container, userData, morphologyId, sectionId, synapse, spineMaterialId, positionInSegment,
                               radiusInSegment);
                 }
             }
@@ -1156,7 +1156,7 @@ void Neurons::_addAxonMyelinSheath(ThreadSafeContainer& container, const uint64_
     }
 }
 
-void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId, const uint64_t morphologyId,
+void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t userData, const uint64_t morphologyId,
                         const uint64_t sectionId, const Synapse& synapse, const size_t SpineMaterialId,
                         const Vector3d& preSynapticSurfacePosition, const double radiusAtSurfacePosition)
 {
@@ -1190,14 +1190,14 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t neuronId,
         andCheck(static_cast<uint32_t>(_details.realismLevel), static_cast<uint32_t>(MorphologyRealismLevel::spine));
 
     if (!useSdf)
-        container.addSphere(target, spineLargeRadius, SpineMaterialId, neuronId);
-    neighbours.insert(container.addSphere(middle, spineMiddleRadius, SpineMaterialId, useSdf, neuronId, neighbours,
+        container.addSphere(target, spineLargeRadius, SpineMaterialId, useSdf, userData);
+    neighbours.insert(container.addSphere(middle, spineMiddleRadius, SpineMaterialId, useSdf, userData, neighbours,
                                           spineDisplacement));
     if (middle != origin)
-        container.addCone(origin, spineSmallRadius, middle, spineMiddleRadius, SpineMaterialId, useSdf, neuronId,
+        container.addCone(origin, spineSmallRadius, middle, spineMiddleRadius, SpineMaterialId, useSdf, userData,
                           neighbours, spineDisplacement);
     if (middle != target)
-        container.addCone(middle, spineMiddleRadius, target, spineLargeRadius, SpineMaterialId, useSdf, neuronId,
+        container.addCone(middle, spineMiddleRadius, target, spineLargeRadius, SpineMaterialId, useSdf, userData,
                           neighbours, spineDisplacement);
 
     ++_nbSpines;
