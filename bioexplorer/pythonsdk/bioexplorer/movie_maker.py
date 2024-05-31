@@ -77,7 +77,7 @@ class MovieMaker:
         directions = list()
         ups = list()
         aperture_radii = list()
-        focus_distances = list()
+        focal_distances = list()
         self._smoothed_key_frames.clear()
 
         for s in range(len(control_points) - 1):
@@ -112,16 +112,16 @@ class MovieMaker:
                 ) / float(nb_steps_between_control_points)
                 aperture_radius = p0["apertureRadius"] + t_aperture_radius * float(i)
 
-                t_focus_distance = (p1["focalDistance"] - p0["focalDistance"]) / float(
+                t_focal_distance = (p1["focalDistance"] - p0["focalDistance"]) / float(
                     nb_steps_between_control_points
                 )
-                focus_distance = p0["focalDistance"] + t_focus_distance * float(i)
+                focal_distance = p0["focalDistance"] + t_focal_distance * float(i)
 
                 origins.append(origin)
                 directions.append(direction)
                 ups.append(up)
                 aperture_radii.append(aperture_radius)
-                focus_distances.append(focus_distance)
+                focal_distances.append(focal_distance)
 
         nb_frames = len(origins)
         for i in range(nb_frames):
@@ -129,7 +129,7 @@ class MovieMaker:
             d = [0, 0, 0]
             u = [0, 0, 0]
             aperture_radius = 0.0
-            focus_distance = 0.0
+            focal_distance = 0.0
             for j in range(int(smoothing_size)):
                 index = int(max(0, min(i + j - smoothing_size / 2, nb_frames - 1)))
                 for k in range(3):
@@ -137,7 +137,7 @@ class MovieMaker:
                     d[k] = d[k] + directions[index][k]
                     u[k] = u[k] + ups[index][k]
                 aperture_radius = aperture_radius + aperture_radii[index]
-                focus_distance = focus_distance + focus_distances[index]
+                focal_distance = focal_distance + focal_distances[index]
             self._smoothed_key_frames.append(
                 [
                     (
@@ -156,7 +156,7 @@ class MovieMaker:
                         u[2] / smoothing_size,
                     ),
                     aperture_radius / smoothing_size,
-                    focus_distance / smoothing_size,
+                    focal_distance / smoothing_size,
                 ]
             )
         last = control_points[len(control_points) - 1]
@@ -376,7 +376,7 @@ class MovieMaker:
 
         if camera_params is not None:
             camera_params.aperture_radius = cam[3]
-            camera_params.focus_distance = cam[4]
+            camera_params.focal_distance = cam[4]
             camera_params.enable_clipping_planes = False
             self._client.set_camera_params(camera_params)
 
