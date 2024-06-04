@@ -232,7 +232,7 @@ class MovieMaker:
         samples_per_pixel=1,
         start_frame=0,
         end_frame=0,
-        interpupillary_distance=0.0,
+        interpupillary_distance=0.0635,
         export_intermediate_frames=False,
         frame_buffer_mode=FRAME_BUFFER_MODE_COLOR,
         keywords=list(),
@@ -247,7 +247,7 @@ class MovieMaker:
         :start_frame: Optional value if the rendering should start at a specific frame.
         :end_frame: Optional value if the rendering should end at a specific frame.
         :export_intermediate_frames: Exports intermediate frames (for every sample per pixel)
-        :interpupillary_distance: Distance between pupils. Stereo mode is activated if different
+        :interpupillary_distance: Distance between pupils
         from zero. This is used to resume the rendering of a previously canceled sequence)
         :return: Result of the request submission
         :rtype: Response
@@ -531,7 +531,7 @@ class MovieMaker:
         samples_per_pixel=1,
         start_frame=0,
         end_frame=0,
-        interpupillary_distance=0.0,
+        interpupillary_distance=0.0635,
         export_intermediate_frames=True,
     ):
         """
@@ -544,8 +544,7 @@ class MovieMaker:
         :samples_per_pixel: Samples per pixel
         :start_frame: Start frame to export in the provided sequence
         :end_frame: Last frame to export in the provided sequence
-        :interpupillary_distance: Interpupillary distance for stereo rendering. If set to 0, stereo
-        is disabled
+        :interpupillary_distance: Interpupillary distance for stereo rendering
         :export_intermediate_frames: If True, intermediate samples are stored to disk. Otherwise,
         only the final accumulation is exported
         """
