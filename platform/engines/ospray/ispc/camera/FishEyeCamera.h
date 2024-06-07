@@ -24,6 +24,7 @@
 #include "camera/Camera.h"
 
 #include <platform/core/common/Properties.h>
+#include <platform/core/common/CommonTypes.h>
 #include <platform/engines/ospray/OSPRayProperties.h>
 
 namespace core
@@ -44,10 +45,15 @@ public:
     bool enableClippingPlanes{false};
     ::ospray::Ref<::ospray::Data> clipPlanes;
 
+    double aspect;
     float apertureRadius{DEFAULT_CAMERA_APERTURE_RADIUS};
     float focalDistance{DEFAULT_CAMERA_FOCAL_DISTANCE};
     float exposure{DEFAULT_COMMON_EXPOSURE};
     bool useHardwareRandomizer{DEFAULT_COMMON_USE_HARDWARE_RANDOMIZER};
+
+    // Stereo
+    CameraStereoMode stereoMode;
+    double interpupillaryDistance;
 };
 } // namespace ospray
 } // namespace engine

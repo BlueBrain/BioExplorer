@@ -45,6 +45,10 @@ struct FishEyeCamera
 
     float aperture;
 
+    // Stereo
+    bool side_by_side;
+    vec3f ipd_offset;
+
     // Hardware randomizer
     bool useHardwareRandomizer;
 };
@@ -55,6 +59,20 @@ void FishEyeCamera_initRay(uniform Camera* uniform _self, varying Ray& ray, cons
 
     vec2f screen = sample.screen;
     vec3f org = self->org;
+
+    if (self->side_by_side)
+    {
+        screen.x *= 2.f;
+        if (screen.x < 1.f)
+        {
+            org = org - self->ipd_offset;
+        }
+        else
+        {
+            org = org + self->ipd_offset;
+            screen.x -= 1.f;
+        }
+    }
 
     screen = Camera_subRegion(_self, screen);
 
@@ -120,6 +138,7 @@ export void* uniform FishEyeCamera_create(void* uniform cppE)
 export void FishEyeCamera_set(void* uniform _self, const uniform vec3f& org, const uniform vec3f& dir,
                               const uniform vec3f& dirU, const uniform vec3f& dirV, const uniform vec4f clipPlanes[],
                               const uniform unsigned int numClipPlanes, const uniform float aperture,
+                              const uniform vec3f& ipd_offset, const uniform bool side_by_side,
                               const uniform bool useHardwareRandomizer)
 {
     uniform FishEyeCamera* uniform self = (uniform FishEyeCamera * uniform) _self;
@@ -129,6 +148,8 @@ export void FishEyeCamera_set(void* uniform _self, const uniform vec3f& org, con
     self->dirV = dirV;
     self->clipPlanes = clipPlanes;
     self->numClipPlanes = numClipPlanes;
+    self->side_by_side = side_by_side;
+    self->ipd_offset = ipd_offset;
     self->aperture = aperture;
     self->useHardwareRandomizer = useHardwareRandomizer;
 }

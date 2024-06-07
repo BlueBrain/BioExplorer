@@ -276,6 +276,8 @@ void OSPRayEngine::_createCameras()
         PropertyMap properties;
         properties.setProperty(CAMERA_PROPERTY_FIELD_OF_VIEW);
         properties.setProperty(aspect);
+        properties.setProperty(stereoProperty);
+        properties.setProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE);
         properties.setProperty(CAMERA_PROPERTY_APERTURE_RADIUS);
         properties.setProperty(CAMERA_PROPERTY_FOCAL_DISTANCE);
         properties.setProperty(CAMERA_PROPERTY_ENABLE_CLIPPING_PLANES);
