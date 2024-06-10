@@ -55,7 +55,7 @@ std::string Vector3fToString(const Vector3f& v)
 }
 
 MEGHandler::MEGHandler(const std::string& circuitConfiguration, const std::string& reportName, const bool synchronous)
-    : AbstractSimulationHandler()
+    : AbstractAnimationHandler()
     , _synchronousMode(synchronous)
     , _ready(false)
 {
@@ -94,7 +94,7 @@ MEGHandler::MEGHandler(const std::string& circuitConfiguration, const std::strin
 }
 
 MEGHandler::MEGHandler(const MEGHandler& rhs)
-    : AbstractSimulationHandler(rhs)
+    : AbstractAnimationHandler(rhs)
 {
 }
 

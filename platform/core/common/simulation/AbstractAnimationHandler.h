@@ -26,22 +26,22 @@
 namespace core
 {
 /**
- * @brief The AbstractSimulationHandler class handles simulation frames for the
+ * @brief The AbstractAnimationHandler class handles simulation frames for the
  * current circuit
  */
-class AbstractSimulationHandler
+class AbstractAnimationHandler
 {
 public:
     /** @return a clone of the concrete simulation handler implementation. */
     virtual AbstractSimulationHandlerPtr clone() const = 0;
 
-    virtual ~AbstractSimulationHandler();
+    virtual ~AbstractAnimationHandler();
 
-    AbstractSimulationHandler& operator=(const AbstractSimulationHandler& rhs);
+    AbstractAnimationHandler& operator=(const AbstractAnimationHandler& rhs);
 
-    PLATFORM_API virtual void bind(const MaterialPtr& /* material */){};
+    PLATFORM_API virtual void bind(const MaterialPtr& /* material */) {};
 
-    PLATFORM_API virtual void unbind(const MaterialPtr& /* material */){};
+    PLATFORM_API virtual void unbind(const MaterialPtr& /* material */) {};
 
     /** @return the current loaded frame for the simulation. */
     uint32_t getCurrentFrame() const { return _currentFrame; }

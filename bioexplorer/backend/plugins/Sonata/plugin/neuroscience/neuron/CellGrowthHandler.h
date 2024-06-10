@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractAnimationHandler.h>
 
 #include <platform/core/common/Api.h>
 #include <platform/core/common/Types.h>
@@ -36,7 +36,7 @@ namespace neuron
 /**
  * @brief The CellGrowthHandler class handles distance to the soma
  */
-class CellGrowthHandler : public core::AbstractSimulationHandler
+class CellGrowthHandler : public core::AbstractAnimationHandler
 {
 public:
     /**

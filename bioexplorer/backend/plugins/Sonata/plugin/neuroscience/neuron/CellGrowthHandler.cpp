@@ -29,7 +29,7 @@ namespace neuroscience
 namespace neuron
 {
 CellGrowthHandler::CellGrowthHandler(const uint32_t nbFrames)
-    : core::AbstractSimulationHandler()
+    : core::AbstractAnimationHandler()
 {
     // Load simulation information from compartment reports
     _dt = 1.f;
@@ -39,7 +39,7 @@ CellGrowthHandler::CellGrowthHandler(const uint32_t nbFrames)
 }
 
 CellGrowthHandler::CellGrowthHandler(const CellGrowthHandler& rhs)
-    : core::AbstractSimulationHandler(rhs)
+    : core::AbstractAnimationHandler(rhs)
 {
 }
 

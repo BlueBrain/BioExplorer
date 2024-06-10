@@ -36,7 +36,7 @@ namespace neuron
 {
 VoltageSimulationHandler::VoltageSimulationHandler(const std::string& reportPath, const brion::GIDSet& gids,
                                                    const bool synchronousMode)
-    : AbstractSimulationHandler()
+    : AbstractAnimationHandler()
     , _synchronousMode(synchronousMode)
     , _reportPath(reportPath)
     , _compartmentReport(new brion::CompartmentReport(brion::URI(reportPath), brion::MODE_READ, gids))
@@ -62,7 +62,7 @@ VoltageSimulationHandler::VoltageSimulationHandler(const std::string& reportPath
 }
 
 VoltageSimulationHandler::VoltageSimulationHandler(const VoltageSimulationHandler& rhs)
-    : AbstractSimulationHandler(rhs)
+    : AbstractAnimationHandler(rhs)
     , _synchronousMode(rhs._synchronousMode)
     , _compartmentReport(rhs._compartmentReport)
     , _ready(false)

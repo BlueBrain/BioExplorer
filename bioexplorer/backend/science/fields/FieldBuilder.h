@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractAnimationHandler.h>
 
 #include <platform/core/common/Types.h>
 

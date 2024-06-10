@@ -29,7 +29,7 @@
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Volume.h>
 
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractAnimationHandler.h>
 #include <platform/core/common/utils/FileSystem.h>
 #include <platform/core/common/utils/Utils.h>
 #include <platform/core/parameters/AnimationParameters.h>

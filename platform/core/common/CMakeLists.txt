@@ -33,7 +33,7 @@ set(${NAME}_SOURCES
   loader/LoaderRegistry.cpp
   material/Texture2D.cpp
   scene/ClipPlane.cpp
-  simulation/AbstractSimulationHandler.cpp
+  simulation/AbstractAnimationHandler.cpp
   transferFunction/TransferFunction.cpp
   utils/base64/base64.cpp
   utils/DynamicLib.cpp
@@ -78,7 +78,7 @@ set(${NAME}_PUBLIC_HEADERS
   loader/LoaderRegistry.h
   material/Texture2D.h
   scene/ClipPlane.h
-  simulation/AbstractSimulationHandler.h
+  simulation/AbstractAnimationHandler.h
   tasks/Task.h
   tasks/TaskFunctor.h
   tasks/TaskRuntimeError.h

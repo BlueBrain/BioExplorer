@@ -31,7 +31,7 @@
 #include <plugin/neuroscience/common/ParallelModelContainer.h>
 
 #include <platform/core/common/Types.h>
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractAnimationHandler.h>
 #include <platform/core/common/utils/Utils.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Model.h>

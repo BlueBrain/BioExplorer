@@ -25,7 +25,7 @@
 
 #include <science/common/Types.h>
 
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractAnimationHandler.h>
 
 namespace bioexplorer
 {
@@ -37,19 +37,19 @@ namespace morphology
  * to the geometry by the BioExplorer advanced renderer
  *
  */
-class CompartmentSimulationHandler : public core::AbstractSimulationHandler
+class CompartmentSimulationHandler : public core::AbstractAnimationHandler
 {
 public:
-    /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
+    /** @copydoc AbstractAnimationHandler::AbstractAnimationHandler */
     CompartmentSimulationHandler(const std::string& populationName, const uint64_t simulationReportId);
 
-    /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
+    /** @copydoc AbstractAnimationHandler::AbstractAnimationHandler */
     CompartmentSimulationHandler(const CompartmentSimulationHandler& rhs);
 
-    /** @copydoc AbstractSimulationHandler::getFrameData */
+    /** @copydoc AbstractAnimationHandler::getFrameData */
     void* getFrameData(const uint32_t frame) final;
 
-    /** @copydoc AbstractSimulationHandler::clone */
+    /** @copydoc AbstractAnimationHandler::clone */
     core::AbstractSimulationHandlerPtr clone() const final;
 
 private:

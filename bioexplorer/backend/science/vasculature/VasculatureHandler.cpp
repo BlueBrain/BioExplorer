@@ -41,7 +41,7 @@ using namespace io;
 using namespace db;
 
 VasculatureHandler::VasculatureHandler(const VasculatureReportDetails& details)
-    : core::AbstractSimulationHandler()
+    : core::AbstractAnimationHandler()
     , _details(details)
 {
     auto& connector = DBConnector::getInstance();

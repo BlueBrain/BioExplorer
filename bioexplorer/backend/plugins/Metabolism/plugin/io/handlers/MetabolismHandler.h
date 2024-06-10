@@ -27,7 +27,7 @@
 #include <plugin/io/db/DBConnector.h>
 
 #include <platform/core/common/Api.h>
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractAnimationHandler.h>
 
 namespace bioexplorer
 {
@@ -36,7 +36,7 @@ namespace metabolism
 /**
  * @brief The MetabolismHandler class handles metabolite concentrations
  */
-class MetabolismHandler : public core::AbstractSimulationHandler
+class MetabolismHandler : public core::AbstractAnimationHandler
 {
 public:
     /**

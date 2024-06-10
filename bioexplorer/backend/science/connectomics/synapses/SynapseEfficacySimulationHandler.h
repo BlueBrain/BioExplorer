@@ -25,7 +25,7 @@
 
 #include <science/common/Types.h>
 
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractAnimationHandler.h>
 
 namespace bioexplorer
 {
@@ -38,19 +38,19 @@ namespace connectomics
  * mapped to the geometry by the BioExplorer advanced renderer
  *
  */
-class SynapseEfficacySimulationHandler : public core::AbstractSimulationHandler
+class SynapseEfficacySimulationHandler : public core::AbstractAnimationHandler
 {
 public:
-    /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
+    /** @copydoc AbstractAnimationHandler::AbstractAnimationHandler */
     SynapseEfficacySimulationHandler(const details::SynapseEfficacyDetails& details);
 
-    /** @copydoc AbstractSimulationHandler::AbstractSimulationHandler */
+    /** @copydoc AbstractAnimationHandler::AbstractAnimationHandler */
     SynapseEfficacySimulationHandler(const SynapseEfficacySimulationHandler& rhs);
 
-    /** @copydoc AbstractSimulationHandler::getFrameData */
+    /** @copydoc AbstractAnimationHandler::getFrameData */
     void* getFrameData(const uint32_t frame) final;
 
-    /** @copydoc AbstractSimulationHandler::clone */
+    /** @copydoc AbstractAnimationHandler::clone */
     core::AbstractSimulationHandlerPtr clone() const final;
 
 private:
