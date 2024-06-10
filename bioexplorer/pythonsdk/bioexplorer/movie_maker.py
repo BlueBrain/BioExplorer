@@ -221,6 +221,34 @@ class MovieMaker:
             self.PLUGIN_API_PREFIX + "get-odu-camera"
         )
 
+    def attach_camera_handler(
+        self, control_points, nb_steps_between_control_points, smoothing_size=1
+    ):
+        origins = list()
+        directions = list()
+        ups = list()
+        aperture_radii = list()
+        focal_distances = list()
+        for control_point in control_points:
+            for k in range(3):
+                origins.append(float(control_point["origin"][k]))
+                directions.append(float(control_point["direction"][k]))
+                ups.append(float(control_point["up"][k]))
+            aperture_radii.append(float(control_point['apertureRadius']))
+            focal_distances.append(float(control_point['focalDistance']))
+
+        params = dict()
+        params["origins"] = origins
+        params["directions"] = directions
+        params["ups"] = ups
+        params["apertureRadii"] = aperture_radii
+        params["focalDistances"] = focal_distances
+        params["stepsBetweenKeyFrames"] = nb_steps_between_control_points
+        params["numberOfSmoothingSteps"] = smoothing_size
+        return self._client.rockets_client.request(
+            self.PLUGIN_API_PREFIX + "attach-odu-camera-handler", params
+        )
+
     def export_frames(
         self,
         size,

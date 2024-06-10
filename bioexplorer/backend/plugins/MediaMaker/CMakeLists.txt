@@ -44,11 +44,15 @@ include_directories(
 # ==============================================================================
 set(${NAME}_SOURCES
     plugin/api/Params.cpp
+    plugin/common/Utils.cpp
+    plugin/handlers/CameraHandler.cpp
     plugin/MediaMakerPlugin.cpp
 )
 
 set(${NAME}_PUBLIC_HEADERS
     plugin/api/Params.h
+    plugin/common/Utils.h
+    plugin/handlers/CameraHandler.h
     plugin/MediaMakerPlugin.h
 )
 

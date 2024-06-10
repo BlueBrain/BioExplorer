@@ -28,12 +28,17 @@
 
 #include <plugin/common/Logs.h>
 #include <plugin/common/Properties.h>
+#include <plugin/common/Types.h>
+#include <plugin/common/Utils.h>
+
+#include <plugin/handlers/CameraHandler.h>
 
 #include <platform/core/common/ActionInterface.h>
 #include <platform/core/common/Properties.h>
 #include <platform/core/engineapi/Camera.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/FrameBuffer.h>
+#include <platform/core/engineapi/Model.h>
 #include <platform/core/engineapi/Scene.h>
 #include <platform/core/parameters/ParametersManager.h>
 #include <platform/core/pluginapi/Plugin.h>
@@ -160,6 +165,11 @@ void MediaMakerPlugin::init()
         actionInterface->registerRequest<FrameExportProgress>(entryPoint,
                                                               [&](void) -> FrameExportProgress
                                                               { return _getFrameExportProgress(); });
+
+        entryPoint = PLUGIN_API_PREFIX + "attach-odu-camera-handler";
+        PLUGIN_REGISTER_ENDPOINT(entryPoint);
+        actionInterface->registerNotification<CameraHandlerDetails>(entryPoint, [&](const CameraHandlerDetails &s)
+                                                                    { _attachCameraHandler(s); });
     }
 
     auto &engine = _api->getEngine();
@@ -206,6 +216,19 @@ void MediaMakerPlugin::_createOptiXRenderers()
     }
 }
 #endif
+
+void MediaMakerPlugin::_setCamera(const CameraDefinition &payload)
+{
+    auto &camera = _api->getCamera();
+    setCamera(cameraDefinitionToKeyFrame(payload), camera);
+}
+
+CameraDefinition MediaMakerPlugin::_getCamera()
+{
+    auto &camera = _api->getCamera();
+    const auto keyFrame = getCameraKeyFrame(camera);
+    return keyFrameToCameraDefinition(keyFrame);
+}
 
 void MediaMakerPlugin::_createRenderers()
 {
@@ -283,65 +306,6 @@ void MediaMakerPlugin::postRender()
             PLUGIN_ERROR(e.what());
         }
     }
-}
-
-void MediaMakerPlugin::_setCamera(const CameraDefinition &payload)
-{
-    auto &camera = _api->getCamera();
-
-    // Origin
-    const auto &o = payload.origin;
-    core::Vector3d origin{o[0], o[1], o[2]};
-    camera.setPosition(origin);
-
-    // Target
-    const auto &d = payload.direction;
-    core::Vector3d direction{d[0], d[1], d[2]};
-    camera.setTarget(origin + direction);
-
-    // Up
-    const auto &u = payload.up;
-    core::Vector3d up{u[0], u[1], u[2]};
-
-    // Orientation
-    const auto q = glm::inverse(glm::lookAt(origin, origin + direction,
-                                            up)); // Not quite sure why this
-                                                  // should be inverted?!?
-    camera.setOrientation(q);
-
-    // Aperture
-    if (camera.hasProperty(CAMERA_PROPERTY_APERTURE_RADIUS.name))
-        camera.updateProperty(CAMERA_PROPERTY_APERTURE_RADIUS.name, payload.apertureRadius);
-
-    // Focus distance
-    if (camera.hasProperty(CAMERA_PROPERTY_FOCAL_DISTANCE.name))
-        camera.updateProperty(CAMERA_PROPERTY_FOCAL_DISTANCE.name, payload.focalDistance);
-
-    // Stereo
-    if (camera.hasProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name))
-        camera.updateProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name, payload.interpupillaryDistance);
-
-    _api->getCamera().markModified();
-}
-
-CameraDefinition MediaMakerPlugin::_getCamera()
-{
-    const auto &camera = _api->getCamera();
-
-    CameraDefinition cd;
-    const auto &p = camera.getPosition();
-    cd.origin = {p.x, p.y, p.z};
-    const auto d = glm::rotate(camera.getOrientation(), core::Vector3d(0., 0., -1.));
-    cd.direction = {d.x, d.y, d.z};
-    const auto u = glm::rotate(camera.getOrientation(), core::Vector3d(0., 1., 0.));
-    cd.up = {u.x, u.y, u.z};
-    if (camera.hasProperty(CAMERA_PROPERTY_APERTURE_RADIUS.name))
-        cd.apertureRadius = camera.getProperty<double>(CAMERA_PROPERTY_APERTURE_RADIUS.name);
-    if (camera.hasProperty(CAMERA_PROPERTY_FOCAL_DISTANCE.name))
-        cd.focalDistance = camera.getProperty<double>(CAMERA_PROPERTY_FOCAL_DISTANCE.name);
-    if (camera.hasProperty(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name))
-        cd.interpupillaryDistance = camera.getProperty<double>(CAMERA_PROPERTY_INTERPUPILLARY_DISTANCE.name);
-    return cd;
 }
 
 const std::string MediaMakerPlugin::_getFileName(const std::string &format) const
@@ -499,6 +463,43 @@ FrameExportProgress MediaMakerPlugin::_getFrameExportProgress()
     result.done = !_exportFramesToDiskDirty;
     PLUGIN_DEBUG("Percentage = " << result.progress << ", Done = " << (result.done ? "True" : "False"));
     return result;
+}
+
+void MediaMakerPlugin::_attachCameraHandler(const CameraHandlerDetails &payload)
+{
+    auto &scene = _api->getScene();
+    const auto modelDescriptors = scene.getModelDescriptors();
+    if (modelDescriptors.empty())
+        PLUGIN_THROW("At least one model is required in the scene");
+
+    if (payload.directions.size() != payload.origins.size())
+        PLUGIN_THROW("Invalid number of values for direction vectors");
+
+    if (payload.ups.size() != payload.origins.size())
+        PLUGIN_THROW("Invalid number of values for up vectors");
+
+    const uint64_t nbKeyFrames = payload.origins.size() / 3;
+    CameraKeyFrames keyFrames;
+    for (uint64_t i = 0; i < nbKeyFrames; ++i)
+    {
+        CameraKeyFrame keyFrame;
+        keyFrame.origin = {payload.origins[i * 3], payload.origins[i * 3 + 1], payload.origins[i * 3 + 2]};
+        keyFrame.direction = {payload.directions[i * 3], payload.directions[i * 3 + 1], payload.directions[i * 3 + 2]};
+        keyFrame.up = {payload.ups[i * 3], payload.ups[i * 3 + 1], payload.ups[i * 3 + 2]};
+        keyFrame.apertureRadius = payload.apertureRadii[i];
+        keyFrame.focalDistance = payload.focalDistances[i];
+        keyFrames.push_back(keyFrame);
+    }
+
+    auto modelDescriptor = modelDescriptors[0];
+    if (!modelDescriptor)
+        PLUGIN_THROW("Invalid model");
+
+    auto &model = modelDescriptor->getModel();
+    auto &camera = _api->getCamera();
+    auto handler = std::make_shared<CameraHandler>(camera, keyFrames, payload.stepsBetweenKeyFrames,
+                                                   payload.numberOfSmoothingSteps);
+    model.setSimulationHandler(handler);
 }
 
 extern "C" ExtensionPlugin *core_plugin_create(int /*argc*/, char ** /*argv*/)

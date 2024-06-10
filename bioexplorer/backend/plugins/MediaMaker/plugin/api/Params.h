@@ -79,7 +79,20 @@ struct FrameExportProgress
     double progress;
     bool done;
 };
-std::string to_json(const FrameExportProgress &exportProgress);
+std::string to_json(const FrameExportProgress &payload);
+
+struct CameraHandlerDetails
+{
+    std::vector<double> origins;
+    std::vector<double> directions;
+    std::vector<double> ups;
+    std::vector<double> apertureRadii;
+    std::vector<double> focalDistances;
+    uint16_t stepsBetweenKeyFrames;
+    uint16_t numberOfSmoothingSteps;
+};
+std::string to_json(const CameraHandlerDetails &payload);
+bool from_json(CameraHandlerDetails &param, const std::string &payload);
 
 } // namespace mediamaker
 } // namespace bioexplorer

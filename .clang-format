@@ -1,4 +1,3 @@
----
 AccessModifierOffset: -4
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
@@ -22,8 +21,6 @@ ContinuationIndentWidth: 4
 Cpp11BracedListStyle: true
 DerivePointerBinding: true
 ExperimentalAutoDetectBinPacking: false
-Ignore:
-  - 'PlatformConfig.cmake.in'
 IndentCaseLabels: false
 IndentFunctionDeclarationAfterType: true
 IndentWidth:     4
@@ -51,4 +48,3 @@ Standard: Cpp11
 TabWidth:        4
 UseTab:          Never
 ColumnLimit: 120
-...
