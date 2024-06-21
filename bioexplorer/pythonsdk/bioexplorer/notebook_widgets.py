@@ -52,7 +52,7 @@ import matplotlib
 import seaborn as sns
 from stringcase import pascalcase
 from PIL import ImageDraw
-from .bio_explorer import Vector3
+from .bio_explorer import BioExplorer, Vector3
 
 # pylint: disable=unused-argument
 # pylint: disable=too-many-locals
@@ -228,20 +228,22 @@ class Widgets:
         "winter_r",
     ]
 
-    SHADING_MODES = [
-        "none",
-        "basic",
-        "diffuse",
-        "electron",
-        "cartoon",
-        "electron_transparency",
-        "perlin",
-        "diffuse_transparency",
-        "checker",
-        "goodsell",
-    ]
+    SHADING_MODES = dict()
+    SHADING_MODES["none"] = BioExplorer.shading_mode.NONE
+    SHADING_MODES["basic"] = BioExplorer.shading_mode.BASIC
+    SHADING_MODES["diffuse"] = BioExplorer.shading_mode.DIFFUSE
+    SHADING_MODES["electron"] = BioExplorer.shading_mode.ELECTRON
+    SHADING_MODES["cartoon"] = BioExplorer.shading_mode.CARTOON
+    SHADING_MODES["electron_transparency"] = BioExplorer.shading_mode.ELECTRON_TRANSPARENCY
+    SHADING_MODES["perlin"] = BioExplorer.shading_mode.PERLIN
+    SHADING_MODES["diffuse_transparency"] = BioExplorer.shading_mode.DIFFUSE_TRANSPARENCY
+    SHADING_MODES["checker"] = BioExplorer.shading_mode.CHECKER
+    SHADING_MODES["goodsell"] = BioExplorer.shading_mode.GOODSELL
 
-    CHAMELEON_MODES = ["none", "emitter", "receiver"]
+    CHAMELEON_MODES = dict()
+    CHAMELEON_MODES["none"] = BioExplorer.shading_chameleon_mode.NONE
+    CHAMELEON_MODES["emitter"] = BioExplorer.shading_chameleon_mode.EMITTER
+    CHAMELEON_MODES["receiver"] = BioExplorer.shading_chameleon_mode.RECEIVER
 
     DEFAULT_GRID_LAYOUT = Layout(border="1px solid black", margin="5px", padding="5px")
     DEFAULT_LAYOUT = Layout(width="50%", height="24px", display="flex", flex_flow="row")
@@ -442,7 +444,7 @@ class Widgets:
                 glossiness=glossiness_slider.value,
                 user_parameter=user_param_slider.value,
                 emission=emission_slider.value,
-                chameleon_mode=chameleon_combobox.index,
+                chameleon_mode=self.CHAMELEON_MODES[chameleon_combobox.value],
             )
             self._client.set_renderer(accumulation=True)
 
@@ -456,7 +458,7 @@ class Widgets:
 
         # Shading modes
         shading_combobox = Select(
-            options=Widgets.SHADING_MODES, description="Shading:", disabled=False
+            options=self.SHADING_MODES.keys(), description="Shading:", disabled=False
         )
 
         # Colors
@@ -466,7 +468,7 @@ class Widgets:
 
         # Chameleon modes
         chameleon_combobox = Select(
-            options=Widgets.CHAMELEON_MODES, description="Chameleon:", disabled=False
+            options=self.CHAMELEON_MODES.keys(), description="Chameleon:", disabled=False
         )
 
         # Events
@@ -475,7 +477,7 @@ class Widgets:
             set_colormap(
                 self._client.scene.models[model_combobox.index]["id"],
                 value["new"],
-                shading_combobox.index,
+                self.SHADING_MODES[shading_combobox.value]
             )
 
         def update_materials_from_shading_modes(_):
@@ -483,7 +485,7 @@ class Widgets:
             set_colormap(
                 self._client.scene.models[model_combobox.index]["id"],
                 palette_combobox.value,
-                shading_combobox.index,
+                self.SHADING_MODES[shading_combobox.value]
             )
 
         def update_materials_from_chameleon_modes(_):
@@ -491,7 +493,7 @@ class Widgets:
             set_colormap(
                 self._client.scene.models[model_combobox.index]["id"],
                 palette_combobox.value,
-                shading_combobox.index,
+                self.SHADING_MODES[shading_combobox.value]
             )
 
         shading_combobox.observe(update_materials_from_shading_modes, "value")
