@@ -23,29 +23,29 @@
 
 #pragma once
 
-#include <science/common/Types.h>
+#include <plugin/common/Types.h>
 
 #include <platform/core/common/simulation/AbstractAnimationHandler.h>
+#include <platform/core/engineapi/Camera.h>
 
 namespace bioexplorer
 {
-namespace connectomics
+namespace mediamaker
 {
 /**
- * @brief The SynapseEfficacySimulationHandler handles the reading of simulation
- * information from the database at a soma level. When attached to a
- * model, the simulation data is communicated to the renderer by Core, and
- * mapped to the geometry by the BioExplorer advanced renderer
+ * @brief The CameraHandler handles the position of orientation of the camera from the given set of key frames,
+ * smoothing paramters
  *
  */
-class SynapseEfficacySimulationHandler : public core::AbstractAnimationHandler
+class CameraHandler : public core::AbstractAnimationHandler
 {
 public:
     /** @copydoc AbstractAnimationHandler::AbstractAnimationHandler */
-    SynapseEfficacySimulationHandler(const details::SynapseEfficacyDetails& details);
+    CameraHandler(core::Camera& camera, const CameraKeyFrames& cameraInformation, const uint64_t stepsBetweenKeyFrames,
+                  const uint64_t numberOfSmoothingSteps);
 
     /** @copydoc AbstractAnimationHandler::AbstractAnimationHandler */
-    SynapseEfficacySimulationHandler(const SynapseEfficacySimulationHandler& rhs);
+    CameraHandler(const CameraHandler& rhs);
 
     /** @copydoc AbstractAnimationHandler::getFrameData */
     void* getFrameData(const uint32_t frame) final;
@@ -55,11 +55,14 @@ public:
 
 private:
     void _logSimulationInformation();
+    void _buildCameraPath();
 
-    details::SynapseEfficacyDetails _details;
-    common::SimulationReport _simulationReport;
+    CameraKeyFrames _keyFrames;
+    uint64_t _stepsBetweenKeyFrames;
+    uint64_t _numberOfSmoothingSteps;
+    core::Camera& _camera;
 
-    std::map<uint64_t, floats> _values;
+    CameraKeyFrames _smoothedKeyFrames;
 };
-} // namespace connectomics
+} // namespace mediamaker
 } // namespace bioexplorer

@@ -25,6 +25,10 @@
 
 #include <Defines.h>
 
+#include <platform/core/common/Types.h>
+
+#include <vector>
+
 namespace bioexplorer
 {
 namespace mediamaker
@@ -34,5 +38,18 @@ enum class FrameBufferMode
     color = 0,
     depth = 1
 };
-}
+
+typedef struct
+{
+    core::Vector3d origin;
+    core::Vector3d direction;
+    core::Vector3d up;
+    double apertureRadius;
+    double focalDistance;
+    double interpupillaryDistance;
+} CameraKeyFrame;
+
+using CameraKeyFrames = std::vector<CameraKeyFrame>;
+
+} // namespace mediamaker
 } // namespace bioexplorer

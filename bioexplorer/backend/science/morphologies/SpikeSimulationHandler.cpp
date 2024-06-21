@@ -35,7 +35,7 @@ using namespace io;
 using namespace db;
 
 SpikeSimulationHandler::SpikeSimulationHandler(const std::string& populationName, const uint64_t simulationReportId)
-    : core::AbstractSimulationHandler()
+    : core::AbstractAnimationHandler()
     , _populationName(populationName)
     , _simulationReportId(simulationReportId)
 {
@@ -69,7 +69,7 @@ SpikeSimulationHandler::SpikeSimulationHandler(const std::string& populationName
 }
 
 SpikeSimulationHandler::SpikeSimulationHandler(const SpikeSimulationHandler& rhs)
-    : core::AbstractSimulationHandler(rhs)
+    : core::AbstractAnimationHandler(rhs)
     , _populationName(rhs._populationName)
     , _simulationReport(rhs._simulationReport)
     , _guidsMapping(rhs._guidsMapping)

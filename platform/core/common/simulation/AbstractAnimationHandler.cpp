@@ -18,13 +18,13 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "AbstractSimulationHandler.h"
+#include "AbstractAnimationHandler.h"
 
 namespace core
 {
-AbstractSimulationHandler::~AbstractSimulationHandler() = default;
+AbstractAnimationHandler::~AbstractAnimationHandler() = default;
 
-AbstractSimulationHandler& AbstractSimulationHandler::operator=(const AbstractSimulationHandler& rhs)
+AbstractAnimationHandler& AbstractAnimationHandler::operator=(const AbstractAnimationHandler& rhs)
 {
     if (this == &rhs)
         return *this;
@@ -39,7 +39,7 @@ AbstractSimulationHandler& AbstractSimulationHandler::operator=(const AbstractSi
     return *this;
 }
 
-uint32_t AbstractSimulationHandler::_getBoundedFrame(const uint32_t frame) const
+uint32_t AbstractAnimationHandler::_getBoundedFrame(const uint32_t frame) const
 {
     return _nbFrames == 0 ? frame : frame % _nbFrames;
 }

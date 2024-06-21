@@ -53,6 +53,9 @@ private:
 #endif
 
     // Movie and frames
+    void _setCamera(const CameraDefinition &);
+    CameraDefinition _getCamera();
+
     ExportFramesToDisk _exportFramesToDiskPayload;
     bool _exportFramesToDiskDirty{false};
     uint16_t _frameNumber{0};
@@ -60,13 +63,13 @@ private:
     int16_t _accumulationFrameNumber{0};
     std::string _baseName;
 
-    void _setCamera(const CameraDefinition &);
-    CameraDefinition _getCamera();
     void _exportFramesToDisk(const ExportFramesToDisk &payload);
     FrameExportProgress _getFrameExportProgress();
     void _exportDepthBuffer() const;
     void _exportColorBuffer() const;
     void _exportFrameToDisk() const;
+
+    void _attachCameraHandler(const CameraHandlerDetails &payload);
 
     const std::string _getFileName(const std::string &format) const;
 };

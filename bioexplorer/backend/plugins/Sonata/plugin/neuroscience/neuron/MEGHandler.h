@@ -25,7 +25,7 @@
 
 #include <plugin/neuroscience/common/Types.h>
 
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractAnimationHandler.h>
 
 #include <platform/core/common/Types.h>
 #include <platform/core/engineapi/Scene.h>
@@ -40,7 +40,7 @@ namespace neuron
  * @brief The MEGHandler class handles electro-magnetic fields data
  * structures
  */
-class MEGHandler : public core::AbstractSimulationHandler
+class MEGHandler : public core::AbstractAnimationHandler
 {
 public:
     /**
@@ -96,10 +96,10 @@ public:
     bool isReady() const final { return true; }
 
     /**
-     * @brief Clone the AbstractSimulationHandler
+     * @brief Clone the AbstractAnimationHandler
      *
      * @return AbstractSimulationHandlerPtr Clone of the
-     * AbstractSimulationHandler
+     * AbstractAnimationHandler
      */
     core::AbstractSimulationHandlerPtr clone() const final;
 

@@ -27,7 +27,7 @@
 
 #include <platform/core/common/Api.h>
 #include <platform/core/common/Types.h>
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractAnimationHandler.h>
 #include <platform/core/engineapi/Scene.h>
 
 namespace sonataexplorer
@@ -42,7 +42,7 @@ namespace neuron
  * according to a specified timestamp. The VoltageSimulationHandler class is in
  * charge of keeping the handle to the memory mapped file.
  */
-class VoltageSimulationHandler : public core::AbstractSimulationHandler
+class VoltageSimulationHandler : public core::AbstractAnimationHandler
 {
 public:
     /**

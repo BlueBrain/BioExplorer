@@ -175,8 +175,8 @@ using QuadLightPtr = std::shared_ptr<QuadLight>;
 class SpotLight;
 using SpotLightPtr = std::shared_ptr<SpotLight>;
 
-class AbstractSimulationHandler;
-using AbstractSimulationHandlerPtr = std::shared_ptr<AbstractSimulationHandler>;
+class AbstractAnimationHandler;
+using AbstractSimulationHandlerPtr = std::shared_ptr<AbstractAnimationHandler>;
 
 class AbstractParameters;
 class AnimationParameters;

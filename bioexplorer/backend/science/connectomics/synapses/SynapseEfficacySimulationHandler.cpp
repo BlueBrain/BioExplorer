@@ -37,7 +37,7 @@ using namespace io;
 using namespace db;
 
 SynapseEfficacySimulationHandler::SynapseEfficacySimulationHandler(const SynapseEfficacyDetails& details)
-    : core::AbstractSimulationHandler()
+    : core::AbstractAnimationHandler()
     , _details(details)
 {
     const auto& connector = DBConnector::getInstance();
@@ -67,7 +67,7 @@ void SynapseEfficacySimulationHandler::_logSimulationInformation()
 }
 
 SynapseEfficacySimulationHandler::SynapseEfficacySimulationHandler(const SynapseEfficacySimulationHandler& rhs)
-    : core::AbstractSimulationHandler(rhs)
+    : core::AbstractAnimationHandler(rhs)
     , _details(rhs._details)
 {
 }

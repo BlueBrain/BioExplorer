@@ -27,7 +27,7 @@
 
 #include <platform/core/common/Api.h>
 #include <platform/core/common/Types.h>
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractAnimationHandler.h>
 
 namespace bioexplorer
 {
@@ -37,7 +37,7 @@ namespace vasculature
  * @brief The VasculatureHandler class handles the mapping of the vasculature
  * simulation to the geometry
  */
-class VasculatureHandler : public core::AbstractSimulationHandler
+class VasculatureHandler : public core::AbstractAnimationHandler
 {
 public:
     /**
@@ -46,17 +46,17 @@ public:
     VasculatureHandler(const details::VasculatureReportDetails& details);
 
     /**
-     * @copydoc core::AbstractSimulationHandler::getFrameData
+     * @copydoc core::AbstractAnimationHandler::getFrameData
      */
     void* getFrameData(const uint32_t) final;
 
     /**
-     * @copydoc core::AbstractSimulationHandler::isReady
+     * @copydoc core::AbstractAnimationHandler::isReady
      */
     bool isReady() const final { return true; }
 
     /**
-     * @copydoc core::AbstractSimulationHandler::clone
+     * @copydoc core::AbstractAnimationHandler::clone
      */
     core::AbstractSimulationHandlerPtr clone() const final;
 

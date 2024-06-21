@@ -44,7 +44,7 @@ using namespace db;
 
 CompartmentSimulationHandler::CompartmentSimulationHandler(const std::string& populationName,
                                                            const uint64_t simulationReportId)
-    : core::AbstractSimulationHandler()
+    : core::AbstractAnimationHandler()
     , _populationName(populationName)
     , _simulationReportId(simulationReportId)
 {
@@ -72,7 +72,7 @@ CompartmentSimulationHandler::CompartmentSimulationHandler(const std::string& po
 }
 
 CompartmentSimulationHandler::CompartmentSimulationHandler(const CompartmentSimulationHandler& rhs)
-    : core::AbstractSimulationHandler(rhs)
+    : core::AbstractAnimationHandler(rhs)
     , _populationName(rhs._populationName)
     , _simulationReport(rhs._simulationReport)
 {

@@ -35,14 +35,14 @@ using namespace io;
 using namespace db;
 
 SomaSimulationHandler::SomaSimulationHandler(const std::string& populationName, const uint64_t simulationReportId)
-    : core::AbstractSimulationHandler()
+    : core::AbstractAnimationHandler()
     , _populationName(populationName)
     , _simulationReportId(simulationReportId)
 {
     const auto& connector = DBConnector::getInstance();
     _simulationReport = connector.getSimulationReport(_populationName, _simulationReportId);
     _frameSize = _simulationReport.guids.size();
-    if( _simulationReport.guids.empty() )
+    if (_simulationReport.guids.empty())
         _frameSize = connector.getNumberOfNeurons(populationName);
 
     _nbFrames = (_simulationReport.endTime - _simulationReport.startTime) / _simulationReport.timeStep;
@@ -65,7 +65,7 @@ void SomaSimulationHandler::_logSimulationInformation()
 }
 
 SomaSimulationHandler::SomaSimulationHandler(const SomaSimulationHandler& rhs)
-    : core::AbstractSimulationHandler(rhs)
+    : core::AbstractAnimationHandler(rhs)
     , _populationName(rhs._populationName)
     , _simulationReport(rhs._simulationReport)
     , _guidsMapping(rhs._guidsMapping)

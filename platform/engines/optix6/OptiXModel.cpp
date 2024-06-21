@@ -29,7 +29,7 @@
 #include "OptiXVolume.h"
 
 #include <platform/core/common/Logs.h>
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractAnimationHandler.h>
 #include <platform/core/common/utils/Utils.h>
 #include <platform/core/parameters/AnimationParameters.h>
 

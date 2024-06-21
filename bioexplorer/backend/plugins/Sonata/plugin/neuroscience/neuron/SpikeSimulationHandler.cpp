@@ -34,7 +34,7 @@ namespace neuroscience
 namespace neuron
 {
 SpikeSimulationHandler::SpikeSimulationHandler(const std::string& reportPath, const brion::GIDSet& gids)
-    : AbstractSimulationHandler()
+    : AbstractAnimationHandler()
     , _reportPath(reportPath)
     , _gids(gids)
     , _spikeReport(new brain::SpikeReportReader(brain::URI(reportPath), gids))
@@ -71,7 +71,7 @@ SpikeSimulationHandler::SpikeSimulationHandler(const std::string& reportPath, co
 }
 
 SpikeSimulationHandler::SpikeSimulationHandler(const SpikeSimulationHandler& rhs)
-    : AbstractSimulationHandler(rhs)
+    : AbstractAnimationHandler(rhs)
     , _reportPath(rhs._reportPath)
     , _gids(rhs._gids)
     , _spikeReport(rhs._spikeReport)

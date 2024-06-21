@@ -124,13 +124,13 @@ bool from_json(ExportFramesToDisk &param, const std::string &payload)
     return true;
 }
 
-std::string to_json(const FrameExportProgress &exportProgress)
+std::string to_json(const FrameExportProgress &param)
 {
     try
     {
         nlohmann::json json;
-        TO_JSON(exportProgress, json, progress);
-        TO_JSON(exportProgress, json, done);
+        TO_JSON(param, json, progress);
+        TO_JSON(param, json, done);
         return json.dump();
     }
     catch (...)
@@ -138,6 +138,47 @@ std::string to_json(const FrameExportProgress &exportProgress)
         return "";
     }
     return "";
+}
+
+std::string to_json(const CameraHandlerDetails &param)
+{
+    try
+    {
+        nlohmann::json json;
+        TO_JSON(param, json, origins);
+        TO_JSON(param, json, directions);
+        TO_JSON(param, json, ups);
+        TO_JSON(param, json, apertureRadii);
+        TO_JSON(param, json, focalDistances);
+        TO_JSON(param, json, stepsBetweenKeyFrames);
+        TO_JSON(param, json, numberOfSmoothingSteps);
+        return json.dump();
+    }
+    catch (...)
+    {
+        return "";
+    }
+    return "";
+}
+
+bool from_json(CameraHandlerDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, origins);
+        FROM_JSON(param, js, directions);
+        FROM_JSON(param, js, ups);
+        FROM_JSON(param, js, apertureRadii);
+        FROM_JSON(param, js, focalDistances);
+        FROM_JSON(param, js, stepsBetweenKeyFrames);
+        FROM_JSON(param, js, numberOfSmoothingSteps);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
 }
 
 } // namespace mediamaker

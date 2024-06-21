@@ -30,7 +30,7 @@
 #include <Defines.h>
 
 #include <platform/core/common/Properties.h>
-#include <platform/core/common/simulation/AbstractSimulationHandler.h>
+#include <platform/core/common/simulation/AbstractAnimationHandler.h>
 #include <platform/core/engineapi/Material.h>
 #include <platform/core/engineapi/Scene.h>
 #include <platform/core/parameters/AnimationParameters.h>
