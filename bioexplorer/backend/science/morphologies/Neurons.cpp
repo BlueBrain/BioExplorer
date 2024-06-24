@@ -199,7 +199,7 @@ void Neurons::_buildModel(const LoaderProgress& callback)
     std::string sqlNodeFilter = _details.sqlNodeFilter;
 
     // Neurons
-    const auto somas = connector.getNeurons(_details.populationName, sqlNodeFilter);
+    auto somas = connector.getNeurons(_details.populationName, sqlNodeFilter);
 
     // Report parameters
     float* voltages = nullptr;
@@ -210,6 +210,18 @@ void Neurons::_buildModel(const LoaderProgress& callback)
         _attachSimulationReport(*model, somas.size());
         voltages = static_cast<float*>(
             model->getSimulationHandler()->getFrameData(_neuronsReportParameters.initialSimulationFrame));
+        if (!_neuronsReportParameters.loadNonSimulatedNodes)
+        {
+            auto it = somas.begin();
+            while (it != somas.end())
+            {
+                const auto itg = _simulationReport.guids.find((*it).first);
+                if (itg == _simulationReport.guids.end())
+                    it = somas.erase(it);
+                else
+                    ++it;
+            }
+        }
     }
 
     if (somas.empty())
@@ -374,8 +386,6 @@ void Neurons::_buildSomasOnly(Model& model, ThreadSafeContainer& container, cons
                 else
                 {
                     const auto it = _simulationReport.guids.find(neuronId);
-                    if (it == _simulationReport.guids.end() && !_neuronsReportParameters.loadNonSimulatedNodes)
-                        continue; // Ignore non-simulated nodes
                     somaUserData = (*it).second;
                 }
                 break;
@@ -550,8 +560,6 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
         else
         {
             const auto it = _simulationReport.guids.find(neuronId);
-            if (it == _simulationReport.guids.end() && !_neuronsReportParameters.loadNonSimulatedNodes)
-                return; // Ignore non-simulated nodes
             somaUserData = (*it).second + 1;
         }
         break;
