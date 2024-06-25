@@ -170,7 +170,8 @@ void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radi
             // End feet
             EndFootMap endFeet;
             if (loadEndFeet)
-                endFeet = connector.getAstrocyteEndFeet(_details.vasculaturePopulationName, _details.connectomePopulationName, somaId);
+                endFeet = connector.getAstrocyteEndFeet(_details.vasculaturePopulationName,
+                                                        _details.connectomePopulationName, somaId);
 
             // Soma radius
             uint64_t count = 1;
@@ -358,21 +359,25 @@ void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radi
                 }
             }
 #pragma omp critical
-            containers.push_back(container);
+            {
+                containers.push_back(container);
+            }
         }
         catch (const std::runtime_error& e)
         {
 #pragma omp critical
-            flagMessage = e.what();
-#pragma omp critical
-            flag = true;
+            {
+                flagMessage = e.what();
+                flag = true;
+            }
         }
         catch (...)
         {
 #pragma omp critical
-            flagMessage = "Loading was canceled";
-#pragma omp critical
-            flag = true;
+            {
+                flagMessage = "Loading was canceled";
+                flag = true;
+            }
         }
     }
 
