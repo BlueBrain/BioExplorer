@@ -302,7 +302,9 @@ void Vasculature::_buildModel(const LoaderProgress& callback, const doubles& rad
                 catch (...)
                 {
 #pragma omp critical
-                    flag = true;
+                    {
+                        flag = true;
+                    }
                 }
             }
 
@@ -384,21 +386,25 @@ void Vasculature::_buildModel(const LoaderProgress& callback, const doubles& rad
             } while (iter != nodes.end());
 
 #pragma omp critical
-            containers.push_back(container);
+            {
+                containers.push_back(container);
+            }
         }
         catch (const std::runtime_error& e)
         {
 #pragma omp critical
-            flagMessage = e.what();
-#pragma omp critical
-            flag = true;
+            {
+                flagMessage = e.what();
+                flag = true;
+            }
         }
         catch (...)
         {
 #pragma omp critical
-            flagMessage = "Loading was canceled";
-#pragma omp critical
-            flag = true;
+            {
+                flagMessage = "Loading was canceled";
+                flag = true;
+            }
         }
     }
 

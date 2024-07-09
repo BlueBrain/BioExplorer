@@ -294,32 +294,37 @@ void Neurons::_buildModel(const LoaderProgress& callback)
                     catch (...)
                     {
 #pragma omp critical
-                        flag = true;
+                        {
+                            flag = true;
+                        }
                     }
                 }
 
-                auto it = somas.begin();
-                std::advance(it, neuronIndex);
+                auto it = std::next(somas.begin(), neuronIndex);
                 const auto& soma = it->second;
                 ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation, _scale);
                 _buildMorphology(container, it->first, soma, neuronIndex, voltages);
 
 #pragma omp critical
-                containers.push_back(container);
+                {
+                    containers.push_back(container);
+                }
             }
             catch (const std::runtime_error& e)
             {
 #pragma omp critical
-                flagMessage = e.what();
-#pragma omp critical
-                flag = true;
+                {
+                    flagMessage = e.what();
+                    flag = true;
+                }
             }
             catch (...)
             {
 #pragma omp critical
-                flagMessage = "Loading was canceled";
-#pragma omp critical
-                flag = true;
+                {
+                    flagMessage = "Loading was canceled";
+                    flag = true;
+                }
             }
         }
     }

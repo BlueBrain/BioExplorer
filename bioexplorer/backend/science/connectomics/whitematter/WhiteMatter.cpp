@@ -74,7 +74,7 @@ void WhiteMatter::_buildModel(const LoaderProgress& callback)
     uint64_t index;
     volatile bool flag = false;
     std::string flagMessage;
-#pragma omp parallel for num_threads(nbDBConnections)
+#pragma omp parallel for shared(flag, flagMessage) num_threads(nbDBConnections)
     for (index = 0; index < nbStreamlines; ++index)
     {
         try
@@ -93,7 +93,9 @@ void WhiteMatter::_buildModel(const LoaderProgress& callback)
                 catch (...)
                 {
 #pragma omp critical
-                    flag = true;
+                    {
+                        flag = true;
+                    }
                 }
             }
             ThreadSafeContainer container(*model, _alignToGrid, _position, _rotation);
@@ -116,21 +118,25 @@ void WhiteMatter::_buildModel(const LoaderProgress& callback)
             container.addStreamline(materialId, streamline);
 
 #pragma omp critical
-            containers.push_back(container);
+            {
+                containers.push_back(container);
+            }
         }
         catch (const std::runtime_error& e)
         {
 #pragma omp critical
-            flagMessage = e.what();
-#pragma omp critical
-            flag = true;
+            {
+                flagMessage = e.what();
+                flag = true;
+            }
         }
         catch (...)
         {
 #pragma omp critical
-            flagMessage = "Loading was canceled";
-#pragma omp critical
-            flag = true;
+            {
+                flagMessage = "Loading was canceled";
+                flag = true;
+            }
         }
     }
     for (uint64_t i = 0; i < containers.size(); ++i)
