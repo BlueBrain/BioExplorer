@@ -54,10 +54,9 @@ public:
      * @throw std::runtime_error if image conversion failed or neither FreeImage
      *                           nor TurboJPEG is available
      */
-    ImageBase64 createImage(FrameBuffer& frameBuffer, const std::string& format,
+    ImageBase64 createImage(FrameBuffer& frameBuffer, const std::string& format, uint8_t quality);
+    ImageBase64 createImage(const std::vector<FrameBufferPtr>& frameBuffers, const std::string& format,
                             uint8_t quality);
-    ImageBase64 createImage(const std::vector<FrameBufferPtr>& frameBuffers,
-                            const std::string& format, uint8_t quality);
 
     struct ImageJPEG
     {
@@ -82,8 +81,7 @@ public:
 private:
     tjhandle _compressor{tjInitCompress()};
 
-    ImageJPEG::JpegData _encodeJpeg(uint32_t width, uint32_t height,
-                                    const uint8_t* rawData, int32_t pixelFormat,
+    ImageJPEG::JpegData _encodeJpeg(uint32_t width, uint32_t height, const uint8_t* rawData, int32_t pixelFormat,
                                     uint8_t quality, unsigned long& dataSize);
 };
 } // namespace core

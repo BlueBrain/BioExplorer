@@ -27,6 +27,10 @@
 #include <platform/core/common/Types.h>
 #include <platform/core/common/utils/ImageUtils.h>
 
+#include <OpenImageIO/imagebuf.h>
+
+OIIO_NAMESPACE_USING
+
 namespace core
 {
 /**
@@ -122,14 +126,14 @@ public:
      *
      * @param name The name of the pixelOp.
      */
-    PLATFORM_API virtual void createPixelOp(const std::string& /*name*/){};
+    PLATFORM_API virtual void createPixelOp(const std::string& /*name*/) {};
 
     /**
      * @brief Update the current pixelop with the given properties.
      *
      * @param properties The properties to be updated.
      */
-    PLATFORM_API virtual void updatePixelOp(const PropertyMap& /*properties*/){};
+    PLATFORM_API virtual void updatePixelOp(const PropertyMap& /*properties*/) {};
 
     /**
      * @brief Get the Color Depth object
@@ -184,7 +188,7 @@ public:
      *
      * @return freeimage::ImagePtr The freeimage object.
      */
-    PLATFORM_API freeimage::ImagePtr getImage();
+    PLATFORM_API ImageBuf getImage();
 
     /**
      * @brief Set the Accumulation Type object

@@ -35,6 +35,7 @@
 
 #include <platform/core/common/ActionInterface.h>
 #include <platform/core/common/Properties.h>
+#include <platform/core/common/utils/ImageUtils.h>
 #include <platform/core/engineapi/Camera.h>
 #include <platform/core/engineapi/Engine.h>
 #include <platform/core/engineapi/FrameBuffer.h>
@@ -55,11 +56,15 @@
 #include <platform/engines/optix6/OptiXProperties.h>
 #endif
 
+#include <OpenImageIO/imagebufalgo.h>
+
 #include <fstream>
 
 #include <tiffio.h>
 
 #include <exiv2/exiv2.hpp>
+
+OIIO_NAMESPACE_USING
 
 namespace bioexplorer
 {
@@ -162,8 +167,7 @@ void MediaMakerPlugin::init()
 
         entryPoint = PLUGIN_API_PREFIX + "get-export-frames-progress";
         PLUGIN_REGISTER_ENDPOINT(entryPoint);
-        actionInterface->registerRequest<FrameExportProgress>(entryPoint,
-                                                              [&](void) -> FrameExportProgress
+        actionInterface->registerRequest<FrameExportProgress>(entryPoint, [&](void) -> FrameExportProgress
                                                               { return _getFrameExportProgress(); });
 
         entryPoint = PLUGIN_API_PREFIX + "attach-odu-camera-handler";
@@ -308,52 +312,54 @@ void MediaMakerPlugin::postRender()
     }
 }
 
-const std::string MediaMakerPlugin::_getFileName(const std::string &format) const
+void writeBufferToFile(const std::vector<unsigned char> &buffer, const std::string &filename)
 {
-    std::string baseName = _baseName;
-    if (baseName.empty())
-    {
-        char frame[7];
-        sprintf(frame, "%05d", _frameNumber);
-        baseName = frame;
-    }
-    return _exportFramesToDiskPayload.path + '/' + baseName + "." + format;
+    std::ofstream file(filename, std::ios::binary);
+    if (!file.is_open())
+        CORE_THROW("Failed to create " + filename);
+    file.write(reinterpret_cast<const char *>(buffer.data()), buffer.size());
+    file.close();
 }
 
 void MediaMakerPlugin::_exportColorBuffer() const
 {
     auto &frameBuffer = _api->getEngine().getFrameBuffer();
     auto image = frameBuffer.getImage();
-    auto fif = _exportFramesToDiskPayload.format == "jpg"
-                   ? FIF_JPEG
-                   : FreeImage_GetFIFFromFormat(_exportFramesToDiskPayload.format.c_str());
-    if (fif == FIF_JPEG)
-        image.reset(FreeImage_ConvertTo24Bits(image.get()));
-    else if (fif == FIF_UNKNOWN)
-        PLUGIN_THROW("Unknown format: " + _exportFramesToDiskPayload.format);
+    ImageBuf rotatedBuf;
+    ImageBufAlgo::flip(rotatedBuf, image);
+    swapRedBlue32(rotatedBuf);
 
-    int flags = _exportFramesToDiskPayload.quality;
-    if (fif == FIF_TIFF)
-        flags = TIFF_NONE;
+    // Determine the output format
+    std::string format = _exportFramesToDiskPayload.format;
+    if (format != "jpg" && format != "png" && format != "tiff")
+        CORE_THROW("Unknown format: " + format);
 
-    core::freeimage::MemoryPtr memory(FreeImage_OpenMemory());
+    int quality = _exportFramesToDiskPayload.quality;
 
-    FreeImage_SaveToMemory(fif, image.get(), memory.get(), flags);
+    // Prepare the filename
+    const auto filename = _exportFramesToDiskPayload.path + "/" + _exportFramesToDiskPayload.baseName + "." + format;
 
-    BYTE *pixels = nullptr;
-    DWORD numPixels = 0;
-    FreeImage_AcquireMemory(memory.get(), &pixels, &numPixels);
+    // Set up ImageSpec for output image
+    ImageSpec spec = rotatedBuf.spec();
+    if (format == "jpg")
+        spec.attribute("CompressionQuality", quality);
 
-    const auto filename = _getFileName(_exportFramesToDiskPayload.format);
-    std::ofstream file;
-    file.open(filename, std::ios_base::binary);
-    if (!file.is_open())
-        PLUGIN_THROW("Failed to create " + filename);
+    // Create an output buffer and write image to memory
+    std::vector<unsigned char> buffer(spec.image_bytes());
 
-    file.write((char *)pixels, numPixels);
-    file.close();
-    frameBuffer.clear();
+    auto out = ImageOutput::create(filename);
+    if (!out)
+        CORE_THROW("Could not create image output.");
 
+    out->open(filename, spec);
+    out->write_image(TypeDesc::UINT8, rotatedBuf.localpixels());
+    out->close();
+
+    // Convert the output buffer to a string and then to base64
+    // writeBufferToFile(buffer, filename);
+
+#if 0
+    // Add metadata using Exiv2
     auto finalImage = Exiv2::ImageFactory::open(filename);
     if (finalImage.get())
     {
@@ -363,7 +369,7 @@ void MediaMakerPlugin::_exportColorBuffer() const
         finalImage->setXmpData(xmpData);
         finalImage->writeMetadata();
     }
-
+#endif
     PLUGIN_INFO("Color frame saved to " + filename);
 }
 
@@ -374,7 +380,8 @@ void MediaMakerPlugin::_exportDepthBuffer() const
     const auto depthBuffer = frameBuffer.getFloatBuffer();
     const auto &size = frameBuffer.getSize();
 
-    const auto filename = _getFileName("tiff");
+    const auto filename = _exportFramesToDiskPayload.path + "/" + _exportFramesToDiskPayload.baseName + "." +
+                          _exportFramesToDiskPayload.format;
 
     TIFF *image = TIFFOpen(filename.c_str(), "w");
     TIFFSetField(image, TIFFTAG_IMAGEWIDTH, size.x);

@@ -70,8 +70,6 @@ private:
     void _exportFrameToDisk() const;
 
     void _attachCameraHandler(const CameraHandlerDetails &payload);
-
-    const std::string _getFileName(const std::string &format) const;
 };
 } // namespace mediamaker
 } // namespace bioexplorer

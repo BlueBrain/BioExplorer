@@ -209,8 +209,7 @@ bool preUpdate(const std::string&, PRE, typename std::enable_if<std::is_abstract
 }
 
 template <class T, class PRE, class POST>
-inline bool from_json(
-    T& obj, const std::string& json, PRE preUpdateFunc = [] {}, POST postUpdateFunc = [] {})
+inline bool from_json(T& obj, const std::string& json, PRE preUpdateFunc = [] {}, POST postUpdateFunc = [] {})
 {
     staticjson::ParseStatus status;
 
@@ -337,19 +336,19 @@ public:
     void registerRequest(const RpcParameterDescription& desc, const PropertyMap& input, const PropertyMap& output,
                          const std::function<PropertyMap(PropertyMap)>& action)
     {
-        _bindEndpoint(
-            desc.methodName,
-            [name = desc.methodName, action](const auto& request)
-            {
-                try
-                {
-                    return Response{to_json(action(jsonToPropertyMap(request.message)))};
-                }
-                catch (...)
-                {
-                    return Response{Response::Error{"from_json for " + name + " failed", PARAMETER_FROM_JSON_ERROR}};
-                }
-            });
+        _bindEndpoint(desc.methodName,
+                      [name = desc.methodName, action](const auto& request)
+                      {
+                          try
+                          {
+                              return Response{to_json(action(jsonToPropertyMap(request.message)))};
+                          }
+                          catch (...)
+                          {
+                              return Response{
+                                  Response::Error{"from_json for " + name + " failed", PARAMETER_FROM_JSON_ERROR}};
+                          }
+                      });
 
         _handleSchema(desc.methodName, buildJsonRpcSchemaRequestPropertyMap(desc, input, output));
     }
@@ -646,8 +645,7 @@ public:
     {
         using namespace rockets::http;
 
-        _rocketsServer->handle(Method::GET, endpoint,
-                               [&obj](const Request&)
+        _rocketsServer->handle(Method::GET, endpoint, [&obj](const Request&)
                                { return make_ready_response(Code::OK, to_json(obj), JSON_TYPE); });
 
         _handleObjectSchema(endpoint, obj);
@@ -1128,8 +1126,7 @@ public:
         static core::Version version;
         using namespace rockets::http;
         _rocketsServer->handleGET(ENDPOINT_VERSION, version);
-        _rocketsServer->handle(Method::GET, ENDPOINT_VERSION + "/schema",
-                               [&](const Request&)
+        _rocketsServer->handle(Method::GET, ENDPOINT_VERSION + "/schema", [&](const Request&)
                                { return make_ready_response(Code::OK, version.getSchema(), JSON_TYPE); });
 
         _jsonrpcServer->bind(
@@ -1178,21 +1175,21 @@ public:
         const RpcParameterDescription desc{METHOD_SCHEMA, "Get the schema of the given endpoint", Execution::sync,
                                            "endpoint", "name of the endpoint to get its schema"};
 
-        _jsonrpcServer->bind(
-            METHOD_SCHEMA,
-            [&schemas = _schemas](const auto& request)
-            {
-                SchemaParam param;
-                if (::from_json(param, request.message))
-                {
-                    if (schemas.count(param.endpoint) == 0)
-                        return Response{Response::Error{"Endpoint not found", SCHEMA_RPC_ENDPOINT_NOT_FOUND}};
+        _jsonrpcServer->bind(METHOD_SCHEMA,
+                             [&schemas = _schemas](const auto& request)
+                             {
+                                 SchemaParam param;
+                                 if (::from_json(param, request.message))
+                                 {
+                                     if (schemas.count(param.endpoint) == 0)
+                                         return Response{
+                                             Response::Error{"Endpoint not found", SCHEMA_RPC_ENDPOINT_NOT_FOUND}};
 
-                    auto schema = schemas[param.endpoint];
-                    return Response{std::move(schema)};
-                }
-                return Response::invalidParams();
-            });
+                                     auto schema = schemas[param.endpoint];
+                                     return Response{std::move(schema)};
+                                 }
+                                 return Response::invalidParams();
+                             });
 
         _handleSchema(METHOD_SCHEMA, buildJsonRpcSchemaRequest<SchemaParam, std::string>(desc));
     }
@@ -1202,11 +1199,11 @@ public:
         using Position = std::array<double, 2>;
         const RpcParameterDescription desc{METHOD_INSPECT, "Inspect the scene at x-y position", Execution::sync,
                                            "position", "x-y position in normalized coordinates"};
-        _handleRPC<Position, Renderer::PickResult>(
-            desc,
-            [&engine = _engine](const auto& position) {
-                return engine.getRenderer().pick({float(position[0]), float(position[1])});
-            });
+        _handleRPC<Position, Renderer::PickResult>(desc,
+                                                   [&engine = _engine](const auto& position) {
+                                                       return engine.getRenderer().pick(
+                                                           {float(position[0]), float(position[1])});
+                                                   });
     }
 
     void _handleQuit()
@@ -2085,8 +2082,7 @@ public:
     {
         const RpcDescription desc{METHOD_GET_ENVIRONMENT_MAP, "Get the environment map from the scene"};
 
-        _handleRPC<EnvironmentMapParam>(desc,
-                                        [&]() -> EnvironmentMapParam
+        _handleRPC<EnvironmentMapParam>(desc, [&]() -> EnvironmentMapParam
                                         { return {_engine.getScene().getEnvironmentMap()}; });
     }
 

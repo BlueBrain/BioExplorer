@@ -22,6 +22,8 @@
 
 #include "FrameBuffer.h"
 
+OIIO_NAMESPACE_USING
+
 namespace core
 {
 FrameBuffer::FrameBuffer(const std::string& name, const Vector2ui& frameSize, const FrameBufferFormat frameBufferFormat)
@@ -46,21 +48,37 @@ size_t FrameBuffer::getColorDepth() const
     }
 }
 
-freeimage::ImagePtr FrameBuffer::getImage()
+ImageBuf FrameBuffer::getImage()
 {
     map();
     const auto colorBuffer = getColorBuffer();
     const auto& size = getSize();
+    const unsigned int width = size.x;
+    const unsigned int height = size.y;
+    const unsigned int depth = getColorDepth();
+    const unsigned int channels = 4; // Assuming RGBA
 
-    freeimage::ImagePtr image(FreeImage_ConvertFromRawBits(const_cast<uint8_t*>(colorBuffer), size.x, size.y,
-                                                           getColorDepth() * size.x, 8 * getColorDepth(), 0xFF0000,
-                                                           0x00FF00, 0x0000FF, false));
+    std::vector<unsigned char> imageData(colorBuffer, colorBuffer + width * height * channels);
 
     unmap();
 
 #if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_BGR
-    freeimage::SwapRedBlue32(image.get());
+    // Swap red and blue channels
+    for (unsigned int y = 0; y < height; ++y)
+    {
+        for (unsigned int x = 0; x < width; ++x)
+        {
+            unsigned int index = (y * width + x) * channels;
+            std::swap(imageData[index], imageData[index + 2]); // Swap red and blue channels
+        }
+    }
 #endif
-    return image;
+
+    // Create an OIIO ImageBuf and set the image data
+    ImageSpec spec(width, height, channels, TypeDesc::UINT8);
+    ImageBuf imageBuf(spec);
+    imageBuf.set_pixels(spec.roi(), TypeDesc::UINT8, &imageData[0]);
+
+    return imageBuf;
 }
 } // namespace core

@@ -22,35 +22,14 @@
 
 #include <platform/core/common/Types.h>
 
-#include <FreeImage.h>
+#include <OpenImageIO/imagebuf.h>
+#include <OpenImageIO/imageio.h>
+
+OIIO_NAMESPACE_USING
 
 namespace core
 {
-namespace freeimage
-{
-struct ImageDeleter
-{
-    inline void operator()(FIBITMAP* image)
-    {
-        if (image)
-            FreeImage_Unload(image);
-    }
-};
-
-struct MemoryDeleter
-{
-    inline void operator()(FIMEMORY* memory)
-    {
-        if (memory)
-            FreeImage_CloseMemory(memory);
-    }
-};
-
-using ImagePtr = std::unique_ptr<FIBITMAP, ImageDeleter>;
-using MemoryPtr = std::unique_ptr<FIMEMORY, MemoryDeleter>;
-
-bool SwapRedBlue32(FIBITMAP* freeImage);
-std::string getBase64Image(ImagePtr image, const std::string& format, const int quality);
-ImagePtr mergeImages(const std::vector<ImagePtr>& images);
-} // namespace freeimage
+bool swapRedBlue32(ImageBuf& image);
+std::string getBase64Image(const ImageBuf& imageBuf, const std::string& format, const int quality);
+ImageBuf mergeImages(const std::vector<ImageBuf>& images);
 } // namespace core

@@ -43,9 +43,12 @@ endif()
 
 # Core dependencies
 find_package(Boost REQUIRED COMPONENTS program_options)
+
+find_package(OpenImageIO REQUIRED)
+find_library(OIIO OpenImageIO)
+
 find_package(OpenMP)
 find_package(Libuv)
-find_package(FreeImage)
 
 # Archive loading
 find_package(LibArchive)

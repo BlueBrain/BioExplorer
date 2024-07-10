@@ -21,95 +21,91 @@
  */
 
 #include "ImageManager.h"
-
-#include <platform/core/common/Logs.h>
-#include <platform/core/common/utils/FileSystem.h>
-#include <platform/core/common/utils/ImageUtils.h>
+#include <OpenImageIO/imageio.h>
+#include <filesystem>
+#include <iostream>
 
 namespace core
 {
-namespace
-{
-std::vector<unsigned char> getRawData(const freeimage::ImagePtr& image, const bool flip = true)
-{
-#if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_BGR
-    freeimage::SwapRedBlue32(image.get());
-#endif
+OIIO_NAMESPACE_USING
 
-    const auto width = FreeImage_GetWidth(image.get());
-    const auto height = FreeImage_GetHeight(image.get());
-    const auto bpp = FreeImage_GetBPP(image.get());
-    const auto pitch = width * bpp / 8;
-
-    std::vector<unsigned char> rawData(height * pitch);
-    FreeImage_ConvertToRawBits(rawData.data(), image.get(), pitch, bpp, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK,
-                               FI_RGBA_BLUE_MASK, flip);
-    return rawData;
+ImageManager::ImageManager()
+    : width(0)
+    , height(0)
+{
 }
 
-void setRawData(Texture2DPtr texture, const freeimage::ImagePtr& image, const uint8_t mip = 0)
+ImageManager::~ImageManager() {}
+
+bool ImageManager::loadImage(const std::string &filename)
 {
-    auto width = texture->width;
-    auto height = texture->height;
-    for (uint8_t i = 0; i < mip; ++i)
+    auto in = ImageInput::open(filename);
+    if (!in)
     {
-        width /= 2;
-        height /= 2;
+        std::cerr << "Failed to load image: " << filename << std::endl;
+        return false;
     }
-    const bool flipFace = !texture->isCubeMap();
-    for (uint8_t face = 0; face < texture->getNumFaces(); ++face)
-    {
-        const auto offset = face * width;
-        freeimage::ImagePtr faceImg(FreeImage_CreateView(image.get(), offset, 0, offset + width, height));
-        texture->setRawData(getRawData(faceImg, flipFace), face, mip);
-    }
+    const ImageSpec &spec = in->spec();
+    width = spec.width;
+    height = spec.height;
+    imageData.resize(width * height * 4);
+    in->read_image(TypeDesc::UINT8, &imageData[0]);
+    in->close();
+    return true;
 }
-} // namespace
 
-Texture2DPtr ImageManager::importTextureFromFile(const std::string& filename, const TextureType type)
+bool ImageManager::saveImage(const std::string &filename)
 {
-    auto format = FreeImage_GetFileType(filename.c_str());
-    if (format == FIF_UNKNOWN)
-        format = FreeImage_GetFIFFromFilename(filename.c_str());
-    if (format == FIF_UNKNOWN)
-        return {};
-
-    freeimage::ImagePtr image(FreeImage_Load(format, filename.c_str()));
-    if (!image)
-        return {};
-
-    uint8_t depth = 1;
-    switch (FreeImage_GetImageType(image.get()))
+    auto out = ImageOutput::create(filename);
+    if (!out)
     {
-    case FIT_BITMAP:
-        depth = 1;
-        break;
-    case FIT_UINT16:
-    case FIT_INT16:
-    case FIT_RGB16:
-        depth = 2;
-        break;
-    case FIT_UINT32:
-    case FIT_INT32:
-    case FIT_RGBA16:
-    case FIT_FLOAT:
-    case FIT_RGBF:
-    case FIT_RGBAF:
-        depth = 4;
-        break;
-    case FIT_DOUBLE:
-    case FIT_COMPLEX:
-        depth = 8;
-        break;
-    default:
+        std::cerr << "Failed to save image: " << filename << std::endl;
+        return false;
+    }
+    ImageSpec spec(width, height, 4, TypeDesc::UINT8);
+    out->open(filename, spec);
+    out->write_image(TypeDesc::UINT8, &imageData[0]);
+    out->close();
+    return true;
+}
+
+unsigned int ImageManager::getWidth() const
+{
+    return width;
+}
+
+unsigned int ImageManager::getHeight() const
+{
+    return height;
+}
+
+const std::vector<unsigned char> &ImageManager::getImageData() const
+{
+    return imageData;
+}
+
+Texture2DPtr ImageManager::importTextureFromFile(const std::string &filename, const TextureType type)
+{
+    auto in = ImageInput::open(filename);
+    if (!in)
+    {
+        std::cerr << "Failed to load image: " << filename << std::endl;
         return {};
     }
 
-    auto width = FreeImage_GetWidth(image.get());
-    const auto height = FreeImage_GetHeight(image.get());
-    const auto bytesPerPixel = FreeImage_GetBPP(image.get()) / 8;
-    const auto channels = bytesPerPixel / depth;
-    FreeImage_FlipVertical(image.get());
+    const ImageSpec &spec = in->spec();
+    unsigned int width = spec.width;
+    unsigned int height = spec.height;
+    int channels = spec.nchannels;
+    int depth = spec.format.basesize();
+
+    std::vector<unsigned char> pixels(width * height * channels * depth);
+    if (!in->read_image(TypeDesc::UINT8, &pixels[0]))
+    {
+        std::cerr << "Failed to read image data: " << filename << std::endl;
+        return {};
+    }
+    in->close();
 
     Texture2D::Type textureType = Texture2D::Type::default_;
     const bool isCubeMap = type == TextureType::irradiance || type == TextureType::radiance;
@@ -118,34 +114,60 @@ Texture2DPtr ImageManager::importTextureFromFile(const std::string& filename, co
         textureType = Texture2D::Type::cubemap;
         width /= 6;
     }
-    else if (type == TextureType::normals)  // TODO: only valid for PBR
+    else if (type == TextureType::normals)
+    {
         textureType = Texture2D::Type::normal_roughness;
-    else if (type == TextureType::specular) // TODO: only valid for BBP
+    }
+    else if (type == TextureType::specular)
+    {
         textureType = Texture2D::Type::aoe;
+    }
 
     auto texture = std::make_shared<Texture2D>(textureType, filename, channels, depth, width, height);
     if (isCubeMap || type == TextureType::brdf_lut)
+    {
         texture->setWrapMode(TextureWrapMode::clamp_to_edge);
+    }
 
-    setRawData(texture, image);
+    texture->setRawData(pixels.data(), width * height, channels);
 
-    const auto path = fs::path(filename).parent_path().string();
-    const auto basename = path + "/" + fs::path(filename).stem().string();
-    const auto ext = fs::path(filename).extension().string();
+    const auto path = std::filesystem::path(filename).parent_path().string();
+    const auto basename = path + "/" + std::filesystem::path(filename).stem().string();
+    const auto ext = std::filesystem::path(filename).extension().string();
 
     uint8_t mipLevels = 1;
-    while (fs::exists(basename + std::to_string((int)mipLevels) + ext))
+    while (std::filesystem::exists(basename + std::to_string((int)mipLevels) + ext))
+    {
         ++mipLevels;
+    }
 
     texture->setMipLevels(mipLevels);
 
     for (uint8_t mip = 1; mip < mipLevels; ++mip)
     {
-        freeimage::ImagePtr mipImage(FreeImage_Load(format, (basename + std::to_string((int)mip) + ext).c_str()));
-        FreeImage_FlipVertical(mipImage.get());
+        auto mipFilename = basename + std::to_string((int)mip) + ext;
+        auto mipIn = ImageInput::open(mipFilename);
+        if (!mipIn)
+        {
+            std::cerr << "Failed to load mip level image: " << mipFilename << std::endl;
+            continue;
+        }
 
-        setRawData(texture, mipImage, mip);
+        const ImageSpec &mipSpec = mipIn->spec();
+        std::vector<unsigned char> mipPixels(mipSpec.width * mipSpec.height * mipSpec.nchannels *
+                                             mipSpec.format.basesize());
+        if (!mipIn->read_image(TypeDesc::UINT8, &mipPixels[0]))
+        {
+            std::cerr << "Failed to read mip level image data: " << mipFilename << std::endl;
+            mipIn->close();
+            continue;
+        }
+        mipIn->close();
+
+        texture->setRawData(mipPixels.data(), mipSpec.width * mipSpec.height, mipSpec.nchannels, mip);
     }
+
     return texture;
 }
+
 } // namespace core

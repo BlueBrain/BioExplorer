@@ -34,7 +34,12 @@
 
 #include <platform/core/parameters/ParametersManager.h>
 
+#include <OpenImageIO/imagebuf.h>
+#include <OpenImageIO/imageio.h>
+
 #include <fstream>
+
+OIIO_NAMESPACE_USING
 
 namespace core
 {
@@ -168,42 +173,47 @@ public:
     }
 
 private:
+    void writeBufferToFile(const std::vector<unsigned char>& buffer, const std::string& path)
+    {
+        std::ofstream file(path, std::ios::binary);
+        if (!file.is_open())
+            throw std::runtime_error("Failed to create " + path);
+        file.write(reinterpret_cast<const char*>(buffer.data()), buffer.size());
+        file.close();
+    }
+
     void _writeToDisk(FrameBuffer& fb)
     {
         auto image = fb.getImage();
-        auto fif = _params.format == "jpg" ? FIF_JPEG : FreeImage_GetFIFFromFormat(_params.format.c_str());
 
-        if (fif == FIF_JPEG)
-            image.reset(FreeImage_ConvertTo24Bits(image.get()));
-        else if (fif == FIF_UNKNOWN)
-        {
-            std::cerr << "Unknown format: " << _params.format << std::endl;
-            return;
-        }
+        // Determine the output format
+        std::string format = _params.format;
+        if (format != "jpg" && format != "png" && format != "tiff")
+            CORE_THROW("Unknown format: " + format);
 
-        int flags = _params.quality;
-        if (fif == FIF_TIFF)
-            flags = TIFF_NONE;
+        int quality = _params.quality;
 
-        core::freeimage::MemoryPtr memory(FreeImage_OpenMemory());
+        // Prepare the file path
+        const std::string path = _params.filePath + "." + format;
 
-        FreeImage_SaveToMemory(fif, image.get(), memory.get(), flags);
+        // Set up ImageSpec for output image
+        ImageSpec spec = image.spec();
+        if (format == "jpg")
+            spec.attribute("CompressionQuality", quality);
 
-        BYTE* pixels = nullptr;
-        DWORD numPixels = 0;
-        FreeImage_AcquireMemory(memory.get(), &pixels, &numPixels);
+        // Create an output buffer and write image to memory
+        std::vector<unsigned char> buffer(spec.image_bytes());
 
-        std::ofstream file;
-        const std::string path = _params.filePath + "." + _params.format;
-        file.open(path, std::ios_base::binary);
-        if (!file.is_open())
-        {
-            std::cerr << "Failed to create " << path << std::endl;
-            return;
-        }
+        auto out = ImageOutput::create(path);
+        if (!out)
+            CORE_THROW("Could not create image output");
 
-        file.write((char*)pixels, numPixels);
-        file.close();
+        out->open(path, spec);
+        out->write_image(TypeDesc::UINT8, image.localpixels());
+        out->close();
+
+        // Write the buffer content to the file
+        writeBufferToFile(buffer, path);
     }
 
     SnapshotParams _params;
