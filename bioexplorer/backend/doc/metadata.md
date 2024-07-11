@@ -9,7 +9,7 @@ maintainers: Cyrille Favreau
 name: BioExplorer
 license: Apache 2.0
 issuesurl: https://github.com/BlueBrain/BioExplorer/issues
-version: 1.8.0
+version: 2.0.0
 contributors: Cyrille Favreau
 minor: 1
 ---

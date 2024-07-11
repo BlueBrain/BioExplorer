@@ -1,6 +1,6 @@
 {
     "name": "bioexplorer",
-    "version": "1.8.0",
+    "version": "2.0.0",
     "description": "",
     "main": "./dist/index.js",
     "module": "./dist/es5/index.js",
