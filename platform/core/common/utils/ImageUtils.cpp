@@ -20,91 +20,131 @@
 
 #include "ImageUtils.h"
 
-#include "base64/base64.h"
+#include <platform/core/common/Logs.h>
 
-namespace
-{
-template <class T>
-inline void INPLACESWAP(T& a, T& b)
-{
-    a ^= b;
-    b ^= a;
-    a ^= b;
-}
-} // namespace
+#include <OpenImageIO/filesystem.h>
+#include <OpenImageIO/imagebuf.h>
+#include <OpenImageIO/imagebufalgo.h>
+#include <OpenImageIO/imageio.h>
+
+#include <openssl/bio.h>
+#include <openssl/buffer.h>
+#include <openssl/evp.h>
+
+OIIO_NAMESPACE_USING
+
 namespace core
 {
-namespace freeimage
+bool swapRedBlue32(ImageBuf& image)
 {
-// https://github.com/imazen/freeimage/blob/master/Source/FreeImage/Conversion.cpp#L56
-bool SwapRedBlue32(FIBITMAP* freeImage)
-{
-    if (FreeImage_GetImageType(freeImage) != FIT_BITMAP)
-        return false;
+    if (image.spec().nchannels < 3)
+        CORE_THROW("Image must have at least 3 channels to swap red and blue")
 
-    const unsigned bytesperpixel = FreeImage_GetBPP(freeImage) / 8;
-    if (bytesperpixel > 4 || bytesperpixel < 3)
-        return false;
+    int width = image.spec().width;
+    int height = image.spec().height;
+    int channels = image.spec().nchannels;
 
-    const unsigned height = FreeImage_GetHeight(freeImage);
-    const unsigned pitch = FreeImage_GetPitch(freeImage);
-    const unsigned lineSize = FreeImage_GetLine(freeImage);
-
-    BYTE* line = FreeImage_GetBits(freeImage);
-    for (unsigned y = 0; y < height; ++y, line += pitch)
-        for (BYTE* pixel = line; pixel < line + lineSize; pixel += bytesperpixel)
+    for (int y = 0; y < height; ++y)
+        for (int x = 0; x < width; ++x)
         {
-            INPLACESWAP(pixel[0], pixel[2]);
+            float pixel[channels];
+            image.getpixel(x, y, pixel);
+            std::swap(pixel[0], pixel[2]); // Swap red and blue channels
+            image.setpixel(x, y, pixel);
         }
+
     return true;
 }
-
-std::string getBase64Image(ImagePtr image, const std::string& format, const int quality)
+std::string base64_encode(const unsigned char* data, size_t len)
 {
-    FreeImage_SetOutputMessage([](FREE_IMAGE_FORMAT, const char* message) { throw std::runtime_error(message); });
+    BIO* bmem = nullptr;
+    BIO* b64 = BIO_new(BIO_f_base64());
+    BUF_MEM* bptr = nullptr;
 
-    auto fif = format == "jpg" ? FIF_JPEG : FreeImage_GetFIFFromFormat(format.c_str());
-    if (fif == FIF_JPEG)
-        image.reset(FreeImage_ConvertTo24Bits(image.get()));
-    else if (fif == FIF_UNKNOWN)
-        throw std::runtime_error("Unknown format: " + format);
+    b64 = BIO_push(b64, BIO_new(BIO_s_mem()));
+    BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
+    BIO_write(b64, data, len);
+    BIO_flush(b64);
+    BIO_get_mem_ptr(b64, &bptr);
 
-    int flags = quality;
-    if (fif == FIF_TIFF)
-        flags = TIFF_NONE;
+    std::string base64_str(bptr->data, bptr->length);
+    BIO_free_all(b64);
 
-    freeimage::MemoryPtr memory(FreeImage_OpenMemory());
-
-    FreeImage_SaveToMemory(fif, image.get(), memory.get(), flags);
-
-    BYTE* pixels = NULL;
-    DWORD numPixels = 0;
-    FreeImage_AcquireMemory(memory.get(), &pixels, &numPixels);
-    return {base64_encode(pixels, numPixels)};
+    return base64_str;
 }
 
-ImagePtr mergeImages(const std::vector<ImagePtr>& images)
+std::string getBase64Image(const ImageBuf& imageBuf, const std::string& format, const int quality)
 {
-    int width, height, bbp;
-    width = height = bbp = 0;
-    for (const auto& image : images)
+    ImageBuf rotatedBuf;
+    ImageBufAlgo::flip(rotatedBuf, imageBuf);
+    swapRedBlue32(rotatedBuf);
+
+    // Create a temporary file
+    std::string temp_filename = Filesystem::unique_path() + "." + format;
+
+    auto out = ImageOutput::create(temp_filename);
+    if (!out)
+        CORE_THROW("Failed to create image output");
+
+    ImageSpec spec = rotatedBuf.spec();
+    spec.attribute("oiio:CompressionQuality", quality);
+
+    // Open the output for writing to the temporary file
+    if (!out->open(temp_filename, spec))
+        CORE_THROW("Failed to open image output for temporary file");
+
+    // Write the image to the temporary file
+    if (!out->write_image(TypeDesc::UINT8, rotatedBuf.localpixels()))
+        CORE_THROW("Failed to write image to temporary file");
+
+    out->close();
+    // delete out;
+
+    // Read the file back into memory
+    std::ifstream file(temp_filename, std::ios::binary);
+    if (!file)
+        CORE_THROW("Failed to open temporary file for reading");
+
+    std::vector<unsigned char> buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+    file.close();
+
+    // Remove the temporary file
+    Filesystem::remove(temp_filename);
+
+    // Encode the memory data to base64
+    return base64_encode(buffer.data(), buffer.size());
+}
+
+ImageBuf mergeImages(const std::vector<ImageBuf>& images)
+{
+    if (images.empty())
     {
-        width += FreeImage_GetWidth(image.get());
-        height = FreeImage_GetHeight(image.get());
-        bbp = FreeImage_GetBPP(image.get());
+        throw std::runtime_error("No images to merge.");
     }
 
-    FreeImage_SetOutputMessage([](FREE_IMAGE_FORMAT, const char* message) { throw std::runtime_error(message); });
+    int totalWidth = 0;
+    int height = images[0].spec().height;
+    int channels = images[0].spec().nchannels;
 
-    ImagePtr mergedImage{FreeImage_Allocate(width, height, bbp)};
-    int offset = 0;
     for (const auto& image : images)
     {
-        const auto imageWidth = FreeImage_GetWidth(image.get());
-        FreeImage_Paste(mergedImage.get(), image.get(), offset, 0, 255);
-        offset += imageWidth;
+        if (image.spec().height != height || image.spec().nchannels != channels)
+            CORE_THROW("All images must have the same height and number of channels.");
+        totalWidth += image.spec().width;
     }
+
+    ImageSpec mergedSpec(totalWidth, height, channels, TypeDesc::UINT8);
+    ImageBuf mergedImage(mergedSpec);
+    int offsetX = 0;
+
+    for (const auto& image : images)
+    {
+        int imageWidth = image.spec().width;
+        ROI roi(offsetX, offsetX + imageWidth, 0, height);
+        ImageBufAlgo::paste(mergedImage, offsetX, 0, 0, 0, image, roi);
+        offsetX += imageWidth;
+    }
+
     return mergedImage;
 }
-} // namespace freeimage
 } // namespace core

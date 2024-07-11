@@ -22,41 +22,42 @@
 
 #include "ImageGenerator.h"
 
-#include <platform/core/common/utils/base64/base64.h>
 #include <platform/core/common/utils/ImageUtils.h>
+#include <platform/core/common/utils/base64/base64.h>
 #include <platform/core/engineapi/FrameBuffer.h>
 #include <platform/core/parameters/ApplicationParameters.h>
 
+OIIO_NAMESPACE_USING
+
 namespace core
 {
+const size_t DEFAULT_COLOR_DEPTH = 4;
+
 ImageGenerator::~ImageGenerator()
 {
     if (_compressor)
         tjDestroy(_compressor);
 }
 
-ImageGenerator::ImageBase64 ImageGenerator::createImage(FrameBuffer& frameBuffer,
-                                                        const std::string& format,
+ImageGenerator::ImageBase64 ImageGenerator::createImage(FrameBuffer& frameBuffer, const std::string& format,
                                                         const uint8_t quality)
 {
-    return {freeimage::getBase64Image(frameBuffer.getImage(), format, quality)};
+    return {getBase64Image(frameBuffer.getImage(), format, quality)};
 }
 
 ImageGenerator::ImageBase64 ImageGenerator::createImage(const std::vector<FrameBufferPtr>& frameBuffers,
-                                                        const std::string& format,
-                                                        const uint8_t quality)
+                                                        const std::string& format, const uint8_t quality)
 {
     if (frameBuffers.size() == 1)
-        return createImage(*frameBuffers[0], format, quality);
+        return {getBase64Image(frameBuffers[0]->getImage(), format, quality)};
 
-    std::vector<freeimage::ImagePtr> images;
+    std::vector<ImageBuf> images;
     for (auto frameBuffer : frameBuffers)
         images.push_back(frameBuffer->getImage());
-    return {freeimage::getBase64Image(freeimage::mergeImages(images), format, quality)};
+    return {getBase64Image(mergeImages(images), format, quality)};
 }
 
-ImageGenerator::ImageJPEG ImageGenerator::createJPEG(FrameBuffer& frameBuffer,
-                                                     const uint8_t quality)
+ImageGenerator::ImageJPEG ImageGenerator::createJPEG(FrameBuffer& frameBuffer, const uint8_t quality)
 {
     frameBuffer.map();
     const auto colorBuffer = frameBuffer.getColorBuffer();
@@ -89,7 +90,7 @@ ImageGenerator::ImageJPEG::JpegData ImageGenerator::_encodeJpeg(const uint32_t w
                                                                 const uint8_t quality, unsigned long& dataSize)
 {
     uint8_t* tjSrcBuffer = const_cast<uint8_t*>(rawData);
-    const int32_t color_components = 4; // Color Depth
+    const int32_t color_components = DEFAULT_COLOR_DEPTH;
     const int32_t tjPitch = width * color_components;
     const int32_t tjPixelFormat = pixelFormat;
 

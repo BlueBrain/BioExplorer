@@ -41,7 +41,7 @@ set_source_files_properties(staticjson/staticjson.cpp PROPERTIES COMPILE_FLAGS "
 
 set(
   ${NAME}_LINK_LIBRARIES
-  PRIVATE Rockets CoreParameters CoreTasks ${FREEIMAGE_LIBRARIES}
+  PRIVATE Rockets CoreParameters CoreTasks ${OIIO}
 )
 
 if(LibLIBJPEGTURBO_FOUND)
@@ -66,8 +66,8 @@ target_compile_options(${LIBRARY_NAME} PRIVATE "-Wno-attributes")
 target_link_libraries(
   ${LIBRARY_NAME}
   ${${NAME}_LINK_LIBRARIES}
-  PUBLIC Async++
-  PRIVATE CoreParameters ${GLM_LIBRARIES} ${FREEIMAGE_LIBRARIES}
+  PUBLIC Async++ 
+  PRIVATE CoreParameters ${GLM_LIBRARIES} ${OIIO}
 )
 
 # needed for staticjson and rapidjson

@@ -27,20 +27,25 @@
 
 namespace core
 {
-/**
- * @brief The ImageManager class uses the FreeImage libray to manipulate
- * images. This class provide an API for encoding into a specific format (PNG,
- * JPEG, etc), and exporting frame buffers to the file system
- */
+
 class ImageManager
 {
 public:
-    /**
-     * @brief Import a Texture from file
-     * @param filename Full name of the texture file
-     * @return Pointer to Texture2D object is import was successful, nullptr
-     * otherwise
-     */
-    static Texture2DPtr importTextureFromFile(const std::string& filename, const TextureType type);
+    ImageManager();
+    ~ImageManager();
+
+    bool loadImage(const std::string &filename);
+    bool saveImage(const std::string &filename);
+
+    unsigned int getWidth() const;
+    unsigned int getHeight() const;
+    const std::vector<unsigned char> &getImageData() const;
+    static Texture2DPtr importTextureFromFile(const std::string &filename, const TextureType type);
+
+private:
+    unsigned int width;
+    unsigned int height;
+    std::vector<unsigned char> imageData;
 };
+
 } // namespace core

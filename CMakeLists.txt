@@ -40,7 +40,7 @@ set(${NAME}_MODULES_DIR ${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(glm REQUIRED)
-find_package(FreeImage REQUIRED)
+find_package(OpenImageIO REQUIRED)
 find_package(ospray)
 find_package(OptiX6)
 find_package(CUDA)

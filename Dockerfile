@@ -17,7 +17,7 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Image where BioExplorer plugin is built
-FROM debian:buster-20230522-slim as builder
+FROM ubuntu:22.04 as builder
 LABEL maintainer="cyrille.favreau@epfl.ch"
 ARG DIST_PATH=/app/dist
 ARG BUILD_TYPE=Release
@@ -30,7 +30,6 @@ RUN apt-get update \
    git \
    ninja-build \
    libarchive-dev \
-   libassimp-dev \
    libboost-date-time-dev \
    libboost-filesystem-dev \
    libboost-iostreams-dev \
@@ -39,23 +38,22 @@ RUN apt-get update \
    libboost-serialization-dev \
    libboost-system-dev \
    libboost-test-dev \
-   libfreeimage-dev \
    libhdf5-serial-dev \
-   libtbb-dev \
+   libtbb2-dev \
    libturbojpeg0-dev \
    libuv1-dev \
    libpqxx-dev \
    libssl-dev \
    libcgal-dev \
-   libexiv2-dev \
    libglm-dev \
    libtiff-dev \
    libmpfr-dev \
    libdcmtk-dev \
+   libopenexr-dev \
+   libopenimageio-dev \
    pkg-config \
    wget \
    ca-certificates \
-   exiv2 \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -143,16 +141,13 @@ RUN mkdir -p ${OSPRAY_SRC} \
    -DOSPRAY_ENABLE_TUTORIALS=OFF \
    -DOSPRAY_ENABLE_APPS=OFF \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
-   -DOSPRAY_APPS_BENCHMARK=OFF \
-   -DOSPRAY_APPS_EXAMPLEVIEWER=OFF \
-   -DOSPRAY_APPS_UTILITIES=OFF \
    -DOSPRAY_AUTO_DOWNLOAD_TEST_IMAGES=OFF \
    -DOSPRAY_ENABLE_TUTORIALS=OFF \
    && ninja install \
    && ninja clean
 
 # --------------------------------------------------------------------------------
-# Install libwebsockets (2.0 from Debian is not reliable)
+# Install libwebsockets
 # https://github.com/warmcat/libwebsockets/releases
 # --------------------------------------------------------------------------------
 ARG LWS_VERSION=2.3.0
@@ -168,7 +163,7 @@ RUN mkdir -p ${LWS_SRC} \
    && cmake .. -GNinja \
    -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
    -DLWS_STATIC_PIC=ON \
-   -DLWS_WITH_SSL=ON \
+   -DLWS_WITH_SSL=OFF \
    -DLWS_WITH_ZLIB=OFF \
    -DLWS_WITH_ZIP_FOPS=OFF \
    -DLWS_WITHOUT_EXTENSIONS=ON \
@@ -182,13 +177,33 @@ RUN mkdir -p ${LWS_SRC} \
 # Install Rockets
 # https://github.com/BlueBrain/Rockets
 # --------------------------------------------------------------------------------
-ARG ROCKETS_TAG=1.0.0
+ARG ROCKETS_TAG=1.0.1
 ARG ROCKETS_SRC=/app/rockets
 
 RUN mkdir -p ${ROCKETS_SRC} \
-   && git clone https://github.com/BlueBrain/Rockets.git ${ROCKETS_SRC} \
+   && git clone https://github.com/favreau/Rockets.git ${ROCKETS_SRC} \
    && cd ${ROCKETS_SRC} \
    && git checkout ${ROCKETS_TAG} \
+   && git submodule update --init \
+   && mkdir -p build \
+   && cd build \
+   && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
+   -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
+   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+   && ninja install \
+   && ninja clean
+
+# --------------------------------------------------------------------------------
+# Install Assimp
+# https://github.com/assimp/assimp.git
+# --------------------------------------------------------------------------------
+ARG ASSIMP_TAG=v4.1.0
+ARG ASSIMP_SRC=/app/assimp
+
+RUN mkdir -p ${ASSIMP_SRC} \
+   && git clone https://github.com/assimp/assimp.git ${ASSIMP_SRC} \
+   && cd ${ASSIMP_SRC} \
+   && git checkout ${ASSIMP_TAG} \
    && git submodule update --init \
    && mkdir -p build \
    && cd build \
@@ -214,13 +229,12 @@ RUN cd ${BIOEXPLORER_SRC} \
    && PATH=${ISPC_PATH}/bin:${PATH} \
    PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig \
    CMAKE_PREFIX_PATH=${DIST_PATH} \
-   LDFLAGS="-lCGAL" \
    cmake .. -GNinja \
+   -Wno-dev \
    -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
-   -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=ON \
+   -DBIOEXPLORER_USE_CGAL=OFF \
    -DPLATFORM_UNIT_TESTING_ENABLED=OFF \
-   -DPLATFORM_USE_CGAL=ON \
    -DPLATFORM_OPTIX6_ENABLED=OFF \
    -DPLATFORM_NETWORKING_ENABLED=ON \
    -DPLATFORM_ASSIMP_ENABLED=ON \
@@ -231,37 +245,36 @@ RUN cd ${BIOEXPLORER_SRC} \
    -DPLATFORM_DEFLECT_ENABLED=OFF \
    -DBIOEXPLORER_SONATA_ENABLED=OFF \
    -DBIOEXPLORER_METABOLISM_ENABLED=OFF \
-   -DBIOEXPLORER_MEDIAMAKER_ENABLED=ON \
+   -DBIOEXPLORER_MEDIA_MAKER_ENABLED=ON \
    -DMEDICALIMAGING_BUILD_ENABLED=ON \
    && ninja install \
    && ninja clean
 
 # Final image, containing only BioExplorer and libraries required to run it
-FROM debian:buster-slim
+FROM ubuntu:22.04
 ARG DIST_PATH=/app/dist
 
 RUN apt-get update \
    && apt-get -y --no-install-recommends install \
    libarchive13 \
-   libassimp4 \
-   libboost-filesystem1.67.0 \
-   libboost-program-options1.67.0 \
-   libboost-regex1.67.0 \
-   libboost-serialization1.67.0 \
-   libboost-system1.67.0 \
-   libboost-iostreams1.67.0 \
-   libfreeimage3 \
-   libgomp1 \
+   libboost-date-time1.74.0 \
+   libboost-filesystem1.74.0 \
+   libboost-iostreams1.74.0 \
+   libboost-program-options1.74.0 \
+   libboost-regex1.74.0 \
+   libboost-serialization1.74.0 \
+   libboost-system1.74.0 \
+   libboost-test1.74.0 \
    libhdf5-103 \
-   libturbojpeg0 \
+   libtbb2 \
+   libturbojpeg \
    libuv1 \
-   libcgal13 \
-   libpqxx-6.2 \
+   libpqxx-6.4 \
    libtiff5 \
    libmpfr6 \
-   libtbb-dev \
    dcmtk \
-   exiv2 \
+   libopenexr25 \
+   libopenimageio2.2 \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

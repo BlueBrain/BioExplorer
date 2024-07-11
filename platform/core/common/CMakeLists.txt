@@ -112,7 +112,7 @@ target_link_libraries(
     ${LIBRARY_NAME}
     ${${NAME}_LINK_LIBRARIES}
     PUBLIC ${GLM_LIBRARIES} Async++
-    PRIVATE CoreParameters ${Boost_PROGRAM_OPTIONS_LIBRARY} ${FreeImage_LIBRARIES}
+    PRIVATE CoreParameters ${Boost_PROGRAM_OPTIONS_LIBRARY} ${OIIO}
 )
 
 # ==============================================================================
