@@ -1,23 +1,18 @@
 /*
- * Copyright (c) 2018, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
- * Responsible Author: Daniel.Nachbaur@epfl.ch
- *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3.0 as published
- * by the Free Software Foundation.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+    Copyright 2018 - 0211 Blue Brain Project / EPFL
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 
 #include "rapidjson/document.h"
 #include "rapidjson/prettywriter.h"
@@ -44,16 +39,13 @@ TEST_CASE_FIXTURE(ClientServer, "set_properties")
 
     core::PropertyMap propsNew;
     propsNew.setProperty({"bla", 42});
-    CHECK((makeRequest<core::ModelProperties, bool>(
-        SET_PROPERTIES, {model->getModelID(), propsNew})));
+    CHECK((makeRequest<core::ModelProperties, bool>(SET_PROPERTIES, {model->getModelID(), propsNew})));
 
     CHECK_EQ(model->getProperties().getProperty<int32_t>("bla"), 42);
 
     SUBCASE("get_model_properties_schema")
     {
-        auto result =
-            makeRequestJSONReturn<core::ObjectID>(MODEL_PROPERTIES_SCHEMA,
-                                                    {model->getModelID()});
+        auto result = makeRequestJSONReturn<core::ObjectID>(MODEL_PROPERTIES_SCHEMA, {model->getModelID()});
 
         using namespace rapidjson;
         Document json(kObjectType);
@@ -63,8 +55,8 @@ TEST_CASE_FIXTURE(ClientServer, "set_properties")
 
     SUBCASE("get_model_properties")
     {
-        auto result = makeRequestUpdate<core::ObjectID, core::PropertyMap>(
-            GET_PROPERTIES, {model->getModelID()}, props);
+        auto result =
+            makeRequestUpdate<core::ObjectID, core::PropertyMap>(GET_PROPERTIES, {model->getModelID()}, props);
         REQUIRE(result.hasProperty("bla"));
         CHECK_EQ(result.getProperty<int32_t>("bla"), 42);
     }
@@ -114,8 +106,7 @@ TEST_CASE_FIXTURE(ClientServer, "instances")
         CHECK(!instance.getBoundingBox());
 
         const auto& instances =
-            makeRequest<core::GetInstances, core::ModelInstances>(
-                GET_INSTANCES, {model->getModelID(), {1, 2}});
+            makeRequest<core::GetInstances, core::ModelInstances>(GET_INSTANCES, {model->getModelID(), {1, 2}});
         REQUIRE_EQ(instances.size(), 1);
         auto& rpcInstance = instances[0];
         CHECK(rpcInstance.getTransformation() == trafo);
@@ -134,8 +125,7 @@ TEST_CASE_FIXTURE(ClientServer, "instances")
         scaleTrafo.setScale({1, 2, 3});
         instance.setTransformation(scaleTrafo);
 
-        CHECK(makeRequest<core::ModelInstance, bool>(UPDATE_INSTANCE,
-                                                       instance));
+        CHECK(makeRequest<core::ModelInstance, bool>(UPDATE_INSTANCE, instance));
 
         process();
 

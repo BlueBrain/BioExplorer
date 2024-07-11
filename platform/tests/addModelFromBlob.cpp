@@ -1,23 +1,18 @@
 /*
- * Copyright (c) 2018, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
- * Responsible Author: Daniel.Nachbaur@epfl.ch
- *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3.0 as published
- * by the Free Software Foundation.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+    Copyright 2018 - 0211 Blue Brain Project / EPFL
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 
 #include <jsonSerialization.h>
 
@@ -42,8 +37,7 @@ TEST_CASE_FIXTURE(ClientServer, "illegal_no_params")
 {
     try
     {
-        makeRequest<core::BinaryParam, core::ModelDescriptor>(
-            REQUEST_MODEL_UPLOAD, {});
+        makeRequest<core::BinaryParam, core::ModelDescriptor>(REQUEST_MODEL_UPLOAD, {});
         REQUIRE(false);
     }
     catch (const rockets::jsonrpc::response_error& e)
@@ -58,8 +52,7 @@ TEST_CASE_FIXTURE(ClientServer, "missing_params")
     core::BinaryParam params;
     try
     {
-        makeRequest<core::BinaryParam, core::ModelDescriptor>(
-            REQUEST_MODEL_UPLOAD, {params});
+        makeRequest<core::BinaryParam, core::ModelDescriptor>(REQUEST_MODEL_UPLOAD, {params});
         REQUIRE(false);
     }
     catch (const rockets::jsonrpc::response_error& e)
@@ -76,8 +69,7 @@ TEST_CASE_FIXTURE(ClientServer, "invalid_size")
     params.size = 0;
     try
     {
-        makeRequest<core::BinaryParam, core::ModelDescriptor>(
-            REQUEST_MODEL_UPLOAD, {params});
+        makeRequest<core::BinaryParam, core::ModelDescriptor>(REQUEST_MODEL_UPLOAD, {params});
         REQUIRE(false);
     }
     catch (const rockets::jsonrpc::response_error& e)
@@ -94,8 +86,7 @@ TEST_CASE_FIXTURE(ClientServer, "unsupported_type")
     params.size = 4;
     try
     {
-        makeRequest<core::BinaryParam, core::ModelDescriptor>(
-            REQUEST_MODEL_UPLOAD, {params});
+        makeRequest<core::BinaryParam, core::ModelDescriptor>(REQUEST_MODEL_UPLOAD, {params});
         REQUIRE(false);
     }
     catch (const rockets::jsonrpc::response_error& e)
@@ -108,17 +99,15 @@ TEST_CASE_FIXTURE(ClientServer, "unsupported_type")
 TEST_CASE_FIXTURE(ClientServer, "xyz")
 {
     core::BinaryParam params;
-    params.size = [] {
-        std::ifstream file(BRAYNS_TESTDATA_MODEL_MONKEY_PATH,
-                           std::ios::binary | std::ios::ate);
+    params.size = []
+    {
+        std::ifstream file(BRAYNS_TESTDATA_MODEL_MONKEY_PATH, std::ios::binary | std::ios::ate);
         return file.tellg();
     }();
     params.type = "xyz";
     params.setPath("monkey.xyz");
 
-    auto request = getJsonRpcClient()
-                       .request<core::BinaryParam, core::ModelDescriptor>(
-                           REQUEST_MODEL_UPLOAD, {params});
+    auto request = getJsonRpcClient().request<core::BinaryParam, core::ModelDescriptor>(REQUEST_MODEL_UPLOAD, {params});
 
     std::ifstream file(BRAYNS_TESTDATA_MODEL_MONKEY_PATH, std::ios::binary);
 
@@ -149,16 +138,14 @@ TEST_CASE_FIXTURE(ClientServer, "xyz")
 TEST_CASE_FIXTURE(ClientServer, "broken_xyz")
 {
     core::BinaryParam params;
-    params.size = [] {
-        std::ifstream file(BRAYNS_TESTDATA_MODEL_BROKEN_PATH,
-                           std::ios::binary | std::ios::ate);
+    params.size = []
+    {
+        std::ifstream file(BRAYNS_TESTDATA_MODEL_BROKEN_PATH, std::ios::binary | std::ios::ate);
         return file.tellg();
     }();
     params.type = "xyz";
 
-    auto request = getJsonRpcClient()
-                       .request<core::BinaryParam, core::ModelDescriptor>(
-                           REQUEST_MODEL_UPLOAD, {params});
+    auto request = getJsonRpcClient().request<core::BinaryParam, core::ModelDescriptor>(REQUEST_MODEL_UPLOAD, {params});
 
     std::ifstream file(BRAYNS_TESTDATA_MODEL_BROKEN_PATH, std::ios::binary);
 
@@ -188,8 +175,7 @@ TEST_CASE_FIXTURE(ClientServer, "broken_xyz")
     catch (const rockets::jsonrpc::response_error& e)
     {
         CHECK_EQ(e.code, core::ERROR_ID_LOADING_BINARY_FAILED);
-        CHECK(std::string(e.what()) ==
-              "Invalid content in line 1: 2.500000 3.437500");
+        CHECK(std::string(e.what()) == "Invalid content in line 1: 2.500000 3.437500");
     }
 }
 
@@ -199,9 +185,7 @@ TEST_CASE_FIXTURE(ClientServer, "cancel")
     params.size = 42;
     params.type = "xyz";
 
-    auto request = getJsonRpcClient()
-                       .request<core::BinaryParam, core::ModelDescriptor>(
-                           REQUEST_MODEL_UPLOAD, {params});
+    auto request = getJsonRpcClient().request<core::BinaryParam, core::ModelDescriptor>(REQUEST_MODEL_UPLOAD, {params});
 
     request.cancel();
 
@@ -217,9 +201,7 @@ TEST_CASE_FIXTURE(ClientServer, "send_wrong_number_of_bytes")
     params.size = 4;
     params.type = "xyz";
 
-    auto request = getJsonRpcClient()
-                       .request<core::BinaryParam, core::ModelDescriptor>(
-                           REQUEST_MODEL_UPLOAD, {params});
+    auto request = getJsonRpcClient().request<core::BinaryParam, core::ModelDescriptor>(REQUEST_MODEL_UPLOAD, {params});
 
     const std::string wrong("not_four_bytes");
     getWsClient().sendBinary(wrong.data(), wrong.size());
@@ -243,9 +225,7 @@ TEST_CASE_FIXTURE(ClientServer, "cancel_while_loading")
     params.size = 4;
     params.type = "forever";
 
-    auto request = getJsonRpcClient()
-                       .request<core::BinaryParam, core::ModelDescriptor>(
-                           REQUEST_MODEL_UPLOAD, {params});
+    auto request = getJsonRpcClient().request<core::BinaryParam, core::ModelDescriptor>(REQUEST_MODEL_UPLOAD, {params});
 
     const std::string fourBytes("four");
     getWsClient().sendBinary(fourBytes.data(), fourBytes.size());
@@ -270,21 +250,20 @@ TEST_CASE_FIXTURE(ClientServer, "close_client_while_pending_request")
     params.size = 4;
     params.type = "xyz";
 
-    auto responseFuture =
-        rockets::jsonrpc::Client<rockets::ws::Client>{*wsClient}
-            .request<core::BinaryParam, core::ModelDescriptor>(
-                REQUEST_MODEL_UPLOAD, {params});
+    auto responseFuture = rockets::jsonrpc::Client<rockets::ws::Client>{*wsClient}
+                              .request<core::BinaryParam, core::ModelDescriptor>(REQUEST_MODEL_UPLOAD, {params});
 
-    auto asyncWait =
-        std::async(std::launch::async, [&responseFuture, &wsClient, this] {
-            wsClient->process(10);
-            process();
+    auto asyncWait = std::async(std::launch::async,
+                                [&responseFuture, &wsClient, this]
+                                {
+                                    wsClient->process(10);
+                                    process();
 
-            wsClient.reset(); // close client connection
-            process();
+                                    wsClient.reset(); // close client connection
+                                    process();
 
-            responseFuture.get();
-        });
+                                    responseFuture.get();
+                                });
 
     CHECK_THROWS_AS(asyncWait.get(), rockets::jsonrpc::response_error);
 }
@@ -292,17 +271,15 @@ TEST_CASE_FIXTURE(ClientServer, "close_client_while_pending_request")
 TEST_CASE_FIXTURE(ClientServer, "obj")
 {
     core::BinaryParam params;
-    params.size = [] {
-        std::ifstream file(BRAYNS_TESTDATA_MODEL_BENNU_PATH,
-                           std::ios::binary | std::ios::ate);
+    params.size = []
+    {
+        std::ifstream file(BRAYNS_TESTDATA_MODEL_BENNU_PATH, std::ios::binary | std::ios::ate);
         return file.tellg();
     }();
     params.type = "obj";
     params.setName("bennu");
 
-    auto request = getJsonRpcClient()
-                       .request<core::BinaryParam, core::ModelDescriptor>(
-                           REQUEST_MODEL_UPLOAD, {params});
+    auto request = getJsonRpcClient().request<core::BinaryParam, core::ModelDescriptor>(REQUEST_MODEL_UPLOAD, {params});
 
     std::ifstream file(BRAYNS_TESTDATA_MODEL_BENNU_PATH, std::ios::binary);
 
@@ -332,9 +309,9 @@ TEST_CASE_FIXTURE(ClientServer, "obj")
 TEST_CASE_FIXTURE(ClientServer, "concurrent_requests")
 {
     core::BinaryParam xyzParams;
-    xyzParams.size = [] {
-        std::ifstream file(BRAYNS_TESTDATA_MODEL_MONKEY_PATH,
-                           std::ios::binary | std::ios::ate);
+    xyzParams.size = []
+    {
+        std::ifstream file(BRAYNS_TESTDATA_MODEL_MONKEY_PATH, std::ios::binary | std::ios::ate);
         return file.tellg();
     }();
     xyzParams.type = "xyz";
@@ -342,18 +319,16 @@ TEST_CASE_FIXTURE(ClientServer, "concurrent_requests")
     xyzParams.setPath("monkey.xyz");
 
     auto xyzRequest =
-        getJsonRpcClient()
-            .request<core::BinaryParam, core::ModelDescriptor>(
-                REQUEST_MODEL_UPLOAD, {xyzParams});
+        getJsonRpcClient().request<core::BinaryParam, core::ModelDescriptor>(REQUEST_MODEL_UPLOAD, {xyzParams});
 
     std::ifstream xyzFile(BRAYNS_TESTDATA_MODEL_MONKEY_PATH, std::ios::binary);
 
     ///////////////////
 
     core::BinaryParam objParams;
-    objParams.size = [] {
-        std::ifstream file(BRAYNS_TESTDATA_MODEL_BENNU_PATH,
-                           std::ios::binary | std::ios::ate);
+    objParams.size = []
+    {
+        std::ifstream file(BRAYNS_TESTDATA_MODEL_BENNU_PATH, std::ios::binary | std::ios::ate);
         return file.tellg();
     }();
     objParams.type = "obj";
@@ -361,9 +336,7 @@ TEST_CASE_FIXTURE(ClientServer, "concurrent_requests")
     objParams.setName("bennu");
 
     auto objRequest =
-        getJsonRpcClient()
-            .request<core::BinaryParam, core::ModelDescriptor>(
-                REQUEST_MODEL_UPLOAD, {objParams});
+        getJsonRpcClient().request<core::BinaryParam, core::ModelDescriptor>(REQUEST_MODEL_UPLOAD, {objParams});
 
     std::ifstream objFile(BRAYNS_TESTDATA_MODEL_BENNU_PATH, std::ios::binary);
 
@@ -380,8 +353,7 @@ TEST_CASE_FIXTURE(ClientServer, "concurrent_requests")
         {
             if (xyzFile.read(buffer.data(), buffer.size()))
             {
-                getJsonRpcClient().notify<core::Chunk>(CHUNK,
-                                                         {xyzParams.chunksID});
+                getJsonRpcClient().notify<core::Chunk>(CHUNK, {xyzParams.chunksID});
                 const std::streamsize size = xyzFile.gcount();
                 getWsClient().sendBinary(buffer.data(), size);
             }
@@ -391,8 +363,7 @@ TEST_CASE_FIXTURE(ClientServer, "concurrent_requests")
                 const std::streamsize size = xyzFile.gcount();
                 if (size != 0)
                 {
-                    getJsonRpcClient().notify<core::Chunk>(
-                        CHUNK, {xyzParams.chunksID});
+                    getJsonRpcClient().notify<core::Chunk>(CHUNK, {xyzParams.chunksID});
                     xyzFile.read(buffer.data(), size);
                     getWsClient().sendBinary(buffer.data(), size);
                 }
@@ -404,8 +375,7 @@ TEST_CASE_FIXTURE(ClientServer, "concurrent_requests")
         {
             if (objFile.read(buffer.data(), buffer.size()))
             {
-                getJsonRpcClient().notify<core::Chunk>(CHUNK,
-                                                         {objParams.chunksID});
+                getJsonRpcClient().notify<core::Chunk>(CHUNK, {objParams.chunksID});
                 const std::streamsize size = objFile.gcount();
                 getWsClient().sendBinary(buffer.data(), size);
             }
@@ -415,8 +385,7 @@ TEST_CASE_FIXTURE(ClientServer, "concurrent_requests")
                 const std::streamsize size = objFile.gcount();
                 if (size != 0)
                 {
-                    getJsonRpcClient().notify<core::Chunk>(
-                        CHUNK, {objParams.chunksID});
+                    getJsonRpcClient().notify<core::Chunk>(CHUNK, {objParams.chunksID});
                     objFile.read(buffer.data(), size);
                     getWsClient().sendBinary(buffer.data(), size);
                 }

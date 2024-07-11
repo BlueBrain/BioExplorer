@@ -1,23 +1,18 @@
 /*
- * Copyright (c) 2018, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
- * Responsible Author: Daniel.Nachbaur@epfl.ch
- *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3.0 as published
- * by the Free Software Foundation.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+    Copyright 2018 - 0211 Blue Brain Project / EPFL
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 
 #pragma once
 
@@ -51,8 +46,7 @@ class ForeverLoader : public core::Loader
 public:
     using core::Loader::Loader;
 
-    bool isSupported(const std::string& storage,
-                     const std::string& extension) const final
+    bool isSupported(const std::string& storage, const std::string& extension) const final
     {
         return filename == "forever";
     }
@@ -60,9 +54,8 @@ public:
     std::vector<std::string> getSupportedStorage() const { return {}; }
     std::string getName() const { return "forever"; }
     core::PropertyMap getProperties() const { return {}; }
-    core::ModelDescriptorPtr importFromBlob(
-        core::Blob&&, const core::LoaderProgress& callback,
-        const core::PropertyMap& properties) const final
+    core::ModelDescriptorPtr importFromBlob(core::Blob&&, const core::LoaderProgress& callback,
+                                            const core::PropertyMap& properties) const final
     {
         for (;;)
         {
@@ -72,9 +65,8 @@ public:
         return {};
     }
 
-    core::ModelDescriptorPtr importFromFile(
-        const std::string&, const core::LoaderProgress& callback,
-        const core::PropertyMap& properties) const final
+    core::ModelDescriptorPtr importFromFile(const std::string&, const core::LoaderProgress& callback,
+                                            const core::PropertyMap& properties) const final
     {
         for (;;)
         {
@@ -104,14 +96,11 @@ public:
             argv.push_back(arg);
         const int argc = argv.size();
         _core.reset(new core::Core(argc, argv.data()));
-        _core->getParametersManager()
-            .getApplicationParameters()
-            .setImageStreamFPS(0);
+        _core->getParametersManager().getApplicationParameters().setImageStreamFPS(0);
         _core->commitAndRender();
 
         auto& scene = _core->getEngine().getScene();
-        scene.getLoaderRegistry().registerLoader(
-            std::make_unique<ForeverLoader>(scene));
+        scene.getLoaderRegistry().registerLoader(std::make_unique<ForeverLoader>(scene));
 
         connect(*_wsClient);
         _instance = this;
@@ -125,9 +114,7 @@ public:
 
     void connect(rockets::ws::Client& client)
     {
-        const auto uri = _core->getParametersManager()
-                             .getApplicationParameters()
-                             .getHttpServerURI();
+        const auto uri = _core->getParametersManager().getApplicationParameters().getHttpServerURI();
 
         auto connectFuture = client.connect("ws://" + uri, "rockets");
         while (!is_ready(connectFuture))
@@ -180,8 +167,7 @@ public:
     }
 
     template <typename Params>
-    std::string makeRequestJSONReturn(const std::string& method,
-                                      const Params& params)
+    std::string makeRequestJSONReturn(const std::string& method, const Params& params)
     {
         auto request = _client.request(method, to_json(params));
         while (!request.is_ready())
@@ -194,22 +180,19 @@ public:
     }
 
     template <typename Params, typename RetVal>
-    RetVal makeRequestUpdate(const std::string& method, const Params& params,
-                             RetVal baseObject)
+    RetVal makeRequestUpdate(const std::string& method, const Params& params, RetVal baseObject)
     {
         auto promise = std::make_shared<std::promise<RetVal>>();
-        auto callback = [promise, &baseObject](auto response) {
+        auto callback = [promise, &baseObject](auto response)
+        {
             if (response.isError())
-                promise->set_exception(std::make_exception_ptr(
-                    rockets::jsonrpc::response_error(response.error)));
+                promise->set_exception(std::make_exception_ptr(rockets::jsonrpc::response_error(response.error)));
             else
             {
                 if (!from_json(baseObject, response.result))
                     promise->set_exception(std::make_exception_ptr(
-                        rockets::jsonrpc::response_error(
-                            "Response JSON conversion failed",
-                            rockets::jsonrpc::ErrorCode::
-                                invalid_json_response)));
+                        rockets::jsonrpc::response_error("Response JSON conversion failed",
+                                                         rockets::jsonrpc::ErrorCode::invalid_json_response)));
                 else
                     promise->set_value(std::move(baseObject));
             }
@@ -231,18 +214,16 @@ public:
     RetVal makeRequestUpdate(const std::string& method, RetVal baseObject)
     {
         auto promise = std::make_shared<std::promise<RetVal>>();
-        auto callback = [promise, &baseObject](auto response) {
+        auto callback = [promise, &baseObject](auto response)
+        {
             if (response.isError())
-                promise->set_exception(std::make_exception_ptr(
-                    rockets::jsonrpc::response_error(response.error)));
+                promise->set_exception(std::make_exception_ptr(rockets::jsonrpc::response_error(response.error)));
             else
             {
                 if (!from_json(baseObject, response.result))
                     promise->set_exception(std::make_exception_ptr(
-                        rockets::jsonrpc::response_error(
-                            "Response JSON conversion failed",
-                            rockets::jsonrpc::ErrorCode::
-                                invalid_json_response)));
+                        rockets::jsonrpc::response_error("Response JSON conversion failed",
+                                                         rockets::jsonrpc::ErrorCode::invalid_json_response)));
                 else
                     promise->set_value(std::move(baseObject));
             }
@@ -328,26 +309,21 @@ RetVal makeRequest(const std::string& method)
 }
 
 template <typename Params>
-std::string makeRequestJSONReturn(const std::string& method,
-                                  const Params& params)
+std::string makeRequestJSONReturn(const std::string& method, const Params& params)
 {
-    return ClientServer::instance().makeRequestJSONReturn<Params>(method,
-                                                                  params);
+    return ClientServer::instance().makeRequestJSONReturn<Params>(method, params);
 }
 
 template <typename Params, typename RetVal>
-RetVal makeRequestUpdate(const std::string& method, const Params& params,
-                         RetVal baseObject)
+RetVal makeRequestUpdate(const std::string& method, const Params& params, RetVal baseObject)
 {
-    return ClientServer::instance().makeRequestUpdate<Params, RetVal>(
-        method, params, baseObject);
+    return ClientServer::instance().makeRequestUpdate<Params, RetVal>(method, params, baseObject);
 }
 
 template <typename RetVal>
 RetVal makeRequestUpdate(const std::string& method, RetVal baseObject)
 {
-    return ClientServer::instance().makeRequestUpdate<RetVal>(method,
-                                                              baseObject);
+    return ClientServer::instance().makeRequestUpdate<RetVal>(method, baseObject);
 }
 
 template <typename Params>

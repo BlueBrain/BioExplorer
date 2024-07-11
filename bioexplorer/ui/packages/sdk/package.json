@@ -8,7 +8,7 @@
     "typings": "./dist/index.d.ts",
     "keywords": [],
     "homepage": "https://github.com/BlueBrain/BioExplorer",
-    "license": "LGPL-3.0+",
+    "license": "Apache 2.0",
     "author": {
         "name": "Roland Groza",
         "email": "roland.groza@epfl.ch"
