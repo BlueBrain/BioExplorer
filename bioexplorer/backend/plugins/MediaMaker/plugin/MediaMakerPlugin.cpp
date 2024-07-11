@@ -62,8 +62,6 @@
 
 #include <tiffio.h>
 
-#include <exiv2/exiv2.hpp>
-
 OIIO_NAMESPACE_USING
 
 namespace bioexplorer
@@ -355,21 +353,6 @@ void MediaMakerPlugin::_exportColorBuffer() const
     out->write_image(TypeDesc::UINT8, rotatedBuf.localpixels());
     out->close();
 
-    // Convert the output buffer to a string and then to base64
-    // writeBufferToFile(buffer, filename);
-
-#if 0
-    // Add metadata using Exiv2
-    auto finalImage = Exiv2::ImageFactory::open(filename);
-    if (finalImage.get())
-    {
-        Exiv2::XmpData xmpData;
-        xmpData["Xmp.dc.Source"] = "Blue Brain BioExplorer";
-        xmpData["Xmp.dc.Subject"] = _exportFramesToDiskPayload.keywords;
-        finalImage->setXmpData(xmpData);
-        finalImage->writeMetadata();
-    }
-#endif
     PLUGIN_INFO("Color frame saved to " + filename);
 }
 

@@ -45,7 +45,6 @@ RUN apt-get update \
    libpqxx-dev \
    libssl-dev \
    libcgal-dev \
-   libexiv2-dev \
    libglm-dev \
    libtiff-dev \
    libmpfr-dev \
@@ -55,7 +54,6 @@ RUN apt-get update \
    pkg-config \
    wget \
    ca-certificates \
-   exiv2 \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -65,26 +63,6 @@ RUN apt-get update \
 RUN wget -O cmake-linux.sh https://cmake.org/files/v3.21/cmake-3.21.1-linux-x86_64.sh && \
    chmod +x cmake-linux.sh && \
    ./cmake-linux.sh --skip-license --exclude-subdir --prefix=/usr/local
-
-# --------------------------------------------------------------------------------
-# Install OpenImageIO
-# https://github.com/AcademySoftwareFoundation/OpenImageIO.git
-# --------------------------------------------------------------------------------
-# ARG OIIO_TAG=v2.5.13.0
-# ARG OIIO_SRC=/app/oiio
-
-# RUN mkdir -p ${OIIO_SRC} \
-#    && git clone https://github.com/AcademySoftwareFoundation/OpenImageIO.git ${OIIO_SRC} \
-#    && cd ${OIIO_SRC} \
-#    && git checkout ${OIIO_TAG} \
-#    && git submodule update --init \
-#    && mkdir -p build \
-#    && cd build \
-#    && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
-#    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
-#    -DUSE_OPENEXR=OFF \
-#    && ninja install \
-#    && ninja clean
 
 # --------------------------------------------------------------------------------
 # Install Brion
@@ -292,8 +270,6 @@ RUN apt-get update \
    libturbojpeg \
    libuv1 \
    libpqxx-6.4 \
-   libexiv2-27 \
-   # libglm \
    libtiff5 \
    libmpfr6 \
    dcmtk \
