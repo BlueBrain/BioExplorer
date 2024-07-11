@@ -1,30 +1,25 @@
 /*
- * Copyright (c) 2018, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
- * Responsible Author: Daniel Nachbaur <daniel.nachbaur@epfl.ch>
- *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3.0 as published
- * by the Free Software Foundation.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+    Copyright 2018 - 0211 Blue Brain Project / EPFL
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 
 #include <platform/core/Core.h>
 
 #ifdef PLATFORM_USE_OSPRAY
-#include <platform/engines/ospray/OSPRayModel.h>
 #include <ospray/SDK/common/Data.h>
 #include <ospray/SDK/common/Managed.h>
+#include <platform/engines/ospray/OSPRayModel.h>
 #endif
 
 #include "ClientServer.h"
@@ -42,8 +37,7 @@ TEST_CASE_FIXTURE(ClientServer, "set_transfer_function")
 
     makeNotification<core::ModelTransferFunction>(SET_TF, {0, tf});
 
-    const auto& newTF =
-        getScene().getModel(0)->getModel().getTransferFunction();
+    const auto& newTF = getScene().getModel(0)->getModel().getTransferFunction();
     CHECK(tf.getColorMap() == newTF.getColorMap());
     CHECK(tf.getControlPoints() == newTF.getControlPoints());
     CHECK_EQ(tf.getValuesRange(), newTF.getValuesRange());
@@ -53,17 +47,14 @@ TEST_CASE_FIXTURE(ClientServer, "set_transfer_function_invalid_model")
 {
     core::TransferFunction tf;
 
-    CHECK_THROWS_AS(
-        (makeRequest<core::ModelTransferFunction, bool>(SET_TF, {42, tf})),
-        std::runtime_error);
+    CHECK_THROWS_AS((makeRequest<core::ModelTransferFunction, bool>(SET_TF, {42, tf})), std::runtime_error);
 }
 
 TEST_CASE_FIXTURE(ClientServer, "get_transfer_function")
 {
     const auto& tf = getScene().getModel(0)->getModel().getTransferFunction();
 
-    const auto rpcTF =
-        makeRequest<core::ObjectID, core::TransferFunction>(GET_TF, {0});
+    const auto rpcTF = makeRequest<core::ObjectID, core::TransferFunction>(GET_TF, {0});
 
     CHECK(tf.getColorMap() == rpcTF.getColorMap());
     CHECK(tf.getControlPoints() == rpcTF.getControlPoints());
@@ -72,9 +63,7 @@ TEST_CASE_FIXTURE(ClientServer, "get_transfer_function")
 
 TEST_CASE_FIXTURE(ClientServer, "get_transfer_function_invalid_model")
 {
-    CHECK_THROWS_AS(
-        (makeRequest<core::ObjectID, core::TransferFunction>(GET_TF, {42})),
-        std::runtime_error);
+    CHECK_THROWS_AS((makeRequest<core::ObjectID, core::TransferFunction>(GET_TF, {42})), std::runtime_error);
 }
 
 #ifdef PLATFORM_USE_OSPRAY
@@ -87,14 +76,11 @@ TEST_CASE_FIXTURE(ClientServer, "validate_opacity_interpolation")
     commitAndRender();
 
     auto& ospModel = static_cast<core::OSPRayModel&>(model);
-    auto ospTF =
-        reinterpret_cast<ospray::ManagedObject*>(ospModel.transferFunction());
+    auto ospTF = reinterpret_cast<ospray::ManagedObject*>(ospModel.transferFunction());
     auto colors = ospTF->getParamData("colors", nullptr);
     REQUIRE_EQ(colors->size(), 2);
-    CHECK_EQ(core::Vector3f(((float*)colors->data)[0]),
-             core::Vector3f(tf.getColors()[0]));
-    CHECK_EQ(core::Vector3f(((float*)colors->data)[3]),
-             core::Vector3f(tf.getColors()[1]));
+    CHECK_EQ(core::Vector3f(((float*)colors->data)[0]), core::Vector3f(tf.getColors()[0]));
+    CHECK_EQ(core::Vector3f(((float*)colors->data)[3]), core::Vector3f(tf.getColors()[1]));
 
     auto opacities = ospTF->getParamData("opacities", nullptr);
     REQUIRE_EQ(opacities->size(), 256);

@@ -1,23 +1,18 @@
 /*
- * Copyright (c) 2018, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
- * Responsible Author: Daniel.Nachbaur@epfl.ch
- *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3.0 as published
- * by the Free Software Foundation.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+    Copyright 2018 - 0211 Blue Brain Project / EPFL
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 
 #include <platform/core/common/PropertyMap.h>
 
@@ -31,8 +26,7 @@ TEST_CASE("set_property")
     REQUIRE_EQ(properties.getProperties().size(), 1);
     CHECK_EQ(properties.getProperties()[0]->get<int32_t>(), 1);
     CHECK_EQ(properties.getProperties()[0]->metaData.label, "");
-    CHECK_EQ(properties.getProperties()[0]->metaData.description,
-             "no-description");
+    CHECK_EQ(properties.getProperties()[0]->metaData.description, "no-description");
 }
 
 TEST_CASE("set_property_with_metadata")
@@ -43,8 +37,7 @@ TEST_CASE("set_property_with_metadata")
     REQUIRE_EQ(properties.getProperties().size(), 1);
     CHECK_EQ(properties.getProperties()[0]->get<int32_t>(), 1);
     CHECK_EQ(properties.getProperties()[0]->metaData.label, "Foo");
-    CHECK_EQ(properties.getProperties()[0]->metaData.description,
-             "Foo description");
+    CHECK_EQ(properties.getProperties()[0]->metaData.description, "Foo description");
 }
 
 TEST_CASE("set_property_with_limits")
@@ -56,22 +49,19 @@ TEST_CASE("set_property_with_limits")
     CHECK_EQ(properties.getProperties()[0]->min<double>(), 0.);
     CHECK_EQ(properties.getProperties()[0]->max<double>(), 1.);
     CHECK_EQ(properties.getProperties()[0]->metaData.label, "");
-    CHECK_EQ(properties.getProperties()[0]->metaData.description,
-             "no-description");
+    CHECK_EQ(properties.getProperties()[0]->metaData.description, "no-description");
 }
 
 TEST_CASE("set_property_with_limits_and_metadata")
 {
     core::PropertyMap properties;
-    properties.setProperty(
-        {"limit", 0.5, 0., 1., {"With limits", "Limits description"}});
+    properties.setProperty({"limit", 0.5, 0., 1., {"With limits", "Limits description"}});
     REQUIRE_EQ(properties.getProperties().size(), 1);
     CHECK_EQ(properties.getProperties()[0]->get<double>(), 0.5);
     CHECK_EQ(properties.getProperties()[0]->min<double>(), 0.);
     CHECK_EQ(properties.getProperties()[0]->max<double>(), 1.);
     CHECK_EQ(properties.getProperties()[0]->metaData.label, "With limits");
-    CHECK_EQ(properties.getProperties()[0]->metaData.description,
-             "Limits description");
+    CHECK_EQ(properties.getProperties()[0]->metaData.description, "Limits description");
 }
 
 TEST_CASE("set_property_from_other_property")
@@ -83,9 +73,7 @@ TEST_CASE("set_property_from_other_property")
     properties.setProperty(*otherProperties.getProperties()[0]);
     CHECK_EQ(properties.getProperties()[0]->get<double>(), 42.);
 
-    CHECK_THROWS_AS(otherProperties.setProperty(
-                        {"bar", std::string("no double")}),
-                    std::runtime_error);
+    CHECK_THROWS_AS(otherProperties.setProperty({"bar", std::string("no double")}), std::runtime_error);
 }
 
 TEST_CASE("update_property")
@@ -95,8 +83,7 @@ TEST_CASE("update_property")
     properties.updateProperty("foo", 42);
     CHECK_EQ(properties.getProperties()[0]->get<int32_t>(), 42);
 
-    CHECK_THROWS_AS(properties.updateProperty("foo", false),
-                    std::runtime_error);
+    CHECK_THROWS_AS(properties.updateProperty("foo", false), std::runtime_error);
 
     CHECK(properties.hasProperty("foo"));
     properties.setProperty({"foo", 0});
@@ -122,8 +109,7 @@ TEST_CASE("set_and_get_all_supported_types")
 {
     core::PropertyMap properties;
     properties.setProperty({"int", 42});
-    properties.setProperty(
-        {"enum", std::string("Zero"), {"Zero", "One", "Two"}, {}});
+    properties.setProperty({"enum", std::string("Zero"), {"Zero", "One", "Two"}, {}});
     properties.setProperty({"double", 1.2});
     properties.setProperty({"string", std::string("foo")});
     properties.setProperty({"bool", true});
@@ -139,16 +125,11 @@ TEST_CASE("set_and_get_all_supported_types")
     CHECK_EQ(properties.getProperty<double>("double"), 1.2);
     CHECK_EQ(properties.getProperty<std::string>("string"), "foo");
     CHECK(properties.getProperty<bool>("bool"));
-    CHECK((properties.getProperty<std::array<int32_t, 2>>("vec2i") ==
-           std::array<int32_t, 2>{{1, 2}}));
-    CHECK((properties.getProperty<std::array<double, 2>>("vec2d") ==
-           std::array<double, 2>{{1, 2}}));
-    CHECK((properties.getProperty<std::array<int32_t, 3>>("vec3i") ==
-           std::array<int32_t, 3>{{1, 2, 3}}));
-    CHECK((properties.getProperty<std::array<double, 3>>("vec3d") ==
-           std::array<double, 3>{{1, 2, 3}}));
-    CHECK((properties.getProperty<std::array<double, 4>>("vec4d") ==
-           std::array<double, 4>{{1, 2, 3, 4}}));
+    CHECK((properties.getProperty<std::array<int32_t, 2>>("vec2i") == std::array<int32_t, 2>{{1, 2}}));
+    CHECK((properties.getProperty<std::array<double, 2>>("vec2d") == std::array<double, 2>{{1, 2}}));
+    CHECK((properties.getProperty<std::array<int32_t, 3>>("vec3i") == std::array<int32_t, 3>{{1, 2, 3}}));
+    CHECK((properties.getProperty<std::array<double, 3>>("vec3d") == std::array<double, 3>{{1, 2, 3}}));
+    CHECK((properties.getProperty<std::array<double, 4>>("vec4d") == std::array<double, 4>{{1, 2, 3, 4}}));
 
     using Type = core::Property::Type;
     CHECK(properties.getPropertyType("int") == Type::Int);
@@ -187,19 +168,16 @@ TEST_CASE("fill_property_map")
     CHECK(propDoubles.getPropertyType("vec2") == Type::Vec2d);
     CHECK(propDoubles.getPropertyType("vec3") == Type::Vec3d);
 
-    CHECK_EQ(propInts.getProperty<int32_t>("number"),
-             propDoubles.getProperty<double>("number"));
+    CHECK_EQ(propInts.getProperty<int32_t>("number"), propDoubles.getProperty<double>("number"));
     {
         const auto aInts = propInts.getProperty<std::array<int, 2>>("vec2");
-        const auto aDoubles =
-            propDoubles.getProperty<std::array<double, 2>>("vec2");
+        const auto aDoubles = propDoubles.getProperty<std::array<double, 2>>("vec2");
         CHECK_EQ(aInts[0], aDoubles[0]);
         CHECK_EQ(aInts[1], aDoubles[1]);
     }
     {
         const auto aInts = propInts.getProperty<std::array<int, 3>>("vec3");
-        const auto aDoubles =
-            propDoubles.getProperty<std::array<double, 3>>("vec3");
+        const auto aDoubles = propDoubles.getProperty<std::array<double, 3>>("vec3");
         CHECK_EQ(aInts[0], aDoubles[0]);
         CHECK_EQ(aInts[1], aDoubles[1]);
         CHECK_EQ(aInts[2], aDoubles[2]);
@@ -286,8 +264,7 @@ TEST_CASE("commandline")
 {
     core::PropertyMap properties;
     properties.setProperty({"int", 42});
-    properties.setProperty(
-        {"enum", std::string("Zero"), {"Zero", "One", "Two"}, {}});
+    properties.setProperty({"enum", std::string("Zero"), {"Zero", "One", "Two"}, {}});
     properties.setProperty({"intEnum", 1, {"One", "Two", "Three"}, {}});
     properties.setProperty({"double", 1.2});
     properties.setProperty({"string", std::string("foo")});
@@ -299,23 +276,11 @@ TEST_CASE("commandline")
     properties.setProperty({"vec3d", std::array<double, 3>{{1, 2, 3}}});
     properties.setProperty({"vec4d", std::array<double, 4>{{1, 2, 3, 4}}});
 
-    const char* argv[] = {"propertyMap", "--int",
-                          "5",           "--double",
-                          "0.4",         "--enum",
-                          "One",         "--int-enum",
-                          "Three",       "--string",
-                          "bar",         "--bool",
-                          "off",         "--bool-switch",
-                          "--vec2i",     "3",
-                          "4",           "--vec2d",
-                          "1.2",         "2.3",
-                          "--vec3i",     "3",
-                          "4",           "5",
-                          "--vec3d",     "1.2",
-                          "2.3",         "3.4",
-                          "--vec4d",     "1.2",
-                          "2.3",         "3.4",
-                          "4.5"};
+    const char* argv[] = {"propertyMap", "--int", "5",        "--double", "0.4",    "--enum", "One",
+                          "--int-enum",  "Three", "--string", "bar",      "--bool", "off",    "--bool-switch",
+                          "--vec2i",     "3",     "4",        "--vec2d",  "1.2",    "2.3",    "--vec3i",
+                          "3",           "4",     "5",        "--vec3d",  "1.2",    "2.3",    "3.4",
+                          "--vec4d",     "1.2",   "2.3",      "3.4",      "4.5"};
     const int argc = sizeof(argv) / sizeof(char*);
 
     REQUIRE(properties.parse(argc, argv));
@@ -327,16 +292,11 @@ TEST_CASE("commandline")
     CHECK_EQ(properties.getProperty<std::string>("string"), "bar");
     CHECK(!properties.getProperty<bool>("bool"));
     CHECK(properties.getProperty<bool>("boolSwitch"));
-    CHECK((properties.getProperty<std::array<int32_t, 2>>("vec2i") ==
-           std::array<int32_t, 2>{{3, 4}}));
-    CHECK((properties.getProperty<std::array<double, 2>>("vec2d") ==
-           std::array<double, 2>{{1.2, 2.3}}));
-    CHECK((properties.getProperty<std::array<int32_t, 3>>("vec3i") ==
-           std::array<int32_t, 3>{{3, 4, 5}}));
-    CHECK((properties.getProperty<std::array<double, 3>>("vec3d") ==
-           std::array<double, 3>{{1.2, 2.3, 3.4}}));
-    CHECK((properties.getProperty<std::array<double, 4>>("vec4d") ==
-           std::array<double, 4>{{1.2, 2.3, 3.4, 4.5}}));
+    CHECK((properties.getProperty<std::array<int32_t, 2>>("vec2i") == std::array<int32_t, 2>{{3, 4}}));
+    CHECK((properties.getProperty<std::array<double, 2>>("vec2d") == std::array<double, 2>{{1.2, 2.3}}));
+    CHECK((properties.getProperty<std::array<int32_t, 3>>("vec3i") == std::array<int32_t, 3>{{3, 4, 5}}));
+    CHECK((properties.getProperty<std::array<double, 3>>("vec3d") == std::array<double, 3>{{1.2, 2.3, 3.4}}));
+    CHECK((properties.getProperty<std::array<double, 4>>("vec4d") == std::array<double, 4>{{1.2, 2.3, 3.4, 4.5}}));
 }
 
 TEST_CASE("commandline_no_option")
@@ -377,8 +337,7 @@ TEST_CASE("commandline_too_many_vector_values")
 TEST_CASE("commandline_wrong_enum_value")
 {
     core::PropertyMap properties;
-    properties.setProperty(
-        {"enum", std::string("Zero"), {"Zero", "One", "Two"}, {}});
+    properties.setProperty({"enum", std::string("Zero"), {"Zero", "One", "Two"}, {}});
 
     const char* argv[] = {"propertyMap", "--enum", "Four"};
     const int argc = sizeof(argv) / sizeof(char*);

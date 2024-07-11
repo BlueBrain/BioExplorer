@@ -1,42 +1,17 @@
 /*
-Open Asset Import Library (assimp)
-----------------------------------------------------------------------
+    Copyright 2006 - 2017 Blue Brain Project / EPFL
 
-Copyright (c) 2006-2017, assimp team
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-All rights reserved.
+        http://www.apache.org/licenses/LICENSE-2.0
 
-Redistribution and use of this software in source and binary forms,
-with or without modification, are permitted provided that the
-following conditions are met:
-
-* Redistributions of source code must retain the above
-  copyright notice, this list of conditions and the
-  following disclaimer.
-
-* Redistributions in binary form must reproduce the above
-  copyright notice, this list of conditions and the
-  following disclaimer in the documentation and/or other
-  materials provided with the distribution.
-
-* Neither the name of the assimp team, nor the names of its
-  contributors may be used to endorse or promote products
-  derived from this software without specific prior
-  written permission of the assimp team.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-----------------------------------------------------------------------
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 */
 
 /** @file Definition of the base class for all importer worker classes. */
@@ -62,9 +37,7 @@ class SharedPostProcessInfo;
 class IOStream;
 
 // utility to do char4 to uint32 in a portable manner
-#define AI_MAKE_MAGIC(string)                                              \
-    ((uint32_t)((string[0] << 24) + (string[1] << 16) + (string[2] << 8) + \
-                string[3]))
+#define AI_MAKE_MAGIC(string) ((uint32_t)((string[0] << 24) + (string[1] << 16) + (string[2] << 8) + string[3]))
 
 // ---------------------------------------------------------------------------
 /** FOR IMPORTER PLUGINS ONLY: The BaseImporter defines a common interface
@@ -106,8 +79,7 @@ public:
      *   to be able to load files with unknown/not existent file extensions.
      * @return true if the class can read this file, false if not.
      */
-    virtual bool CanRead(const std::string& pFile, IOSystem* pIOHandler,
-                         bool checkSig) const = 0;
+    virtual bool CanRead(const std::string& pFile, IOSystem* pIOHandler, bool checkSig) const = 0;
 
     // -------------------------------------------------------------------
     /** Imports the given file and returns the imported data.
@@ -128,8 +100,7 @@ public:
      * in InternReadFile(), this function will catch it and transform it into
      *  a suitable response to the caller.
      */
-    aiScene* ReadFile(const Importer* pImp, const std::string& pFile,
-                      IOSystem* pIOHandler);
+    aiScene* ReadFile(const Importer* pImp, const std::string& pFile, IOSystem* pIOHandler);
 
     // -------------------------------------------------------------------
     /** Returns the error description of the last error that occurred.
@@ -202,8 +173,7 @@ protected:
      * NULL is not a valid parameter.
      * @param pIOHandler The IO handler to use for any file access.
      * NULL is not a valid parameter. */
-    virtual void InternReadFile(const std::string& pFile, aiScene* pScene,
-                                IOSystem* pIOHandler) = 0;
+    virtual void InternReadFile(const std::string& pFile, aiScene* pScene, IOSystem* pIOHandler) = 0;
 
 public: // static utilities
         // -------------------------------------------------------------------
@@ -220,11 +190,8 @@ public: // static utilities
      *  @param numTokens Size of the token array
      *  @param searchBytes Number of bytes to be searched for the tokens.
      */
-    static bool SearchFileHeaderForToken(IOSystem* pIOSystem,
-                                         const std::string& file,
-                                         const char** tokens,
-                                         unsigned int numTokens,
-                                         unsigned int searchBytes = 200,
+    static bool SearchFileHeaderForToken(IOSystem* pIOSystem, const std::string& file, const char** tokens,
+                                         unsigned int numTokens, unsigned int searchBytes = 200,
                                          bool tokensSol = false);
 
     // -------------------------------------------------------------------
@@ -235,8 +202,7 @@ public: // static utilities
      *  @param ext2 Optional third extension
      *  @note Case-insensitive
      */
-    static bool SimpleExtensionCheck(const std::string& pFile, const char* ext0,
-                                     const char* ext1 = NULL,
+    static bool SimpleExtensionCheck(const std::string& pFile, const char* ext0, const char* ext1 = NULL,
                                      const char* ext2 = NULL);
 
     // -------------------------------------------------------------------
@@ -260,8 +226,7 @@ public: // static utilities
      *  byte-swapped variant of all tokens (big endian). Only for
      *  tokens of size 2,4.
      */
-    static bool CheckMagicToken(IOSystem* pIOHandler, const std::string& pFile,
-                                const void* magic, unsigned int num,
+    static bool CheckMagicToken(IOSystem* pIOHandler, const std::string& pFile, const void* magic, unsigned int num,
                                 unsigned int offset = 0, unsigned int size = 4);
 
     // -------------------------------------------------------------------
@@ -302,8 +267,7 @@ public: // static utilities
 #ifdef ASSIMP_VERSION_3
     static void TextFileToBuffer(IOStream* stream, std::vector<char>& data);
 #else
-    static void TextFileToBuffer(IOStream* stream, std::vector<char>& data,
-                                 TextFileMode mode = FORBID_EMPTY);
+    static void TextFileToBuffer(IOStream* stream, std::vector<char>& data, TextFileMode mode = FORBID_EMPTY);
 #endif
 
     // -------------------------------------------------------------------
@@ -312,8 +276,7 @@ public: // static utilities
      *  @param out The output pointer to the allocated array.
      *  @param numOut The output count of elements copied. */
     template <typename T>
-    AI_FORCE_INLINE static void CopyVector(std::vector<T>& vec, T*& out,
-                                           unsigned int& outLength)
+    AI_FORCE_INLINE static void CopyVector(std::vector<T>& vec, T*& out, unsigned int& outLength)
     {
         outLength = unsigned(vec.size());
         if (outLength)

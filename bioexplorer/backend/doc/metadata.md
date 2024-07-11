@@ -7,9 +7,9 @@ externaldoc: https://bluebrain.github.io/BioExplorer/
 updated: 23/04/21
 maintainers: Cyrille Favreau
 name: BioExplorer
-license: LGPLv3
+license: Apache 2.0
 issuesurl: https://github.com/BlueBrain/BioExplorer/issues
-version: 1.3.0
+version: 1.8.0
 contributors: Cyrille Favreau
 minor: 1
 ---

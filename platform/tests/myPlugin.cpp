@@ -1,23 +1,18 @@
 /*
- * Copyright (c) 2018, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
- * Responsible Author: Daniel.Nachbaur@epfl.ch
- *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3.0 as published
- * by the Free Software Foundation.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+    Copyright 2018 - 0211 Blue Brain Project / EPFL
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 
 #include "../plugins/Rockets/jsonSerialization.h"
 
@@ -60,10 +55,11 @@ public:
 
         core::PropertyMap input;
         input.setProperty({"value", 0});
-        actions->registerNotification(core::RpcParameterDescription{"notify-param",
-                                                                      "A notification with property map", "param",
-                                                                      "a beautiful input param"},
-                                      input, [&](const core::PropertyMap& prop) {
+        actions->registerNotification(core::RpcParameterDescription{"notify-param", "A notification with property map",
+                                                                    "param", "a beautiful input param"},
+                                      input,
+                                      [&](const core::PropertyMap& prop)
+                                      {
                                           if (prop.hasProperty("value"))
                                               CHECK_EQ(prop.getProperty<int>("value"), 42);
                                           else
@@ -74,15 +70,18 @@ public:
         core::PropertyMap output;
         output.setProperty({"result", true});
         actions->registerRequest(core::RpcDescription{"request", "A request returning a property map"}, output,
-                                 [&, output = output] {
+                                 [&, output = output]
+                                 {
                                      ++numCalls;
                                      return output;
                                  });
 
         actions->registerRequest(core::RpcParameterDescription{"request-param",
-                                                                 "A request with a param and returning a property map",
-                                                                 "param", "another nice input param"},
-                                 input, output, [&, output = output](const core::PropertyMap& prop) {
+                                                               "A request with a param and returning a property map",
+                                                               "param", "another nice input param"},
+                                 input, output,
+                                 [&, output = output](const core::PropertyMap& prop)
+                                 {
                                      ++numCalls;
                                      auto val = prop.getProperty<int>("value");
                                      CHECK_EQ(val, 42);
@@ -91,19 +90,25 @@ public:
 
         // test "arbitrary" objects for actions
         actions->registerNotification("hello", [&] { ++numCalls; });
-        actions->registerNotification<Vec2>("foo", [&](const Vec2& vec) {
-            ++numCalls;
-            CHECK(vec == vecVal);
-        });
+        actions->registerNotification<Vec2>("foo",
+                                            [&](const Vec2& vec)
+                                            {
+                                                ++numCalls;
+                                                CHECK(vec == vecVal);
+                                            });
 
-        actions->registerRequest<std::string>("who", [&] {
-            ++numCalls;
-            return "me";
-        });
-        actions->registerRequest<Vec2, Vec2>("echo", [&](const Vec2& vec) {
-            ++numCalls;
-            return vec;
-        });
+        actions->registerRequest<std::string>("who",
+                                              [&]
+                                              {
+                                                  ++numCalls;
+                                                  return "me";
+                                              });
+        actions->registerRequest<Vec2, Vec2>("echo",
+                                             [&](const Vec2& vec)
+                                             {
+                                                 ++numCalls;
+                                                 return vec;
+                                             });
 
         // test properties from custom renderer
         core::PropertyMap props;
@@ -128,7 +133,7 @@ public:
     {
         AbstractRenderer::commit();
         ::ispc::BasicRenderer_set(getIE(), (_bgMaterial ? _bgMaterial->getIE() : nullptr), _timestamp, spp, _lightPtr,
-                                _lightArray.size());
+                                  _lightArray.size());
     }
 };
 

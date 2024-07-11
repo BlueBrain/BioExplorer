@@ -1,22 +1,18 @@
 /*
- * Copyright (c) 2019, EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
- *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3.0 as published
- * by the Free Software Foundation.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+    Copyright 2019 - 0211 Blue Brain Project / EPFL
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 
 #pragma once
 
@@ -26,19 +22,16 @@
 // Plane intersection -- used for refining triangle hit points.  Note
 // that this skips zero denom check (for rays perpendicular to plane normal)
 // since we know that the ray intersects the plane.
-static __device__ __inline__ float intersectPlane(
-    const optix::float3& origin, const optix::float3& direction,
-    const optix::float3& normal, const optix::float3& point)
+static __device__ __inline__ float intersectPlane(const optix::float3& origin, const optix::float3& direction,
+                                                  const optix::float3& normal, const optix::float3& point)
 {
     // Skipping checks for non-zero denominator since we know that ray
     // intersects this plane
-    return -(optix::dot(normal, origin - point)) /
-           optix::dot(normal, direction);
+    return -(optix::dot(normal, origin - point)) / optix::dot(normal, direction);
 }
 
 // Offset the hit point using integer arithmetic
-static __device__ __inline__ optix::float3 offset(
-    const optix::float3& hit_point, const optix::float3& normal)
+static __device__ __inline__ optix::float3 offset(const optix::float3& hit_point, const optix::float3& normal)
 {
     using namespace optix;
 
@@ -52,9 +45,7 @@ static __device__ __inline__ optix::float3 offset(
     }
     else
     {
-        offset_point.x =
-            __int_as_float(__float_as_int(offset_point.x) +
-                           int(copysign(offset, hit_point.x) * normal.x));
+        offset_point.x = __int_as_float(__float_as_int(offset_point.x) + int(copysign(offset, hit_point.x) * normal.x));
     }
 
     if ((__float_as_int(hit_point.y) & 0x7fffffff) < __float_as_int(epsilon))
@@ -63,9 +54,7 @@ static __device__ __inline__ optix::float3 offset(
     }
     else
     {
-        offset_point.y =
-            __int_as_float(__float_as_int(offset_point.y) +
-                           int(copysign(offset, hit_point.y) * normal.y));
+        offset_point.y = __int_as_float(__float_as_int(offset_point.y) + int(copysign(offset, hit_point.y) * normal.y));
     }
 
     if ((__float_as_int(hit_point.z) & 0x7fffffff) < __float_as_int(epsilon))
@@ -74,9 +63,7 @@ static __device__ __inline__ optix::float3 offset(
     }
     else
     {
-        offset_point.z =
-            __int_as_float(__float_as_int(offset_point.z) +
-                           int(copysign(offset, hit_point.z) * normal.z));
+        offset_point.z = __int_as_float(__float_as_int(offset_point.z) + int(copysign(offset, hit_point.z) * normal.z));
     }
 
     return offset_point;
@@ -84,10 +71,11 @@ static __device__ __inline__ optix::float3 offset(
 
 // Refine the hit point to be more accurate and offset it for reflection and
 // refraction ray starting points.
-static __device__ __inline__ void refine_and_offset_hitpoint(
-    const optix::float3& original_hit_point, const optix::float3& direction,
-    const optix::float3& normal, const optix::float3& p,
-    optix::float3& back_hit_point, optix::float3& front_hit_point)
+static __device__ __inline__ void refine_and_offset_hitpoint(const optix::float3& original_hit_point,
+                                                             const optix::float3& direction,
+                                                             const optix::float3& normal, const optix::float3& p,
+                                                             optix::float3& back_hit_point,
+                                                             optix::float3& front_hit_point)
 {
     using namespace optix;
 

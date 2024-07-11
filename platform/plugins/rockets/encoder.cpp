@@ -1,22 +1,18 @@
 /*
- * Copyright (c) 2019 EPFL/Blue Brain Project
- * All rights reserved. Do not distribute without permission.
- *
- * This file is part of Blue Brain BioExplorer <https://github.com/BlueBrain/BioExplorer>
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3.0 as published
- * by the Free Software Foundation.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+    Copyright 2019 - 0211 Blue Brain Project / EPFL
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 
 #include "encoder.h"
 
@@ -32,8 +28,7 @@ int custom_io_write(void *opaque, uint8_t *buffer, int32_t buffer_size)
 
 namespace core
 {
-Encoder::Encoder(const int width_, const int height_, const int fps,
-                 const int64_t kbps_, const DataFunc &dataFunc)
+Encoder::Encoder(const int width_, const int height_, const int fps, const int64_t kbps_, const DataFunc &dataFunc)
     : _dataFunc(dataFunc)
     , width(width_)
     , height(height_)
@@ -50,9 +45,7 @@ Encoder::Encoder(const int width_, const int height_, const int fps,
     const AVCodecID codecID = AV_CODEC_ID_H264;
     codec = avcodec_find_encoder(codecID);
     if (!codec)
-        CORE_THROW(
-            std::runtime_error(std::string("Could not find encoder for ") +
-                               avcodec_get_name(codecID)));
+        CORE_THROW(std::runtime_error(std::string("Could not find encoder for ") + avcodec_get_name(codecID)));
 
     if (!(stream = avformat_new_stream(formatContext, codec)))
         CORE_THROW(std::runtime_error("Could not create stream"));
@@ -92,9 +85,8 @@ Encoder::Encoder(const int width_, const int height_, const int fps,
     int avio_buffer_size = 1 * 1024 * 1024;
     void *avio_buffer = av_malloc(avio_buffer_size);
 
-    AVIOContext *custom_io =
-        avio_alloc_context((unsigned char *)avio_buffer, avio_buffer_size, 1,
-                           (void *)this, NULL, &custom_io_write, NULL);
+    AVIOContext *custom_io = avio_alloc_context((unsigned char *)avio_buffer, avio_buffer_size, 1, (void *)this, NULL,
+                                                &custom_io_write, NULL);
 
     formatContext->pb = custom_io;
 
@@ -208,15 +200,11 @@ void Encoder::_runAsync()
     }
 }
 
-void Encoder::_toPicture(const uint8_t *const data, const int width_,
-                         const int height_)
+void Encoder::_toPicture(const uint8_t *const data, const int width_, const int height_)
 {
-    sws_context =
-        sws_getCachedContext(sws_context, width_, height_, AV_PIX_FMT_RGBA,
-                             width, height, AV_PIX_FMT_YUV420P,
-                             SWS_FAST_BILINEAR, 0, 0, 0);
+    sws_context = sws_getCachedContext(sws_context, width_, height_, AV_PIX_FMT_RGBA, width, height, AV_PIX_FMT_YUV420P,
+                                       SWS_FAST_BILINEAR, 0, 0, 0);
     const int stride[] = {4 * (int)width_};
-    sws_scale(sws_context, &data, stride, 0, height_, picture.frame->data,
-              picture.frame->linesize);
+    sws_scale(sws_context, &data, stride, 0, height_, picture.frame->data, picture.frame->linesize);
 }
 } // namespace core
