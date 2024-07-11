@@ -7,5 +7,5 @@ digraph "bioexplorer/backend/plugins/MediaMaker/plugin/common" {
   dir_f455f6cb0df5bdf613b6c4016708f12e [shape=box, label="common", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_f455f6cb0df5bdf613b6c4016708f12e.html"];
   }
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_f455f6cb0df5bdf613b6c4016708f12e->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="1", labeldistance=1.5 headhref="dir_000091_000061.html"];
+  dir_f455f6cb0df5bdf613b6c4016708f12e->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="5", labeldistance=1.5 headhref="dir_000092_000062.html"];
 }

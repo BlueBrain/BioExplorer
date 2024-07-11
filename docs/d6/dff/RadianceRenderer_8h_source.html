@@ -87,58 +87,51 @@ $(document).ready(function(){initNavTree('d6/dff/RadianceRenderer_8h_source.html
 </div><!--header-->
 <div class="contents">
 <a href="../../d6/dff/RadianceRenderer_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * Copyright 2020-2024 Blue BrainProject / EPFL</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">    Copyright 2020 - 2024 Blue Brain Project / EPFL</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">    you may not use this file except in compliance with the License.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">    You may obtain a copy of the License at</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">        http://www.apache.org/licenses/LICENSE-2.0</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">    Unless required by applicable law or agreed to in writing, software</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    See the License for the specific language governing permissions and</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    limitations under the License.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d0/df5/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Properties_8h.html">plugin/common/Properties.h</a>&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/common/Material.h&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/render/Renderer.h&gt;</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d0/df5/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Properties_8h.html">plugin/common/Properties.h</a>&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/common/Material.h&gt;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/render/Renderer.h&gt;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>mediamaker</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">namespace </span>rendering</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html">RadianceRenderer</a> : <span class="keyword">public</span> ::ospray::Renderer</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html#a1773587f5731df50e70196ba46cca01e">RadianceRenderer</a>();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html#aa77d7baf5ffc8f74dc3dde6ed654fb83">   46</a></span>&#160;    std::string <a class="code" href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html#aa77d7baf5ffc8f74dc3dde6ed654fb83">toString</a>() const final { <span class="keywordflow">return</span> RENDERER_RADIANCE; }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html#acbb0667ab8e29bfe5c406423f172252c">commit</a>() final;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;};</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;} <span class="comment">// namespace rendering</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;} <span class="comment">// namespace mediamaker</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">namespace </span>mediamaker</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>rendering</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html">   30</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html">RadianceRenderer</a> : <span class="keyword">public</span> ::ospray::Renderer</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html#a1773587f5731df50e70196ba46cca01e">RadianceRenderer</a>();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html#aa77d7baf5ffc8f74dc3dde6ed654fb83">   39</a></span>&#160;    std::string <a class="code" href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html#aa77d7baf5ffc8f74dc3dde6ed654fb83">toString</a>() const final { <span class="keywordflow">return</span> RENDERER_RADIANCE; }</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html#acbb0667ab8e29bfe5c406423f172252c">commit</a>() final;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;};</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;} <span class="comment">// namespace rendering</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;} <span class="comment">// namespace mediamaker</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;} <span class="comment">// namespace bioexplorer</span></div>
 <div class="ttc" id="abioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Properties_8h_html"><div class="ttname"><a href="../../d0/df5/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Properties_8h.html">Properties.h</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer_html"><div class="ttname"><a href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html">bioexplorer::mediamaker::rendering::RadianceRenderer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dff/RadianceRenderer_8h_source.html#l00037">RadianceRenderer.h:38</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer_html_a1773587f5731df50e70196ba46cca01e"><div class="ttname"><a href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html#a1773587f5731df50e70196ba46cca01e">bioexplorer::mediamaker::rendering::RadianceRenderer::RadianceRenderer</a></div><div class="ttdeci">RadianceRenderer()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/db1/RadianceRenderer_8cpp_source.html#l00050">RadianceRenderer.cpp:50</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer_html_aa77d7baf5ffc8f74dc3dde6ed654fb83"><div class="ttname"><a href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html#aa77d7baf5ffc8f74dc3dde6ed654fb83">bioexplorer::mediamaker::rendering::RadianceRenderer::toString</a></div><div class="ttdeci">std::string toString() const final</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dff/RadianceRenderer_8h_source.html#l00046">RadianceRenderer.h:46</a></div></div>
-<div class="ttc" id="aclassbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer_html_acbb0667ab8e29bfe5c406423f172252c"><div class="ttname"><a href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html#acbb0667ab8e29bfe5c406423f172252c">bioexplorer::mediamaker::rendering::RadianceRenderer::commit</a></div><div class="ttdeci">void commit() final</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/db1/RadianceRenderer_8cpp_source.html#l00043">RadianceRenderer.cpp:43</a></div></div>
-<div class="ttc" id="anamespacebioexplorer_html"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/platform_2plugins_2openDeck_2plugin_2common_2Logs_8h_source.html#l00028">Logs.h:29</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer_html"><div class="ttname"><a href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html">bioexplorer::mediamaker::rendering::RadianceRenderer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dff/RadianceRenderer_8h_source.html#l00030">RadianceRenderer.h:31</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer_html_a1773587f5731df50e70196ba46cca01e"><div class="ttname"><a href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html#a1773587f5731df50e70196ba46cca01e">bioexplorer::mediamaker::rendering::RadianceRenderer::RadianceRenderer</a></div><div class="ttdeci">RadianceRenderer()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/db1/RadianceRenderer_8cpp_source.html#l00043">RadianceRenderer.cpp:43</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer_html_aa77d7baf5ffc8f74dc3dde6ed654fb83"><div class="ttname"><a href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html#aa77d7baf5ffc8f74dc3dde6ed654fb83">bioexplorer::mediamaker::rendering::RadianceRenderer::toString</a></div><div class="ttdeci">std::string toString() const final</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dff/RadianceRenderer_8h_source.html#l00039">RadianceRenderer.h:39</a></div></div>
+<div class="ttc" id="aclassbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer_html_acbb0667ab8e29bfe5c406423f172252c"><div class="ttname"><a href="../../d5/d7f/classbioexplorer_1_1mediamaker_1_1rendering_1_1RadianceRenderer.html#acbb0667ab8e29bfe5c406423f172252c">bioexplorer::mediamaker::rendering::RadianceRenderer::commit</a></div><div class="ttdeci">void commit() final</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/db1/RadianceRenderer_8cpp_source.html#l00036">RadianceRenderer.cpp:36</a></div></div>
+<div class="ttc" id="anamespacebioexplorer_html"><div class="ttname"><a href="../../d8/d8e/namespacebioexplorer.html">bioexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/platform_2plugins_2openDeck_2plugin_2common_2Logs_8h_source.html#l00021">Logs.h:22</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

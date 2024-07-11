@@ -7,7 +7,7 @@ var platform_2core_2common_2Types_8h =
     [ "RpcParameterDescription", "da/d22/structcore_1_1RpcParameterDescription.html", "da/d22/structcore_1_1RpcParameterDescription" ],
     [ "OctreeVector", "d6/dac/structcore_1_1OctreeVector.html", "d6/dac/structcore_1_1OctreeVector" ],
     [ "OctreePoint", "de/da2/structcore_1_1OctreePoint.html", "de/da2/structcore_1_1OctreePoint" ],
-    [ "AbstractSimulationHandlerPtr", "de/d53/platform_2core_2common_2Types_8h.html#a3a8441e175ecfc3a82c853f0ab788094", null ],
+    [ "AbstractSimulationHandlerPtr", "de/d53/platform_2core_2common_2Types_8h.html#af4e3c6717391e0db089d80a7239fd031", null ],
     [ "ActionInterfacePtr", "de/d53/platform_2core_2common_2Types_8h.html#acac852d6932691ab63c9bdc6e75a15e7", null ],
     [ "bools", "de/d53/platform_2core_2common_2Types_8h.html#a8924fda4cdb6ca67dc6ff62dfb1397c2", null ],
     [ "BrickedVolumePtr", "de/d53/platform_2core_2common_2Types_8h.html#a20a44af4e95ba32e02511cd3f90e2809", null ],

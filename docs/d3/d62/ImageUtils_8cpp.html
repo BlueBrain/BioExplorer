@@ -90,7 +90,14 @@ $(document).ready(function(){initNavTree('d3/d62/ImageUtils_8cpp.html','../../')
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="../../d7/dc9/ImageUtils_8h_source.html">ImageUtils.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../d2/d6f/base64_8h_source.html">base64/base64.h</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="../../de/df2/platform_2core_2common_2Logs_8h_source.html">platform/core/common/Logs.h</a>&gt;</code><br />
+<code>#include &lt;OpenImageIO/filesystem.h&gt;</code><br />
+<code>#include &lt;OpenImageIO/imagebuf.h&gt;</code><br />
+<code>#include &lt;OpenImageIO/imagebufalgo.h&gt;</code><br />
+<code>#include &lt;OpenImageIO/imageio.h&gt;</code><br />
+<code>#include &lt;openssl/bio.h&gt;</code><br />
+<code>#include &lt;openssl/buffer.h&gt;</code><br />
+<code>#include &lt;openssl/evp.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for ImageUtils.cpp:</div>
 <div class="dyncontent">
@@ -103,17 +110,17 @@ Include dependency graph for ImageUtils.cpp:</div>
 Namespaces</h2></td></tr>
 <tr class="memitem:d9/d0f/namespacecore"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html">core</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:da/ded/namespacecore_1_1freeimage"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ded/namespacecore_1_1freeimage.html">core::freeimage</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5b2a5bd265fce0153e0446a921a16998"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ded/namespacecore_1_1freeimage.html#a5b2a5bd265fce0153e0446a921a16998">core::freeimage::SwapRedBlue32</a> (FIBITMAP *freeImage)</td></tr>
-<tr class="separator:a5b2a5bd265fce0153e0446a921a16998"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac47a49b4c5c793010e4f90a5722303ed"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ded/namespacecore_1_1freeimage.html#ac47a49b4c5c793010e4f90a5722303ed">core::freeimage::getBase64Image</a> (ImagePtr image, const std::string &amp;format, const int quality)</td></tr>
-<tr class="separator:ac47a49b4c5c793010e4f90a5722303ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afcebf9a536e1464bdb9a2b4684e59f7f"><td class="memItemLeft" align="right" valign="top">ImagePtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ded/namespacecore_1_1freeimage.html#afcebf9a536e1464bdb9a2b4684e59f7f">core::freeimage::mergeImages</a> (const <a class="el" href="../../d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a852fb57fd2e171fa8e414603dfcc5937ac63af1a1d7e1d80d8a6e79b17bd2f99e">std::vector</a>&lt; ImagePtr &gt; &amp;images)</td></tr>
-<tr class="separator:afcebf9a536e1464bdb9a2b4684e59f7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af167fc05565dbc3f74f0549dff8b37cc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#af167fc05565dbc3f74f0549dff8b37cc">core::swapRedBlue32</a> (ImageBuf &amp;image)</td></tr>
+<tr class="separator:af167fc05565dbc3f74f0549dff8b37cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bd11874ce7c520bef511a5774477c22"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#a9bd11874ce7c520bef511a5774477c22">core::base64_encode</a> (const unsigned char *data, size_t len)</td></tr>
+<tr class="separator:a9bd11874ce7c520bef511a5774477c22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3e4bf59ace5583379fcc528bcae8dd5"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#ac3e4bf59ace5583379fcc528bcae8dd5">core::getBase64Image</a> (const ImageBuf &amp;imageBuf, const std::string &amp;format, const int quality)</td></tr>
+<tr class="separator:ac3e4bf59ace5583379fcc528bcae8dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acff79d5702ea218456a291b04df9355d"><td class="memItemLeft" align="right" valign="top">ImageBuf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0f/namespacecore.html#acff79d5702ea218456a291b04df9355d">core::mergeImages</a> (const std::vector&lt; ImageBuf &gt; &amp;images)</td></tr>
+<tr class="separator:acff79d5702ea218456a291b04df9355d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

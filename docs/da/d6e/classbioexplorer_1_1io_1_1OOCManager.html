@@ -130,7 +130,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> classes manager the out-of-core engine of the BioExplorer. The scene is devided into bricks of a given size that are, in the current implementation, stored in a PostgreSQL database. The out-of-core engine is activated via command line parameters only. By settings the &ndash;ooc-enabled command line parameter, the out-of-core engine is enabled and, in order to avoid unnecessary network traffic, the scene contents are not broadcasted anymore to the BioExplorer clients (Python notebook or User Inferface). Note that ENV_ROCKETS_DISABLE_SCENE_BROADCASTING environment variable has to be set to order Core not to broadcast the scene changes. The out-of-core mode is a read-only feature and does not allow any modification of the scene. When the camera position changes, the <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> identifies the visible bricks and loads them as a background task. For performance reasons, models are loaded as invisible. This allows the ray-tracing engine to create the BVH before the model is added to the scene. Once all models are loaded, they are added to the scene. Note that the <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> only does work when the frame buffer accumulation is greater than 1, which means that the camera is not moving. If the &ndash;ooc-unload-bricks command line parameter is set, invisible bricks are unloaded from memory and removed from the scene. The &ndash;ooc-update-frequency command line parameters defines (in seconds) at which frequency models should be loaded. The &ndash;ooc-nb-bricks-per-cycle command line parameter defines how many bricks can be loaded at each rendering cycle. The connection to the database is defined by the &ndash;ooc-db-host, &ndash;ooc-db-port, &ndash;ooc-db-name,&ndash;ooc-db-user,&ndash;ooc-db-password and &ndash;ooc-db-schema parameters. If the BioExplorer fails to find the pqxx dependency to connect to the PostgreSQL database, it falls back to a file-based mode where bricks can be stored as BioExplorer cache files, in the folder defined by the &ndash;ooc-bricks-folder command line argument. The &ndash;ooc-show-grid command line parameter can be used to show a grid corresponding the positions of the bricks in the scene. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00065">65</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00058">58</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af51755a1af79f05530b3e2fa294248d4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af51755a1af79f05530b3e2fa294248d4">&#9670;&nbsp;</a></span>OOCManager()</h2>
@@ -174,7 +174,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d91/OOCManager_8cpp_source.html#l00066">66</a> of file <a class="el" href="../../de/d91/OOCManager_8cpp_source.html">OOCManager.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d91/OOCManager_8cpp_source.html#l00059">59</a> of file <a class="el" href="../../de/d91/OOCManager_8cpp_source.html">OOCManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -203,7 +203,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Destroy the <a class="el" href="../../da/d6e/classbioexplorer_1_1io_1_1OOCManager.html" title="The OOCManager classes manager the out-of-core engine of the BioExplorer. The scene is devided into b...">OOCManager</a> object. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00083">83</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00076">76</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -232,7 +232,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Get average loading time (in milliseconds) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00138">138</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00131">131</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -262,7 +262,7 @@ Public Member Functions</h2></td></tr>
 <p>Get the frame buffer. </p>
 <dl class="section return"><dt>Returns</dt><dd>const FrameBuffer* A pointer to the frame buffer </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00097">97</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00090">90</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -290,7 +290,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Get current loading progress </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00133">133</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00126">126</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -320,7 +320,7 @@ Public Member Functions</h2></td></tr>
 <p>Get the Scene Configuration object. </p>
 <dl class="section return"><dt>Returns</dt><dd>const std::string&amp; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00111">111</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00104">104</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -350,7 +350,7 @@ Public Member Functions</h2></td></tr>
 <p>Get the Show Grid value, read from the command line parameters. </p>
 <dl class="section return"><dt>Returns</dt><dd>true a grid should be shown, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00118">118</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00111">111</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -378,7 +378,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Get the update frequency (in seconds) of the bricks in the scene </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00128">128</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00121">121</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -406,7 +406,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Get the number of visible bricks surrounding the camera position </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00123">123</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00116">116</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>
@@ -427,7 +427,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Starts a thread that takes care of loading the bricks according to the current camera position. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d91/OOCManager_8cpp_source.html#l00088">88</a> of file <a class="el" href="../../de/d91/OOCManager_8cpp_source.html">OOCManager.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d91/OOCManager_8cpp_source.html#l00081">81</a> of file <a class="el" href="../../de/d91/OOCManager_8cpp_source.html">OOCManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -463,7 +463,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00090">90</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddf/OOCManager_8h_source.html#l00083">83</a> of file <a class="el" href="../../d2/ddf/OOCManager_8h_source.html">OOCManager.h</a>.</p>
 
 </div>
 </div>

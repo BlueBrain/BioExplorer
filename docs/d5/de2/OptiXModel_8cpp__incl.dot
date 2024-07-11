@@ -140,7 +140,7 @@ digraph "platform/engines/optix6/OptiXModel.cpp"
   Node64 [label="platform/core/common\l/Logs.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/df2/platform_2core_2common_2Logs_8h.html",tooltip=" "];
   Node64 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node65 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node65 [label="platform/core/common\l/simulation/AbstractSimulation\lHandler.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/da3/AbstractSimulationHandler_8h.html",tooltip=" "];
+  Node65 [label="platform/core/common\l/simulation/AbstractAnimation\lHandler.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/de7/AbstractAnimationHandler_8h.html",tooltip=" "];
   Node65 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node65 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node66 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

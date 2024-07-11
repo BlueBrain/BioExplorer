@@ -61,7 +61,7 @@ digraph "platform/plugins/deflect/utils.h"
   Node8 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node2 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node26 [label="deflect/types.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node27 [label="deflect/deflect.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

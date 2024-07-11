@@ -8,6 +8,4 @@ digraph "bioexplorer/backend/plugins/Metabolism/plugin/common/Types.h"
   Node2 [label="bioexplorer/backend\l/plugins/Metabolism\l/plugin/common/Utils.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d90/bioexplorer_2backend_2plugins_2Metabolism_2plugin_2common_2Utils_8h.html",tooltip=" "];
   Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node3 [label="bioexplorer/backend\l/plugins/Metabolism\l/plugin/common/Utils.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d85/bioexplorer_2backend_2plugins_2Metabolism_2plugin_2common_2Utils_8cpp.html",tooltip=" "];
-  Node2 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node4 [label="bioexplorer/backend\l/plugins/Metabolism\l/plugin/MetabolismPlugin.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d71/MetabolismPlugin_8cpp.html",tooltip=" "];
 }

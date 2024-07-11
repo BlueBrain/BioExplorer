@@ -87,157 +87,154 @@ $(document).ready(function(){initNavTree('d1/d44/StringUtils_8cpp_source.html','
 </div><!--header-->
 <div class="contents">
 <a href="../../d1/d44/StringUtils_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright (c) 2019, EPFL/Blue Brain Project</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * the terms of the GNU Lesser General Public License version 3.0 as published</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * by the Free Software Foundation.</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d4/d8f/StringUtils_8h.html">StringUtils.h</a>&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;cctype&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;locale&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;set&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html">   33</a></span>&#160;<span class="keyword">namespace </span>string_utils</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#adf0759627537710683794382c2ac5d75">   35</a></span>&#160;<span class="keyword">const</span> std::string <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#adf0759627537710683794382c2ac5d75">ELLIPSIS</a>(<span class="stringliteral">&quot;...&quot;</span>);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#ab0bae2aa36916dd75f02d56110a57fa1">   37</a></span>&#160;std::string <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#ab0bae2aa36916dd75f02d56110a57fa1">shortenString</a>(<span class="keyword">const</span> std::string&amp; <span class="keywordtype">string</span>, <span class="keyword">const</span> <span class="keywordtype">size_t</span> maxLength)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span> (<span class="keywordtype">string</span>.length() &lt;= maxLength)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">return</span> string;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> spacePerPart = (maxLength - <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#adf0759627537710683794382c2ac5d75">ELLIPSIS</a>.length()) / 2.f;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> beforeEllipsis = <span class="keywordtype">string</span>.substr(0, std::ceil(spacePerPart));</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> afterEllipsis = <span class="keywordtype">string</span>.substr(<span class="keywordtype">string</span>.size() - std::floor(spacePerPart));</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">    Copyright 2019 - 0211 Blue Brain Project / EPFL</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">    you may not use this file except in compliance with the License.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">    You may obtain a copy of the License at</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">        http://www.apache.org/licenses/LICENSE-2.0</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">    Unless required by applicable law or agreed to in writing, software</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    See the License for the specific language governing permissions and</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    limitations under the License.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d4/d8f/StringUtils_8h.html">StringUtils.h</a>&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;cctype&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;locale&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;set&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html">   30</a></span>&#160;<span class="keyword">namespace </span>string_utils</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#adf0759627537710683794382c2ac5d75">   32</a></span>&#160;<span class="keyword">const</span> std::string <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#adf0759627537710683794382c2ac5d75">ELLIPSIS</a>(<span class="stringliteral">&quot;...&quot;</span>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#ab0bae2aa36916dd75f02d56110a57fa1">   34</a></span>&#160;std::string <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#ab0bae2aa36916dd75f02d56110a57fa1">shortenString</a>(<span class="keyword">const</span> std::string&amp; <span class="keywordtype">string</span>, <span class="keyword">const</span> <span class="keywordtype">size_t</span> maxLength)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">if</span> (<span class="keywordtype">string</span>.length() &lt;= maxLength)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">return</span> string;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> spacePerPart = (maxLength - <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#adf0759627537710683794382c2ac5d75">ELLIPSIS</a>.length()) / 2.f;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> beforeEllipsis = <span class="keywordtype">string</span>.substr(0, std::ceil(spacePerPart));</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> afterEllipsis = <span class="keywordtype">string</span>.substr(<span class="keywordtype">string</span>.size() - std::floor(spacePerPart));</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> beforeEllipsis + <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#adf0759627537710683794382c2ac5d75">ELLIPSIS</a> + afterEllipsis;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> beforeEllipsis + <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#adf0759627537710683794382c2ac5d75">ELLIPSIS</a> + afterEllipsis;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#accea8e3c5da7a352e7c1a4379a3414e3">   49</a></span>&#160;std::string <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#accea8e3c5da7a352e7c1a4379a3414e3">replaceFirstOccurrence</a>(std::string input, <span class="keyword">const</span> std::string&amp; toReplace, <span class="keyword">const</span> std::string&amp; replaceWith)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    std::size_t pos = input.find(toReplace);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span> (pos == std::string::npos)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">return</span> input;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">return</span> input.replace(pos, toReplace.length(), replaceWith);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#afb0d1d91a406a283884754f86c86dc1a">   57</a></span>&#160;std::string <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#afb0d1d91a406a283884754f86c86dc1a">camelCaseToSeparated</a>(<span class="keyword">const</span> std::string&amp; camelCase, <span class="keyword">const</span> <span class="keywordtype">char</span> separator)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">if</span> (camelCase.empty())</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">return</span> camelCase;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    std::string str(1, ::tolower(camelCase[0]));</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = camelCase.begin() + 1; it != camelCase.end(); ++it)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">if</span> (isupper(*it) &amp;&amp; *(it - 1) != <span class="charliteral">&#39;-&#39;</span> &amp;&amp; islower(*(it - 1)))</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            str += separator;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        str += *it;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    std::transform(str.begin(), str.end(), str.begin(), ::tolower);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">return</span> str;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#a1cba349d9ddfffa12e3153a4e2636fb3">   74</a></span>&#160;std::string <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#a1cba349d9ddfffa12e3153a4e2636fb3">separatedToCamelCase</a>(<span class="keyword">const</span> std::string&amp; separated, <span class="keyword">const</span> <span class="keywordtype">char</span> separator)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;{</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    std::string camel = separated;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> x = 0; x &lt; camel.length(); x++)</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keywordflow">if</span> (camel[x] == separator)</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            std::string tempString = camel.substr(x + 1, 1);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            std::transform(tempString.begin(), tempString.end(), tempString.begin(), ::toupper);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            camel.erase(x, 2);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            camel.insert(x, tempString);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        }</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    }</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> camel;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#a0a4bfa7d3e1ef749d1f4b34f729afee9">   93</a></span>&#160;std::string <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#a0a4bfa7d3e1ef749d1f4b34f729afee9">join</a>(<span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a43c5b85fe7f447647e46ca6b057745d7">strings</a>, <span class="keyword">const</span> std::string&amp; joinWith)</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;{</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> numStrings = <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a43c5b85fe7f447647e46ca6b057745d7">strings</a>.size();</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">if</span> (numStrings == 0)</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    std::stringstream ss;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    ss &lt;&lt; <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a43c5b85fe7f447647e46ca6b057745d7">strings</a>[0];</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 1; i &lt; numStrings; i++)</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        ss &lt;&lt; joinWith &lt;&lt; <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a43c5b85fe7f447647e46ca6b057745d7">strings</a>[i];</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">return</span> ss.str();</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;}</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#afe0e1038a6bed9550aa749554060737e">  106</a></span>&#160;std::string <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#afe0e1038a6bed9550aa749554060737e">toLowercase</a>(std::string input)</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;{</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    std::transform(input.begin(), input.end(), input.begin(), ::tolower);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordflow">return</span> input;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#a563eedf4bcf728e83551efd57481b37b">  112</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#a563eedf4bcf728e83551efd57481b37b">ltrim</a>(std::string&amp; s)</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;{</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](<span class="keywordtype">int</span> ch) { return !std::isspace(ch); }));</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#a3291d19d8354af8bd7658b83632cc7d2">  117</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#a3291d19d8354af8bd7658b83632cc7d2">rtrim</a>(std::string&amp; s)</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;{</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    s.erase(std::find_if(s.rbegin(), s.rend(), [](<span class="keywordtype">int</span> ch) { return !std::isspace(ch); }).base(), s.end());</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#a902d6a40b84c9730dd441b7adc98543e">  122</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#a902d6a40b84c9730dd441b7adc98543e">trim</a>(std::string&amp; s)</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;{</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#a563eedf4bcf728e83551efd57481b37b">ltrim</a>(s);</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#a3291d19d8354af8bd7658b83632cc7d2">rtrim</a>(s);</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;}</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
-<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#afb4fec31545a9c2cf8fdbeccc00c04fb">  128</a></span>&#160;std::vector&lt;std::string&gt; <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#afb4fec31545a9c2cf8fdbeccc00c04fb">split</a>(<span class="keyword">const</span> std::string&amp; s, <span class="keywordtype">char</span> delim)</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;{</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    std::stringstream ss(s);</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    std::string item;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    std::vector&lt;std::string&gt; elems;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordflow">while</span> (std::getline(ss, item, delim))</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        elems.push_back(std::move(item));</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">return</span> elems;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;}</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;} <span class="comment">// namespace string_utils</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;} <span class="comment">// namespace core</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#accea8e3c5da7a352e7c1a4379a3414e3">   46</a></span>&#160;std::string <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#accea8e3c5da7a352e7c1a4379a3414e3">replaceFirstOccurrence</a>(std::string input, <span class="keyword">const</span> std::string&amp; toReplace, <span class="keyword">const</span> std::string&amp; replaceWith)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    std::size_t pos = input.find(toReplace);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">if</span> (pos == std::string::npos)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">return</span> input;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">return</span> input.replace(pos, toReplace.length(), replaceWith);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#afb0d1d91a406a283884754f86c86dc1a">   54</a></span>&#160;std::string <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#afb0d1d91a406a283884754f86c86dc1a">camelCaseToSeparated</a>(<span class="keyword">const</span> std::string&amp; camelCase, <span class="keyword">const</span> <span class="keywordtype">char</span> separator)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span> (camelCase.empty())</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">return</span> camelCase;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    std::string str(1, ::tolower(camelCase[0]));</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = camelCase.begin() + 1; it != camelCase.end(); ++it)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">if</span> (isupper(*it) &amp;&amp; *(it - 1) != <span class="charliteral">&#39;-&#39;</span> &amp;&amp; islower(*(it - 1)))</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            str += separator;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        str += *it;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    std::transform(str.begin(), str.end(), str.begin(), ::tolower);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">return</span> str;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#a1cba349d9ddfffa12e3153a4e2636fb3">   71</a></span>&#160;std::string <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#a1cba349d9ddfffa12e3153a4e2636fb3">separatedToCamelCase</a>(<span class="keyword">const</span> std::string&amp; separated, <span class="keyword">const</span> <span class="keywordtype">char</span> separator)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    std::string camel = separated;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> x = 0; x &lt; camel.length(); x++)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordflow">if</span> (camel[x] == separator)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            std::string tempString = camel.substr(x + 1, 1);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            std::transform(tempString.begin(), tempString.end(), tempString.begin(), ::toupper);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            camel.erase(x, 2);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            camel.insert(x, tempString);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">return</span> camel;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#a0a4bfa7d3e1ef749d1f4b34f729afee9">   90</a></span>&#160;std::string <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#a0a4bfa7d3e1ef749d1f4b34f729afee9">join</a>(<span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a43c5b85fe7f447647e46ca6b057745d7">strings</a>, <span class="keyword">const</span> std::string&amp; joinWith)</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;{</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> numStrings = <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a43c5b85fe7f447647e46ca6b057745d7">strings</a>.size();</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordflow">if</span> (numStrings == 0)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    std::stringstream ss;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    ss &lt;&lt; <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a43c5b85fe7f447647e46ca6b057745d7">strings</a>[0];</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 1; i &lt; numStrings; i++)</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        ss &lt;&lt; joinWith &lt;&lt; <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a43c5b85fe7f447647e46ca6b057745d7">strings</a>[i];</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">return</span> ss.str();</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#afe0e1038a6bed9550aa749554060737e">  103</a></span>&#160;std::string <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#afe0e1038a6bed9550aa749554060737e">toLowercase</a>(std::string input)</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;{</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    std::transform(input.begin(), input.end(), input.begin(), ::tolower);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">return</span> input;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#a563eedf4bcf728e83551efd57481b37b">  109</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#a563eedf4bcf728e83551efd57481b37b">ltrim</a>(std::string&amp; s)</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;{</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](<span class="keywordtype">int</span> ch) { return !std::isspace(ch); }));</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#a3291d19d8354af8bd7658b83632cc7d2">  114</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#a3291d19d8354af8bd7658b83632cc7d2">rtrim</a>(std::string&amp; s)</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;{</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    s.erase(std::find_if(s.rbegin(), s.rend(), [](<span class="keywordtype">int</span> ch) { return !std::isspace(ch); }).base(), s.end());</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;}</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#a902d6a40b84c9730dd441b7adc98543e">  119</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#a902d6a40b84c9730dd441b7adc98543e">trim</a>(std::string&amp; s)</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;{</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#a563eedf4bcf728e83551efd57481b37b">ltrim</a>(s);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#a3291d19d8354af8bd7658b83632cc7d2">rtrim</a>(s);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="../../dd/da4/namespacecore_1_1string__utils.html#afb4fec31545a9c2cf8fdbeccc00c04fb">  125</a></span>&#160;std::vector&lt;std::string&gt; <a class="code" href="../../dd/da4/namespacecore_1_1string__utils.html#afb4fec31545a9c2cf8fdbeccc00c04fb">split</a>(<span class="keyword">const</span> std::string&amp; s, <span class="keywordtype">char</span> delim)</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;{</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    std::stringstream ss(s);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    std::string item;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    std::vector&lt;std::string&gt; elems;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordflow">while</span> (std::getline(ss, item, delim))</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        elems.push_back(std::move(item));</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">return</span> elems;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;}</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;} <span class="comment">// namespace string_utils</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;} <span class="comment">// namespace core</span></div>
 <div class="ttc" id="aStringUtils_8h_html"><div class="ttname"><a href="../../d4/d8f/StringUtils_8h.html">StringUtils.h</a></div></div>
-<div class="ttc" id="anamespacecore_1_1string__utils_html_a0a4bfa7d3e1ef749d1f4b34f729afee9"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#a0a4bfa7d3e1ef749d1f4b34f729afee9">core::string_utils::join</a></div><div class="ttdeci">std::string join(const std::vector&lt; std::string &gt; &amp;strings, const std::string &amp;joinWith)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00093">StringUtils.cpp:93</a></div></div>
-<div class="ttc" id="anamespacecore_1_1string__utils_html_a1cba349d9ddfffa12e3153a4e2636fb3"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#a1cba349d9ddfffa12e3153a4e2636fb3">core::string_utils::separatedToCamelCase</a></div><div class="ttdeci">std::string separatedToCamelCase(const std::string &amp;separated, const char separator)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00074">StringUtils.cpp:74</a></div></div>
-<div class="ttc" id="anamespacecore_1_1string__utils_html_a3291d19d8354af8bd7658b83632cc7d2"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#a3291d19d8354af8bd7658b83632cc7d2">core::string_utils::rtrim</a></div><div class="ttdeci">void rtrim(std::string &amp;s)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00117">StringUtils.cpp:117</a></div></div>
-<div class="ttc" id="anamespacecore_1_1string__utils_html_a563eedf4bcf728e83551efd57481b37b"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#a563eedf4bcf728e83551efd57481b37b">core::string_utils::ltrim</a></div><div class="ttdeci">void ltrim(std::string &amp;s)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00112">StringUtils.cpp:112</a></div></div>
-<div class="ttc" id="anamespacecore_1_1string__utils_html_a902d6a40b84c9730dd441b7adc98543e"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#a902d6a40b84c9730dd441b7adc98543e">core::string_utils::trim</a></div><div class="ttdeci">void trim(std::string &amp;s)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00122">StringUtils.cpp:122</a></div></div>
-<div class="ttc" id="anamespacecore_1_1string__utils_html_ab0bae2aa36916dd75f02d56110a57fa1"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#ab0bae2aa36916dd75f02d56110a57fa1">core::string_utils::shortenString</a></div><div class="ttdeci">std::string shortenString(const std::string &amp;string, const size_t maxLength)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00037">StringUtils.cpp:37</a></div></div>
-<div class="ttc" id="anamespacecore_1_1string__utils_html_accea8e3c5da7a352e7c1a4379a3414e3"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#accea8e3c5da7a352e7c1a4379a3414e3">core::string_utils::replaceFirstOccurrence</a></div><div class="ttdeci">std::string replaceFirstOccurrence(std::string input, const std::string &amp;toReplace, const std::string &amp;replaceWith)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00049">StringUtils.cpp:49</a></div></div>
+<div class="ttc" id="anamespacecore_1_1string__utils_html_a0a4bfa7d3e1ef749d1f4b34f729afee9"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#a0a4bfa7d3e1ef749d1f4b34f729afee9">core::string_utils::join</a></div><div class="ttdeci">std::string join(const std::vector&lt; std::string &gt; &amp;strings, const std::string &amp;joinWith)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00090">StringUtils.cpp:90</a></div></div>
+<div class="ttc" id="anamespacecore_1_1string__utils_html_a1cba349d9ddfffa12e3153a4e2636fb3"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#a1cba349d9ddfffa12e3153a4e2636fb3">core::string_utils::separatedToCamelCase</a></div><div class="ttdeci">std::string separatedToCamelCase(const std::string &amp;separated, const char separator)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00071">StringUtils.cpp:71</a></div></div>
+<div class="ttc" id="anamespacecore_1_1string__utils_html_a3291d19d8354af8bd7658b83632cc7d2"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#a3291d19d8354af8bd7658b83632cc7d2">core::string_utils::rtrim</a></div><div class="ttdeci">void rtrim(std::string &amp;s)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00114">StringUtils.cpp:114</a></div></div>
+<div class="ttc" id="anamespacecore_1_1string__utils_html_a563eedf4bcf728e83551efd57481b37b"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#a563eedf4bcf728e83551efd57481b37b">core::string_utils::ltrim</a></div><div class="ttdeci">void ltrim(std::string &amp;s)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00109">StringUtils.cpp:109</a></div></div>
+<div class="ttc" id="anamespacecore_1_1string__utils_html_a902d6a40b84c9730dd441b7adc98543e"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#a902d6a40b84c9730dd441b7adc98543e">core::string_utils::trim</a></div><div class="ttdeci">void trim(std::string &amp;s)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00119">StringUtils.cpp:119</a></div></div>
+<div class="ttc" id="anamespacecore_1_1string__utils_html_ab0bae2aa36916dd75f02d56110a57fa1"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#ab0bae2aa36916dd75f02d56110a57fa1">core::string_utils::shortenString</a></div><div class="ttdeci">std::string shortenString(const std::string &amp;string, const size_t maxLength)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00034">StringUtils.cpp:34</a></div></div>
+<div class="ttc" id="anamespacecore_1_1string__utils_html_accea8e3c5da7a352e7c1a4379a3414e3"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#accea8e3c5da7a352e7c1a4379a3414e3">core::string_utils::replaceFirstOccurrence</a></div><div class="ttdeci">std::string replaceFirstOccurrence(std::string input, const std::string &amp;toReplace, const std::string &amp;replaceWith)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00046">StringUtils.cpp:46</a></div></div>
 <div class="ttc" id="anamespacecore_1_1string__utils_html_adf0759627537710683794382c2ac5d75"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#adf0759627537710683794382c2ac5d75">core::string_utils::ELLIPSIS</a></div><div class="ttdeci">const std::string ELLIPSIS(&quot;...&quot;)</div></div>
-<div class="ttc" id="anamespacecore_1_1string__utils_html_afb0d1d91a406a283884754f86c86dc1a"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#afb0d1d91a406a283884754f86c86dc1a">core::string_utils::camelCaseToSeparated</a></div><div class="ttdeci">std::string camelCaseToSeparated(const std::string &amp;camelCase, const char separator)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00057">StringUtils.cpp:57</a></div></div>
-<div class="ttc" id="anamespacecore_1_1string__utils_html_afb4fec31545a9c2cf8fdbeccc00c04fb"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#afb4fec31545a9c2cf8fdbeccc00c04fb">core::string_utils::split</a></div><div class="ttdeci">std::vector&lt; std::string &gt; split(const std::string &amp;s, char delim)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00128">StringUtils.cpp:128</a></div></div>
-<div class="ttc" id="anamespacecore_1_1string__utils_html_afe0e1038a6bed9550aa749554060737e"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#afe0e1038a6bed9550aa749554060737e">core::string_utils::toLowercase</a></div><div class="ttdeci">std::string toLowercase(std::string input)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00106">StringUtils.cpp:106</a></div></div>
+<div class="ttc" id="anamespacecore_1_1string__utils_html_afb0d1d91a406a283884754f86c86dc1a"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#afb0d1d91a406a283884754f86c86dc1a">core::string_utils::camelCaseToSeparated</a></div><div class="ttdeci">std::string camelCaseToSeparated(const std::string &amp;camelCase, const char separator)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00054">StringUtils.cpp:54</a></div></div>
+<div class="ttc" id="anamespacecore_1_1string__utils_html_afb4fec31545a9c2cf8fdbeccc00c04fb"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#afb4fec31545a9c2cf8fdbeccc00c04fb">core::string_utils::split</a></div><div class="ttdeci">std::vector&lt; std::string &gt; split(const std::string &amp;s, char delim)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00125">StringUtils.cpp:125</a></div></div>
+<div class="ttc" id="anamespacecore_1_1string__utils_html_afe0e1038a6bed9550aa749554060737e"><div class="ttname"><a href="../../dd/da4/namespacecore_1_1string__utils.html#afe0e1038a6bed9550aa749554060737e">core::string_utils::toLowercase</a></div><div class="ttdeci">std::string toLowercase(std::string input)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/StringUtils_8cpp_source.html#l00103">StringUtils.cpp:103</a></div></div>
 <div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00052">BaseWindow.cpp:53</a></div></div>
-<div class="ttc" id="aplatform_2core_2common_2Types_8h_html_a43c5b85fe7f447647e46ca6b057745d7"><div class="ttname"><a href="../../de/d53/platform_2core_2common_2Types_8h.html#a43c5b85fe7f447647e46ca6b057745d7">strings</a></div><div class="ttdeci">std::vector&lt; std::string &gt; strings</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00044">Types.h:44</a></div></div>
+<div class="ttc" id="aplatform_2core_2common_2Types_8h_html_a43c5b85fe7f447647e46ca6b057745d7"><div class="ttname"><a href="../../de/d53/platform_2core_2common_2Types_8h.html#a43c5b85fe7f447647e46ca6b057745d7">strings</a></div><div class="ttdeci">std::vector&lt; std::string &gt; strings</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00038">Types.h:38</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -57,7 +57,8 @@ var platform_2core_2common_2CommonTypes_8h =
       [ "surface_normal", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a5edacf75df3097a9bc552abfe7902df7a0b6812f9bf1cf7d676c1a0dd3b12b247", null ]
     ] ],
     [ "OctreeDataType", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a852fb57fd2e171fa8e414603dfcc5937", [
-      [ "point", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a852fb57fd2e171fa8e414603dfcc5937a447809d6711b98e2d75a5470063367ba", null ],
-      [ "vector", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a852fb57fd2e171fa8e414603dfcc5937ac63af1a1d7e1d80d8a6e79b17bd2f99e", null ]
+      [ "odt_undefined", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a852fb57fd2e171fa8e414603dfcc5937afe0119bbe18257d949828ca356b1cd0b", null ],
+      [ "odt_points", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a852fb57fd2e171fa8e414603dfcc5937a8ec739d6a598f6c7b178202b2e4ff46a", null ],
+      [ "odt_vectors", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html#a852fb57fd2e171fa8e414603dfcc5937aba04f0780b1f02a97ce65f9605557a0d", null ]
     ] ]
 ];

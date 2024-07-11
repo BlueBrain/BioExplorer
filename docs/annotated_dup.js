@@ -126,6 +126,9 @@ var annotated_dup =
         [ "CameraDefinition", "dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html", "dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition" ],
         [ "ExportFramesToDisk", "db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html", "db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk" ],
         [ "FrameExportProgress", "dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html", "dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress" ],
+        [ "CameraHandlerDetails", "dd/d91/structbioexplorer_1_1mediamaker_1_1CameraHandlerDetails.html", "dd/d91/structbioexplorer_1_1mediamaker_1_1CameraHandlerDetails" ],
+        [ "CameraKeyFrame", "d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html", "d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame" ],
+        [ "CameraHandler", "dd/d55/classbioexplorer_1_1mediamaker_1_1CameraHandler.html", "dd/d55/classbioexplorer_1_1mediamaker_1_1CameraHandler" ],
         [ "MediaMakerPlugin", "d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html", "d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin" ]
       ] ],
       [ "meshing", "d0/d9c/namespacebioexplorer_1_1meshing.html", [
@@ -239,10 +242,6 @@ var annotated_dup =
           [ "OSPRaySharedDataVolume", "d9/dd2/classcore_1_1engine_1_1ospray_1_1OSPRaySharedDataVolume.html", "d9/dd2/classcore_1_1engine_1_1ospray_1_1OSPRaySharedDataVolume" ]
         ] ]
       ] ],
-      [ "freeimage", "da/ded/namespacecore_1_1freeimage.html", [
-        [ "ImageDeleter", "df/de4/structcore_1_1freeimage_1_1ImageDeleter.html", "df/de4/structcore_1_1freeimage_1_1ImageDeleter" ],
-        [ "MemoryDeleter", "d1/d3c/structcore_1_1freeimage_1_1MemoryDeleter.html", "d1/d3c/structcore_1_1freeimage_1_1MemoryDeleter" ]
-      ] ],
       [ "BaseWindow", "d5/d7d/classcore_1_1BaseWindow.html", "d5/d7d/classcore_1_1BaseWindow" ],
       [ "Viewer", "d4/dcb/classcore_1_1Viewer.html", "d4/dcb/classcore_1_1Viewer" ],
       [ "ActionInterface", "d6/d1b/classcore_1_1ActionInterface.html", "d6/d1b/classcore_1_1ActionInterface" ],
@@ -252,7 +251,7 @@ var annotated_dup =
       [ "Streamline", "df/da1/structcore_1_1Streamline.html", "df/da1/structcore_1_1Streamline" ],
       [ "StreamlinesData", "da/d60/structcore_1_1StreamlinesData.html", "da/d60/structcore_1_1StreamlinesData" ],
       [ "TriangleMesh", "dd/df0/structcore_1_1TriangleMesh.html", "dd/df0/structcore_1_1TriangleMesh" ],
-      [ "ImageManager", "d9/dab/classcore_1_1ImageManager.html", null ],
+      [ "ImageManager", "d9/dab/classcore_1_1ImageManager.html", "d9/dab/classcore_1_1ImageManager" ],
       [ "ShortcutInformation", "db/dd1/structcore_1_1ShortcutInformation.html", "db/dd1/structcore_1_1ShortcutInformation" ],
       [ "KeyboardHandler", "d4/d89/classcore_1_1KeyboardHandler.html", "d4/d89/classcore_1_1KeyboardHandler" ],
       [ "Light", "d5/daa/classcore_1_1Light.html", "d5/daa/classcore_1_1Light" ],
@@ -276,7 +275,7 @@ var annotated_dup =
       [ "PropertyMap", "d9/daa/classcore_1_1PropertyMap.html", "d9/daa/classcore_1_1PropertyMap" ],
       [ "PropertyObject", "d7/d67/classcore_1_1PropertyObject.html", "d7/d67/classcore_1_1PropertyObject" ],
       [ "ClipPlane", "d2/d26/classcore_1_1ClipPlane.html", "d2/d26/classcore_1_1ClipPlane" ],
-      [ "AbstractSimulationHandler", "d5/d65/classcore_1_1AbstractSimulationHandler.html", "d5/d65/classcore_1_1AbstractSimulationHandler" ],
+      [ "AbstractAnimationHandler", "d2/db8/classcore_1_1AbstractAnimationHandler.html", "d2/db8/classcore_1_1AbstractAnimationHandler" ],
       [ "Statistics", "d6/d7e/classcore_1_1Statistics.html", "d6/d7e/classcore_1_1Statistics" ],
       [ "AbstractTask", "d4/d49/classcore_1_1AbstractTask.html", "d4/d49/classcore_1_1AbstractTask" ],
       [ "Task", "dd/d57/classcore_1_1Task.html", "dd/d57/classcore_1_1Task" ],

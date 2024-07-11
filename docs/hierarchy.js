@@ -1,11 +1,8 @@
 var hierarchy =
 [
-    [ "core::AbstractManipulator", "dc/df9/classcore_1_1AbstractManipulator.html", [
-      [ "core::FlyingModeManipulator", "d2/d1a/classcore_1_1FlyingModeManipulator.html", null ],
-      [ "core::InspectCenterManipulator", "de/de2/classcore_1_1InspectCenterManipulator.html", null ]
-    ] ],
-    [ "core::AbstractSimulationHandler", "d5/d65/classcore_1_1AbstractSimulationHandler.html", [
+    [ "core::AbstractAnimationHandler", "d2/db8/classcore_1_1AbstractAnimationHandler.html", [
       [ "bioexplorer::connectomics::SynapseEfficacySimulationHandler", "de/da5/classbioexplorer_1_1connectomics_1_1SynapseEfficacySimulationHandler.html", null ],
+      [ "bioexplorer::mediamaker::CameraHandler", "dd/d55/classbioexplorer_1_1mediamaker_1_1CameraHandler.html", null ],
       [ "bioexplorer::metabolism::MetabolismHandler", "d4/dc4/classbioexplorer_1_1metabolism_1_1MetabolismHandler.html", null ],
       [ "bioexplorer::morphology::CompartmentSimulationHandler", "da/d62/classbioexplorer_1_1morphology_1_1CompartmentSimulationHandler.html", null ],
       [ "bioexplorer::morphology::SomaSimulationHandler", "df/d48/classbioexplorer_1_1morphology_1_1SomaSimulationHandler.html", null ],
@@ -15,6 +12,10 @@ var hierarchy =
       [ "sonataexplorer::neuroscience::neuron::MEGHandler", "d5/d94/classsonataexplorer_1_1neuroscience_1_1neuron_1_1MEGHandler.html", null ],
       [ "sonataexplorer::neuroscience::neuron::SpikeSimulationHandler", "db/dc6/classsonataexplorer_1_1neuroscience_1_1neuron_1_1SpikeSimulationHandler.html", null ],
       [ "sonataexplorer::neuroscience::neuron::VoltageSimulationHandler", "d1/d9a/classsonataexplorer_1_1neuroscience_1_1neuron_1_1VoltageSimulationHandler.html", null ]
+    ] ],
+    [ "core::AbstractManipulator", "dc/df9/classcore_1_1AbstractManipulator.html", [
+      [ "core::FlyingModeManipulator", "d2/d1a/classcore_1_1FlyingModeManipulator.html", null ],
+      [ "core::InspectCenterManipulator", "de/de2/classcore_1_1InspectCenterManipulator.html", null ]
     ] ],
     [ "core::AbstractTask", "d4/d49/classcore_1_1AbstractTask.html", [
       [ "core::Task< ModelDescriptorPtr >", "dd/d57/classcore_1_1Task.html", [
@@ -152,6 +153,8 @@ var hierarchy =
       [ "sonataexplorer::SphereClippingPerspectiveCamera", "d6/dc8/structsonataexplorer_1_1SphereClippingPerspectiveCamera.html", null ]
     ] ],
     [ "bioexplorer::mediamaker::CameraDefinition", "dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html", null ],
+    [ "bioexplorer::mediamaker::CameraHandlerDetails", "dd/d91/structbioexplorer_1_1mediamaker_1_1CameraHandlerDetails.html", null ],
+    [ "bioexplorer::mediamaker::CameraKeyFrame", "d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html", null ],
     [ "bioexplorer::morphology::Cell", "d0/d2e/structbioexplorer_1_1morphology_1_1Cell.html", null ],
     [ "bioexplorer::details::CellAnimationDetails", "d1/dd0/structbioexplorer_1_1details_1_1CellAnimationDetails.html", null ],
     [ "core::Chunk", "dc/d81/structcore_1_1Chunk.html", null ],
@@ -219,7 +222,6 @@ var hierarchy =
     [ "core::GetInstances", "df/d87/structcore_1_1GetInstances.html", null ],
     [ "bioexplorer::details::IdsDetails", "d1/d91/structbioexplorer_1_1details_1_1IdsDetails.html", null ],
     [ "core::ImageGenerator::ImageBase64", "d1/ddd/structcore_1_1ImageGenerator_1_1ImageBase64.html", null ],
-    [ "core::freeimage::ImageDeleter", "df/de4/structcore_1_1freeimage_1_1ImageDeleter.html", null ],
     [ "core::ImageGenerator", "d3/d33/classcore_1_1ImageGenerator.html", null ],
     [ "core::ImageGenerator::ImageJPEG", "d4/d5b/structcore_1_1ImageGenerator_1_1ImageJPEG.html", null ],
     [ "core::ImageManager", "d9/dab/classcore_1_1ImageManager.html", null ],
@@ -280,7 +282,6 @@ var hierarchy =
     [ "bioexplorer::details::MaterialsDetails", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html", null ],
     [ "bioexplorer::details::MembraneDetails", "d0/ddb/structbioexplorer_1_1details_1_1MembraneDetails.html", null ],
     [ "bioexplorer::io::MemoryCache", "d5/d89/classbioexplorer_1_1io_1_1MemoryCache.html", null ],
-    [ "core::freeimage::MemoryDeleter", "d1/d3c/structcore_1_1freeimage_1_1MemoryDeleter.html", null ],
     [ "sonataexplorer::meshing::MetaballsGenerator", "de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html", null ],
     [ "core::Property::MetaData", "d1/da5/structcore_1_1Property_1_1MetaData.html", null ],
     [ "core::Model", "d1/d11/classcore_1_1Model.html", [

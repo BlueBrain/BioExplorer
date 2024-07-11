@@ -87,190 +87,184 @@ $(document).ready(function(){initNavTree('d1/d79/encoder_8h_source.html','../../
 </div><!--header-->
 <div class="contents">
 <a href="../../d1/d79/encoder_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright (c) 2019 EPFL/Blue Brain Project</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * All rights reserved. Do not distribute without permission.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU Lesser General Public License version 3.0 as published</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * by the Free Software Foundation.</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;libavcodec/avcodec.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;libavformat/avformat.h&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;libavutil/opt.h&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;libswscale/swscale.h&gt;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../dd/d27/Timer_8h.html">platform/core/common/Timer.h</a>&gt;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html">platform/core/common/Types.h</a>&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;atomic&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;condition_variable&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;mutex&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;queue&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;thread&gt;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="../../d6/dac/classcore_1_1Picture.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d6/dac/classcore_1_1Picture.html">Picture</a></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">   46</a></span>&#160;    AVFrame *<a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a>{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../d6/dac/classcore_1_1Picture.html#a40b1db8e946601ebc061e56c281a62f5">   48</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d6/dac/classcore_1_1Picture.html#a40b1db8e946601ebc061e56c281a62f5">init</a>(<span class="keyword">enum</span> AVPixelFormat pix_fmt, <span class="keywordtype">int</span> width, <span class="keywordtype">int</span> height)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a> = av_frame_alloc();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a>-&gt;format = pix_fmt;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a>-&gt;width = width;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a>-&gt;height = height;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">return</span> av_frame_get_buffer(<a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a>, 32);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../d6/dac/classcore_1_1Picture.html#ad35882e047b0c74bb8557d1a8aabba54">   57</a></span>&#160;    <a class="code" href="../../d6/dac/classcore_1_1Picture.html#ad35882e047b0c74bb8557d1a8aabba54">~Picture</a>()</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a>)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            av_frame_free(&amp;<a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a>);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;};</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keywordtype">size_t</span> S = 2&gt;</div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../df/d66/classcore_1_1MTQueue.html">   65</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../df/d66/classcore_1_1MTQueue.html">MTQueue</a></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;{</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../df/d66/classcore_1_1MTQueue.html#adcaad69924497d4314fb258315270cc1">   68</a></span>&#160;    <span class="keyword">explicit</span> <a class="code" href="../../df/d66/classcore_1_1MTQueue.html#adcaad69924497d4314fb258315270cc1">MTQueue</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> maxSize = S)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        : _maxSize(maxSize)</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">    Copyright 2019 - 0211 Blue Brain Project / EPFL</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">    you may not use this file except in compliance with the License.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">    You may obtain a copy of the License at</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">        http://www.apache.org/licenses/LICENSE-2.0</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">    Unless required by applicable law or agreed to in writing, software</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    See the License for the specific language governing permissions and</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    limitations under the License.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;libavcodec/avcodec.h&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;libavformat/avformat.h&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;libavutil/opt.h&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;libswscale/swscale.h&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../dd/d27/Timer_8h.html">platform/core/common/Timer.h</a>&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html">platform/core/common/Types.h</a>&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;condition_variable&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;queue&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../d6/dac/classcore_1_1Picture.html">   39</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d6/dac/classcore_1_1Picture.html">Picture</a></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">   42</a></span>&#160;    AVFrame *<a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a>{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../d6/dac/classcore_1_1Picture.html#a40b1db8e946601ebc061e56c281a62f5">   44</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d6/dac/classcore_1_1Picture.html#a40b1db8e946601ebc061e56c281a62f5">init</a>(<span class="keyword">enum</span> AVPixelFormat pix_fmt, <span class="keywordtype">int</span> width, <span class="keywordtype">int</span> height)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a> = av_frame_alloc();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a>-&gt;format = pix_fmt;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a>-&gt;width = width;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a>-&gt;height = height;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">return</span> av_frame_get_buffer(<a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a>, 32);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../d6/dac/classcore_1_1Picture.html#ad35882e047b0c74bb8557d1a8aabba54">   53</a></span>&#160;    <a class="code" href="../../d6/dac/classcore_1_1Picture.html#ad35882e047b0c74bb8557d1a8aabba54">~Picture</a>()</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a>)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            av_frame_free(&amp;<a class="code" href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">frame</a>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;};</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keywordtype">size_t</span> S = 2&gt;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../df/d66/classcore_1_1MTQueue.html">   61</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../df/d66/classcore_1_1MTQueue.html">MTQueue</a></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;{</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="../../df/d66/classcore_1_1MTQueue.html#adcaad69924497d4314fb258315270cc1">   64</a></span>&#160;    <span class="keyword">explicit</span> <a class="code" href="../../df/d66/classcore_1_1MTQueue.html#adcaad69924497d4314fb258315270cc1">MTQueue</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> maxSize = S)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        : _maxSize(maxSize)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../df/d66/classcore_1_1MTQueue.html#a613ad89b97334b2d82418052725e44f0">   69</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../df/d66/classcore_1_1MTQueue.html#a613ad89b97334b2d82418052725e44f0">clear</a>()</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../df/d66/classcore_1_1MTQueue.html#a613ad89b97334b2d82418052725e44f0">   73</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../df/d66/classcore_1_1MTQueue.html#a613ad89b97334b2d82418052725e44f0">clear</a>()</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        std::unique_lock&lt;std::mutex&gt; lock(_mutex);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        std::queue&lt;T&gt;().swap(_queue);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        _condition.notify_all();</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="../../df/d66/classcore_1_1MTQueue.html#aa8ebe570092ed7f841a17d7f122777e1">   80</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../df/d66/classcore_1_1MTQueue.html#aa8ebe570092ed7f841a17d7f122777e1">push</a>(<span class="keyword">const</span> T &amp;element)</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        std::unique_lock&lt;std::mutex&gt; lock(_mutex);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        _condition.wait(lock, [&amp;] { <span class="keywordflow">return</span> _queue.size() &lt; _maxSize; });</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        _queue.push(element);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        _condition.notify_all();</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="../../df/d66/classcore_1_1MTQueue.html#a5507a7ab460f03afde09679d1d08aa3f">   88</a></span>&#160;    T <a class="code" href="../../df/d66/classcore_1_1MTQueue.html#a5507a7ab460f03afde09679d1d08aa3f">pop</a>()</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        std::unique_lock&lt;std::mutex&gt; lock(_mutex);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        _condition.wait(lock, [&amp;] { <span class="keywordflow">return</span> !_queue.empty(); });</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        T element = _queue.front();</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        _queue.pop();</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        _condition.notify_all();</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">return</span> element;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    }</div>
-<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="../../df/d66/classcore_1_1MTQueue.html#a9944bfb599831f0d8f2975e026c96f01">   98</a></span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="../../df/d66/classcore_1_1MTQueue.html#a9944bfb599831f0d8f2975e026c96f01">size</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        std::unique_lock&lt;std::mutex&gt; lock(_mutex);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordflow">return</span> _queue.size();</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    std::queue&lt;T&gt; _queue;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">mutable</span> std::mutex _mutex;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keyword">mutable</span> std::condition_variable _condition;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> _maxSize;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;};</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="../../de/d28/classcore_1_1Encoder.html">  111</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/d28/classcore_1_1Encoder.html">Encoder</a></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;{</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="../../de/d28/classcore_1_1Encoder.html#a096623ab8c61067ff610e97d0221ff6e">  114</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a096623ab8c61067ff610e97d0221ff6e">DataFunc</a> = std::function&lt;void(<span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../de/df1/namespacecheck__version.html#aaac2d8c1e2f61a3c0b8b47160810cfcc">data</a>, <span class="keywordtype">size_t</span> size)&gt;;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a99c80d0137700b3cd942616ff8f43490">Encoder</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">width</a>, <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">height</a>, <span class="keyword">const</span> <span class="keywordtype">int</span> fps,</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <span class="keyword">const</span> int64_t <a class="code" href="../../de/d28/classcore_1_1Encoder.html#aa7d40bf23ecc636bfaf21cbd3d7e4267">kbps</a>, <span class="keyword">const</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a096623ab8c61067ff610e97d0221ff6e">DataFunc</a> &amp;dataFunc);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a9cb7e799d3fc4c136b729de62ead97fd">~Encoder</a>();</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a1a20e6aadb5b7bad327230a2fa242033">encode</a>(<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html">FrameBuffer</a> &amp;fb);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        std::unique_lock&lt;std::mutex&gt; lock(_mutex);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        std::queue&lt;T&gt;().swap(_queue);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        _condition.notify_all();</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="../../df/d66/classcore_1_1MTQueue.html#aa8ebe570092ed7f841a17d7f122777e1">   76</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../df/d66/classcore_1_1MTQueue.html#aa8ebe570092ed7f841a17d7f122777e1">push</a>(<span class="keyword">const</span> T &amp;element)</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        std::unique_lock&lt;std::mutex&gt; lock(_mutex);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        _condition.wait(lock, [&amp;] { <span class="keywordflow">return</span> _queue.size() &lt; _maxSize; });</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        _queue.push(element);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        _condition.notify_all();</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="../../df/d66/classcore_1_1MTQueue.html#a5507a7ab460f03afde09679d1d08aa3f">   84</a></span>&#160;    T <a class="code" href="../../df/d66/classcore_1_1MTQueue.html#a5507a7ab460f03afde09679d1d08aa3f">pop</a>()</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        std::unique_lock&lt;std::mutex&gt; lock(_mutex);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        _condition.wait(lock, [&amp;] { <span class="keywordflow">return</span> !_queue.empty(); });</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        T element = _queue.front();</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        _queue.pop();</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        _condition.notify_all();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordflow">return</span> element;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    }</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="../../df/d66/classcore_1_1MTQueue.html#a9944bfb599831f0d8f2975e026c96f01">   94</a></span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="../../df/d66/classcore_1_1MTQueue.html#a9944bfb599831f0d8f2975e026c96f01">size</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        std::unique_lock&lt;std::mutex&gt; lock(_mutex);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">return</span> _queue.size();</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    }</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    std::queue&lt;T&gt; _queue;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">mutable</span> std::mutex _mutex;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keyword">mutable</span> std::condition_variable _condition;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> _maxSize;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;};</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="../../de/d28/classcore_1_1Encoder.html">  107</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/d28/classcore_1_1Encoder.html">Encoder</a></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;{</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="../../de/d28/classcore_1_1Encoder.html#a096623ab8c61067ff610e97d0221ff6e">  110</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a096623ab8c61067ff610e97d0221ff6e">DataFunc</a> = std::function&lt;void(<span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../de/df1/namespacecheck__version.html#aaac2d8c1e2f61a3c0b8b47160810cfcc">data</a>, <span class="keywordtype">size_t</span> size)&gt;;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a99c80d0137700b3cd942616ff8f43490">Encoder</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">width</a>, <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">height</a>, <span class="keyword">const</span> <span class="keywordtype">int</span> fps, <span class="keyword">const</span> int64_t <a class="code" href="../../de/d28/classcore_1_1Encoder.html#aa7d40bf23ecc636bfaf21cbd3d7e4267">kbps</a>, <span class="keyword">const</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a096623ab8c61067ff610e97d0221ff6e">DataFunc</a> &amp;dataFunc);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a9cb7e799d3fc4c136b729de62ead97fd">~Encoder</a>();</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a1a20e6aadb5b7bad327230a2fa242033">encode</a>(<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html">FrameBuffer</a> &amp;fb);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="../../de/d28/classcore_1_1Encoder.html#a7150301da8ec49c629db3a3468ac92ce">  117</a></span>&#160;    <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a096623ab8c61067ff610e97d0221ff6e">DataFunc</a> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a7150301da8ec49c629db3a3468ac92ce">_dataFunc</a>;</div>
+<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">  118</a></span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">width</a>;</div>
+<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">  119</a></span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">height</a>;</div>
+<div class="line"><a name="l00120"></a><span class="lineno"><a class="line" href="../../de/d28/classcore_1_1Encoder.html#aa7d40bf23ecc636bfaf21cbd3d7e4267">  120</a></span>&#160;    <span class="keyword">const</span> int64_t <a class="code" href="../../de/d28/classcore_1_1Encoder.html#aa7d40bf23ecc636bfaf21cbd3d7e4267">kbps</a>;</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="../../de/d28/classcore_1_1Encoder.html#a7150301da8ec49c629db3a3468ac92ce">  122</a></span>&#160;    <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a096623ab8c61067ff610e97d0221ff6e">DataFunc</a> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a7150301da8ec49c629db3a3468ac92ce">_dataFunc</a>;</div>
-<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">  123</a></span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">width</a>;</div>
-<div class="line"><a name="l00124"></a><span class="lineno"><a class="line" href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">  124</a></span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">height</a>;</div>
-<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="../../de/d28/classcore_1_1Encoder.html#aa7d40bf23ecc636bfaf21cbd3d7e4267">  125</a></span>&#160;    <span class="keyword">const</span> int64_t <a class="code" href="../../de/d28/classcore_1_1Encoder.html#aa7d40bf23ecc636bfaf21cbd3d7e4267">kbps</a>;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> _fps;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    AVFormatContext *formatContext{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    AVStream *stream{<span class="keyword">nullptr</span>};</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> _fps;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    AVFormatContext *formatContext{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    AVStream *stream{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    AVCodecContext *codecContext{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    AVCodec *codec{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    AVCodecContext *codecContext{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    AVCodec *codec{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    SwsContext *sws_context{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    Picture picture;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    int64_t _frameNumber{0};</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    SwsContext *sws_context{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    Picture picture;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    int64_t _frameNumber{0};</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">bool</span> _async = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    std::thread _thread;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    std::atomic_bool _running{<span class="keyword">true</span>};</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keyword">struct </span>Image</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    {</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">width</a>{0};</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">height</a>{0};</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        std::vector&lt;uint8_t&gt; <a class="code" href="../../de/df1/namespacecheck__version.html#aaac2d8c1e2f61a3c0b8b47160810cfcc">data</a>;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keywordtype">bool</span> empty()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">width</a> == 0 || <a class="code" href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">height</a> == 0; }</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordtype">void</span> clear() { <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">width</a> = <a class="code" href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">height</a> = 0; }</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    } _image[2];</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    MTQueue&lt;int&gt; _queue;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordtype">int</span> _currentImage{0};</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordtype">void</span> _runAsync();</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordtype">void</span> _encode();</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordtype">void</span> _toPicture(<span class="keyword">const</span> uint8_t *<span class="keyword">const</span> <a class="code" href="../../de/df1/namespacecheck__version.html#aaac2d8c1e2f61a3c0b8b47160810cfcc">data</a>, <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">width</a>,</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                    <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">height</a>);</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    Timer _timer;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordtype">float</span> _leftover{0.f};</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;};</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;} <span class="comment">// namespace core</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">bool</span> _async = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    std::thread _thread;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    std::atomic_bool _running{<span class="keyword">true</span>};</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keyword">struct </span>Image</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    {</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">width</a>{0};</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">height</a>{0};</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        std::vector&lt;uint8_t&gt; <a class="code" href="../../de/df1/namespacecheck__version.html#aaac2d8c1e2f61a3c0b8b47160810cfcc">data</a>;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordtype">bool</span> empty()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">width</a> == 0 || <a class="code" href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">height</a> == 0; }</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="keywordtype">void</span> clear() { <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">width</a> = <a class="code" href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">height</a> = 0; }</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    } _image[2];</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    MTQueue&lt;int&gt; _queue;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">int</span> _currentImage{0};</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">void</span> _runAsync();</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordtype">void</span> _encode();</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordtype">void</span> _toPicture(<span class="keyword">const</span> uint8_t *<span class="keyword">const</span> <a class="code" href="../../de/df1/namespacecheck__version.html#aaac2d8c1e2f61a3c0b8b47160810cfcc">data</a>, <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">width</a>, <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">height</a>);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    Timer _timer;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordtype">float</span> _leftover{0.f};</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;};</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;} <span class="comment">// namespace core</span></div>
 <div class="ttc" id="aTimer_8h_html"><div class="ttname"><a href="../../dd/d27/Timer_8h.html">Timer.h</a></div></div>
-<div class="ttc" id="aclasscore_1_1Encoder_html"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html">core::Encoder</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00111">encoder.h:112</a></div></div>
-<div class="ttc" id="aclasscore_1_1Encoder_html_a096623ab8c61067ff610e97d0221ff6e"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#a096623ab8c61067ff610e97d0221ff6e">core::Encoder::DataFunc</a></div><div class="ttdeci">std::function&lt; void(const char *data, size_t size)&gt; DataFunc</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00114">encoder.h:114</a></div></div>
-<div class="ttc" id="aclasscore_1_1Encoder_html_a1a20e6aadb5b7bad327230a2fa242033"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#a1a20e6aadb5b7bad327230a2fa242033">core::Encoder::encode</a></div><div class="ttdeci">void encode(FrameBuffer &amp;fb)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dbc/encoder_8cpp_source.html#l00135">encoder.cpp:135</a></div></div>
-<div class="ttc" id="aclasscore_1_1Encoder_html_a1ea3061018e5d28403b55c76ac9013f6"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">core::Encoder::width</a></div><div class="ttdeci">const int width</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00123">encoder.h:123</a></div></div>
-<div class="ttc" id="aclasscore_1_1Encoder_html_a7150301da8ec49c629db3a3468ac92ce"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#a7150301da8ec49c629db3a3468ac92ce">core::Encoder::_dataFunc</a></div><div class="ttdeci">DataFunc _dataFunc</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00122">encoder.h:122</a></div></div>
-<div class="ttc" id="aclasscore_1_1Encoder_html_a99c80d0137700b3cd942616ff8f43490"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#a99c80d0137700b3cd942616ff8f43490">core::Encoder::Encoder</a></div><div class="ttdeci">Encoder(const int width, const int height, const int fps, const int64_t kbps, const DataFunc &amp;dataFunc)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dbc/encoder_8cpp_source.html#l00035">encoder.cpp:35</a></div></div>
-<div class="ttc" id="aclasscore_1_1Encoder_html_a9cb7e799d3fc4c136b729de62ead97fd"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#a9cb7e799d3fc4c136b729de62ead97fd">core::Encoder::~Encoder</a></div><div class="ttdeci">~Encoder()</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dbc/encoder_8cpp_source.html#l00116">encoder.cpp:116</a></div></div>
-<div class="ttc" id="aclasscore_1_1Encoder_html_aa7d40bf23ecc636bfaf21cbd3d7e4267"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#aa7d40bf23ecc636bfaf21cbd3d7e4267">core::Encoder::kbps</a></div><div class="ttdeci">const int64_t kbps</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00125">encoder.h:125</a></div></div>
-<div class="ttc" id="aclasscore_1_1Encoder_html_afaab1dd376dc1d06bb9e878975e29761"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">core::Encoder::height</a></div><div class="ttdeci">const int height</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00124">encoder.h:124</a></div></div>
-<div class="ttc" id="aclasscore_1_1FrameBuffer_html"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html">core::FrameBuffer</a></div><div class="ttdoc">This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00038">FrameBuffer.h:39</a></div></div>
-<div class="ttc" id="aclasscore_1_1MTQueue_html"><div class="ttname"><a href="../../df/d66/classcore_1_1MTQueue.html">core::MTQueue</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00065">encoder.h:66</a></div></div>
-<div class="ttc" id="aclasscore_1_1MTQueue_html_a5507a7ab460f03afde09679d1d08aa3f"><div class="ttname"><a href="../../df/d66/classcore_1_1MTQueue.html#a5507a7ab460f03afde09679d1d08aa3f">core::MTQueue::pop</a></div><div class="ttdeci">T pop()</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00088">encoder.h:88</a></div></div>
-<div class="ttc" id="aclasscore_1_1MTQueue_html_a613ad89b97334b2d82418052725e44f0"><div class="ttname"><a href="../../df/d66/classcore_1_1MTQueue.html#a613ad89b97334b2d82418052725e44f0">core::MTQueue::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00073">encoder.h:73</a></div></div>
-<div class="ttc" id="aclasscore_1_1MTQueue_html_a9944bfb599831f0d8f2975e026c96f01"><div class="ttname"><a href="../../df/d66/classcore_1_1MTQueue.html#a9944bfb599831f0d8f2975e026c96f01">core::MTQueue::size</a></div><div class="ttdeci">size_t size() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00098">encoder.h:98</a></div></div>
-<div class="ttc" id="aclasscore_1_1MTQueue_html_aa8ebe570092ed7f841a17d7f122777e1"><div class="ttname"><a href="../../df/d66/classcore_1_1MTQueue.html#aa8ebe570092ed7f841a17d7f122777e1">core::MTQueue::push</a></div><div class="ttdeci">void push(const T &amp;element)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00080">encoder.h:80</a></div></div>
-<div class="ttc" id="aclasscore_1_1MTQueue_html_adcaad69924497d4314fb258315270cc1"><div class="ttname"><a href="../../df/d66/classcore_1_1MTQueue.html#adcaad69924497d4314fb258315270cc1">core::MTQueue::MTQueue</a></div><div class="ttdeci">MTQueue(const size_t maxSize=S)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00068">encoder.h:68</a></div></div>
-<div class="ttc" id="aclasscore_1_1Picture_html"><div class="ttname"><a href="../../d6/dac/classcore_1_1Picture.html">core::Picture</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00043">encoder.h:44</a></div></div>
-<div class="ttc" id="aclasscore_1_1Picture_html_a2028a4195ba7764ea972b328c840fb33"><div class="ttname"><a href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">core::Picture::frame</a></div><div class="ttdeci">AVFrame * frame</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00046">encoder.h:46</a></div></div>
-<div class="ttc" id="aclasscore_1_1Picture_html_a40b1db8e946601ebc061e56c281a62f5"><div class="ttname"><a href="../../d6/dac/classcore_1_1Picture.html#a40b1db8e946601ebc061e56c281a62f5">core::Picture::init</a></div><div class="ttdeci">int init(enum AVPixelFormat pix_fmt, int width, int height)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00048">encoder.h:48</a></div></div>
-<div class="ttc" id="aclasscore_1_1Picture_html_ad35882e047b0c74bb8557d1a8aabba54"><div class="ttname"><a href="../../d6/dac/classcore_1_1Picture.html#ad35882e047b0c74bb8557d1a8aabba54">core::Picture::~Picture</a></div><div class="ttdeci">~Picture()</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00057">encoder.h:57</a></div></div>
+<div class="ttc" id="aclasscore_1_1Encoder_html"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html">core::Encoder</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00107">encoder.h:108</a></div></div>
+<div class="ttc" id="aclasscore_1_1Encoder_html_a096623ab8c61067ff610e97d0221ff6e"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#a096623ab8c61067ff610e97d0221ff6e">core::Encoder::DataFunc</a></div><div class="ttdeci">std::function&lt; void(const char *data, size_t size)&gt; DataFunc</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00110">encoder.h:110</a></div></div>
+<div class="ttc" id="aclasscore_1_1Encoder_html_a1a20e6aadb5b7bad327230a2fa242033"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#a1a20e6aadb5b7bad327230a2fa242033">core::Encoder::encode</a></div><div class="ttdeci">void encode(FrameBuffer &amp;fb)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dbc/encoder_8cpp_source.html#l00127">encoder.cpp:127</a></div></div>
+<div class="ttc" id="aclasscore_1_1Encoder_html_a1ea3061018e5d28403b55c76ac9013f6"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#a1ea3061018e5d28403b55c76ac9013f6">core::Encoder::width</a></div><div class="ttdeci">const int width</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00118">encoder.h:118</a></div></div>
+<div class="ttc" id="aclasscore_1_1Encoder_html_a7150301da8ec49c629db3a3468ac92ce"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#a7150301da8ec49c629db3a3468ac92ce">core::Encoder::_dataFunc</a></div><div class="ttdeci">DataFunc _dataFunc</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00117">encoder.h:117</a></div></div>
+<div class="ttc" id="aclasscore_1_1Encoder_html_a99c80d0137700b3cd942616ff8f43490"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#a99c80d0137700b3cd942616ff8f43490">core::Encoder::Encoder</a></div><div class="ttdeci">Encoder(const int width, const int height, const int fps, const int64_t kbps, const DataFunc &amp;dataFunc)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dbc/encoder_8cpp_source.html#l00031">encoder.cpp:31</a></div></div>
+<div class="ttc" id="aclasscore_1_1Encoder_html_a9cb7e799d3fc4c136b729de62ead97fd"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#a9cb7e799d3fc4c136b729de62ead97fd">core::Encoder::~Encoder</a></div><div class="ttdeci">~Encoder()</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dbc/encoder_8cpp_source.html#l00108">encoder.cpp:108</a></div></div>
+<div class="ttc" id="aclasscore_1_1Encoder_html_aa7d40bf23ecc636bfaf21cbd3d7e4267"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#aa7d40bf23ecc636bfaf21cbd3d7e4267">core::Encoder::kbps</a></div><div class="ttdeci">const int64_t kbps</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00120">encoder.h:120</a></div></div>
+<div class="ttc" id="aclasscore_1_1Encoder_html_afaab1dd376dc1d06bb9e878975e29761"><div class="ttname"><a href="../../de/d28/classcore_1_1Encoder.html#afaab1dd376dc1d06bb9e878975e29761">core::Encoder::height</a></div><div class="ttdeci">const int height</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00119">encoder.h:119</a></div></div>
+<div class="ttc" id="aclasscore_1_1FrameBuffer_html"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html">core::FrameBuffer</a></div><div class="ttdoc">This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00036">FrameBuffer.h:37</a></div></div>
+<div class="ttc" id="aclasscore_1_1MTQueue_html"><div class="ttname"><a href="../../df/d66/classcore_1_1MTQueue.html">core::MTQueue</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00061">encoder.h:62</a></div></div>
+<div class="ttc" id="aclasscore_1_1MTQueue_html_a5507a7ab460f03afde09679d1d08aa3f"><div class="ttname"><a href="../../df/d66/classcore_1_1MTQueue.html#a5507a7ab460f03afde09679d1d08aa3f">core::MTQueue::pop</a></div><div class="ttdeci">T pop()</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00084">encoder.h:84</a></div></div>
+<div class="ttc" id="aclasscore_1_1MTQueue_html_a613ad89b97334b2d82418052725e44f0"><div class="ttname"><a href="../../df/d66/classcore_1_1MTQueue.html#a613ad89b97334b2d82418052725e44f0">core::MTQueue::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00069">encoder.h:69</a></div></div>
+<div class="ttc" id="aclasscore_1_1MTQueue_html_a9944bfb599831f0d8f2975e026c96f01"><div class="ttname"><a href="../../df/d66/classcore_1_1MTQueue.html#a9944bfb599831f0d8f2975e026c96f01">core::MTQueue::size</a></div><div class="ttdeci">size_t size() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00094">encoder.h:94</a></div></div>
+<div class="ttc" id="aclasscore_1_1MTQueue_html_aa8ebe570092ed7f841a17d7f122777e1"><div class="ttname"><a href="../../df/d66/classcore_1_1MTQueue.html#aa8ebe570092ed7f841a17d7f122777e1">core::MTQueue::push</a></div><div class="ttdeci">void push(const T &amp;element)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00076">encoder.h:76</a></div></div>
+<div class="ttc" id="aclasscore_1_1MTQueue_html_adcaad69924497d4314fb258315270cc1"><div class="ttname"><a href="../../df/d66/classcore_1_1MTQueue.html#adcaad69924497d4314fb258315270cc1">core::MTQueue::MTQueue</a></div><div class="ttdeci">MTQueue(const size_t maxSize=S)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00064">encoder.h:64</a></div></div>
+<div class="ttc" id="aclasscore_1_1Picture_html"><div class="ttname"><a href="../../d6/dac/classcore_1_1Picture.html">core::Picture</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00039">encoder.h:40</a></div></div>
+<div class="ttc" id="aclasscore_1_1Picture_html_a2028a4195ba7764ea972b328c840fb33"><div class="ttname"><a href="../../d6/dac/classcore_1_1Picture.html#a2028a4195ba7764ea972b328c840fb33">core::Picture::frame</a></div><div class="ttdeci">AVFrame * frame</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00042">encoder.h:42</a></div></div>
+<div class="ttc" id="aclasscore_1_1Picture_html_a40b1db8e946601ebc061e56c281a62f5"><div class="ttname"><a href="../../d6/dac/classcore_1_1Picture.html#a40b1db8e946601ebc061e56c281a62f5">core::Picture::init</a></div><div class="ttdeci">int init(enum AVPixelFormat pix_fmt, int width, int height)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00044">encoder.h:44</a></div></div>
+<div class="ttc" id="aclasscore_1_1Picture_html_ad35882e047b0c74bb8557d1a8aabba54"><div class="ttname"><a href="../../d6/dac/classcore_1_1Picture.html#ad35882e047b0c74bb8557d1a8aabba54">core::Picture::~Picture</a></div><div class="ttdeci">~Picture()</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d79/encoder_8h_source.html#l00053">encoder.h:53</a></div></div>
 <div class="ttc" id="anamespacecheck__version_html_aaac2d8c1e2f61a3c0b8b47160810cfcc"><div class="ttname"><a href="../../de/df1/namespacecheck__version.html#aaac2d8c1e2f61a3c0b8b47160810cfcc">check_version.data</a></div><div class="ttdeci">data</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d77/check__version_8py_source.html#l00011">check_version.py:11</a></div></div>
 <div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00052">BaseWindow.cpp:53</a></div></div>
 <div class="ttc" id="aplatform_2core_2common_2Types_8h_html"><div class="ttname"><a href="../../de/d53/platform_2core_2common_2Types_8h.html">Types.h</a></div></div>

@@ -87,280 +87,274 @@ $(document).ready(function(){initNavTree('dc/daf/OSPRayFrameBuffer_8cpp_source.h
 </div><!--header-->
 <div class="contents">
 <a href="../../dc/daf/OSPRayFrameBuffer_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright (c) 2015-2024, EPFL/Blue Brain Project</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * the terms of the GNU Lesser General Public License version 3.0 as published</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * by the Free Software Foundation.</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d7/d01/OSPRayFrameBuffer_8h.html">OSPRayFrameBuffer.h</a>&quot;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d2/d87/OSPRayProperties_8h.html">OSPRayProperties.h</a>&quot;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dd/d6b/OSPRayUtils_8h.html">OSPRayUtils.h</a>&quot;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/common/OSPCommon.h&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../de/df2/platform_2core_2common_2Logs_8h.html">platform/core/common/Logs.h</a>&gt;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;OSPFrameBufferFormat toOSPFrameBufferFormat(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">core::FrameBufferFormat</a> frameBufferFormat)</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">switch</span> (frameBufferFormat)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173fa368c530651a0a610a0ce0f348cacc02a">core::FrameBufferFormat::rgba_i8</a>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">return</span> OSP_FB_RGBA8;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173faca4069ff307714b2b8c626055c1ed058">core::FrameBufferFormat::rgb_f32</a>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">return</span> OSP_FB_RGBA32F;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">return</span> OSP_FB_NONE;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;} <span class="comment">// namespace</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">namespace </span>engine</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">    Copyright 2015 - 2024 Blue Brain Project / EPFL</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">    you may not use this file except in compliance with the License.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">    You may obtain a copy of the License at</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">        http://www.apache.org/licenses/LICENSE-2.0</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">    Unless required by applicable law or agreed to in writing, software</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    See the License for the specific language governing permissions and</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    limitations under the License.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d7/d01/OSPRayFrameBuffer_8h.html">OSPRayFrameBuffer.h</a>&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d2/d87/OSPRayProperties_8h.html">OSPRayProperties.h</a>&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dd/d6b/OSPRayUtils_8h.html">OSPRayUtils.h</a>&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;ospray/SDK/common/OSPCommon.h&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../de/df2/platform_2core_2common_2Logs_8h.html">platform/core/common/Logs.h</a>&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">namespace</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;OSPFrameBufferFormat toOSPFrameBufferFormat(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">core::FrameBufferFormat</a> frameBufferFormat)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">switch</span> (frameBufferFormat)</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173fa368c530651a0a610a0ce0f348cacc02a">core::FrameBufferFormat::rgba_i8</a>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">return</span> OSP_FB_RGBA8;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173faca4069ff307714b2b8c626055c1ed058">core::FrameBufferFormat::rgb_f32</a>:</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">return</span> OSP_FB_RGBA32F;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">return</span> OSP_FB_NONE;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;} <span class="comment">// namespace</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">namespace </span>engine</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d1/d51/namespaceospray.html">ospray</a></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aea4cf4afd1a395bc37931db271292d59">   46</a></span>&#160;<a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aea4cf4afd1a395bc37931db271292d59">OSPRayFrameBuffer::OSPRayFrameBuffer</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a>&amp; frameSize,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                     <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a> frameBufferFormat)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    : <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html">FrameBuffer</a>(name, frameSize, frameBufferFormat)</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d1/d51/namespaceospray.html">ospray</a></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aea4cf4afd1a395bc37931db271292d59">   52</a></span>&#160;<a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aea4cf4afd1a395bc37931db271292d59">OSPRayFrameBuffer::OSPRayFrameBuffer</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a>&amp; frameSize,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                     <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a> frameBufferFormat)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    : <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html">FrameBuffer</a>(name, frameSize, frameBufferFormat)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a23bfdf30348f87973bb1ec5167558942">resize</a>(frameSize);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a737d809ccb93e1de58f574ab63956db6">   59</a></span>&#160;<a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a737d809ccb93e1de58f574ab63956db6">OSPRayFrameBuffer::~OSPRayFrameBuffer</a>()</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">auto</span> lock = <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a973b62516bf39a57c1771b10407a09ab">getScopeLock</a>();</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a23bfdf30348f87973bb1ec5167558942">resize</a>(frameSize);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a737d809ccb93e1de58f574ab63956db6">   53</a></span>&#160;<a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a737d809ccb93e1de58f574ab63956db6">OSPRayFrameBuffer::~OSPRayFrameBuffer</a>()</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">auto</span> lock = <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a973b62516bf39a57c1771b10407a09ab">getScopeLock</a>();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    _unmapUnsafe();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    ospRelease(_pixelOp);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    ospRelease(_frameBuffer);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    ospRelease(_subsamplingFrameBuffer);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    _unmapUnsafe();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    ospRelease(_pixelOp);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    ospRelease(_frameBuffer);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    ospRelease(_subsamplingFrameBuffer);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a23bfdf30348f87973bb1ec5167558942">   69</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a23bfdf30348f87973bb1ec5167558942">OSPRayFrameBuffer::resize</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a>&amp; frameSize)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;{</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">if</span> (glm::compMul(frameSize) == 0)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Invalid size for frame buffer resize&quot;</span>);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">if</span> (_frameBuffer &amp;&amp; <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">_frameSize</a> == frameSize)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">_frameSize</a> = frameSize;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    _recreate();</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keywordtype">void</span> OSPRayFrameBuffer::_recreate()</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;{</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">auto</span> lock = <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a973b62516bf39a57c1771b10407a09ab">getScopeLock</a>();</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    _unmapUnsafe();</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    ospRelease(_frameBuffer);</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a23bfdf30348f87973bb1ec5167558942">   63</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a23bfdf30348f87973bb1ec5167558942">OSPRayFrameBuffer::resize</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a>&amp; frameSize)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;{</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">if</span> (glm::compMul(frameSize) == 0)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Invalid size for frame buffer resize&quot;</span>);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">if</span> (_frameBuffer &amp;&amp; <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">_frameSize</a> == frameSize)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">_frameSize</a> = frameSize;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    _recreate();</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keywordtype">void</span> OSPRayFrameBuffer::_recreate()</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">auto</span> lock = <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a973b62516bf39a57c1771b10407a09ab">getScopeLock</a>();</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    _unmapUnsafe();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    ospRelease(_frameBuffer);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">const</span> osp::vec2i size = {int(<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">_frameSize</a>.x), int(<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">_frameSize</a>.y)};</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">size_t</span> attributes = OSP_FB_COLOR | OSP_FB_DEPTH;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#afe2825b3362696a859275309dbec4384">_accumulation</a>)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        attributes |= OSP_FB_ACCUM | OSP_FB_VARIANCE;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">const</span> osp::vec2i size = {int(<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">_frameSize</a>.x), int(<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">_frameSize</a>.y)};</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">size_t</span> attributes = OSP_FB_COLOR | OSP_FB_DEPTH;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#afe2825b3362696a859275309dbec4384">_accumulation</a>)</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        attributes |= OSP_FB_ACCUM | OSP_FB_VARIANCE;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    _frameBuffer = ospNewFrameBuffer(size, toOSPFrameBufferFormat(<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a89678edc361ece5cb0fd959139f2d497">_frameBufferFormat</a>), attributes);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">if</span> (_pixelOp)</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        ospSetPixelOp(_frameBuffer, _pixelOp);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <a class="code" href="../../dc/dbb/namespacecore_1_1engine_1_1ospray_1_1osphelper.html#a7890c840309ad566ec7b26d55bfb945c">osphelper::set</a>(_frameBuffer, OSPRAY_FRAME_BUFFER_PROPERTY_NAME, <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a0cd9c802bbbc8e2262388a376695bc8c">getName</a>());</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    ospCommit(_frameBuffer);</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    _frameBuffer = ospNewFrameBuffer(size, toOSPFrameBufferFormat(<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a89678edc361ece5cb0fd959139f2d497">_frameBufferFormat</a>), attributes);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">if</span> (_pixelOp)</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        ospSetPixelOp(_frameBuffer, _pixelOp);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <a class="code" href="../../dc/dbb/namespacecore_1_1engine_1_1ospray_1_1osphelper.html#a7890c840309ad566ec7b26d55bfb945c">osphelper::set</a>(_frameBuffer, OSPRAY_FRAME_BUFFER_PROPERTY_NAME, <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a0cd9c802bbbc8e2262388a376695bc8c">getName</a>());</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    ospCommit(_frameBuffer);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    _recreateSubsamplingBuffer();</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a90f50dffb1dd1722102aa7f8109f162f">clear</a>();</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;}</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="keywordtype">void</span> OSPRayFrameBuffer::_recreateSubsamplingBuffer()</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;{</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    ospRelease(_subsamplingFrameBuffer);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    _subsamplingFrameBuffer = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> subsamplingSize = _subsamplingSize();</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">_frameSize</a> != subsamplingSize)</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    {</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        _subsamplingFrameBuffer =</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            ospNewFrameBuffer({int(subsamplingSize.x), int(subsamplingSize.y)},</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                              toOSPFrameBufferFormat(<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a89678edc361ece5cb0fd959139f2d497">_frameBufferFormat</a>), OSP_FB_COLOR | OSP_FB_DEPTH);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keywordflow">if</span> (_pixelOp)</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            ospSetPixelOp(_subsamplingFrameBuffer, _pixelOp);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        ospCommit(_subsamplingFrameBuffer);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    }</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a90f50dffb1dd1722102aa7f8109f162f">  122</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a90f50dffb1dd1722102aa7f8109f162f">OSPRayFrameBuffer::clear</a>()</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;{</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a621025ce427119495747671f93f818e6">FrameBuffer::clear</a>();</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordtype">size_t</span> attributes = OSP_FB_COLOR | OSP_FB_DEPTH;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keywordflow">if</span> (_subsamplingFrameBuffer)</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        ospFrameBufferClear(_subsamplingFrameBuffer, attributes);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#afe2825b3362696a859275309dbec4384">_accumulation</a>)</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        attributes |= OSP_FB_ACCUM | OSP_FB_VARIANCE;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    ospFrameBufferClear(_frameBuffer, attributes);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    _recreateSubsamplingBuffer();</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a90f50dffb1dd1722102aa7f8109f162f">clear</a>();</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keywordtype">void</span> OSPRayFrameBuffer::_recreateSubsamplingBuffer()</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;{</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    ospRelease(_subsamplingFrameBuffer);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    _subsamplingFrameBuffer = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> subsamplingSize = _subsamplingSize();</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">_frameSize</a> != subsamplingSize)</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    {</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        _subsamplingFrameBuffer =</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            ospNewFrameBuffer({int(subsamplingSize.x), int(subsamplingSize.y)},</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                              toOSPFrameBufferFormat(<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a89678edc361ece5cb0fd959139f2d497">_frameBufferFormat</a>), OSP_FB_COLOR | OSP_FB_DEPTH);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordflow">if</span> (_pixelOp)</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            ospSetPixelOp(_subsamplingFrameBuffer, _pixelOp);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        ospCommit(_subsamplingFrameBuffer);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    }</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a90f50dffb1dd1722102aa7f8109f162f">  116</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a90f50dffb1dd1722102aa7f8109f162f">OSPRayFrameBuffer::clear</a>()</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;{</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a621025ce427119495747671f93f818e6">FrameBuffer::clear</a>();</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">size_t</span> attributes = OSP_FB_COLOR | OSP_FB_DEPTH;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordflow">if</span> (_subsamplingFrameBuffer)</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        ospFrameBufferClear(_subsamplingFrameBuffer, attributes);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#afe2825b3362696a859275309dbec4384">_accumulation</a>)</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        attributes |= OSP_FB_ACCUM | OSP_FB_VARIANCE;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    ospFrameBufferClear(_frameBuffer, attributes);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;}</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aff9ad346b05cd77f68fff591c501a14a">  127</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aff9ad346b05cd77f68fff591c501a14a">OSPRayFrameBuffer::map</a>()</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;{</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    _mapMutex.lock();</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    _mapUnsafe();</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;}</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
-<div class="line"><a name="l00133"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aff9ad346b05cd77f68fff591c501a14a">  133</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aff9ad346b05cd77f68fff591c501a14a">OSPRayFrameBuffer::map</a>()</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="keywordtype">void</span> OSPRayFrameBuffer::_mapUnsafe()</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;{</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    _mapMutex.lock();</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    _mapUnsafe();</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;}</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="keywordtype">void</span> OSPRayFrameBuffer::_mapUnsafe()</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;{</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a89678edc361ece5cb0fd959139f2d497">_frameBufferFormat</a> == <a class="code" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173fa334c4a4c42fdb79d7ebc3e73b517e6f8">FrameBufferFormat::none</a>)</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    _colorBuffer = (uint8_t*)ospMapFrameBuffer(_currentFB(), OSP_FB_COLOR);</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    _floatBuffer = (<span class="keywordtype">float</span>*)ospMapFrameBuffer(_currentFB(), OSP_FB_DEPTH);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a89678edc361ece5cb0fd959139f2d497">_frameBufferFormat</a> == <a class="code" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173fa334c4a4c42fdb79d7ebc3e73b517e6f8">FrameBufferFormat::none</a>)</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    _colorBuffer = (uint8_t*)ospMapFrameBuffer(_currentFB(), OSP_FB_COLOR);</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    _floatBuffer = (<span class="keywordtype">float</span>*)ospMapFrameBuffer(_currentFB(), OSP_FB_DEPTH);</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;}</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
+<div class="line"><a name="l00142"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a818b10aca61b55db9ceb6936079a857a">  142</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a818b10aca61b55db9ceb6936079a857a">OSPRayFrameBuffer::unmap</a>()</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;{</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    _unmapUnsafe();</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    _mapMutex.unlock();</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;}</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
-<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a818b10aca61b55db9ceb6936079a857a">  148</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a818b10aca61b55db9ceb6936079a857a">OSPRayFrameBuffer::unmap</a>()</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keywordtype">void</span> OSPRayFrameBuffer::_unmapUnsafe()</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;{</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    _unmapUnsafe();</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    _mapMutex.unlock();</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;}</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="keywordtype">void</span> OSPRayFrameBuffer::_unmapUnsafe()</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;{</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a89678edc361ece5cb0fd959139f2d497">_frameBufferFormat</a> == <a class="code" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173fa334c4a4c42fdb79d7ebc3e73b517e6f8">FrameBufferFormat::none</a>)</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a89678edc361ece5cb0fd959139f2d497">_frameBufferFormat</a> == <a class="code" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173fa334c4a4c42fdb79d7ebc3e73b517e6f8">FrameBufferFormat::none</a>)</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordflow">if</span> (_colorBuffer)</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        ospUnmapFrameBuffer(_colorBuffer, _currentFB());</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        _colorBuffer = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    }</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordflow">if</span> (_colorBuffer)</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordflow">if</span> (_floatBuffer)</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    {</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        ospUnmapFrameBuffer(_colorBuffer, _currentFB());</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        _colorBuffer = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        ospUnmapFrameBuffer(_floatBuffer, _currentFB());</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        _floatBuffer = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    }</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordflow">if</span> (_floatBuffer)</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    {</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        ospUnmapFrameBuffer(_floatBuffer, _currentFB());</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        _floatBuffer = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    }</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;}</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="keywordtype">bool</span> OSPRayFrameBuffer::_useSubsampling()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordflow">return</span> _subsamplingFrameBuffer &amp;&amp; <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#acf3111fcabf79aae984a342dca615a8b">numAccumFrames</a>() &lt;= 1;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;}</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;OSPFrameBuffer OSPRayFrameBuffer::_currentFB()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keywordflow">return</span> _useSubsampling() ? _subsamplingFrameBuffer : _frameBuffer;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;}</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<a class="code" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a> OSPRayFrameBuffer::_subsamplingSize()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">_frameSize</a> / _subsamplingFactor;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;}</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160; </div>
-<div class="line"><a name="l00187"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#ac5acc2f7ea070521b25249b6efa53c4f">  187</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#ac5acc2f7ea070521b25249b6efa53c4f">OSPRayFrameBuffer::setAccumulation</a>(<span class="keyword">const</span> <span class="keywordtype">bool</span> accumulation)</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;{</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#afe2825b3362696a859275309dbec4384">_accumulation</a> != accumulation)</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    {</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a4b49da4be6750fda47a883537a8b9c70">FrameBuffer::setAccumulation</a>(accumulation);</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        _recreate();</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    }</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;}</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
-<div class="line"><a name="l00196"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aaaa521532e17e6804c57a0b45d7a5df4">  196</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aaaa521532e17e6804c57a0b45d7a5df4">OSPRayFrameBuffer::setFormat</a>(<a class="code" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a> frameBufferFormat)</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;{</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a89678edc361ece5cb0fd959139f2d497">_frameBufferFormat</a> != frameBufferFormat)</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    {</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a3f0ede8bc2ad01e7f10743bcec07e381">FrameBuffer::setFormat</a>(frameBufferFormat);</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        _recreate();</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    }</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;}</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;}</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="keywordtype">bool</span> OSPRayFrameBuffer::_useSubsampling()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordflow">return</span> _subsamplingFrameBuffer &amp;&amp; <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#acf3111fcabf79aae984a342dca615a8b">numAccumFrames</a>() &lt;= 1;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;}</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;OSPFrameBuffer OSPRayFrameBuffer::_currentFB()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordflow">return</span> _useSubsampling() ? _subsamplingFrameBuffer : _frameBuffer;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;}</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<a class="code" href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">Vector2ui</a> OSPRayFrameBuffer::_subsamplingSize()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">_frameSize</a> / _subsamplingFactor;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;}</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
+<div class="line"><a name="l00181"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#ac5acc2f7ea070521b25249b6efa53c4f">  181</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#ac5acc2f7ea070521b25249b6efa53c4f">OSPRayFrameBuffer::setAccumulation</a>(<span class="keyword">const</span> <span class="keywordtype">bool</span> accumulation)</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;{</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#afe2825b3362696a859275309dbec4384">_accumulation</a> != accumulation)</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    {</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a4b49da4be6750fda47a883537a8b9c70">FrameBuffer::setAccumulation</a>(accumulation);</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        _recreate();</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    }</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;}</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
+<div class="line"><a name="l00190"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aaaa521532e17e6804c57a0b45d7a5df4">  190</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aaaa521532e17e6804c57a0b45d7a5df4">OSPRayFrameBuffer::setFormat</a>(<a class="code" href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">FrameBufferFormat</a> frameBufferFormat)</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;{</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a89678edc361ece5cb0fd959139f2d497">_frameBufferFormat</a> != frameBufferFormat)</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    {</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <a class="code" href="../../db/ddf/classcore_1_1FrameBuffer.html#a3f0ede8bc2ad01e7f10743bcec07e381">FrameBuffer::setFormat</a>(frameBufferFormat);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        _recreate();</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    }</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;}</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160; </div>
+<div class="line"><a name="l00199"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a137c4cdb699483d278c80134389fc9c8">  199</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a137c4cdb699483d278c80134389fc9c8">OSPRayFrameBuffer::setSubsampling</a>(<span class="keywordtype">size_t</span> factor)</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;{</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    factor = std::max(1ul, factor);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keywordflow">if</span> (_subsamplingFactor == factor)</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
-<div class="line"><a name="l00205"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a137c4cdb699483d278c80134389fc9c8">  205</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a137c4cdb699483d278c80134389fc9c8">OSPRayFrameBuffer::setSubsampling</a>(<span class="keywordtype">size_t</span> factor)</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;{</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    factor = std::max(1ul, factor);</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="keywordflow">if</span> (_subsamplingFactor == factor)</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    _subsamplingFactor = factor;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="keyword">auto</span> lock = <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a973b62516bf39a57c1771b10407a09ab">getScopeLock</a>();</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    _unmapUnsafe();</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    _recreateSubsamplingBuffer();</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;}</div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    _subsamplingFactor = factor;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keyword">auto</span> lock = <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a973b62516bf39a57c1771b10407a09ab">getScopeLock</a>();</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    _unmapUnsafe();</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    _recreateSubsamplingBuffer();</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;}</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
-<div class="line"><a name="l00217"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aeca54f686a9ac15eb7ff79dffec43ea6">  217</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aeca54f686a9ac15eb7ff79dffec43ea6">OSPRayFrameBuffer::createPixelOp</a>(<span class="keyword">const</span> std::string&amp; name)</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;{</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="keywordflow">if</span> (_pixelOp)</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160; </div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    _pixelOp = ospNewPixelOp(name.c_str());</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="keywordflow">if</span> (_pixelOp)</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    {</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        ospSetPixelOp(_frameBuffer, _pixelOp);</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <span class="keywordflow">if</span> (_subsamplingFrameBuffer)</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            ospSetPixelOp(_subsamplingFrameBuffer, _pixelOp);</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    }</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;}</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
-<div class="line"><a name="l00231"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a092c1f4fa1979bb47242aec642d51d27">  231</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a092c1f4fa1979bb47242aec642d51d27">OSPRayFrameBuffer::updatePixelOp</a>(<span class="keyword">const</span> <a class="code" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a>&amp; properties)</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;{</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="keywordflow">if</span> (_pixelOp)</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    {</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        <a class="code" href="../../db/da1/namespacecore_1_1engine_1_1ospray.html#a2b7c98d76a072814f8608115ee0460ec">toOSPRayProperties</a>(properties, _pixelOp);</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        ospCommit(_pixelOp);</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    }</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;}</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;} <span class="comment">// namespace ospray</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;} <span class="comment">// namespace engine</span></div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;} <span class="comment">// namespace core</span></div>
+<div class="line"><a name="l00211"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aeca54f686a9ac15eb7ff79dffec43ea6">  211</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aeca54f686a9ac15eb7ff79dffec43ea6">OSPRayFrameBuffer::createPixelOp</a>(<span class="keyword">const</span> std::string&amp; name)</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;{</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordflow">if</span> (_pixelOp)</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160; </div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    _pixelOp = ospNewPixelOp(name.c_str());</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keywordflow">if</span> (_pixelOp)</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    {</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        ospSetPixelOp(_frameBuffer, _pixelOp);</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <span class="keywordflow">if</span> (_subsamplingFrameBuffer)</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            ospSetPixelOp(_subsamplingFrameBuffer, _pixelOp);</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    }</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;}</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160; </div>
+<div class="line"><a name="l00225"></a><span class="lineno"><a class="line" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a092c1f4fa1979bb47242aec642d51d27">  225</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a092c1f4fa1979bb47242aec642d51d27">OSPRayFrameBuffer::updatePixelOp</a>(<span class="keyword">const</span> <a class="code" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a>&amp; properties)</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;{</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <span class="keywordflow">if</span> (_pixelOp)</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    {</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        <a class="code" href="../../db/da1/namespacecore_1_1engine_1_1ospray.html#a2b7c98d76a072814f8608115ee0460ec">toOSPRayProperties</a>(properties, _pixelOp);</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        ospCommit(_pixelOp);</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    }</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;}</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;} <span class="comment">// namespace ospray</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;} <span class="comment">// namespace engine</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;} <span class="comment">// namespace core</span></div>
 <div class="ttc" id="aOSPRayFrameBuffer_8h_html"><div class="ttname"><a href="../../d7/d01/OSPRayFrameBuffer_8h.html">OSPRayFrameBuffer.h</a></div></div>
 <div class="ttc" id="aOSPRayProperties_8h_html"><div class="ttname"><a href="../../d2/d87/OSPRayProperties_8h.html">OSPRayProperties.h</a></div></div>
 <div class="ttc" id="aOSPRayUtils_8h_html"><div class="ttname"><a href="../../dd/d6b/OSPRayUtils_8h.html">OSPRayUtils.h</a></div></div>
-<div class="ttc" id="aclasscore_1_1FrameBuffer_html"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html">core::FrameBuffer</a></div><div class="ttdoc">This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00038">FrameBuffer.h:39</a></div></div>
-<div class="ttc" id="aclasscore_1_1FrameBuffer_html_a0cd9c802bbbc8e2262388a376695bc8c"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#a0cd9c802bbbc8e2262388a376695bc8c">core::FrameBuffer::getName</a></div><div class="ttdeci">PLATFORM_API const std::string &amp; getName() const</div><div class="ttdoc">Get the Name object.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00167">FrameBuffer.h:167</a></div></div>
-<div class="ttc" id="aclasscore_1_1FrameBuffer_html_a12e9a1c259e35e33d8f3a06669775fbb"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">core::FrameBuffer::_frameSize</a></div><div class="ttdeci">Vector2ui _frameSize</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00208">FrameBuffer.h:208</a></div></div>
-<div class="ttc" id="aclasscore_1_1FrameBuffer_html_a3f0ede8bc2ad01e7f10743bcec07e381"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#a3f0ede8bc2ad01e7f10743bcec07e381">core::FrameBuffer::setFormat</a></div><div class="ttdeci">virtual PLATFORM_API void setFormat(FrameBufferFormat frameBufferFormat)</div><div class="ttdoc">Set a new framebuffer format.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00111">FrameBuffer.h:111</a></div></div>
-<div class="ttc" id="aclasscore_1_1FrameBuffer_html_a4b49da4be6750fda47a883537a8b9c70"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#a4b49da4be6750fda47a883537a8b9c70">core::FrameBuffer::setAccumulation</a></div><div class="ttdeci">virtual PLATFORM_API void setAccumulation(const bool accumulation)</div><div class="ttdoc">Enable/disable accumulation state on the framebuffer.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00104">FrameBuffer.h:104</a></div></div>
-<div class="ttc" id="aclasscore_1_1FrameBuffer_html_a621025ce427119495747671f93f818e6"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#a621025ce427119495747671f93f818e6">core::FrameBuffer::clear</a></div><div class="ttdeci">virtual PLATFORM_API void clear()</div><div class="ttdoc">Clear the framebuffer.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00090">FrameBuffer.h:90</a></div></div>
-<div class="ttc" id="aclasscore_1_1FrameBuffer_html_a89678edc361ece5cb0fd959139f2d497"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#a89678edc361ece5cb0fd959139f2d497">core::FrameBuffer::_frameBufferFormat</a></div><div class="ttdeci">FrameBufferFormat _frameBufferFormat</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00209">FrameBuffer.h:209</a></div></div>
-<div class="ttc" id="aclasscore_1_1FrameBuffer_html_acf3111fcabf79aae984a342dca615a8b"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#acf3111fcabf79aae984a342dca615a8b">core::FrameBuffer::numAccumFrames</a></div><div class="ttdeci">PLATFORM_API size_t numAccumFrames() const</div><div class="ttdoc">Get the number of accumulation frames.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00180">FrameBuffer.h:180</a></div></div>
-<div class="ttc" id="aclasscore_1_1FrameBuffer_html_afe2825b3362696a859275309dbec4384"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#afe2825b3362696a859275309dbec4384">core::FrameBuffer::_accumulation</a></div><div class="ttdeci">bool _accumulation</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00210">FrameBuffer.h:210</a></div></div>
-<div class="ttc" id="aclasscore_1_1PropertyMap_html"><div class="ttname"><a href="../../d9/daa/classcore_1_1PropertyMap.html">core::PropertyMap</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d04/PropertyMap_8h_source.html#l00262">PropertyMap.h:263</a></div></div>
-<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_a092c1f4fa1979bb47242aec642d51d27"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a092c1f4fa1979bb47242aec642d51d27">core::engine::ospray::OSPRayFrameBuffer::updatePixelOp</a></div><div class="ttdeci">void updatePixelOp(const PropertyMap &amp;properties) final</div><div class="ttdoc">Update the current pixelop with the given properties.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00231">OSPRayFrameBuffer.cpp:231</a></div></div>
-<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_a137c4cdb699483d278c80134389fc9c8"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a137c4cdb699483d278c80134389fc9c8">core::engine::ospray::OSPRayFrameBuffer::setSubsampling</a></div><div class="ttdeci">void setSubsampling(const size_t) final</div><div class="ttdoc">Set a new subsampling with a factor from 1 to x of the current size.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00205">OSPRayFrameBuffer.cpp:205</a></div></div>
-<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_a23bfdf30348f87973bb1ec5167558942"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a23bfdf30348f87973bb1ec5167558942">core::engine::ospray::OSPRayFrameBuffer::resize</a></div><div class="ttdeci">void resize(const Vector2ui &amp;frameSize) final</div><div class="ttdoc">Resize the framebuffer to the new size.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00069">OSPRayFrameBuffer.cpp:69</a></div></div>
-<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_a737d809ccb93e1de58f574ab63956db6"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a737d809ccb93e1de58f574ab63956db6">core::engine::ospray::OSPRayFrameBuffer::~OSPRayFrameBuffer</a></div><div class="ttdeci">~OSPRayFrameBuffer()</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00059">OSPRayFrameBuffer.cpp:59</a></div></div>
-<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_a818b10aca61b55db9ceb6936079a857a"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a818b10aca61b55db9ceb6936079a857a">core::engine::ospray::OSPRayFrameBuffer::unmap</a></div><div class="ttdeci">void unmap() final</div><div class="ttdoc">Unmap the buffer for reading with get*Buffer().</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00148">OSPRayFrameBuffer.cpp:148</a></div></div>
-<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_a90f50dffb1dd1722102aa7f8109f162f"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a90f50dffb1dd1722102aa7f8109f162f">core::engine::ospray::OSPRayFrameBuffer::clear</a></div><div class="ttdeci">void clear() final</div><div class="ttdoc">Clear the framebuffer.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00122">OSPRayFrameBuffer.cpp:122</a></div></div>
-<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_a973b62516bf39a57c1771b10407a09ab"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a973b62516bf39a57c1771b10407a09ab">core::engine::ospray::OSPRayFrameBuffer::getScopeLock</a></div><div class="ttdeci">std::unique_lock&lt; std::mutex &gt; getScopeLock()</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d01/OSPRayFrameBuffer_8h_source.html#l00050">OSPRayFrameBuffer.h:50</a></div></div>
-<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_aaaa521532e17e6804c57a0b45d7a5df4"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aaaa521532e17e6804c57a0b45d7a5df4">core::engine::ospray::OSPRayFrameBuffer::setFormat</a></div><div class="ttdeci">void setFormat(FrameBufferFormat frameBufferFormat) final</div><div class="ttdoc">Set a new framebuffer format.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00196">OSPRayFrameBuffer.cpp:196</a></div></div>
-<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_ac5acc2f7ea070521b25249b6efa53c4f"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#ac5acc2f7ea070521b25249b6efa53c4f">core::engine::ospray::OSPRayFrameBuffer::setAccumulation</a></div><div class="ttdeci">void setAccumulation(const bool accumulation) final</div><div class="ttdoc">Enable/disable accumulation state on the framebuffer.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00187">OSPRayFrameBuffer.cpp:187</a></div></div>
-<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_aea4cf4afd1a395bc37931db271292d59"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aea4cf4afd1a395bc37931db271292d59">core::engine::ospray::OSPRayFrameBuffer::OSPRayFrameBuffer</a></div><div class="ttdeci">OSPRayFrameBuffer(const std::string &amp;name, const Vector2ui &amp;frameSize, const FrameBufferFormat frameBufferFormat)</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00052">OSPRayFrameBuffer.cpp:52</a></div></div>
-<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_aeca54f686a9ac15eb7ff79dffec43ea6"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aeca54f686a9ac15eb7ff79dffec43ea6">core::engine::ospray::OSPRayFrameBuffer::createPixelOp</a></div><div class="ttdeci">void createPixelOp(const std::string &amp;name) final</div><div class="ttdoc">Create and set a pixelop (pre/post filter) on the framebuffer.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00217">OSPRayFrameBuffer.cpp:217</a></div></div>
-<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_aff9ad346b05cd77f68fff591c501a14a"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aff9ad346b05cd77f68fff591c501a14a">core::engine::ospray::OSPRayFrameBuffer::map</a></div><div class="ttdeci">void map() final</div><div class="ttdoc">Map the buffer for reading with get*Buffer().</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00133">OSPRayFrameBuffer.cpp:133</a></div></div>
-<div class="ttc" id="anamespacecore_1_1engine_1_1ospray_1_1osphelper_html_a7890c840309ad566ec7b26d55bfb945c"><div class="ttname"><a href="../../dc/dbb/namespacecore_1_1engine_1_1ospray_1_1osphelper.html#a7890c840309ad566ec7b26d55bfb945c">core::engine::ospray::osphelper::set</a></div><div class="ttdeci">void set(OSPObject obj, const char *id, const char *s)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d20/OSPRayUtils_8cpp_source.html#l00183">OSPRayUtils.cpp:183</a></div></div>
-<div class="ttc" id="anamespacecore_1_1engine_1_1ospray_html_a2b7c98d76a072814f8608115ee0460ec"><div class="ttname"><a href="../../db/da1/namespacecore_1_1engine_1_1ospray.html#a2b7c98d76a072814f8608115ee0460ec">core::engine::ospray::toOSPRayProperties</a></div><div class="ttdeci">void toOSPRayProperties(const PropertyMap &amp;object, OSPObject ospObject)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d20/OSPRayUtils_8cpp_source.html#l00036">OSPRayUtils.cpp:36</a></div></div>
+<div class="ttc" id="aclasscore_1_1FrameBuffer_html"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html">core::FrameBuffer</a></div><div class="ttdoc">This class represents a frame buffer for an engine specific code. It provides an API for utilizing an...</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00036">FrameBuffer.h:37</a></div></div>
+<div class="ttc" id="aclasscore_1_1FrameBuffer_html_a0cd9c802bbbc8e2262388a376695bc8c"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#a0cd9c802bbbc8e2262388a376695bc8c">core::FrameBuffer::getName</a></div><div class="ttdeci">PLATFORM_API const std::string &amp; getName() const</div><div class="ttdoc">Get the Name object.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00165">FrameBuffer.h:165</a></div></div>
+<div class="ttc" id="aclasscore_1_1FrameBuffer_html_a12e9a1c259e35e33d8f3a06669775fbb"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#a12e9a1c259e35e33d8f3a06669775fbb">core::FrameBuffer::_frameSize</a></div><div class="ttdeci">Vector2ui _frameSize</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00206">FrameBuffer.h:206</a></div></div>
+<div class="ttc" id="aclasscore_1_1FrameBuffer_html_a3f0ede8bc2ad01e7f10743bcec07e381"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#a3f0ede8bc2ad01e7f10743bcec07e381">core::FrameBuffer::setFormat</a></div><div class="ttdeci">virtual PLATFORM_API void setFormat(FrameBufferFormat frameBufferFormat)</div><div class="ttdoc">Set a new framebuffer format.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00109">FrameBuffer.h:109</a></div></div>
+<div class="ttc" id="aclasscore_1_1FrameBuffer_html_a4b49da4be6750fda47a883537a8b9c70"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#a4b49da4be6750fda47a883537a8b9c70">core::FrameBuffer::setAccumulation</a></div><div class="ttdeci">virtual PLATFORM_API void setAccumulation(const bool accumulation)</div><div class="ttdoc">Enable/disable accumulation state on the framebuffer.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00102">FrameBuffer.h:102</a></div></div>
+<div class="ttc" id="aclasscore_1_1FrameBuffer_html_a621025ce427119495747671f93f818e6"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#a621025ce427119495747671f93f818e6">core::FrameBuffer::clear</a></div><div class="ttdeci">virtual PLATFORM_API void clear()</div><div class="ttdoc">Clear the framebuffer.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00088">FrameBuffer.h:88</a></div></div>
+<div class="ttc" id="aclasscore_1_1FrameBuffer_html_a89678edc361ece5cb0fd959139f2d497"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#a89678edc361ece5cb0fd959139f2d497">core::FrameBuffer::_frameBufferFormat</a></div><div class="ttdeci">FrameBufferFormat _frameBufferFormat</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00207">FrameBuffer.h:207</a></div></div>
+<div class="ttc" id="aclasscore_1_1FrameBuffer_html_acf3111fcabf79aae984a342dca615a8b"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#acf3111fcabf79aae984a342dca615a8b">core::FrameBuffer::numAccumFrames</a></div><div class="ttdeci">PLATFORM_API size_t numAccumFrames() const</div><div class="ttdoc">Get the number of accumulation frames.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00178">FrameBuffer.h:178</a></div></div>
+<div class="ttc" id="aclasscore_1_1FrameBuffer_html_afe2825b3362696a859275309dbec4384"><div class="ttname"><a href="../../db/ddf/classcore_1_1FrameBuffer.html#afe2825b3362696a859275309dbec4384">core::FrameBuffer::_accumulation</a></div><div class="ttdeci">bool _accumulation</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d8a/FrameBuffer_8h_source.html#l00208">FrameBuffer.h:208</a></div></div>
+<div class="ttc" id="aclasscore_1_1PropertyMap_html"><div class="ttname"><a href="../../d9/daa/classcore_1_1PropertyMap.html">core::PropertyMap</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d04/PropertyMap_8h_source.html#l00257">PropertyMap.h:258</a></div></div>
+<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_a092c1f4fa1979bb47242aec642d51d27"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a092c1f4fa1979bb47242aec642d51d27">core::engine::ospray::OSPRayFrameBuffer::updatePixelOp</a></div><div class="ttdeci">void updatePixelOp(const PropertyMap &amp;properties) final</div><div class="ttdoc">Update the current pixelop with the given properties.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00225">OSPRayFrameBuffer.cpp:225</a></div></div>
+<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_a137c4cdb699483d278c80134389fc9c8"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a137c4cdb699483d278c80134389fc9c8">core::engine::ospray::OSPRayFrameBuffer::setSubsampling</a></div><div class="ttdeci">void setSubsampling(const size_t) final</div><div class="ttdoc">Set a new subsampling with a factor from 1 to x of the current size.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00199">OSPRayFrameBuffer.cpp:199</a></div></div>
+<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_a23bfdf30348f87973bb1ec5167558942"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a23bfdf30348f87973bb1ec5167558942">core::engine::ospray::OSPRayFrameBuffer::resize</a></div><div class="ttdeci">void resize(const Vector2ui &amp;frameSize) final</div><div class="ttdoc">Resize the framebuffer to the new size.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00063">OSPRayFrameBuffer.cpp:63</a></div></div>
+<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_a737d809ccb93e1de58f574ab63956db6"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a737d809ccb93e1de58f574ab63956db6">core::engine::ospray::OSPRayFrameBuffer::~OSPRayFrameBuffer</a></div><div class="ttdeci">~OSPRayFrameBuffer()</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00053">OSPRayFrameBuffer.cpp:53</a></div></div>
+<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_a818b10aca61b55db9ceb6936079a857a"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a818b10aca61b55db9ceb6936079a857a">core::engine::ospray::OSPRayFrameBuffer::unmap</a></div><div class="ttdeci">void unmap() final</div><div class="ttdoc">Unmap the buffer for reading with get*Buffer().</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00142">OSPRayFrameBuffer.cpp:142</a></div></div>
+<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_a90f50dffb1dd1722102aa7f8109f162f"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a90f50dffb1dd1722102aa7f8109f162f">core::engine::ospray::OSPRayFrameBuffer::clear</a></div><div class="ttdeci">void clear() final</div><div class="ttdoc">Clear the framebuffer.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00116">OSPRayFrameBuffer.cpp:116</a></div></div>
+<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_a973b62516bf39a57c1771b10407a09ab"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#a973b62516bf39a57c1771b10407a09ab">core::engine::ospray::OSPRayFrameBuffer::getScopeLock</a></div><div class="ttdeci">std::unique_lock&lt; std::mutex &gt; getScopeLock()</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d01/OSPRayFrameBuffer_8h_source.html#l00044">OSPRayFrameBuffer.h:44</a></div></div>
+<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_aaaa521532e17e6804c57a0b45d7a5df4"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aaaa521532e17e6804c57a0b45d7a5df4">core::engine::ospray::OSPRayFrameBuffer::setFormat</a></div><div class="ttdeci">void setFormat(FrameBufferFormat frameBufferFormat) final</div><div class="ttdoc">Set a new framebuffer format.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00190">OSPRayFrameBuffer.cpp:190</a></div></div>
+<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_ac5acc2f7ea070521b25249b6efa53c4f"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#ac5acc2f7ea070521b25249b6efa53c4f">core::engine::ospray::OSPRayFrameBuffer::setAccumulation</a></div><div class="ttdeci">void setAccumulation(const bool accumulation) final</div><div class="ttdoc">Enable/disable accumulation state on the framebuffer.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00181">OSPRayFrameBuffer.cpp:181</a></div></div>
+<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_aea4cf4afd1a395bc37931db271292d59"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aea4cf4afd1a395bc37931db271292d59">core::engine::ospray::OSPRayFrameBuffer::OSPRayFrameBuffer</a></div><div class="ttdeci">OSPRayFrameBuffer(const std::string &amp;name, const Vector2ui &amp;frameSize, const FrameBufferFormat frameBufferFormat)</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00046">OSPRayFrameBuffer.cpp:46</a></div></div>
+<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_aeca54f686a9ac15eb7ff79dffec43ea6"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aeca54f686a9ac15eb7ff79dffec43ea6">core::engine::ospray::OSPRayFrameBuffer::createPixelOp</a></div><div class="ttdeci">void createPixelOp(const std::string &amp;name) final</div><div class="ttdoc">Create and set a pixelop (pre/post filter) on the framebuffer.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00211">OSPRayFrameBuffer.cpp:211</a></div></div>
+<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer_html_aff9ad346b05cd77f68fff591c501a14a"><div class="ttname"><a href="../../db/d69/classcore_1_1engine_1_1ospray_1_1OSPRayFrameBuffer.html#aff9ad346b05cd77f68fff591c501a14a">core::engine::ospray::OSPRayFrameBuffer::map</a></div><div class="ttdeci">void map() final</div><div class="ttdoc">Map the buffer for reading with get*Buffer().</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/daf/OSPRayFrameBuffer_8cpp_source.html#l00127">OSPRayFrameBuffer.cpp:127</a></div></div>
+<div class="ttc" id="anamespacecore_1_1engine_1_1ospray_1_1osphelper_html_a7890c840309ad566ec7b26d55bfb945c"><div class="ttname"><a href="../../dc/dbb/namespacecore_1_1engine_1_1ospray_1_1osphelper.html#a7890c840309ad566ec7b26d55bfb945c">core::engine::ospray::osphelper::set</a></div><div class="ttdeci">void set(OSPObject obj, const char *id, const char *s)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d20/OSPRayUtils_8cpp_source.html#l00177">OSPRayUtils.cpp:177</a></div></div>
+<div class="ttc" id="anamespacecore_1_1engine_1_1ospray_html_a2b7c98d76a072814f8608115ee0460ec"><div class="ttname"><a href="../../db/da1/namespacecore_1_1engine_1_1ospray.html#a2b7c98d76a072814f8608115ee0460ec">core::engine::ospray::toOSPRayProperties</a></div><div class="ttdeci">void toOSPRayProperties(const PropertyMap &amp;object, OSPObject ospObject)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d20/OSPRayUtils_8cpp_source.html#l00030">OSPRayUtils.cpp:30</a></div></div>
 <div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00052">BaseWindow.cpp:53</a></div></div>
-<div class="ttc" id="anamespacecore_html_aa106b0d50272e7654d2a10245c6b173f"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">core::FrameBufferFormat</a></div><div class="ttdeci">FrameBufferFormat</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00204">Types.h:205</a></div></div>
+<div class="ttc" id="anamespacecore_html_aa106b0d50272e7654d2a10245c6b173f"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173f">core::FrameBufferFormat</a></div><div class="ttdeci">FrameBufferFormat</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00198">Types.h:199</a></div></div>
 <div class="ttc" id="anamespacecore_html_aa106b0d50272e7654d2a10245c6b173fa334c4a4c42fdb79d7ebc3e73b517e6f8"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173fa334c4a4c42fdb79d7ebc3e73b517e6f8">core::FrameBufferFormat::none</a></div><div class="ttdeci">@ none</div></div>
 <div class="ttc" id="anamespacecore_html_aa106b0d50272e7654d2a10245c6b173fa368c530651a0a610a0ce0f348cacc02a"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173fa368c530651a0a610a0ce0f348cacc02a">core::FrameBufferFormat::rgba_i8</a></div><div class="ttdeci">@ rgba_i8</div></div>
 <div class="ttc" id="anamespacecore_html_aa106b0d50272e7654d2a10245c6b173faca4069ff307714b2b8c626055c1ed058"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#aa106b0d50272e7654d2a10245c6b173faca4069ff307714b2b8c626055c1ed058">core::FrameBufferFormat::rgb_f32</a></div><div class="ttdeci">@ rgb_f32</div></div>
-<div class="ttc" id="anamespacecore_html_adacbd43609f0dc05290ece3eff73eee1"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">core::Vector2ui</a></div><div class="ttdeci">glm::vec&lt; 2, uint32_t &gt; Vector2ui</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00133">MathTypes.h:133</a></div></div>
-<div class="ttc" id="anamespaceospray_html"><div class="ttname"><a href="../../d1/d51/namespaceospray.html">ospray</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/de7/DeflectPixelOp_8cpp_source.html#l00235">DeflectPixelOp.cpp:236</a></div></div>
+<div class="ttc" id="anamespacecore_html_adacbd43609f0dc05290ece3eff73eee1"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#adacbd43609f0dc05290ece3eff73eee1">core::Vector2ui</a></div><div class="ttdeci">glm::vec&lt; 2, uint32_t &gt; Vector2ui</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00127">MathTypes.h:127</a></div></div>
+<div class="ttc" id="anamespaceospray_html"><div class="ttname"><a href="../../d1/d51/namespaceospray.html">ospray</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/de7/DeflectPixelOp_8cpp_source.html#l00230">DeflectPixelOp.cpp:231</a></div></div>
 <div class="ttc" id="aplatform_2core_2common_2Logs_8h_html"><div class="ttname"><a href="../../de/df2/platform_2core_2common_2Logs_8h.html">Logs.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

@@ -4,6 +4,7 @@ var structcore_1_1engine_1_1ospray_1_1Fields =
     [ "commit", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#a4dd17e964367b64a52628d5763b0495f", null ],
     [ "finalize", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#abab630b9de3327e1520ca236734569e8", null ],
     [ "toString", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#a3e4cdb836e0e7f7912045db567cb81c2", null ],
+    [ "_accumulationCount", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#a9fe22dc50883c8fd0f30b9de2ac935da", null ],
     [ "_accumulationSteps", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#afebe6b74c86995bb053ebe0292d46efa", null ],
     [ "_cutoff", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#afb12cc7368b09295b53341bdb53b8588", null ],
     [ "_dataType", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#af62d01d773cc1ee4eef88baa74444b44", null ],
@@ -16,5 +17,6 @@ var structcore_1_1engine_1_1ospray_1_1Fields =
     [ "_offset", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#a27159fba09ba0b056c0a795742671376", null ],
     [ "_samplingRate", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#a372cf7e23d37893e57b9abd8c3ae0e00", null ],
     [ "_spacing", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#a657e7874128ab4e6729212b9f369a256", null ],
+    [ "_useOctree", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#a73e70f07f980fd58246baa5bf2cef762", null ],
     [ "_values", "d0/da1/structcore_1_1engine_1_1ospray_1_1Fields.html#a4eff44e568defd1a06e2e0d3121f1724", null ]
 ];

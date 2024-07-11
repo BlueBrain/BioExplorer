@@ -278,11 +278,11 @@ $(document).ready(function(){initNavTree('db/d0b/Fields_8cu_source.html','../../
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            const int fieldOctreeType = static_cast&lt;int&gt;(fields[idx + FIELD_OFFSET_OCTREE_TYPE]);</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            switch (fieldOctreeType)</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            {</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            case OctreeDataType::point:</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            case odt_points:</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                return make_float4(0.f, 0.f, 0.f,</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                                   treeWalker&lt;0&gt;(fieldOctreeIndicesId, fieldOctreeValuesId, point, fieldDistance,</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                                                 fieldCutoff, 0u));</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            case OctreeDataType::vector:</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            case odt_vectors:</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                const float3 sampleValue =</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                    treeWalker3&lt;0&gt;(fieldOctreeIndicesId, fieldOctreeValuesId, point, fieldDistance, fieldCutoff, 0u);</div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                return make_float4(normalize(sampleValue), length(sampleValue));</div>

@@ -87,51 +87,47 @@ $(document).ready(function(){initNavTree('de/dbb/MultiviewPlugin_8h_source.html'
 </div><!--header-->
 <div class="contents">
 <a href="../../de/dbb/MultiviewPlugin_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright (c) 2018-2024, EPFL/Blue Brain Project</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * All rights reserved. Do not distribute without permission.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU Lesser General Public License version 3.0 as published</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * by the Free Software Foundation.</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">    Copyright 2018 - 2024 Blue Brain Project / EPFL</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">    you may not use this file except in compliance with the License.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">    You may obtain a copy of the License at</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">        http://www.apache.org/licenses/LICENSE-2.0</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">    Unless required by applicable law or agreed to in writing, software</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    See the License for the specific language governing permissions and</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    limitations under the License.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../dc/d04/PropertyMap_8h.html">platform/core/common/PropertyMap.h</a>&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html">platform/core/common/Types.h</a>&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d8/d85/ExtensionPlugin_8h.html">platform/core/pluginapi/ExtensionPlugin.h</a>&gt;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../dc/d04/PropertyMap_8h.html">platform/core/common/PropertyMap.h</a>&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html">platform/core/common/Types.h</a>&gt;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d8/d85/ExtensionPlugin_8h.html">platform/core/pluginapi/ExtensionPlugin.h</a>&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../d8/d2e/classcore_1_1MultiviewPlugin.html">   29</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/d2e/classcore_1_1MultiviewPlugin.html">MultiviewPlugin</a> : <span class="keyword">public</span> <a class="code" href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">ExtensionPlugin</a></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="../../d8/d2e/classcore_1_1MultiviewPlugin.html#af9c7274d78c545e3048bd7e3a12581d4">MultiviewPlugin</a>(<a class="code" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a>&amp;&amp; properties);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d8/d2e/classcore_1_1MultiviewPlugin.html#a58c202e5d75d06863540894cdd1ea89b">init</a>() <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> _properties;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;};</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;} <span class="comment">// namespace core</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="../../d8/d2e/classcore_1_1MultiviewPlugin.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/d2e/classcore_1_1MultiviewPlugin.html">MultiviewPlugin</a> : <span class="keyword">public</span> <a class="code" href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">ExtensionPlugin</a></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="../../d8/d2e/classcore_1_1MultiviewPlugin.html#af9c7274d78c545e3048bd7e3a12581d4">MultiviewPlugin</a>(<a class="code" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a>&amp;&amp; properties);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d8/d2e/classcore_1_1MultiviewPlugin.html#a58c202e5d75d06863540894cdd1ea89b">init</a>() <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="../../d9/daa/classcore_1_1PropertyMap.html">PropertyMap</a> _properties;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;} <span class="comment">// namespace core</span></div>
 <div class="ttc" id="aExtensionPlugin_8h_html"><div class="ttname"><a href="../../d8/d85/ExtensionPlugin_8h.html">ExtensionPlugin.h</a></div></div>
 <div class="ttc" id="aPropertyMap_8h_html"><div class="ttname"><a href="../../dc/d04/PropertyMap_8h.html">PropertyMap.h</a></div></div>
-<div class="ttc" id="aclasscore_1_1ExtensionPlugin_html"><div class="ttname"><a href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">core::ExtensionPlugin</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d85/ExtensionPlugin_8h_source.html#l00049">ExtensionPlugin.h:50</a></div></div>
-<div class="ttc" id="aclasscore_1_1MultiviewPlugin_html"><div class="ttname"><a href="../../d8/d2e/classcore_1_1MultiviewPlugin.html">core::MultiviewPlugin</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/dbb/MultiviewPlugin_8h_source.html#l00029">MultiviewPlugin.h:30</a></div></div>
-<div class="ttc" id="aclasscore_1_1MultiviewPlugin_html_a58c202e5d75d06863540894cdd1ea89b"><div class="ttname"><a href="../../d8/d2e/classcore_1_1MultiviewPlugin.html#a58c202e5d75d06863540894cdd1ea89b">core::MultiviewPlugin::init</a></div><div class="ttdeci">void init() final</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d8d/MultiviewPlugin_8cpp_source.html#l00045">MultiviewPlugin.cpp:45</a></div></div>
-<div class="ttc" id="aclasscore_1_1MultiviewPlugin_html_af9c7274d78c545e3048bd7e3a12581d4"><div class="ttname"><a href="../../d8/d2e/classcore_1_1MultiviewPlugin.html#af9c7274d78c545e3048bd7e3a12581d4">core::MultiviewPlugin::MultiviewPlugin</a></div><div class="ttdeci">MultiviewPlugin(PropertyMap &amp;&amp;properties)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d8d/MultiviewPlugin_8cpp_source.html#l00037">MultiviewPlugin.cpp:37</a></div></div>
-<div class="ttc" id="aclasscore_1_1PropertyMap_html"><div class="ttname"><a href="../../d9/daa/classcore_1_1PropertyMap.html">core::PropertyMap</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d04/PropertyMap_8h_source.html#l00262">PropertyMap.h:263</a></div></div>
+<div class="ttc" id="aclasscore_1_1ExtensionPlugin_html"><div class="ttname"><a href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">core::ExtensionPlugin</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d85/ExtensionPlugin_8h_source.html#l00043">ExtensionPlugin.h:44</a></div></div>
+<div class="ttc" id="aclasscore_1_1MultiviewPlugin_html"><div class="ttname"><a href="../../d8/d2e/classcore_1_1MultiviewPlugin.html">core::MultiviewPlugin</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/dbb/MultiviewPlugin_8h_source.html#l00025">MultiviewPlugin.h:26</a></div></div>
+<div class="ttc" id="aclasscore_1_1MultiviewPlugin_html_a58c202e5d75d06863540894cdd1ea89b"><div class="ttname"><a href="../../d8/d2e/classcore_1_1MultiviewPlugin.html#a58c202e5d75d06863540894cdd1ea89b">core::MultiviewPlugin::init</a></div><div class="ttdeci">void init() final</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d8d/MultiviewPlugin_8cpp_source.html#l00041">MultiviewPlugin.cpp:41</a></div></div>
+<div class="ttc" id="aclasscore_1_1MultiviewPlugin_html_af9c7274d78c545e3048bd7e3a12581d4"><div class="ttname"><a href="../../d8/d2e/classcore_1_1MultiviewPlugin.html#af9c7274d78c545e3048bd7e3a12581d4">core::MultiviewPlugin::MultiviewPlugin</a></div><div class="ttdeci">MultiviewPlugin(PropertyMap &amp;&amp;properties)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d8d/MultiviewPlugin_8cpp_source.html#l00033">MultiviewPlugin.cpp:33</a></div></div>
+<div class="ttc" id="aclasscore_1_1PropertyMap_html"><div class="ttname"><a href="../../d9/daa/classcore_1_1PropertyMap.html">core::PropertyMap</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d04/PropertyMap_8h_source.html#l00257">PropertyMap.h:258</a></div></div>
 <div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00052">BaseWindow.cpp:53</a></div></div>
 <div class="ttc" id="aplatform_2core_2common_2Types_8h_html"><div class="ttname"><a href="../../de/d53/platform_2core_2common_2Types_8h.html">Types.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

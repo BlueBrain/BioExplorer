@@ -1,7 +1,7 @@
 var classbioexplorer_1_1io_1_1db_1_1DBConnector =
 [
     [ "clearBricks", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ad02d54aff9bd925e722fba2a1a92a5d1", null ],
-    [ "getAstrocyteEndFeet", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ad6ca434ef6493ef5841c49c3de65df8c", null ],
+    [ "getAstrocyteEndFeet", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a1f856b2eb5cde7f52fd34fbaa6d9e2ef", null ],
     [ "getAstrocyteMicroDomain", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ab6fac1fc9fa9a67d06f1d288acb0cdfe", null ],
     [ "getAstrocytes", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#acdec3c0a9afec8a756de5fd8fe696746", null ],
     [ "getAstrocyteSections", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a9e07992ae6c50245f79b8f71992e2003", null ],
@@ -18,6 +18,7 @@ var classbioexplorer_1_1io_1_1db_1_1DBConnector =
     [ "getNeuronSections", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#af7de7fec03d25cbd0b95a5df2573281c", null ],
     [ "getNeuronSomaReportValues", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a1927ba7702501673be5ad970a782e4af", null ],
     [ "getNeuronSpikeReportValues", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a9639b3d18e62e3bac45325415e39c596", null ],
+    [ "getNumberOfNeurons", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a3decb6189bc1bf8f51b17b9b917c5297", null ],
     [ "getSceneConfiguration", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#ae91b451a6d92811c8c313645aecd1573", null ],
     [ "getSimulatedNodesGuids", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#af8c85dc79de0b301582a8267b071d589", null ],
     [ "getSimulationReport", "d9/d96/classbioexplorer_1_1io_1_1db_1_1DBConnector.html#a757a048ecc2f4ee6a872921506ae760a", null ],

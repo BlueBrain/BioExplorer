@@ -143,8 +143,8 @@ var bioexplorer_2backend_2science_2common_2Types_8h =
       [ "spherical_cell_diffusion", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#af608e48ca83174d68456a1069a6f07a1a1a17967c0c81fda300710f04d41f36d9", null ]
     ] ],
     [ "FieldDataType", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a193d6148453f4a72eeb413c8756cd4a7", [
-      [ "point", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a193d6148453f4a72eeb413c8756cd4a7a78ee54aa8f813885fe2fe20d232518b9", null ],
-      [ "vector", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a193d6148453f4a72eeb413c8756cd4a7a6ba8844da718b4a65f60dbfd0d92d6ef", null ]
+      [ "fdt_points", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a193d6148453f4a72eeb413c8756cd4a7aff0c0550aded33e32de7b46bb98b3d5f", null ],
+      [ "fdt_vectors", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#a193d6148453f4a72eeb413c8756cd4a7a3b216fc0f1ee1f61ca0d7e9a9742b39b", null ]
     ] ],
     [ "MicroDomainRepresentation", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aee7447751c54a343c4f8600c3f9a1aa3", [
       [ "mesh", "d1/d29/bioexplorer_2backend_2science_2common_2Types_8h.html#aee7447751c54a343c4f8600c3f9a1aa3a09bc81c3aa886b690f84c5aba4109e20", null ],

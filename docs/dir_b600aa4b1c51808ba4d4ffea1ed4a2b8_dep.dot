@@ -7,5 +7,5 @@ digraph "platform/core/pluginapi" {
   dir_ff47398fa61110350cc6863e3680f308 [shape=box label="common" fillcolor="white" style="filled" color="red" URL="dir_ff47398fa61110350cc6863e3680f308.html"];
   dir_b600aa4b1c51808ba4d4ffea1ed4a2b8 [shape=box, label="pluginapi", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_b600aa4b1c51808ba4d4ffea1ed4a2b8.html"];
   }
-  dir_b600aa4b1c51808ba4d4ffea1ed4a2b8->dir_ff47398fa61110350cc6863e3680f308 [headlabel="2", labeldistance=1.5 headhref="dir_000073_000068.html"];
+  dir_b600aa4b1c51808ba4d4ffea1ed4a2b8->dir_ff47398fa61110350cc6863e3680f308 [headlabel="2", labeldistance=1.5 headhref="dir_000074_000069.html"];
 }

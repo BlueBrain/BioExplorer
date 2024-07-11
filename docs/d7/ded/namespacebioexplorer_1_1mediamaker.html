@@ -85,6 +85,7 @@ $(document).ready(function(){initNavTree('d7/ded/namespacebioexplorer_1_1mediama
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
@@ -108,9 +109,21 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">FrameExportProgress</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d91/structbioexplorer_1_1mediamaker_1_1CameraHandlerDetails.html">CameraHandlerDetails</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d55/classbioexplorer_1_1mediamaker_1_1CameraHandler.html">CameraHandler</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="../../dd/d55/classbioexplorer_1_1mediamaker_1_1CameraHandler.html" title="The CameraHandler handles the position of orientation of the camera from the given set of key frames,...">CameraHandler</a> handles the position of orientation of the camera from the given set of key frames, smoothing paramters.  <a href="../../dd/d55/classbioexplorer_1_1mediamaker_1_1CameraHandler.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html">MediaMakerPlugin</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements the Media Maker plugin for Core.  <a href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a17dabe792518dee33c5e586fd0ca62d9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a17dabe792518dee33c5e586fd0ca62d9">CameraKeyFrames</a> = std::vector&lt; <a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a> &gt;</td></tr>
+<tr class="separator:a17dabe792518dee33c5e586fd0ca62d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -129,8 +142,24 @@ Functions</h2></td></tr>
 <tr class="separator:a6b5b38ea56cd05bdf344e05f23f71c5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8afabc95a2e0ec82e1740e8ea84e616c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a8afabc95a2e0ec82e1740e8ea84e616c">from_json</a> (<a class="el" href="../../db/dbb/structbioexplorer_1_1mediamaker_1_1ExportFramesToDisk.html">ExportFramesToDisk</a> &amp;param, const std::string &amp;payload)</td></tr>
 <tr class="separator:a8afabc95a2e0ec82e1740e8ea84e616c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8847c2a3e935c993795e49b23ceff2f7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a8847c2a3e935c993795e49b23ceff2f7">to_json</a> (const <a class="el" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">FrameExportProgress</a> &amp;exportProgress)</td></tr>
-<tr class="separator:a8847c2a3e935c993795e49b23ceff2f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a629c4bdd490923b490af055e22cb6422"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a629c4bdd490923b490af055e22cb6422">to_json</a> (const <a class="el" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">FrameExportProgress</a> &amp;param)</td></tr>
+<tr class="separator:a629c4bdd490923b490af055e22cb6422"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dc88f15ba266dbca0a2d49310f236da"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a0dc88f15ba266dbca0a2d49310f236da">to_json</a> (const <a class="el" href="../../dd/d91/structbioexplorer_1_1mediamaker_1_1CameraHandlerDetails.html">CameraHandlerDetails</a> &amp;param)</td></tr>
+<tr class="separator:a0dc88f15ba266dbca0a2d49310f236da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c6cbed9068327dcd39da19125d05e75"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a3c6cbed9068327dcd39da19125d05e75">from_json</a> (<a class="el" href="../../dd/d91/structbioexplorer_1_1mediamaker_1_1CameraHandlerDetails.html">CameraHandlerDetails</a> &amp;param, const std::string &amp;payload)</td></tr>
+<tr class="separator:a3c6cbed9068327dcd39da19125d05e75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54d5ec5c7c871d12c280620d5e1b8b01"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a54d5ec5c7c871d12c280620d5e1b8b01">cameraDefinitionToKeyFrame</a> (const <a class="el" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> &amp;cameraDefinition)</td></tr>
+<tr class="memdesc:a54d5ec5c7c871d12c280620d5e1b8b01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a <a class="el" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> structure into a cameraKeyFrame structure.  <a href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a54d5ec5c7c871d12c280620d5e1b8b01">More...</a><br /></td></tr>
+<tr class="separator:a54d5ec5c7c871d12c280620d5e1b8b01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f0f080a89e7d7773ad6fd4d5066cb09"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a2f0f080a89e7d7773ad6fd4d5066cb09">keyFrameToCameraDefinition</a> (const <a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a> &amp;camera)</td></tr>
+<tr class="memdesc:a2f0f080a89e7d7773ad6fd4d5066cb09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a cameraKeyFrame structure into a <a class="el" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> structure.  <a href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a2f0f080a89e7d7773ad6fd4d5066cb09">More...</a><br /></td></tr>
+<tr class="separator:a2f0f080a89e7d7773ad6fd4d5066cb09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40a51d7d32d2b3fe6da20ca9b2eec325"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a40a51d7d32d2b3fe6da20ca9b2eec325">setCamera</a> (const <a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a> &amp;cameraKeyFrame, <a class="el" href="../../d6/da7/classcore_1_1Camera.html">core::Camera</a> &amp;camera, const bool triggerCallback=true)</td></tr>
+<tr class="memdesc:a40a51d7d32d2b3fe6da20ca9b2eec325"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Camera object.  <a href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a40a51d7d32d2b3fe6da20ca9b2eec325">More...</a><br /></td></tr>
+<tr class="separator:a40a51d7d32d2b3fe6da20ca9b2eec325"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d2db4c567742000dc54ac2e9175813c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a6d2db4c567742000dc54ac2e9175813c">getCameraKeyFrame</a> (<a class="el" href="../../d6/da7/classcore_1_1Camera.html">core::Camera</a> &amp;camera)</td></tr>
+<tr class="memdesc:a6d2db4c567742000dc54ac2e9175813c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Camera Key Frame object.  <a href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a6d2db4c567742000dc54ac2e9175813c">More...</a><br /></td></tr>
+<tr class="separator:a6d2db4c567742000dc54ac2e9175813c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e761b60b30c5c478e049c241f122de8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a5e761b60b30c5c478e049c241f122de8">_addDepthRenderer</a> (<a class="el" href="../../d8/dab/classcore_1_1Engine.html">core::Engine</a> &amp;engine)</td></tr>
 <tr class="separator:a5e761b60b30c5c478e049c241f122de8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28a6537eef16c961d9a26b90ef4fadf3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a28a6537eef16c961d9a26b90ef4fadf3">_addAlbedoRenderer</a> (<a class="el" href="../../d8/dab/classcore_1_1Engine.html">core::Engine</a> &amp;engine)</td></tr>
@@ -141,6 +170,8 @@ Functions</h2></td></tr>
 <tr class="separator:a7393d32756a9118babac0a14e8df364e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeac5bcaa8738af6b8ba3513bc8a656ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#aeac5bcaa8738af6b8ba3513bc8a656ea">_addRadianceRenderer</a> (<a class="el" href="../../d8/dab/classcore_1_1Engine.html">core::Engine</a> &amp;engine)</td></tr>
 <tr class="separator:aeac5bcaa8738af6b8ba3513bc8a656ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13628d6d8f4e4f158cb7e31d8838d103"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a13628d6d8f4e4f158cb7e31d8838d103">writeBufferToFile</a> (const std::vector&lt; unsigned char &gt; &amp;buffer, const std::string &amp;filename)</td></tr>
+<tr class="separator:a13628d6d8f4e4f158cb7e31d8838d103"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47e600e75ec5b4eeda9183b809f8269a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">ExtensionPlugin</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a47e600e75ec5b4eeda9183b809f8269a">core_plugin_create</a> (int, char **)</td></tr>
 <tr class="separator:a47e600e75ec5b4eeda9183b809f8269a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -149,6 +180,23 @@ Variables</h2></td></tr>
 <tr class="memitem:a62b27a0f2982bc64ee7f783799da39b2"><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a62b27a0f2982bc64ee7f783799da39b2">CAMERA_DEFINITION_SIZE</a> = 12</td></tr>
 <tr class="separator:a62b27a0f2982bc64ee7f783799da39b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a17dabe792518dee33c5e586fd0ca62d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17dabe792518dee33c5e586fd0ca62d9">&#9670;&nbsp;</a></span>CameraKeyFrames</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a17dabe792518dee33c5e586fd0ca62d9">bioexplorer::mediamaker::CameraKeyFrames</a> = typedef std::vector&lt;<a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/dfe/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Types_8h_source.html#l00045">45</a> of file <a class="el" href="../../d5/dfe/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a1b9f6c8cec438721981001a461902240"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1b9f6c8cec438721981001a461902240">&#9670;&nbsp;</a></span>FrameBufferMode</h2>
@@ -174,7 +222,7 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a1b9f6c8cec438721981001a461902240a12a055bf01a31369fe81ac35d85c7bc1"></a>depth&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/dfe/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Types_8h_source.html#l00032">32</a> of file <a class="el" href="../../d5/dfe/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/dfe/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Types_8h_source.html#l00029">29</a> of file <a class="el" href="../../d5/dfe/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Types_8h_source.html">Types.h</a>.</p>
 
 </div>
 </div>
@@ -195,7 +243,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00083">83</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00084">84</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
 
 </div>
 </div>
@@ -215,7 +263,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00095">95</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00096">96</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
 
 </div>
 </div>
@@ -235,7 +283,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00075">75</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00076">76</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
 
 </div>
 </div>
@@ -255,7 +303,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00122">122</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00123">123</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
 
 </div>
 </div>
@@ -275,7 +323,36 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00112">112</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00113">113</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a54d5ec5c7c871d12c280620d5e1b8b01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54d5ec5c7c871d12c280620d5e1b8b01">&#9670;&nbsp;</a></span>cameraDefinitionToKeyFrame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a> bioexplorer::mediamaker::cameraDefinitionToKeyFrame </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> &amp;&#160;</td>
+          <td class="paramname"><em>cameraDefinition</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert a <a class="el" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> structure into a cameraKeyFrame structure. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cameraDefinition</td><td><a class="el" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> structure </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a> <a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a> structure </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d43/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Utils_8cpp_source.html#l00028">28</a> of file <a class="el" href="../../d1/d43/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
@@ -305,12 +382,12 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00506">506</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00489">489</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
 
 </div>
 </div>
 <a id="a517817682313a32f2d968c5994412876"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a517817682313a32f2d968c5994412876">&#9670;&nbsp;</a></span>from_json() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a517817682313a32f2d968c5994412876">&#9670;&nbsp;</a></span>from_json() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -335,12 +412,42 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html#l00065">65</a> of file <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html">Params.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html#l00058">58</a> of file <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html">Params.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a3c6cbed9068327dcd39da19125d05e75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c6cbed9068327dcd39da19125d05e75">&#9670;&nbsp;</a></span>from_json() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool bioexplorer::mediamaker::from_json </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/d91/structbioexplorer_1_1mediamaker_1_1CameraHandlerDetails.html">CameraHandlerDetails</a> &amp;&#160;</td>
+          <td class="paramname"><em>param</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>payload</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html#l00157">157</a> of file <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html">Params.cpp</a>.</p>
 
 </div>
 </div>
 <a id="a8afabc95a2e0ec82e1740e8ea84e616c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8afabc95a2e0ec82e1740e8ea84e616c">&#9670;&nbsp;</a></span>from_json() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8afabc95a2e0ec82e1740e8ea84e616c">&#9670;&nbsp;</a></span>from_json() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -365,12 +472,116 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html#l00101">101</a> of file <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html">Params.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html#l00094">94</a> of file <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html">Params.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a6d2db4c567742000dc54ac2e9175813c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d2db4c567742000dc54ac2e9175813c">&#9670;&nbsp;</a></span>getCameraKeyFrame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a> bioexplorer::mediamaker::getCameraKeyFrame </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d6/da7/classcore_1_1Camera.html">core::Camera</a> &amp;&#160;</td>
+          <td class="paramname"><em>camera</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the Camera Key Frame object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">camera</td><td>Camera object </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a> <a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a> structure </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d43/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Utils_8cpp_source.html#l00079">79</a> of file <a class="el" href="../../d1/d43/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a2f0f080a89e7d7773ad6fd4d5066cb09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f0f080a89e7d7773ad6fd4d5066cb09">&#9670;&nbsp;</a></span>keyFrameToCameraDefinition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> bioexplorer::mediamaker::keyFrameToCameraDefinition </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a> &amp;&#160;</td>
+          <td class="paramname"><em>camera</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert a cameraKeyFrame structure into a <a class="el" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> structure. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">camera</td><td>Camera object </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> <a class="el" href="../../dd/d32/structbioexplorer_1_1mediamaker_1_1CameraDefinition.html">CameraDefinition</a> structure </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d43/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Utils_8cpp_source.html#l00040">40</a> of file <a class="el" href="../../d1/d43/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a40a51d7d32d2b3fe6da20ca9b2eec325"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40a51d7d32d2b3fe6da20ca9b2eec325">&#9670;&nbsp;</a></span>setCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bioexplorer::mediamaker::setCamera </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d9/d55/structbioexplorer_1_1mediamaker_1_1CameraKeyFrame.html">CameraKeyFrame</a> &amp;&#160;</td>
+          <td class="paramname"><em>cameraKeyFrame</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d6/da7/classcore_1_1Camera.html">core::Camera</a> &amp;&#160;</td>
+          <td class="paramname"><em>camera</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool&#160;</td>
+          <td class="paramname"><em>triggerCallback</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the Camera object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cameraKeyFrame</td><td>Camera key frame </td></tr>
+    <tr><td class="paramname">camera</td><td>Camera object </td></tr>
+    <tr><td class="paramname">triggerCallback</td><td>Triggers call back over websocket if enabled </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d43/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Utils_8cpp_source.html#l00052">52</a> of file <a class="el" href="../../d1/d43/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
 </div>
 </div>
 <a id="a6b5b38ea56cd05bdf344e05f23f71c5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b5b38ea56cd05bdf344e05f23f71c5a">&#9670;&nbsp;</a></span>to_json() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b5b38ea56cd05bdf344e05f23f71c5a">&#9670;&nbsp;</a></span>to_json() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -385,12 +596,32 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html#l00081">81</a> of file <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html">Params.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html#l00074">74</a> of file <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html">Params.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a8847c2a3e935c993795e49b23ceff2f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8847c2a3e935c993795e49b23ceff2f7">&#9670;&nbsp;</a></span>to_json() <span class="overload">[2/3]</span></h2>
+<a id="a0dc88f15ba266dbca0a2d49310f236da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dc88f15ba266dbca0a2d49310f236da">&#9670;&nbsp;</a></span>to_json() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string bioexplorer::mediamaker::to_json </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../dd/d91/structbioexplorer_1_1mediamaker_1_1CameraHandlerDetails.html">CameraHandlerDetails</a> &amp;&#160;</td>
+          <td class="paramname"><em>param</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html#l00136">136</a> of file <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html">Params.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a629c4bdd490923b490af055e22cb6422"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a629c4bdd490923b490af055e22cb6422">&#9670;&nbsp;</a></span>to_json() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -399,18 +630,18 @@ Variables</h2></td></tr>
           <td class="memname">std::string bioexplorer::mediamaker::to_json </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../dd/d6e/structbioexplorer_1_1mediamaker_1_1FrameExportProgress.html">FrameExportProgress</a> &amp;&#160;</td>
-          <td class="paramname"><em>exportProgress</em></td><td>)</td>
+          <td class="paramname"><em>param</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html#l00127">127</a> of file <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html">Params.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html#l00120">120</a> of file <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html">Params.cpp</a>.</p>
 
 </div>
 </div>
 <a id="ae74b4d2153086802d1c194e27ba3546a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae74b4d2153086802d1c194e27ba3546a">&#9670;&nbsp;</a></span>to_json() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae74b4d2153086802d1c194e27ba3546a">&#9670;&nbsp;</a></span>to_json() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -425,7 +656,37 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html#l00047">47</a> of file <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html">Params.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html#l00040">40</a> of file <a class="el" href="../../d4/d89/plugins_2MediaMaker_2plugin_2api_2Params_8cpp_source.html">Params.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a13628d6d8f4e4f158cb7e31d8838d103"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13628d6d8f4e4f158cb7e31d8838d103">&#9670;&nbsp;</a></span>writeBufferToFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bioexplorer::mediamaker::writeBufferToFile </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; unsigned char &gt; &amp;&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>filename</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00307">307</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
 
 </div>
 </div>
@@ -442,7 +703,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00065">65</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00066">66</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
 
 </div>
 </div>

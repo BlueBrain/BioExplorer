@@ -10,13 +10,13 @@ digraph "bioexplorer/backend/science/vasculature" {
   dir_5758778dfd663ff3332a3b8d1af8a2db [shape=box, label="vasculature", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_5758778dfd663ff3332a3b8d1af8a2db.html"];
   }
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_250f267abadc546ecc00bd4d0ef83277->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="9", labeldistance=1.5 headhref="dir_000049_000042.html"];
-  dir_250f267abadc546ecc00bd4d0ef83277->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="12", labeldistance=1.5 headhref="dir_000049_000061.html"];
-  dir_250f267abadc546ecc00bd4d0ef83277->dir_d1f54f9136e312278e3013f14979bb60 [headlabel="1", labeldistance=1.5 headhref="dir_000049_000038.html"];
-  dir_5758778dfd663ff3332a3b8d1af8a2db->dir_250f267abadc546ecc00bd4d0ef83277 [headlabel="2", labeldistance=1.5 headhref="dir_000057_000049.html"];
-  dir_5758778dfd663ff3332a3b8d1af8a2db->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="7", labeldistance=1.5 headhref="dir_000057_000042.html"];
-  dir_5758778dfd663ff3332a3b8d1af8a2db->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="13", labeldistance=1.5 headhref="dir_000057_000061.html"];
-  dir_5758778dfd663ff3332a3b8d1af8a2db->dir_d1f54f9136e312278e3013f14979bb60 [headlabel="2", labeldistance=1.5 headhref="dir_000057_000038.html"];
-  dir_5e35986c19ea419782b8bbaa2dbf7d22->dir_5758778dfd663ff3332a3b8d1af8a2db [headlabel="2", labeldistance=1.5 headhref="dir_000042_000057.html"];
-  dir_5e35986c19ea419782b8bbaa2dbf7d22->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="24", labeldistance=1.5 headhref="dir_000042_000061.html"];
+  dir_250f267abadc546ecc00bd4d0ef83277->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="9", labeldistance=1.5 headhref="dir_000050_000043.html"];
+  dir_250f267abadc546ecc00bd4d0ef83277->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="12", labeldistance=1.5 headhref="dir_000050_000062.html"];
+  dir_250f267abadc546ecc00bd4d0ef83277->dir_d1f54f9136e312278e3013f14979bb60 [headlabel="1", labeldistance=1.5 headhref="dir_000050_000039.html"];
+  dir_5758778dfd663ff3332a3b8d1af8a2db->dir_250f267abadc546ecc00bd4d0ef83277 [headlabel="2", labeldistance=1.5 headhref="dir_000058_000050.html"];
+  dir_5758778dfd663ff3332a3b8d1af8a2db->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="7", labeldistance=1.5 headhref="dir_000058_000043.html"];
+  dir_5758778dfd663ff3332a3b8d1af8a2db->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="13", labeldistance=1.5 headhref="dir_000058_000062.html"];
+  dir_5758778dfd663ff3332a3b8d1af8a2db->dir_d1f54f9136e312278e3013f14979bb60 [headlabel="2", labeldistance=1.5 headhref="dir_000058_000039.html"];
+  dir_5e35986c19ea419782b8bbaa2dbf7d22->dir_5758778dfd663ff3332a3b8d1af8a2db [headlabel="2", labeldistance=1.5 headhref="dir_000043_000058.html"];
+  dir_5e35986c19ea419782b8bbaa2dbf7d22->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="24", labeldistance=1.5 headhref="dir_000043_000062.html"];
 }

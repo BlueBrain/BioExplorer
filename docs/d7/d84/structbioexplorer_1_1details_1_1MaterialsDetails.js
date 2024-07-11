@@ -6,7 +6,7 @@ var structbioexplorer_1_1details_1_1MaterialsDetails =
     [ "diffuseColors", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a75ecbbe754809266fa5b2b90c5c8795f", null ],
     [ "emissions", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#acd1fd0706367e326a6016289dc12723f", null ],
     [ "glossinesses", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a6577c1cdcb827ae1ca22f83f686cabe1", null ],
-    [ "materialIds", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a9c5caf0ecbede3713cfc8ad5b9ed562d", null ],
+    [ "materialIds", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a34a72d27fa320da20242af004a8f5bb4", null ],
     [ "modelIds", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a2ce04e40e51d9d9ca05d6b5067c871c6", null ],
     [ "opacities", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#a20d0b241859892aa3971862955f20c59", null ],
     [ "reflectionIndices", "d7/d84/structbioexplorer_1_1details_1_1MaterialsDetails.html#adde375cbbbe74036eb7f6ac92115d213", null ],

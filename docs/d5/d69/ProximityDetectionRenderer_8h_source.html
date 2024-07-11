@@ -87,61 +87,55 @@ $(document).ready(function(){initNavTree('d5/d69/ProximityDetectionRenderer_8h_s
 </div><!--header-->
 <div class="contents">
 <a href="../../d5/d69/ProximityDetectionRenderer_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright 2020-2024 Blue Brain Project / EPFL</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">    Copyright 2020 - 2024 Blue Brain Project / EPFL</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">    you may not use this file except in compliance with the License.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">    You may obtain a copy of the License at</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">        http://www.apache.org/licenses/LICENSE-2.0</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">    Unless required by applicable law or agreed to in writing, software</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    See the License for the specific language governing permissions and</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    limitations under the License.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;common/Properties.h&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../df/d86/SimulationRenderer_8h.html">platform/engines/ospray/ispc/render/utils/SimulationRenderer.h</a>&gt;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;common/Properties.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../df/d86/SimulationRenderer_8h.html">platform/engines/ospray/ispc/render/utils/SimulationRenderer.h</a>&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d4/df1/namespacesonataexplorer.html">sonataexplorer</a></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html">   46</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html">ProximityDetectionRenderer</a> : <span class="keyword">public</span> <a class="code" href="../../d3/df5/classcore_1_1engine_1_1ospray_1_1SimulationRenderer.html">core::engine::ospray::SimulationRenderer</a></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html#ab32acfe3707438b56d31b90e3f87ba0b">ProximityDetectionRenderer</a>();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html#af009c9f2e3b51c74aedba8c603810974">   55</a></span>&#160;    std::string <a class="code" href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html#af009c9f2e3b51c74aedba8c603810974">toString</a>() const final { <span class="keywordflow">return</span> RENDERER_PROXIMITY; }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html#a471ab0512798998fe6ef05745d4989bb">commit</a>();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    ::ospray::vec3f _nearColor{0.f, 1.f, 0.f};</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    ::ospray::vec3f _farColor{1.f, 0.f, 0.f};</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">float</span> _detectionDistance{1.f};</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">bool</span> _detectionOnDifferentMaterial{<span class="keyword">true</span>};</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">bool</span> _surfaceShadingEnabled{<span class="keyword">true</span>};</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a8e343e73d99f989962d44424f7eea754">::ospray::uint32</a> _randomNumber{0};</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">float</span> _alphaCorrection{0.5f};</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;};</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;} <span class="comment">// namespace sonataexplorer</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d4/df1/namespacesonataexplorer.html">sonataexplorer</a></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html">   40</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html">ProximityDetectionRenderer</a> : <span class="keyword">public</span> <a class="code" href="../../d3/df5/classcore_1_1engine_1_1ospray_1_1SimulationRenderer.html">core::engine::ospray::SimulationRenderer</a></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html#ab32acfe3707438b56d31b90e3f87ba0b">ProximityDetectionRenderer</a>();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html#af009c9f2e3b51c74aedba8c603810974">   49</a></span>&#160;    std::string <a class="code" href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html#af009c9f2e3b51c74aedba8c603810974">toString</a>() const final { <span class="keywordflow">return</span> RENDERER_PROXIMITY; }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html#a471ab0512798998fe6ef05745d4989bb">commit</a>();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    ::ospray::vec3f _nearColor{0.f, 1.f, 0.f};</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    ::ospray::vec3f _farColor{1.f, 0.f, 0.f};</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">float</span> _detectionDistance{1.f};</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">bool</span> _detectionOnDifferentMaterial{<span class="keyword">true</span>};</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> _surfaceShadingEnabled{<span class="keyword">true</span>};</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html#a8e343e73d99f989962d44424f7eea754">::ospray::uint32</a> _randomNumber{0};</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">float</span> _alphaCorrection{0.5f};</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;} <span class="comment">// namespace sonataexplorer</span></div>
 <div class="ttc" id="aSimulationRenderer_8h_html"><div class="ttname"><a href="../../df/d86/SimulationRenderer_8h.html">SimulationRenderer.h</a></div></div>
-<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1SimulationRenderer_html"><div class="ttname"><a href="../../d3/df5/classcore_1_1engine_1_1ospray_1_1SimulationRenderer.html">core::engine::ospray::SimulationRenderer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00041">SimulationRenderer.h:42</a></div></div>
-<div class="ttc" id="aclasssonataexplorer_1_1ProximityDetectionRenderer_html"><div class="ttname"><a href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html">sonataexplorer::ProximityDetectionRenderer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d69/ProximityDetectionRenderer_8h_source.html#l00046">ProximityDetectionRenderer.h:47</a></div></div>
-<div class="ttc" id="aclasssonataexplorer_1_1ProximityDetectionRenderer_html_a471ab0512798998fe6ef05745d4989bb"><div class="ttname"><a href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html#a471ab0512798998fe6ef05745d4989bb">sonataexplorer::ProximityDetectionRenderer::commit</a></div><div class="ttdeci">virtual void commit()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/db4/ProximityDetectionRenderer_8cpp_source.html#l00040">ProximityDetectionRenderer.cpp:40</a></div></div>
-<div class="ttc" id="aclasssonataexplorer_1_1ProximityDetectionRenderer_html_ab32acfe3707438b56d31b90e3f87ba0b"><div class="ttname"><a href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html#ab32acfe3707438b56d31b90e3f87ba0b">sonataexplorer::ProximityDetectionRenderer::ProximityDetectionRenderer</a></div><div class="ttdeci">ProximityDetectionRenderer()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/db4/ProximityDetectionRenderer_8cpp_source.html#l00069">ProximityDetectionRenderer.cpp:69</a></div></div>
-<div class="ttc" id="aclasssonataexplorer_1_1ProximityDetectionRenderer_html_af009c9f2e3b51c74aedba8c603810974"><div class="ttname"><a href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html#af009c9f2e3b51c74aedba8c603810974">sonataexplorer::ProximityDetectionRenderer::toString</a></div><div class="ttdeci">std::string toString() const final</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d69/ProximityDetectionRenderer_8h_source.html#l00055">ProximityDetectionRenderer.h:55</a></div></div>
-<div class="ttc" id="anamespacesonataexplorer_html"><div class="ttname"><a href="../../d4/df1/namespacesonataexplorer.html">sonataexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d09/bioexplorer_2backend_2plugins_2Sonata_2common_2Logs_8h_source.html#l00029">Logs.h:30</a></div></div>
-<div class="ttc" id="aplatform_2core_2common_2Types_8h_html_a8e343e73d99f989962d44424f7eea754"><div class="ttname"><a href="../../de/d53/platform_2core_2common_2Types_8h.html#a8e343e73d99f989962d44424f7eea754">uint32</a></div><div class="ttdeci">::uint32_t uint32</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00038">Types.h:38</a></div></div>
+<div class="ttc" id="aclasscore_1_1engine_1_1ospray_1_1SimulationRenderer_html"><div class="ttname"><a href="../../d3/df5/classcore_1_1engine_1_1ospray_1_1SimulationRenderer.html">core::engine::ospray::SimulationRenderer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d86/SimulationRenderer_8h_source.html#l00035">SimulationRenderer.h:36</a></div></div>
+<div class="ttc" id="aclasssonataexplorer_1_1ProximityDetectionRenderer_html"><div class="ttname"><a href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html">sonataexplorer::ProximityDetectionRenderer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d69/ProximityDetectionRenderer_8h_source.html#l00040">ProximityDetectionRenderer.h:41</a></div></div>
+<div class="ttc" id="aclasssonataexplorer_1_1ProximityDetectionRenderer_html_a471ab0512798998fe6ef05745d4989bb"><div class="ttname"><a href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html#a471ab0512798998fe6ef05745d4989bb">sonataexplorer::ProximityDetectionRenderer::commit</a></div><div class="ttdeci">virtual void commit()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/db4/ProximityDetectionRenderer_8cpp_source.html#l00034">ProximityDetectionRenderer.cpp:34</a></div></div>
+<div class="ttc" id="aclasssonataexplorer_1_1ProximityDetectionRenderer_html_ab32acfe3707438b56d31b90e3f87ba0b"><div class="ttname"><a href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html#ab32acfe3707438b56d31b90e3f87ba0b">sonataexplorer::ProximityDetectionRenderer::ProximityDetectionRenderer</a></div><div class="ttdeci">ProximityDetectionRenderer()</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/db4/ProximityDetectionRenderer_8cpp_source.html#l00063">ProximityDetectionRenderer.cpp:63</a></div></div>
+<div class="ttc" id="aclasssonataexplorer_1_1ProximityDetectionRenderer_html_af009c9f2e3b51c74aedba8c603810974"><div class="ttname"><a href="../../da/d9d/classsonataexplorer_1_1ProximityDetectionRenderer.html#af009c9f2e3b51c74aedba8c603810974">sonataexplorer::ProximityDetectionRenderer::toString</a></div><div class="ttdeci">std::string toString() const final</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d69/ProximityDetectionRenderer_8h_source.html#l00049">ProximityDetectionRenderer.h:49</a></div></div>
+<div class="ttc" id="anamespacesonataexplorer_html"><div class="ttname"><a href="../../d4/df1/namespacesonataexplorer.html">sonataexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d09/bioexplorer_2backend_2plugins_2Sonata_2common_2Logs_8h_source.html#l00023">Logs.h:24</a></div></div>
+<div class="ttc" id="aplatform_2core_2common_2Types_8h_html_a8e343e73d99f989962d44424f7eea754"><div class="ttname"><a href="../../de/d53/platform_2core_2common_2Types_8h.html#a8e343e73d99f989962d44424f7eea754">uint32</a></div><div class="ttdeci">::uint32_t uint32</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00032">Types.h:32</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

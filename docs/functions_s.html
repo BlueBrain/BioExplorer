@@ -88,6 +88,9 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 <li>samplesPerPixel
 : <a class="el" href="de/df2/structcore_1_1SnapshotParams.html#a3accaa68ea57784fcf8e569691cd7f8d">core::SnapshotParams</a>
 </li>
+<li>saveImage()
+: <a class="el" href="d9/dab/classcore_1_1ImageManager.html#a188fa3c354faf4485d2354bce1d0145d">core::ImageManager</a>
+</li>
 <li>scale
 : <a class="el" href="de/ded/structbioexplorer_1_1details_1_1AddModelInstanceDetails.html#a445a3cf10ea6c8f436b33d303f857610">bioexplorer::details::AddModelInstanceDetails</a>
 , <a class="el" href="df/d08/structbioexplorer_1_1details_1_1AstrocytesDetails.html#a97aadecd3b459c08626c99fc011c79fb">bioexplorer::details::AstrocytesDetails</a>
@@ -99,9 +102,6 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 </li>
 <li>scales
 : <a class="el" href="d4/d3f/structbioexplorer_1_1details_1_1SetModelInstancesDetails.html#a09e0d9b83b2cca008d74749e081ef3f4">bioexplorer::details::SetModelInstancesDetails</a>
-</li>
-<li>scalingRange
-: <a class="el" href="d7/dbc/structbioexplorer_1_1details_1_1NeuronsReportParameters.html#abfb566b0cd3da4cf726ddb3347f9f77f">bioexplorer::details::NeuronsReportParameters</a>
 </li>
 <li>Scene()
 : <a class="el" href="d5/d76/classcore_1_1Scene.html#ae8a3c23082bd18ec385a5dae4d02f7a3">core::Scene</a>
@@ -340,7 +340,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 : <a class="el" href="da/d6e/classbioexplorer_1_1io_1_1OOCManager.html#af2a8dd01bd2842965c4e15e3ced9fc76">bioexplorer::io::OOCManager</a>
 </li>
 <li>setFrameSize()
-: <a class="el" href="d5/d65/classcore_1_1AbstractSimulationHandler.html#add25b794500c6a7c2bcdd47a4dfc6384">core::AbstractSimulationHandler</a>
+: <a class="el" href="d2/db8/classcore_1_1AbstractAnimationHandler.html#a1442731bd4689482366fba3bcf26b2f3">core::AbstractAnimationHandler</a>
 </li>
 <li>setGlossiness()
 : <a class="el" href="d3/d69/classcore_1_1Material.html#a8783f45c926c98725fe7e89143ac0e6f">core::Material</a>
@@ -428,7 +428,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 , <a class="el" href="d1/df6/classcore_1_1ModelParams.html#adc63bfe0beb7e13a9c9d0caf866f8625">core::ModelParams</a>
 </li>
 <li>setNbFrames()
-: <a class="el" href="d5/d65/classcore_1_1AbstractSimulationHandler.html#a2a642055db8670ee30b86de816611b09">core::AbstractSimulationHandler</a>
+: <a class="el" href="d2/db8/classcore_1_1AbstractAnimationHandler.html#a16770416465643260168998aaf3c68b3">core::AbstractAnimationHandler</a>
 </li>
 <li>setNextChunkID()
 : <a class="el" href="db/d16/classcore_1_1BinaryRequests.html#a2433a4a0b560c1ce67c2f8a3075d19b5">core::BinaryRequests</a>
@@ -471,7 +471,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 </li>
 <li>setProperties()
 : <a class="el" href="dc/d7f/classcore_1_1ModelDescriptor.html#ad064c131358d4d8612c0dc1fdb3571ce">core::ModelDescriptor</a>
-, <a class="el" href="d7/d67/classcore_1_1PropertyObject.html#ac820a2d1200516004d6b299b77ec770e">core::PropertyObject</a>
+, <a class="el" href="d7/d67/classcore_1_1PropertyObject.html#a91509dc0f336b36d0f01f22371b46ecf">core::PropertyObject</a>
 </li>
 <li>setProperty()
 : <a class="el" href="d9/daa/classcore_1_1PropertyMap.html#a02cdaefd2112333163b2ce442bee8af1">core::PropertyMap</a>
@@ -489,7 +489,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 : <a class="el" href="d8/d29/classbioexplorer_1_1vasculature_1_1Vasculature.html#a89911ffa70c8099fa5378018c9e48f0b">bioexplorer::vasculature::Vasculature</a>
 </li>
 <li>setRawData()
-: <a class="el" href="d3/dff/classcore_1_1Texture2D.html#a82e1c61ebf14e251f4f16e2e09410b6d">core::Texture2D</a>
+: <a class="el" href="d3/dff/classcore_1_1Texture2D.html#aee1f6b66ad7bcca328d907c9aceb2df8">core::Texture2D</a>
 </li>
 <li>setReflectionIndex()
 : <a class="el" href="d3/d69/classcore_1_1Material.html#aaf7d5ac7a6c3426f5938333a5a6b876b">core::Material</a>
@@ -768,7 +768,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 </li>
 <li>SpikeSimulationHandler()
 : <a class="el" href="d0/daf/classbioexplorer_1_1morphology_1_1SpikeSimulationHandler.html#a575f01ae4f10008cf792ddb5d9b1e6ff">bioexplorer::morphology::SpikeSimulationHandler</a>
-, <a class="el" href="db/dc6/classsonataexplorer_1_1neuroscience_1_1neuron_1_1SpikeSimulationHandler.html#a30c5a3e8271be3b77731b40ae7b6f7f3">sonataexplorer::neuroscience::neuron::SpikeSimulationHandler</a>
+, <a class="el" href="db/dc6/classsonataexplorer_1_1neuroscience_1_1neuron_1_1SpikeSimulationHandler.html#a0655eb0c22c82f656f27e55933653b95">sonataexplorer::neuroscience::neuron::SpikeSimulationHandler</a>
 </li>
 <li>spikingVoltage
 : <a class="el" href="d8/d37/structbioexplorer_1_1details_1_1SpikeReportVisualizationSettingsDetails.html#a7926899713a9bc3015e6bd939aa48545">bioexplorer::details::SpikeReportVisualizationSettingsDetails</a>
@@ -819,9 +819,15 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 : <a class="el" href="db/dd8/structbioexplorer_1_1details_1_1AddGridDetails.html#a1bdaed3b368ace2f5ed9a98ba77be798">bioexplorer::details::AddGridDetails</a>
 , <a class="el" href="d7/d90/structsonataexplorer_1_1api_1_1AddGrid.html#aed9463186ffacedce4f7fcea52ffddec">sonataexplorer::api::AddGrid</a>
 </li>
+<li>stepsBetweenKeyFrames
+: <a class="el" href="dd/d91/structbioexplorer_1_1mediamaker_1_1CameraHandlerDetails.html#aea51bb0bbf682f199374d31a6a66866d">bioexplorer::mediamaker::CameraHandlerDetails</a>
+</li>
 <li>stereo
 : <a class="el" href="de/dbc/structcore_1_1engine_1_1ospray_1_1PanoramicCamera.html#a65ad18054f1c8dd8fdb9d724d88876a5">core::engine::ospray::PanoramicCamera</a>
 , <a class="el" href="d6/dc8/structsonataexplorer_1_1SphereClippingPerspectiveCamera.html#a23a89481853781c6c1967aecc5bdda88">sonataexplorer::SphereClippingPerspectiveCamera</a>
+</li>
+<li>stereoMode
+: <a class="el" href="d8/d4a/structcore_1_1engine_1_1ospray_1_1FishEyeCamera.html#ad8b407307fe4461c003d8faffd4eb0be">core::engine::ospray::FishEyeCamera</a>
 </li>
 <li>StereoMode
 : <a class="el" href="d5/d80/structcore_1_1engine_1_1ospray_1_1PerspectiveParallaxCamera.html#a16393d676443139fa3ec07b1d2720333">core::engine::ospray::PerspectiveParallaxCamera</a>

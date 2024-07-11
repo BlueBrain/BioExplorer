@@ -130,11 +130,11 @@ Friends</h2></td></tr>
 <p>For a plugin to be loaded dynamically at runtime, the following function must be available in the library:</p>
 <div class="fragment"><div class="line"><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> <a class="code" href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">core::ExtensionPlugin</a>* <a class="code" href="../../d8/d57/DeflectPlugin_8cpp.html#a39853316cebea7016aa9e802fc68e60c">brayns_plugin_create</a>(<span class="keywordtype">int</span> argc, <span class="keyword">const</span></div>
 <div class="line"><span class="keywordtype">char</span>** argv)</div>
-<div class="ttc" id="aDeflectPlugin_8cpp_html_a39853316cebea7016aa9e802fc68e60c"><div class="ttname"><a href="../../d8/d57/DeflectPlugin_8cpp.html#a39853316cebea7016aa9e802fc68e60c">brayns_plugin_create</a></div><div class="ttdeci">core::ExtensionPlugin * brayns_plugin_create(const int argc, const char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d57/DeflectPlugin_8cpp_source.html#l00429">DeflectPlugin.cpp:429</a></div></div>
-<div class="ttc" id="aclasscore_1_1ExtensionPlugin_html"><div class="ttname"><a href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">core::ExtensionPlugin</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d85/ExtensionPlugin_8h_source.html#l00049">ExtensionPlugin.h:50</a></div></div>
+<div class="ttc" id="aDeflectPlugin_8cpp_html_a39853316cebea7016aa9e802fc68e60c"><div class="ttname"><a href="../../d8/d57/DeflectPlugin_8cpp.html#a39853316cebea7016aa9e802fc68e60c">brayns_plugin_create</a></div><div class="ttdeci">core::ExtensionPlugin * brayns_plugin_create(const int argc, const char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d57/DeflectPlugin_8cpp_source.html#l00424">DeflectPlugin.cpp:424</a></div></div>
+<div class="ttc" id="aclasscore_1_1ExtensionPlugin_html"><div class="ttname"><a href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">core::ExtensionPlugin</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d85/ExtensionPlugin_8h_source.html#l00043">ExtensionPlugin.h:44</a></div></div>
 </div><!-- fragment --><p>It must return the instance of the plugin, and from hereon <a class="el" href="../../d3/d5e/classcore_1_1Core.html">Core</a> owns the plugin and calls <a class="el" href="../../d4/dfc/classcore_1_1ExtensionPlugin.html#a62e78247cea37f109ced1dcfafd77e3a">preRender()</a> and <a class="el" href="../../d4/dfc/classcore_1_1ExtensionPlugin.html#a130c1579cb84e32149b62477680228cc">postRender()</a> accordingly. In the shutdown sequence of <a class="el" href="../../d3/d5e/classcore_1_1Core.html">Core</a>, the plugin will be destructed properly. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html#l00049">49</a> of file <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html">ExtensionPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html#l00043">43</a> of file <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html">ExtensionPlugin.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a72ad4520aab9d77d67c7088b39b4de01"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a72ad4520aab9d77d67c7088b39b4de01">&#9670;&nbsp;</a></span>~ExtensionPlugin()</h2>
@@ -188,7 +188,7 @@ Friends</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="../../d5/d90/classcore_1_1VRPNPlugin.html#af6b4ce81c712f245c12670262e299a14">core::VRPNPlugin</a>, <a class="el" href="../../d1/dfb/classcore_1_1RocketsPlugin.html#ae90890086762a67ad9cc0bc13f783ac3">core::RocketsPlugin</a>, <a class="el" href="../../d9/d72/classcore_1_1OpenDeckPlugin.html#abd664a9a1ed54438068a3f4ebd900682">core::OpenDeckPlugin</a>, <a class="el" href="../../d8/d2e/classcore_1_1MultiviewPlugin.html#a58c202e5d75d06863540894cdd1ea89b">core::MultiviewPlugin</a>, <a class="el" href="../../da/d23/classcore_1_1DeflectPlugin.html#a5c6499b2dd713f61cb4548f4cfa0f88b">core::DeflectPlugin</a>, <a class="el" href="../../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#a66054e540bd4b90e00ffb04a1b4d2daa">bioexplorer::BioExplorerPlugin</a>, <a class="el" href="../../d6/d43/classsonataexplorer_1_1SonataExplorerPlugin.html#ab3e239e6921eb9a9c191a3df6f0c549a">sonataexplorer::SonataExplorerPlugin</a>, <a class="el" href="../../d6/de6/classbioexplorer_1_1metabolism_1_1MetabolismPlugin.html#a47b3a2e881bdb3c3b611cd395c143896">bioexplorer::metabolism::MetabolismPlugin</a>, and <a class="el" href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html#a85485d049aed3f5848dc8d736f50a4e4">bioexplorer::mediamaker::MediaMakerPlugin</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html#l00057">57</a> of file <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html">ExtensionPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html#l00051">51</a> of file <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html">ExtensionPlugin.h</a>.</p>
 
 </div>
 </div>
@@ -218,7 +218,7 @@ Friends</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="../../d1/dfb/classcore_1_1RocketsPlugin.html#a61482df0364c307cfd54c561f146b2a9">core::RocketsPlugin</a>, <a class="el" href="../../da/d23/classcore_1_1DeflectPlugin.html#a452cd2fc77528f4584351d02cf9fae5e">core::DeflectPlugin</a>, and <a class="el" href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html#a435fd08ca6330caee6f6f85ca8168692">bioexplorer::mediamaker::MediaMakerPlugin</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html#l00064">64</a> of file <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html">ExtensionPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html#l00058">58</a> of file <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html">ExtensionPlugin.h</a>.</p>
 
 </div>
 </div>
@@ -248,7 +248,7 @@ Friends</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="../../d5/d90/classcore_1_1VRPNPlugin.html#a391580ebc667d5501c2bfaeea4cd0b11">core::VRPNPlugin</a>, <a class="el" href="../../d1/dfb/classcore_1_1RocketsPlugin.html#a8a59569325a63e8fbac143ef7afd82d5">core::RocketsPlugin</a>, <a class="el" href="../../da/d23/classcore_1_1DeflectPlugin.html#a1b29e3fe16276834594e57e63885d890">core::DeflectPlugin</a>, <a class="el" href="../../d7/d7b/classbioexplorer_1_1BioExplorerPlugin.html#a666e3d2ae8c399768ad1072527f2a0be">bioexplorer::BioExplorerPlugin</a>, <a class="el" href="../../d6/d43/classsonataexplorer_1_1SonataExplorerPlugin.html#a8ce0e18479d174da7cdfcd52fb65434f">sonataexplorer::SonataExplorerPlugin</a>, and <a class="el" href="../../d0/dc7/classbioexplorer_1_1mediamaker_1_1MediaMakerPlugin.html#ab082943fbac4f8d81703b8b1e7b00ed8">bioexplorer::mediamaker::MediaMakerPlugin</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html#l00062">62</a> of file <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html">ExtensionPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html#l00056">56</a> of file <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html">ExtensionPlugin.h</a>.</p>
 
 </div>
 </div>
@@ -273,7 +273,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html#l00068">68</a> of file <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html">ExtensionPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html#l00062">62</a> of file <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html">ExtensionPlugin.h</a>.</p>
 
 </div>
 </div>
@@ -298,7 +298,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html#l00067">67</a> of file <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html">ExtensionPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html#l00061">61</a> of file <a class="el" href="../../d8/d85/ExtensionPlugin_8h_source.html">ExtensionPlugin.h</a>.</p>
 
 </div>
 </div>

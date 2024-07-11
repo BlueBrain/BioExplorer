@@ -1,10 +1,6 @@
 var ImageUtils_8h =
 [
-    [ "ImageDeleter", "df/de4/structcore_1_1freeimage_1_1ImageDeleter.html", "df/de4/structcore_1_1freeimage_1_1ImageDeleter" ],
-    [ "MemoryDeleter", "d1/d3c/structcore_1_1freeimage_1_1MemoryDeleter.html", "d1/d3c/structcore_1_1freeimage_1_1MemoryDeleter" ],
-    [ "ImagePtr", "d7/dc9/ImageUtils_8h.html#a104c9dc39302e0ac56e87d99a9ba58ea", null ],
-    [ "MemoryPtr", "d7/dc9/ImageUtils_8h.html#ad9d18223c697819344b119d140e844ab", null ],
-    [ "getBase64Image", "d7/dc9/ImageUtils_8h.html#ac47a49b4c5c793010e4f90a5722303ed", null ],
-    [ "mergeImages", "d7/dc9/ImageUtils_8h.html#afcebf9a536e1464bdb9a2b4684e59f7f", null ],
-    [ "SwapRedBlue32", "d7/dc9/ImageUtils_8h.html#a5b2a5bd265fce0153e0446a921a16998", null ]
+    [ "getBase64Image", "d7/dc9/ImageUtils_8h.html#ac3e4bf59ace5583379fcc528bcae8dd5", null ],
+    [ "mergeImages", "d7/dc9/ImageUtils_8h.html#acff79d5702ea218456a291b04df9355d", null ],
+    [ "swapRedBlue32", "d7/dc9/ImageUtils_8h.html#af167fc05565dbc3f74f0549dff8b37cc", null ]
 ];

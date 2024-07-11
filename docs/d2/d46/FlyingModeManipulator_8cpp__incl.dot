@@ -72,11 +72,11 @@ digraph "platform/core/manipulators/FlyingModeManipulator.cpp"
   Node26 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node24 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node30 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node30 [label="platform/core/common\l/input/KeyboardHandler.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dec/KeyboardHandler_8h.html",tooltip=" "];
-  Node30 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node30 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 -> Node31 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node31 [label="platform/core/common\l/Logs.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/df2/platform_2core_2common_2Logs_8h.html",tooltip=" "];
-  Node31 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node32 [label="iostream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node30 [label="platform/core/common\l/Logs.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/df2/platform_2core_2common_2Logs_8h.html",tooltip=" "];
+  Node30 -> Node31 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="iostream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="platform/core/common\l/input/KeyboardHandler.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dec/KeyboardHandler_8h.html",tooltip=" "];
+  Node32 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

@@ -9,9 +9,9 @@ digraph "bioexplorer/backend/science/molecularsystems" {
   dir_13b993dc952a68eedc739b9f16aeee83 [shape=box, label="molecularsystems", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_13b993dc952a68eedc739b9f16aeee83.html"];
   }
   dir_c5a52a81292cf9a5167198f4f346d6d9 [shape=box label="platform" fillcolor="white" style="filled" color="red" URL="dir_c5a52a81292cf9a5167198f4f346d6d9.html"];
-  dir_5e35986c19ea419782b8bbaa2dbf7d22->dir_13b993dc952a68eedc739b9f16aeee83 [headlabel="4", labeldistance=1.5 headhref="dir_000042_000055.html"];
-  dir_5e35986c19ea419782b8bbaa2dbf7d22->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="24", labeldistance=1.5 headhref="dir_000042_000061.html"];
-  dir_13b993dc952a68eedc739b9f16aeee83->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="24", labeldistance=1.5 headhref="dir_000055_000042.html"];
-  dir_13b993dc952a68eedc739b9f16aeee83->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="14", labeldistance=1.5 headhref="dir_000055_000061.html"];
-  dir_13b993dc952a68eedc739b9f16aeee83->dir_d1f54f9136e312278e3013f14979bb60 [headlabel="1", labeldistance=1.5 headhref="dir_000055_000038.html"];
+  dir_5e35986c19ea419782b8bbaa2dbf7d22->dir_13b993dc952a68eedc739b9f16aeee83 [headlabel="4", labeldistance=1.5 headhref="dir_000043_000056.html"];
+  dir_5e35986c19ea419782b8bbaa2dbf7d22->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="24", labeldistance=1.5 headhref="dir_000043_000062.html"];
+  dir_13b993dc952a68eedc739b9f16aeee83->dir_5e35986c19ea419782b8bbaa2dbf7d22 [headlabel="24", labeldistance=1.5 headhref="dir_000056_000043.html"];
+  dir_13b993dc952a68eedc739b9f16aeee83->dir_c5a52a81292cf9a5167198f4f346d6d9 [headlabel="14", labeldistance=1.5 headhref="dir_000056_000062.html"];
+  dir_13b993dc952a68eedc739b9f16aeee83->dir_d1f54f9136e312278e3013f14979bb60 [headlabel="1", labeldistance=1.5 headhref="dir_000056_000039.html"];
 }

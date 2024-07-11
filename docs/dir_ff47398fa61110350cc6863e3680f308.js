@@ -21,7 +21,7 @@ var dir_ff47398fa61110350cc6863e3680f308 =
     [ "CommonTypes.h", "d2/dc3/platform_2core_2common_2CommonTypes_8h.html", "d2/dc3/platform_2core_2common_2CommonTypes_8h" ],
     [ "ImageManager.cpp", "de/dbd/ImageManager_8cpp.html", null ],
     [ "ImageManager.h", "d3/d10/ImageManager_8h.html", [
-      [ "ImageManager", "d9/dab/classcore_1_1ImageManager.html", null ]
+      [ "ImageManager", "d9/dab/classcore_1_1ImageManager.html", "d9/dab/classcore_1_1ImageManager" ]
     ] ],
     [ "Logs.h", "de/df2/platform_2core_2common_2Logs_8h.html", "de/df2/platform_2core_2common_2Logs_8h" ],
     [ "Macros.h", "df/d0a/Macros_8h.html", "df/d0a/Macros_8h" ],

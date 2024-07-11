@@ -87,100 +87,94 @@ $(document).ready(function(){initNavTree('da/d38/MetaballsGenerator_8h_source.ht
 </div><!--header-->
 <div class="contents">
 <a href="../../da/d38/MetaballsGenerator_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright 2020-2024 Blue Brain Project / EPFL</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * The Blue Brain BioExplorer is a tool for scientists to extract and analyse</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * scientific data from visualization</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * This program is free software: you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * the terms of the GNU General Public License as published by the Free Software</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * Foundation, either version 3 of the License, or (at your option) any later</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * version.</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * This program is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> * You should have received a copy of the GNU General Public License along with</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html">platform/core/common/Types.h</a>&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d4/df1/namespacesonataexplorer.html">sonataexplorer</a></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>meshing</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html">   34</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html">MetaballsGenerator</a></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html#ae0fdd334c2d9e1e58b984e305ae07cbf">   37</a></span>&#160;    <a class="code" href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html#ae0fdd334c2d9e1e58b984e305ae07cbf">MetaballsGenerator</a>() {}</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html#a0dbbab22792cb016813234bc61ab7e29">~MetaballsGenerator</a>();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html#ab26e9b7f1534146591dca6146ed57c17">generateMesh</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#aa6d430470c7509a6341822e23dfe9014">core::Vector4fs</a>&amp; metaballs, <span class="keyword">const</span> <span class="keywordtype">size_t</span> gridSize, <span class="keyword">const</span> <span class="keywordtype">float</span> threshold,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                      <span class="keyword">const</span> <span class="keywordtype">size_t</span> defaultMaterialId, <a class="code" href="../../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0">core::TriangleMeshMap</a>&amp; triangles);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">struct </span>SurfaceVertex</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        SurfaceVertex()</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            : materialId(0)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        }</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">    Copyright 2020 - 2024 Blue Brain Project / EPFL</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">    you may not use this file except in compliance with the License.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">    You may obtain a copy of the License at</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">        http://www.apache.org/licenses/LICENSE-2.0</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">    Unless required by applicable law or agreed to in writing, software</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    See the License for the specific language governing permissions and</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    limitations under the License.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html">platform/core/common/Types.h</a>&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d4/df1/namespacesonataexplorer.html">sonataexplorer</a></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">namespace </span>meshing</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html">   28</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html">MetaballsGenerator</a></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html#ae0fdd334c2d9e1e58b984e305ae07cbf">   31</a></span>&#160;    <a class="code" href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html#ae0fdd334c2d9e1e58b984e305ae07cbf">MetaballsGenerator</a>() {}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html#a0dbbab22792cb016813234bc61ab7e29">~MetaballsGenerator</a>();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html#ab26e9b7f1534146591dca6146ed57c17">generateMesh</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#aa6d430470c7509a6341822e23dfe9014">core::Vector4fs</a>&amp; metaballs, <span class="keyword">const</span> <span class="keywordtype">size_t</span> gridSize, <span class="keyword">const</span> <span class="keywordtype">float</span> threshold,</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                      <span class="keyword">const</span> <span class="keywordtype">size_t</span> defaultMaterialId, <a class="code" href="../../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0">core::TriangleMeshMap</a>&amp; triangles);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">struct </span>SurfaceVertex</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        SurfaceVertex()</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            : materialId(0)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <a class="code" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">core::Vector3f</a> position;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <a class="code" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">core::Vector3f</a> normal;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <a class="code" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">core::Vector3f</a> texCoords;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">size_t</span> materialId;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    };</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <a class="code" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">core::Vector3f</a> position;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <a class="code" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">core::Vector3f</a> normal;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <a class="code" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">core::Vector3f</a> texCoords;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordtype">size_t</span> materialId;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    };</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">struct </span>CubeGridVertex : <span class="keyword">public</span> SurfaceVertex</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        CubeGridVertex()</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            : SurfaceVertex()</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            , value(0)</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordtype">float</span> value; <span class="comment">// Value of the scalar field</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    };</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">struct </span>CubeGridCube</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        CubeGridVertex* vertices[8];</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    };</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">struct </span>CubeGridVertex : <span class="keyword">public</span> SurfaceVertex</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        CubeGridVertex()</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            : SurfaceVertex()</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            , value(0)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordtype">float</span> value; <span class="comment">// Value of the scalar field</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    };</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">struct </span>CubeGridCube</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        CubeGridVertex* vertices[8];</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    };</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">typedef</span> std::vector&lt;CubeGridVertex&gt; Vertices;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">typedef</span> std::vector&lt;CubeGridCube&gt; Cubes;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">typedef</span> std::vector&lt;SurfaceVertex&gt; SurfaceVertices;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">void</span> _clear();</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">typedef</span> std::vector&lt;CubeGridVertex&gt; Vertices;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">typedef</span> std::vector&lt;CubeGridCube&gt; Cubes;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">typedef</span> std::vector&lt;SurfaceVertex&gt; SurfaceVertices;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">void</span> _clear();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">void</span> _buildVerticesAndCubes(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#aa6d430470c7509a6341822e23dfe9014">core::Vector4fs</a>&amp; metaballs, <span class="keyword">const</span> <span class="keywordtype">size_t</span> gridSize, <span class="keyword">const</span> <span class="keywordtype">size_t</span> defaultMaterialId,</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                                <span class="keyword">const</span> <span class="keywordtype">float</span> scale = 5.f);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">void</span> _buildTriangles(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#aa6d430470c7509a6341822e23dfe9014">core::Vector4fs</a>&amp; metaballs, <span class="keyword">const</span> <span class="keywordtype">float</span> threshold, <span class="keyword">const</span> <span class="keywordtype">size_t</span> defaultMaterialId,</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                         <a class="code" href="../../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0">core::TriangleMeshMap</a>&amp; triangles);</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">void</span> _buildVerticesAndCubes(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#aa6d430470c7509a6341822e23dfe9014">core::Vector4fs</a>&amp; metaballs, <span class="keyword">const</span> <span class="keywordtype">size_t</span> gridSize, <span class="keyword">const</span> <span class="keywordtype">size_t</span> defaultMaterialId,</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                                <span class="keyword">const</span> <span class="keywordtype">float</span> scale = 5.f);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">void</span> _buildTriangles(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#aa6d430470c7509a6341822e23dfe9014">core::Vector4fs</a>&amp; metaballs, <span class="keyword">const</span> <span class="keywordtype">float</span> threshold, <span class="keyword">const</span> <span class="keywordtype">size_t</span> defaultMaterialId,</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                         <a class="code" href="../../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0">core::TriangleMeshMap</a>&amp; triangles);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    SurfaceVertices _edgeVertices;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    Vertices _vertices;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    Cubes _cubes;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;};</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;} <span class="comment">// namespace meshing</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;} <span class="comment">// namespace sonataexplorer</span></div>
-<div class="ttc" id="aclasssonataexplorer_1_1meshing_1_1MetaballsGenerator_html"><div class="ttname"><a href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html">sonataexplorer::meshing::MetaballsGenerator</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d38/MetaballsGenerator_8h_source.html#l00034">MetaballsGenerator.h:35</a></div></div>
-<div class="ttc" id="aclasssonataexplorer_1_1meshing_1_1MetaballsGenerator_html_a0dbbab22792cb016813234bc61ab7e29"><div class="ttname"><a href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html#a0dbbab22792cb016813234bc61ab7e29">sonataexplorer::meshing::MetaballsGenerator::~MetaballsGenerator</a></div><div class="ttdeci">~MetaballsGenerator()</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db3/MetaballsGenerator_8cpp_source.html#l00315">MetaballsGenerator.cpp:315</a></div></div>
-<div class="ttc" id="aclasssonataexplorer_1_1meshing_1_1MetaballsGenerator_html_ab26e9b7f1534146591dca6146ed57c17"><div class="ttname"><a href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html#ab26e9b7f1534146591dca6146ed57c17">sonataexplorer::meshing::MetaballsGenerator::generateMesh</a></div><div class="ttdeci">void generateMesh(const core::Vector4fs &amp;metaballs, const size_t gridSize, const float threshold, const size_t defaultMaterialId, core::TriangleMeshMap &amp;triangles)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db3/MetaballsGenerator_8cpp_source.html#l00521">MetaballsGenerator.cpp:521</a></div></div>
-<div class="ttc" id="aclasssonataexplorer_1_1meshing_1_1MetaballsGenerator_html_ae0fdd334c2d9e1e58b984e305ae07cbf"><div class="ttname"><a href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html#ae0fdd334c2d9e1e58b984e305ae07cbf">sonataexplorer::meshing::MetaballsGenerator::MetaballsGenerator</a></div><div class="ttdeci">MetaballsGenerator()</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d38/MetaballsGenerator_8h_source.html#l00037">MetaballsGenerator.h:37</a></div></div>
-<div class="ttc" id="anamespacecore_html_a1d753103280aad72e5924fcfff96dc28"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">core::Vector3f</a></div><div class="ttdeci">glm::vec3 Vector3f</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00137">MathTypes.h:137</a></div></div>
-<div class="ttc" id="anamespacecore_html_a8e3bd0be06fd9d6e348605e5165be4a0"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0">core::TriangleMeshMap</a></div><div class="ttdeci">std::map&lt; size_t, TriangleMesh &gt; TriangleMeshMap</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00137">Types.h:137</a></div></div>
-<div class="ttc" id="anamespacecore_html_aa6d430470c7509a6341822e23dfe9014"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#aa6d430470c7509a6341822e23dfe9014">core::Vector4fs</a></div><div class="ttdeci">std::vector&lt; Vector4f &gt; Vector4fs</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00140">MathTypes.h:140</a></div></div>
-<div class="ttc" id="anamespacesonataexplorer_html"><div class="ttname"><a href="../../d4/df1/namespacesonataexplorer.html">sonataexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d09/bioexplorer_2backend_2plugins_2Sonata_2common_2Logs_8h_source.html#l00029">Logs.h:30</a></div></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    SurfaceVertices _edgeVertices;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    Vertices _vertices;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    Cubes _cubes;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;};</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;} <span class="comment">// namespace meshing</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;} <span class="comment">// namespace sonataexplorer</span></div>
+<div class="ttc" id="aclasssonataexplorer_1_1meshing_1_1MetaballsGenerator_html"><div class="ttname"><a href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html">sonataexplorer::meshing::MetaballsGenerator</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d38/MetaballsGenerator_8h_source.html#l00028">MetaballsGenerator.h:29</a></div></div>
+<div class="ttc" id="aclasssonataexplorer_1_1meshing_1_1MetaballsGenerator_html_a0dbbab22792cb016813234bc61ab7e29"><div class="ttname"><a href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html#a0dbbab22792cb016813234bc61ab7e29">sonataexplorer::meshing::MetaballsGenerator::~MetaballsGenerator</a></div><div class="ttdeci">~MetaballsGenerator()</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db3/MetaballsGenerator_8cpp_source.html#l00309">MetaballsGenerator.cpp:309</a></div></div>
+<div class="ttc" id="aclasssonataexplorer_1_1meshing_1_1MetaballsGenerator_html_ab26e9b7f1534146591dca6146ed57c17"><div class="ttname"><a href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html#ab26e9b7f1534146591dca6146ed57c17">sonataexplorer::meshing::MetaballsGenerator::generateMesh</a></div><div class="ttdeci">void generateMesh(const core::Vector4fs &amp;metaballs, const size_t gridSize, const float threshold, const size_t defaultMaterialId, core::TriangleMeshMap &amp;triangles)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db3/MetaballsGenerator_8cpp_source.html#l00515">MetaballsGenerator.cpp:515</a></div></div>
+<div class="ttc" id="aclasssonataexplorer_1_1meshing_1_1MetaballsGenerator_html_ae0fdd334c2d9e1e58b984e305ae07cbf"><div class="ttname"><a href="../../de/d14/classsonataexplorer_1_1meshing_1_1MetaballsGenerator.html#ae0fdd334c2d9e1e58b984e305ae07cbf">sonataexplorer::meshing::MetaballsGenerator::MetaballsGenerator</a></div><div class="ttdeci">MetaballsGenerator()</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d38/MetaballsGenerator_8h_source.html#l00031">MetaballsGenerator.h:31</a></div></div>
+<div class="ttc" id="anamespacecore_html_a1d753103280aad72e5924fcfff96dc28"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">core::Vector3f</a></div><div class="ttdeci">glm::vec3 Vector3f</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00131">MathTypes.h:131</a></div></div>
+<div class="ttc" id="anamespacecore_html_a8e3bd0be06fd9d6e348605e5165be4a0"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a8e3bd0be06fd9d6e348605e5165be4a0">core::TriangleMeshMap</a></div><div class="ttdeci">std::map&lt; size_t, TriangleMesh &gt; TriangleMeshMap</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00131">Types.h:131</a></div></div>
+<div class="ttc" id="anamespacecore_html_aa6d430470c7509a6341822e23dfe9014"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#aa6d430470c7509a6341822e23dfe9014">core::Vector4fs</a></div><div class="ttdeci">std::vector&lt; Vector4f &gt; Vector4fs</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00134">MathTypes.h:134</a></div></div>
+<div class="ttc" id="anamespacesonataexplorer_html"><div class="ttname"><a href="../../d4/df1/namespacesonataexplorer.html">sonataexplorer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d09/bioexplorer_2backend_2plugins_2Sonata_2common_2Logs_8h_source.html#l00023">Logs.h:24</a></div></div>
 <div class="ttc" id="aplatform_2core_2common_2Types_8h_html"><div class="ttname"><a href="../../de/d53/platform_2core_2common_2Types_8h.html">Types.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

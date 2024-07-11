@@ -87,72 +87,41 @@ $(document).ready(function(){initNavTree('d7/dc9/ImageUtils_8h_source.html','../
 </div><!--header-->
 <div class="contents">
 <a href="../../d7/dc9/ImageUtils_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright (c) 2015-2024, EPFL/Blue Brain Project</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * All rights reserved. Do not distribute without permission.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * the terms of the GNU Lesser General Public License version 3.0 as published</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * by the Free Software Foundation.</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">    Copyright 2015 - 2024 Blue Brain Project / EPFL</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">    you may not use this file except in compliance with the License.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">    You may obtain a copy of the License at</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">        http://www.apache.org/licenses/LICENSE-2.0</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">    Unless required by applicable law or agreed to in writing, software</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    See the License for the specific language governing permissions and</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    limitations under the License.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html">platform/core/common/Types.h</a>&gt;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../de/d53/platform_2core_2common_2Types_8h.html">platform/core/common/Types.h</a>&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;FreeImage.h&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>freeimage</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="../../df/de4/structcore_1_1freeimage_1_1ImageDeleter.html">   31</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../df/de4/structcore_1_1freeimage_1_1ImageDeleter.html">ImageDeleter</a></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../df/de4/structcore_1_1freeimage_1_1ImageDeleter.html#a5fbfb7d627cc9f412a0fc9c8f2606a16">   33</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="../../df/de4/structcore_1_1freeimage_1_1ImageDeleter.html#a5fbfb7d627cc9f412a0fc9c8f2606a16">operator()</a>(FIBITMAP* image)</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">if</span> (image)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            FreeImage_Unload(image);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    }</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;};</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="../../d1/d3c/structcore_1_1freeimage_1_1MemoryDeleter.html">   40</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../d1/d3c/structcore_1_1freeimage_1_1MemoryDeleter.html">MemoryDeleter</a></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../d1/d3c/structcore_1_1freeimage_1_1MemoryDeleter.html#af5de7e402178fcf5063117e65967f609">   42</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="../../d1/d3c/structcore_1_1freeimage_1_1MemoryDeleter.html#af5de7e402178fcf5063117e65967f609">operator()</a>(FIMEMORY* memory)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">if</span> (memory)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            FreeImage_CloseMemory(memory);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;};</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../da/ded/namespacecore_1_1freeimage.html#a104c9dc39302e0ac56e87d99a9ba58ea">   49</a></span>&#160;<span class="keyword">using</span> <a class="code" href="../../da/ded/namespacecore_1_1freeimage.html#a104c9dc39302e0ac56e87d99a9ba58ea">ImagePtr</a> = std::unique_ptr&lt;FIBITMAP, ImageDeleter&gt;;</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../da/ded/namespacecore_1_1freeimage.html#ad9d18223c697819344b119d140e844ab">   50</a></span>&#160;<span class="keyword">using</span> <a class="code" href="../../da/ded/namespacecore_1_1freeimage.html#ad9d18223c697819344b119d140e844ab">MemoryPtr</a> = std::unique_ptr&lt;FIMEMORY, MemoryDeleter&gt;;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../da/ded/namespacecore_1_1freeimage.html#a5b2a5bd265fce0153e0446a921a16998">SwapRedBlue32</a>(FIBITMAP* freeImage);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;std::string <a class="code" href="../../da/ded/namespacecore_1_1freeimage.html#ac47a49b4c5c793010e4f90a5722303ed">getBase64Image</a>(<a class="code" href="../../da/ded/namespacecore_1_1freeimage.html#a104c9dc39302e0ac56e87d99a9ba58ea">ImagePtr</a> image, <span class="keyword">const</span> std::string&amp; format, <span class="keyword">const</span> <span class="keywordtype">int</span> quality);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<a class="code" href="../../da/ded/namespacecore_1_1freeimage.html#a104c9dc39302e0ac56e87d99a9ba58ea">ImagePtr</a> <a class="code" href="../../da/ded/namespacecore_1_1freeimage.html#afcebf9a536e1464bdb9a2b4684e59f7f">mergeImages</a>(<span class="keyword">const</span> std::vector&lt;ImagePtr&gt;&amp; images);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;} <span class="comment">// namespace freeimage</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;} <span class="comment">// namespace core</span></div>
-<div class="ttc" id="anamespacecore_1_1freeimage_html_a104c9dc39302e0ac56e87d99a9ba58ea"><div class="ttname"><a href="../../da/ded/namespacecore_1_1freeimage.html#a104c9dc39302e0ac56e87d99a9ba58ea">core::freeimage::ImagePtr</a></div><div class="ttdeci">std::unique_ptr&lt; FIBITMAP, ImageDeleter &gt; ImagePtr</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dc9/ImageUtils_8h_source.html#l00049">ImageUtils.h:49</a></div></div>
-<div class="ttc" id="anamespacecore_1_1freeimage_html_a5b2a5bd265fce0153e0446a921a16998"><div class="ttname"><a href="../../da/ded/namespacecore_1_1freeimage.html#a5b2a5bd265fce0153e0446a921a16998">core::freeimage::SwapRedBlue32</a></div><div class="ttdeci">bool SwapRedBlue32(FIBITMAP *freeImage)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d62/ImageUtils_8cpp_source.html#l00040">ImageUtils.cpp:40</a></div></div>
-<div class="ttc" id="anamespacecore_1_1freeimage_html_ac47a49b4c5c793010e4f90a5722303ed"><div class="ttname"><a href="../../da/ded/namespacecore_1_1freeimage.html#ac47a49b4c5c793010e4f90a5722303ed">core::freeimage::getBase64Image</a></div><div class="ttdeci">std::string getBase64Image(ImagePtr image, const std::string &amp;format, const int quality)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d62/ImageUtils_8cpp_source.html#l00062">ImageUtils.cpp:62</a></div></div>
-<div class="ttc" id="anamespacecore_1_1freeimage_html_ad9d18223c697819344b119d140e844ab"><div class="ttname"><a href="../../da/ded/namespacecore_1_1freeimage.html#ad9d18223c697819344b119d140e844ab">core::freeimage::MemoryPtr</a></div><div class="ttdeci">std::unique_ptr&lt; FIMEMORY, MemoryDeleter &gt; MemoryPtr</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dc9/ImageUtils_8h_source.html#l00050">ImageUtils.h:50</a></div></div>
-<div class="ttc" id="anamespacecore_1_1freeimage_html_afcebf9a536e1464bdb9a2b4684e59f7f"><div class="ttname"><a href="../../da/ded/namespacecore_1_1freeimage.html#afcebf9a536e1464bdb9a2b4684e59f7f">core::freeimage::mergeImages</a></div><div class="ttdeci">ImagePtr mergeImages(const std::vector&lt; ImagePtr &gt; &amp;images)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d62/ImageUtils_8cpp_source.html#l00086">ImageUtils.cpp:86</a></div></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;OpenImageIO/imagebuf.h&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;OpenImageIO/imageio.h&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;OIIO_NAMESPACE_USING</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d9/d0f/namespacecore.html#af167fc05565dbc3f74f0549dff8b37cc">swapRedBlue32</a>(ImageBuf&amp; image);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;std::string <a class="code" href="../../d9/d0f/namespacecore.html#ac3e4bf59ace5583379fcc528bcae8dd5">getBase64Image</a>(<span class="keyword">const</span> ImageBuf&amp; imageBuf, <span class="keyword">const</span> std::string&amp; format, <span class="keyword">const</span> <span class="keywordtype">int</span> quality);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;ImageBuf <a class="code" href="../../d9/d0f/namespacecore.html#acff79d5702ea218456a291b04df9355d">mergeImages</a>(<span class="keyword">const</span> std::vector&lt;ImageBuf&gt;&amp; images);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;} <span class="comment">// namespace core</span></div>
 <div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00052">BaseWindow.cpp:53</a></div></div>
+<div class="ttc" id="anamespacecore_html_ac3e4bf59ace5583379fcc528bcae8dd5"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#ac3e4bf59ace5583379fcc528bcae8dd5">core::getBase64Image</a></div><div class="ttdeci">std::string getBase64Image(const ImageBuf &amp;imageBuf, const std::string &amp;format, const int quality)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d62/ImageUtils_8cpp_source.html#l00072">ImageUtils.cpp:72</a></div></div>
+<div class="ttc" id="anamespacecore_html_acff79d5702ea218456a291b04df9355d"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#acff79d5702ea218456a291b04df9355d">core::mergeImages</a></div><div class="ttdeci">ImageBuf mergeImages(const std::vector&lt; ImageBuf &gt; &amp;images)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d62/ImageUtils_8cpp_source.html#l00114">ImageUtils.cpp:114</a></div></div>
+<div class="ttc" id="anamespacecore_html_af167fc05565dbc3f74f0549dff8b37cc"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#af167fc05565dbc3f74f0549dff8b37cc">core::swapRedBlue32</a></div><div class="ttdeci">bool swapRedBlue32(ImageBuf &amp;image)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d62/ImageUtils_8cpp_source.html#l00034">ImageUtils.cpp:34</a></div></div>
 <div class="ttc" id="aplatform_2core_2common_2Types_8h_html"><div class="ttname"><a href="../../de/d53/platform_2core_2common_2Types_8h.html">Types.h</a></div></div>
-<div class="ttc" id="astructcore_1_1freeimage_1_1ImageDeleter_html"><div class="ttname"><a href="../../df/de4/structcore_1_1freeimage_1_1ImageDeleter.html">core::freeimage::ImageDeleter</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dc9/ImageUtils_8h_source.html#l00031">ImageUtils.h:32</a></div></div>
-<div class="ttc" id="astructcore_1_1freeimage_1_1ImageDeleter_html_a5fbfb7d627cc9f412a0fc9c8f2606a16"><div class="ttname"><a href="../../df/de4/structcore_1_1freeimage_1_1ImageDeleter.html#a5fbfb7d627cc9f412a0fc9c8f2606a16">core::freeimage::ImageDeleter::operator()</a></div><div class="ttdeci">void operator()(FIBITMAP *image)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dc9/ImageUtils_8h_source.html#l00033">ImageUtils.h:33</a></div></div>
-<div class="ttc" id="astructcore_1_1freeimage_1_1MemoryDeleter_html"><div class="ttname"><a href="../../d1/d3c/structcore_1_1freeimage_1_1MemoryDeleter.html">core::freeimage::MemoryDeleter</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dc9/ImageUtils_8h_source.html#l00040">ImageUtils.h:41</a></div></div>
-<div class="ttc" id="astructcore_1_1freeimage_1_1MemoryDeleter_html_af5de7e402178fcf5063117e65967f609"><div class="ttname"><a href="../../d1/d3c/structcore_1_1freeimage_1_1MemoryDeleter.html#af5de7e402178fcf5063117e65967f609">core::freeimage::MemoryDeleter::operator()</a></div><div class="ttdeci">void operator()(FIMEMORY *memory)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dc9/ImageUtils_8h_source.html#l00042">ImageUtils.h:42</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

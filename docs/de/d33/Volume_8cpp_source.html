@@ -87,43 +87,38 @@ $(document).ready(function(){initNavTree('de/d33/Volume_8cpp_source.html','../..
 </div><!--header-->
 <div class="contents">
 <a href="../../de/d33/Volume_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright (c) 2015-2024, EPFL/Blue Brain Project</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * All rights reserved. Do not distribute without permission.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Responsible Author: Daniel Nachbaur &lt;daniel.nachbaur@epfl.ch&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This file is part of Blue Brain BioExplorer &lt;https://github.com/BlueBrain/BioExplorer&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * This library is free software; you can redistribute it and/or modify it under</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * the terms of the GNU Lesser General Public License version 3.0 as published</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * by the Free Software Foundation.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * This library is distributed in the hope that it will be useful, but WITHOUT</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * details.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * You should have received a copy of the GNU Lesser General Public License</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * along with this library; if not, write to the Free Software Foundation, Inc.,</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d1/dbd/Volume_8h.html">Volume.h</a>&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">    Copyright 2015 - 2024 Blue Brain Project / EPFL</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">    you may not use this file except in compliance with the License.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">    You may obtain a copy of the License at</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">        http://www.apache.org/licenses/LICENSE-2.0</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">    Unless required by applicable law or agreed to in writing, software</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">    See the License for the specific language governing permissions and</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">    limitations under the License.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d1/dbd/Volume_8h.html">Volume.h</a>&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d9/d0f/namespacecore.html">core</a></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="../../d9/d2b/classcore_1_1Volume.html#a6793dcdfe0acaae8f9c6daaf50a36e2e">   21</a></span>&#160;<a class="code" href="../../d9/d2b/classcore_1_1Volume.html#a6793dcdfe0acaae8f9c6daaf50a36e2e">Volume::Volume</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a>&amp; dimensions, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a>&amp; spacing, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a5f3273b25e834b08ca52b42611a66e4e">DataType</a> dataType)</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    : _dimensions(dimensions)</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    , _spacing(spacing)</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    , _dataType(dataType)</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="../../d9/d2b/classcore_1_1Volume.html#a6793dcdfe0acaae8f9c6daaf50a36e2e">   26</a></span>&#160;<a class="code" href="../../d9/d2b/classcore_1_1Volume.html#a6793dcdfe0acaae8f9c6daaf50a36e2e">Volume::Volume</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">Vector3ui</a>&amp; dimensions, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">Vector3f</a>&amp; spacing, <span class="keyword">const</span> <a class="code" href="../../d9/d0f/namespacecore.html#a5f3273b25e834b08ca52b42611a66e4e">DataType</a> dataType)</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    : _dimensions(dimensions)</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    , _spacing(spacing)</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    , _dataType(dataType)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;} <span class="comment">// namespace core</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;} <span class="comment">// namespace core</span></div>
 <div class="ttc" id="aVolume_8h_html"><div class="ttname"><a href="../../d1/dbd/Volume_8h.html">Volume.h</a></div></div>
-<div class="ttc" id="aclasscore_1_1Volume_html_a6793dcdfe0acaae8f9c6daaf50a36e2e"><div class="ttname"><a href="../../d9/d2b/classcore_1_1Volume.html#a6793dcdfe0acaae8f9c6daaf50a36e2e">core::Volume::Volume</a></div><div class="ttdeci">PLATFORM_API Volume(const Vector3ui &amp;dimensions, const Vector3f &amp;spacing, const DataType type)</div><div class="ttdoc">Constructs a Volume object.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d33/Volume_8cpp_source.html#l00026">Volume.cpp:26</a></div></div>
+<div class="ttc" id="aclasscore_1_1Volume_html_a6793dcdfe0acaae8f9c6daaf50a36e2e"><div class="ttname"><a href="../../d9/d2b/classcore_1_1Volume.html#a6793dcdfe0acaae8f9c6daaf50a36e2e">core::Volume::Volume</a></div><div class="ttdeci">PLATFORM_API Volume(const Vector3ui &amp;dimensions, const Vector3f &amp;spacing, const DataType type)</div><div class="ttdoc">Constructs a Volume object.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d33/Volume_8cpp_source.html#l00021">Volume.cpp:21</a></div></div>
 <div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="../../d9/d0f/namespacecore.html">core</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d43/BaseWindow_8cpp_source.html#l00052">BaseWindow.cpp:53</a></div></div>
-<div class="ttc" id="anamespacecore_html_a1d753103280aad72e5924fcfff96dc28"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">core::Vector3f</a></div><div class="ttdeci">glm::vec3 Vector3f</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00137">MathTypes.h:137</a></div></div>
-<div class="ttc" id="anamespacecore_html_a28c002de495fc0eab81417cb8ee03dec"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">core::Vector3ui</a></div><div class="ttdeci">glm::vec&lt; 3, uint32_t &gt; Vector3ui</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00134">MathTypes.h:134</a></div></div>
-<div class="ttc" id="anamespacecore_html_a5f3273b25e834b08ca52b42611a66e4e"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a5f3273b25e834b08ca52b42611a66e4e">core::DataType</a></div><div class="ttdeci">DataType</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00343">Types.h:344</a></div></div>
+<div class="ttc" id="anamespacecore_html_a1d753103280aad72e5924fcfff96dc28"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a1d753103280aad72e5924fcfff96dc28">core::Vector3f</a></div><div class="ttdeci">glm::vec3 Vector3f</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00131">MathTypes.h:131</a></div></div>
+<div class="ttc" id="anamespacecore_html_a28c002de495fc0eab81417cb8ee03dec"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a28c002de495fc0eab81417cb8ee03dec">core::Vector3ui</a></div><div class="ttdeci">glm::vec&lt; 3, uint32_t &gt; Vector3ui</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d55/MathTypes_8h_source.html#l00128">MathTypes.h:128</a></div></div>
+<div class="ttc" id="anamespacecore_html_a5f3273b25e834b08ca52b42611a66e4e"><div class="ttname"><a href="../../d9/d0f/namespacecore.html#a5f3273b25e834b08ca52b42611a66e4e">core::DataType</a></div><div class="ttdeci">DataType</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d53/platform_2core_2common_2Types_8h_source.html#l00337">Types.h:338</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -96,17 +96,22 @@ $(document).ready(function(){initNavTree('dd/d9e/MediaMakerPlugin_8cpp.html','..
 <code>#include &lt;Version.h&gt;</code><br />
 <code>#include &lt;plugin/common/Logs.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../d0/df5/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Properties_8h_source.html">plugin/common/Properties.h</a>&gt;</code><br />
+<code>#include &lt;plugin/common/Types.h&gt;</code><br />
+<code>#include &lt;plugin/common/Utils.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="../../d8/d12/CameraHandler_8h_source.html">plugin/handlers/CameraHandler.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../de/d7a/ActionInterface_8h_source.html">platform/core/common/ActionInterface.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../db/db2/platform_2core_2common_2Properties_8h_source.html">platform/core/common/Properties.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="../../d7/dc9/ImageUtils_8h_source.html">platform/core/common/utils/ImageUtils.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../dd/de4/Camera_8h_source.html">platform/core/engineapi/Camera.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../d1/dd4/Engine_8h_source.html">platform/core/engineapi/Engine.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../da/d8a/FrameBuffer_8h_source.html">platform/core/engineapi/FrameBuffer.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="../../d3/d5a/Model_8h_source.html">platform/core/engineapi/Model.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../d5/d2d/Scene_8h_source.html">platform/core/engineapi/Scene.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../d4/d16/ParametersManager_8h_source.html">platform/core/parameters/ParametersManager.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../de/def/Plugin_8h_source.html">platform/core/pluginapi/Plugin.h</a>&gt;</code><br />
+<code>#include &lt;OpenImageIO/imagebufalgo.h&gt;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;tiffio.h&gt;</code><br />
-<code>#include &lt;exiv2/exiv2.hpp&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for MediaMakerPlugin.cpp:</div>
 <div class="dyncontent">
@@ -139,6 +144,8 @@ Functions</h2></td></tr>
 <tr class="separator:a7393d32756a9118babac0a14e8df364e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeac5bcaa8738af6b8ba3513bc8a656ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#aeac5bcaa8738af6b8ba3513bc8a656ea">bioexplorer::mediamaker::_addRadianceRenderer</a> (<a class="el" href="../../d8/dab/classcore_1_1Engine.html">core::Engine</a> &amp;engine)</td></tr>
 <tr class="separator:aeac5bcaa8738af6b8ba3513bc8a656ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13628d6d8f4e4f158cb7e31d8838d103"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a13628d6d8f4e4f158cb7e31d8838d103">bioexplorer::mediamaker::writeBufferToFile</a> (const std::vector&lt; unsigned char &gt; &amp;buffer, const std::string &amp;filename)</td></tr>
+<tr class="separator:a13628d6d8f4e4f158cb7e31d8838d103"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47e600e75ec5b4eeda9183b809f8269a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/dfc/classcore_1_1ExtensionPlugin.html">ExtensionPlugin</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ded/namespacebioexplorer_1_1mediamaker.html#a47e600e75ec5b4eeda9183b809f8269a">bioexplorer::mediamaker::core_plugin_create</a> (int, char **)</td></tr>
 <tr class="separator:a47e600e75ec5b4eeda9183b809f8269a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -169,7 +176,7 @@ Variables</h2></td></tr>
 <div class="line">        PLUGIN_ERROR &lt;&lt; e.what() );     \</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00067">67</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html#l00068">68</a> of file <a class="el" href="../../dd/d9e/MediaMakerPlugin_8cpp_source.html">MediaMakerPlugin.cpp</a>.</p>
 
 </div>
 </div>

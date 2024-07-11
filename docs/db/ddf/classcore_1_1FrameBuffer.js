@@ -10,7 +10,7 @@ var classcore_1_1FrameBuffer =
     [ "getFloatBuffer", "db/ddf/classcore_1_1FrameBuffer.html#ad6b572c988a3db41d62d53a06b102d29", null ],
     [ "getFrameBufferFormat", "db/ddf/classcore_1_1FrameBuffer.html#a4d4265d8415c2366570ebfca28a5286d", null ],
     [ "getFrameSize", "db/ddf/classcore_1_1FrameBuffer.html#a4965f96625ddff685fdc62ffb6be0477", null ],
-    [ "getImage", "db/ddf/classcore_1_1FrameBuffer.html#ab8e12097892806a51ab417b9856ec8ff", null ],
+    [ "getImage", "db/ddf/classcore_1_1FrameBuffer.html#aa1ff3eed471a479b856267483536ee93", null ],
     [ "getName", "db/ddf/classcore_1_1FrameBuffer.html#a0cd9c802bbbc8e2262388a376695bc8c", null ],
     [ "getSize", "db/ddf/classcore_1_1FrameBuffer.html#abe0abbbb002374d7eddcd721ea02e556", null ],
     [ "incrementAccumFrames", "db/ddf/classcore_1_1FrameBuffer.html#ae64d0b3d8f1c6498da56d45cf793e5b3", null ],

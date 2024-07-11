@@ -77,8 +77,8 @@ var namespacebioexplorer_1_1details =
       [ "spherical_cell_diffusion", "d0/d1f/namespacebioexplorer_1_1details.html#af608e48ca83174d68456a1069a6f07a1a1a17967c0c81fda300710f04d41f36d9", null ]
     ] ],
     [ "FieldDataType", "d0/d1f/namespacebioexplorer_1_1details.html#a193d6148453f4a72eeb413c8756cd4a7", [
-      [ "point", "d0/d1f/namespacebioexplorer_1_1details.html#a193d6148453f4a72eeb413c8756cd4a7a78ee54aa8f813885fe2fe20d232518b9", null ],
-      [ "vector", "d0/d1f/namespacebioexplorer_1_1details.html#a193d6148453f4a72eeb413c8756cd4a7a6ba8844da718b4a65f60dbfd0d92d6ef", null ]
+      [ "fdt_points", "d0/d1f/namespacebioexplorer_1_1details.html#a193d6148453f4a72eeb413c8756cd4a7aff0c0550aded33e32de7b46bb98b3d5f", null ],
+      [ "fdt_vectors", "d0/d1f/namespacebioexplorer_1_1details.html#a193d6148453f4a72eeb413c8756cd4a7a3b216fc0f1ee1f61ca0d7e9a9742b39b", null ]
     ] ],
     [ "ModelLoadingTransactionAction", "d0/d1f/namespacebioexplorer_1_1details.html#a6081315452c4678b4b7094086bc85b11", [
       [ "start", "d0/d1f/namespacebioexplorer_1_1details.html#a6081315452c4678b4b7094086bc85b11aea2b2676c28c0db26d39331a336c6b92", null ],

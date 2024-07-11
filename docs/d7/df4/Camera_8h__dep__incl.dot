@@ -74,7 +74,14 @@ digraph "platform/core/engineapi/Camera.h"
   Node1 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node33 [label="bioexplorer/backend\l/science/io/OOCManager.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d91/OOCManager_8cpp.html",tooltip=" "];
   Node1 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node34 [label="bioexplorer/backend\l/plugins/MediaMaker\l/plugin/MediaMakerPlugin.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d9e/MediaMakerPlugin_8cpp.html",tooltip=" "];
+  Node34 [label="bioexplorer/backend\l/plugins/MediaMaker\l/plugin/common/Utils.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d43/bioexplorer_2backend_2plugins_2MediaMaker_2plugin_2common_2Utils_8cpp.html",tooltip=" "];
   Node1 -> Node35 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node35 [label="bioexplorer/backend\l/plugins/Sonata/plugin\l/SonataExplorerPlugin.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d2c/SonataExplorerPlugin_8cpp.html",tooltip=" "];
+  Node35 [label="bioexplorer/backend\l/plugins/MediaMaker\l/plugin/handlers/CameraHandler.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d12/CameraHandler_8h.html",tooltip=" "];
+  Node35 -> Node36 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="bioexplorer/backend\l/plugins/MediaMaker\l/plugin/handlers/CameraHandler.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d0a/CameraHandler_8cpp.html",tooltip=" "];
+  Node35 -> Node37 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node37 [label="bioexplorer/backend\l/plugins/MediaMaker\l/plugin/MediaMakerPlugin.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d9e/MediaMakerPlugin_8cpp.html",tooltip=" "];
+  Node1 -> Node37 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node38 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node38 [label="bioexplorer/backend\l/plugins/Sonata/plugin\l/SonataExplorerPlugin.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d2c/SonataExplorerPlugin_8cpp.html",tooltip=" "];
 }
