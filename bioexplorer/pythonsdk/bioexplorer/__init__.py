@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Copyright 2020 - 2024 Blue Brain Project / EPFL
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,6 +13,27 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+"""
+BioExplorer module
+
+This package provides tools for exploring biological data, including utilities for molecular system animations, displacement parameters for eurons and astrocytes, report parameters, movie making, and more.
+
+Modules included:
+- Vector2, Vector3, Quaternion, Bounds, Transformation
+- MolecularSystemAnimationParams, CellAnimationParams
+- NeuronDisplacementParams, AstrocyteDisplacementParams, VasculatureDisplacementParams, SynapseDisplacementParams
+- Volume, Membrane, Protein, Sugar, RNASequence, Cell, Surfactant, Virus, EnzymeReaction
+- NeuronReportParams
+- MovieMaker, MovieScenario
+- Metabolism
+- SonataExplorer
+- Widgets
+- TransferFunction
+- BioExplorer
+
+For more information, please refer to the individual module docstrings.
+"""
 
 from .version import VERSION as __version__
 from .math_utils import (Vector2, Vector3, Quaternion, Bounds, Transformation)
@@ -35,6 +58,7 @@ __all__ = [
     "BioExplorer",
     "Vector2",
     "Vector3",
+    "Quaternion",
     "Bounds",
     "Transformation",
     "Membrane",

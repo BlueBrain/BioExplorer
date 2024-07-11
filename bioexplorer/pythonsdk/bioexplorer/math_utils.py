@@ -1,3 +1,13 @@
+"""
+Module math_utils
+
+This module provides utility classes and functions for mathematical operations, 
+including 2D and 3D vector manipulations, bounding box calculations, 
+and geometric transformations.
+"""
+
+#!/usr/bin/env python3
+
 # Copyright 2020 - 2024 Blue Brain Project / EPFL
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -67,7 +77,12 @@ class Vector3:
                        self.x * other.y - self.y * other.x)
 
     def magnitude(self):
-        """Return the magnitude (length) of the vector."""
+        """
+        Calculate the magnitude (length) of the vector.
+
+        :return: The magnitude of the vector.
+        :rtype: float
+        """
         return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 
     def normalize(self):
@@ -133,7 +148,12 @@ class Vector2:
         return Vector2(-self.y, self.x)
 
     def magnitude(self):
-        """Return the magnitude (length) of the vector."""
+        """
+        Calculate the magnitude (length) of the vector.
+
+        :return: The magnitude of the vector.
+        :rtype: float
+        """
         return math.sqrt(self.x**2 + self.y**2)
 
     def normalize(self):
@@ -218,6 +238,14 @@ class Transformation:
     """Transformation defined by translation, rotation, rotation center, and scale."""
 
     def __init__(self, translation=Vector3(), rotation=Quaternion(), rotation_center=Vector3(), scale=Vector3(1, 1, 1)):
+        """
+        Initialize a Transformation instance.
+
+        :param translation: Vector3 representing the translation component.
+        :param rotation: Quaternion representing the rotation component.
+        :param rotation_center: Vector3 representing the rotation center.
+        :param scale: Vector3 representing the scale factors.
+        """
         assert isinstance(translation, Vector3)
         assert isinstance(rotation, Quaternion)
         assert isinstance(rotation_center, Vector3)
@@ -245,4 +273,9 @@ class Transformation:
         return point
 
     def __repr__(self):
-        return f"Transformation(translation={self.translation}, rotation={self.rotation}, rotation_center={self.rotation_center}, scale={self.scale})"
+        """
+        Provide a string representation of the object for debugging and logging purposes.
+
+        :return: A string that represents the object.
+        """
+        return (f"Transformation(translation={self.translation}, rotation={self.rotation}, rotation_center={self.rotation_center}, scale={self.scale})")
