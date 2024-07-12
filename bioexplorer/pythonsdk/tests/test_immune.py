@@ -50,14 +50,14 @@ def test_immune():
 
     lactoferrins_volume = Volume(
         name=bio_explorer.NAME_LACTOFERRIN,
-        shape=bio_explorer.ASSEMBLY_SHAPE_CUBE,
+        shape=bio_explorer.assembly_shape.CUBE,
         shape_params=scene_size,
         protein=lactoferrin
     )
 
     bio_explorer.add_volume(
         volume=lactoferrins_volume,
-        representation=bio_explorer.REPRESENTATION_ATOMS
+        representation=bio_explorer.protein_representation.ATOMS
     )
 
     # Defensins
@@ -71,14 +71,14 @@ def test_immune():
 
     defensins_volume = Volume(
         name=bio_explorer.NAME_DEFENSIN,
-        shape=bio_explorer.ASSEMBLY_SHAPE_CUBE,
+        shape=bio_explorer.assembly_shape.CUBE,
         shape_params=scene_size,
         protein=defensin
     )
 
     bio_explorer.add_volume(
         volume=defensins_volume,
-        representation=bio_explorer.REPRESENTATION_ATOMS
+        representation=bio_explorer.protein_representation.ATOMS
     )
 
     # Restore image streaming

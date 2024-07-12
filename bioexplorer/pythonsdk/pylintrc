@@ -13,7 +13,7 @@ disable=C0103,C0199,C0325,R0903
 
 [FORMAT]
 # Maximum number of characters on a single line.
-max-line-length=100
+max-line-length=120
 
 [DESIGN]
 # Maximum number of arguments for function / method

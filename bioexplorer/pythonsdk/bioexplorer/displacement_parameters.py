@@ -1,3 +1,5 @@
+#!/usr/bin/env
+
 # Copyright 2020 - 2024 Blue Brain Project / EPFL
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,12 +14,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+Module displacement_parameters
+
+This module provides displacement parameters for neurons, astrocytes and vasculature
+"""
+
 from .math_utils import Vector2
+
 
 class NeuronDisplacementParams:
     """
-    Parameters used for the sinusoidal Signed Distance Function (SDF) displacement for neuron morphologies.
-    Each neuron component (e.g., soma, section) has associated amplitude and frequency for displacement.
+    Parameters used for the sinusoidal Signed Distance Field displacement for neuron morphologies.
+
+    Each neuron component (e.g., soma, section) has associated amplitude and frequency for
+    displacement.
     """
 
     def __init__(
@@ -32,12 +43,18 @@ class NeuronDisplacementParams:
         """
         Initialize displacement parameters for various components of a neuron.
 
-        :param soma: Vector2, optional: Amplitude and frequency for the soma. Defaults to [0.1, 3.0].
-        :param section: Vector2, optional: Amplitude and frequency for the section. Defaults to [0.15, 2.0].
-        :param nucleus: Vector2, optional: Amplitude and frequency for the nucleus. Defaults to [0.01, 2.0].
-        :param mitochondrion: Vector2, optional: Amplitude and frequency for the mitochondrion. Defaults to [0.2, 100.0].
-        :param myelin_sheath: Vector2, optional: Amplitude and frequency for the myelin sheath. Defaults to [0.1, 2.5].
-        :param spine: Vector2, optional: Amplitude and frequency for the spine. Defaults to [0.01, 25.0].
+        :param soma: Vector2, optional: Amplitude and frequency for the soma. Defaults to
+        [0.1, 3.0].
+        :param section: Vector2, optional: Amplitude and frequency for the section. Defaults to
+        [0.15, 2.0].
+        :param nucleus: Vector2, optional: Amplitude and frequency for the nucleus. Defaults to
+        [0.01, 2.0].
+        :param mitochondrion: Vector2, optional: Amplitude and frequency for the mitochondrion.
+        Defaults to [0.2, 100.0].
+        :param myelin_sheath: Vector2, optional: Amplitude and frequency for the myelin sheath.
+        Defaults to [0.1, 2.5].
+        :param spine: Vector2, optional: Amplitude and frequency for the spine. Defaults to
+        [0.01, 25.0].
         """
         self.components = {
             'soma': soma,
@@ -61,7 +78,8 @@ class NeuronDisplacementParams:
         """
         Convert the displacement parameters for all components into a list format.
 
-        :return: list of float: List containing the amplitude and frequency values for all components.
+        :return: list of float: List containing the amplitude and frequency values for all
+        components.
         """
         return [value for params in self.components.values() for value in (params.x, params.y)]
 
@@ -74,16 +92,17 @@ class NeuronDisplacementParams:
         return NeuronDisplacementParams(**self.components)
 
     def __repr__(self):
-        """
-        Provide a string representation of the object for debugging and logging purposes.
-        """
-        return f"NeuronDisplacementParams({', '.join(f'{k}={v}' for k, v in self.components.items())})"
+        """Provide a string representation of the object for debugging and logging purposes."""
+        return f"NeuronDisplacementParams(\
+            {', '.join(f'{k}={v}' for k, v in self.components.items())})"
 
 
 class AstrocyteDisplacementParams:
     """
-    Parameters used for the sinusoidal Signed Distance Function (SDF) displacement function for astrocyte morphologies.
-    Each astrocyte component (e.g., soma, section) has associated amplitude and frequency for displacement.
+    Parameters used for the sinusoidal Signed Distance Field displacement function for astrocyte.
+
+    Each astrocyte component (e.g., soma, section) has associated amplitude and frequency for
+    displacement.
     """
 
     def __init__(
@@ -97,11 +116,16 @@ class AstrocyteDisplacementParams:
         """
         Initialize displacement parameters for various components of an astrocyte.
 
-        :param soma: Vector2, optional: Amplitude and frequency for the soma. Defaults to [0.05, 0.5].
-        :param section: Vector2, optional: Amplitude and frequency for the section. Defaults to [0.5, 5.0].
-        :param nucleus: Vector2, optional: Amplitude and frequency for the nucleus. Defaults to [0.01, 2.0].
-        :param mitochondrion: Vector2, optional: Amplitude and frequency for the mitochondrion. Defaults to [0.2, 100.0].
-        :param end_foot: Vector2, optional: Amplitude and frequency for the end foot. Defaults to [0.3, 0.5].
+        :param soma: Vector2, optional: Amplitude and frequency for the soma. Defaults to
+        [0.05, 0.5].
+        :param section: Vector2, optional: Amplitude and frequency for the section. Defaults to
+        [0.5, 5.0].
+        :param nucleus: Vector2, optional: Amplitude and frequency for the nucleus. Defaults to
+        [0.01, 2.0].
+        :param mitochondrion: Vector2, optional: Amplitude and frequency for the mitochondrion.
+        Defaults to [0.2, 100.0].
+        :param end_foot: Vector2, optional: Amplitude and frequency for the end foot. Defaults to
+        [0.3, 0.5].
         """
         self.components = {
             'soma': soma,
@@ -124,7 +148,8 @@ class AstrocyteDisplacementParams:
         """
         Convert the displacement parameters for all components into a list format.
 
-        :return: list of float: List containing the amplitude and frequency values for all components.
+        :return: list of float: List containing the amplitude and frequency values for all
+        components.
         """
         return [value for params in self.components.values() for value in (params.x, params.y)]
 
@@ -137,47 +162,46 @@ class AstrocyteDisplacementParams:
         return AstrocyteDisplacementParams(**self.components)
 
     def __repr__(self):
-        """
-        Provide a string representation of the object for debugging and logging purposes.
-        """
-        return f"AstrocyteDisplacementParams({', '.join(f'{k}={v}' for k, v in self.components.items())})"
+        """Provide a string representation of the object for debugging and logging purposes."""
+        return f"AstrocyteDisplacementParams(\
+            {', '.join(f'{k}={v}' for k, v in self.components.items())})"
 
 
 class VasculatureDisplacementParams:
-    """Parameters used for the sinusoidal SDF displacement function for vasculature"""
+    """Parameters used for the sinusoidal SDF displacement function for vasculature."""
 
     def __init__(self, segment=Vector2(0.3, 0.5)):
         """
-        Parameters used to define how cells should be represented using the SDF technique
+        Initialize displacement parameters for vasculature segments.
 
-        :segment: (Vector2, optional): amplitude and frequency for the segment. Defaults are
-        [0.3, 5.0]
+        :param segment: Vector2, optional: Amplitude and frequency for the segment. Defaults to
+        [0.3, 0.5].
         """
         assert isinstance(segment, Vector2)
-
         self.segment = segment
 
     def to_list(self):
         """
-        A list containing the values of class members
+        A list containing the values of class members.
 
-        :return: A list containing the values of class members
+        :return: A list containing the values of class members.
         :rtype: list
         """
         return [self.segment.x, self.segment.y]
 
     def copy(self):
         """
-        Copy the current object
+        Copy the current object.
 
-        :return: VasculatureDisplacementParams: A copy of the object
+        :return: VasculatureDisplacementParams: A copy of the object.
         """
         return VasculatureDisplacementParams(self.segment)
 
 
 class SynapseDisplacementParams:
     """
-    Parameters used for the sinusoidal Signed Distance Function (SDF) displacement function for synapse.
+    Parameters used for the sinusoidal Signed Distance Field displacement function for synapse.
+
     This class defines displacement parameters for the spine component of a synapse.
     """
 
@@ -185,7 +209,8 @@ class SynapseDisplacementParams:
         """
         Initialize displacement parameters for the spine of a synapse.
 
-        :param spine: Vector2, optional: Amplitude and frequency for the spine. Defaults to [0.01, 25.0].
+        :param spine: Vector2, optional: Amplitude and frequency for the spine. Defaults to
+        [0.01, 25.0].
         """
         assert isinstance(spine, Vector2)
         self.components = {'spine': spine}
@@ -215,7 +240,5 @@ class SynapseDisplacementParams:
         return SynapseDisplacementParams(spine=self.components['spine'])
 
     def __repr__(self):
-        """
-        Provide a string representation of the object for debugging and logging purposes.
-        """
+        """Provide a string representation of the object for debugging and logging purposes."""
         return f"SynapseDisplacementParams(spine={self.components['spine']})"

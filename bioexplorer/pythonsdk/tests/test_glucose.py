@@ -48,14 +48,14 @@ def test_glucose():
 
     volume = Volume(
         name=bio_explorer.NAME_GLUCOSE,
-        shape=bio_explorer.ASSEMBLY_SHAPE_CUBE,
+        shape=bio_explorer.assembly_shape.CUBE,
         shape_params=scene_size,
         protein=glucose
     )
 
     bio_explorer.add_volume(
         volume=volume,
-        representation=bio_explorer.REPRESENTATION_ATOMS
+        representation=bio_explorer.protein_representation.ATOMS
     )
 
     # Restore image streaming

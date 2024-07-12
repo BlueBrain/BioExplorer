@@ -1,3 +1,5 @@
+#!/usr/bin/env
+
 # Copyright 2020 - 2023 Blue Brain Project / EPFL
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,6 +13,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+"""
+Module movie_maker
+
+This module provides SDK for the MediaMaker plug-in.
+"""
 
 
 import copy
@@ -215,6 +223,27 @@ class MovieMaker:
     def attach_camera_handler(
         self, control_points, nb_steps_between_control_points, smoothing_size=1
     ):
+        """
+        Attach a camera handler with specified control points and parameters.
+
+        This method configures a camera handler using a series of control points and associated
+        parameters to create a smooth camera path.
+
+        :param control_points: list of dict: A list of dictionaries where each dictionary represents
+        a control point with the following keys:
+                            - "origin": A list of 3 float values representing the camera's origin.
+                            - "direction": A list of 3 float values representing the camera's
+                            direction.
+                            - "up": A list of 3 float values representing the camera's up vector.
+                            - "apertureRadius": A float value representing the aperture radius.
+                            - "focalDistance": A float value representing the focal distance.
+        :param nb_steps_between_control_points: int: The number of steps between each control point
+        to ensure smooth transitions.
+        :param smoothing_size: int, optional: The number of smoothing steps to apply (default is 1).
+
+        :return: Response from the client's request to attach the camera handler.
+        :rtype: Response object
+        """
         origins = list()
         directions = list()
         ups = list()
@@ -616,12 +645,35 @@ class MovieMaker:
         progress_widget.description = "Done"
         progress_widget.value = 100
 
-
     @staticmethod
     def set_image_metadata(
             file_name, description, owner, artist_name, copyright, software_name, software_version,
             keywords=list(), artist_email=None, artist_orcid=None, artist_job_description=None,
             contact_details=None, contributors=list()):
+        """
+        Sets the metadata for an image file.
+
+        This method updates the metadata of an image file with the provided details. It handles
+        metadata for XML, Exif, and IPTC tags.
+
+        :param file_name: str: The name of the image file to update.
+        :param description: str: The description of the image.
+        :param owner: str: The owner of the image.
+        :param artist_name: str: The name of the artist.
+        :param copyright: str: The copyright information.
+        :param software_name: str: The name of the software used.
+        :param software_version: str: The version of the software used.
+        :param keywords: list: A list of keywords associated with the image (default is an empty
+        list).
+        :param artist_email: str, optional: The email of the artist (default is None).
+        :param artist_orcid: str, optional: The ORCID of the artist (default is None).
+        :param artist_job_description: str, optional: The job description of the artist (default is
+        None).
+        :param contact_details: str, optional: The contact details (default is None).
+        :param contributors: list: A list of contributors (default is an empty list).
+
+        :return: None
+        """
         metadata = pyexiv2.ImageMetadata(file_name)
         metadata.read()
         '''XML tags'''

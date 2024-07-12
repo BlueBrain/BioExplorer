@@ -1,3 +1,11 @@
+#!/usr/bin/env
+
+"""
+Module notebook_widgets
+
+This module provides widgets for basic object manipulation.
+"""
+
 # Copyright 2020 - 2023 Blue Brain Project / EPFL
 #
 # Licensed under the Apache License, Version 2.0 (the "License");

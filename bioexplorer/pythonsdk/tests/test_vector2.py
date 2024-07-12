@@ -19,7 +19,7 @@ def test_vector2_1():
     try:
         Vector2(1)
         assert False
-    except RuntimeError:
+    except AssertionError:
         assert True
 
 
@@ -35,7 +35,7 @@ def test_vector2_3():
     try:
         Vector2(1, 2, 3)
         assert False
-    except RuntimeError:
+    except TypeError:
         assert True
 
 

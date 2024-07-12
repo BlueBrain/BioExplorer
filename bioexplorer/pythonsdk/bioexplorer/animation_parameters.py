@@ -1,3 +1,5 @@
+#!/usr/bin/env
+
 # Copyright 2020 - 2024 Blue Brain Project / EPFL
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,10 +14,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+Module animation_parameters
+
+This module provides classes to define animation parameters for molecular systems and cells.
+These parameters are used to introduce randomness and sinusoidal motion to make animations appear
+more realistic.
+"""
+
 
 class MolecularSystemAnimationParams:
     """
     Parameters used to introduce some randomness in the position and orientation of the protein.
+
     This approach is used to make assemblies appear more realistic and for animation purposes.
     """
 
@@ -33,9 +44,11 @@ class MolecularSystemAnimationParams:
 
         :param seed: int, optional: Randomization seed for initial setup. Defaults to 0.
         :param position_seed: int, optional: Seed for position randomization. Defaults to 0.
-        :param position_strength: float, optional: Strength of position randomization. Defaults to 0.0.
+        :param position_strength: float, optional: Strength of position randomization. Defaults to
+        0.0.
         :param rotation_seed: int, optional: Seed for rotation randomization. Defaults to 0.
-        :param rotation_strength: float, optional: Strength of rotation randomization. Defaults to 0.0.
+        :param rotation_strength: float, optional: Strength of rotation randomization. Defaults to
+        0.0.
         :param morphing_step: float, optional: Step for morphing between shapes. Defaults to 0.0.
         """
         self.components = {
@@ -74,15 +87,15 @@ class MolecularSystemAnimationParams:
         return MolecularSystemAnimationParams(**self.components)
 
     def __repr__(self):
-        """
-        Return the official string representation of the object for debugging and logging purposes.
-        """
-        return f"MolecularSystemAnimationParams({', '.join(f'{k}={v}' for k, v in self.components.items())})"
+        """Return the string representation of the object for debugging and logging purposes."""
+        return f"MolecularSystemAnimationParams(\
+            {', '.join(f'{k}={v}' for k, v in self.components.items())})"
 
 
 class CellAnimationParams:
     """
     Parameters used to introduce some sinusoidal function in a cell structure.
+
     This class is used to define how cells should be animated using sinusoidal motion.
     """
 
@@ -129,7 +142,5 @@ class CellAnimationParams:
         return CellAnimationParams(**self.components)
 
     def __repr__(self):
-        """
-        Return the official string representation of the object for debugging and logging purposes.
-        """
+        """Return the string representation of the object for debugging and logging purposes."""
         return f"CellAnimationParams({', '.join(f'{k}={v}' for k, v in self.components.items())})"

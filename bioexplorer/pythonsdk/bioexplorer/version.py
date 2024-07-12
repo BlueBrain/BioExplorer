@@ -1,4 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/env
+
+"""
+Module displacement_parameters
+
+This module provides the verion of the bioexplorer python SDK
+"""
 
 # Copyright 2020 - 2023 Blue Brain Project / EPFL
 #
@@ -14,4 +20,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-VERSION = "1.8.0"
+VERSION = "2.0.0"

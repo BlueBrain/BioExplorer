@@ -35,14 +35,14 @@ def test_surfactant():
         orientation=[0.0, 0.0, 0.0, 1.0], position=[0, 0, 200], target=[0, 0, 0])
 
     # Proteins
-    protein_representation = bio_explorer.REPRESENTATION_ATOMS
+    protein_representation = bio_explorer.protein_representation.ATOMS
 
     head_source = os.path.join(surfactant_folder, '1pw9.pdb')
     branch_source = os.path.join(surfactant_folder, '1k6f.pdb')
 
     # SP-D
     surfactant_d = Surfactant(
-        name='SP-D', surfactant_protein=bio_explorer.SURFACTANT_PROTEIN_D,
+        name='SP-D', surfactant_protein=bio_explorer.surfactant_type.PROTEIN_D,
         head_source=head_source, branch_source=branch_source)
     bio_explorer.add_surfactant(
         surfactant=surfactant_d, representation=protein_representation,
@@ -52,7 +52,7 @@ def test_surfactant():
 
     # SP-A
     surfactant_a = Surfactant(
-        name='SP-A', surfactant_protein=bio_explorer.SURFACTANT_PROTEIN_A,
+        name='SP-A', surfactant_protein=bio_explorer.surfactant_type.PROTEIN_A,
         head_source=head_source, branch_source=branch_source)
     bio_explorer.add_surfactant(
         surfactant=surfactant_a, representation=protein_representation,

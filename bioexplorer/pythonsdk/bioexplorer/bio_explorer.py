@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Copyright 2020 - 2024 Blue Brain Project / EPFL
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,6 +13,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+"""
+Module bio_explorer
+
+This module provides SDK for the BioExplorer plug-in.
+"""
 
 import math
 import os
@@ -105,19 +113,24 @@ class BioExplorer:
     morphology_realism_level = MorphologyRealismLevel
 
     population_color_scheme = PopulationColorScheme
-    
+
     synapse_representation = SynapseRepresentation
-    
+
     neuron_synapse_type = NeuronSynapseType
     neuron_material = NeuronMaterial
-    
+
     astrocyte_material = AstrocyteMaterial
-    
+
     field_data_type = FieldDataType
     file_format = FileFormat
 
     def __init__(self, url="localhost:5000"):
-        """Create a new BioExplorer instance"""
+        """
+        Create a new BioExplorer instance.
+
+        :param url: The URL of the BioExplorer backend. Defaults to "localhost:5000".
+        :type url: str
+        """
         self._url = url
         self._client = Client(url)
         self._v1_compatibility = False
@@ -134,17 +147,19 @@ class BioExplorer:
 
     def __str__(self):
         """
-        A pretty-print of the class
+        A pretty-print of the class.
 
-        :rtype: string
+        :returns: The name of the class.
+        :rtype: str
         """
         return "Blue Brain BioExplorer"
 
     def core_api(self):
         """
-        Access to underlying core API (Brayns core API)
+        Access to the underlying core API (Brayns core API).
 
-        :rtype: Class
+        :returns: The client class of the core API.
+        :rtype: Client
         """
         return self._client
 
@@ -152,32 +167,28 @@ class BioExplorer:
         """
         Check the response from the BioExplorer backend.
 
-        Args:
-            response (Dict[str, Any]): The response to check.
-
-        Returns:
-            Dict[str, Any]: The validated response.
-
-        Raises:
-            RuntimeError: If the response indicates an error.
+        :param response: The response to check.
+        :type response: Dict[str, Any]
+        :returns: The validated response.
+        :rtype: Dict[str, Any]
+        :raises RuntimeError: If the response indicates an error.
         """
         if not response.get("status"):
             raise RuntimeError(f"Error from BioExplorer backend: {response.get('contents')}")
         return response
-        
-    def _invoke_and_check(self, method: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+
+    def _invoke_and_check(
+            self, method: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         Invoke a method on the BioExplorer client and check the response.
 
-        Args:
-            method (str): The method to invoke.
-            params (Dict[str, Any], optional): Parameters to pass to the method. Defaults to None.
-
-        Returns:
-            Dict[str, Any]: The response from the BioExplorer backend after validation.
-
-        Raises:
-            RuntimeError: If the response from the backend indicates an error.
+        :param method: The method to invoke.
+        :type method: str
+        :param params: Parameters to pass to the method. Defaults to None.
+        :type params: Optional[Dict[str, Any]]
+        :returns: The response from the BioExplorer backend after validation.
+        :rtype: Dict[str, Any]
+        :raises RuntimeError: If the response from the backend indicates an error.
         """
         if params is None:
             params = {}
@@ -189,16 +200,16 @@ class BioExplorer:
 
         return self._check(response)
 
-    def _invoke(self, method, params=None):
+    def _invoke(self, method: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         Invoke a method on the BioExplorer client.
 
-        Args:
-            method (str): The method to invoke.
-            params (Dict[str, Any], optional): Parameters to pass to the method. Defaults to None.
-
-        Returns:
-            Dict[str, Any]: The response from the BioExplorer backend after validation.
+        :param method: The method to invoke.
+        :type method: str
+        :param params: Parameters to pass to the method. Defaults to None.
+        :type params: Optional[Dict[str, Any]]
+        :returns: The response from the BioExplorer backend after validation.
+        :rtype: Dict[str, Any]
         """
         prefixed_method = self.PLUGIN_API_PREFIX + method
         return self._client.rockets_client.request(
@@ -206,17 +217,26 @@ class BioExplorer:
         )
 
     @staticmethod
-    def _enums_to_list(the_enums):
+    def _enums_to_list(the_enums: List) -> List:
+        """
+        Convert enum values to a list.
+
+        :param the_enums: A list of enums.
+        :type the_enums: list
+        :returns: A list of enum values.
+        :rtype: list
+        """
         the_list = list()
         for item in the_enums:
             the_list.append(item.value)
         return the_list
 
-    def version(self):
+    def version(self) -> str:
         """
-        Version of the BioExplorer application
+        Get the version of the BioExplorer application.
 
-        :rtype: string
+        :returns: The version of the BioExplorer application.
+        :rtype: str
         """
         if self._client is None:
             return __version__
@@ -226,10 +246,11 @@ class BioExplorer:
             raise RuntimeError(result["contents"])
         return result["contents"]
 
-    def scene_information(self):
+    def scene_information(self) -> 'Metrics':
         """
-        Metrics about the scene handled by the BioExplorer backend
+        Get metrics about the scene handled by the BioExplorer backend.
 
+        :returns: Metrics about the current scene.
         :rtype: Metrics
         """
         if self._client is None:
@@ -240,10 +261,10 @@ class BioExplorer:
     @staticmethod
     def authors() -> List[str]:
         """
-        Get the list of authors
+        Get the list of authors.
 
-        Returns:
-            List[str]: A list of author names.
+        :returns: A list of author names.
+        :rtype: List[str]
         """
         return [
             "Cyrille Favreau",
@@ -287,19 +308,22 @@ class BioExplorer:
         """
         Set focus on a specific instance of a model.
 
-        Args:
-            model_id (int): The ID of the model to focus on.
-            instance_id (int, optional): The instance ID of the model. Defaults to 0.
-            distance (float, optional): The distance for the focus setting. Defaults to 0.0.
-            direction (Vector3, optional): The direction vector for focus. Defaults to Vector3(0.0, 0.0, 1.0).
-            max_number_of_instances (float, optional): Maximum number of instances to consider. Defaults to 1e6.
+        :param model_id: The ID of the model to focus on.
+        :type model_id: int
+        :param instance_id: The instance ID of the model. Defaults to 0.
+        :type instance_id: int, optional
+        :param distance: The distance for the focus setting. Defaults to 0.0.
+        :type distance: float, optional
+        :param direction: The direction vector for focus. Defaults to Vector3(0.0, 0.0, 1.0).
+        :type direction: Vector3, optional
+        :param max_number_of_instances: Maximum number of instances to consider. Defaults to 1e6.
+        :type max_number_of_instances: float, optional
 
-        Returns:
-            Dict[str, Any]: Result of the backend API call.
+        :returns: Result of the backend API call.
+        :rtype: Dict[str, Any]
 
-        Raises:
-            ValueError: If the direction is not provided or not an instance of Vector3.
-            RuntimeError: If the backend call fails.
+        :raises ValueError: If the direction is not provided or not an instance of Vector3.
+        :raises RuntimeError: If the backend call fails.
         """
         if direction is None:
             direction = Vector3(0.0, 0.0, 1.0)
@@ -313,19 +337,35 @@ class BioExplorer:
             "direction": direction.to_list(),
             "maxNbInstances": max_number_of_instances
         }
-        
+
         result = self._invoke_and_check("set-focus-on", params)
         if not result["status"]:
             raise RuntimeError(f"Failed to set focus: {result['contents']}")
-        
         return result
-    
+
     def export_to_file(
         self,
-        filename,
-        low_bounds=Vector3(-1e38, -1e38, -1e38),
-        high_bounds=Vector3(1e38, 1e38, 1e38)
-    ):
+        filename: str,
+        low_bounds: Vector3 = Vector3(-1e38, -1e38, -1e38),
+        high_bounds: Vector3 = Vector3(1e38, 1e38, 1e38)
+    ) -> Dict[str, Any]:
+        """
+        Export the current scene to a file.
+
+        :param filename: The name of the file to export to.
+        :type filename: str
+        :param low_bounds: The lower bounds of the export region. Defaults to
+        Vector3(-1e38, -1e38, -1e38).
+        :type low_bounds: Vector3, optional
+        :param high_bounds: The upper bounds of the export region. Defaults to
+        Vector3(1e38, 1e38, 1e38).
+        :type high_bounds: Vector3, optional
+
+        :returns: Result of the backend API call.
+        :rtype: Dict[str, Any]
+
+        :raises RuntimeError: If the backend call fails.
+        """
         params = {
             "filename": filename,
             "lowBounds": low_bounds.to_list(),
@@ -337,7 +377,35 @@ class BioExplorer:
             raise RuntimeError(result["contents"])
         return result
 
-    def export_to_database(self, connection_string, schema, brick_id, low_bounds=None, high_bounds=None):
+    def export_to_database(
+        self,
+        connection_string: str,
+        schema: str,
+        brick_id: int,
+        low_bounds: Vector3 = None,
+        high_bounds: Vector3 = None
+    ) -> Dict[str, Any]:
+        """
+        Export the current scene to a database.
+
+        :param connection_string: The connection string to the database.
+        :type connection_string: str
+        :param schema: The schema to use in the database.
+        :type schema: str
+        :param brick_id: The ID of the brick to export.
+        :type brick_id: int
+        :param low_bounds: The lower bounds of the export region. Defaults to
+        Vector3(-1e38, -1e38, -1e38).
+        :type low_bounds: Vector3, optional
+        :param high_bounds: The upper bounds of the export region. Defaults to
+        Vector3(1e38, 1e38, 1e38).
+        :type high_bounds: Vector3, optional
+
+        :returns: Result of the backend API call.
+        :rtype: Dict[str, Any]
+
+        :raises RuntimeError: If the backend call fails.
+        """
         assert isinstance(low_bounds or Vector3(-1e38, -1e38, -1e38), Vector3)
         assert isinstance(high_bounds or Vector3(1e38, 1e38, 1e38), Vector3)
         params = {
@@ -352,7 +420,18 @@ class BioExplorer:
             raise RuntimeError(result["contents"])
         return result
 
-    def import_from_cache(self, filename):
+    def import_from_cache(self, filename: str) -> Dict[str, Any]:
+        """
+        Import a scene from a cache file.
+
+        :param filename: The name of the file to import from.
+        :type filename: str
+
+        :returns: Result of the backend API call.
+        :rtype: Dict[str, Any]
+
+        :raises RuntimeError: If the backend call fails.
+        """
         params = {
             "filename": filename,
             "fileFormat": FileFormat.UNSPECIFIED
@@ -361,14 +440,33 @@ class BioExplorer:
         if not result["status"]:
             raise RuntimeError(result["contents"])
         return result
-    
+
     def export_to_xyz(
         self,
-        filename,
-        file_format,
-        low_bounds=Vector3(-1e38, -1e38, -1e38),
-        high_bounds=Vector3(1e38, 1e38, 1e38),
-    ):
+        filename: str,
+        file_format: FileFormat,
+        low_bounds: Vector3 = Vector3(-1e38, -1e38, -1e38),
+        high_bounds: Vector3 = Vector3(1e38, 1e38, 1e38),
+    ) -> Dict[str, Any]:
+        """
+        Export the current scene to an XYZ file.
+
+        :param filename: The name of the file to export to.
+        :type filename: str
+        :param file_format: The format of the file to export.
+        :type file_format: FileFormat
+        :param low_bounds: The lower bounds of the export region. Defaults to
+        Vector3(-1e38, -1e38, -1e38).
+        :type low_bounds: Vector3, optional
+        :param high_bounds: The upper bounds of the export region. Defaults to
+        Vector3(1e38, 1e38, 1e38).
+        :type high_bounds: Vector3, optional
+
+        :returns: Result of the backend API call.
+        :rtype: Dict[str, Any]
+
+        :raises RuntimeError: If the backend call fails.
+        """
         params = {
             "filename": filename,
             "lowBounds": low_bounds.to_list(),
@@ -379,7 +477,7 @@ class BioExplorer:
         if not result["status"]:
             raise RuntimeError(result["contents"])
         return result
-    
+
     def add_sars_cov_2(
         self,
         name,
@@ -604,8 +702,10 @@ class BioExplorer:
             )
 
             # Complex
-            indices_closed = [17,74,149,165,282,331,343,616,657,1098,1134,1158,1173,1194]
-            indices_open = [17,74,149,165,282,331,343,657,1098,1134,1158,1173,1194]
+            indices_closed = [
+                17, 74, 149, 165, 282, 331, 343, 616, 657, 1098, 1134, 1158, 1173, 1194]
+            indices_open = [
+                17, 74, 149, 165, 282, 331, 343, 657, 1098, 1134, 1158, 1173, 1194]
             self.add_multiple_glycans(
                 assembly_name=name,
                 glycan_type=self.NAME_GLYCAN_COMPLEX,
@@ -803,7 +903,7 @@ class BioExplorer:
             raise TypeError("position must be an instance of Vector3")
         if not isinstance(constraints, list):
             raise TypeError("constraints must be a list")
-        
+
         _protein = AssemblyProtein(
             assembly_name=volume.name,
             name=volume.protein.name,
@@ -831,11 +931,10 @@ class BioExplorer:
         )
         if not result["status"]:
             raise RuntimeError(result["contents"])
-        
+
         result = self.add_assembly_protein(_protein)
         if not result["status"]:
             raise RuntimeError(result["contents"])
-        
         return result
 
     def add_surfactant(
@@ -1840,7 +1939,8 @@ class BioExplorer:
         :refraction_indices: List of refraction indices
         :glossinesses: List of glossinesses (value between 0 and 1)
         :cast_user_datas: List of user data casts
-        :shading_modes: List of shading modes (NONE, BASIC, DIFFUSE, ELECTRON, CARTOON,  ELECTRON_TRANSPARENCY, PERLIN or DIFFUSE_TRANSPARENCY)
+        :shading_modes: List of shading modes (NONE, BASIC, DIFFUSE, ELECTRON, CARTOON,
+        ELECTRON_TRANSPARENCY, PERLIN or DIFFUSE_TRANSPARENCY)
         :emissions: List of light emission intensities
         :user_parameters: List of convenience parameter used by some of the shaders
         :chameleon_modes: List of chameleon mode attributes. If receiver, material take the color of
@@ -2247,7 +2347,7 @@ class BioExplorer:
         params = dict()
         params["voxelSize"] = voxel_size
         params["density"] = density
-        params["dataType"] = data_type
+        params["dataType"] = data_type.value
         params["modelIds"] = model_ids
         return self._invoke_and_check("build-fields", params)
 
@@ -2857,7 +2957,8 @@ class BioExplorer:
         assert isinstance(displacement_params, AstrocyteDisplacementParams)
         if vasculature_population_name != '':
             if connectome_population_name == '':
-                raise RuntimeError("A connectome population must be specified together with the vasculature population")
+                raise RuntimeError("A connectome population must be specified together with the \
+                                   vasculature population")
 
         params = dict()
         params["assemblyName"] = assembly_name

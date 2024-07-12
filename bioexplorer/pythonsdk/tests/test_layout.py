@@ -26,6 +26,7 @@ def test_layout():
     surfactant_folder = os.path.join(pdb_folder, 'surfactant')
 
     bio_explorer = BioExplorer('localhost:5000')
+    core = bio_explorer.core_api()
     bio_explorer.reset_scene()
     bio_explorer.start_model_loading_transaction()
     print('BioExplorer version ' + bio_explorer.version())
@@ -38,16 +39,15 @@ def test_layout():
     line_defense = 45
 
     # Camera
-    brayns = bio_explorer.core_api()
-    brayns.set_camera(
+    core.set_camera(
         current='orthographic',
         orientation=[0.0, 0.0, 0.0, 1.0],
         position=[23.927943790322814, 24.84577580212592, 260.43975983632527],
         target=[23.927943790322814, 24.84577580212592, 39.93749999999999]
     )
-    params = brayns.OrthographicCameraParams()
+    params = core.OrthographicCameraParams()
     params.height = 55
-    brayns.set_camera_params(params)
+    core.set_camera_params(params)
 
     # Grid
     bio_explorer.add_grid(
@@ -144,7 +144,7 @@ def test_layout():
     branch_source = os.path.join(surfactant_folder, '1k6f.pdb')
     surfactant_d = Surfactant(
         name='Surfactant',
-        surfactant_protein=bio_explorer.SURFACTANT_BRANCH,
+        surfactant_protein=bio_explorer.surfactant_type.PROTEIN_A,
         head_source=head_source,
         branch_source=branch_source
     )
