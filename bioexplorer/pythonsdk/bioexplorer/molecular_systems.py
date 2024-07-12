@@ -166,7 +166,7 @@ class RNASequence:
 
         self.source = source
         self.protein_source = protein_source
-        self.shape = shape
+        self.shape = shape.value
         self.shape_params = shape_params.copy()
         self.values_range = values_range.copy()
         self.curve_params = curve_params.copy()

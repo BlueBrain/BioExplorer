@@ -280,7 +280,7 @@ class MovieMaker:
         samples_per_pixel=1,
         start_frame=0,
         end_frame=0,
-        interpupillary_distance=0.0635,
+        interpupillary_distance=0.0,
         export_intermediate_frames=False,
         frame_buffer_mode=FRAME_BUFFER_MODE_COLOR,
         keywords=list(),

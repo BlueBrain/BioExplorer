@@ -2299,19 +2299,11 @@ class BioExplorer:
 
         # Rendering settings
         self._client.set_renderer(
-            current="point_fields",
+            current="advanced",
             samples_per_pixel=1,
             subsampling=8,
             max_accum_frames=samples_per_pixel,
         )
-        params = self._client.PointFieldsRendererParams()
-        params.cutoff = 5000
-        params.main_exposure = 10.0
-        params.alpha_correction = 0.1
-        params.nb_ray_steps = 16
-        params.nb_ray_refinement_steps = samples_per_pixel
-        params.use_hardware_randomizer = True
-        self._client.set_renderer_params(params)
 
         # Build fields acceleration structures
         result = self.build_fields(voxel_size=voxel_size, density=density)
