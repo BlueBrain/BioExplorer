@@ -1,5 +1,5 @@
 /*
-    Copyright 2015 - 2018 Blue Brain Project / EPFL
+    Copyright 2015 - 2024 Blue Brain Project / EPFL
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

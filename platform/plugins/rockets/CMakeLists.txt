@@ -1,4 +1,4 @@
-# Copyright 2015 - 2018 Blue Brain Project / EPFL
+# Copyright 2015 - 2024 Blue Brain Project / EPFL
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -85,7 +85,6 @@ target_link_libraries(
 # needed for staticjson and rapidjson
 target_include_directories(
   ${LIBRARY_NAME} SYSTEM PRIVATE
-  ${FREEIMAGE_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/rapidjson/include)
 
