@@ -42,7 +42,7 @@ def test_cell():
     bio_explorer.core_api().set_application_parameters(image_stream_fps=0)
 
     # Proteins
-    protein_representation = bio_explorer.REPRESENTATION_ATOMS
+    protein_representation = bio_explorer.protein_representation.ATOMS
 
     # Membrane parameters
     membrane_size = Vector3(800.0, 80.0, 800.0)
@@ -60,7 +60,7 @@ def test_cell():
 
     cell = Cell(
         name=name,
-        shape=bio_explorer.ASSEMBLY_SHAPE_SINUSOID,
+        shape=bio_explorer.assembly_shape.SINUSOID,
         shape_params=membrane_size,
         membrane=membrane,
         proteins=[ace2_receptor],

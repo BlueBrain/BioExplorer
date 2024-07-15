@@ -1,3 +1,5 @@
+#!/usr/bin/env
+
 # Copyright 2020 - 2023 Blue Brain Project / EPFL
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,6 +13,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+"""
+Module transter_function
+
+This module provides the transfer function widget
+"""
 
 import seaborn as sns
 from webcolors import name_to_rgb, hex_to_rgb

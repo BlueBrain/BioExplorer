@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Copyright 2020 - 2024 Blue Brain Project / EPFL
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,13 +14,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+Module report_parameters
+
+This module contains parameters necessary to map report data to neurons.
+It allows defining and managing parameters used in neuronal simulations.
+
+Classes:
+- NeuronReportParams: Manages the neuron report parameters.
+"""
+
 from .math_utils import Vector2
 
 
 class NeuronReportParams:
     """
-    Parameters used to map report data to the neurons. These settings determine how neuron data
-    is represented and handled within simulations.
+    Parameters used to map report data to the neurons.
+
+    These settings determine how neuron data is represented and handled within simulations.
     """
 
     def __init__(
@@ -33,10 +46,14 @@ class NeuronReportParams:
         Initialize parameters for neuron report data.
 
         :param report_id: int, optional: Identifier for the report. Defaults to -1.
-        :param value_range: Vector2, optional: Range of values for the mapped data. Defaults to [-80.0, 10.0].
-        :param voltage_scaling_range: Vector2, optional: Minimum and maximum scaling factors. Defaults to [1.0, 1.0].
-        :param initial_simulation_frame: int, optional: Frame at which simulations start. Defaults to 0.
-        :param load_non_simulated_nodes: bool, optional: Whether to load nodes that are not part of the simulation. Defaults to False.
+        :param value_range: Vector2, optional: Range of values for the mapped data. Defaults to
+        [-80.0, 10.].
+        :param voltage_scaling_range: Vector2, optional: Minimum and maximum scaling factors.
+        Defaults to [1., 1.0].
+        :param initial_simulation_frame: int, optional: Frame at which simulations start. Defaults
+        to 0.
+        :param load_non_simulated_nodes: bool, optional: Whether to load nodes that are not part of
+        the simulation. Defaults to False.
         """
         self.components = {
             'report_id': report_id,

@@ -248,7 +248,7 @@ include_directories(
 set(${NAME}_LINK_LIBRARIES
     PUBLIC ${${NAME}_PUBLIC_MODULE_LIBRARIES}
     PRIVATE CoreParameters CoreCommon CoreEngine CoreIO mpfr stdc++fs
-    ${${NAME}_PRIVATE_MODULE_LIBRARIES} ${FreeImage_LIBRARIES} ${PQXX_LIBRARIES} ${OpenMP_CXX_LIBRARIES}
+    ${${NAME}_PRIVATE_MODULE_LIBRARIES} ${PQXX_LIBRARIES} ${OpenMP_CXX_LIBRARIES}
 )
 
 if(${CGAL_FOUND})

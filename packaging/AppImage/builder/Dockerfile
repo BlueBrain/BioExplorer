@@ -17,9 +17,10 @@
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Image where BioExplorer plugin is built
-FROM debian:buster-20230522-slim as builder
+FROM ubuntu:22.04 as builder
 LABEL maintainer="cyrille.favreau@epfl.ch"
 ARG DIST_PATH=/app/dist
+ARG BUILD_TYPE=Release
 
 # Install packages
 RUN apt-get update \
@@ -29,7 +30,6 @@ RUN apt-get update \
    git \
    ninja-build \
    libarchive-dev \
-   libassimp-dev \
    libboost-date-time-dev \
    libboost-filesystem-dev \
    libboost-iostreams-dev \
@@ -38,25 +38,24 @@ RUN apt-get update \
    libboost-serialization-dev \
    libboost-system-dev \
    libboost-test-dev \
-   libfreeimage-dev \
    libhdf5-serial-dev \
-   libtbb-dev \
+   libtbb2-dev \
    libturbojpeg0-dev \
    libuv1-dev \
    libpqxx-dev \
    libssl-dev \
    libcgal-dev \
-   libexiv2-dev \
    libglm-dev \
    libtiff-dev \
    libmpfr-dev \
+   libdcmtk-dev \
+   libopenexr-dev \
+   libopenimageio-dev \
    pkg-config \
    wget \
    ca-certificates \
-   exiv2 \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 
 # --------------------------------------------------------------------------------
 # Get CMake 3.21.1
@@ -69,7 +68,7 @@ RUN wget -O cmake-linux.sh https://cmake.org/files/v3.21/cmake-3.21.1-linux-x86_
 # Install Brion
 # https://github.com/BlueBrain/Brion
 # --------------------------------------------------------------------------------
-# ARG BRION_TAG=3.3.9
+# ARG BRION_TAG=3.3.14
 # ARG BRION_SRC=/app/brion
 
 # RUN mkdir -p ${BRION_SRC} \
@@ -81,6 +80,7 @@ RUN wget -O cmake-linux.sh https://cmake.org/files/v3.21/cmake-3.21.1-linux-x86_
 #    && cd build \
 #    && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
 #    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+#    -DBRION_SKIP_LIBSONATA_SUBMODULE=ON \
 #    && ninja install \
 #    && ninja clean
 
@@ -104,12 +104,24 @@ ENV PATH $PATH:${ISPC_PATH}/bin
 # Install embree
 # https://github.com/embree/embree/releases
 # --------------------------------------------------------------------------------
-ARG EMBREE_VERSION=3.5.2
-ARG EMBREE_FILE=embree-${EMBREE_VERSION}.x86_64.linux.tar.gz
-RUN mkdir -p ${DIST_PATH} \
-   && wget --no-verbose https://github.com/embree/embree/releases/download/v${EMBREE_VERSION}/${EMBREE_FILE} \
-   && tar zxvf ${EMBREE_FILE} -C ${DIST_PATH} --strip-components=1 \
-   && rm -rf ${DIST_PATH}/bin ${DIST_PATH}/doc
+ARG EMBREE_TAG=v3.8.0
+ARG EMBREE_SRC=/app/embree
+
+RUN mkdir -p ${EMBREE_SRC} \
+   && git clone https://github.com/embree/embree.git ${EMBREE_SRC} \
+   && cd ${EMBREE_SRC} \
+   && git checkout ${EMBREE_TAG} \
+   && mkdir -p build \
+   && cd build \
+   && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
+   -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
+   -DEMBREE_ISPC_EXECUTABLE=${ISPC_PATH}/bin/ispc \
+   -DEMBREE_TUTORIALS=OFF \
+   -DEMBREE_IGNORE_INVALID_RAYS=ON \
+   -DEMBREE_ISA_AVX512SKX=ON \
+   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+   && ninja install \
+   && ninja clean
 
 # --------------------------------------------------------------------------------
 # Install OSPRay
@@ -125,14 +137,17 @@ RUN mkdir -p ${OSPRAY_SRC} \
    && mkdir -p build \
    && cd build \
    && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
+   -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
    -DOSPRAY_ENABLE_TUTORIALS=OFF \
    -DOSPRAY_ENABLE_APPS=OFF \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+   -DOSPRAY_AUTO_DOWNLOAD_TEST_IMAGES=OFF \
+   -DOSPRAY_ENABLE_TUTORIALS=OFF \
    && ninja install \
    && ninja clean
 
 # --------------------------------------------------------------------------------
-# Install libwebsockets (2.0 from Debian is not reliable)
+# Install libwebsockets
 # https://github.com/warmcat/libwebsockets/releases
 # --------------------------------------------------------------------------------
 ARG LWS_VERSION=2.3.0
@@ -146,9 +161,9 @@ RUN mkdir -p ${LWS_SRC} \
    && mkdir -p build \
    && cd build \
    && cmake .. -GNinja \
-   -DCMAKE_BUILD_TYPE=Release \
+   -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
    -DLWS_STATIC_PIC=ON \
-   -DLWS_WITH_SSL=ON \
+   -DLWS_WITH_SSL=OFF \
    -DLWS_WITH_ZLIB=OFF \
    -DLWS_WITH_ZIP_FOPS=OFF \
    -DLWS_WITHOUT_EXTENSIONS=ON \
@@ -162,24 +177,44 @@ RUN mkdir -p ${LWS_SRC} \
 # Install Rockets
 # https://github.com/BlueBrain/Rockets
 # --------------------------------------------------------------------------------
-ARG ROCKETS_TAG=1.0.0
+ARG ROCKETS_TAG=1.0.1
 ARG ROCKETS_SRC=/app/rockets
 
 RUN mkdir -p ${ROCKETS_SRC} \
-   && git clone https://github.com/BlueBrain/Rockets.git ${ROCKETS_SRC} \
+   && git clone https://github.com/favreau/Rockets.git ${ROCKETS_SRC} \
    && cd ${ROCKETS_SRC} \
    && git checkout ${ROCKETS_TAG} \
    && git submodule update --init \
    && mkdir -p build \
    && cd build \
    && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
+   -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
+   -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
+   && ninja install \
+   && ninja clean
+
+# --------------------------------------------------------------------------------
+# Install Assimp
+# https://github.com/assimp/assimp.git
+# --------------------------------------------------------------------------------
+ARG ASSIMP_TAG=v4.1.0
+ARG ASSIMP_SRC=/app/assimp
+
+RUN mkdir -p ${ASSIMP_SRC} \
+   && git clone https://github.com/assimp/assimp.git ${ASSIMP_SRC} \
+   && cd ${ASSIMP_SRC} \
+   && git checkout ${ASSIMP_TAG} \
+   && git submodule update --init \
+   && mkdir -p build \
+   && cd build \
+   && CMAKE_PREFIX_PATH=${DIST_PATH} cmake .. -GNinja \
+   -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
    && ninja install \
    && ninja clean
 
 # --------------------------------------------------------------------------------
 # Install BioExplorer
-# https://github.com/BlueBrain/BioExplorer
 # --------------------------------------------------------------------------------
 ARG BIOEXPLORER_SRC=/app
 ADD . ${BIOEXPLORER_SRC}
@@ -187,7 +222,6 @@ ADD . ${BIOEXPLORER_SRC}
 WORKDIR /app
 
 RUN cd ${BIOEXPLORER_SRC} \
-   && git clone --recursive https://github.com/BlueBrain/BioExplorer.git \
    && rm -rf build \
    && mkdir build \
    && cd build \
@@ -195,12 +229,12 @@ RUN cd ${BIOEXPLORER_SRC} \
    && PATH=${ISPC_PATH}/bin:${PATH} \
    PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig \
    CMAKE_PREFIX_PATH=${DIST_PATH} \
-   LDFLAGS="-lCGAL" \
    cmake .. -GNinja \
+   -Wno-dev \
+   -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
    -DCMAKE_INSTALL_PREFIX=${DIST_PATH} \
-   -DCMAKE_BUILD_TYPE=Release \
-   -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=ON \
-   -DPLATFORM_USE_CGAL=ON \
+   -DBIOEXPLORER_USE_CGAL=OFF \
+   -DPLATFORM_UNIT_TESTING_ENABLED=OFF \
    -DPLATFORM_OPTIX6_ENABLED=OFF \
    -DPLATFORM_NETWORKING_ENABLED=ON \
    -DPLATFORM_ASSIMP_ENABLED=ON \
@@ -211,34 +245,36 @@ RUN cd ${BIOEXPLORER_SRC} \
    -DPLATFORM_DEFLECT_ENABLED=OFF \
    -DBIOEXPLORER_SONATA_ENABLED=OFF \
    -DBIOEXPLORER_METABOLISM_ENABLED=OFF \
-   -DBIOEXPLORER_MEDIAMAKER_ENABLED=ON \
+   -DBIOEXPLORER_MEDIA_MAKER_ENABLED=ON \
+   -DMEDICALIMAGING_BUILD_ENABLED=ON \
    && ninja install \
    && ninja clean
 
 # Final image, containing only BioExplorer and libraries required to run it
-FROM debian:buster-slim
+FROM ubuntu:22.04
 ARG DIST_PATH=/app/dist
 
 RUN apt-get update \
    && apt-get -y --no-install-recommends install \
    libarchive13 \
-   libassimp4 \
-   libboost-filesystem1.67.0 \
-   libboost-program-options1.67.0 \
-   libboost-regex1.67.0 \
-   libboost-serialization1.67.0 \
-   libboost-system1.67.0 \
-   libboost-iostreams1.67.0 \
-   libfreeimage3 \
-   libgomp1 \
+   libboost-date-time1.74.0 \
+   libboost-filesystem1.74.0 \
+   libboost-iostreams1.74.0 \
+   libboost-program-options1.74.0 \
+   libboost-regex1.74.0 \
+   libboost-serialization1.74.0 \
+   libboost-system1.74.0 \
+   libboost-test1.74.0 \
    libhdf5-103 \
-   libturbojpeg0 \
+   libtbb2 \
+   libturbojpeg \
    libuv1 \
-   libcgal13 \
-   libpqxx-6.2 \
+   libpqxx-6.4 \
    libtiff5 \
    libmpfr6 \
-   exiv2 \
+   dcmtk \
+   libopenexr25 \
+   libopenimageio2.2 \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -266,4 +302,4 @@ EXPOSE 8200
 # See https://docs.docker.com/engine/reference/run/#entrypoint-default-command-to-execute-at-runtime
 # for more docs
 ENTRYPOINT ["service"]
-CMD ["--http-server", ":8200", "--plugin", "MediaMaker", "--plugin", "BioExplorer"]
+CMD ["--http-server", ":8200", "--plugin", "MediaMaker", "--plugin", "DICOM", "--plugin", "BioExplorer"]

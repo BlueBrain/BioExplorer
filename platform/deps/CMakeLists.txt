@@ -1,4 +1,4 @@
-# Copyright 2020 - 2023 Blue Brain Project / EPFL
+# Copyright 2020 - 2024 Blue Brain Project / EPFL
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -10,13 +10,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-if(PLATFORM_UNIT_TESTING_ENABLED)
-  if(FreeImage_FOUND)
-    add_subdirectory(perceptualdiff)
-    list(APPEND LCOV_EXCLUDE '${PROJECT_SOURCE_DIR}/deps/perceptualdiff/*')
-  endif()
-endif()
 
 if(Libuv_FOUND)
   list(APPEND LCOV_EXCLUDE '${PROJECT_SOURCE_DIR}/deps/uvw/*')

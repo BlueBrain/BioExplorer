@@ -1,3 +1,5 @@
+#!/usr/bin/env
+
 # Copyright 2020 - 2024 Blue Brain Project / EPFL
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,6 +13,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+"""
+Module math_utils
+
+This module provides utility classes and functions for mathematical operations,
+including 2D and 3D vector manipulations, bounding box calculations,
+and geometric transformations.
+"""
 
 import math
 from pyquaternion import Quaternion
@@ -54,7 +64,8 @@ class Vector3:
         elif isinstance(other, Vector3):  # Dot product
             return self.x * other.x + self.y * other.y + self.z * other.z
         else:
-            raise TypeError("Unsupported operand type(s) for *: 'Vector3' and '{}'".format(type(other)))
+            raise TypeError(
+                "Unsupported operand type(s) for *: 'Vector3' and '{}'".format(type(other)))
 
     def __rmul__(self, other):
         """Right multiplication to support scalar multiplication with scalar on the left."""
@@ -66,8 +77,13 @@ class Vector3:
                        self.z * other.x - self.x * other.z,
                        self.x * other.y - self.y * other.x)
 
-    def magnitude(self):
-        """Return the magnitude (length) of the vector."""
+    def length(self):
+        """
+        Calculate the magnitude (length) of the vector.
+
+        :return: The magnitude of the vector.
+        :rtype: float
+        """
         return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 
     def normalize(self):
@@ -122,7 +138,8 @@ class Vector2:
         elif isinstance(other, Vector2):  # Dot product
             return self.x * other.x + self.y * other.y
         else:
-            raise TypeError(f"Unsupported operand type(s) for *: 'Vector2' and '{type(other).__name__}'")
+            raise TypeError(
+                f"Unsupported operand type(s) for *: 'Vector2' and '{type(other).__name__}'")
 
     def __rmul__(self, other):
         """Right multiplication to support scalar multiplication with scalar on the left."""
@@ -132,8 +149,13 @@ class Vector2:
         """Return a vector that is perpendicular to this one."""
         return Vector2(-self.y, self.x)
 
-    def magnitude(self):
-        """Return the magnitude (length) of the vector."""
+    def length(self):
+        """
+        Calculate the magnitude (length) of the vector.
+
+        :return: The magnitude of the vector.
+        :rtype: float
+        """
         return math.sqrt(self.x**2 + self.y**2)
 
     def normalize(self):
@@ -185,7 +207,8 @@ class Bounds:
 
     def __str__(self):
         """Returns a stringified representation of the bounding box."""
-        return f"Bounds(min={self.min_aabb}, max={self.max_aabb}, center={self.center}, size={self.size})"
+        return f"Bounds(min={self.min_aabb}, max={self.max_aabb},\
+            center={self.center}, size={self.size})"
 
     def contains(self, point):
         """
@@ -217,7 +240,17 @@ class Bounds:
 class Transformation:
     """Transformation defined by translation, rotation, rotation center, and scale."""
 
-    def __init__(self, translation=Vector3(), rotation=Quaternion(), rotation_center=Vector3(), scale=Vector3(1, 1, 1)):
+    def __init__(
+            self, translation=Vector3(), rotation=Quaternion(), rotation_center=Vector3(),
+            scale=Vector3(1, 1, 1)):
+        """
+        Initialize a Transformation instance.
+
+        :param translation: Vector3 representing the translation component.
+        :param rotation: Quaternion representing the rotation component.
+        :param rotation_center: Vector3 representing the rotation center.
+        :param scale: Vector3 representing the scale factors.
+        """
         assert isinstance(translation, Vector3)
         assert isinstance(rotation, Quaternion)
         assert isinstance(rotation_center, Vector3)
@@ -245,4 +278,10 @@ class Transformation:
         return point
 
     def __repr__(self):
-        return f"Transformation(translation={self.translation}, rotation={self.rotation}, rotation_center={self.rotation_center}, scale={self.scale})"
+        """
+        Provide a string representation of the object for debugging and logging purposes.
+
+        :return: A string that represents the object.
+        """
+        return (f"Transformation(translation={self.translation}, rotation={self.rotation},\
+                 rotation_center={self.rotation_center}, scale={self.scale})")

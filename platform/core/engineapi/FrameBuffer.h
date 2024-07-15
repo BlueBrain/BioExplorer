@@ -180,7 +180,7 @@ public:
     /**
      * @brief Get the Image object
      *
-     * @return freeimage::ImagePtr The freeimage object.
+     * @return ImageBuf The OpenImageIO object.
      */
     PLATFORM_API ImageBuf getImage();
 

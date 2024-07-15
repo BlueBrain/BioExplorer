@@ -42,18 +42,12 @@ def test_fields():
 
     bio_explorer.build_fields(
         voxel_size=0.1, density=1.0,
-        data_type=bio_explorer.FieldDataType.POINT)
+        data_type=bio_explorer.field_data_type.POINT)
 
     # Virus
     bio_explorer.core_api().set_renderer(
-        current='point_fields',
+        current='advanced',
         samples_per_pixel=1, subsampling=8, max_accum_frames=8)
-    params = bio_explorer.core_api().PointFieldsRendererParams()
-    params.cutoff = 2000
-    params.max_steps = 2048
-    params.threshold = 0.05
-    params.step = 2.0
-    bio_explorer.core_api().set_renderer_params(params)
 
     # Restore image streaming
     bio_explorer.core_api().set_application_parameters(image_stream_fps=20)

@@ -42,9 +42,9 @@ def test_vector_fields():
 
     origins = list()
     targets = list()
-    radii = list()
-    for i in range(1500):
-
+    origin_radii = list()
+    target_radii = list()
+    for _ in range(1500):
         x, y, z = generate_random_point_on_torus(10.0, 3.5)
         origin = Vector3(x, y ,z)
 
@@ -57,7 +57,8 @@ def test_vector_fields():
         )
         origins.append(origin)
         targets.append(target)
-        radii.append(0.05)
+        origin_radii.append(0.05)
+        target_radii.append(0.0)
 
     bio_explorer.core_api().set_renderer(
         current='basic',
@@ -65,26 +66,19 @@ def test_vector_fields():
 
     bio_explorer.add_cones(
         name='test',
-        origins=origins, origins_radii=radii,
-        targets=targets, targets_radii=radii,
+        origins=origins, origins_radii=origin_radii,
+        targets=targets, targets_radii=target_radii,
         color=Vector3(1.0, 1.0, 1.0), opacity=1.0)
     
     bio_explorer.build_fields(
         voxel_size=0.5, density=1.0,
-        data_type=bio_explorer.FIELD_DATA_TYPE_VECTOR
+        data_type=bio_explorer.field_data_type.VECTOR
     )
 
     bio_explorer.core_api().set_renderer(
-        current='vector_fields',
+        current='advanced',
         samples_per_pixel=1, subsampling=1, max_accum_frames=16)
-    params = bio_explorer.core_api().VectorFieldsRendererParams()
-    print(params)
-    params.cutoff = 150.0
-    params.nb_ray_steps = 64
-    params.nb_ray_refinement_steps = 16
-    params.alpha_correction = 0.5
-    bio_explorer.core_api().set_renderer_params(params)
-
+    
     # Restore image streaming
     bio_explorer.core_api().set_application_parameters(image_stream_fps=20)
 

@@ -1,5 +1,5 @@
 /*
-    Copyright 2015 - 2018 Blue Brain Project / EPFL
+    Copyright 2015 - 2024 Blue Brain Project / EPFL
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -41,12 +41,10 @@ public:
      * image format and quality.
      *
      * @param frameBuffer the framebuffer to use for getting the pixels
-     * @param format FreeImage format string, or JPEG if FreeImage is not
-     *               available
+     * @param format Image format string
      * @param quality image format specific quality number
      * @return base64-encoded image
-     * @throw std::runtime_error if image conversion failed or neither FreeImage
-     *                           nor TurboJPEG is available
+     * @throw std::runtime_error if image conversion failed or TurboJPEG is available
      */
     ImageBase64 createImage(FrameBuffer& frameBuffer, const std::string& format, uint8_t quality);
     ImageBase64 createImage(const std::vector<FrameBufferPtr>& frameBuffers, const std::string& format,

@@ -56,18 +56,6 @@ ImageBuf FrameBuffer::getImage()
 
     unmap();
 
-#if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_BGR
-    // Swap red and blue channels
-    for (unsigned int y = 0; y < height; ++y)
-    {
-        for (unsigned int x = 0; x < width; ++x)
-        {
-            unsigned int index = (y * width + x) * channels;
-            std::swap(imageData[index], imageData[index + 2]); // Swap red and blue channels
-        }
-    }
-#endif
-
     // Create an OIIO ImageBuf and set the image data
     ImageSpec spec(width, height, channels, TypeDesc::UINT8);
     ImageBuf imageBuf(spec);

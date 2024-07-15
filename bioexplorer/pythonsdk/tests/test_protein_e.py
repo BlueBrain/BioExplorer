@@ -34,9 +34,9 @@ def test_layout():
 
     # Resources
 
-    protein_representation = be.protein_representation.ATOMS_AND_STICKS
+    protein_representation = bio_explorer.protein_representation.ATOMS_AND_STICKS
     protein_radius_multiplier = 1.0
-    glycan_representation = be.protein_representation.ATOMS_AND_STICKS
+    glycan_representation = bio_explorer.protein_representation.ATOMS_AND_STICKS
     glycan_radius_multiplier = 1.0
 
     # M Protein
@@ -78,7 +78,7 @@ def test_layout():
     bio_explorer.add_glycan(complex_glycans)
 
     # Materials
-    bio_explorer.apply_default_color_scheme(shading_mode=bio_explorer.SHADING_MODE_BASIC)
+    bio_explorer.apply_default_color_scheme(shading_mode=bio_explorer.shading_mode.BASIC)
 
     # Restore image streaming
     bio_explorer.core_api().set_application_parameters(image_stream_fps=20)

@@ -11,37 +11,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#
-# This program is free software: you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free Software
-# Foundation, either version 3 of the License, or (at your option) any later
-# version.
-#
-# This program is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-# details.
-#
-# You should have received a copy of the GNU General Public License along with
-# this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-# Responsible Author: Daniel.Nachbaur@epfl.ch
-
 set(TEST_LIBRARIES Core CoreIO CoreManipulators)
 
 configure_file(paths.h.in ${PROJECT_BINARY_DIR}/tests/paths.h)
 
 list(APPEND EXCLUDE_FROM_TESTS myPlugin.cpp)
 
-if(TARGET pdiff)
-  list(APPEND TEST_LIBRARIES pdiff ${FREEIMAGE_LIBRARIES})
-else()
-  list(APPEND EXCLUDE_FROM_TESTS
-    clipPlaneRendering.cpp
-    snapshot.cpp
-    streamlines.cpp
-  )
-endif()
+list(APPEND EXCLUDE_FROM_TESTS
+  clipPlaneRendering.cpp
+  snapshot.cpp
+  streamlines.cpp
+)
 
 if(NOT OSPRAY_ENABLED)
   list(APPEND EXCLUDE_FROM_TESTS

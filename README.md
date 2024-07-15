@@ -477,7 +477,7 @@ be.add_sars_cov_2(name=name, resource_folder=resource_folder)
 
 # License
 
-_BBBE_ is available to download and use under the GNU General Public License ([GPL](https://www.gnu.org/licenses/gpl.html), or “free software”). The code is open sourced with approval from the open sourcing committee and principal coordinators of the Blue Brain Project in February 2022.
+_BBBE_ is available to download and use under the [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). The code is open sourced with approval from the open sourcing committee and principal coordinators of the Blue Brain Project in February 2022.
 
 
 # Contact

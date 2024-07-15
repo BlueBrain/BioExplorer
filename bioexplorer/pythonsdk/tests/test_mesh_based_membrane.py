@@ -71,7 +71,7 @@ def test_mesh():
     # Cell definition
     cell = Cell(
         name=name,
-        shape=bio_explorer.ASSEMBLY_SHAPE_MESH,
+        shape=bio_explorer.assembly_shape.MESH,
         shape_params=scale,
         shape_mesh_source=mesh_source,
         membrane=membrane,

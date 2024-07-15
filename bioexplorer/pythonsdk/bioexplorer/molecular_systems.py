@@ -1,3 +1,5 @@
+#!/usr/bin/env
+
 # Copyright 2020 - 2024 Blue Brain Project / EPFL
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,10 +14,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+Module molecular_systems
+
+This module provides classes to define molecular systems and cells.
+"""
+
 import os
 from .math_utils import Vector2, Vector3, Quaternion
 from .animation_parameters import CellAnimationParams, MolecularSystemAnimationParams
 from .enums import *
+
 
 class Membrane:
     """A membrane is a shaped assembly of phospholipids"""
@@ -157,7 +166,7 @@ class RNASequence:
 
         self.source = source
         self.protein_source = protein_source
-        self.shape = shape
+        self.shape = shape.value
         self.shape_params = shape_params.copy()
         self.values_range = values_range.copy()
         self.curve_params = curve_params.copy()
