@@ -1,9 +1,0 @@
-digraph "core::engine::optix::OptiXAnaglyphCamera"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="core::engine::optix\l::OptiXAnaglyphCamera",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
-  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="core::engine::optix\l::OptiXCameraProgram",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d9f/classcore_1_1engine_1_1optix_1_1OptiXCameraProgram.html",tooltip="The OptiXCameraProgram class is an abstract class that provides the required programs for launching r..."];
-}
