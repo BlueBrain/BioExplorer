@@ -442,6 +442,7 @@ class Widgets:
                 reflection_index=reflection_index_slider.value,
                 glossiness=glossiness_slider.value,
                 user_parameter=user_param_slider.value,
+                cast_user_data=cast_user_data_checkbox.value,
                 emission=emission_slider.value,
                 chameleon_mode=self.CHAMELEON_MODES[chameleon_combobox.value],
             )
@@ -524,8 +525,8 @@ class Widgets:
         emission_slider = FloatSlider(description="Emission", min=0, max=100, value=0)
         emission_slider.observe(update_materials_from_shading_modes)
 
-        cast_simulation_checkbox = Checkbox(description="Simulation", value=False)
-        cast_simulation_checkbox.observe(update_materials_from_shading_modes)
+        cast_user_data_checkbox = Checkbox(description="User data", value=False)
+        cast_user_data_checkbox.observe(update_materials_from_shading_modes)
 
         horizontal_box_detail1 = HBox(
             [opacity_slider, refraction_index_slider, reflection_index_slider]
@@ -534,7 +535,7 @@ class Widgets:
             [glossiness_slider, specular_exponent_slider, user_param_slider]
         )
         horizontal_box_detail3 = HBox(
-            [emission_slider, cast_simulation_checkbox, chameleon_combobox]
+            [emission_slider, cast_user_data_checkbox, chameleon_combobox]
         )
         vertical_box = VBox(
             [
