@@ -163,6 +163,7 @@ class FileFormat(Enum):
     XYZ_ASCII = 4
     XYZR_ASCII = 5
     XYZRV_ASCII = 6
+    XYZR_RGB_ASCII = 7
 
 
 class PositionConstraint(Enum):

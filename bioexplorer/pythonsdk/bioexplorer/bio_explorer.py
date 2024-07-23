@@ -471,7 +471,7 @@ class BioExplorer:
             "filename": filename,
             "lowBounds": low_bounds.to_list(),
             "highBounds": high_bounds.to_list(),
-            "fileFormat": file_format
+            "fileFormat": file_format.value
         }
         result = self._invoke_and_check("export-to-xyz", params)
         if not result["status"]:
