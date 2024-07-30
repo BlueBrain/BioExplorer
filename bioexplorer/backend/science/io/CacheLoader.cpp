@@ -787,6 +787,24 @@ void CacheLoader::exportToXYZ(const std::string& filename, const XYZFileFormat f
     if (!file.good())
         PLUGIN_THROW("Could not create XYZ file " + filename);
 
+    if (fileFormat == XYZFileFormat::xyz_ascii || fileFormat == XYZFileFormat::xyzr_ascii ||
+        fileFormat == XYZFileFormat::xyzrv_ascii || fileFormat == XYZFileFormat::xyzr_rgba_ascii)
+    {
+        // ASCII file header
+        file << "x" << ASCII_FILE_SEPARATOR << "y" << ASCII_FILE_SEPARATOR << "z";
+        if (fileFormat == XYZFileFormat::xyzr_ascii || fileFormat == XYZFileFormat::xyzrv_ascii ||
+            fileFormat == XYZFileFormat::xyzr_rgba_ascii)
+        {
+            file << ASCII_FILE_SEPARATOR << "radius";
+        }
+        if (fileFormat == XYZFileFormat::xyzrv_ascii)
+            file << ASCII_FILE_SEPARATOR << "value";
+        if (fileFormat == XYZFileFormat::xyzr_rgba_ascii)
+            file << ASCII_FILE_SEPARATOR << "r" << ASCII_FILE_SEPARATOR << "g" << ASCII_FILE_SEPARATOR << "b"
+                 << ASCII_FILE_SEPARATOR << "a";
+        file << std::endl;
+    }
+
     const auto clipPlanes = getClippingPlanes(_scene);
 
     const auto& modelDescriptors = _scene.getModelDescriptors();
@@ -800,6 +818,8 @@ void CacheLoader::exportToXYZ(const std::string& filename, const XYZFileFormat f
             const auto& spheresMap = model.getSpheres();
             for (const auto& spheres : spheresMap)
             {
+                const auto material = model.getMaterial(spheres.first);
+
                 for (const auto& sphere : spheres.second)
                 {
                     const Vector3d center =
@@ -827,12 +847,24 @@ void CacheLoader::exportToXYZ(const std::string& filename, const XYZFileFormat f
                     case XYZFileFormat::xyz_ascii:
                     case XYZFileFormat::xyzr_ascii:
                     case XYZFileFormat::xyzrv_ascii:
-                        file << c.x << " " << c.y << " " << c.z;
-                        if (fileFormat == XYZFileFormat::xyzr_ascii || fileFormat == XYZFileFormat::xyzrv_ascii)
+                    case XYZFileFormat::xyzr_rgba_ascii:
+                        file << c.x << ASCII_FILE_SEPARATOR << c.y << ASCII_FILE_SEPARATOR << c.z;
+                        if (fileFormat == XYZFileFormat::xyzr_ascii || fileFormat == XYZFileFormat::xyzrv_ascii ||
+                            fileFormat == XYZFileFormat::xyzr_rgba_ascii)
                         {
-                            file << " " << sphere.radius;
+                            file << ASCII_FILE_SEPARATOR << sphere.radius;
                             if (fileFormat == XYZFileFormat::xyzrv_ascii)
-                                file << " " << sphere.radius;
+                                file << ASCII_FILE_SEPARATOR << sphere.radius;
+                        }
+                        if (material && fileFormat == XYZFileFormat::xyzr_rgba_ascii)
+                        {
+                            const auto& color = material->getDiffuseColor();
+                            const auto opacity = material->getOpacity();
+
+                            file << ASCII_FILE_SEPARATOR << static_cast<size_t>(256.f * color.x) << ASCII_FILE_SEPARATOR
+                                 << static_cast<size_t>(256.f * color.y) << ASCII_FILE_SEPARATOR
+                                 << static_cast<size_t>(256.f * color.z) << ASCII_FILE_SEPARATOR
+                                 << static_cast<size_t>(256.f * opacity);
                         }
                         file << std::endl;
                         break;

@@ -163,15 +163,19 @@ enum class XYZFileFormat
        representation (4 byte double) */
     xyzrv_binary = 3,
     /** x, y, z coordinates stored in space separated ascii representation.
-       One line per atom*/
+       One line per sphere*/
     xyz_ascii = 4,
     /** x, y, z coordinates and radius stored in space separated ascii
-       representation. One line per atom*/
+       representation. One line per sphere*/
     xyzr_ascii = 5,
     /** x, y, z coordinates, radius, and charge stored in space separated
-       ascii representation. One line per atom*/
-    xyzrv_ascii = 6
+       ascii representation. One line per sphere*/
+    xyzrv_ascii = 6,
+    /** x, y, z coordinates, radius, and RGBA color stored in space separated
+       ascii representation. One line per sphere*/
+    xyzr_rgba_ascii = 7
 };
+const std::string ASCII_FILE_SEPARATOR = ",";
 } // namespace common
 
 namespace molecularsystems
