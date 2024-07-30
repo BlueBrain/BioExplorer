@@ -176,6 +176,14 @@ enum class XYZFileFormat
     xyzr_rgba_ascii = 7
 };
 const std::string ASCII_FILE_SEPARATOR = ",";
+
+typedef struct
+{
+    bool enabled{false};
+    bool uniform{false};
+    double radius{1.0};
+
+} SpheresRepresentation;
 } // namespace common
 
 namespace molecularsystems
@@ -440,7 +448,9 @@ enum class MorphologyRepresentation
     orientation = 3,
     bezier = 4,
     contour = 5,
-    surface = 6
+    surface = 6,
+    spheres = 7,
+    uniform_spheres = 8
 };
 
 enum class MorphologyRealismLevel
@@ -1403,7 +1413,9 @@ enum class VasculatureRepresentation
     section = 1,
     segment = 2,
     optimized_segment = 3,
-    bezier = 4
+    bezier = 4,
+    spheres = 5,
+    uniform_spheres = 6
 };
 
 typedef struct

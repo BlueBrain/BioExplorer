@@ -63,6 +63,8 @@ protected:
     double _getDistanceToSoma(const SectionMap& sections, const Section& section);
 
     size_t _getMaterialFromDistanceToSoma(const double maxDistanceToSoma, const double distanceToSoma) const;
+
+    common::SpheresRepresentation _spheresRepresentation;
 };
 } // namespace morphology
 } // namespace bioexplorer

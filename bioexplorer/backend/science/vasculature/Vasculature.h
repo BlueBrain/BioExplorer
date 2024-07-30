@@ -77,6 +77,7 @@ private:
     void _buildModel(const core::LoaderProgress& callback, const doubles& radii = doubles());
 
     const details::VasculatureDetails _details;
+    common::SpheresRepresentation _spheresRepresentation;
     core::Scene& _scene;
     uint64_t _nbNodes{0};
 };

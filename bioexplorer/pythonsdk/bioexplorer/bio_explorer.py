@@ -628,7 +628,7 @@ class BioExplorer:
             rna_sequence = RNASequence(
                 source=os.path.join(rna_folder, "sars-cov-2.rna"),
                 protein_source=os.path.join(pdb_folder, "7bv1.pdb"),
-                shape=self.RNA_SHAPE_TREFOIL_KNOT,
+                shape=self.rna_shape.TREFOIL_KNOT,
                 shape_params=params,
                 values_range=Vector2(-8.0 * math.pi, 8.0 * math.pi),
                 curve_params=Vector3(1.51, 1.12, 1.93),
@@ -1428,9 +1428,9 @@ class BioExplorer:
         values_range = Vector2(0.0, 2.0 * math.pi)
         if rna_sequence.values_range is None:
             # Defaults
-            if rna_sequence.shape == self.RNA_SHAPE_TORUS:
+            if rna_sequence.shape == self.rna_shape.TORUS:
                 values_range = Vector2(0.0, 2.0 * math.pi)
-            elif rna_sequence.shape == self.RNA_SHAPE_TREFOIL_KNOT:
+            elif rna_sequence.shape == self.rna_shape.TREFOIL_KNOT:
                 values_range = Vector2(0.0, 4.0 * math.pi)
         else:
             values_range = rna_sequence.values_range
@@ -1438,9 +1438,9 @@ class BioExplorer:
         curve_params = [1.0, 1.0, 1.0]
         if rna_sequence.shape_params is None:
             # Defaults
-            if rna_sequence.shape == self.RNA_SHAPE_TORUS:
+            if rna_sequence.shape == self.rna_shape.TORUS:
                 curve_params = Vector3(0.5, 10.0, 0.0)
-            elif rna_sequence.shape == self.RNA_SHAPE_TREFOIL_KNOT:
+            elif rna_sequence.shape == self.rna_shape.TREFOIL_KNOT:
                 curve_params = Vector3(2.5, 2.0, 2.2)
 
         else:

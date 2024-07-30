@@ -128,6 +128,29 @@ uint64_t ThreadSafeContainer::addCone(const Vector3f& sourcePosition, const floa
                                  userDataOffset});
 }
 
+void ThreadSafeContainer::addConeOfSpheres(const Vector3f& sourcePosition, const float sourceRadius,
+                                           const Vector3f& targetPosition, const float targetRadius,
+                                           const size_t materialId, const uint64_t userDataOffset,
+                                           const float constantRadius)
+{
+    const Vector3f scale = _scale;
+    const Vector3f scaledSrcPosition =
+        getAlignmentToGrid(_alignToGrid, Vector3f(_position + _rotation * Vector3d(sourcePosition)) * scale);
+    const auto scaledSrcRadius = sourceRadius * scale.x;
+    const Vector3f scaledDstPosition =
+        getAlignmentToGrid(_alignToGrid, Vector3f(_position + _rotation * Vector3d(targetPosition)) * scale);
+    const auto scaledDstRadius = targetRadius * scale.x;
+
+    const auto spheres =
+        fillConeWithSpheres({scaledSrcPosition, scaledSrcRadius}, {scaledDstPosition, scaledDstRadius}, constantRadius);
+    for (const auto& sphere : spheres)
+        _addSphere(materialId, {Vector3f(sphere), sphere.w, userDataOffset});
+    _bounds.merge(scaledSrcPosition + scaledSrcRadius);
+    _bounds.merge(scaledSrcPosition - scaledSrcRadius);
+    _bounds.merge(scaledDstPosition + scaledDstRadius);
+    _bounds.merge(scaledDstPosition - scaledDstRadius);
+}
+
 uint64_t ThreadSafeContainer::addTorus(const Vector3f& position, const float outerRadius, const float innerRadius,
                                        const size_t materialId, const uint64_t userDataOffset,
                                        const Neighbours& neighbours, const Vector3f displacement)

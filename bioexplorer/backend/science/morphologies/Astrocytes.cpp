@@ -53,6 +53,11 @@ Astrocytes::Astrocytes(Scene& scene, const AstrocytesDetails& details, const Vec
     , _scene(scene)
 {
     _animationDetails = doublesToCellAnimationDetails(_details.animationParams);
+    _spheresRepresentation.enabled = _details.morphologyRepresentation == MorphologyRepresentation::spheres ||
+                                     _details.morphologyRepresentation == MorphologyRepresentation::uniform_spheres;
+    _spheresRepresentation.uniform = _details.morphologyRepresentation == MorphologyRepresentation::uniform_spheres;
+    _spheresRepresentation.radius = _spheresRepresentation.uniform ? _details.radiusMultiplier : 0.f;
+
     Timer chrono;
     _buildModel(callback);
     PLUGIN_TIMER(chrono.elapsed(), "Astrocytes loaded");
@@ -197,10 +202,16 @@ void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radi
             {
                 const bool useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
                                              static_cast<uint32_t>(MorphologyRealismLevel::soma));
-                somaGeometryIndex = container.addSphere(
-                    somaPosition, somaRadius, somaMaterialId, useSdf, NO_USER_DATA, {},
-                    Vector3f(somaRadius * _getDisplacementValue(DisplacementElement::morphology_soma_strength),
-                             somaRadius * _getDisplacementValue(DisplacementElement::morphology_soma_frequency), 0.f));
+
+                if (!_spheresRepresentation.enabled)
+                {
+                    somaGeometryIndex = container.addSphere(
+                        somaPosition, somaRadius, somaMaterialId, useSdf, NO_USER_DATA, {},
+                        Vector3f(somaRadius * _getDisplacementValue(DisplacementElement::morphology_soma_strength),
+                                 somaRadius * _getDisplacementValue(DisplacementElement::morphology_soma_frequency),
+                                 0.f));
+                }
+
                 if (_details.generateInternals)
                 {
                     const auto useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
@@ -256,17 +267,24 @@ void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radi
                         const float dstRadius = _getCorrectedRadius(point.w * 0.5f, _details.radiusMultiplier);
                         const auto dstPosition =
                             _animatedPosition(Vector4d(somaPosition + Vector3d(point), dstRadius), somaId);
-                        geometryIndex = container.addCone(
-                            somaPosition, srcRadius, dstPosition, dstRadius, somaMaterialId, useSdf, userData,
-                            neighbours,
-                            Vector3f(srcRadius * _getDisplacementValue(DisplacementElement::morphology_soma_strength),
-                                     srcRadius * _getDisplacementValue(DisplacementElement::morphology_soma_frequency),
-                                     0.f));
-                        neighbours.insert(geometryIndex);
+
+                        if (_spheresRepresentation.enabled)
+                            container.addConeOfSpheres(somaPosition, srcRadius, dstPosition, dstRadius, somaMaterialId,
+                                                       userData, _spheresRepresentation.radius);
+                        else
+                        {
+                            geometryIndex = container.addCone(
+                                somaPosition, srcRadius, dstPosition, dstRadius, somaMaterialId, useSdf, userData,
+                                neighbours,
+                                Vector3f(
+                                    srcRadius * _getDisplacementValue(DisplacementElement::morphology_soma_strength),
+                                    srcRadius * _getDisplacementValue(DisplacementElement::morphology_soma_frequency),
+                                    0.f));
+                            neighbours.insert(geometryIndex);
+                        }
                     }
 
-                    // If maxDistanceToSoma != 0, then compute actual distance from
-                    // soma
+                    // If maxDistanceToSoma != 0, then compute actual distance from soma
                     double distanceToSoma = 0.0;
                     if (_details.maxDistanceToSoma > 0.0)
                         distanceToSoma = _getDistanceToSoma(sections, section.second);
@@ -284,8 +302,7 @@ void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radi
                         const auto src =
                             _animatedPosition(Vector4d(somaPosition + Vector3d(srcPoint), srcRadius), somaId);
 
-                        // Ignore points that are too close the previous one
-                        // (according to respective radii)
+                        // Ignore points that are too close the previous one (according to respective radii)
                         Vector4f dstPoint;
                         float dstRadius;
                         do
@@ -309,15 +326,21 @@ void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radi
 
                         const auto dst =
                             _animatedPosition(Vector4d(somaPosition + Vector3d(dstPoint), dstRadius), somaId);
-                        if (!useSdf)
+                        if (!useSdf && !_spheresRepresentation.enabled)
                             geometryIndex = container.addSphere(dst, dstRadius, materialId, useSdf, NO_USER_DATA);
 
-                        geometryIndex = container.addCone(
-                            src, srcRadius, dst, dstRadius, materialId, useSdf, userData, {geometryIndex},
-                            Vector3f(srcRadius *
-                                         _getDisplacementValue(DisplacementElement::morphology_section_strength),
-                                     _getDisplacementValue(DisplacementElement::morphology_section_frequency), 0.f));
-
+                        if (_spheresRepresentation.enabled)
+                            container.addConeOfSpheres(src, srcRadius, dst, dstRadius, materialId, userData,
+                                                       _spheresRepresentation.radius);
+                        else
+                        {
+                            geometryIndex = container.addCone(
+                                src, srcRadius, dst, dstRadius, materialId, useSdf, userData, {geometryIndex},
+                                Vector3f(srcRadius *
+                                             _getDisplacementValue(DisplacementElement::morphology_section_strength),
+                                         _getDisplacementValue(DisplacementElement::morphology_section_frequency),
+                                         0.f));
+                        }
                         _bounds.merge(srcPoint);
 
                         if (_details.maxDistanceToSoma > 0.0 &&
@@ -489,11 +512,18 @@ void Astrocytes::_addEndFoot(ThreadSafeContainer& container, const Vector3d& som
                 const auto srcPosition = _animatedPosition(Vector4d(srcNode.position - shift, srcVasculatureRadius));
                 const auto dstPosition = _animatedPosition(Vector4d(dstNode.position - shift, dstVasculatureRadius));
 
-                if (!useSdf)
+                if (!useSdf && !_spheresRepresentation.enabled)
                     container.addSphere(srcPosition, srcEndFootRadius, materialId, useSdf, srcUserData);
-                geometryIndex = container.addCone(srcPosition, srcEndFootRadius, dstPosition, dstEndFootRadius,
-                                                  materialId, useSdf, srcUserData, neighbours, displacement);
-                neighbours = {geometryIndex};
+
+                if (_spheresRepresentation.enabled)
+                    container.addConeOfSpheres(srcPosition, srcEndFootRadius, dstPosition, dstEndFootRadius, materialId,
+                                               srcUserData, _spheresRepresentation.radius);
+                else
+                {
+                    geometryIndex = container.addCone(srcPosition, srcEndFootRadius, dstPosition, dstEndFootRadius,
+                                                      materialId, useSdf, srcUserData, neighbours, displacement);
+                    neighbours = {geometryIndex};
+                }
                 ++endFootSegmentIndex;
             }
         }

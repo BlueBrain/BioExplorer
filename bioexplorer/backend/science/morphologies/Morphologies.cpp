@@ -58,7 +58,8 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container, const size_
 
     const size_t nucleusMaterialId = baseMaterialId + MATERIAL_OFFSET_NUCLEUS;
     container.addSphere(
-        somaPosition, nucleusRadius, nucleusMaterialId, useSdf, NO_USER_DATA, {},
+        somaPosition, nucleusRadius, nucleusMaterialId, _spheresRepresentation.enabled ? false : useSdf, NO_USER_DATA,
+        {},
         Vector3f(nucleusRadius * _getDisplacementValue(DisplacementElement::morphology_nucleus_strength),
                  nucleusRadius * _getDisplacementValue(DisplacementElement::morphology_nucleus_frequency), 0.f));
 
@@ -101,10 +102,14 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container, const size_
             if (i > 0)
             {
                 const auto p1 = somaPosition + somaOutterRadius * pointsInSphere[i - 1];
-                geometryIndex = container.addCone(
-                    p1, previousRadius, p2, radius, mitochondrionMaterialId, useSdf, NO_USER_DATA, {geometryIndex},
-                    Vector3f(radius * _getDisplacementValue(DisplacementElement::morphology_mitochondrion_strength),
-                             displacementFrequency, 0.f));
+                if (_spheresRepresentation.enabled)
+                    container.addConeOfSpheres(p1, previousRadius, p2, radius, mitochondrionMaterialId, NO_USER_DATA,
+                                               _spheresRepresentation.radius);
+                else
+                    geometryIndex = container.addCone(
+                        p1, previousRadius, p2, radius, mitochondrionMaterialId, useSdf, NO_USER_DATA, {geometryIndex},
+                        Vector3f(radius * _getDisplacementValue(DisplacementElement::morphology_mitochondrion_strength),
+                                 displacementFrequency, 0.f));
 
                 mitochondriaVolume += coneVolume(length(p2 - p1), previousRadius, radius);
             }

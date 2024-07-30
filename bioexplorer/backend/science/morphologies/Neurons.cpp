@@ -54,7 +54,7 @@ namespace morphology
 {
 const uint64_t NB_MYELIN_FREE_SEGMENTS = 4;
 const double DEFAULT_ARROW_RADIUS_RATIO = 10.0;
-const uint64_t DEFAULT_DEBUG_SYNAPSE_DENSITY_RATIO = 5;
+const uint64_t DEFAULT_DEBUG_SYNAPSE_DENSITY_RATIO = 1;
 const double MAX_SOMA_RADIUS = 10.0;
 
 std::map<ReportType, std::string> reportTypeAsString = {{ReportType::undefined, "undefined"},
@@ -75,6 +75,11 @@ Neurons::Neurons(Scene& scene, const NeuronsDetails& details, const Vector3d& as
     , _scene(scene)
 {
     _animationDetails = doublesToCellAnimationDetails(_details.animationParams);
+    _spheresRepresentation.enabled = _details.morphologyRepresentation == MorphologyRepresentation::spheres ||
+                                     _details.morphologyRepresentation == MorphologyRepresentation::uniform_spheres;
+    _spheresRepresentation.uniform = _details.morphologyRepresentation == MorphologyRepresentation::uniform_spheres;
+    _spheresRepresentation.radius = _spheresRepresentation.uniform ? _details.radiusMultiplier : 0.f;
+
     srand(_animationDetails.seed);
 
     Timer chrono;
@@ -665,12 +670,20 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
             const auto src = _animatedPosition(Vector4d(somaPosition + somaRotation * p2, srcRadius), neuronId);
 
             correctedSomaRadius = std::max(correctedSomaRadius, length(p2)) * 2.0;
-            const uint64_t geometryIndex = container.addCone(src, srcRadius, dst, dstRadius, somaMaterialId, useSdf,
-                                                             somaUserData, {}, displacement);
-            somaNeighbours.insert(geometryIndex);
-            sectionNeighbours.insert(geometryIndex);
-            if (!useSdf)
-                container.addSphere(dst, dstRadius, somaMaterialId, useSdf, somaUserData);
+
+            if (_spheresRepresentation.enabled)
+                container.addConeOfSpheres(src, srcRadius, dst, dstRadius, somaMaterialId, somaUserData,
+                                           _spheresRepresentation.radius);
+            else
+            {
+                const uint64_t geometryIndex = container.addCone(src, srcRadius, dst, dstRadius, somaMaterialId, useSdf,
+                                                                 somaUserData, {}, displacement);
+                somaNeighbours.insert(geometryIndex);
+                sectionNeighbours.insert(geometryIndex);
+
+                if (!useSdf)
+                    container.addSphere(dst, dstRadius, somaMaterialId, useSdf, somaUserData);
+            }
             ++count;
         }
         correctedSomaRadius = count == 0 ? somaRadius : correctedSomaRadius / count;
@@ -959,14 +972,19 @@ void Neurons::_addSection(ThreadSafeContainer& container, const uint64_t neuronI
                 }
             }
 
-            if (!useSdf)
-                container.addSphere(dst, dstRadius, materialId, useSdf, userData);
+            if (_spheresRepresentation.enabled)
+                container.addConeOfSpheres(src, srcRadius, dst, dstRadius, materialId, userData,
+                                           _spheresRepresentation.radius);
+            else
+            {
+                if (!useSdf)
+                    container.addSphere(dst, dstRadius, materialId, useSdf, userData);
 
-            const uint64_t geometryIndex =
-                container.addCone(src, srcRadius, dst, dstRadius, materialId, useSdf, userData, {}, displacement);
-
-            previousGeometryIndex = geometryIndex;
-            sectionNeighbours = {geometryIndex};
+                const uint64_t geometryIndex =
+                    container.addCone(src, srcRadius, dst, dstRadius, materialId, useSdf, userData, {}, displacement);
+                previousGeometryIndex = geometryIndex;
+                sectionNeighbours = {geometryIndex};
+            }
 
             // Stop if distance to soma in greater than the specified max value
             _maxDistanceToSoma = std::max(_maxDistanceToSoma, distanceToSoma + sectionLength);
@@ -1046,7 +1064,7 @@ void Neurons::_addSectionInternals(ThreadSafeContainer& container, const uint64_
                 if (mitochondrionSegment != 0)
                     neighbours = {geometryIndex};
 
-                if (!useSdf)
+                if (!useSdf && !_spheresRepresentation.enabled)
                     container.addSphere(somaPosition + somaRotation * position, radius, mitochondrionMaterialId,
                                         NO_USER_DATA);
 
@@ -1060,15 +1078,21 @@ void Neurons::_addSectionInternals(ThreadSafeContainer& container, const uint64_
                     const auto dstPosition =
                         _animatedPosition(Vector4d(somaPosition + somaRotation * previousPosition, previousRadius),
                                           neuronId);
-                    geometryIndex = container.addCone(
-                        srcPosition, radius, dstPosition, previousRadius, mitochondrionMaterialId, useSdf, NO_USER_DATA,
-                        neighbours,
-                        Vector3f(radius *
-                                     _getDisplacementValue(DisplacementElement::morphology_mitochondrion_strength) *
-                                     2.0,
-                                 radius *
-                                     _getDisplacementValue(DisplacementElement::morphology_mitochondrion_frequency),
-                                 0.f));
+
+                    if (_spheresRepresentation.enabled)
+                        container.addConeOfSpheres(srcPosition, radius, dstPosition, previousRadius,
+                                                   mitochondrionMaterialId, NO_USER_DATA,
+                                                   _spheresRepresentation.radius);
+                    else
+                        geometryIndex = container.addCone(
+                            srcPosition, radius, dstPosition, previousRadius, mitochondrionMaterialId, useSdf,
+                            NO_USER_DATA, neighbours,
+                            Vector3f(radius *
+                                         _getDisplacementValue(DisplacementElement::morphology_mitochondrion_strength) *
+                                         2.0,
+                                     radius *
+                                         _getDisplacementValue(DisplacementElement::morphology_mitochondrion_frequency),
+                                     0.f));
 
                     mitochondriaVolume += coneVolume(length(position - previousPosition), radius, previousRadius);
                 }
@@ -1147,13 +1171,19 @@ void Neurons::_addAxonMyelinSheath(ThreadSafeContainer& container, const uint64_
                 _animatedPosition(Vector4d(somaPosition + somaRotation * Vector3d(dstPoint), dstRadius), neuronId);
 
             currentLength += length(dstPosition - previousPosition);
-            if (!useSdf)
+            if (!useSdf && !_spheresRepresentation.enabled)
                 container.addSphere(dstPosition, srcRadius, myelinSteathMaterialId, NO_USER_DATA);
 
-            const auto geometryIndex =
-                container.addCone(dstPosition, dstRadius, previousPosition, previousRadius, myelinSteathMaterialId,
-                                  useSdf, NO_USER_DATA, neighbours, displacement);
-            neighbours.insert(geometryIndex);
+            if (_spheresRepresentation.enabled)
+                container.addConeOfSpheres(dstPosition, dstRadius, previousPosition, previousRadius,
+                                           myelinSteathMaterialId, NO_USER_DATA, _spheresRepresentation.radius);
+            else
+            {
+                const auto geometryIndex =
+                    container.addCone(dstPosition, dstRadius, previousPosition, previousRadius, myelinSteathMaterialId,
+                                      useSdf, NO_USER_DATA, neighbours, displacement);
+                neighbours.insert(geometryIndex);
+            }
             previousPosition = dstPosition;
             previousRadius = dstRadius;
         }
@@ -1188,23 +1218,39 @@ void Neurons::_addSpine(ThreadSafeContainer& container, const uint64_t userData,
     auto middle = (target + origin) / 2.0;
     const double d = length(target - origin) / 2.0;
     middle += Vector3f(d * rnd1(), d * rnd1(), d * rnd1());
-    const float spineMiddleRadius = spineSmallRadius + d * 0.1 * rnd1();
+    const float spineMiddleRadius = std::max(0.01, spineSmallRadius + d * 0.1 * rnd1());
 
     Neighbours neighbours;
 
     const bool useSdf =
         andCheck(static_cast<uint32_t>(_details.realismLevel), static_cast<uint32_t>(MorphologyRealismLevel::spine));
 
-    if (!useSdf)
+    if (!useSdf && !_spheresRepresentation.enabled)
+    {
         container.addSphere(target, spineLargeRadius, SpineMaterialId, useSdf, userData);
-    neighbours.insert(container.addSphere(middle, spineMiddleRadius, SpineMaterialId, useSdf, userData, neighbours,
-                                          spineDisplacement));
+        neighbours.insert(container.addSphere(middle, spineMiddleRadius, SpineMaterialId, useSdf, userData, neighbours,
+                                              spineDisplacement));
+    }
+
     if (middle != origin)
-        container.addCone(origin, spineSmallRadius, middle, spineMiddleRadius, SpineMaterialId, useSdf, userData,
-                          neighbours, spineDisplacement);
+    {
+        if (_spheresRepresentation.enabled)
+            container.addConeOfSpheres(origin, spineSmallRadius, middle, spineMiddleRadius, SpineMaterialId, userData,
+                                       _spheresRepresentation.radius);
+        else
+            container.addCone(origin, spineSmallRadius, middle, spineMiddleRadius, SpineMaterialId, useSdf, userData,
+                              neighbours, spineDisplacement);
+    }
+
     if (middle != target)
-        container.addCone(middle, spineMiddleRadius, target, spineLargeRadius, SpineMaterialId, useSdf, userData,
-                          neighbours, spineDisplacement);
+    {
+        if (_spheresRepresentation.enabled)
+            container.addConeOfSpheres(middle, spineMiddleRadius, target, spineLargeRadius, SpineMaterialId, userData,
+                                       _spheresRepresentation.radius);
+        else
+            container.addCone(middle, spineMiddleRadius, target, spineLargeRadius, SpineMaterialId, useSdf, userData,
+                              neighbours, spineDisplacement);
+    }
 
     ++_nbSpines;
 }

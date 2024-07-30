@@ -47,6 +47,10 @@ Vasculature::Vasculature(Scene& scene, const VasculatureDetails& details, const 
     , _scene(scene)
 {
     _animationDetails = doublesToCellAnimationDetails(_details.animationParams);
+    _spheresRepresentation.enabled = _details.representation == VasculatureRepresentation::spheres ||
+                                     _details.representation == VasculatureRepresentation::uniform_spheres;
+    _spheresRepresentation.uniform = _details.representation == VasculatureRepresentation::uniform_spheres;
+    _spheresRepresentation.radius = _spheresRepresentation.uniform ? _details.radiusMultiplier : 0.f;
 
     Timer chrono;
     _buildModel(callback);
@@ -91,6 +95,7 @@ void Vasculature::_addGraphSection(ThreadSafeContainer& container, const Geometr
     const auto direction = dst - src;
 
     const float radius = std::min(length(direction) / 5.0, _getCorrectedRadius(maxRadius, _details.radiusMultiplier));
+
     container.addSphere(src, radius * 0.2, materialId, useSdf, userData);
     container.addCone(src, radius * 0.2, Vector3f(src + direction * 0.79), radius * 0.2, materialId, useSdf, userData);
     container.addCone(dst, 0.0, Vector3f(src + direction * 0.8), radius, materialId, useSdf, userData);
@@ -109,15 +114,21 @@ void Vasculature::_addSimpleSection(ThreadSafeContainer& container, const Geomet
 
     const auto useSdf =
         andCheck(static_cast<uint32_t>(_details.realismLevel), static_cast<uint32_t>(VasculatureRealismLevel::section));
-    if (!useSdf)
+    if (_spheresRepresentation.enabled)
+        container.addConeOfSpheres(srcPoint, srcRadius, dstPoint, dstRadius, materialId, userData,
+                                   _spheresRepresentation.radius);
+    else
     {
-        container.addSphere(srcPoint, srcRadius, materialId, useSdf, userData);
-        container.addSphere(dstPoint, dstRadius, materialId, useSdf, userData);
-    }
+        if (!useSdf)
+        {
+            container.addSphere(srcPoint, srcRadius, materialId, useSdf, userData);
+            container.addSphere(dstPoint, dstRadius, materialId, useSdf, userData);
+        }
 
-    container.addCone(srcPoint, srcRadius, dstPoint, dstRadius, materialId, useSdf, userData, {},
-                      Vector3f(_getDisplacementValue(DisplacementElement::vasculature_segment_strength),
-                               _getDisplacementValue(DisplacementElement::vasculature_segment_frequency), 0.f));
+        container.addCone(srcPoint, srcRadius, dstPoint, dstRadius, materialId, useSdf, userData, {},
+                          Vector3f(_getDisplacementValue(DisplacementElement::vasculature_segment_strength),
+                                   _getDisplacementValue(DisplacementElement::vasculature_segment_frequency), 0.f));
+    }
 }
 
 void Vasculature::_addDetailedSection(ThreadSafeContainer& container, const GeometryNodes& nodes,
@@ -204,23 +215,30 @@ void Vasculature::_addDetailedSection(ThreadSafeContainer& container, const Geom
         const auto srcPosition = _animatedPosition(Vector4d(srcNode.position, srcRadius));
 
         if (i == 0)
-            container.addSphere(srcPosition, srcRadius, materialId, useSdf, userData);
+        {
+            if (!_spheresRepresentation.enabled)
+                container.addSphere(srcPosition, srcRadius, materialId, useSdf, userData);
+        }
         else
         {
             const float dstRadius = _getCorrectedRadius((userData < radii.size() ? radii[userData] : dstNode.radius),
                                                         _details.radiusMultiplier);
             const auto dstPosition = _animatedPosition(Vector4d(dstNode.position, dstRadius));
 
-            geometryIndex =
-                container.addCone(srcPosition, srcRadius, dstPosition, dstRadius, materialId, useSdf, userData,
-                                  neighbours,
-                                  Vector3f(_getDisplacementValue(DisplacementElement::vasculature_segment_strength),
-                                           _getDisplacementValue(DisplacementElement::vasculature_segment_frequency),
-                                           0.f));
-            neighbours = {geometryIndex};
+            if (_spheresRepresentation.enabled)
+                container.addConeOfSpheres(srcPosition, srcRadius, dstPosition, dstRadius, materialId, userData,
+                                           _spheresRepresentation.radius);
+            else
+            {
+                geometryIndex = container.addCone(
+                    srcPosition, srcRadius, dstPosition, dstRadius, materialId, useSdf, userData, neighbours,
+                    Vector3f(_getDisplacementValue(DisplacementElement::vasculature_segment_strength),
+                             _getDisplacementValue(DisplacementElement::vasculature_segment_frequency), 0.f));
+                neighbours = {geometryIndex};
 
-            if (!useSdf)
-                neighbours.insert(container.addSphere(srcPosition, srcRadius, materialId, useSdf, userData));
+                if (!useSdf)
+                    neighbours.insert(container.addSphere(srcPosition, srcRadius, materialId, useSdf, userData));
+            }
         }
 
         dstNode = srcNode;
