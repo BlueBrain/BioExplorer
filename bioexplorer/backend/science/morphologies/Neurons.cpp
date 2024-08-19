@@ -38,6 +38,8 @@
 
 #include <omp.h>
 
+#include <random>
+
 using namespace core;
 
 namespace bioexplorer
@@ -478,6 +480,144 @@ SectionSynapseMap Neurons::_buildDebugSynapses(const uint64_t neuronId, const Se
     return synapses;
 }
 
+double Neurons::_addSoma(const uint64_t neuronId, const size_t somaMaterialId, const Section& section,
+                         const Vector3d& somaPosition, const Quaterniond& somaRotation, const double somaRadius,
+                         const uint64_t somaUserData, const double voltageScaling, ThreadSafeContainer& container,
+                         Neighbours& somaNeighbours, Neighbours& sectionNeighbours)
+{
+    double correctedSomaRadius;
+    uint64_t count = 0.0;
+    // Sections connected to the soma
+    if (_details.showMembrane && _details.loadSomas && section.parentId == SOMA_AS_PARENT)
+    {
+        auto points = section.points;
+        for (uint64_t i = 0; i < points.size(); ++i)
+        {
+            auto& point = points[i];
+            point.x *= voltageScaling;
+            point.y *= voltageScaling;
+            point.z *= voltageScaling;
+        }
+
+        const auto& firstPoint = points[0];
+        const auto& lastPoint = points[points.size() - 1];
+        auto point = firstPoint;
+        if (length(lastPoint) < length(firstPoint))
+            point = lastPoint;
+
+        const bool useSdf =
+            andCheck(static_cast<uint32_t>(_details.realismLevel), static_cast<uint32_t>(MorphologyRealismLevel::soma));
+
+        const double srcRadius = _getCorrectedRadius(somaRadius * 0.75, _details.radiusMultiplier);
+        const double dstRadius = _getCorrectedRadius(point.w * 0.5, _details.radiusMultiplier);
+
+        const auto sectionType = static_cast<NeuronSectionType>(section.type);
+        const bool loadSection = (sectionType == NeuronSectionType::axon && _details.loadAxon) ||
+                                 (sectionType == NeuronSectionType::basal_dendrite && _details.loadBasalDendrites) ||
+                                 (sectionType == NeuronSectionType::apical_dendrite && _details.loadApicalDendrites);
+
+        if (!loadSection)
+            return -1.0;
+
+        const Vector3d dst =
+            _animatedPosition(Vector4d(somaPosition + somaRotation * Vector3d(point), dstRadius), neuronId);
+        const Vector3f displacement = {Vector3f(_getDisplacementValue(DisplacementElement::morphology_soma_strength),
+                                                _getDisplacementValue(DisplacementElement::morphology_soma_frequency),
+                                                0.f)};
+
+        Vector3d p2 = Vector3d();
+        if (voltageScaling == 1.f)
+        {
+            const Vector3d segmentDirection = normalize(lastPoint - firstPoint);
+            const double halfDistanceToSoma = length(Vector3d(point)) * 0.5;
+            const Vector3d p1 = Vector3d(point) - halfDistanceToSoma * segmentDirection;
+            p2 = p1 * dstRadius / somaRadius * 0.95;
+        }
+        const auto src = _animatedPosition(Vector4d(somaPosition + somaRotation * p2, srcRadius), neuronId);
+
+        correctedSomaRadius = std::max(correctedSomaRadius, length(p2)) * 2.0;
+
+        if (_spheresRepresentation.enabled)
+            container.addConeOfSpheres(src, srcRadius, dst, dstRadius, somaMaterialId, somaUserData,
+                                       _spheresRepresentation.radius);
+        else
+        {
+            const uint64_t geometryIndex = container.addCone(src, srcRadius, dst, dstRadius, somaMaterialId, useSdf,
+                                                             somaUserData, {}, displacement);
+            somaNeighbours.insert(geometryIndex);
+            sectionNeighbours.insert(geometryIndex);
+
+            if (!useSdf)
+                container.addSphere(dst, dstRadius, somaMaterialId, useSdf, somaUserData);
+        }
+        ++count;
+    }
+    return count == 0 ? somaRadius : correctedSomaRadius / count;
+}
+
+double Neurons::_addSomaAsSpheres(const uint64_t neuronId, const size_t somaMaterialId, const SectionMap& sections,
+                                  const Vector3d& somaPosition, const Quaterniond& somaRotation,
+                                  const double somaRadius, const uint64_t somaUserData, ThreadSafeContainer& container)
+{
+    // Paramètres
+    uint64_t nbPoints = 2000;
+    double small_sphere_radius = 0.5;
+
+    // Vecteurs pour stocker les coordonnées
+    Vector3ds points(nbPoints);
+    Vector3ds stretched_points;
+
+    double minRadius = std::numeric_limits<double>::max();
+    double maxRadius = std::numeric_limits<double>::min();
+    Vector3d baryCenter;
+    for (const auto& section : sections)
+    {
+        if (section.second.parentId == SOMA_AS_PARENT)
+        {
+            const auto& points = section.second.points;
+            const uint64_t index = std::min(size_t(1), points.size());
+            const Vector3d p = points[index];
+            stretched_points.push_back(p);
+            const double l = length(p);
+            minRadius = std::min(l, minRadius);
+            maxRadius = std::max(l, maxRadius);
+            baryCenter += p;
+        }
+    }
+    baryCenter /= stretched_points.size();
+
+    const auto radius = (minRadius + maxRadius) / 2.0;
+
+    // Génération des points aléatoires sur une sphère
+    for (uint64_t i = 0; i < nbPoints; ++i)
+    {
+        const double theta = glm::linearRand(0.0, 2.0 * glm::pi<double>());
+        const double phi = acos(glm::linearRand(-1.0, 1.0));
+        points[i] = baryCenter + Vector3d(minRadius * sin(theta) * cos(phi), minRadius * sin(theta) * sin(phi),
+                                          minRadius * cos(theta));
+    }
+
+    for (auto& point : points)
+    {
+        auto p = Vector3d();
+        for (const auto& sp : stretched_points)
+        {
+            const auto dir = sp - point;
+            const double angle = dot(normalize(sp), normalize(point));
+            if (angle > 0.7)
+                p += dir * angle;
+        }
+        p /= stretched_points.size();
+        point += 3.0 * p;
+
+        const auto src =
+            _animatedPosition(Vector4d(somaPosition + somaRotation * point, small_sphere_radius), neuronId);
+        container.addSphere(src, small_sphere_radius, somaMaterialId, false, somaUserData);
+    }
+
+    return somaRadius;
+}
+
 void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t neuronId, const NeuronSoma& soma,
                                const uint64_t neuronIndex, const float* voltages)
 {
@@ -589,9 +729,14 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
     }
     }
 
+    // Soma as spheres
+    double correctedSomaRadius = 0.f;
+    if (_spheresRepresentation.enabled)
+        correctedSomaRadius = _addSomaAsSpheres(neuronId, somaMaterialId, sections, somaPosition, somaRotation,
+                                                somaRadius, somaUserData, container);
+
     // Sections (dendrites and axon)
     Neighbours somaNeighbours;
-    double correctedSomaRadius = 0.f;
     for (const auto& section : sections)
     {
         Neighbours sectionNeighbours;
@@ -619,74 +764,13 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
             continue;
         }
 
-        uint64_t count = 0.0;
-        // Sections connected to the soma
-        if (_details.showMembrane && _details.loadSomas && section.second.parentId == SOMA_AS_PARENT)
-        {
-            auto points = section.second.points;
-            for (uint64_t i = 0; i < points.size(); ++i)
-            {
-                auto& point = points[i];
-                point.x *= voltageScaling;
-                point.y *= voltageScaling;
-                point.z *= voltageScaling;
-            }
-
-            const auto& firstPoint = points[0];
-            const auto& lastPoint = points[points.size() - 1];
-            auto point = firstPoint;
-            if (length(lastPoint) < length(firstPoint))
-                point = lastPoint;
-
-            useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
-                              static_cast<uint32_t>(MorphologyRealismLevel::soma));
-
-            const double srcRadius = _getCorrectedRadius(somaRadius * 0.75, _details.radiusMultiplier);
-            const double dstRadius = _getCorrectedRadius(point.w * 0.5, _details.radiusMultiplier);
-
-            const auto sectionType = static_cast<NeuronSectionType>(section.second.type);
-            const bool loadSection =
-                (sectionType == NeuronSectionType::axon && _details.loadAxon) ||
-                (sectionType == NeuronSectionType::basal_dendrite && _details.loadBasalDendrites) ||
-                (sectionType == NeuronSectionType::apical_dendrite && _details.loadApicalDendrites);
-
-            if (!loadSection)
-                continue;
-
-            const Vector3d dst =
-                _animatedPosition(Vector4d(somaPosition + somaRotation * Vector3d(point), dstRadius), neuronId);
-            const Vector3f displacement = {
-                Vector3f(_getDisplacementValue(DisplacementElement::morphology_soma_strength),
-                         _getDisplacementValue(DisplacementElement::morphology_soma_frequency), 0.f)};
-
-            Vector3d p2 = Vector3d();
-            if (voltageScaling == 1.f)
-            {
-                const Vector3d segmentDirection = normalize(lastPoint - firstPoint);
-                const double halfDistanceToSoma = length(Vector3d(point)) * 0.5;
-                const Vector3d p1 = Vector3d(point) - halfDistanceToSoma * segmentDirection;
-                p2 = p1 * dstRadius / somaRadius * 0.95;
-            }
-            const auto src = _animatedPosition(Vector4d(somaPosition + somaRotation * p2, srcRadius), neuronId);
-
-            correctedSomaRadius = std::max(correctedSomaRadius, length(p2)) * 2.0;
-
-            if (_spheresRepresentation.enabled)
-                container.addConeOfSpheres(src, srcRadius, dst, dstRadius, somaMaterialId, somaUserData,
-                                           _spheresRepresentation.radius);
-            else
-            {
-                const uint64_t geometryIndex = container.addCone(src, srcRadius, dst, dstRadius, somaMaterialId, useSdf,
-                                                                 somaUserData, {}, displacement);
-                somaNeighbours.insert(geometryIndex);
-                sectionNeighbours.insert(geometryIndex);
-
-                if (!useSdf)
-                    container.addSphere(dst, dstRadius, somaMaterialId, useSdf, somaUserData);
-            }
-            ++count;
-        }
-        correctedSomaRadius = count == 0 ? somaRadius : correctedSomaRadius / count;
+        correctedSomaRadius =
+            _spheresRepresentation.enabled
+                ? somaRadius
+                : _addSoma(neuronId, somaMaterialId, section.second, somaPosition, somaRotation, somaRadius,
+                           somaUserData, voltageScaling, container, somaNeighbours, sectionNeighbours);
+        if (correctedSomaRadius < 0.f)
+            continue;
 
         float parentRadius = section.second.points[0].w;
         if (sections.find(section.second.parentId) != sections.end())
@@ -702,7 +786,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
                         distanceToSoma, sectionNeighbours, voltageScaling);
     }
 
-    if (_details.loadSomas)
+    if (_details.loadSomas && !_spheresRepresentation.enabled)
     {
         if (_details.showMembrane)
         {

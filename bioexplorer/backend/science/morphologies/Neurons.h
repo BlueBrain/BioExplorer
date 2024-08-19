@@ -73,6 +73,16 @@ private:
 
     void _buildSomasOnly(core::Model& model, common::ThreadSafeContainer& container, const NeuronSomaMap& somas);
 
+    double _addSoma(const uint64_t neuronId, const size_t somaMaterialId, const Section& section,
+                    const core::Vector3d& somaPosition, const core::Quaterniond& somaRotation, const double somaRadius,
+                    const uint64_t somaUserData, const double voltageScaling, common::ThreadSafeContainer& container,
+                    common::Neighbours& somaMeighbours, common::Neighbours& sectionNeighbours);
+
+    double _addSomaAsSpheres(const uint64_t neuronId, const size_t somaMaterialId, const SectionMap& sections,
+                             const core::Vector3d& somaPosition, const core::Quaterniond& somaRotation,
+                             const double somaRadius, const uint64_t somaUserData,
+                             common::ThreadSafeContainer& container);
+
     void _buildOrientations(common::ThreadSafeContainer& container, const NeuronSomaMap& somas);
 
     void _buildMorphology(common::ThreadSafeContainer& container, const uint64_t neuronId, const NeuronSoma& soma,
