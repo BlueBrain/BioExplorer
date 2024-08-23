@@ -555,69 +555,6 @@ double Neurons::_addSoma(const uint64_t neuronId, const size_t somaMaterialId, c
     return count == 0 ? somaRadius : correctedSomaRadius / count;
 }
 
-double Neurons::_addSomaAsSpheres(const uint64_t neuronId, const size_t somaMaterialId, const SectionMap& sections,
-                                  const Vector3d& somaPosition, const Quaterniond& somaRotation,
-                                  const double somaRadius, const uint64_t somaUserData, ThreadSafeContainer& container)
-{
-    // Paramètres
-    uint64_t nbPoints = 2000;
-    double small_sphere_radius = 0.5;
-
-    // Vecteurs pour stocker les coordonnées
-    Vector3ds points(nbPoints);
-    Vector3ds stretched_points;
-
-    double minRadius = std::numeric_limits<double>::max();
-    double maxRadius = std::numeric_limits<double>::min();
-    Vector3d baryCenter;
-    for (const auto& section : sections)
-    {
-        if (section.second.parentId == SOMA_AS_PARENT)
-        {
-            const auto& points = section.second.points;
-            const uint64_t index = std::min(size_t(1), points.size());
-            const Vector3d p = points[index];
-            stretched_points.push_back(p);
-            const double l = length(p);
-            minRadius = std::min(l, minRadius);
-            maxRadius = std::max(l, maxRadius);
-            baryCenter += p;
-        }
-    }
-    baryCenter /= stretched_points.size();
-
-    const auto radius = (minRadius + maxRadius) / 2.0;
-
-    // Génération des points aléatoires sur une sphère
-    for (uint64_t i = 0; i < nbPoints; ++i)
-    {
-        const double theta = glm::linearRand(0.0, 2.0 * glm::pi<double>());
-        const double phi = acos(glm::linearRand(-1.0, 1.0));
-        points[i] = baryCenter + Vector3d(minRadius * sin(theta) * cos(phi), minRadius * sin(theta) * sin(phi),
-                                          minRadius * cos(theta));
-    }
-
-    for (auto& point : points)
-    {
-        auto p = Vector3d();
-        for (const auto& sp : stretched_points)
-        {
-            const auto dir = sp - point;
-            const double angle = dot(normalize(sp), normalize(point));
-            if (angle > 0.7)
-                p += dir * angle;
-        }
-        p /= stretched_points.size();
-        point += 3.0 * p;
-
-        const auto src =
-            _animatedPosition(Vector4d(somaPosition + somaRotation * point, small_sphere_radius), neuronId);
-        container.addSphere(src, small_sphere_radius, somaMaterialId, false, somaUserData);
-    }
-
-    return somaRadius;
-}
-
 void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t neuronId, const NeuronSoma& soma,
                                const uint64_t neuronIndex, const float* voltages)
 {
@@ -733,7 +670,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
     double correctedSomaRadius = 0.f;
     if (_spheresRepresentation.enabled)
         correctedSomaRadius = _addSomaAsSpheres(neuronId, somaMaterialId, sections, somaPosition, somaRotation,
-                                                somaRadius, somaUserData, container);
+                                                somaRadius, somaUserData, _details.radiusMultiplier, container);
 
     // Sections (dendrites and axon)
     Neighbours somaNeighbours;

@@ -203,14 +203,15 @@ void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radi
                 const bool useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
                                              static_cast<uint32_t>(MorphologyRealismLevel::soma));
 
-                if (!_spheresRepresentation.enabled)
-                {
+                if (_spheresRepresentation.enabled)
+                    _addSomaAsSpheres(somaId, somaMaterialId, sections, somaPosition, Quaterniond(), somaRadius,
+                                      NO_USER_DATA, _details.radiusMultiplier, container);
+                else
                     somaGeometryIndex = container.addSphere(
                         somaPosition, somaRadius, somaMaterialId, useSdf, NO_USER_DATA, {},
                         Vector3f(somaRadius * _getDisplacementValue(DisplacementElement::morphology_soma_strength),
                                  somaRadius * _getDisplacementValue(DisplacementElement::morphology_soma_frequency),
                                  0.f));
-                }
 
                 if (_details.generateInternals)
                 {
@@ -259,7 +260,7 @@ void Astrocytes::_buildModel(const LoaderProgress& callback, const doubles& radi
                     const bool useSdf = andCheck(static_cast<uint32_t>(_details.realismLevel),
                                                  static_cast<uint32_t>(MorphologyRealismLevel::dendrite));
                     uint64_t geometryIndex = 0;
-                    if (section.second.parentId == SOMA_AS_PARENT)
+                    if (section.second.parentId == SOMA_AS_PARENT && !_spheresRepresentation.enabled)
                     {
                         // Section connected to the soma
                         const auto& point = points[0];

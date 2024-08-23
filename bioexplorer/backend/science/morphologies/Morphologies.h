@@ -56,6 +56,11 @@ public:
 protected:
     size_t _getNbMitochondrionSegments() const;
 
+    double _addSomaAsSpheres(const uint64_t neuronId, const size_t somaMaterialId, const SectionMap& sections,
+                             const core::Vector3d& somaPosition, const core::Quaterniond& somaRotation,
+                             const double somaRadius, const uint64_t somaUserData, const double radiusMultiplier,
+                             common::ThreadSafeContainer& container);
+
     void _addSomaInternals(common::ThreadSafeContainer& container, const size_t materialId,
                            const core::Vector3d& somaPosition, const double somaRadius,
                            const double mitochondriaDensity, const bool useSdf, const double radiusMultiplier);
