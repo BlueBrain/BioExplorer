@@ -18,6 +18,8 @@
 
 #include "Types.h"
 
+#include <platform/core/common/CommonTypes.h>
+
 namespace bioexplorer
 {
 namespace common
@@ -81,12 +83,12 @@ public:
      * @return uint64_t Index of the geometry in the model
      */
     uint64_t addCutSphere(const core::Vector3f& position, const float radius, const float cutRadius,
-                          const size_t materialId, const uint64_t userDataOffset = 0, const Neighbours& neighbours = {},
-                          const core::Vector3f displacement = core::Vector3f());
+                          const size_t materialId, const uint64_t userDataOffset = NO_USER_DATA,
+                          const Neighbours& neighbours = {}, const core::Vector3f displacement = core::Vector3f());
 
     /**
      * @brief Add a cone to the thread safe model. If both radii are identical
-     * and signed-distance field technique is not used, a cylinder is add
+     * and signed-distance field technique is not used, a cylinder is added
      * instead of a cone
      *
      * @param sourcePosition Base position of the cone
@@ -104,8 +106,23 @@ public:
      */
     uint64_t addCone(const core::Vector3f& sourcePosition, const float sourceRadius,
                      const core::Vector3f& targetPosition, const float targetRadius, const size_t materialId,
-                     const bool useSdf, const uint64_t userDataOffset = 0, const Neighbours& neighbours = {},
+                     const bool useSdf, const uint64_t userDataOffset = NO_USER_DATA, const Neighbours& neighbours = {},
                      const core::Vector3f displacement = core::Vector3f());
+
+    /**
+     * @brief Add a cone of spheres to the thread safe model.
+     *
+     * @param sourcePosition Base position of the cone
+     * @param sourceRadius Base radius of the cone
+     * @param targetPosition Top position of the cone
+     * @param targetRadius Top radius of the cone
+     * @param materialId Material identifier
+     * @param userDataOffset User data to attach to the sphere
+     * @param constantRadius Use contant sphere radius if true
+     */
+    void addConeOfSpheres(const core::Vector3f& sourcePosition, const float sourceRadius,
+                          const core::Vector3f& targetPosition, const float targetRadius, const size_t materialId,
+                          const uint64_t userDataOffset = NO_USER_DATA, const float constantRadius = 0.f);
 
     /**
      * @brief Add a torus to the thread safe model
@@ -121,8 +138,8 @@ public:
      * @return uint64_t Index of the geometry in the model
      */
     uint64_t addTorus(const core::Vector3f& position, const float outerRadius, const float innerRadius,
-                      const size_t materialId, const uint64_t userDataOffset = 0, const Neighbours& neighbours = {},
-                      const core::Vector3f displacement = core::Vector3f());
+                      const size_t materialId, const uint64_t userDataOffset = NO_USER_DATA,
+                      const Neighbours& neighbours = {}, const core::Vector3f displacement = core::Vector3f());
 
     /**
      * @brief Add a vesica to the thread safe model
@@ -138,8 +155,8 @@ public:
      * @return uint64_t Index of the geometry in the model
      */
     uint64_t addVesica(const core::Vector3f& sourcePosition, const core::Vector3f& targetPosition, const float radius,
-                       const size_t materialId, const uint64_t userDataOffset = 0, const Neighbours& neighbours = {},
-                       const core::Vector3f displacement = core::Vector3f());
+                       const size_t materialId, const uint64_t userDataOffset = NO_USER_DATA,
+                       const Neighbours& neighbours = {}, const core::Vector3f displacement = core::Vector3f());
 
     /**
      * @brief Add a vesica to the thread safe model

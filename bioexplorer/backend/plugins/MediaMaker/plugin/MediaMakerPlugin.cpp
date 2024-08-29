@@ -319,7 +319,6 @@ void MediaMakerPlugin::_exportColorBuffer() const
     auto image = frameBuffer.getImage();
     ImageBuf rotatedBuf;
     ImageBufAlgo::flip(rotatedBuf, image);
-    swapRedBlue32(rotatedBuf);
 
     // Determine the output format
     std::string format = _exportFramesToDiskPayload.format;

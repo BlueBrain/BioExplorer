@@ -190,6 +190,8 @@ class VascularRepresentation(Enum):
     SEGMENT = 2
     OPTIMIZED_SEGMENT = 3
     BEZIER = 4
+    SPHERES = 5
+    UNIFORM_SPHERES = 6
 
 
 class VascularColorScheme(Enum):
@@ -217,6 +219,8 @@ class MorphologyRepresentation(Enum):
     BEZIER = 4
     CONTOUR = 5
     SURFACE = 6
+    SPHERES = 7
+    UNIFORM_SPHERES = 8
 
 
 class MorphologyRealismLevel(Enum):

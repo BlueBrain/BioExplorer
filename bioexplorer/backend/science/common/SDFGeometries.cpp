@@ -56,15 +56,32 @@ Vector4fs SDFGeometries::_getProcessedSectionPoints(const MorphologyRepresentati
                                                     const Vector4fs& points)
 {
     Vector4fs localPoints;
-    if (representation == MorphologyRepresentation::bezier)
+    switch (representation)
+    {
+    case MorphologyRepresentation::bezier:
     {
         const uint64_t nbBezierPoints = std::max(static_cast<size_t>(3), points.size() / 10);
         const float step = 1.f / static_cast<float>(nbBezierPoints);
         for (float i = 0; i <= 1.f; i += step)
             localPoints.push_back(getBezierPoint(points, i));
+        break;
     }
-    else
+    case MorphologyRepresentation::spheres:
+    {
+        for (uint64_t i = 0; i < points.size() - 1; ++i)
+        {
+            const auto p1 = points[i];
+            const auto p2 = points[i + 1];
+            const auto spheres = fillConeWithSpheres(p1, p2);
+            localPoints.insert(localPoints.end(), spheres.begin(), spheres.end());
+        }
+        break;
+    }
+    default:
+    {
         localPoints = points;
+    }
+    }
     return localPoints;
 }
 

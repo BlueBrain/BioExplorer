@@ -818,6 +818,8 @@ void CacheLoader::exportToXYZ(const std::string& filename, const XYZFileFormat f
             const auto& spheresMap = model.getSpheres();
             for (const auto& spheres : spheresMap)
             {
+                if (spheres.first == BOUNDINGBOX_MATERIAL_ID || spheres.first == SECONDARY_MODEL_MATERIAL_ID)
+                    continue;
                 const auto material = model.getMaterial(spheres.first);
 
                 for (const auto& sphere : spheres.second)
@@ -861,10 +863,10 @@ void CacheLoader::exportToXYZ(const std::string& filename, const XYZFileFormat f
                             const auto& color = material->getDiffuseColor();
                             const auto opacity = material->getOpacity();
 
-                            file << ASCII_FILE_SEPARATOR << static_cast<size_t>(256.f * color.x) << ASCII_FILE_SEPARATOR
-                                 << static_cast<size_t>(256.f * color.y) << ASCII_FILE_SEPARATOR
-                                 << static_cast<size_t>(256.f * color.z) << ASCII_FILE_SEPARATOR
-                                 << static_cast<size_t>(256.f * opacity);
+                            file << ASCII_FILE_SEPARATOR << static_cast<size_t>(255.f * color.x) << ASCII_FILE_SEPARATOR
+                                 << static_cast<size_t>(255.f * color.y) << ASCII_FILE_SEPARATOR
+                                 << static_cast<size_t>(255.f * color.z) << ASCII_FILE_SEPARATOR
+                                 << static_cast<size_t>(255.f * opacity);
                         }
                         file << std::endl;
                         break;

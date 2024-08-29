@@ -41,6 +41,76 @@ size_t Morphologies::_getNbMitochondrionSegments() const
     return 2 + rand() % 5;
 }
 
+double Morphologies::_addSomaAsSpheres(const uint64_t neuronId, const size_t somaMaterialId, const SectionMap& sections,
+                                       const Vector3d& somaPosition, const Quaterniond& somaRotation,
+                                       const double somaRadius, const uint64_t somaUserData,
+                                       const double radiusMultiplier, ThreadSafeContainer& container)
+{
+    Vector3ds sectionRoots;
+
+    double minRadius = std::numeric_limits<double>::max();
+    double maxRadius = std::numeric_limits<double>::min();
+    double sectionRootRadius = std::numeric_limits<double>::max();
+    Vector3d baryCenter;
+    for (const auto& section : sections)
+        if (section.second.parentId == SOMA_AS_PARENT)
+        {
+            const auto& points = section.second.points;
+            const uint64_t index = std::min(size_t(0), points.size());
+            const Vector3d p = points[index];
+            sectionRoots.push_back(p);
+            const double l = length(p);
+            minRadius = std::min(l, minRadius);
+            maxRadius = std::max(l, maxRadius);
+            sectionRootRadius = std::min(sectionRootRadius, static_cast<double>(points[index].w * 0.5));
+            baryCenter += p;
+        }
+    baryCenter /= sectionRoots.size();
+    // sectionRootRadius = sectionRootRadius / sectionRoots.size() * radiusMultiplier;
+
+    const double radius = (minRadius + maxRadius) / 2.0;
+    const double somaSurface = 4.0 * glm::pi<double>() * pow(radius, 2.0);
+    const double sphereSurfaceOnSoma = glm::pi<double>() * pow(sectionRootRadius, 2.0);
+    const uint64_t nbSpheres = somaSurface / sphereSurfaceOnSoma;
+
+    Vector3ds spheres(nbSpheres);
+
+    const double goldenRatio = (1.0 + std::sqrt(5.0)) / 2.0;
+    const double angleIncrement = 2.0 * M_PI * goldenRatio;
+    for (uint64_t i = 0; i < nbSpheres; ++i)
+    {
+        const double t = static_cast<double>(i) / static_cast<double>(nbSpheres - 1);
+        const double phi = std::acos(1.0 - 2.0 * t);
+        const double theta = angleIncrement * static_cast<double>(i);
+        const double r = minRadius;
+        spheres[i] = Vector3d(r * sin(phi) * cos(theta), r * sin(phi) * sin(theta), r * cos(phi));
+    }
+
+    // Smooth soma according to section root
+    for (auto& sphere : spheres)
+    {
+#if 1
+        const double smoothingFactor = 1.0;
+        double r = minRadius * smoothingFactor;
+        for (const auto& sr : sectionRoots)
+        {
+            const auto dir = sr - (baryCenter + sphere);
+            const double angle = dot(normalize(sr), normalize(baryCenter + sphere));
+            if (angle >= 0.0)
+                r += length(dir) * -angle * smoothingFactor;
+        }
+#endif
+
+        const auto src =
+            _animatedPosition(Vector4d(somaPosition + somaRotation * (baryCenter + normalize(sphere) * r * 0.5),
+                                       sectionRootRadius),
+                              neuronId);
+        container.addSphere(src, sectionRootRadius, somaMaterialId, false, somaUserData);
+    }
+
+    return somaRadius;
+}
+
 void Morphologies::_addSomaInternals(ThreadSafeContainer& container, const size_t baseMaterialId,
                                      const Vector3d& somaPosition, const double somaRadius,
                                      const double mitochondriaDensity, const bool useSdf, const double radiusMultiplier)
@@ -58,7 +128,8 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container, const size_
 
     const size_t nucleusMaterialId = baseMaterialId + MATERIAL_OFFSET_NUCLEUS;
     container.addSphere(
-        somaPosition, nucleusRadius, nucleusMaterialId, useSdf, NO_USER_DATA, {},
+        somaPosition, nucleusRadius, nucleusMaterialId, _spheresRepresentation.enabled ? false : useSdf, NO_USER_DATA,
+        {},
         Vector3f(nucleusRadius * _getDisplacementValue(DisplacementElement::morphology_nucleus_strength),
                  nucleusRadius * _getDisplacementValue(DisplacementElement::morphology_nucleus_frequency), 0.f));
 
@@ -101,10 +172,14 @@ void Morphologies::_addSomaInternals(ThreadSafeContainer& container, const size_
             if (i > 0)
             {
                 const auto p1 = somaPosition + somaOutterRadius * pointsInSphere[i - 1];
-                geometryIndex = container.addCone(
-                    p1, previousRadius, p2, radius, mitochondrionMaterialId, useSdf, NO_USER_DATA, {geometryIndex},
-                    Vector3f(radius * _getDisplacementValue(DisplacementElement::morphology_mitochondrion_strength),
-                             displacementFrequency, 0.f));
+                if (_spheresRepresentation.enabled)
+                    container.addConeOfSpheres(p1, previousRadius, p2, radius, mitochondrionMaterialId, NO_USER_DATA,
+                                               _spheresRepresentation.radius);
+                else
+                    geometryIndex = container.addCone(
+                        p1, previousRadius, p2, radius, mitochondrionMaterialId, useSdf, NO_USER_DATA, {geometryIndex},
+                        Vector3f(radius * _getDisplacementValue(DisplacementElement::morphology_mitochondrion_strength),
+                                 displacementFrequency, 0.f));
 
                 mitochondriaVolume += coneVolume(length(p2 - p1), previousRadius, radius);
             }
