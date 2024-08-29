@@ -64,6 +64,7 @@ private:
     details::Response _exportToFile(const details::FileAccessDetails &payload);
     details::Response _importFromFile(const details::FileAccessDetails &payload);
     details::Response _exportToXYZ(const details::FileAccessDetails &payload);
+    details::Response _exportToLas(const details::LASFileAccessDetails &payload);
 
     // DB
     details::Response _exportBrickToDatabase(const details::DatabaseAccessDetails &payload);

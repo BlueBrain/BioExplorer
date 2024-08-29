@@ -145,6 +145,16 @@ public:
      */
     void exportToXYZ(const std::string& filename, const common::XYZFileFormat format) const;
 
+#ifdef USE_LASLIB
+    /**
+     * @brief Exports spheres in 3D scene to LAS file
+     *
+     * @param filename Full path of the file
+     * @param format File format to be used for the export
+     */
+    void exportToLas(const std::string& filename, const bool exportColors = false) const;
+#endif
+
 private:
     std::string _readString(std::stringstream& f) const;
 

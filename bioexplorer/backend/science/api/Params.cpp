@@ -733,6 +733,21 @@ bool from_json(FileAccessDetails &param, const std::string &payload)
     return true;
 }
 
+bool from_json(LASFileAccessDetails &param, const std::string &payload)
+{
+    try
+    {
+        auto js = nlohmann::json::parse(payload);
+        FROM_JSON(param, js, filename);
+        FROM_JSON(param, js, exportColors);
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+
 bool from_json(DatabaseAccessDetails &param, const std::string &payload)
 {
     try

@@ -66,6 +66,7 @@ bool from_json(bioexplorer::details::AminoAcidDetails &param, const std::string 
 
 // Files
 bool from_json(bioexplorer::details::FileAccessDetails &param, const std::string &payload);
+bool from_json(bioexplorer::details::LASFileAccessDetails &param, const std::string &payload);
 
 // DB
 bool from_json(bioexplorer::details::DatabaseAccessDetails &param, const std::string &payload);

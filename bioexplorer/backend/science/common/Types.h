@@ -1268,6 +1268,16 @@ typedef struct
 } FileAccessDetails;
 
 /**
+ * @brief Structure defining how to export data into a LAS file
+ *
+ */
+typedef struct
+{
+    std::string filename;
+    bool exportColors{false};
+} LASFileAccessDetails;
+
+/**
  * @brief Structure defining how to export data into a DB
  *
  */

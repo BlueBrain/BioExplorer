@@ -43,6 +43,7 @@ find_package(assimp)
 find_package(LibJpegTurbo)
 find_package(Rockets)
 find_package(CGAL)
+find_package(LASlib)
 
 set(BIOEXPLORER_SOURCE_DIRS ${PROJECT_SOURCE_DIR} ${CMAKE_BINARY_DIR}/generated)
 

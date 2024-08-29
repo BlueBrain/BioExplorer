@@ -47,6 +47,11 @@
 #define USE_NETWORKING
 #endif
 
+// LASLIB_FOUND
+#if @LASLIB_FOUND@==1
+#define USE_LASLIB
+#endif
+
 // Memory alignment (optional). Can be necessary for compatibility between multiple engines
 #define PLATFORM_MEMORY_ALIGNMENT @PLATFORM_MEMORY_ALIGNMENT@ 
 #ifdef PLATFORM_MEMORY_ALIGNMENT
