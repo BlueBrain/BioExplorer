@@ -478,6 +478,37 @@ class BioExplorer:
             raise RuntimeError(result["contents"])
         return result
 
+    def export_to_las(
+        self,
+        filename: str,
+        model_ids: list = list(),
+        material_ids: list = list(),
+        export_colors: bool = False
+    ) -> Dict[str, Any]:
+        """
+        Export the current scene to a LAS file.
+
+        :param filename: The name of the file to export to.
+        :type filename: str
+        :param file_format: The format of the file to export.
+        :type export_colors: Export sphere RGB information
+
+        :returns: Result of the backend API call.
+        :rtype: Dict[str, Any]
+
+        :raises RuntimeError: If the backend call fails.
+        """
+        params = {
+            "filename": filename,
+            "modelIds": model_ids,
+            "materialIds": material_ids,
+            "exportColors": export_colors
+        }
+        result = self._invoke_and_check("export-to-las", params)
+        if not result["status"]:
+            raise RuntimeError(result["contents"])
+        return result
+
     def add_sars_cov_2(
         self,
         name,

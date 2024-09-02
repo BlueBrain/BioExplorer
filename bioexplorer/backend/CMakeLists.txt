@@ -24,6 +24,7 @@ option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
 # Packages
 find_package(OpenMP)
 find_package(PQXX REQUIRED)
+find_package(LASlib)
 
 # Compiler flags
 add_compile_options("-fopenmp")
@@ -253,6 +254,14 @@ set(${NAME}_LINK_LIBRARIES
 
 if(${CGAL_FOUND})
 list(APPEND ${NAME}_LINK_LIBRARIES ${CGAL_LIBRARIES} gmp)
+endif()
+
+if(${LASLIB_FOUND})
+message("-- [BioExplorer] LASlib was found: Exporting scene to LAS file will be possible")
+include_directories(${LASLIB_INCLUDE_DIR})
+list(APPEND ${NAME}_LINK_LIBRARIES ${LASLIB_LIBRARIES})
+else()
+message("-- [BioExplorer] LASlib was NOT found")
 endif()
 
 add_library(

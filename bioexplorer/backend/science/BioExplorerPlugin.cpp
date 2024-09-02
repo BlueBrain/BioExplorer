@@ -348,6 +348,14 @@ void BioExplorerPlugin::init()
         actionInterface->registerRequest<FileAccessDetails, Response>(endPoint, [&](const FileAccessDetails &payload)
                                                                       { return _exportToXYZ(payload); });
 
+#ifdef USE_LASLIB
+        endPoint = PLUGIN_API_PREFIX + "export-to-las";
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
+        actionInterface->registerRequest<LASFileAccessDetails, Response>(endPoint,
+                                                                         [&](const LASFileAccessDetails &payload)
+                                                                         { return _exportToLas(payload); });
+#endif
+
         endPoint = PLUGIN_API_PREFIX + "add-grid";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
         actionInterface->registerRequest<AddGridDetails, Response>(endPoint, [&](const AddGridDetails &payload)
@@ -1108,6 +1116,21 @@ Response BioExplorerPlugin::_exportToXYZ(const FileAccessDetails &payload)
     CATCH_STD_EXCEPTION()
     return response;
 }
+
+#ifdef USE_LASLIB
+Response BioExplorerPlugin::_exportToLas(const LASFileAccessDetails &payload)
+{
+    Response response;
+    try
+    {
+        auto &scene = _api->getScene();
+        CacheLoader loader(scene);
+        loader.exportToLas(payload.filename, payload.modelIds, payload.materialIds, payload.exportColors);
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+#endif
 
 Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
 {

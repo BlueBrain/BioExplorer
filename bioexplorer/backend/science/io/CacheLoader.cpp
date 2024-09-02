@@ -31,6 +31,10 @@
 #include <platform/core/engineapi/Scene.h>
 #include <platform/core/parameters/ParametersManager.h>
 
+#ifdef USE_LASLIB
+#include <laswriter.hpp>
+#endif
+
 #include <fstream>
 
 using namespace core;
@@ -880,6 +884,107 @@ void CacheLoader::exportToXYZ(const std::string& filename, const XYZFileFormat f
     }
     file.close();
 }
+
+#ifdef USE_LASLIB
+void CacheLoader::exportToLas(const std::string& filename, const uint32_ts& modelIds, const uint32_ts& materialIds,
+                              const bool exportColors) const
+{
+    const double DEFAULT_SCALE_FACTOR = 0.01;
+    PLUGIN_INFO(3, "Saving scene to LAS file: " << filename);
+
+    LASheader header;
+    header.x_scale_factor = DEFAULT_SCALE_FACTOR;
+    header.y_scale_factor = DEFAULT_SCALE_FACTOR;
+    header.z_scale_factor = DEFAULT_SCALE_FACTOR;
+    header.x_offset = 0.0;
+    header.y_offset = 0.0;
+    header.z_offset = 0.0;
+    header.point_data_format = 3;         // Format LAS point format 3
+    header.point_data_record_length = 34; // Format 3 Point size
+
+    Boxd bounds;
+
+    LASwriteOpener laswriteopener;
+    laswriteopener.set_file_name(filename.c_str());
+
+    LASwriter* writer = laswriteopener.open(&header);
+    if (!writer)
+        PLUGIN_THROW("Failed to create " + filename);
+
+    LASpoint point;
+    point.init(&header, header.point_data_format, header.point_data_record_length);
+
+    const auto clipPlanes = getClippingPlanes(_scene);
+
+    const auto& modelDescriptors = _scene.getModelDescriptors();
+    for (const auto modelDescriptor : modelDescriptors)
+    {
+        if (!modelIds.empty())
+        {
+            const auto modelId = modelDescriptor->getModelID();
+            if (std::find(modelIds.begin(), modelIds.end(), modelId) == modelIds.end())
+                continue;
+        }
+        const auto& instances = modelDescriptor->getInstances();
+        for (const auto& instance : instances)
+        {
+            const auto& tf = instance.getTransformation();
+            const auto& model = modelDescriptor->getModel();
+            const auto& spheresMap = model.getSpheres();
+            for (const auto& spheres : spheresMap)
+            {
+                if (spheres.first == BOUNDINGBOX_MATERIAL_ID || spheres.first == SECONDARY_MODEL_MATERIAL_ID)
+                    continue;
+
+                const auto materialId = spheres.first;
+                const auto material = model.getMaterial(materialId);
+                if (!materialIds.empty())
+                {
+                    if (std::find(materialIds.begin(), materialIds.end(), materialId) == materialIds.end())
+                        continue;
+                }
+
+                for (const auto& sphere : spheres.second)
+                {
+                    const Vector3d center =
+                        tf.getTranslation() + tf.getRotation() * (Vector3d(sphere.center) - tf.getRotationCenter());
+
+                    if (isClipped(center, clipPlanes))
+                        continue;
+
+                    point.set_x(center.x);
+                    point.set_y(center.y);
+                    point.set_z(center.z);
+                    point.set_intensity(sphere.radius / DEFAULT_SCALE_FACTOR);
+
+                    const double radius = static_cast<double>(sphere.radius);
+                    bounds.merge(center - radius);
+                    bounds.merge(center + radius);
+
+                    if (exportColors)
+                    {
+                        const auto& color = material->getDiffuseColor();
+                        point.set_R(static_cast<size_t>(255.f * color.x));
+                        point.set_G(static_cast<size_t>(255.f * color.y));
+                        point.set_B(static_cast<size_t>(255.f * color.z));
+                    }
+                    writer->write_point(&point);
+                    writer->update_inventory(&point);
+                }
+            }
+        }
+    }
+    header.min_x = bounds.getMin().x;
+    header.min_y = bounds.getMin().y;
+    header.min_z = bounds.getMin().z;
+    header.max_x = bounds.getMax().x;
+    header.max_y = bounds.getMax().y;
+    header.max_z = bounds.getMax().z;
+    writer->update_header(&header);
+    writer->close();
+    delete writer;
+}
+#endif
 
 PropertyMap CacheLoader::getProperties() const
 {

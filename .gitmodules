@@ -7,3 +7,6 @@
 [submodule "common/deps/async++"]
 	path = common/deps/async++
 	url = https://github.com/Amanieu/asyncplusplus.git
+[submodule "platform/deps/LASTools"]
+	path = platform/deps/LASTools
+	url = https://github.com/LAStools/LAStools.git
