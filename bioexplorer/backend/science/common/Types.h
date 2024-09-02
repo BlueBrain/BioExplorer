@@ -1274,6 +1274,8 @@ typedef struct
 typedef struct
 {
     std::string filename;
+    uint32_ts modelIds;
+    uint32_ts materialIds;
     bool exportColors{false};
 } LASFileAccessDetails;
 

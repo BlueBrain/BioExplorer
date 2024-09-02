@@ -481,6 +481,8 @@ class BioExplorer:
     def export_to_las(
         self,
         filename: str,
+        model_ids: list = list(),
+        material_ids: list = list(),
         export_colors: bool = False
     ) -> Dict[str, Any]:
         """
@@ -498,6 +500,8 @@ class BioExplorer:
         """
         params = {
             "filename": filename,
+            "modelIds": model_ids,
+            "materialIds": material_ids,
             "exportColors": export_colors
         }
         result = self._invoke_and_check("export-to-las", params)

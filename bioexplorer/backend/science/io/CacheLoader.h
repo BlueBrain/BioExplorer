@@ -152,7 +152,8 @@ public:
      * @param filename Full path of the file
      * @param format File format to be used for the export
      */
-    void exportToLas(const std::string& filename, const bool exportColors = false) const;
+    void exportToLas(const std::string& filename, const uint32_ts& modelIds, const uint32_ts& materialIds,
+                     const bool exportColors = false) const;
 #endif
 
 private:

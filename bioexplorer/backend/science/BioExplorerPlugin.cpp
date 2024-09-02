@@ -1125,7 +1125,7 @@ Response BioExplorerPlugin::_exportToLas(const LASFileAccessDetails &payload)
     {
         auto &scene = _api->getScene();
         CacheLoader loader(scene);
-        loader.exportToLas(payload.filename, payload.exportColors);
+        loader.exportToLas(payload.filename, payload.modelIds, payload.materialIds, payload.exportColors);
     }
     CATCH_STD_EXCEPTION()
     return response;

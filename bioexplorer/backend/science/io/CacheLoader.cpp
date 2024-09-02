@@ -886,7 +886,8 @@ void CacheLoader::exportToXYZ(const std::string& filename, const XYZFileFormat f
 }
 
 #ifdef USE_LASLIB
-void CacheLoader::exportToLas(const std::string& filename, const bool exportColors) const
+void CacheLoader::exportToLas(const std::string& filename, const uint32_ts& modelIds, const uint32_ts& materialIds,
+                              const bool exportColors) const
 {
     const double DEFAULT_SCALE_FACTOR = 0.01;
     PLUGIN_INFO(3, "Saving scene to LAS file: " << filename);
@@ -918,6 +919,12 @@ void CacheLoader::exportToLas(const std::string& filename, const bool exportColo
     const auto& modelDescriptors = _scene.getModelDescriptors();
     for (const auto modelDescriptor : modelDescriptors)
     {
+        if (!modelIds.empty())
+        {
+            const auto modelId = modelDescriptor->getModelID();
+            if (std::find(modelIds.begin(), modelIds.end(), modelId) == modelIds.end())
+                continue;
+        }
         const auto& instances = modelDescriptor->getInstances();
         for (const auto& instance : instances)
         {
@@ -928,7 +935,14 @@ void CacheLoader::exportToLas(const std::string& filename, const bool exportColo
             {
                 if (spheres.first == BOUNDINGBOX_MATERIAL_ID || spheres.first == SECONDARY_MODEL_MATERIAL_ID)
                     continue;
-                const auto material = model.getMaterial(spheres.first);
+
+                const auto materialId = spheres.first;
+                const auto material = model.getMaterial(materialId);
+                if (!materialIds.empty())
+                {
+                    if (std::find(materialIds.begin(), materialIds.end(), materialId) == materialIds.end())
+                        continue;
+                }
 
                 for (const auto& sphere : spheres.second)
                 {
