@@ -39,13 +39,13 @@ scene_size = Vector3(800.0, 800.0, 800.0)
 
 # Proteins
 protein_radius_multiplier = 1.0
-protein_representation = be.protein_representation.ATOMS_AND_STICKS
+protein_representation = BioExplorer.protein_representation.ATOMS_AND_STICKS
 protein_load_hydrogen = False
 
 # Glycans
 add_glycans = True
 glycan_radius_multiplier = 1.0
-glycan_representation = be.protein_representation.ATOMS_AND_STICKS
+glycan_representation = BioExplorer.protein_representation.ATOMS_AND_STICKS
 
 # Viruses
 nb_protein_s = 62
@@ -378,7 +378,7 @@ class LowGlucoseScenario(MovieScenario):
 
         cell = Cell(
             name=name,
-            shape=BioExplorer.ASSEMBLY_SHAPE_SINUSOID,
+            shape=BioExplorer.assembly_shape.SINUSOID,
             shape_params=size,
             membrane=membrane,
             proteins=[ace2_receptor],
@@ -493,7 +493,7 @@ class LowGlucoseScenario(MovieScenario):
     def _add_surfactant_d(self, name, position, rotation, animation_params):
         surfactant_d = Surfactant(
             name=name,
-            surfactant_protein=BioExplorer.SURFACTANT_PROTEIN_D,
+            surfactant_protein=BioExplorer.surfactant_type.PROTEIN_D,
             head_source=surfactant_head_source,
             branch_source=surfactant_branch_source,
         )
@@ -510,7 +510,7 @@ class LowGlucoseScenario(MovieScenario):
     def _add_surfactant_a(self, name, position, rotation, animation_params):
         surfactant_a = Surfactant(
             name=name,
-            surfactant_protein=BioExplorer.SURFACTANT_PROTEIN_A,
+            surfactant_protein=BioExplorer.surfactant_type.PROTEIN_A,
             head_source=surfactant_head_source,
             branch_source=surfactant_branch_source,
         )
@@ -626,7 +626,7 @@ class LowGlucoseScenario(MovieScenario):
         )
         volume = Volume(
             name=BioExplorer.NAME_GLUCOSE,
-            shape=BioExplorer.ASSEMBLY_SHAPE_CUBE,
+            shape=BioExplorer.assembly_shape.CUBE,
             shape_params=scene_size,
             protein=glucose,
         )
@@ -652,7 +652,7 @@ class LowGlucoseScenario(MovieScenario):
         )
         lactoferrins_volume = Volume(
             name=BioExplorer.NAME_LACTOFERRIN,
-            shape=BioExplorer.ASSEMBLY_SHAPE_CUBE,
+            shape=BioExplorer.assembly_shape.CUBE,
             shape_params=scene_size,
             protein=lactoferrin,
         )
@@ -678,7 +678,7 @@ class LowGlucoseScenario(MovieScenario):
         )
         defensins_volume = Volume(
             name=BioExplorer.NAME_DEFENSIN,
-            shape=BioExplorer.ASSEMBLY_SHAPE_CUBE,
+            shape=BioExplorer.assembly_shape.CUBE,
             shape_params=scene_size,
             protein=defensin,
         )
@@ -740,7 +740,7 @@ class LowGlucoseScenario(MovieScenario):
         scale = Vector3(1.0, 1.0, 1.0)
         cell = Cell(
             name=name,
-            shape=BioExplorer.ASSEMBLY_SHAPE_MESH,
+            shape=BioExplorer.assembly_shape.MESH,
             shape_mesh_source=lymphocyte_path,
             shape_params=scale,
             membrane=membrane,
@@ -758,7 +758,7 @@ class LowGlucoseScenario(MovieScenario):
                 self._be.set_protein_color_scheme(
                     assembly_name=name,
                     name=BioExplorer.NAME_MEMBRANE + "_" + str(i),
-                    color_scheme=BioExplorer.COLOR_SCHEME_CHAINS,
+                    color_scheme=BioExplorer.protein_color_scheme.CHAINS,
                     palette_name="OrRd",
                     palette_size=5,
                 )
@@ -767,7 +767,7 @@ class LowGlucoseScenario(MovieScenario):
     def _set_materials(self):
         """Default materials"""
         self._be.apply_default_color_scheme(
-            shading_mode=BioExplorer.SHADING_MODE_DIFFUSE, specular_exponent=50.0
+            shading_mode=BioExplorer.shading_mode.DIFFUSE, specular_exponent=50.0
         )
 
     def _set_clipping_planes(self):
