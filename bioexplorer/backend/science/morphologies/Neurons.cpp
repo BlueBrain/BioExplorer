@@ -570,11 +570,7 @@ void Neurons::_buildMorphology(ThreadSafeContainer& container, const uint64_t ne
     double somaRadius = _getCorrectedRadius(1.f, _details.radiusMultiplier);
     if (_details.loadAxon || _details.loadApicalDendrites || _details.loadBasalDendrites)
     {
-#if 0
-        sections = connector.getNeuronSections(_details.populationName, neuronId, _details.sqlSectionFilter);
-#else
-        sections = MemoryCache::getInstance()->getNeuronSections(connector, neuronId, _details);
-#endif
+        sections = MemoryCache::getInstance()->getNeuronSections(neuronId, _details);
         double count = 0.0;
         for (const auto& section : sections)
             if (section.second.parentId == SOMA_AS_PARENT)
@@ -1284,7 +1280,7 @@ Vector4ds Neurons::getNeuronSectionPoints(const uint64_t neuronId, const uint64_
     if (neurons.empty())
         PLUGIN_THROW("Neuron " + std::to_string(neuronId) + " does not exist");
     const auto& neuron = neurons.begin()->second;
-    const auto sections = connector.getNeuronSections(_details.populationName, neuronId);
+    const auto sections = MemoryCache::getInstance()->getNeuronSections(neuronId, _details);
 
     if (sections.empty())
         PLUGIN_THROW("Section " + std::to_string(sectionId) + " does not exist for neuron " + std::to_string(neuronId));

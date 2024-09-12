@@ -27,6 +27,7 @@ using namespace core;
 namespace bioexplorer
 {
 using namespace common;
+using namespace details;
 
 namespace morphology
 {
@@ -89,7 +90,6 @@ double Morphologies::_addSomaAsSpheres(const uint64_t neuronId, const size_t som
     // Smooth soma according to section root
     for (auto& sphere : spheres)
     {
-#if 1
         const double smoothingFactor = 1.0;
         double r = minRadius * smoothingFactor;
         for (const auto& sr : sectionRoots)
@@ -99,7 +99,6 @@ double Morphologies::_addSomaAsSpheres(const uint64_t neuronId, const size_t som
             if (angle >= 0.0)
                 r += length(dir) * -angle * smoothingFactor;
         }
-#endif
 
         const auto src =
             _animatedPosition(Vector4d(somaPosition + somaRotation * (baryCenter + normalize(sphere) * r * 0.5),

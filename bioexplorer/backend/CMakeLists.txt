@@ -24,7 +24,6 @@ option(${NAME}_USE_CGAL "Use CGAL meshing features" ON)
 # Packages
 find_package(OpenMP)
 find_package(PQXX REQUIRED)
-find_package(LASlib)
 
 # Compiler flags
 add_compile_options("-fopenmp")
@@ -62,6 +61,7 @@ set(${NAME}_SOURCES
     science/io/OOCManager.cpp
     science/io/db/DBConnector.cpp
     science/io/cache/MemoryCache.cpp
+    science/io/filesystem/MorphologyLoader.cpp
     science/molecularsystems/EnzymeReaction.cpp
     science/molecularsystems/Molecule.cpp
     science/molecularsystems/Membrane.cpp
@@ -97,6 +97,7 @@ set(${NAME}_PUBLIC_HEADERS
     science/io/OOCManager.h
     science/io/CacheLoader.h
     science/io/cache/MemoryCache.h
+    science/io/filesystem/MorphologyLoader.h
     science/io/db/DBConnector.h
     science/common/Assembly.h
     science/common/Node.h
@@ -150,6 +151,9 @@ set(${NAME}_PUBLIC_HEADERS
     science/BioExplorerPlugin.h
 )
 
+set(${NAME}_PUBLIC_MODULE_LIBRARIES)
+set(${NAME}_PRIVATE_MODULE_LIBRARIES)
+
 if(${CGAL_FOUND} AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options(-frounding-math)
 endif()
@@ -160,8 +164,11 @@ if(ASSIMP_FOUND)
     list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES ${ASSIMP_LIBRARIES})
 endif()
 
-set(${NAME}_PUBLIC_MODULE_LIBRARIES)
-set(${NAME}_PRIVATE_MODULE_LIBRARIES)
+if(MorphIO_FOUND)
+    list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES morphio HighFive)
+    include_directories(${HDF5_INCLUDE_DIRS})
+endif()
+
 # ==============================================================================
 # OSPRay module
 # ==============================================================================

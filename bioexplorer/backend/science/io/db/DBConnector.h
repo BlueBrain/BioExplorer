@@ -231,6 +231,14 @@ public:
     core::TriangleMesh getAstrocyteMicroDomain(const std::string& populationName, const uint64_t astrocyteId) const;
 
     /**
+     * @brief Get the Neuron Circuit Configuration details
+     *
+     * @param populationName Name of the population
+     * @return StringMap Map of key value strings
+     */
+    StringMap getNeuronConfiguration(const std::string& populationName) const;
+
+    /**
      * @brief Get the number of neurons for a given population and a specific filter
      *
      * @param populationName Name of the population
@@ -249,6 +257,15 @@ public:
      * @return NeuronSomaMap A map of neurons (position, type, etc)
      */
     morphology::NeuronSomaMap getNeurons(const std::string& populationName, const std::string& sqlCondition = "") const;
+
+    /**
+     * @brief Get the relative path to the morphology file for a given neuron Id
+     *
+     * @param populationName Name of the population
+     * @param neuronId Identifier of the neuron
+     * @return std::string Relative path to the morphology file
+     */
+    std::string getNeuronMorphologyRelativePath(const std::string& populationName, const uint64_t neuronId) const;
 
     /**
      * @brief Get the sections of a given neuron

@@ -56,17 +56,18 @@ public:
      *
      * @return Sections
      */
-    const morphology::SectionMap& getNeuronSections(const db::DBConnector& connector, const uint64_t neuronId,
-                                                    const details::NeuronsDetails& details);
+    const morphology::SectionMap& getNeuronSections(const uint64_t neuronId, const details::NeuronsDetails& details);
 
     static std::mutex _mutex;
     static MemoryCache* _instance;
 
 private:
     ~MemoryCache() {}
+    io::filesystem::MorphologyLoaderPtr _getMorphologyLoader(const std::string& populationName);
 
     bool _enabled{false};
     std::map<uint64_t, morphology::SectionMap> _sections;
+    std::map<std::string, io::filesystem::MorphologyLoaderPtr> _morphologyLoaders;
 };
 } // namespace io
 } // namespace bioexplorer

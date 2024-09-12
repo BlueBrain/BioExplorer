@@ -849,6 +849,7 @@ Response BioExplorerPlugin::_setGeneralSettings(const GeneralSettingsDetails &pa
         instance->setLoggingLevel(payload.loggingLevel);
         instance->setDBLoggingLevel(payload.databaseLoggingLevel);
         instance->setV1Compatibility(payload.v1Compatibility);
+        instance->setLoadMorphologiesFromFileSystem(payload.loadMorphologiesFromFileSystem);
 
         MemoryCache::getInstance()->setEnabled(payload.cacheEnabled);
         PLUGIN_INFO(3, "Setting general options for the plugin");
