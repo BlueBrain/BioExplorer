@@ -38,8 +38,6 @@ const size_t MATERIAL_OFFSET_MYELIN_SHEATH = 9;
 const size_t MATERIAL_OFFSET_END_FOOT = 4;
 const size_t MATERIAL_OFFSET_MICRO_DOMAIN = 5;
 
-const int64_t SOMA_AS_PARENT = -1;
-
 /**
  * @brief The Morphologies class
  */

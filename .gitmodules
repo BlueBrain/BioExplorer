@@ -10,3 +10,6 @@
 [submodule "platform/deps/LASTools"]
 	path = platform/deps/LASTools
 	url = https://github.com/LAStools/LAStools.git
+[submodule "platform/deps/MorphIO"]
+	path = platform/deps/MorphIO
+	url = https://github.com/BlueBrain/MorphIO.git

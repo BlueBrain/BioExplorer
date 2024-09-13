@@ -640,6 +640,60 @@ TriangleMesh DBConnector::getAstrocyteMicroDomain(const std::string& populationN
     return mesh;
 }
 
+StringMap DBConnector::getNeuronConfiguration(const std::string& populationName) const
+{
+    CHECK_DB_INITIALIZATION
+
+    StringMap values;
+    pqxx::nontransaction transaction(*_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
+    {
+        Timer chrono;
+        std::string sql = "SELECT guid, value FROM " + populationName + ".configuration";
+
+        PLUGIN_DB_INFO(1, sql);
+        auto res = transaction.exec(sql);
+        for (auto c = res.begin(); c != res.end(); ++c)
+            values[c[0].as<std::string>()] = c[1].as<std::string>();
+        PLUGIN_DB_TIMER(chrono.elapsed(), "getNeuronConfiguration(populationName=" << populationName << ")");
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+
+    return values;
+}
+
+std::string DBConnector::getNeuronMorphologyRelativePath(const std::string& populationName,
+                                                         const uint64_t neuronId) const
+{
+    CHECK_DB_INITIALIZATION
+
+    std::string relativePath;
+    pqxx::nontransaction transaction(*_connections[omp_get_thread_num() % _dbNbConnections]);
+    try
+    {
+        Timer chrono;
+        const std::string sql = "SELECT code FROM " + populationName +
+                                ".morphology WHERE guid=(SELECT morphology_guid FROM " + populationName +
+                                ".node WHERE guid=" + std::to_string(neuronId) + ")";
+
+        PLUGIN_DB_INFO(1, sql);
+        auto res = transaction.exec(sql);
+        if (res.empty())
+            PLUGIN_THROW("No relative path defined for the neuron " + std::to_string(neuronId));
+        for (auto c = res.begin(); c != res.end(); ++c)
+            relativePath = c[0].as<std::string>();
+        PLUGIN_DB_TIMER(chrono.elapsed(), "getNeuronConfiguration(populationName=" << populationName << ")");
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        PLUGIN_THROW(e.what());
+    }
+    return relativePath;
+}
+
 uint64_t DBConnector::getNumberOfNeurons(const std::string& populationName, const std::string& sqlCondition) const
 {
     CHECK_DB_INITIALIZATION
@@ -704,8 +758,8 @@ NeuronSomaMap DBConnector::getNeurons(const std::string& populationName, const s
             soma.morphologyId = c[10].as<uint64_t>();
             somas[c[0].as<uint64_t>()] = soma;
         }
-        PLUGIN_DB_TIMER(chrono.elapsed(), "getNeuronSections(populationName=" << populationName << ", sqlCondition="
-                                                                              << sqlCondition << ")");
+        PLUGIN_DB_TIMER(chrono.elapsed(),
+                        "getNeurons(populationName=" << populationName << ", sqlCondition=" << sqlCondition << ")");
     }
     catch (const pqxx::sql_error& e)
     {

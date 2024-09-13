@@ -328,6 +328,9 @@ using VasculaturePtr = std::shared_ptr<Vasculature>;
 
 namespace morphology
 {
+const std::string NEURON_CONFIG_MORPHOLOGY_FOLDER = "alternate_morphologies";
+const std::string NEURON_CONFIG_MORPHOLOGY_FILE_EXTENSION = "morphology_file_extension";
+
 class Morphologies;
 using MorphologiesPtr = std::shared_ptr<Morphologies>;
 
@@ -494,6 +497,12 @@ namespace io
 class OOCManager;
 using OOCManagerPtr = std::shared_ptr<OOCManager>;
 
+namespace filesystem
+{
+class MorphologyLoader;
+using MorphologyLoaderPtr = std::shared_ptr<MorphologyLoader>;
+} // namespace filesystem
+
 namespace db
 {
 class DBConnector;
@@ -549,6 +558,7 @@ typedef struct
     uint32_t databaseLoggingLevel;
     bool v1Compatibility{false};
     bool cacheEnabled{false};
+    bool loadMorphologiesFromFileSystem{false};
 } GeneralSettingsDetails;
 
 typedef struct
@@ -1537,6 +1547,8 @@ enum class NeuronSectionType
     basal_dendrite = 3,
     apical_dendrite = 4
 };
+using NeuronSectionTypes = std::vector<NeuronSectionType>;
+const int64_t SOMA_AS_PARENT = -1;
 
 typedef struct
 {

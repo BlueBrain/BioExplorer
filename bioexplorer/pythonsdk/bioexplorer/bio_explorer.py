@@ -2690,7 +2690,8 @@ class BioExplorer:
         logging_level=1,
         database_logging_level=1,
         v1_compatibility=False,
-        cache_enabled=False
+        cache_enabled=False,
+        load_morphologies_from_file_system=False
     ):
         """
         Set general settings for the plugin
@@ -2700,6 +2701,7 @@ class BioExplorer:
         :database_logging_level: Back-end logging level for database (0=no information logs, 3=full
         logging)
         :cache_enabled: Enabled memory cache
+        :load_morphologies_from_file_system: Load morphologies from file system instead of DB
         :return: Result of the request submission
         """
         self._v1_compatibility = v1_compatibility
@@ -2709,6 +2711,7 @@ class BioExplorer:
         params["databaseLoggingLevel"] = database_logging_level
         params["v1Compatibility"] = v1_compatibility
         params["cacheEnabled"] = cache_enabled
+        params["loadMorphologiesFromFileSystem"] = load_morphologies_from_file_system
         response = self._invoke_and_check("set-general-settings", params)
         return response
 

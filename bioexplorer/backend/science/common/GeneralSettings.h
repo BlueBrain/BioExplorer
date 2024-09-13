@@ -125,6 +125,21 @@ public:
      */
     void setV1Compatibility(const bool value) { _v1Compatibility = value; }
 
+    /**
+     * @brief Get value of the loading morphologies from file system option
+     *
+     * @return true Loading morphologies from file system is enabled
+     * @return false Loading morphologies from file system is disabled
+     */
+    bool getLoadMorphologiesFromFileSystem() const { return _loadMorphologiesFromFilesystem; }
+
+    /**
+     * @brief Set the loading morphologies from file system option
+     *
+     * @param value Enabled is true, disabled otherwise
+     */
+    void setLoadMorphologiesFromFileSystem(const bool value) { _loadMorphologiesFromFilesystem = value; }
+
     static std::mutex _mutex;
     static GeneralSettings* _instance;
 
@@ -136,6 +151,7 @@ private:
     size_t _loggingLevel{1};
     size_t _dbLoggingLevel{0};
     bool _v1Compatibility{false};
+    bool _loadMorphologiesFromFilesystem{false};
 };
 } // namespace common
 } // namespace bioexplorer

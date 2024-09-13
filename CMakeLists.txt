@@ -43,13 +43,19 @@ find_package(assimp)
 find_package(LibJpegTurbo)
 find_package(Rockets)
 find_package(CGAL)
-find_package(LASlib)
+find_package(LASlib OPTIONAL_COMPONENTS)
+find_package(MorphIO OPTIONAL_COMPONENTS)
+find_package(HighFive OPTIONAL_COMPONENTS)
 
 set(BIOEXPLORER_SOURCE_DIRS ${PROJECT_SOURCE_DIR} ${CMAKE_BINARY_DIR}/generated)
 
 # ==============================================================================
 # Options
 # ==============================================================================
+
+if(MorphIO_FOUND)
+    message(STATUS "[Core] MorphIO module enabled")
+endif()
 
 # Find the Intel C++ compiler
 find_program(CMAKE_CXX_COMPILER NAMES icpc)
