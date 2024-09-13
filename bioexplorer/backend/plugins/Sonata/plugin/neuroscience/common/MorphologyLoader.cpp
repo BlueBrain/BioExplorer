@@ -750,21 +750,6 @@ void MorphologyLoader::_importMorphologyFromURI(const Gid& gid, const PropertyMa
             float srcRadius = _getCorrectedRadius(properties, srcDiameter);
             float dstRadius = _getCorrectedRadius(properties, dstDiameter);
 
-#if 0
-            const float maxRadiusChange = 0.1f;
-            if (sampleLength > 0.0001f && s != nbSamples - 1 &&
-                dampenBranchThicknessChangerate)
-            {
-                const float radiusChange =
-                    std::min(std::abs(dstRadius - srcRadius),
-                             sampleLength * maxRadiusChange);
-                if (srcRadius < dstRadius)
-                    srcRadius = dstRadius - radiusChange;
-                else
-                    srcRadius = dstRadius + radiusChange;
-            }
-#endif
-
             // Add Geometry
             if (s > 0)
             {
@@ -1161,8 +1146,7 @@ ModelDescriptorPtr MorphologyLoader::importFromStorage(const std::string& path, 
     // the UI
     PropertyMap props = _defaults;
     props.merge(properties);
-    // TODO: This needs to be done to work around wrong types coming from
-    // the UI
+    // TODO: This needs to be done to work around wrong types coming from the UI
 
     auto model = _scene.createModel();
     auto modelContainer = importMorphology(0, props, path, 0, SynapsesInfo());

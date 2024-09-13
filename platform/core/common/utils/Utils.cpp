@@ -66,20 +66,18 @@ std::string extractExtension(const std::string& filename)
 
 Vector4f getBezierPoint(const Vector4fs& controlPoints, const float t)
 {
-    if (t < 0.f || t > 1.f)
-        CORE_THROW("Invalid value with t=" + std::to_string(t) + ". Must be between 0 and 1");
-
+    const auto clampt = glm::clamp(t, 0.f, 1.f);
     const size_t n = controlPoints.size();
-    Vector4fs tempPoints = controlPoints;
 
+    Vector4fs tempPoints = controlPoints;
     for (uint64_t k = 1; k < n; ++k)
     {
         for (uint64_t i = 0; i < n - k; ++i)
         {
-            tempPoints[i].x = (1 - t) * tempPoints[i].x + t * tempPoints[i + 1].x;
-            tempPoints[i].y = (1 - t) * tempPoints[i].y + t * tempPoints[i + 1].y;
-            tempPoints[i].z = (1 - t) * tempPoints[i].z + t * tempPoints[i + 1].z;
-            tempPoints[i].w = (1 - t) * tempPoints[i].w + t * tempPoints[i + 1].w;
+            tempPoints[i].x = (1 - clampt) * tempPoints[i].x + clampt * tempPoints[i + 1].x;
+            tempPoints[i].y = (1 - clampt) * tempPoints[i].y + clampt * tempPoints[i + 1].y;
+            tempPoints[i].z = (1 - clampt) * tempPoints[i].z + clampt * tempPoints[i + 1].z;
+            tempPoints[i].w = (1 - clampt) * tempPoints[i].w + clampt * tempPoints[i + 1].w;
         }
     }
     return tempPoints[0];
