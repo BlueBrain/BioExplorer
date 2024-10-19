@@ -13,3 +13,9 @@
 [submodule "platform/deps/MorphIO"]
 	path = platform/deps/MorphIO
 	url = https://github.com/BlueBrain/MorphIO.git
+[submodule "platform/deps/USD"]
+	path = platform/deps/USD
+	url = https://github.com/PixarAnimationStudios/USD.git
+[submodule "platform/deps/OpenSubdiv"]
+	path = platform/deps/OpenSubdiv
+	url = https://github.com/PixarAnimationStudios/OpenSubdiv.git

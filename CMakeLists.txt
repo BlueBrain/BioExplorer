@@ -46,6 +46,8 @@ find_package(CGAL)
 find_package(LASlib OPTIONAL_COMPONENTS)
 find_package(MorphIO OPTIONAL_COMPONENTS)
 find_package(HighFive OPTIONAL_COMPONENTS)
+find_package(pxr)
+
 
 set(BIOEXPLORER_SOURCE_DIRS ${PROJECT_SOURCE_DIR} ${CMAKE_BINARY_DIR}/generated)
 
@@ -55,6 +57,10 @@ set(BIOEXPLORER_SOURCE_DIRS ${PROJECT_SOURCE_DIR} ${CMAKE_BINARY_DIR}/generated)
 
 if(MorphIO_FOUND)
     message(STATUS "[Core] MorphIO module enabled")
+endif()
+
+if(pxr_FOUND)
+    message(STATUS "[Core] Pixar Universal Scene Description module enabled")
 endif()
 
 # Find the Intel C++ compiler
