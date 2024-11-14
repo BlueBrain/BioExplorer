@@ -63,6 +63,19 @@ On the third anniversary of the first lock-down, we look back at how #MachineLea
       </a>
 </div>
 
+
+## An extended and improved CCFv3 annotation
+
+The Blue Brain Project presents the first comprehensive mouse brain atlas based on the Allen Institute’s Common Coordinate Framework version 3. This atlas includes anatomical Nissl reference data that has been precisely aligned within this reference space, providing the scientific community with a crucial tool for automated and accurate mapping of a wide range of histological slices or volumes of the mouse brain. We have also integrated additional layers, such as the spinal cord, barrel columns, as well as the granular and molecular layers in the cerebellum. This allowed us to create an enhanced version of our cell atlas, mapping every cell in the mouse brain by location, region, and type. From this data, properties such as neuron soma and morphology can be derived, paving the way for increasingly accurate simulation models.
+
+<div align="center">
+      <a href="https://www.youtube.com/watch?v=upulBqczL0g"/>
+         <img src="https://github.com/BlueBrain/BioExplorer/blob/master/bioexplorer/pythonsdk/doc/source/images/ccfv3_movie_preview.png" style="width:50%;">
+      </a>
+</div>
+
+* [An extended and improved CCFv3 annotation and Nissl atlas of the entire mouse brain](https://www.biorxiv.org/content/10.1101/2024.11.06.622212v1)
+
 ## The Harvard Brain
 
 Do you want want to know more about the full story? Read the [Studies In Silico: An Interview With Cyrille Favreau On EPFL’s Blue Brain Project](http://www.theharvardbrain.com/spring-2023-8203lara-ota-buse-toksoumlz-and-kei-hayashi.html).
