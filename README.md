@@ -197,6 +197,7 @@ References:
 * [Age and sex do not affect the volume, cell numbers, or cell size of the suprachiasmatic nucleus of the rat: An unbiased stereological](https://doi.org/10.1002/cne.903610404)
 * [Community-based Reconstruction and Simulation of a Full-scale Model of Region CA1 of Rat Hippocampus](https://www.biorxiv.org/content/10.1101/2023.05.17.541167v1)
 * [Modeling and Simulation of Neocortical Micro- and Mesocircuitry. Part II: Physiology and Experimentation](https://www.biorxiv.org/content/10.1101/2023.05.17.541168v2)
+* [Community-based reconstruction and simulation of a full-scale model of the rat hippocampus CA1 region](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3002861)
 
 ### Astrocytes
 

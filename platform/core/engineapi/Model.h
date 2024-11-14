@@ -762,7 +762,7 @@ public:
      * @brief Returns the size in bytes of all geometries
      * @return size_t The size in bytes of all geometries
      */
-    PLATFORM_API size_t getSizeInBytes() const;
+    PLATFORM_API size_t getSizeInBytes();
 
     /**
      * @brief Marks the instances as dirty

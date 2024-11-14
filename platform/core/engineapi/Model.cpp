@@ -465,6 +465,9 @@ void Model::_updateSizeInBytes()
         _sizeInBytes += sdfIndices.second.size() * sizeof(uint64_t);
     for (const auto& sdfNeighbours : _geometries->_sdf.neighbours)
         _sizeInBytes += sdfNeighbours.size() * sizeof(size_t);
+
+    for (const auto& volume : _geometries->_volumes)
+        _sizeInBytes += volume.second->getSizeInBytes();
 }
 
 void Model::copyFrom(const Model& rhs)
@@ -633,12 +636,10 @@ void Model::setSimulationHandler(AbstractSimulationHandlerPtr handler)
     _bindMaterials(_simulationHandler, _materials);
 }
 
-size_t Model::getSizeInBytes() const
+size_t Model::getSizeInBytes()
 {
-    size_t volumeSizeInBytes = 0;
-    for (const auto& volume : _geometries->_volumes)
-        volumeSizeInBytes += volume.second->getSizeInBytes();
-    return _sizeInBytes + volumeSizeInBytes;
+    _updateSizeInBytes();
+    return _sizeInBytes;
 }
 
 AbstractSimulationHandlerPtr Model::getSimulationHandler() const

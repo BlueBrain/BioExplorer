@@ -64,7 +64,12 @@ private:
     details::Response _exportToFile(const details::FileAccessDetails &payload);
     details::Response _importFromFile(const details::FileAccessDetails &payload);
     details::Response _exportToXYZ(const details::FileAccessDetails &payload);
+#ifdef USE_LASLIB
     details::Response _exportToLas(const details::LASFileAccessDetails &payload);
+#endif // USE_LASLIB
+#ifdef USE_PIXAR
+    details::Response _exportToUSDFile(const details::FileAccessDetails &payload);
+#endif // USE_PIXAR
 
     // DB
     details::Response _exportBrickToDatabase(const details::DatabaseAccessDetails &payload);

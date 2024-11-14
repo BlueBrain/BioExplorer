@@ -57,6 +57,11 @@
 #define USE_MORPHIO
 #endif
 
+// pxr_FOUND
+#if @pxr_FOUND@==1
+#define USE_PIXAR
+#endif
+
 // Memory alignment (optional). Can be necessary for compatibility between multiple engines
 #define PLATFORM_MEMORY_ALIGNMENT @PLATFORM_MEMORY_ALIGNMENT@ 
 #ifdef PLATFORM_MEMORY_ALIGNMENT

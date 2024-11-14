@@ -346,7 +346,8 @@ void Neurons::_buildModel(const LoaderProgress& callback)
                               {"SQL section filter", _details.sqlSectionFilter},
                               {"Max distance to soma", std::to_string(_maxDistanceToSoma)},
                               {"Min soma radius", std::to_string(_minMaxSomaRadius.x)},
-                              {"Max soma radius", std::to_string(_minMaxSomaRadius.y)}};
+                              {"Max soma radius", std::to_string(_minMaxSomaRadius.y)},
+                              {"Model size", std::to_string(model->getSizeInBytes())}};
 
     if (!_simulationReport.description.empty())
         metadata["Simulation " + reportTypeAsString[_simulationReport.type] + " report"] =

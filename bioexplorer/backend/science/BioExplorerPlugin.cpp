@@ -35,6 +35,10 @@
 #include <science/morphologies/SpikeSimulationHandler.h>
 #include <science/vasculature/VasculatureLoader.h>
 
+#ifdef USE_PIXAR
+#include <science/io/filesystem/USDExporter.h>
+#endif // USE_PIXAR
+
 #include <platform/core/common/ActionInterface.h>
 #include <platform/core/common/Properties.h>
 #include <platform/core/common/scene/ClipPlane.h>
@@ -348,6 +352,13 @@ void BioExplorerPlugin::init()
         actionInterface->registerRequest<FileAccessDetails, Response>(endPoint, [&](const FileAccessDetails &payload)
                                                                       { return _exportToXYZ(payload); });
 
+#ifdef USE_PIXAR
+        endPoint = PLUGIN_API_PREFIX + "export-to-universal-scene-description-file";
+        PLUGIN_REGISTER_ENDPOINT(endPoint);
+        actionInterface->registerRequest<FileAccessDetails, Response>(endPoint, [&](const FileAccessDetails &payload)
+                                                                      { return _exportToUSDFile(payload); });
+#endif // USE_PIXAR
+
 #ifdef USE_LASLIB
         endPoint = PLUGIN_API_PREFIX + "export-to-las";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
@@ -418,8 +429,7 @@ void BioExplorerPlugin::init()
         endPoint = PLUGIN_API_PREFIX + "get-model-transformation";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
         actionInterface->registerRequest<ModelIdDetails, ModelTransformationDetails>(
-            endPoint,
-            [&](const ModelIdDetails &payload) -> ModelTransformationDetails
+            endPoint, [&](const ModelIdDetails &payload) -> ModelTransformationDetails
             { return _getModelTransformation(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "get-model-bounds";
@@ -491,8 +501,7 @@ void BioExplorerPlugin::init()
 
         endPoint = PLUGIN_API_PREFIX + "get-vasculature-info";
         PLUGIN_REGISTER_ENDPOINT(endPoint);
-        actionInterface->registerRequest<NameDetails, Response>(endPoint,
-                                                                [&](const NameDetails &payload) -> Response
+        actionInterface->registerRequest<NameDetails, Response>(endPoint, [&](const NameDetails &payload) -> Response
                                                                 { return _getVasculatureInfo(payload); });
 
         endPoint = PLUGIN_API_PREFIX + "set-vasculature-report";
@@ -1132,6 +1141,21 @@ Response BioExplorerPlugin::_exportToLas(const LASFileAccessDetails &payload)
     return response;
 }
 #endif
+
+#ifdef USE_PIXAR
+Response BioExplorerPlugin::_exportToUSDFile(const FileAccessDetails &payload)
+{
+    Response response;
+    try
+    {
+        auto &scene = _api->getScene();
+        filesystem::USDExporter exporter(scene);
+        exporter.exportToFile(payload.filename);
+    }
+    CATCH_STD_EXCEPTION()
+    return response;
+}
+#endif // USE_PIXAR
 
 Response BioExplorerPlugin::_addGrid(const AddGridDetails &payload)
 {

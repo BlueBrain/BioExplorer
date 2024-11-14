@@ -62,6 +62,7 @@ set(${NAME}_SOURCES
     science/io/db/DBConnector.cpp
     science/io/cache/MemoryCache.cpp
     science/io/filesystem/MorphologyLoader.cpp
+    science/io/filesystem/USDExporter.cpp
     science/molecularsystems/EnzymeReaction.cpp
     science/molecularsystems/Molecule.cpp
     science/molecularsystems/Membrane.cpp
@@ -98,6 +99,7 @@ set(${NAME}_PUBLIC_HEADERS
     science/io/CacheLoader.h
     science/io/cache/MemoryCache.h
     science/io/filesystem/MorphologyLoader.h
+    science/io/filesystem/USDExporter.h
     science/io/db/DBConnector.h
     science/common/Assembly.h
     science/common/Node.h
@@ -167,6 +169,10 @@ endif()
 if(MorphIO_FOUND)
     list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES morphio HighFive)
     include_directories(${HDF5_INCLUDE_DIRS})
+endif()
+
+if(pxr_FOUND)
+    list(APPEND ${NAME}_PRIVATE_MODULE_LIBRARIES ${PXR_LIBRARIES})
 endif()
 
 # ==============================================================================

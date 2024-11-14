@@ -83,7 +83,7 @@ SectionMap MorphologyLoader::getNeuronSections(const std::string& filename,
         loadSection(section, sections, sectionTypes);
     return sections;
 #else
-    PLUGIN_THROW("BioExplorer was not compiler with MorphIO");
+    PLUGIN_THROW("BioExplorer was not compiled with MorphIO");
 #endif
 }
 } // namespace filesystem

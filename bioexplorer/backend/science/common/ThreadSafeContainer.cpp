@@ -31,7 +31,7 @@ namespace common
 {
 using namespace core;
 
-const float equalityEpsilon = 1e-6f;
+const float equalityEpsilon = 1e-3f;
 
 ThreadSafeContainer::ThreadSafeContainer(Model& model, const double alignToGrid, const Vector3d& position,
                                          const Quaterniond& rotation, const Vector3d& scale)
@@ -94,6 +94,7 @@ uint64_t ThreadSafeContainer::addCone(const Vector3f& sourcePosition, const floa
         getAlignmentToGrid(_alignToGrid, Vector3f(_position + _rotation * Vector3d(sourcePosition)) * scale);
     const Vector3f scaledDstPosition =
         getAlignmentToGrid(_alignToGrid, Vector3f(_position + _rotation * Vector3d(targetPosition)) * scale);
+
     if (useSdf)
     {
         const Vector3f scaledDisplacement{displacement.x * scale.x, displacement.y / scale.x, displacement.z};
@@ -109,13 +110,12 @@ uint64_t ThreadSafeContainer::addCone(const Vector3f& sourcePosition, const floa
     }
     if (fabs(sourceRadius - targetRadius) < equalityEpsilon)
     {
-        const auto scaledSrcRadius = sourceRadius * scale.x;
-        const auto scaledDstRadius = targetRadius * scale.x;
-        _bounds.merge(scaledSrcPosition + scaledSrcRadius);
-        _bounds.merge(scaledSrcPosition - scaledSrcRadius);
-        _bounds.merge(scaledDstPosition + scaledDstRadius);
-        _bounds.merge(scaledDstPosition - scaledDstRadius);
-        return _addCylinder(materialId, {scaledSrcPosition, scaledDstPosition, sourceRadius * scale.x, userDataOffset});
+        const auto scaledRadius = sourceRadius * scale.x;
+        _bounds.merge(scaledSrcPosition + scaledRadius);
+        _bounds.merge(scaledSrcPosition - scaledRadius);
+        _bounds.merge(scaledDstPosition + scaledRadius);
+        _bounds.merge(scaledDstPosition - scaledRadius);
+        return _addCylinder(materialId, {scaledSrcPosition, scaledDstPosition, scaledRadius, userDataOffset});
     }
 
     const auto scaledSrcRadius = sourceRadius * scale.x;
@@ -124,8 +124,8 @@ uint64_t ThreadSafeContainer::addCone(const Vector3f& sourcePosition, const floa
     _bounds.merge(scaledSrcPosition - scaledSrcRadius);
     _bounds.merge(scaledDstPosition + scaledDstRadius);
     _bounds.merge(scaledDstPosition - scaledDstRadius);
-    return _addCone(materialId, {scaledSrcPosition, scaledDstPosition, sourceRadius * scale.x, targetRadius * scale.x,
-                                 userDataOffset});
+    return _addCone(materialId,
+                    {scaledSrcPosition, scaledDstPosition, scaledSrcRadius, scaledDstRadius, userDataOffset});
 }
 
 void ThreadSafeContainer::addConeOfSpheres(const Vector3f& sourcePosition, const float sourceRadius,
